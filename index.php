@@ -2,11 +2,11 @@
 	require_once("header.php");
 ?>
       <!-- Highlighted region -->
-
+<!--  3/12/15 - Hello World Matt: Don't Break...-->
       <div id="highlighted-region" class="bg-image-eleven">
         <div class="row-fluid">
           <div class="span12">
-            
+
             <div id="sequence">
 
               <img class="sequence-prev" src="img/sequence-slider/bt-prev.png" alt="Previous Frame" />
@@ -116,47 +116,47 @@
       <div id="content-wide2-region" class="bg-color-white text-color-grayDark2">
         <div class="row-fluid wrapper">
           <div class="span12">
-            
+
             <!-- Portfolio Block Version 2 -->
             <div id="specialone-latest-work-block-2" class="block">
 
               <h2 class="block-title text-color-grayDark1">Coagmento in Use</h2>
 
               <div class="row-fluid portfolio-block-2">
-                
+
                <div class="span4 portfolio2-item">
                   <figure>
-                    <img src="img/portfolio/research1.jpg" width="800" height="500" alt="responsive" title="responsive" />    
+                    <img src="img/portfolio/research1.jpg" width="800" height="500" alt="responsive" title="responsive" />
                     <figcaption>
-                      <h5 class="text-color-grayDark1">Research Report</h5>        
+                      <h5 class="text-color-grayDark1">Research Report</h5>
                       <a href="scenarios.php#report" class="text-color-theme">Read More</a>
                     </figcaption> <!-- /figcaption -->
                   </figure> <!-- /figure -->
                 </div> <!-- /portfolio2-item -->
- 
+
                  <div class="span4 portfolio2-item">
                   <figure>
                     <img src="img/portfolio/travel.jpg" width="800" height="500" alt="macbook" title="macbook" />
                     <figcaption>
-                      <h5 class="text-color-grayDark1">Travel</h5>        
+                      <h5 class="text-color-grayDark1">Travel</h5>
                       <a href="scenarios.php#travel" class="text-color-theme">Read More</a>
                     </figcaption> <!-- /figcaption -->
                   </figure> <!-- /figure -->
                 </div> <!-- /portfolio2-item -->
-                
+
                 <div class="span4 portfolio2-item">
                   <figure>
-                    <img src="img/portfolio/health.jpg" width="800" height="500" alt="iPad2 white" title="iPad2 white" />    
+                    <img src="img/portfolio/health.jpg" width="800" height="500" alt="iPad2 white" title="iPad2 white" />
                     <figcaption>
-                      <h5 class="text-color-grayDark1">Health</h5>        
+                      <h5 class="text-color-grayDark1">Health</h5>
                       <a href="scenarios.php#health" class="text-color-theme">Read More</a>
                     </figcaption> <!-- /figcaption -->
                   </figure> <!-- /figure -->
                 </div> <!-- /portfolio2-item -->
-                
-              
+
+
               </div> <!-- /portfolio-block-2 -->
-              
+
               <div class="row-fluid portfolio-block-2">
 
                 <div class="span4 portfolio2-item">
@@ -168,7 +168,7 @@
                     </figcaption> <!-- /figcaption -->
                   </figure> <!-- /figure -->
                 </div> <!-- /portfolio2-item -->
-                
+
                 <div class="span4 portfolio2-item">
                   <figure>
                     <img src="img/portfolio/highschool.jpg" width="800" height="500" alt="responsive" title="responsive" />
@@ -188,12 +188,12 @@
                     </figcaption> <!-- /figcaption -->
                   </figure> <!-- /figure -->
                 </div> <!-- /portfolio2-item -->
-                
+
               </div> <!-- /portfolio-block-2 -->
 
             </div> <!-- /specialone-latest-work-block-2 -->
             <!-- End of Portfolio Block Version 2 -->
-            
+
           </div> <!-- /span12 -->
     	  </div> <!-- /wrapper -->
     	</div> <!-- /content-wide2-region -->
@@ -202,7 +202,7 @@
 
       <!-- Content wide 3 region -->
 
-      
+
       <!-- End of Content wide 3 region -->
 
       <!-- Content wide 4 region -->
@@ -214,7 +214,7 @@
             <div id="content-slider-2-block" class="block">
               <div class="row-fluid">
                 <div class="span6">
-              
+
                   <div class="flexslider2 text-center">
                     <ul class="slides">
                       <li><img src="img/content-slider/coagmento1.jpg" alt="slider content 3" /></li>
@@ -223,9 +223,9 @@
                       <li><img src="img/content-slider/coagmento4.jpg" alt="slider content 4" /></li>
                     </ul> <!-- slides -->
                   </div> <!-- flexslider2 -->
-              
+
                 </div> <!-- span6 -->
-              
+
                 <div class="span6">
                   <h5 class="block-title-small margin-top-responsive text-color-grayDark1">Things you can do with Coagmento</h5>
 					<div class="span6 mobile-two">
@@ -250,7 +250,7 @@
                     </div>
                   </div>
                 </div> <!-- /span6 -->
-              
+
               </div> <!-- /row-fluid -->
             </div> <!-- /content-slider-2-block -->
 
