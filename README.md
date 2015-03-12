@@ -39,3 +39,4 @@ Config File Parameters
 - Time zone
 - Database format
   + MySQL: username, password, database name
+- Study flow?
