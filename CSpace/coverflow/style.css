@@ -1,0 +1,229 @@
+@charset "utf-8";
+
+/* These are just the general site styles. 
+   It has nothing to do with ImageFlow
+========================================== */
+@media screen, projection, print {
+	* { 
+		font-family: arial, helvetica, sans-serif;
+		font-size:101%;
+	}
+	html {
+		height:100%;
+		width:100%;
+		margin: 0;
+		padding: 0;
+
+	}
+	body {
+		color:#000;
+		background-color:#fff;
+		font-size:0.8em;
+		line-height:1.4em;
+		padding:0;
+		margin:0;
+	}
+
+/* Default paragraph styles */
+p {
+  font-family: inherit;
+  font-weight: normal;
+  font-size: 1em;
+  text-rendering: optimizeLegibility;
+  margin:0; 
+}
+
+/* Default header styles from Foundation ZURB */
+h1, h2, h3, h4, h5, h6 {
+  font-family:inherit;
+  font-weight: bold;
+  font-style: normal;
+  color: #222222;
+  text-rendering: optimizeLegibility;
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.2125em; }
+
+h1 {
+  font-size: 2.125em; }
+
+h2 {
+  font-size: 1.6875em; }
+
+h3 {
+  font-size: 1.375em; }
+
+h4 {
+  font-size: 1.125em; }
+
+h5 {
+  font-size: 1.125em; }
+
+h6 {
+  font-size: 1em; }
+
+}
+
+.fancybox-inner a {
+    color: #292929;
+    text-decoration: none;
+}
+
+.fancybox-inner a:hover {
+    color: #2BBFBD;
+}
+
+.fancybox-inner img {
+    float: left;
+    margin-top:1em;
+}
+
+#myImageFlow {
+  margin:61px 0 0 0;
+}
+
+#myImageFlow img {
+  border: 1px solid #95BA23;
+}
+
+#myImageFlow img:hover {
+  border: 1px solid #545454;
+}
+
+  div.panel,p.flip
+  {
+  margin:0px;
+  padding:5px;
+  text-align:center;
+  margin-top: -10px;
+  }
+  div.panel
+  {
+  font-size: 14px;
+  height:auto;
+  display:none;
+  background: #fefefe;
+  padding: 20px;
+  box-shadow: 5px 5px 2px #eee;
+  margin-top: 0px;
+  }
+  div.panel a {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #333;
+  text-decoration: none;
+  }
+  div.panel a:hover {
+  color: #ccc;
+  }
+
+#toptext {
+  float: left; 
+  padding-top: 10px;
+}
+
+#toptext h2 {
+    display: inline;
+    float: left;
+    font-family: arial;
+    margin: 0;
+}
+
+#toptext h2 a {
+    color: #000;
+    padding-right: 20px;
+    text-decoration: none;
+}
+
+#toptext h2 a:hover {
+    color: #ccc;
+}
+
+#topbar {
+  color: #000;
+  text-shadow: 0px 1px 1px #fff;
+  background: rgb(255,255,255);
+
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+  width: 100%;
+  min-width: 800px;
+  height: 85px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 15px 0 0 38px;
+  z-index: 100;
+  border-bottom: 1px solid #DFDFDF;
+/*dark scheme*/
+/*  color: #DFDFDF;
+  text-shadow: 0px 1px 1px #fff;
+  background: rgb(255,255,255); 
+  background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1)));
+  background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+  background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+  background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+  background: linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );   width: 100%;
+  min-width: 800px;
+  height: 85px;
+  position: fixed;
+  top: 0; left: 0;
+  padding-top: 15px;
+  padding-left: 20px;
+  z-index: 100;
+  border-bottom: 1px solid #DFDFDF;
+*/}
+
+#display_box {
+  margin-bottom: 5px;
+}
+
+#login {
+  margin-top: 120px;
+  margin-left:20px;  
+}
+
+#login a {
+  color:#000;
+  text-decoration: none;
+  font-weight:600;
+}
+
+#login a:hover {
+  color:#ccc;
+}
+
+/*.star {
+  position: absolute;
+  width:25px;
+  height:25px;
+  z-index:28;
+  top:306.511px;
+  left:637.886px;
+}*/
+
+#left {
+  float: left; 
+  padding-left: 25px; 
+  min-width: 790px; 
+  width: 60%;
+  border-left: 1px solid #CCCCCC;
+}
+
+
+#toptext p a {
+  color:gray;
+  float: right;
+  font-size: 14px;
+  margin-right: 25px;
+  text-decoration: none;
+  line-height:2em;
+}

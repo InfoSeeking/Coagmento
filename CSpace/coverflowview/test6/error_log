@@ -1,0 +1,4 @@
+[02-Apr-2012 15:45:42] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test4/extern.php on line 21
+[02-Apr-2012 15:45:42] PHP Warning:  mysql_close(): supplied argument is not a valid MySQL-Link resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test4/extern.php on line 33
+[03-Apr-2012 17:46:29] PHP Warning:  mysql_close(): supplied argument is not a valid MySQL-Link resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test4/extern2.php on line 22
+[03-Apr-2012 17:47:35] PHP Warning:  mysql_close(): supplied argument is not a valid MySQL-Link resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test4/extern2.php on line 22

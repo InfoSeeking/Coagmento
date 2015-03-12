@@ -1,0 +1,132 @@
+Sidebar.xul
+	1. extract sidebar title and id from chrome://sidebar/locale/sidebar.dtd
+	2. set up html form by calling some javascript function from coagmento.js (This makes sidebar by using populateSidebar() function)
+
+Coagmento.xul
+	1. by using stylesheet, chrome://coagmento/skin/overlay.css, declare design style.
+	2. by using overlay, make coagmento application and sidebar application as one application. (This is so called Firefox extention)\
+	3. declare javascript by calling external javascript file, chrome://coagmento/content/coagmento.js
+	4. element toolbox, navigator-toolbox, is a box for Coagmento toolbar for firefox. This acts like <table> of HTML.
+	5. element toolbar acts like <tr> and <td> of HTML.
+	6. element toolbarbutton acts like <input type="submit"> of HTML.
+			i) coagmento-Login-Button calls changeConnectionStatus() javascript function. (labeled Connect)
+			ii) coagmento-CSpaceLogin-Button calls loadURL() javascript function with value of http://www.coagmento.org/CSpace/. (labeled Home)
+			iii) coagmento-Save-Button calls save() javascript function. (labeled Bookmark)
+			iv) coagmento-Recommend-Button calls recommend() javascript function. (labeled Recommend)
+			v) coagmento-Annotate-Button calls annotate() javascript function. (labeled Annotate)
+			vi) coagmento-Snip-Button calls snip() javascript function. (labeled Snip)
+			vii) coagmento-Sidebar-Button calls toggleSidebar() javascript function with value of viewSidebar. (labeled Resources)
+			viii) coagmento-Etherpad-Button calls loadURL() javascript function with value of http://www.coagmento.org/CSpace/etherpad.php. (Labeled Editor)
+			ix) coagmento-Project-Status-Button calls loadURL() javascript function with value of http://www.coagmento.org/CSpace/index.php?project. (undefined label)
+			x) coagmento-Views-Status-Button calls loadURLPopup() javascript function with value of http://www.coagmento.org/CSpace/views.php. (undefined label)
+			xi) coagmento-Notes-Status-Button calls annotate() javascript function. (undefined label)
+			xii) coagmento-Snippets-Status-Button calls showSnippets() javascript function. (undefined label)
+	7. element toolbarseparator makes some space between buttons.
+	8. element button acts like <input type="button"> of HTML.
+	9. element menupopup and menuitem act like <select> and <option> of HTML.
+	10. set up a shortcut by using ketset with key elements.
+	11. menupopup, viewSidebarMenu, has observe attribute, and it follows viewSidebar boardcaster element's attributes.
+	
+Coagmento.js
+	1. functions
+			a. getVersions()
+					: returns current version. (now 303)
+			b. tabSelected(event)
+					: if variable isVersionCorrect is true, call savePQ() and checkCurrentPage()
+			c. savePQ()
+					: check isVersionCorrect variable being true. 
+					: check loggedIn variable being true.
+					: set up some variables, such as url and title, and call http://www.coagmento.org/CSpace/savePQ.php with the variables as 'GET' method.
+					: should check the php file to figure out what is exactly going on.
+			d. checkCurrentPage()
+					: check isVersionCorrect variable being true.
+					: check loggedIn variable being true.
+					: set up som variables, such as url and title.
+					: make phpRequest() object with value of http://www.coagmento.org/CSpace/pageStatus.php.
+					: there will be a return value from the php file. Split the return value by ';', and check the first array of the variable.
+					: if the first array of the variable is less than 1, that means the Coagmento toolbar currently installed is not latest version.
+			e. save()
+					: check isVersionCorrect variable being true.
+					: check loggedIn variable being true.
+					: set up som variables, such as url and title.
+					: this function pops up an window with size of 640*480, and the window is linked http://www.coagmento.org/CSpace/saveResult.php.
+					: it also use 'GET' method to call the php page.
+			f. recommend()
+					: check isVersionCorrect variable being true.
+					: check loggedIn variable being true.
+					: set up som variables, such as url and title.
+					: this function pops up an window with size of 640*480, and the window is linked http://www.coagmento.org/CSpace/recommend.php.
+					: it also use 'GET' method to call the php page.
+			g. annotate()
+					: check isVersionCorrect variable being true.
+					: check loggedIn variable being true.
+					: set up som variables, such as url and title.
+					: this function pops up an window with size of 640*480, and the window is linked http://www.coagmento.org/CSpace/annotations.php.
+					: it also use 'GET' method to call the php page.
+			h. snip()
+					: check isVersionCorrect variable being true.
+					: check loggedIn variable being true.
+					: set up som variables, such as url and title.
+					: this function pops up an window with size of 640*480, and the window is linked http://www.coagmento.org/CSpace/saveSnippet.php.
+					: it also use 'GET' method to call the php page.
+			i. showSnippets()
+					: check isVersionCorrect variable being true.
+					: set up som variables, such as url and title.
+					: this function pops up an window with size of 640*480, and the window is linked http://www.coagmento.org/CSpace/snippets.php.
+					: it also use 'GET' method to call the php page.
+			j. changeConnectionStatus()
+					: make phpRequest() object with value of http://www.coagmento.org/CSpace/logout.php.
+					: by using broadcaster element, control viewSideBar
+					: this function is about disconnection.
+			k. populateSidebar()
+					: get information of xul element id sidebar.
+					: set up variable urlplace with value of http://www.coagmento.org/loginOnSideBar.php.
+					: set up the xul element with sidebar and urlplace variables.
+			l. setStatus(res)
+					: set up label of each button variable by using input variable, res.
+			m. cleanStatus()
+					: initialize label of each button variable.
+			n. disableButtons(value)
+					: set the value of disabled attribute of each xul element button, using input value variable.
+			o. updateLogginStatus()
+					: check isVersionCorrect variable being true.
+					: call checkConnectivity() and updateToolbarButtons()
+			p. updateToolbarButtons()
+					: check isVersionCorrect variable being true.
+					: make the Connect button become either Connect or Disconnect.
+			q. checkConnectivity()
+					: check isVersionCorrect variable being true.
+					: call http://www.coagmento.org/CSpace/checkConnectionStatus.php page as 'GET' method to check the session.
+					: this function tells the session is alive or not. If it is dead, call timeout function and serverDown function.
+			r. serverDown()
+					: set up every variable and every element as disconnect.
+			s. loadURL()
+					: this function loads a url
+			t. search()
+					: this function is searching a string by calling http://www.coagmento.org/CSpace/index.php as 'GET' method.
+			u. loadURLPopup()
+					: this function pops up a new window with size of 640*480.
+			v. phpRequest(serverScript)
+					: this function acts like object and set up variables from the web page pointed by serverScript variable.
+			x. phpRequestAdd(name,value)
+					: this function is used as an object and add some parameters.
+			y. phpRequestExecute()
+					: this function execute the php request.
+			z. pair(name,value)
+					: this function sets up parameters, name and value.
+			aa. setMood(value, label)
+					: check isVersionCorrect variable being true.
+					: check loggedIn variable being true.
+					: this function calls http://www.coagmento.org/CSpace/changeMood.php page as 'GET' method.
+					: also controls the indication way of mood scroll.
+	2. variables
+			a. isVersionCorrect
+					: this tells current installed Coagmento toolbar is whether latest version or not.
+			b. coagmentoToolbar
+					: this is a constructor for toolbar
+			c. connectionFlag
+					: this tells connection status.
+			d. loggedIn
+					: this is used when session checking is needed.
+			e. isExclusive
+					: this is like a switch for connectivity.
