@@ -40,3 +40,4 @@ Config File Parameters
 - Database format
   + MySQL: username, password, database name
 - Study flow?
+- Disabled web pages
