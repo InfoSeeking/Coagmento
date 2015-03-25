@@ -1,0 +1,419 @@
+body {
+	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
+
+.container {
+	width: 100%;
+	max-width: 1000%;
+	min-width: 1191px;
+	background: rgb(255,255,255); /* Old browsers */
+
+background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
+
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1))); /* Chrome,Safari4+ */
+
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Chrome10+,Safari5.1+ */
+
+background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Opera 12+ */
+
+background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
+
+background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
+
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -80px;
+}
+
+.header {
+	background: url(../img/header-bg.png);
+	height: 100px;
+	min-width: 1191px;
+}
+
+.logo {
+	margin-left: 25px;
+	padding-top: 25px;
+}
+
+.header a {
+	-webkit-transition: margin 0.3s ease-out;
+    -moz-transition: margin 0.3s ease-out;
+    -o-transition: margin 0.3s ease-out;
+}
+.header a:hover {
+	margin-top: 5px;
+}
+
+#nav {
+	margin-top: -65px;
+	width: 720px;
+	float: right;
+}
+#nav a {
+	text-transform: uppercase;
+	color: #d1e7a6;
+	text-decoration: none;
+	font-size: 11px;
+	display: block;
+	width: 150px;
+	text-align: center;
+	float: left;
+	/*-webkit-transition: margin 0.3s ease-out;
+    -moz-transition: margin 0.3s ease-out;
+    -o-transition: margin 0.3s ease-out;*/
+}
+#nav a:hover {
+	color: #fff;
+	/*margin-top: 5px;*/
+}
+#nav img {
+	margin: 0 auto;
+	width: 40px;
+	/*-webkit-transition: margin 0.3s ease-out;
+    -moz-transition: margin 0.3s ease-out;
+    -o-transition: margin 0.3s ease-out;*/
+}
+#nav img:hover {
+	/*margin-top: 5px;*/
+} 
+
+.intro {
+	background: url(../img/header-bg2.png);
+	height: 408px;
+}
+.special-page-content {
+	font-size: 13px;
+	padding-left: 30px; padding-right: 30px; padding-bottom: 30px;
+	margin-top: -10px;
+}
+.special-page-content p {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.page-content {
+	font-size: 15px;
+	padding: 30px;
+	font-family: calibri;
+}
+.page-content p {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.page-content a {
+	color: #466c0f;
+	font-size: 15px;
+}
+.page-content a:hover {
+	color: #a7be82;
+}
+.page-content h1 {
+	font-family: calibri;
+	font-size: 26px;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #f6f6f6;
+}
+.page-content h2 {
+	font-family: calibri;
+	font-size: 20px;
+	color: #969696;
+}
+
+#diagram {
+	/*padding-top: 30px; adjust to over panel*/
+}
+
+#what-is {
+	width: 1191px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.signup {
+	z-index: 1000;
+	position: absolute;
+	left: 975px;
+	top: 315px;
+}
+
+h1 {
+	color: #466b0f;
+	font-size: 28px;
+	font-weight: normal;
+	text-shadow: 1px 1px 0px #fff;
+	margin: 0; padding: 0;
+}
+
+#diagram {
+	width: 783px;
+	margin: 0 auto;
+}
+
+#share {
+	text-align: center;
+}
+#share p {
+	font-size: 12px;
+}
+
+.footer {
+	background: url(../img/footer-bg.png);
+	height: 80px;
+	width: 100%;
+	max-width: 1000%;
+	min-width: 1191px;
+}
+.footer-text {
+	width: 800px;
+	text-align: center;
+	margin: 0 auto;
+	color: #fff;
+	font-size: 12px;
+	padding-top: 25px;
+}
+.footer-text a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 12px;
+}
+.footer-text a:hover {
+	color: #fff;
+}
+.footer-text img {
+	margin-top: -4px;
+}
+/*.footer-text img:hover {
+	-moz-box-shadow: 0 0 5px #fff;
+-webkit-box-shadow: 0 0 5px #fff;
+box-shadow: 0px 0px 5px #fff;} */
+
+.fltrt {  /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page. The floated element must precede the element it should be next to on the page. */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class can be placed on a <br /> or empty div as the final element following the last floated div (within the #container) if the #footer is removed or taken out of the #container */
+	clear:both;
+	height:0;
+	font-size: 1px;
+	line-height: 0px;
+}
+* {
+margin: 0;
+}
+html, body {
+height: 100%;
+}
+.wrapper {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -80px;
+}
+.footer, .push {
+height: 80px;
+}
+.footer, .push {
+clear: both;
+}
+
+
+/* BE SURE TO INCLUDE THE CSS RESET FOUND IN THE DEMO PAGE'S CSS */
+/*------------------------------------*\
+	NAV
+\*------------------------------------*/
+.test img {
+	opacity: 1 !important;
+	background: none !important;
+}
+
+#navi{
+	list-style:none;
+	font-weight:normal;
+	margin-bottom:10px;
+	/* Clear floats */
+	float:left;
+	/*width:100%;*/
+	/* Bring the nav above everything else--uncomment if needed.
+	position:relative;
+	z-index:5;
+	*/
+}
+#navi li{
+	float:left;
+	position:relative;
+}
+#navi a{
+	display:block;
+	padding:10px;
+	color:#fff;
+	text-decoration:none;
+	margin-bottom: 1px;
+}
+#navi a:hover{
+}
+
+/*--- DROPDOWN ---*/
+#navi ul{
+	background:#fff; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(255,255,255,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
+}
+#navi ul li{
+	padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	float:none;
+}
+#navi ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+}
+#navi li:hover ul{ /* Display the dropdown on hover */
+	left:0; /* Bring back on-screen when needed */
+	top: 75px;
+	z-index: 1000;
+	padding: 0; margin:0;
+	background: #2f4d0b;
+	margin-bottom: 5px;
+}
+#navi li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	/* text-decoration:underline; */
+}
+#navi li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	text-decoration:none;
+}
+#navi li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background: rgb(205,235,142); /* Old browsers */
+
+background: -moz-linear-gradient(top,  rgba(205,235,142,1) 0%, rgba(165,201,86,1) 100%); /* FF3.6+ */
+
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(205,235,142,1)), color-stop(100%,rgba(165,201,86,1))); /* Chrome,Safari4+ */
+
+background: -webkit-linear-gradient(top,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* Chrome10+,Safari5.1+ */
+
+background: -o-linear-gradient(top,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* Opera 11.10+ */
+
+background: -ms-linear-gradient(top,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* IE10+ */
+
+background: linear-gradient(top,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* W3C */
+
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cdeb8e', endColorstr='#a5c956',GradientType=0 ); /* IE6-9 */
+
+
+}
+
+.learnmore a {
+	color: #000;
+	font-size: 12px;
+}
+
+.learnmore a:hover {
+	color: #fff;
+}
+
+.learnmore {
+	text-align: center;
+}
+
+/* slider */
+
+/*
+Skin Name: Nivo Slider Default Theme
+Skin URI: http://nivo.dev7studios.com
+Skin Type: flexible
+Description: The default skin for the Nivo Slider.
+Version: 1.0
+Author: Gilbert Pellegrom
+Author URI: http://dev7studios.com
+*/
+
+.theme-default .nivoSlider {
+	/* position:relative;
+	background:#fff url(loading.gif) no-repeat 50% 50%;
+    margin-bottom:50px;
+    -webkit-box-shadow: 0px 1px 5px 0px #4a4a4a;
+    -moz-box-shadow: 0px 1px 5px 0px #4a4a4a;
+    box-shadow: 0px 1px 5px 0px #4a4a4a; */
+}
+.theme-default .nivoSlider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none;
+}
+.theme-default .nivoSlider a {
+	border:0;
+	display:block;
+}
+
+.theme-default .nivo-controlNav {
+	position:absolute;
+	left:50%;
+	bottom: 5px;
+    margin-left:-75px; /* Tweak this to center bullets */
+}
+.theme-default .nivo-controlNav a {
+	display:block;
+	width:22px;
+	height:22px;
+	background:url(bullets.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+	margin-right:3px;
+	float:left;
+}
+.theme-default .nivo-controlNav a.active {
+	background-position:0 -22px;
+}
+.theme-default .nivo-directionNav {
+	display: none !important;
+}
+.theme-default .nivo-directionNav a {
+	display:block;
+	width:30px;
+	height:30px;
+	background:url(arrows.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+}
+.theme-default a.nivo-nextNav {
+	background-position:-30px 0;
+	right:15px;
+}
+.theme-default a.nivo-prevNav {
+	left:15px;
+}
+
+.theme-default .nivo-caption {
+    font-family: Helvetica, Arial, sans-serif;
+}
+.theme-default .nivo-caption a {
+    color:#fff;
+    border-bottom:1px dotted #fff;
+}
+.theme-default .nivo-caption a:hover {
+    color:#fff;
+}
+
+.theme-default #slider {
+    width:1191px; /* Make sure your images are the same size */
+    height:408px; /* Make sure your images are the same size */
+}
+
+/* video time */
+.time {
+padding: 3px; font-size: 12px; background: #ecf5ff; border: 1px solid #4777d4; color: #4777d4;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
