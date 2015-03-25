@@ -41,3 +41,6 @@ Config File Parameters
   + MySQL: username, password, database name
 - Study flow?
 - Disabled web pages
+- UI Functions
+  + Toolbar (Snip, Annotate, Home, Connect/Disconnect, Etherpad)
+  + Sidebar (Snippets, Searches, Bookmarks, Files, Notifications, Chat)
