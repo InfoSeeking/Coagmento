@@ -4,9 +4,9 @@
 	date_default_timezone_set('America/New_York');
 	$timestamp = time();
 	$datetime = getdate();
-        $date = date('Y-m-d', $datetime[0]);
+  $date = date('Y-m-d', $datetime[0]);
 	$time = date('H:i:s', $datetime[0]);
-	if ($_GET['logout']=='true') {
+	if (isset($_GET['logout']) && $_GET['logout']=='true') {
 		$userID = $_SESSION['CSpace_userID'];
 		$projectID = $_SESSION['CSpace_projectID'];
 		$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','logout','')";
