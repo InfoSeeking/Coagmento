@@ -223,7 +223,7 @@
 								//require_once("sidebarHistory.php");
 							?>
                                                      <ul id="tabs" class="shadetabs">
-                                                            <li><a href="sidebarComponents/snippets.php" rel="tabscontainer" class="selected">Snippets</a></li>
+                                                            <li><a href="sidebarComponents/snippets.php" rel="tabscontainer" class="selected">Snipppets</a></li>
                                                             <li><a href="sidebarComponents/bookmarks.php" rel="tabscontainer">Bookmarks</a></li>
                                                             <li><a href="sidebarComponents/searches.php" rel="tabsycontainer">Searches</a></li>
                                                             <li><a href="sidebarComponents/files.php" rel="tabsycontainer">Files</a></li>

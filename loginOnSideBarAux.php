@@ -50,7 +50,7 @@
 			<br/>
 			<br/>
 			<table class="body">
-			<tr><td>The login information you entered does not match our records. Please <a href="http://www.coagmento.org/loginOnSideBar.php">try again</a>.</td></tr>
+			<tr><td>The login information you entered does not match our records. Please <a href="http://".$_SERVER['HTTP_HOST']."/loginOnSideBar.php">try again</a>.</td></tr>
                         </table>
                         </center>
                         </body>
@@ -78,10 +78,9 @@
                                 $_SESSION['orderByQueries'] = 'queryID asc';
                                 $_SESSION['orderByFiles'] = 'id asc';
 				setcookie("CSpace_userID", $userID);
-                                header("Location: http://www.coagmento.org/CSpace/newsidebar.php?flagLogin=true");
+                                header("Location: http://".$_SERVER['HTTP_HOST']."/CSpace/newsidebar.php?flagLogin=true");
 			}
 		}
 		mysql_close($dbh);
 	}
 	?>
-       

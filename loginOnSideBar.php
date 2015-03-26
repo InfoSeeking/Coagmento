@@ -2,7 +2,7 @@
 //	session_name('XULSession'); // Set session name
 	session_start();
         if (isset($_SESSION['CSpace_userID']))
-            header("Location: http://www.coagmento.org/CSpace/newsidebar.php");
+            header("Location: http://".$_SERVER['HTTP_HOST']."/CSpace/newsidebar.php");
         else {
 
 ?>
