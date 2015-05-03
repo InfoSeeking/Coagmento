@@ -29,12 +29,15 @@ class Connection
 		$database = "summer2014_userstudy";
          */
         //Credentials for Matt's local test user study database - Fall 2014
-        $host = "localhost";
-		$username = "userstudy_sp15";
-		$password = 'uu8H$baK#';
-		$database = "spring2015_userstudy";
+    //     $host = "localhost";
+		// $username = "userstudy_sp15";
+		// $password = 'uu8H$baK#';
+		// $database = "spring2015_userstudy";
 
-
+		$host = "localhost";
+		$username = "root";
+		$password = "";
+		$database = "coagmento-org";
 
 		$this->link = mysql_connect($host, $username, $password) or die("Cannot connect to the database: ". mysql_error());
         $this->db_selected = mysql_select_db($database, $this->link) or die ('Cannot connect to the database: ' . mysql_error());
