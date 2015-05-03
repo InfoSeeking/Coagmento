@@ -5,9 +5,10 @@
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
-	$ip=$_SERVER['REMOTE_ADDR'];
+	$ip=$base->getIP();
 	$userID = $base->getUserID();
 	$projectID = $base->getProjectID();
+
 	$message = addslashes($_GET['message']);
 
 
@@ -29,8 +30,7 @@
 	$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 	$chatID = $aLine['num'];
 
-	$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','chat','$chatID','$ip')";
-	$aResults = $connection->commit($aQuery);
+	Util::getInstance()->saveAction('chat',"$chatID",$base);
 	require_once("utilityFunctions.php");
 	addPoints($userID,5);
 ?>

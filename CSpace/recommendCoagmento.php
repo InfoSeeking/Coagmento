@@ -42,6 +42,11 @@
 <table class="body" width=100%>
 	<?php
 		if (isset($_GET['inviteEmail'])) {
+			require("./core/Connection.class.php");
+			require("./core/Base.class.php");
+			require("./core/Util.class.php");
+			$base = Base::getInstance();
+
 			require_once("connect.php");
 			require_once("utilityFunctions.php");
 			$code = get_rand_id(10);
@@ -104,8 +109,8 @@
 						$rID = $aLine['num'];
 
 						$ip=$_SERVER['REMOTE_ADDR'];
-						$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','recommend-coagmento','$rID','$ip')";
-						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+
+						Util::getInstance()->saveAction("recommend-coagmento","$rID",$base);
 
 						require_once("utilityFunctions.php");
 						addPoints($userID,100);

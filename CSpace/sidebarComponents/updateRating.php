@@ -1,5 +1,11 @@
 <?php
-	session_start(); 
+	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if ((isset($_SESSION['CSpace_userID']))) {
 		$type = $_GET['type'];
 		$itemID = $_GET['itemID'];
@@ -17,19 +23,18 @@
 		$query2 = "INSERT INTO rating (`idResource`, `type`, `value`, `userID`, `projectID`, `active`, `time`, `date`, `timestamp`) VALUES ('$itemID', '$type', '$value', '$userID', '$projectID', '1', '$time', '$date', '$timestamp')";
 		$results = mysql_query($query2) or die(" ". mysql_error());
 		$webPage = $_GET['webPage'];
-                $ip=$_SERVER['REMOTE_ADDR'];
-                $aquery = "INSERT INTO actions (userID, projectID, timestamp, date, time, action, value, ip) VALUES ('$userID', '$projectID', '$timestamp', '$date', '$time', 'updateRating_$type', 'itemID:$itemID:$value','$ip')";
-                $results2 = mysql_query($aquery) or die(" ". mysql_error());
+    $ip=$_SERVER['REMOTE_ADDR'];
+		Util::getInstance()->saveAction("updateRating_$type","itemID:$itemID:$value",$base);
 
-                $pQuery = "SELECT points FROM users WHERE userID='$userID'";
-                $pResults = mysql_query($pQuery) or die(" ". mysql_error());
-                $pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-                $totalPoints = $pLine['points'];
-                $newPoints = $totalPoints+10;
-                $pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-                $pResults = mysql_query($pQuery) or die(" ". mysql_error());
+    $pQuery = "SELECT points FROM users WHERE userID='$userID'";
+    $pResults = mysql_query($pQuery) or die(" ". mysql_error());
+    $pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
+    $totalPoints = $pLine['points'];
+    $newPoints = $totalPoints+10;
+    $pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
+    $pResults = mysql_query($pQuery) or die(" ". mysql_error());
 
-                if ($webPage!="")
-                    require_once($webPage);
+    if ($webPage!="")
+        require_once($webPage);
 	}
 ?>

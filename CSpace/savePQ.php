@@ -4,7 +4,11 @@
 	require_once("connect.php");
 	require_once("utilityFunctions.php");
 
-//	$fout = fopen('ctest.txt','w');
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
@@ -21,9 +25,6 @@
 	$title = $_GET['title'];
 	$title = str_replace(" - Mozilla Firefox","",$title);
 	$url = $originalURL;
-//	$originalURL = urlencode($url);
-
-//	fwrite($fout, $userID."\t".$projectID."\t".$originalURL."\n");
 
 	// Parse the URL to extract the source
 	$url = str_replace("http://", "", $url); // Remove 'http://' from the reference
@@ -50,7 +51,6 @@
 			$domain = $entry[$i];
 		}
 		$i++;
-//		fwrite($fout, $i."\t".$site."\t".$domain."\n");
 	} // while (($entry[$i]) && ($isWebsite == 0))
 
 	// Extract the query if there is any
@@ -90,23 +90,17 @@ echo "A:Trying";
 	{
 echo "A:$projectID";
 		$query = "INSERT INTO pages VALUES('','$userID','$projectID','$originalURL','$title','$site','$queryString','$timestamp','$date','$time','0','1',NULL,NULL)";
-//		fwrite($fout, "$query\n");
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$aQuery = "SELECT max(pageID) as num FROM pages";
 		$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 		$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 		$pageID = $aLine['num'];
-		$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','page','$pageID','$ip')";
-		$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-//		fwrite($fout, $originalURL."\n");
+		Util::getInstance()->saveAction('page',"$pageID",$base);
 		if ($queryString)
 		{
 			$resultsPage = urlencode($originalURL);
-//			fwrite($fout, $resultsPage."\n");
 			$topResults = file_get_contents($resultsPage);
-//			fwrite($fout, $topResults);
 			$query = "INSERT INTO queries VALUES('','$userID','$projectID','$site','$queryString','$originalURL','$title','','$topResults','$timestamp','$date','$time','1')";
-//			fwrite($fout, "$query\n");
 			$results = mysql_query($query) or die(" ". mysql_error());
 			$aQuery = "SELECT max(queryID) as num FROM queries";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
@@ -118,8 +112,7 @@ echo "A:$projectID";
 			fwrite($fout, $contents);
 			fwrite($fout, "\n");
 			fclose($fout);
-			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','query','$queryID','$ip')";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+			Util::getInstance()->saveAction('query',"$queryID",$base);
 			echo $queryString;
 		}
 

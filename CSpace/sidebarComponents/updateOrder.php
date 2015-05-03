@@ -1,5 +1,11 @@
 <?php
-	session_start(); 
+	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if ((isset($_SESSION['CSpace_userID']))) {
 		$table = $_GET['table'];
 		$orderBy = $_GET['orderBy'];
@@ -11,11 +17,9 @@
 		$datetime = getdate();
 		$date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
-                require_once("../connect.php");
-                $ip=$_SERVER['REMOTE_ADDR'];
-                $aquery = "INSERT INTO actions (userID, projectID, timestamp, date, time, action, value, ip) VALUES ('$userID', '$projectID', '$timestamp', '$date', '$time', 'updateOrder_$table', '$orderBy','$ip')";
-                //echo $query;
-                $results = mysql_query($aquery) or die(" ". mysql_error());
+    require_once("../connect.php");
+    $ip=$_SERVER['REMOTE_ADDR'];
+		Util::getInstance()->saveAction("updateOrder_$table","$orderBy",$base);
 		require_once($webPage);
 	}
 ?>

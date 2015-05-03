@@ -3,13 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
-
 <LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
-
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -17,7 +14,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -31,6 +28,12 @@
 
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
@@ -64,20 +67,20 @@
 				$datetime = getdate();
 			    $startDate = date('Y-m-d', $datetime[0]);
 				$startTime = date('H:i:s', $datetime[0]);
-				
+
 				$query = "UPDATE projects SET title='$title',description='$description',privacy='$privacy' WHERE projectID='$projectID'";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				
-				
+
+
 				$ip=$_SERVER['REMOTE_ADDR'];
-				$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$startDate','$startTime','edit-project','$projectID','$ip')";
-				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-				
+				Util::getInstance()->saveAction('edit-project',"$projectID",$base);
+
+
 				echo "<tr><td colspan=2><font color=\"green\">Your changes to project <span style=\"font-weight:bold\">$title</span> have been saved. Go back to the <a href='projects.php'>project list</a>.</font></td></tr>";
 			} // else with if ($num!=0)
 		} // else with if ($title == "")
 	} // if (isset($_GET['title']))
-	
+
 	$projectID = $_GET['projectID'];
 	$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 	$results = mysql_query($query) or die(" ". mysql_error());

@@ -14,11 +14,11 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<?php 
+<?php
   include('func.php');
 ?>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 $(document).ready(function(){
 $(".flip").click(function(){
     $(".panel").slideToggle("slow");
@@ -33,13 +33,19 @@ $(".flip").click(function(){
 	<div class="left" style="float: left; "> <!-- min-width: 790px; width: 60%; -->
         <h2><a href="index.php">Coagmento CSpace</a></h2><br/>
     </div>
-    
+
         	<div style="float: left;">
     				<?php
 					session_start();
 					require_once('../connect.php');
-					$userID = $_SESSION['CSpace_userID'];
-					$projectID = $_SESSION['CSpace_projectID'];
+          require_once('./core/Base.class.php');
+        	require_once("./core/Connection.class.php");
+        	require_once("./core/Util.class.php");
+        	$base = Base::getInstance();
+        	$connection = Connection::getInstance();
+
+					$userID = $base->getUserID();
+					$projectID = $base->getProjectID();
 					$query = "SELECT * FROM users WHERE userID='$userID'";
 					$results = mysql_query($query) or die(" ". mysql_error());
 					$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -59,7 +65,7 @@ $(".flip").click(function(){
 					echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a>.<br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a>.<br/>&nbsp;&nbsp;<span id=\"currProj\"></span><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a different project.</a></td></tr></table></div>";
 				?>
                 </div>
-                
+
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
 
     	<p class="flip" style="float: right;"><!-- <img src="menu.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
@@ -71,7 +77,7 @@ $(".flip").click(function(){
                     	<b>Collaborators</b><br/>
                         <a href="../addCollaborator.php">Add</a>
                         <a href="../currentCollaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="../createProject.php">Create</a>
                         <a href="../projects.php">Select</a>
@@ -81,7 +87,7 @@ $(".flip").click(function(){
                     	<b>Sharing</b>
                         <a href="../showRecommendations.php">Recommendations</a>
                         <a href="../interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="../etherpad.php">Editor</a>
                         <a href="../files.php">Files</a>
@@ -105,7 +111,7 @@ $(".flip").click(function(){
             </table>
         </div>
     </div>
-    
+
 </div>
 
 <div id="container">
@@ -168,17 +174,17 @@ $(".flip").click(function(){
 				$projectID = $line['num'];
 				$query = "INSERT INTO memberships VALUES('','$projectID','$userID','1')";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				
+
 				// Record the action and update the points
 				$aQuery = "SELECT max(projectID) as num FROM projects";
 				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 				$pID = $aLine['num'];
-				
-				$ip=$_SERVER['REMOTE_ADDR'];
-				$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$startDate','$startTime','create-project','$pID','$ip')";
-				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-				
+
+				$ip=$base->getIP();
+        Util::getInstance()->saveAction('create-project',"$pID",$base);
+
+
 				$pQuery = "SELECT points FROM users WHERE userID='$userID'";
 				$pResults = mysql_query($pQuery) or die(" ". mysql_error());
 				$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
@@ -212,7 +218,7 @@ $(".flip").click(function(){
 		</table>
 		</td>
 	</tr>
-    
+
 <?php
 	echo "<tr><td><table class=\"style1\"><tr><td>&nbsp;</td></tr>";
 	echo "<tr><td><span style=\"font-size: 16px; font-weight:bold\">Existing projects</span></td></tr><tr>\n";
@@ -226,7 +232,7 @@ $(".flip").click(function(){
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
-		
+
 		// If the current user didn't create this project, find out who did
 		if ($access!=1) {
 			$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
@@ -246,7 +252,7 @@ $(".flip").click(function(){
 	echo "</tr></table></td></tr>\n";
 	echo "</table></td></tr>\n";
 	echo "</table>\n</center>\n<br/><br/><br/><br/>\n";
-?>	
+?>
 </table>
 <?php
 	}

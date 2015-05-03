@@ -1,5 +1,11 @@
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	$ip=$_SERVER['REMOTE_ADDR'];
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
@@ -61,15 +67,12 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 			$noteID = $aLine['num'];
-			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-annotation','$noteID','$ip')";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-
+			Util::getInstance()->saveAction('add-annotation',"$noteID",$base);
 			require_once("utilityFunctions.php");
 			addPoints($userID,10);
 		}
 		else {
-			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','view-annotations','$url','$ip')";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+			Util::getInstance()->saveAction('view-annotations',"$url",$base);
 		}
 
 		// Get the results for the given user and the project

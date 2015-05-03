@@ -2,6 +2,12 @@
 	session_start();
 	require_once("connect.php");
 	require_once("utilityFunctions.php");
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if ((isset($_SESSION['CSpace_userID']))) {
 		$userID = $_SESSION['CSpace_userID'];
 		if (isset($_SESSION['CSpace_projectID']))
@@ -45,10 +51,8 @@
 				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 				$rID = $aLine['num'];
 
-				$ip=$_SERVER['REMOTE_ADDR'];
-				$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','create-note','$rID','$ip')";
-				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-
+				$ip=$base->getIP();
+				Util::getInstance()->saveAction('create-note',"$rID",$base);
 				addPoints($userID,20);
 			}
 		}

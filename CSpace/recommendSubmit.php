@@ -1,15 +1,23 @@
 <?php
 	session_start();
 	require_once("utilityFunctions.php");
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
-		$projectID = $_SESSION['CSpace_projectID'];
-		require_once("connect.php");
+		$userID = $base->getUserID();
+		$projectID = $base->getProjectID();
+
+
+
 		$query = "SELECT * FROM users WHERE userID='$userID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$senderName = $line['firstName'] . " " . $line['lastName'];
 		$senderEmail = $line['email'];
@@ -78,8 +86,7 @@
 						$rID = $aLine['num'];
 
 						$ip=$_SERVER['REMOTE_ADDR'];
-						$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','recommend','$rID','$ip')";
-						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+						Util::getInstance()saveAction('recommend',"$rID",$base);
 
 						addPoints($userID,10);
 

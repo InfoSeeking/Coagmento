@@ -5,6 +5,11 @@
 	$projectID = $_SESSION['CSpace_projectID'];
 	require_once("connect.php");
 	require_once("utilityFunctions.php");
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 	$url = $_GET['page'];
 	$title = $_GET['title'];
 	$title = str_replace(" - Mozilla Firefox","",$title);
@@ -84,8 +89,7 @@
                         $query = "UPDATE pages SET result=1 WHERE projectID='$projectID' AND url='$originalURL' AND result=2";
                         $results = mysql_query($query) or die(" ". mysql_error());
                         echo "<script>window.close()</script>";
-                        $aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','save-page','$url','$ip')";
-                        $aResults = mysql_query($aQuery) or die(" ". mysql_error());
+												Util::getInstance()->saveAction('save-page',"$url",$base);
                 }
 
 ?>
@@ -96,8 +100,7 @@
 	else {
 		$query = "UPDATE pages SET result=2 WHERE projectID='$projectID' AND url='$originalURL' AND NOT result=0";
         $results = mysql_query($query) or die(" ". mysql_error());
-		$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','remove','$url','$ip')";
-		$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+				Util::getInstance()->saveAction('remove',"$url",$base);
 	}
 
 	addPoints($userID,10);

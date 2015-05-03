@@ -2,6 +2,7 @@
 	session_start();
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -28,13 +29,13 @@
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$oldTime = $line1['timestamp'];
 				if ($oldTime<$timestamp-3600) {
-					$results2 = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','activate-count','','$ip')");
-					$newPoints+=100;
+					Util::getInstance()->saveAction("activate-count",'',$base);
+					$newPoints=100;
 				}
 			}
 			else {
-				$results2 = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','activate-count','','$ip')");
-				$newPoints+=100;
+				Util::getInstance()->saveAction("activate-count",'',$base);
+				$newPoints=100;
 			}
 			break;
 
@@ -42,7 +43,7 @@
 		case 'sidebar-query':
 		case 'sidebar-query-snapshot':
 		case 'sidebar-snippet':
-			$newPoints += 5;
+			$newPoints = 5;
 			break;
 
 		case 'print':
@@ -52,25 +53,25 @@
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$oldTime = $line1['timestamp'];
 				if ($oldTime<$timestamp-86400) {
-					$results2 = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','print-count','','$ip')");
-					$newPoints+=100;
+					Util::getInstance()->saveAction("print-count",'',$base);
+					$newPoints=100;
 				}
 			}
 			else {
-				$results2 = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','print-count','','$ip')");
-				$newPoints+=100;
+				Util::getInstance()->saveAction("print-count",'',$base);
+				$newPoints=100;
 			}
 			break;
 
 		case 'download':
-			$newPoints +=100;
+			$newPoints =100;
 			break;
 
 		default:
 			break;
 	}
 
-	$aResults = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','$action','$value','$ip')");
+	Util::getInstance()->saveAction("activate-count",$value,$base);
 	require_once("utilityFunctions.php");
 	addPoints($userID,$newPoints);
 ?>

@@ -50,6 +50,14 @@
 
 <table class="body" width=100%>
 	<?php
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
+
+
 		if (isset($_GET['targetUserName'])) {
 			$results = $connection->commit("SELECT * FROM users WHERE userID='$userID'");
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -115,7 +123,7 @@
 					$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 					$rID = $aLine['num'];
 
-					$aResults = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-collaborator','$rID','$ip')");
+					Util::getInstance()->saveAction('add-collaborator',"$rID",$base);
 
 					require_once("utilityFunctions.php");
 					addPoints($userID,100);

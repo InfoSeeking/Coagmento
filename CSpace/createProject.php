@@ -41,6 +41,11 @@
 <table class="body" width=100%>
 
 <?php
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 	require_once("connect.php");
 	$userID = $_SESSION['CSpace_userID'];
 
@@ -81,9 +86,8 @@
 				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 				$pID = $aLine['num'];
 
-				$ip=$_SERVER['REMOTE_ADDR'];
-				$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$startDate','$startTime','create-project','$pID','$ip')";
-				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+				$ip=$base->getIP();
+				Util::getInstance()->saveAction('create-project',"$pID",$base);
 
 				require_once("utilityFunctions.php");
 				addPoints($userID,100);
