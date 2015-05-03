@@ -1,12 +1,15 @@
 <?php
 
 // Db
-require_once("connect.php");
+
 
 // Session info
 
 session_start();
-
+require_once('./core/Base.class.php');
+require_once("./core/Connection.class.php");
+$base = Base::getInstance();
+$connection = Connection::getInstance();
 
 function monthNumToAbbr($comp_month){
 	switch ($comp_month) {
@@ -55,7 +58,7 @@ if (!isset($_SESSION['CSpace_userID'])) {
 	echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 }
 else {
-	$userID = $_SESSION['CSpace_userID'];
+	$userID = $base->getUserID();
 
 	$q=$_GET["q"];
 	if ($q != "")
@@ -69,7 +72,6 @@ else {
 	}
 
 	$projectID = "";
-	$userID = $_SESSION['CSpace_userID'];
 
 	// Set project name to project ID
 	$sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
