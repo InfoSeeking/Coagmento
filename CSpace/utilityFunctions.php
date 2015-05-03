@@ -14,8 +14,8 @@ function extractQuery($referrer)
 	$se_stuff[] = array("yahoo.co.uk", "p", "Yahoo");
 	$se_stuff[] = array("aol.com", "query", "AOL");
 	$se_stuff[] = array("msn.com", "q", "MSN");
-	$se_stuff[] = array("live.com", "q", "Live");	
-	$se_stuff[] = array("bing.com", "q", "Bing");	
+	$se_stuff[] = array("live.com", "q", "Live");
+	$se_stuff[] = array("bing.com", "q", "Bing");
 	$se_stuff[] = array("netscape.com", "query", "Netscape");
 	$se_stuff[] = array("netzero.net", "query", "NetZero");
 	$se_stuff[] = array("altavista.com", "q", "Altavista");
@@ -40,4 +40,41 @@ function extractQuery($referrer)
 	}
 	return $queryString;
 } // end extractQuery
+
+function addPoints($userID,$points){
+	require_once("./core/Connection.class.php");
+	$connection = Connection::getInstance();
+	$connection->commit("UPDATE users SET points=points+$points WHERE userID='$userID'";
+}
+
+function assign_rand_value($num)
+{
+// accepts 1 - 36
+
+  $num = intval($num);
+  if($num>=27){
+    return $num-27;
+  }else{
+    return chr($num+96)
+  }
+
+  // Assumes 1-36 is input
+  //Returns a-z,then 0-9
+}
+
+function get_rand_id($length)
+{
+  if($length>0)
+  {
+  $rand_id="";
+   for($i=1; $i<=$length; $i++)
+   {
+   mt_srand((double)microtime() * 1000000);
+   $num = mt_rand(1,36);
+   $rand_id .= assign_rand_value($num);
+   }
+  }
+return $rand_id;
+}
+
 ?>

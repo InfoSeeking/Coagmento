@@ -9,7 +9,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -17,7 +17,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -43,17 +43,17 @@
 	<?php
 		if (isset($_GET['inviteEmail'])) {
 			require_once("connect.php");
-			require_once("randstring.php");
+			require_once("utilityFunctions.php");
 			$code = get_rand_id(10);
 			$inviteEmail = $_GET['inviteEmail'];
-			
+
 			if ($inviteEmail!="") {
 				// First see if this user is already in the system
 				$query = "SELECT count(*) as num FROM users WHERE email='$inviteEmail'";
 				$results = mysql_query($query) or die(" ". mysql_error());
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
-				
+
 				if ($num!=0) {
 					echo "<tr><td colspan=2><font color=\"red\">Error: this email is already associated with a user in the system.</font></td></tr>";
 				} // if ($num!=0)
@@ -80,42 +80,37 @@
 						$lastName = $line['lastName'];
 						$rEmail = $line['email'];
 						$userMessage = urldecode($_GET['message']);
-						
+
 						// Create an email
 						$headers  = 'MIME-Version: 1.0' . "\r\n";
 						$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 						$headers .= 'From: Coagmento <support@coagmento.org>' . "\r\n";
-				
+
 						$subject = 'Somebody has invited you to try Coagmento!';
 						$message = "Hello, <br/><br/><strong>$firstName $lastName</strong> ($rEmail) has invited you to try out Coagmento - a plug-in for Firefox browser that allows you to collect online information (text snippets, pictures, etc.) effectively, keep track of your search and browse history, and connect with your friends and co-workers without leaving your browser!";
 						if ($userMessage!='')
 							$message = $message . "<br/><br/>His/her personal message to you: $userMessage<br/><br/>";
 						$message = $message . " Coagmento also provides you with an online collaborative space (called CSpace) with which you can easily and effectively organize personal and group information, get recommendations based on your browsing, and produce reports. You can even get access to your projects on supported mobile devices. So why wait? Try it out now!<br/><br/>Please click on <a href=\"http://www.coagmento.org/index.php?code=$code\">this link</a> to open a FREE account. If you cannot click on this link, please copy and paste the following in your browser: http://www.coagmento.org/index.php?code=$code<br/><br/>See you there!<br/><strong>The Coagmento Team</strong><br/><font color=\"gray\">'cause two (or more) heads are better than one!</font><br/><a href=\"http://www.coagmento.org\">www.Coagmento.org</a><br/>\n";
 						mail ($inviteEmail, $subject, $message, $headers);
-						
+
 						$userMessage = addslashes($userMessage);
 						$query = "INSERT INTO invitations VALUES('','$userID','$inviteEmail','$userMessage','$timestamp','$date','$time','$code')";
 						$results = mysql_query($query) or die(" ". mysql_error());
-		
+
 						// Record the action and update the points
 						$aQuery = "SELECT max(id) as num FROM invitations WHERE userID='$userID'";
 						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 						$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 						$rID = $aLine['num'];
-						
+
 						$ip=$_SERVER['REMOTE_ADDR'];
 						$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','recommend-coagmento','$rID','$ip')";
 						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-						
-						$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-						$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-						$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-						$totalPoints = $pLine['points'];
-						$newPoints = $totalPoints+100;
-						$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-						$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-						
-						echo "<tr><td colspan=2>Thank you for recommending Coagmento! An email has been sent to <span style=\"color:green;font-weight:bold\">$inviteEmail</span> with a unique link to open a free Coagmento account. You have been awarded 100 points for this. If the receiver accepts this invitation and opens an account, you will get additional 200 points!</font></td></tr>";				
+
+						require_once("utilityFunctions.php");
+						addPoints($userID,100);
+
+						echo "<tr><td colspan=2>Thank you for recommending Coagmento! An email has been sent to <span style=\"color:green;font-weight:bold\">$inviteEmail</span> with a unique link to open a free Coagmento account. You have been awarded 100 points for this. If the receiver accepts this invitation and opens an account, you will get additional 200 points!</font></td></tr>";
 					} // else with if ($num!=0)
 				} // else with if ($num!=0)
 			} // if ($inviteEmail)

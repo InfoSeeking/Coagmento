@@ -4,6 +4,7 @@
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
 	require_once("connect.php");
+	require_once("utilityFunctions.php");
 	$url = $_GET['page'];
 	$title = $_GET['title'];
 	$title = str_replace(" - Mozilla Firefox","",$title);
@@ -99,11 +100,5 @@
 		$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 	}
 
-	$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-	$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-	$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-	$totalPoints = $pLine['points'];
-	$newPoints = $totalPoints+10;
-	$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-	$pResults = mysql_query($pQuery) or die(" ". mysql_error());
+	addPoints($userID,10);
 ?>

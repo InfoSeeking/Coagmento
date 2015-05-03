@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once("utilityFunctions.php");
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
@@ -20,7 +21,7 @@
 		$datetime = getdate();
 	    $date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
-		
+
 		// Create an email
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -47,7 +48,7 @@
 	<tr><td align="right"><img src="../img/recommend.jpg" height=40 style="vertical-align:middle;border:0" /> <span style="font-weight:bold;font-size:15px">Recommend a Webpage</span></td></tr>
 	<tr><td><br/></td></tr>
 	<tr><td>Your recommendation of webpage <a href="<?php echo $url;?>"><?php echo $title;?></a> was sent to the following collaborators:</td></tr>
-	<tr><td><br/></td></tr>	
+	<tr><td><br/></td></tr>
 	<tr>
 		<td>
 			<table class="body">
@@ -66,7 +67,7 @@
 						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 						$receiverEmail = $line2['email'];
 						mail ($receiverEmail, $subject, $messageToSend, $headers);
-						
+
 						$query2 = "INSERT INTO recommendations VALUES('','$userID','$projectID','$cUserID','$title','$url','$message','$timestamp','$date','$time')";
 						$results2 = mysql_query($query2) or die(" ". mysql_error());
 
@@ -75,19 +76,13 @@
 						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 						$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 						$rID = $aLine['num'];
-						
+
 						$ip=$_SERVER['REMOTE_ADDR'];
 						$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','recommend','$rID','$ip')";
 						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-						
-						$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-						$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-						$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-						$totalPoints = $pLine['points'];
-						$newPoints = $totalPoints+10;
-						$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-						$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-						
+
+						addPoints($userID,10);
+
 						$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
 						$results2 = mysql_query($query2) or die(" ". mysql_error());
 						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
@@ -101,7 +96,7 @@
 			</table>
 		</td>
 	</tr>
-	<tr><td><br/></td></tr>	
+	<tr><td><br/></td></tr>
 	<tr><td>Email recommendation sent to:</td></tr>
 	<?php
 		$emails = $_GET['emails'];
@@ -118,9 +113,9 @@
 		}
 	?>
 	<tr><td><?php echo $emails;?></td></tr>
-	<tr><td>Message sent:</td></tr>	
-	<tr><td><?php echo stripslashes($message);?></td></tr>		
-	<tr><td><br/></td></tr>	
+	<tr><td>Message sent:</td></tr>
+	<tr><td><?php echo stripslashes($message);?></td></tr>
+	<tr><td><br/></td></tr>
 	<tr><td align="center"><input type="button" value="Close" onclick="window.close();"/></td></tr>
 </table>
 </body>

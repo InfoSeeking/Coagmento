@@ -3,12 +3,12 @@
 	$ip=$_SERVER['REMOTE_ADDR'];
 	require_once("connect.php");
 	require_once("utilityFunctions.php");
-	
+
 //	$fout = fopen('ctest.txt','w');
-	
+
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
-	
+
 	// If no active project selected, the default project is 'Untitled'
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
@@ -16,15 +16,15 @@
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$projectID = $line['projectID'];
 	}
-	
+
 	$originalURL = $_GET['URL'];
 	$title = $_GET['title'];
 	$title = str_replace(" - Mozilla Firefox","",$title);
 	$url = $originalURL;
 //	$originalURL = urlencode($url);
-	
+
 //	fwrite($fout, $userID."\t".$projectID."\t".$originalURL."\n");
-	
+
 	// Parse the URL to extract the source
 	$url = str_replace("http://", "", $url); // Remove 'http://' from the reference
 	$url = str_replace("com/", "com.", $url);
@@ -56,14 +56,14 @@
 	// Extract the query if there is any
 	$queryString = extractQuery($originalURL);
 	$queryString = addslashes($queryString);
-		
+
 	// Get the date, time, and timestamp
 	date_default_timezone_set('America/New_York');
 	$timestamp = time();
 	$datetime = getdate();
     $date = date('Y-m-d', $datetime[0]);
 	$time = date('H:i:s', $datetime[0]);
-	
+
 	// This is to avoid getting duplicates
 	// If the same user has fired the same page just now,
 	// chances are, this is a duplicate entry.
@@ -83,7 +83,7 @@
 		$validMembership = FALSE;
 	else
 		$validMembership = TRUE;
-	
+
 //	fwrite($fout, $lastURL."\n");
 echo "A:Trying";
 	if (($lastURL != $originalURL) && ($validMembership))
@@ -122,14 +122,8 @@ echo "A:$projectID";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			echo $queryString;
 		}
-										
-		$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-		$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-		$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-		$totalPoints = $pLine['points'];
-		$newPoints = $totalPoints+1;
-		$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-		$pResults = mysql_query($pQuery) or die(" ". mysql_error());
+
+		addPoints($userID,1);
 	}
 //	fclose($fout);
 	mysql_close($dbh);
