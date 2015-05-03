@@ -31,11 +31,6 @@
 
 	$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','chat','$chatID','$ip')";
 	$aResults = $connection->commit($aQuery);
-	$query = "SELECT * FROM users WHERE username='$userName'";
-	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
-	$points = $line['points'];
-	$newPoints = $points+5;
-	$query = "UPDATE users SET points=$newPoints WHERE username='$userName'";
-	$results = $connection->commit($query);
+	require_once("utilityFunctions.php");
+	addPoints($userID,5);
 ?>

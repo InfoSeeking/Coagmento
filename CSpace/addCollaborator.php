@@ -117,11 +117,8 @@
 
 					$aResults = $connection->commit("INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-collaborator','$rID','$ip')");
 
-					$pResults = $connection->commit("SELECT points FROM users WHERE userID='$userID'");
-					$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-					$totalPoints = $pLine['points'];
-					$newPoints = $totalPoints+100;
-					$pResults = $connection->commit("UPDATE users SET points=$newPoints WHERE userID='$userID'");
+					require_once("utilityFunctions.php");
+					addPoints($userID,100);
 
 					// Create an email
 					$headers  = 'MIME-Version: 1.0' . "\r\n";

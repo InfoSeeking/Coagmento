@@ -17,7 +17,7 @@
 <body class="body" onload="document.f.note.focus();">
 <center>
 <form name="f" action="annotations.php" method="get">
-<?php		
+<?php
 	$url = $_GET['page'];
 	$title = addslashes($_GET['title']);
 	$title = str_replace(" - Mozilla Firefox","",$title);
@@ -42,14 +42,14 @@
 			$results = mysql_query($query) or die(" ". mysql_error());
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
-		} // if ($projectID == 0)	
+		} // if ($projectID == 0)
 
 		// Get the date, time, and timestamp
 		$timestamp = time();
 		$datetime = getdate();
 		$date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
-	
+
 		// If the annotation was submitted, get it and save it.
 		if (isset($_GET['note'])) {
 			$note = $_GET['note'];
@@ -63,20 +63,15 @@
 			$noteID = $aLine['num'];
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-annotation','$noteID','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-			
-			$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-			$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-			$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-			$totalPoints = $pLine['points'];
-			$newPoints = $totalPoints+10;
-			$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$pResults = mysql_query($pQuery) or die(" ". mysql_error());
+
+			require_once("utilityFunctions.php");
+			addPoints($userID,10);
 		}
 		else {
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','view-annotations','$url','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 		}
-		
+
 		// Get the results for the given user and the project
 		$query = "SELECT * FROM annotations WHERE projectID='$projectID' AND url='$url' ORDER BY timestamp";
 		$results = mysql_query($query) or die(" ". mysql_error());

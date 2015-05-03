@@ -10,7 +10,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -74,24 +74,19 @@
 				$projectID = $line['num'];
 				$query = "INSERT INTO memberships VALUES('','$projectID','$userID','1')";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				
+
 				// Record the action and update the points
 				$aQuery = "SELECT max(projectID) as num FROM projects";
 				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 				$pID = $aLine['num'];
-				
+
 				$ip=$_SERVER['REMOTE_ADDR'];
 				$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$startDate','$startTime','create-project','$pID','$ip')";
 				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-				
-				$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-				$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-				$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-				$totalPoints = $pLine['points'];
-				$newPoints = $totalPoints+100;
-				$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-				$pResults = mysql_query($pQuery) or die(" ". mysql_error());
+
+				require_once("utilityFunctions.php");
+				addPoints($userID,100);
 
 				echo "<tr><td colspan=2><font color=\"green\">Your new project <span style=\"font-weight:bold\">$title</span> has been created.</font></td></tr>";
 			} // else with if ($num!=0)
@@ -118,7 +113,7 @@
 		</table>
 		</td>
 	</tr>
-    
+
 <?php
 	echo "<tr><td><table class=\"style1\"><tr><td>&nbsp;</td></tr>";
 	echo "<tr><td><span style=\"font-size: 16px; font-weight:bold\">Existing projects</span></td></tr><tr>\n";
@@ -132,7 +127,7 @@
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
-		
+
 		// If the current user didn't create this project, find out who did
 		if ($access!=1) {
 			$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
@@ -152,7 +147,7 @@
 	echo "</table></td></tr>\n";
 	echo "</table></td></tr>\n";
 	echo "</table>\n</center>\n<br/><br/><br/><br/>\n";
-?>	
+?>
 </table>
 <?php
 	}

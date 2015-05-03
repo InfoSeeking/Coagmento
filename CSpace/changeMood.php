@@ -20,10 +20,4 @@
 
             $aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','change_mood','$value','$ip')";
             $aResults = $connection->commit($aQuery);
-
-            $pQuery = "SELECT points FROM users WHERE userID='$userID'";
-            $pResults = $connection->commit($pQuery);
-            $pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-            $totalPoints = $pLine['points'];
-            $newPoints = $totalPoints+1;
         }
