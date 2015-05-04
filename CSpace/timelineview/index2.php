@@ -11,7 +11,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
-<!-- <link rel="stylesheet" href="css/styles.css" type="text/css" /> -->
 <?php
 		$userID = $_SESSION['CSpace_userID'];
 		if (isset($_SESSION['CSpace_projectID']))
@@ -22,7 +21,7 @@
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$value = $line['value'];
 			if (!$value || $value=='default') {
-				$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.title='Default' AND projects.projectID=memberships.projectID";		
+				$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.title='Default' AND projects.projectID=memberships.projectID";
 				$results = mysql_query($query) or die(" ". mysql_error());
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$projectID = $line['projectID'];
@@ -69,7 +68,7 @@
 			else
 				$facebook = 0;
 			$other = addslashes($_POST['other']);
-			$smartphone = addslashes($_POST['smartphone']);	
+			$smartphone = addslashes($_POST['smartphone']);
 			// Get the date, time, and timestamp
 			date_default_timezone_set('America/New_York');
 			$timestamp = time();
@@ -105,7 +104,7 @@
 			$familiar = $_POST['familiar'];
 			$experience = $_POST['experience'];
 			$difficult = $_POST['difficult'];
-			
+
 			// Get the date, time, and timestamp
 			date_default_timezone_set('America/New_York');
 			$timestamp = time();
@@ -157,7 +156,7 @@
 			$e1q26 = $_POST['e1q26'];
 			$e1q27 = $_POST['e1q27'];
 			$e1q28 = $_POST['e1q28'];
-			
+
 			// Get the date, time, and timestamp
 			date_default_timezone_set('America/New_York');
 			$timestamp = time();
@@ -209,7 +208,7 @@
 			$e1q26 = $_POST['e1q26'];
 			$e1q27 = $_POST['e1q27'];
 			$e1q28 = $_POST['e1q28'];
-			
+
 			// Get the date, time, and timestamp
 			date_default_timezone_set('America/New_York');
 			$timestamp = time();
@@ -265,7 +264,7 @@
 			$motivation = $_POST['motivation'];
 			$easy = $_POST['easy'];
 			$comments = addslashes($_POST['comments']);
-			
+
 			// Get the date, time, and timestamp
 			date_default_timezone_set('America/New_York');
 			$timestamp = time();
@@ -293,7 +292,7 @@
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 			$headers .= 'From: Coagmento <noreply@Coagmento.org>' . "\r\n";
-		
+
 			$subject = 'You have been enrolled as an official Coagmento Beta Tester';
 			$message = "Hello,<br/><br/>We are glad you decided to take part in this study and officially become Coagmento Beta Tester. Frankly, it makes sense if you were planning on using Coagmento anyway since all you have to do for this study is to use Coagmento regularly! Alright, well, we expect you to do a few more things, such as filling in demographic information and some other questionnaires from time to time. Don't worry, it's really easy, you don't have to do it at a specific time or place, and it won't take more than a few moments of your time. Specifically, in order to qualify for the monthly drawing of the prizes, you need to (1) use Coagmento at least once a week and earn at least 500 points per week, (2) earn at least 5000 points by the end of the month, and (3) work on at least one collaborative project (involving at least one collaborator besides yourself) in the given month. The greater the usage you have beyond that requirement, the more chances you have for getting your name picked for a prize (iPod Nano)!<br/><br/>Now when you login to Coagmento, you will see some messages on your CSpace letting you know what information you need to submit. For starters, you should submit your demographic information and a pre-study questionnaire. Together, they should take about 10 minutes. After that, we won't bother you for a while and you can simply use Coagmento as you would have anyway!<br/><br/>Everything that you do with Coagmento earns you points and you need to meet certain requirements in terms of your usage to qualify for the prizes every months. Details can be found on the points page in your CSpace (click on your points on the top).<br/><br/>Coagmento is constantly evolving and you will keep finding more features and enhancements as we keep developing. We love to hear from you, so do drop us a line (or more) telling how you are using Coagmento and what more you would like to see!<br/><br/><strong>The Coagmento Team</strong><br/><font color=\"gray\">'cause two (or more) heads are better than one!</font><br/><a href=\"http://www.coagmento.org\">www.Coagmento.org</a><br/>p.s. Don't forget to invite your friends to use Coagmento!<br/>\n";
 			mail ($email, $subject, $message, $headers);
@@ -306,7 +305,7 @@
 		else if (isset($_GET['search'])) {
 			$searchString = $_GET['search'];
 			$content = "data.php?searchString=$searchString";
-		}	
+		}
 		else if (isset($_GET['project']))
 			$content = "projectInfo.php?projectID=$projectID";
 		else if (isset($_GET['profile'])) {
@@ -323,7 +322,7 @@
 				else {
 //					echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
 				}
-			}	
+			}
 			$content = "profile.php";
 		}
 		else if (isset($_GET['file'])) {
@@ -349,7 +348,7 @@
 				else {
 //					echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
 				}
-			}	
+			}
 			$content = "files.php";
 		}
 		else if (isset($_GET['files']))
@@ -358,20 +357,15 @@
 			$content = 'main.php';
 ?>
 <script type="text/javascript" src="../js/utilities.js"></script>
-<!-- <script type="text/javascript" src="js/ajaxupload.js"></script> -->
 <script type="text/javascript">
 	function loadElems() {
-//		ajaxpage('showProgress.php','currentCollaborators');
-//		ajaxpage('currentCollaborators.php','currentCollaborators');
+
 		var currProjID = document.getElementById('currProj');
 		var requestURL = 'http://www.coagmento.org/CSpace/currentProj.php';
 		req = new phpRequest(requestURL);
 		var projTitle = req.execute();
 		document.write(projTitle);
-		/* currProjID.innerHTML = projTitle; */
-		/* document.getElementById('currProj').innerText = projTitle; */
 		var currProjID2 = document.getElementById('currProj2');
-		/* currProjID2.innerHTML = projTitle; */
 	}
 	function loadContent(content) {
 		location.href = content;
@@ -474,7 +468,7 @@
 							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('terms.php','content');">Terms & Conditions</span>
 						</div>
 					</div>
-				</li>		
+				</li>
 			</ul>
 			<br/>
 			<!-- AddThis Button BEGIN -->
@@ -490,15 +484,10 @@
 <script type="text/javascript" src="script.js"></script> -->
 
 </body>
-</html> 
+</html>
 <?php
 	}
 	else {
 		header('Location: http://www.coagmento.org');
-/*
-		echo "<title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>\n</head>";
-		echo "<body class=\"body\"><center><br/><br/>\n";
-		echo "Sorry, you are not authorized to access this page. Please <a href=\"http://www.coagmento.org\">login</a>.";
-*/
 	}
 ?>

@@ -8,7 +8,7 @@
 <LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -47,7 +47,7 @@
 		}
 ?>
 
-	<script type="text/javascript" src="js/webtoolkit.aim.js"></script>
+	<script type="text/javascript" src="assets/js/webtoolkit.aim.js"></script>
 	<script type="text/javascript">
 		function startCallback() {
 			// make something useful before submit (onStart)

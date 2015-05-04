@@ -156,7 +156,7 @@
 		}
 	</script>
 	<title>Coagmento Sidebar</title>
-        <link rel="stylesheet" href="css/stylesSidebarFusion.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/stylesSidebarFusion.css" type="text/css" />
 	<style type="text/css">
                     .cursorType{
                             cursor:pointer;

@@ -17,7 +17,7 @@
 <html>
 <head>
 	<title>Annotations</title>
-	<link href="css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="body" onload="document.f.note.focus();">
 <center>

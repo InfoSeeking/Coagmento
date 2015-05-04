@@ -46,7 +46,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
 <title>Coagmento</title>
-<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
 </head>
 <body class="body">
 <table class="body" width=90%>

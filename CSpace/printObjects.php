@@ -18,7 +18,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-<script type="text/javascript" src="js/utilities.js"></script>
+<script type="text/javascript" src="assets/js/utilities.js"></script>
 <body class="body">
 <table class="body">
 		<tr><td style="font-size:12px;"><b>Objects from project <span style="font-weight:bold;font-size:12px;"><?php echo $title?></span></b></td><td align=right><a href="javascript:void(0);" onClick="addAction('print','<?php echo $objects;?>');window.print();">Print</a> <a href="javascript:void(0);" onClick="window.close();">Close</a></td></tr>

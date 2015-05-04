@@ -7,9 +7,9 @@
 <LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -17,7 +17,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -36,7 +36,7 @@
 	}
 	else {
 ?>
-<script type="text/javascript" src="js/utilities.js"></script>
+<script type="text/javascript" src="assets/js/utilities.js"></script>
 
 <?php
 	require_once("connect.php");
@@ -54,7 +54,7 @@
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$lastActionTimestamp = $line1['lastActionTimestamp'];
-					
+
 		$query4 = "SELECT * FROM memberships,actions WHERE actions.projectID=memberships.projectID AND actions.userID!='$userID' and memberships.userID='$userID' AND actions.timestamp>='$lastActionTimestamp'";
 		$results4 = mysql_query($query4) or die(" ". mysql_error());
 		while ($line4 = mysql_fetch_array($results4, MYSQL_ASSOC)) {
@@ -72,7 +72,7 @@
 			$results3 = mysql_query($query3) or die(" ". mysql_error());
 			$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 			$projTitle = $line3['title'];
-			
+
 			switch ($cAction) {
 				case 'page':
 					$query2 = "SELECT * FROM pages WHERE pageID='$cValue'";
@@ -107,7 +107,7 @@
 					$dispAction = "bookmarked: <a href=\"$url\" target=_content style=\"font-size:10px;color:blue;text-decoration:underline;\">$originalTitle</a>";
 			}
 
-			echo "<li>$cDate, $cTime: <span style=\"font-weight:bold;\">$cUserName</span> $dispAction ($projTitle).</li>\n";	
+			echo "<li>$cDate, $cTime: <span style=\"font-weight:bold;\">$cUserName</span> $dispAction ($projTitle).</li>\n";
 		}
 	?>
 	</ul></td></tr>

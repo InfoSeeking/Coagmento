@@ -3,21 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Coagmento</title>
-<link href="css/styles.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
 <body class="body">
 <table class="table">
 <?php
 	require_once("connect.php");
 	$pageName = "CSpace/printRecord.php";
-	require_once("../counter.php");	
+	require_once("../counter.php");
 
 	$userID = $_GET['userID'];
 	$projectID = $_GET['projectID'];
 	$pageID = $_GET['pageID'];
-/*	$url = $_GET['url'];
-	$displayURL = $url;
-*/
-	
+
 	$query = "SELECT * FROM pages WHERE pageID='$pageID'";
 	$results = mysql_query($query) or die(" ". mysql_error());
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -50,7 +47,7 @@
 		$subText = "<em>Snippets:</em><font color=\"gray\"><ul>";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 			$subText = $subText . "<li>" . $line1['snippet'];
-			if ($line1['note']) 
+			if ($line1['note'])
 				$subText = $subText . " - <em>" . $line1['note']. "</em>";
 			$subText = $subText . "</li>";
 		}

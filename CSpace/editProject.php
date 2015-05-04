@@ -5,7 +5,7 @@
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 <LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){

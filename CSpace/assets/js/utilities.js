@@ -5,7 +5,6 @@ var bustcacheparameter = "";
 
 // Function to load an external URL in a container
 function ajaxpage(url, containerid) {
-//	alert('hello');
 	var page_request = false;
 	if (window.XMLHttpRequest) // if Mozilla, Safari etc
 		page_request = new XMLHttpRequest();
@@ -22,11 +21,6 @@ function ajaxpage(url, containerid) {
 	}
 	else
 		return false;
-
-//	page_request.onreadystatechange=function() {
-//		loadpage(page_request, containerid)
-//	}
-
 
 	//I added this condition for making only ajax requests without showing the result on a certain DIV section
 	if (containerid!=null)

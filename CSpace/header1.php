@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Coagmento</title>
 <link rel="Coagmento icon" href="../img/favicon.ico">
-<link href="css/styles.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
 <script language="javascript">
 	var state = 'none';
 
@@ -27,8 +27,8 @@
 	hza.style.display = state;
 	}
 	}
-	
-	function checkUncheckAll(theElement) 
+
+	function checkUncheckAll(theElement)
 	{
 		var theForm = theElement.form, z = 0;
 		for(z=0; z<theForm.length;z++)
@@ -105,7 +105,7 @@ return false;
   <table align="center">
   	<tr>
     <td valign="bottom" align="left">
-    	<span class="menu">Coagmento</span>  
+    	<span class="menu">Coagmento</span>
 <!--       	<div class="submenu"><font color="#555555">'cause two (or more) heads are better than one!</font></div> -->
     </td>
     </tr>

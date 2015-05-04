@@ -27,12 +27,11 @@
 
                 if ($title=="")
                     $title = "no title";
-                        
+
                 $fullSnippet = $snippet. " || [Note: " . $note . "]". " || [Average Rating: " . $finalRating . "]". " || [Source: " . $title . "]". " || [URL: " . $url . "]". " || [Collected on: " . $date." at ".$time . "]". " || [Citation Format in APA Style (Complete Authors' Names, Year of Publication, etc.) : LastName1, FirstName_InitialLetter. (Year). " . $title . ". Retrieved ".$date.", from ".$url."]";
 ?>
 <html>
     <head>
-<!--        <script type="text/javascript" src="../js/utilities.js" />-->
 
 	<title>Snippet View</title>
 	<style type="text/css">
@@ -43,10 +42,10 @@
 
         </style>
         <script type="text/javascript" src="ZeroClipboard.js"></script>
-        <script type="text/javascript" src="../js/utilities.js"></script>
+        <script type="text/javascript" src="../assets/js/utilities.js"></script>
         </head>
     <body>
-                
+
                 <div id="fullSnippet" style="display:none"><?php echo $fullSnippet; ?></div>
 <!--                <div id="d_clip_button" style="border:1px solid black; padding:15px;">Copy Snippet</div>-->
                  <center><BUTTON name="Copy" id="d_clip_button"><STRONG>Copy Snippet</STRONG></BUTTON></center>
@@ -62,12 +61,12 @@
                         }
                 </script>
 
-        
+
                 <center>
                     <table width="445" height="193" border="0">
                       <tr>
                         <td height="37" colspan="2" align="center">
-                            
+
                             </p>
                             <p style="font-size:11px; font-weight: bold; color:grey">[By copying this snippet using the above button, it will also include your notes, its rating, its source, collection date, and citation format. To paste in your document press CTRL+V]</p>
                             <hr /></td>
@@ -118,7 +117,7 @@
                     </table>
                     <center><BUTTON name="Close" id="close" onclick="javascript:window.close()"><STRONG>Close</STRONG></BUTTON></center>
             </center>
-                
+
 </body>
 </html>
 
