@@ -29,7 +29,6 @@ function gen_url($param){
           <img src="assets/img/clogo.png" alt="Coagmento Logo" />
         </hgroup>
         <div class='right-side'>
-          <?php printContributionTable(); ?>
         </div>
         <div class='right-side'>
             <?php
