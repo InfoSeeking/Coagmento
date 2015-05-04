@@ -12,7 +12,7 @@ require_once("../core/Questionnaires.class.php");
 
 $base = new Base();
 if(!$base->isUserActive()){
-  header("Location: ../login.php?redirect=workspace/index.php");
+  header("Location: ../workspace-login.php?redirect=workspace/index.php");
 }
 
 //simple routing
