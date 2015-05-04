@@ -35,7 +35,7 @@ if($object_type == 'page') {
 		}
 
 		if($hasThumb === NULL || $hasThumb == -1 ) {
-			echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
+			echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
 			echo "<div style='clear:both;'></div>";
 			echo "<table><tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";
 			echo "<tr><td><strong>Project:</strong> ".$projectName."</td></tr>";
@@ -52,7 +52,7 @@ if($object_type == 'page') {
 				$date = $line['date'];
 
 				if($value == $object_id) {
-					echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
+					echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
 					echo "<div style='clear:both;'></div>";
 					echo "<table>";
 					echo "<tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";
@@ -93,7 +93,7 @@ if($object_type == 'query') {
 			$userName = $line['username'];
 		}
 
-		echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['query']."</a></h2>";
+		echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['query']."</a></h2>";
 		echo "<div style='clear:both;'></div>";
 		echo "<table><tr><td><strong>Source:</strong> ".$row['source']."</td></tr>";
 		echo "<tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";
@@ -130,8 +130,8 @@ if($object_type == 'snippet') {
 			$userName = $line['username'];
 		}
 
-		if($row['title'] == "") { echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>Snippet #".$row['snippetID']."</a></h2>"; }
-		echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
+		if($row['title'] == "") { echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>Snippet #".$row['snippetID']."</a></h2>"; }
+		echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
 		echo "<div style='clear:both;'></div>";
 		echo "<table><tr><td><strong>Snippet:</strong> ".$row['snippet']."</td></tr>";
 		echo "<tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";
@@ -168,8 +168,8 @@ if($object_type == 'note') {
 			$userName = $line['username'];
 		}
 
-		if($row['title'] == "") { echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>Snippet #".$row['noteID']."</a></h2>"; }
-		echo "<img src='links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
+		if($row['title'] == "") { echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>Snippet #".$row['noteID']."</a></h2>"; }
+		echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
 		echo "<div style='clear:both;'></div>";
 		echo "<table><tr><td><strong>Note:</strong> ".$row['note']."</td></tr>";
 		echo "<tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";

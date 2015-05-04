@@ -34,7 +34,7 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_left").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_left").innerHTML = '<img src="loading.gif"/>'; }
+	else { document.getElementById("box_left").innerHTML = '<img src="assets/img/loading.gif"/>'; }
   }
 xmlhttp.open("GET","filterData2.php?q="+str,true);
 xmlhttp.send();
@@ -61,7 +61,7 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_right").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_right").innerHTML = '<div style="padding-left: 20px; padding-top: 20px; font-family: arial;"><img src="loading.gif"/></div>'; }
+	else { document.getElementById("box_right").innerHTML = '<div style="padding-left: 20px; padding-top: 20px; font-family: arial;"><img src="assets/img/loading.gif"/></div>'; }
   }
 xmlhttp.open("GET","getDetails.php?q="+str,true);
 xmlhttp.send();
@@ -449,7 +449,7 @@ $(".flip").click(function(){
     </div>
 
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-    	<p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>

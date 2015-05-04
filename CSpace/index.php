@@ -411,7 +411,7 @@
     </div>
 
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-    	<p class="flip" style="float: right;"><?php echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/img/".$avatar." width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">"; ?><br><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><?php echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/img/".$avatar." width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">"; ?><br><img src="assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -506,7 +506,7 @@
     </div>
 
     <div id="list">
-        <h3>Search Analysis <a class="powered" href='http://iris.infoseeking.org/' target="_blank"><img src='poweredbyIRIS.png' width='70' height='40' alt='Powered by IRIS'></a></h3>
+        <h3>Search Analysis <a class="powered" href='http://iris.infoseeking.org/' target="_blank"><img src='assets/img/poweredbyIRIS_clear.png' width='70' height='40' alt='Powered by IRIS'></a></h3>
         <div id="options">
 
         <div id="method">
