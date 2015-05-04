@@ -1,0 +1,355 @@
+/*
+Colors:
+1B77E0 - darker blue, bottom border on header
+*/
+*{
+  padding: 0;
+  margin: 0;
+  font-family: "Georgia";
+}
+body{
+  background: #FFF;
+}
+#header_container{
+  background: #7eb3dd;
+  border-bottom: 2px #1B77E0 solid;
+}
+.page_header{
+  width: 800px;
+  margin: 0px auto;
+  position: relative;
+}
+.page_header hgroup{
+  margin-bottom: 10px;
+}
+.page_header hgroup h1{
+  font-size: 16pt;
+}
+.page_header hgroup h2{
+  font-size: 12pt;
+  padding-left: 5px;
+  padding-top: 5px;
+  font-weight: normal;
+}
+.page_header .left-side{
+  float: left;
+  margin-right: 40px;
+}
+.page_header .right-side{
+  float: right;
+}
+a{
+  text-decoration: none;
+}
+#container{
+  width: 800px;
+  margin: 10px auto;
+}
+.page_header nav{
+  padding-top: 10px;
+}
+.page_header nav li{
+  display: inline-block;
+}
+.page_header nav li a{
+  display: inline-block;
+  padding: 1px 10px;
+  text-decoration: none;
+  color: #FFF;
+  background: #4798F5;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.page_header nav li a:hover, .page_header nav li a.current{
+  background: #1B77E0;
+  color: #FFF;
+}
+ul{
+  list-style-type: none;
+}
+
+.more .close:hover{
+  text-decoration: underline;
+}
+
+.more{
+  margin-top: 0px;
+  font-size: 14px;
+  display: none;
+  padding: 10px;
+}
+
+.label{
+  position: absolute;
+  top: -17px;
+  left: 0px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  font-size: 10px;
+  margin-right: 10px;
+  font-family: "Arial";
+}
+.label{
+  /* removing color on labels for now */
+  background: transparent !important;
+  display: none;
+}
+.pg_All .label{
+  display: block;
+}
+.label.bookmark{
+  background: #FFF15C;
+}
+.label.page{
+  background: #FF5C5C;
+}
+.label.snippet{
+  background: #40FF59;
+}
+.label.search{
+  background: #FFA769;
+}
+.label.source{
+  background: #C3A1FF;
+}
+.clear{
+  clear: both;
+}
+.left_col{
+  float: right;
+  width: 19%;
+  padding-left: 1%;
+}
+.right_col{
+  width: 80%;
+  float: left;
+}
+
+#feed > li, #feed .bookmarks > li, #feed .snippets > li, #feed .bookmark-snippets > li{
+  margin-bottom: 20px;
+  position: relative;
+  border-top: 4px #1B77E0 solid;
+  border-left: 1px #1B77E0 solid;
+  border-right: 1px #1B77E0 solid;
+  border-bottom: 1px #1B77E0 solid;
+  background: #FFF;
+  border-radius: 5px;
+}
+#feed li .top{
+  padding: 5px 10px;
+  position: relative;
+}
+#feed li .sub{
+  font-size: 14px;
+  position: relative;
+  background: #FFF;
+  border-top: 1px #1B77E0 solid;
+  padding: 2px 10px;
+  margin-top: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#feed li .sub a{
+  cursor: pointer;
+}
+#feed li .sub-right{
+  font-size: 14px;
+  position: absolute;
+  bottom: 2px;
+  right: 10px;
+}
+#feed li .sub-right .edit{
+  margin-left: 10px;
+}
+
+#feed li.search-hidden{
+  display: none;
+}
+#feed li.item-bookmark{
+  border-color: #F5F531;
+}
+.pg_All #feed li.item-bookmark{
+  border-top-width: 18px;
+}
+#feed li.item-snippet{
+  border-color: #65F778;
+}
+.pg_All #feed li.item-snippet{
+  border-color: #65F778;
+  border-top-width: 18px;
+}
+#feed li.item-search{
+  border-color: #FFCCA8;
+}
+.pg_All #feed li.item-search{
+  border-color: #FFCCA8;
+  border-top-width: 18px;
+}
+#feed li.item-source{
+  border-color: #E1B1FC;
+}
+.pg_All #feed li.item-source{
+  border-top-width: 18px;
+}
+#feed li.item-source .related-section, #feed li.item-bookmark .bookmark-related-section{
+  padding: 5px 5px 5px 25px;
+  display: none;
+}
+#feed li.item-bookmark .bookmark-related{
+  margin-left: 10px;
+}
+#feed li.item-source .related-section .snippets-heading{
+  padding-top: 20px;
+}
+#feed li.item-bookmark .tag-input{
+  width: 300px;
+  border: 1px black solid;
+}
+#feed li.item-bookmark .row{
+  margin-bottom: 20px;
+}
+#feed li.item-bookmark .rating{
+  position: relative;
+  top: 2px;
+}
+#feed li.item-bookmark .feedback{
+  display: none;
+  padding: 10px;
+  background: #DDD;
+  margin-bottom: 10px;
+}
+#feed li.item-bookmark textarea{
+  width: 300px;
+  padding: 5px 10px;
+  min-height: 3em;
+  border: 1px black solid;
+}
+#feed li.item-snippet .preview{
+  font-size: 14px;
+}
+#feed li.item-bookmark .tag{
+  border: 1px black solid;
+  border-radius: 3px;
+  padding: 1px 3px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+table.contributions{
+  width: 100%;
+  cellspacing: 0;
+  cellpadding: 0;
+  border-collapse :collapse;
+  border: 1px black solid;
+  margin-top: 5px;
+}
+table.contributions th{
+  text-align: left;
+  padding: 1px 4px;
+  font-size: 13px;
+  font-family: "Arial";
+  background: #EEE;
+  border-right: 1px black solid;
+  text-align: right;
+}
+table.contributions td{
+  background: #FFF;
+  padding: 1px 3px;
+  font-size: 13px;
+  font-family: "Arial";
+  text-align: center;
+}
+table.contributions tr:first-child td{
+  border-bottom: 1px black solid;
+}
+table.contributions tr td:nth-child(odd){
+  background: #EEF;
+}
+
+
+
+table.questionnaires{
+  cellspacing: 0;
+  cellpadding: 0;
+  border-collapse :collapse;
+  border: 1px black solid;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+table.questionnaires th{
+  text-align: left;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-family: "Arial";
+  background: #EEE;
+  border: 1px black solid;
+  text-align: right;
+
+}
+table.questionnaires td{
+  background: #FFF;
+  padding: 1px 3px;
+  font-size: 12px;
+  border-top: 1px gray solid;
+  border-bottom: 1px black solid;
+  font-family: "Arial";
+  text-align: center;
+}
+table.questionnaires tr:first-child td{
+  border-bottom: 1px black solid;
+}
+table.questionnaires tr td:nth-child(odd){
+  background: #FFF;
+}
+table.questionnaires .early td, table.questionnaires .complete td, table.questionnaires .late td{
+  color: #D2D2D2;
+}
+table.questionnaires .warning, table.questionnaires .warning a{
+  color: #F00;
+}
+table.questionnaires .warning{
+  border-left: 1px red solid;
+  border-right: 1px red solid;
+}
+table.questionnaires .warning td{
+  border-bottom: 1px red solid;
+}
+table.questionnaires a:hover{
+  text-decoration: underline;
+}
+#searchbar_input{
+  font-size: 16px;
+  padding: 2px 5px;
+  width: 100%;
+
+  border: 1px black solid;
+}
+#bookmark_filters a{
+  font-size: 12px;
+  color: #000;
+  padding: 1px 5px;
+  display: block;
+  font-family: "Arial";
+}
+#bookmark_filters .current, #bookmark_filters li:hover{
+  background: #1B77E0;
+}
+#bookmark_filters .current a, #bookmark_filters li:hover a{
+  color: #FFF;
+}
+.left_col h4{
+  margin-top: 10px;
+}
+.pg_All .welcome{
+  margin-bottom: 20px;
+}
+.real_date{
+  color: #555;
+  font-size: 12px;
+}
+.only_mine_container{
+  margin-top: 10px;
+  font-size: 14px;
+}

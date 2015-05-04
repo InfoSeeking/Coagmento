@@ -1,0 +1,9 @@
+<?php
+/*
+Rename this file to config.php during set up
+*/
+
+define("DB_HOST", "");
+define("DB_USER", "");
+define("DB_PASS", "");
+define("DB_DATABASE", "");

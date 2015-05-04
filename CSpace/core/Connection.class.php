@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL);
+require("config.php");
 class Connection
 {
 	private static $instance;
@@ -8,37 +9,10 @@ class Connection
 	private $lastID;
 
 	public function __construct() {
-
-		//Credentials for local machine
-		/*$host = "localhost";
-		$username = "root";
-		$password = "root";
-		$database = "userstudy_summer2014";*/
-
-		//Credentials for server pilot database
-		/*$host = "localhost";
-		$username = "userstudy_pilot";
-		$password = "sW,tur6";
-		$database = "summer2014_userstudy_pilot";*/
-
-
-		//Credentials for server real user study database
-		/*$host = "localhost";
-		$username = "userstudy_su14";
-		$password = "Pvrke9.";
-		$database = "summer2014_userstudy";
-         */
-        //Credentials for Matt's local test user study database - Fall 2014
-    //     $host = "localhost";
-		// $username = "userstudy_sp15";
-		// $password = 'uu8H$baK#';
-		// $database = "spring2015_userstudy";
-
-		$host = "localhost";
-		$username = "root";
-		$password = "";
-		$database = "coagmento-org";
-
+    $host = DB_HOST;
+		$username = DB_USER;
+		$password = DB_PASS;
+		$database = DB_DATABASE;
 		$this->link = mysql_connect($host, $username, $password) or die("Cannot connect to the database: ". mysql_error());
         $this->db_selected = mysql_select_db($database, $this->link) or die ('Cannot connect to the database: ' . mysql_error());
 
