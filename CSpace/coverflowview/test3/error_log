@@ -1,5 +1,0 @@
-[31-Mar-2012 18:36:55] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test3/filterData.php on line 94
-[31-Mar-2012 18:37:03] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test3/filterData.php on line 94
-[31-Mar-2012 18:40:06] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test3/filterData.php on line 18
-[31-Mar-2012 18:40:10] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test3/filterData.php on line 18
-[31-Mar-2012 18:56:09] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test3/filterData.php on line 18

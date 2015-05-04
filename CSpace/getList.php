@@ -32,7 +32,7 @@ if ($operator == "rank") {
 
 			// if no thumbnail
 			if($hasThumb == NULL || $hasThumb == -1 ) {
-		  		echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='remove_icon2.png'></span>";
+		  		echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='assets/img/remove_icon2.png'></span>";
 			    echo "<a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' /></a></div></div>";
 			}
 
@@ -47,7 +47,7 @@ if ($operator == "rank") {
 					$thumb = $line['fileName'];
 
 				  	if ($value == $x) {
-			    		echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='remove_icon2.png'></span><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div></div>";
+			    		echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='assets/img/remove_icon2.png'></span><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div></div>";
 					}
 				}
 			}
@@ -74,7 +74,7 @@ if ($operator == "rank") {
 				}
 
 				if($hasThumb == NULL || $hasThumb == -1 ) {
-			  		echo "<div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='remove_icon2.png'></span>";
+			  		echo "<div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='assets/img/remove_icon2.png'></span>";
 				    echo "<a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' /></a></div>";
 				}
 
@@ -87,8 +87,8 @@ if ($operator == "rank") {
 						$thumb = $line['fileName'];
 
 					  	if ($value == $checked) {
-					  		echo "<div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='remove_icon2.png'></span>";
-						    echo "<a class='thumbnail_small2' href='".$row['url']."' target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div>";	
+					  		echo "<div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='assets/img/remove_icon2.png'></span>";
+						    echo "<a class='thumbnail_small2' href='".$row['url']."' target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div>";
 						}
 					}
 				}
@@ -122,7 +122,7 @@ else {
 
 
 			if($hasThumb == NULL || $hasThumb == -1 ) {
-			    echo "<tr><th><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='remove_icon2.png'></span><img width='100px' height='100px' /></th>";
+			    echo "<tr><th><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='assets/img/remove_icon2.png'></span><img width='100px' height='100px' /></th>";
 			    echo "<th><a href=".$row['url']." target='new'>".$row['title']."</a></th></tr>";
 			}
 
@@ -136,7 +136,7 @@ else {
 					$thumb = $line['fileName'];
 
 				  	if ($value == $checked) {
-					    echo "<tr><th><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='remove_icon2.png'></span><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></div></th>";
+					    echo "<tr><th><div class='wrapper'><span class='remove' onclick='removeID(".$value.")' href='javascript:void(0);'><img id='remove-icon' src='assets/img/remove_icon2.png'></span><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></div></th>";
 					    echo "<th><a href=".$row['url']." target='new'>".$row['title']."</a></th></tr>";
 					}
 				}
