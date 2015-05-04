@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -50,7 +50,7 @@
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$numSearches = mysql_num_rows($results1);
 		$query2 = "SELECT distinct url FROM pages WHERE projectID='$projectID' AND status=1";
-		$results2 = mysql_query($query2) or die(" ". mysql_error());	
+		$results2 = mysql_query($query2) or die(" ". mysql_error());
 		$numPages = mysql_num_rows($results2);
 		$query3 = "SELECT distinct url FROM pages WHERE projectID='$projectID' AND result=1 AND status=1";
 		$results3 = mysql_query($query3) or die(" ". mysql_error());
@@ -213,7 +213,7 @@
 					$userName = $lineU['username'];
 					echo "<tr><td style=\"font-size:10px;\">$userName</td><td>&nbsp;&nbsp;</td><td><a href=\"$url\"  style=\"font-size:10px;\" target=_blank>$url</a></td></tr>\n";
 					echo "<tr><td style=\"font-size:10px;color:gray;\">$date</td><td>&nbsp;&nbsp;</td><td style=\"font-size:10px;\">$note</td></tr>\n";
-				}			
+				}
 			?>
 			</table>
 			</div>

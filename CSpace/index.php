@@ -6,7 +6,7 @@
 
 <LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript" src="loadXMLDoc.js"></script>
+<script type="text/javascript" src="assets/js/loadXMLDoc.js"></script>
 <link rel="stylesheet" href="assets/css/ladda.min.css" type="text/css" />
 
 <script type="text/javascript" src="assets/js/jquery.cookie.js"></script>

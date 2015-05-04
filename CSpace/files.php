@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -38,7 +38,7 @@
 	else {
 		$userID = $_SESSION['CSpace_userID'];
 		$projectID = $_SESSION['CSpace_projectID'];
-		
+
 		if (!(isset($_SESSION['CSpace_projectID'])) || $projectID==0) {
 			$query = "select projects.projectID from projects,memberships where memberships.userID=$userID and projects.projectID=memberships.projectID and projects.title='Default' and memberships.access=1";
 			$results = mysql_query($query) or die(" ". mysql_error());
@@ -53,18 +53,18 @@
 			// make something useful before submit (onStart)
 			return true;
 		}
- 
+
 		function completeCallback(response) {
 			// make something useful after (onComplete)
 			document.getElementById('nr').innerHTML = parseInt(document.getElementById('nr').innerHTML) + 1;
 			document.getElementById('r').innerHTML = response;
 		}
 	</script>
- 
+
 <table class="body" width=100%>
 	<?php
 		require_once("../connect.php");
-		
+
 		if (isset($_FILES['uploaded']['name'])) {
 			$name = basename($_FILES['uploaded']['name']);
 			$description = addslashes($_GET['description']);
@@ -89,8 +89,8 @@
 			else {
 //					echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
 			}
-		}	
-		
+		}
+
 		if (isset($_GET['action'])) {
 			$action = $_GET['action'];
 			if ($action=="delete") {
@@ -121,7 +121,7 @@
 //        echo "<br/>Description: <input type=\"text\" name=\"description\" size=40 /> <input type=\"submit\" value=\"Upload\"/></form></td></tr>\n";
         echo "</table>\n";
         echo "<table class=\"body\" width=100%>\n";
-//        echo "</table></td></tr></table>\n<br/><br/><br/><br/>\n";	
+//        echo "</table></td></tr></table>\n<br/><br/><br/><br/>\n";
 		echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=5>Existing files for your active project</td></tr>\n";
 		echo "<tr><td colspan=4>Remember - you are only seeing the files for the currently selected project.</td></tr>\n";
 		echo "<tr><td style=\"font-weight:bold\" align=center>Delete</td><td style=\"font-weight:bold\">Name</td><td style=\"font-weight:bold\">Uploaded by</td><td style=\"font-weight:bold\" align=center>Time</td></tr>\n";

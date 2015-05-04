@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -38,7 +38,7 @@
 	else {
 ?>
 
-<table class="body" width=100%>	
+<table class="body" width=100%>
 	<tr><td>Click on a project title to bring up more information about it. You can click 'Select' to make a project your active project.</td></tr>
 	<td><div id="sureDelete"></div></td>
 <?php
@@ -53,7 +53,7 @@
 		$title = $line['title'];
 		$query = "DELETE FROM memberships WHERE projectID='$projectID' AND userID='$userID'";
 		$results = mysql_query($query) or die(" ". mysql_error());
-		echo "<tr><td colspan=3><font color=\"green\">Your membership to project <span style=\"font-weight:bold\">$title</span> has been canceled.</font></td></tr>";		
+		echo "<tr><td colspan=3><font color=\"green\">Your membership to project <span style=\"font-weight:bold\">$title</span> has been canceled.</font></td></tr>";
 		echo "<tr><td colspan=3><br/></td></tr>\n";
 	}
 	echo "<tr><th><span style=\"font-weight:bold\">Title</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Started on</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Select</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Membership</span></th></tr>\n";
@@ -70,8 +70,8 @@
 		$title = $line1['title'];
 		$startDate = $line1['startDate'];
 		$dispTitle = $title;
-		
-		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";		
+
+		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$members = "";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
@@ -91,14 +91,14 @@
 			echo "N/A";
 		else
 			echo "<a href='javascript:void(0);' onClick=\"deleteProj('$projectID','$title');\">Leave</a>";
-			
+
 		echo "</td></tr><tr><td colspan=7><hr/></td></tr>\n";
 	}
 
 	echo "<tr><td colspan=7><br/></td></tr>\n";
 	echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=7>Projects Others Created</td></tr>";
-	
-	// See if this user is a supervisor/teacher/admin	
+
+	// See if this user is a supervisor/teacher/admin
 	$query = "SELECT * FROM users WHERE userID='$userID'";
 	$results = mysql_query($query) or die(" ". mysql_error());
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -111,7 +111,7 @@
 	else if (($subject=="Administrator")&&($type=="HS")) {
 		$query = "SELECT distinct memberships.projectID FROM users,memberships WHERE users.type='HS' AND users.userID=memberships.userID AND users.userID!=$userID ORDER BY projectID";
 	}
-	else	
+	else
 		$query = "SELECT * FROM memberships WHERE userID='$userID' AND access!=1 ORDER BY projectID";
 
 	$results = mysql_query($query) or die(" ". mysql_error());
@@ -135,7 +135,7 @@
 		$uName = $line1['username'];
 		$dispTitle = $title . " (<span style=\"color:green;\">$uName</span>)";
 
-		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";		
+		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$members = "";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
@@ -151,7 +151,7 @@
 		}
 
         echo "<tr><td><a href='projectInfo.php?projectID=$projectID'>$dispTitle</a><br/>$members</td><td>&nbsp;&nbsp;</td><td align=center>$startDate</td><td>&nbsp;&nbsp;</td><td align=center><a href='selectProj.php?projectID=$projectID&projectTitle=$title'>Select</a></td><td>&nbsp;&nbsp;</td><td align=center>";
-		echo "<a href='javascript:void(0);' onClick=\"deleteProj('$projectID','$title');\">Leave</a>";	
+		echo "<a href='javascript:void(0);' onClick=\"deleteProj('$projectID','$title');\">Leave</a>";
 		echo "</td></tr><tr><td colspan=7><hr/></td></tr>\n";
 	}
 

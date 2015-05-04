@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -62,7 +62,7 @@
 	<tr><td>Your existing collaborators are shown below. Click on 'X' to remove them from the corresponding project.</td></tr>
 	<tr><td>If you don't see a 'X' next to a project name, that project is owned by your collaborator. You can only leave from such a project.</td></tr>
 	<tr><td>To leave a project, see the list of <a href="projects.php">your projects</a>.</td></tr>
-	<tr><td><br/></td></tr>	
+	<tr><td><br/></td></tr>
 	<tr>
 		<td>
 			<?php
@@ -93,10 +93,10 @@
 							echo " <a href='collaborators.php?remove=$cUserID&projID=$cProjectID' style='color: #FF0000; text-decoration: none; font-weight: bold; font-size: 14px;'>X</a>";
 						echo ", ";
 					}
-					echo "<br/>";					
+					echo "<br/>";
 				}
 				echo '<br/><br/>';
-				
+
 				// If the request to remove a collaborator was confirmed
 				if (isset($_GET['uID'])) {
 					$removeID = $_GET['uID'];
