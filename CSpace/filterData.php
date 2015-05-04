@@ -1,9 +1,5 @@
 <?php
-//session_start();
 
-/*if (isset($_SESSION['CSpace_userID'])) 
-{
-*/
 	$q = $_GET['q'];
 
 	if ($q != "")
@@ -14,17 +10,15 @@
 
 	switch ($displayMode)
 	{
-		case "timeline": 
+		case "timeline":
 						include("timeline.php");
 						break;
-					 
-		case "coverflow": 
+
+		case "coverflow":
 						include("coverflow/extern_test.php");
-						break;					
-		case "3D": 
+						break;
+		case "3D":
 						include("impress/impress.php");
-						break;		
+						break;
 	}
-	/*
-}*/
 ?>

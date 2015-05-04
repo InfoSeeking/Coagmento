@@ -1,5 +1,11 @@
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	$ip=$_SERVER['REMOTE_ADDR'];
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
@@ -17,7 +23,7 @@
 <body class="body" onload="document.f.note.focus();">
 <center>
 <form name="f" action="annotations.php" method="get">
-<?php		
+<?php
 	$url = $_GET['page'];
 	$title = addslashes($_GET['title']);
 	$title = str_replace(" - Mozilla Firefox","",$title);
@@ -42,14 +48,14 @@
 			$results = mysql_query($query) or die(" ". mysql_error());
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
-		} // if ($projectID == 0)	
+		} // if ($projectID == 0)
 
 		// Get the date, time, and timestamp
 		$timestamp = time();
 		$datetime = getdate();
 		$date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
-	
+
 		// If the annotation was submitted, get it and save it.
 		if (isset($_GET['note'])) {
 			$note = $_GET['note'];
@@ -61,22 +67,14 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 			$noteID = $aLine['num'];
-			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-annotation','$noteID','$ip')";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-			
-			$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-			$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-			$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-			$totalPoints = $pLine['points'];
-			$newPoints = $totalPoints+10;
-			$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$pResults = mysql_query($pQuery) or die(" ". mysql_error());
+			Util::getInstance()->saveAction('add-annotation',"$noteID",$base);
+			require_once("utilityFunctions.php");
+			addPoints($userID,10);
 		}
 		else {
-			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','view-annotations','$url','$ip')";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+			Util::getInstance()->saveAction('view-annotations',"$url",$base);
 		}
-		
+
 		// Get the results for the given user and the project
 		$query = "SELECT * FROM annotations WHERE projectID='$projectID' AND url='$url' ORDER BY timestamp";
 		$results = mysql_query($query) or die(" ". mysql_error());

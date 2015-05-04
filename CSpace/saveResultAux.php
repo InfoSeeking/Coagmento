@@ -2,7 +2,13 @@
 	session_start();
         $ip=$_SERVER['REMOTE_ADDR'];
 	require_once("connect.php");
-			
+	require_once("utiliFunctions.php");
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
 	if ($userID) {
@@ -21,24 +27,14 @@
 		$time = date('H:i:s', $datetime[0]);
 		$query = "INSERT INTO pages VALUES('','$userID','$projectID','$originalURL','$title','$site','$queryString','$timestamp','$date','$time','1','1','$note',NULL)";
 		$results = mysql_query($query) or die(" ". mysql_error());
-                $lastID = mysql_insert_id();
+    $lastID = mysql_insert_id();
 		if ($rating != "")
 		{
-			//$aQuery = "SELECT max(pageID) as num FROM pages";
-			//$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-			//$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-			//$pageID = $aLine['num'];
 			$queryRating = "INSERT INTO rating (`idResource`, `type`, `value`, `userID`, `projectID`, `active`,`time`,`date`,`timestamp`) VALUES ('$lastID', 'pages', '$rating', '$userID', '$projectID', '1','$time','$date','$timestamp')";
 			$queryRatingResults = mysql_query($queryRating) or die(" ". mysql_error());
 		}
-                $aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','save-page','$lastID','$ip')";
-                $aResults = mysql_query($aQuery) or die(" ". mysql_error());
-                $pQuery = "SELECT points FROM users WHERE userID='$userID'";
-                $pResults = mysql_query($pQuery) or die(" ". mysql_error());
-                $pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-                $totalPoints = $pLine['points'];
-                $newPoints = $totalPoints+10;
-                $pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-                $pResults = mysql_query($pQuery) or die(" ". mysql_error());
+
+								Util::getInstance()->saveAction('save-page',"$lastID",$base);
+								addPoints($userID,10);
 	}
 ?>

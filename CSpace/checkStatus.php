@@ -1,13 +1,21 @@
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (isset($_SESSION['CSpace_userID'])) {
-		$userID = $_SESSION['CSpace_userID'];
+		$base = Base::getInstance();
+		$connection = Connection::getInstance();
+
+		$userID = $base->getUserID();
 		if (isset($_SESSION['CSpace_projectID']))
-			$projectID = $_SESSION['CSpace_projectID'];
+			$projectID = $base->getProjectID();;
 		else {
 			require_once("connect.php");
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}

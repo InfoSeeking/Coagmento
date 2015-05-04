@@ -1,11 +1,16 @@
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
-		require_once("connect.php");
+		$base = Base::getInstance();
+		$connection = Connection::getInstance();
+
+		$userID = $base->getUserID();
+
 		if (isset($_GET['searchString']))
 			$searchString = $_GET['searchString'];
 		$maxPerPage = 25;
@@ -13,17 +18,25 @@
 			$pageNum = 1;
 		else
 			$pageNum = $_GET['page'];
-	
+
 		$min = $pageNum*25-24;
 		$max = $pageNum*25;
 		$objects = $_GET['objects'];
 		if (!$objects)
 			$objects = 'pages';
 		$projectID = $_GET['projectID'];
+
 		$session = $_GET['session'];
+		$session_str = '';
+		$session_html_str = "<span style=\"font-weight:bold\">all</span> the sessions";
+		if ($session){
+			$session_str = " AND date='$session' ";
+			$session_html_str = "session <span style=\"font-weight:bold\">$session</span>";
+		}
+
+
 		$orderBy = $_GET['orderby'];
-		$projectID = $_GET['projectID'];
-		
+
 		if (!$orderBy)
 			$orderBy = 'timestamp';
 ?>
@@ -52,11 +65,10 @@
 		      <option value="" selected="selected">Project:</option>
 		      <?php
 			  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+					$results = $connection->commit("SELECT * FROM memberships WHERE userID='$userID'");
+				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$projID = $line['projectID'];
-					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results = $connection->commit("SELECT * FROM projects WHERE projectID='$projID'");
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					echo "<option value=\"$projID\" ";
@@ -71,26 +83,26 @@
 			<select id="session">
 		      <option value="" selected="selected">Session:</option>
 		      <?php
-			  	$query = "SELECT distinct date FROM pages WHERE userID='$userID' AND source!='coagmento' ORDER BY date desc";
-				$results = mysql_query($query) or die(" ". mysql_error());
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-					$date = $line['date'];
-					echo "<option value=\"$date\" ";
-					if ($date==$session)
-						echo "SELECTED";
-					echo ">$date</option>\n";
-				}
+
+					$results = $connection->commit("SELECT distinct date FROM pages WHERE userID='$userID' AND source!='coagmento' ORDER BY date desc");
+					while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+						$date = $line['date'];
+						echo "<option value=\"$date\" ";
+						if ($date==$session)
+							echo "SELECTED";
+						echo ">$date</option>\n";
+					}
 		      ?>
 		    </select>
 		    </td>
     		<td>
 			<select id="objects">
-		      <option value="" <?php if (!$objects) echo "SELECTED";?>>Objects:</option>
-		      <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
-		      <option value="saved" <?php if ($objects=="saved") echo "SELECTED";?>>Bookmarks</option>
-		      <option value="queries" <?php if ($objects=="queries") echo "SELECTED";?>>Searches</option>
-		      <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?>>Snippets</option>
-		      <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?>>Annotations</option>
+		      <option value="" <?php if (!$objects) echo "SELECTED";?> >Objects:</option>
+		      <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?> >Webpages</option>
+		      <option value="saved" <?php if ($objects=="saved") echo "SELECTED";?> >Bookmarks</option>
+		      <option value="queries" <?php if ($objects=="queries") echo "SELECTED";?> >Searches</option>
+		      <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?> >Snippets</option>
+		      <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?> >Annotations</option>
 		    </select>
 		    </td>
 			<td>&nbsp;<input type="button" value="Filter" onClick="filterAllData();" />&nbsp;&nbsp; <span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('allData.php?objects=pages','content');">Show All</span></td>
@@ -105,448 +117,202 @@
     				$sess = 0;
     			else
     				$sess = $session;
- 				echo "<tr><td colspan=5><input type=\"text\" size=40 id=\"searchString\" value=\"$searchString\" onKeyDown=\"if (event.keyCode == 13) document.getElementById('sButton').click();\"/> <input type=\"button\" id=\"sButton\" value=\"Search\" onclick=\"searchAll($projID, '$objects', '$sess');\"/></td></tr>";   				
+ 				echo "<tr><td colspan=5><input type=\"text\" size=40 id=\"searchString\" value=\"$searchString\" onKeyDown=\"if (event.keyCode == 13) document.getElementById('sButton').click();\"/> <input type=\"button\" id=\"sButton\" value=\"Search\" onclick=\"searchAll($projID, '$objects', '$sess');\"/></td></tr>";
     		?>
  		</table>
 <table class="style3" border=1 cellpadding="2" cellspacing="0">
 <?php
-	switch ($objects) {
-		case 'pages':
-			if ($projectID) {
-				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				if ($session) {
-					$query = "SELECT * FROM pages WHERE projectID='$projectID' AND status=1 AND date='$session' AND title LIKE '%$searchString%' ORDER BY $orderBy LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE projectID='$projectID' AND date='$session' AND status=1 AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\" width=100%><tr><td>Displaying <span style=\"font-weight:bold\">webpages</span> from project <span style=\"font-weight:bold\">$title</span> for session <span style=\"font-weight:bold\">$session</span>.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right width=200px>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM pages WHERE projectID='$projectID' AND status=1 AND source!='coagmento' AND title LIKE '%$searchString%' ORDER BY $orderBy LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE projectID='$projectID' AND status=1 AND source!='coagmento' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\" width=100%><tr><td>Displaying <span style=\"font-weight:bold\">webpages</span> from project <span style=\"font-weight:bold\">$title</span> for <span style=\"font-weight:bold\">all</span> the sessions.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right width=200px>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-			}
-			else {
-				if ($session) {
-					$query = "SELECT * FROM pages WHERE userID='$userID' AND date='$session' AND status=1 AND source!='coagmento' AND title LIKE '%$searchString%' ORDER BY $orderBy LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE userID='$userID' AND date='$session' AND status=1 AND source!='coagmento' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\" width=100%><tr><td>Displaying <span style=\"font-weight:bold\">webpages</span> from <span style=\"font-weight:bold\">all</span> the projects for session <span style=\"font-weight:bold\">$session</span>.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right width=200px>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM pages WHERE userID='$userID' AND status=1 AND source!='coagmento' AND title LIKE '%$searchString%' ORDER BY $orderBy LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE userID='$userID' AND status=1 AND source!='coagmento' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\" width=100%><tr><td>Displaying <span style=\"font-weight:bold\">webpages</span> from <span style=\"font-weight:bold\">all</span> the projects for <span style=\"font-weight:bold\">all</span> the sessions.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right width=200px>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-			}
-			echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-				
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$pageID = $line['pageID'];
-				if(isset($_GET[$pageID])) {
-					if (isset($_GET['targetProjectID'])) {
-						$targetProjectID = $_GET['targetProjectID'];
-						if ($targetProjectID>0) {
-							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else if (isset($_GET['del_projectID'])) {
-							$targetProjectID = $_GET['del_projectID'];
-							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else	
-							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
-					}
-					else {
-						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
-					}
-				}
-				else {
-					$userID = $line['userID'];
-					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$userName = $line1['userName'];
-					$projID = $line['projectID'];
-					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$title = $line1['title'];
-					$url = $line['url'];
-					if ($line['title'])
-						$pageTitle = $line['title'];
-					else
-						$pageTitle = $url;
-					$saved = $line['result'];
-					$source = $line['source'];
-					$queryText = $line['query'];
-					$date = $line['date'];
-					$time = $line['time'];
-					echo "<tr><td>$title</td><td><a href=\"$url\" target=\"_external\">$pageTitle</a>";
-					if ($saved)
-						echo " <img src=\"../img/star.jpg\" height=18/>";
-					echo "</td><td>$source</td><td>$queryText</td><td>$date<br/>$time</td></tr>\n";
-				}
-			}
-			break;
-			
-		case 'saved':
-			if ($projectID) {
-				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				if ($session) {
-					$query = "SELECT * FROM pages WHERE projectID='$projectID' AND date='$session' AND source!='coagmento' AND result='1' AND title LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE projectID='$projectID' AND date='$session' AND source!='coagmento' AND result='1' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">bookmarks</span> from project <span style=\"font-weight:bold\">$title</span> for session <span style=\"font-weight:bold\">$session</span>.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM pages WHERE projectID='$projectID' AND result='1' AND source!='coagmento' AND title LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE projectID='$projectID' AND result='1' AND source!='coagmento' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">bookmarks</span> from project <span style=\"font-weight:bold\">$title</span> for <span style=\"font-weight:bold\">all</span> the sessions.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-			}
-			else {
-				if ($session) {
-					$query = "SELECT * FROM pages WHERE userID='$userID' AND date='$session' AND source!='coagmento' AND result='1' AND title LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM pages WHERE userID='$userID' AND date='$session' AND source!='coagmento' AND result='1' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">bookmarks</span> from <span style=\"font-weight:bold\">all</span> the projects for session <span style=\"font-weight:bold\">$session</span>.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM pages WHERE userID='$userID' AND result='1' AND source!='coagmento' AND title LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query = "SELECT * FROM pages WHERE userID='$userID' AND result='1' AND source!='coagmento' AND title LIKE '%$searchString%'";
-					echo "<tr><td colspan=6><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">bookmarks</span> from <span style=\"font-weight:bold\">all</span> the projects for <span style=\"font-weight:bold\">all</span> the sessions.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-			}
-			echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Source</span></td><td align=center><span style=\"font-weight:bold\">Query</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
-			
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$pageID = $line['pageID'];
-				if(isset($_GET[$pageID])) {
-					if (isset($_GET['targetProjectID'])) {
-						$targetProjectID = $_GET['targetProjectID'];
-						if ($targetProjectID>0) {
-							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else if (isset($_GET['del_projectID'])) {
-							$targetProjectID = $_GET['del_projectID'];
-							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else
-							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
-					}
-					else {
-						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
-					}
-				}
-				else {
-					$userID = $line['userID'];
-					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$userName = $line1['userName'];
-					$projID = $line['projectID'];
-					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$title = $line1['title'];
-					$url = $line['url'];
-					if ($line['title'])
-						$pageTitle = $line['title'];
-					else
-						$pageTitle = $url;
-					$saved = $line['result'];
-					$source = $line['source'];
-					$queryText = $line['query'];
-					$date = $line['date'];
-					$time = $line['time'];
-					echo "<tr><td>$title</td><td><a href=\"$url\" target=\"_external\">$pageTitle</a>";
-					if ($saved)
-						echo " <img src=\"../img/star.jpg\" height=18/>";
-					echo "</td><td>$source</td><td>$queryText</td><td>$date<br/>$time</td></tr>\n";
-				}
-			}
-			break;
-		
-		case 'queries':
-			if ($projectID) {
-				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				if ($session) {
-					$query = "SELECT * FROM queries WHERE projectID='$projectID' AND date='$session' AND query LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM queries WHERE projectID='$projectID' AND date='$session' AND query LIKE '%$searchString%'";
-					echo "<tr><td colspan=5><table class=\"body\">Displaying <span style=\"font-weight:bold\">searches</span> from project <span style=\"font-weight:bold\">$title</span> for session <span style=\"font-weight:bold\">$session</span>.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM queries WHERE projectID='$projectID' AND query LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM queries WHERE projectID='$projectID' AND query LIKE '%$searchString%'";
-					echo "<tr><td colspan=5><table class=\"body\">Displaying <span style=\"font-weight:bold\">searches</span> from project <span style=\"font-weight:bold\">$title</span> for <span style=\"font-weight:bold\">all</span> the sessions.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-			}
-			else {
-				if ($session) {
-					$query = "SELECT * FROM queries WHERE userID='$userID' AND date='$session' AND query LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM queries WHERE userID='$userID' AND date='$session' AND query LIKE '%$searchString%'";
-					echo "<tr><td colspan=5><table class=\"body\">Displaying <span style=\"font-weight:bold\">searches</span> from <span style=\"font-weight:bold\">all</span> the projects for session <span style=\"font-weight:bold\">$session</span>.</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM queries WHERE userID='$userID' AND query LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM queries WHERE userID='$userID' AND query LIKE '%$searchString%'";
-					echo "<tr><td colspan=5><table class=\"body\">Displaying <span style=\"font-weight:bold\">searches</span> from <span style=\"font-weight:bold\">all</span> the projects for <span style=\"font-weight:bold\">all</span> the sessions.</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-			}
-			echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Source</span></td><td align=center><span style=\"font-weight:bold\">Query</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
 
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$queryID = $line['queryID'];
-				if(isset($_GET[$queryID])) {
-					if (isset($_GET['targetProjectID'])) {
-						$targetProjectID = $_GET['targetProjectID'];
-						if ($targetProjectID>0) {
-							$query1 = "UPDATE queries SET status=0 WHERE userID='$userID' AND queryID='$queryID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else if (isset($_GET['del_projectID'])) {
-							$targetProjectID = $_GET['del_projectID'];
-							$query1 = "UPDATE queries SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else
-							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
-					}
-					else {
-						$query1 = "DELETE FROM queries WHERE queryID='$queryID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
-					}
+
+	$table_name = '';
+	$like_str = '';
+	$orderby_str = " ORDER BY timestamp LIMIT $min, $max ";
+	$colspanct = 6;
+	$misc_str = '1=1';
+	$displaywhat_str = '';
+	$w_str ='';
+
+	$elemID_str = '';
+
+	if($objects == 'pages'){
+		$table_name = 'pages';
+		$like_str = " AND title LIKE '%$searchString%' ";
+		$orderby_str = " ORDER BY $orderBy LIMIT $min, $max ";
+		$misc_str = " status=1 ";
+		$colspanct = 6;
+		$displaywhat_str = 'webpages';
+		$w_str = 'width=200px';
+		$elemID_str = 'pageID';
+	}else if($objects == 'saved'){
+		$table_name = 'pages';
+		$like_str = " AND title LIKE '%$searchString%' ";
+		$misc_str = " source!='coagmento' AND result='1' ";
+		$colspanct = 6;
+		$displaywhat_str = 'bookmarks';
+		$elemID_str = 'pageID';
+	}else if($objects == 'queries'){
+		$table_name = 'queries';
+		$like_str = " AND query LIKE '%$searchString%' ";
+		$colspanct = 5;
+		$displaywhat_str = 'queries';
+		$elemID_str = 'queryID';
+	}else if($objects == 'snippets'){
+
+		$table_name = 'snippets';
+		$like_str = " AND snippet LIKE '%$searchString%' ";
+		$misc_str = " userID='$userID' ";
+		$colspanct = 4;
+		$displaywhat_str = 'snippets';
+		$elemID_str = 'snippetID';
+	}else if($objects == 'annotations'){
+		$table_name = 'annotations';
+		$like_str = " AND note LIKE '%$searchString%' ";
+		$colspanct = 4;
+		$displaywhat_str = 'annotations';
+		$elemID_str = 'noteID';
+	}
+
+	$projectID_str = '';
+	$title = '';
+	$whatproject_str = "<span style=\"font-weight:bold\">all</span> the projects for";
+	if($projectID){
+		$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
+		$results1 = $connection->commit($query1);
+		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$title = $line1['title'];
+		$projectID_str = " AND projectID='$projectID' ";
+		$whatproject_str = "project <span style=\"font-weight:bold\">$title</span> for";
+	}
+
+	$select_str = "SELECT * FROM $table_name WHERE $misc_str $projectID_str $session_str $like_str";
+
+
+	echo "<tr><td colspan=$colspanct><table class=\"body\" width=100%><tr><td>Displaying <span style=\"font-weight:bold\">$displaywhat_str</span> from $whatproject_str $session_html_str.</td></td><td>&nbsp;&nbsp;&nbsp;</td><td align=right $w_str>";
+	require_once("pagingnav2.php");
+	echo "</td></tr></table></td></tr>\n";
+
+
+	// TODO: SIMPLIFY!!!!
+	echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
+	echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
+	echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
+	echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
+	echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
+
+	$results = $connection->commit($query);
+	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		$elemID = $line[$elemID_str];
+
+		if (isset($_GET[$elemID])){
+
+			if (isset($_GET['targetProjectID'])){
+				$targetProjectID = $_GET['targetProjectID'];
+
+
+				if ($targetProjectID>0) {
+					$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+
+
+					// TODO: SIMPLIFY!!!!
+					$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+					$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+					$query1 = "UPDATE queries SET status=0 WHERE userID='$userID' AND queryID='$queryID'";
+					$query1 = "UPDATE snippets SET projectID='$targetProjectID' WHERE userID='$userID' AND snippetID='$snippetID'";
+					$query1 = "UPDATE annotations SET status=0 WHERE userID='$userID' AND noteID='$noteID'";
+
+					$results1 = $connection->commit($query1);
+				}else if (isset($_GET['del_projectID'])) {
+					$targetProjectID = $_GET['del_projectID'];
+					$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+
+					// TODO: SIMPLIFY!!!!
+					$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+					$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+					$query1 = "UPDATE queries SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+					$query1 = "UPDATE annotations SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
+
+					$results1 = $connection->commit($query1);
+
+
+				}else{
+					echo "<font color=red>Please make a valid selection.</font>\n";
 				}
-				else {
-					$userID = $line['userID'];
-					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$userName = $line1['userName'];
-					$projID = $line['projectID'];
-					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$title = $line1['title'];
-					$source = $line['source'];
-					$queryText = $line['query'];
-					$url = $line['url'];
-					$date = $line['date'];
-					$time = $line['time'];
-					echo "<tr><td>$title</td><td>$source</td><td><a href=\"$url\" target=\"_external\" >$queryText</a></td><td>$date<br/>$time</td></tr>\n";
-				}
+			}else{
+				$query1 = "DELETE FROM $table_name WHERE $elemID_str='$elemID'";
+				$results1 = $connection->commit($query1);
 			}
-			break;
-		case 'snippets':
-			if ($projectID) {
-				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				if ($session) {
-					$query = "SELECT * FROM snippets WHERE projectID='$projectID' AND date='$session' AND snippet LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM snippets WHERE projectID='$projectID' AND date='$session' AND snippet LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">snippets</span> from project <span style=\"font-weight:bold\">$title</span> for session <span style=\"font-weight:bold\">$session</span>.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM snippets WHERE projectID='$projectID' AND snippet LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM snippets WHERE projectID='$projectID' AND snippet LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">snippets</span> from project <span style=\"font-weight:bold\">$title</span> for <span style=\"font-weight:bold\">all</span> the sessions.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
+
+		}else{
+
+			$userID = $line['userID'];
+
+			$query1 = "SELECT * FROM users WHERE userID='$userID'";
+			$results1 = $connection->commit($query1);
+			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$userName = $line1['userName'];
+			$projID = $line['projectID'];
+			$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
+			$results1 = $connection->commit($query1);
+			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+
+			$title = $line1['title'];
+			$url = $line['url'];
+			$date = $line['date'];
+			$time = $line['time'];
+
+
+
+
+			$source = '';
+			$snippet = '';
+			$note = '';
+			$queryText = '';
+			$source_str = '';
+			$external_str = '';
+
+			if($objects=='pages' || $objects=='saved' || $objects=='queries'){
+				$source = $line['source'];
+				$queryText = $line['query'];
+				$source_str = "<td>$source</td>";
 			}
-			else {
-				if ($session) {
-					$query = "SELECT * FROM snippets WHERE userID='$userID' AND date='$session' AND snippet LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM snippets WHERE userID='$userID' AND date='$session' AND snippet LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">snippets</span> from <span style=\"font-weight:bold\">all</span> the projects for session <span style=\"font-weight:bold\">$session</span>.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM snippets WHERE userID='$userID' AND snippet LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM snippets WHERE userID='$userID' AND snippet LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">snippets</span> from <span style=\"font-weight:bold\">all</span> the projects for <span style=\"font-weight:bold\">all</span> the sessions.</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
+			else if($objects=='snippets'){
+				$snippet = stripslashes($line['snippet']);
+			}else if($objects=='annotations'){
+				$note = stripslashes($line['note']);
 			}
-			echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Snippet</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
-			
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$snippetID = $line['snippetID'];
-				if(isset($_GET[$snippetID])) {
-					if (isset($_GET['targetProjectID'])) {
-						$targetProjectID = $_GET['targetProjectID'];
-						if ($targetProjectID>0) {
-							$query1 = "UPDATE snippets SET projectID='$targetProjectID' WHERE userID='$userID' AND snippetID='$snippetID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						
-						else
-							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
-					}
-					else {
-						$query1 = "DELETE FROM snippets WHERE snippetID='$snippetID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
-					}
-				}
-				else {
-					$userID = $line['userID'];
-					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$userName = $line1['userName'];
-					$projID = $line['projectID'];
-					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$title = $line1['title'];
-					$url = $line['url'];
-					$snippet = stripslashes($line['snippet']);
-					$date = $line['date'];
-					$time = $line['time'];
-					echo "<tr><td>$title</td><td><a href=\"$url\" target=\"_external\">$url</a><br/><span style=\"color:gray;\">$snippet</span></td><td>$date<br/>$time</td></tr>\n";
-				}
-			}	
-			break;
-		case 'annotations':
-			if ($projectID) {
-				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				if ($session) {
-					$query = "SELECT * FROM annotations WHERE projectID='$projectID' AND date='$session' AND note LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM annotations WHERE projectID='$projectID' AND date='$session' AND note LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">annotations</span> from project <span style=\"font-weight:bold\">$title</span> for session <span style=\"font-weight:bold\">$session</span>.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM annotations WHERE projectID='$projectID' AND note LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM annotations WHERE projectID='$projectID' AND note LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">annotations</span> from project <span style=\"font-weight:bold\">$title</span> for <span style=\"font-weight:bold\">all</span> the sessions.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
+
+
+
+			$pageTitle = '';
+			if($objects=='pages' || $objects == 'saved'){
+				if ($line['title'])
+					$pageTitle = $line['title'];
+				else
+					$pageTitle = $url;
+
+				$external_str = "$pageTitle";
+			}else if($objects=='queries'){
+				$external_str = "$queryText";
+			}else{
+				$external_str = "$url";
 			}
-			else {
-				if ($session) {
-					$query = "SELECT * FROM annotations WHERE userID='$userID' AND date='$session' AND note LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM annotations WHERE userID='$userID' AND date='$session' AND note LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">annotations</span> from <span style=\"font-weight:bold\">all</span> the projects for session <span style=\"font-weight:bold\">$session</span>.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
-				else {
-					$query = "SELECT * FROM annotations WHERE userID='$userID' AND note LIKE '%$searchString%' ORDER BY timestamp LIMIT $min, $max";
-					$query1 = "SELECT * FROM annotations WHERE userID='$userID' AND note LIKE '%$searchString%'";
-					echo "<tr><td colspan=4><table class=\"body\"><tr><td>Displaying <span style=\"font-weight:bold\">annotations</span> from <span style=\"font-weight:bold\">all</span> the projects for <span style=\"font-weight:bold\">all</span> the sessions.</td><td>&nbsp;&nbsp;&nbsp;</td><td align=right>";
-					require_once("pagingnav2.php");
-					echo "</td></tr></table></td></tr>\n";
-				}
+			$snippet = stripslashes($line['snippet']);
+			$note = stripslashes($line['note']);
+
+			if($objects=='pages' || $objects=='saved'){
+				$saved = $line['result'];
+				if ($saved)
+					echo " <img src=\"../img/star.jpg\" height=18/>";
+				echo "</td><td>$source</td><td>$queryText</td><td>$date<br/>$time</td></tr>\n";
+			}else if($objects=='queries'){
+				echo "</td><td>$date<br/>$time</td></tr>\n";
+			}else if($objects=='snippets'){
+				echo "<br/><span style=\"color:gray;\">$snippet</span></td><td>$date<br/>$time</td></tr>\n";
+			}else if($objects=='annotations'){
+				echo "<br/><span style=\"color:gray;\">$note</span></td><td>$date<br/>$time</td></tr>\n";
 			}
-			echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Snippet</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$noteID = $line['noteID'];
-				if(isset($_GET[$noteID])) {
-					if (isset($_GET['targetProjectID'])) {
-						$targetProjectID = $_GET['targetProjectID'];
-						if ($targetProjectID>0) {
-							$query1 = "UPDATE annotations SET status=0 WHERE userID='$userID' AND noteID='$noteID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else if (isset($_GET['del_projectID'])) {
-							$targetProjectID = $_GET['del_projectID'];
-							$query1 = "UPDATE annotations SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
-						}
-						else
-							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
-					}
-					else {
-						$query1 = "DELETE FROM annotations WHERE noteID='$noteID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
-					}
-				}
-				else {
-					$userID = $line['userID'];
-					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$userName = $line1['userName'];
-					$projID = $line['projectID'];
-					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-					$title = $line1['title'];
-					$url = $line['url'];
-					$note = stripslashes($line['note']);
-					$date = $line['date'];
-					$time = $line['time'];
-					echo "<tr><td>$title</td><td><a href=\"$url\" target=\"_external\">$url</a><br/><span style=\"color:gray;\">$note</span></td><td>$date<br/>$time</td></tr>\n";
-				}
-			}		
-			break;
 		}
+	}
 ?>
 </table>
 <br/><br/>

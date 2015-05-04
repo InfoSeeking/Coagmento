@@ -13,7 +13,7 @@
 			$pageNum = 1;
 		else
 			$pageNum = $_GET['page'];
-	
+
 		$min = $pageNum*25-24;
 		$max = $pageNum*25;
 		$objects = $_GET['objects'];
@@ -22,7 +22,7 @@
 		$projectID = $_GET['projectID'];
 		$session = $_GET['session'];
 		$orderBy = $_GET['orderby'];
-		
+
 		if (!$orderBy)
 			$orderBy = 'timestamp';
 ?>
@@ -46,23 +46,13 @@
 		<form id="form1">
 		<table class="body" border=0>
 		    <tr>
-<!--
-		    <td>
-		    <select name="filter" id="selection" onchange="makeSelection();">
-		      <option value="" selected="selected">Select:</option>
-		      <option value="all">All</option>
-		      <option value="none">None</option>
-		      <option value="invert">Invert</option>
-		    </select>
-		    </td>
--->
     		<td>
 			<select id="projectID">
 		      <option value="" selected="selected">Project:</option>
 		      <?php
 			  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
 					$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -82,7 +72,7 @@
 		      <?php
 			  	$query = "SELECT distinct date FROM pages WHERE userID='$userID' ORDER BY date desc";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$date = $line['date'];
 					echo "<option value=\"$date\" ";
 					if ($date==$session)
@@ -103,7 +93,7 @@
 		    </select>
 		    </td>
 			<td>&nbsp;<input type="button" value="Filter" onClick="filterData();" />&nbsp;&nbsp; <span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('data.php?objects=pages','content');">Show All</span></td>
-			<td align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php // include("pagingnav.php");?></td>
+			<td align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     		</tr>
     		<?php
     			if (!$projectID)
@@ -115,25 +105,26 @@
     			else
     				$sess = $session;
  				echo "<tr><td colspan=5><input type=\"text\" size=40 id=\"searchString\" value=\"$searchString\" onKeyDown=\"if (event.keyCode == 13) document.getElementById('sButton').click();\"/> <input type=\"button\" id=\"sButton\" value=\"Search\" onclick=\"search($projID, '$objects', '$sess');\"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
- 				
+
  				if (isset($_GET['del'])) {
  					$delID = $_GET['del'];
  					$type = $_GET['type'];
+					$table = $type+'s';
+
  					switch ($type) {
  						case 'page':
  							$query = "UPDATE pages SET status=0 WHERE pageID=$delID";
  							break;
  						case 'query':
  							$query = "UPDATE queries SET status=0 WHERE queryID=$delID";
- 							break; 						
+ 							break;
  						case 'snippet':
  							$query = "UPDATE snippets SET status=0 WHERE snippetID=$delID";
- 							break; 	
+ 							break;
  						case 'annotation':
  							$query = "UPDATE annotations SET status=0 WHERE noteID=$delID";
- 							break; 							
+ 							break;
  					}
- //					echo "$query";
  					$results = mysql_query($query) or die(" ". mysql_error());
 	 				echo "<span style=\"color:red;\">Item deleted.</span> <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&undo=$delID&type=$type', 'content');\">Undo it.</span>";
  				}
@@ -146,19 +137,18 @@
  							break;
  						case 'query':
  							$query = "UPDATE queries SET status=1 WHERE queryID=$undoID";
- 							break; 						
+ 							break;
  						case 'snippet':
  							$query = "UPDATE snippets SET status=1 WHERE snippetID=$undoID";
- 							break; 	
+ 							break;
  						case 'annotation':
  							$query = "UPDATE annotations SET status=1 WHERE noteID=$undoID";
- 							break; 							
+ 							break;
  					}
-// 					echo "$query";
  					$results = mysql_query($query) or die(" ". mysql_error());
  					echo "<span style=\"color:green;\">Undone!</span>";
  				}
- 				echo "</td></tr>";   				
+ 				echo "</td></tr>";
     		?>
  		</table>
 <table class="style3" border=1 cellpadding="2" cellspacing="0">
@@ -202,9 +192,9 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-				
+
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -218,14 +208,12 @@
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
 							$results1 = mysql_query($query1) or die(" ". mysql_error());
 						}
-						else	
+						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
 						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
 					}
 				}
 				else {
@@ -255,26 +243,8 @@
 					echo "</td><td>$source</td><td>$queryText</td><td>$date<br/>$time</td></tr>\n";
 				}
 			}
-/*
-			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
-			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
-			echo "<select name=\"targetProjectID\">\n";
-	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
-		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$targetProjectID = $line['projectID'];
-				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				echo "<option value=\"$targetProjectID\">$title</option>\n";
-			}
-	    	echo "</select>\n";
-			echo "</td></tr>";
-*/
 			break;
-			
+
 		case 'saved':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
@@ -314,9 +284,9 @@
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
 //			echo "<tr><td align=center><span style=\"font-weight:bold\"><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></span></td><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Source</span></td><td align=center><span style=\"font-weight:bold\">Query</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
-			
+
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -332,12 +302,10 @@
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
 						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
 					}
 				}
 				else {
@@ -367,26 +335,8 @@
 					echo "</td><td>$source</td><td>$queryText</td><td>$date<br/>$time</td></tr>\n";
 				}
 			}
-/*
-			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
-			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
-			echo "<select name=\"targetProjectID\">\n";
-	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
-		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$targetProjectID = $line['projectID'];
-				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				echo "<option value=\"$targetProjectID\">$title</option>\n";
-			}
-	    	echo "</select>\n";
-			echo "</td></tr>\n";
-*/
 			break;
-		
+
 		case 'queries':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
@@ -425,10 +375,8 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\"><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></span></td><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Source</span></td><td align=center><span style=\"font-weight:bold\">Query</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
-
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$queryID = $line['queryID'];
 				if(isset($_GET[$queryID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -444,12 +392,10 @@
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
 					}
 					else {
 						$query1 = "DELETE FROM queries WHERE queryID='$queryID'";
 						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
 					}
 				}
 				else {
@@ -471,24 +417,6 @@
 					echo "<tr><td align=center><span style=\"color:red;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=$orderBy&del=$queryID&type=query', 'content');\">X</span></td><td>$title</td><td>$source</td><td><a href=\"$url\" target=\"_external\" >$queryText</a></td><td>$date<br/>$time</td></tr>\n";
 				}
 			}
-/*
-			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
-			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
-			echo "<select name=\"targetProjectID\">\n";
-	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
-		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$targetProjectID = $line['projectID'];
-				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				echo "<option value=\"$targetProjectID\">$title</option>\n";
-			}
-	    	echo "</select>\n";
-			echo "</td></tr>\n";
-*/
 			break;
 		case 'snippets':
 			if ($projectID) {
@@ -528,10 +456,8 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\"><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></span></td><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Snippet</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
-			
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$snippetID = $line['snippetID'];
 				if(isset($_GET[$snippetID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -540,15 +466,13 @@
 							$query1 = "UPDATE snippets SET projectID='$targetProjectID' WHERE userID='$userID' AND snippetID='$snippetID'";
 							$results1 = mysql_query($query1) or die(" ". mysql_error());
 						}
-						
+
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
 					}
 					else {
 						$query1 = "DELETE FROM snippets WHERE snippetID='$snippetID'";
 						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
 					}
 				}
 				else {
@@ -568,25 +492,7 @@
 					$time = $line['time'];
 					echo "<tr><td align=center><span style=\"color:red;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=$orderBy&del=$snippetID&type=snippet', 'content');\">X</span></td><td>$title</td><td><a href=\"$url\" target=\"_external\">$url</a><br/><span style=\"color:gray;\">$snippet</span></td><td>$date<br/>$time</td></tr>\n";
 				}
-			}	
-/*
-			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
-			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
-			echo "<select name=\"targetProjectID\">\n";
-	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
-		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$targetProjectID = $line['projectID'];
-				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
-	    	echo "</select>\n";
-			echo "</td></tr>\n";
-*/
 			break;
 		case 'annotations':
 			if ($projectID) {
@@ -626,9 +532,8 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-//			echo "<tr><td align=center><span style=\"font-weight:bold\"><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></span></td><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Snippet</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$noteID = $line['noteID'];
 				if(isset($_GET[$noteID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -644,12 +549,10 @@
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
 					}
 					else {
 						$query1 = "DELETE FROM annotations WHERE noteID='$noteID'";
 						$results1 = mysql_query($query1) or die(" ". mysql_error());
-//						echo "<font color=red>Selected records deleted.</font>\n";
 					}
 				}
 				else {
@@ -669,25 +572,7 @@
 					$time = $line['time'];
 					echo "<tr><td align=center><span style=\"color:red;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=$orderBy&del=$noteID&type=annotation', 'content');\">X</span></td><td>$title</td><td><a href=\"$url\" target=\"_external\">$url</a><br/><span style=\"color:gray;\">$note</span></td><td>$date<br/>$time</td></tr>\n";
 				}
-			}		
-/*
-			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
-			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
-			echo "<select name=\"targetProjectID\">\n";
-	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
-		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
-				$targetProjectID = $line['projectID'];
-				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-				$title = $line1['title'];
-				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
-	    	echo "</select>\n";
-			echo "</td></tr>\n";		
-*/
 			break;
 		}
 ?>

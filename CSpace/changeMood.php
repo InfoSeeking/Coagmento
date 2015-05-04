@@ -1,30 +1,24 @@
 <?php
-        session_start();
-	require_once("connect.php");
-        if (isset($_SESSION['CSpace_userID'])) {
-            $userID = $_SESSION['CSpace_userID'];
-            $projectID = $_SESSION['CSpace_projectID'];
-            $value = $_GET['value'];
-            date_default_timezone_set('America/New_York');
-            $timestamp = time();
-            $datetime = getdate();
-            $ip=$_SERVER['REMOTE_ADDR'];
-            $date = date('Y-m-d', $datetime[0]);
-            $time = date('H:i:s', $datetime[0]);
+session_start();
+require_once('./core/Base.class.php');
+require_once("./core/Connection.class.php");
+require_once("./core/Util.class.php");
+$base = Base::getInstance();
+$connection = Connection::getInstance();
 
-                    $query = "INSERT INTO mood (userID, projectID, value, date, time, timestamp) VALUES('$userID','$projectID','$value','$date','$time','$timestamp')";
-                    $results = mysql_query($query) or die(" ". mysql_error());
+if (isset($_SESSION['CSpace_userID'])) {
+  $userID = $base->getUserID();
+  $projectID = $base->getProjectID();
+  $ip=$base->getIP();
+  $timestamp = $base->getTimestamp();
+  $date = $base->getDate();
+  $time = $base->getTime();
 
-                    $aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','change_mood','$value','$ip')";
-                    $aResults = mysql_query($aQuery) or die(" ". mysql_error());
+  $value = $_GET['value'];
 
-                    $pQuery = "SELECT points FROM users WHERE userID='$userID'";
-                    $pResults = mysql_query($pQuery) or die(" ". mysql_error());
-                    $pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-                    $totalPoints = $pLine['points'];
-                    $newPoints = $totalPoints+1;
-                    $pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
+  $query = "INSERT INTO mood (userID, projectID, value, date, time, timestamp) VALUES('$userID','$projectID','$value','$date','$time','$timestamp')";
+  $results = $connection->commit($query);
+  Util::getInstance->saveAction('change_mood',"$value",$base);
+}
 
-        }
-//	fclose($fout);
-	mysql_close($dbh);
+?>

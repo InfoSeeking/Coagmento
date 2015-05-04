@@ -1,5 +1,11 @@
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	require_once("connect.php");
 	$pageName = "CSpace/snippets.php";
 	require_once("../counter.php");
@@ -25,21 +31,21 @@
 	echo "Snippets from page: <a href=\"$url\">$title</a><br/><br/>\n";
 ?>
 <table border=1 cellpadding=2 cellspacing=0 class="style3">
-<?php		
-	if ($userID>0) {	
+<?php
+	if ($userID>0) {
 		echo "<tr bgcolor=#DDDDDD><th>#</th><th>User</th><th>Time</th><th>Snippet</th></tr>\n";
 		// Get the date, time, and timestamp
 		$timestamp = time();
 		$datetime = getdate();
 	    $date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
-	
+
 		// Get the results for the given user and the project
 		$query = "SELECT * FROM snippets WHERE projectID='$projectID' AND url='$url' ORDER BY timestamp";
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$ip=$_SERVER['REMOTE_ADDR'];
-		$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','view-snippets','$url','$ip')";
-		$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+		Util::getInstance()->saveAction('view-snippets',"$url",$base);
+
 		$count = 1;
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$sUserID = $line['userID'];
@@ -48,7 +54,7 @@
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$avatar = $line1['avatar'];
-	
+
 			$displayDate = $line['date'];
 			$displayTime = $line['time'];
 			$snippet = stripslashes($line['snippet']);

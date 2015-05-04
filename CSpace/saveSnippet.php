@@ -2,17 +2,23 @@
 //	session_name('XULSession'); // Set session name
 	session_start();
 	require_once("connect.php");
+	require_once("utilityFunctions.php");
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 ?>
 <html>
 <head>
 	<title>Snippet</title>
 	<link href="css/styles.css" rel="stylesheet" type="text/css" />
 </head>
-<?php	
+<?php
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
-	
-	if ($userID) {		
+
+	if ($userID) {
 		$url = $_GET['URL'];
 		$title = htmlspecialchars($_GET['title']);
 		$snippet = addslashes($_GET['snippet']);
@@ -40,27 +46,17 @@
 			$results = mysql_query($query) or die(" ". mysql_error());
                         $snippetID = mysql_insert_id();
 
-			//$aQuery = "SELECT max(snippetID) as num FROM snippets";
-			//$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-			//$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-			//$snippetID = $aLine['num'];
+
                         $ip=$_SERVER['REMOTE_ADDR'];
-			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','save-snippet','$snippetID','$ip')";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+
+			Util::getInstance()->saveAction('save-snippet',"$snippetID",$base);
 			if ($rating != "")
 			{
 				$queryRating = "INSERT INTO rating (`idResource`, `type`, `value`, `userID`, `projectID`, `active`,`time`,`date`,`timestamp`) VALUES ('$snippetID', 'snippets', '$rating', '$userID', '$projectID', '1','$time','$date','$timestamp')";
 				$queryRatingResults = mysql_query($queryRating) or die(" ". mysql_error());
 			}
 
-                        $pQuery = "SELECT points FROM users WHERE userID='$userID'";
-			$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-			$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-			$totalPoints = $pLine['points'];
-			$newPoints = $totalPoints+10;
-			$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-                        
+			addPoints($userID,10);
 			echo "<tr><td>The snippet was saved. This window will close now.</td></tr>";
 		}
 		else {

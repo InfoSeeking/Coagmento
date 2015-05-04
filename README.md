@@ -16,6 +16,7 @@ Spring 2015 Developer Notes
 ---------------------------
 
 ProjectID will be used for groups
+TODO: make an addPoints function that can be called from several PHP files.  Adds points to user's account.
 
 Bugs
 ----

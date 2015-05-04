@@ -1,6 +1,12 @@
 <?php
 	session_start();
 	ob_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	require_once("header1.php");
 	require_once("connect.php");
 	$pageName = "CSpace/log.php";
@@ -13,7 +19,7 @@
 
 	$min = $pageNum*25-24;
 	$max = $pageNum*25;
-			
+
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
@@ -39,7 +45,7 @@
 		      <?php
 			  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -56,7 +62,7 @@
 		      <?php
 			  	$query = "SELECT distinct date FROM pages WHERE userID='$userID' ORDER BY date desc";
 				$results = mysql_query($query) or die(" ". mysql_error());
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$date = $line['date'];
 					echo "<option value=\"$date\">$date</option>\n";
 				}
@@ -78,7 +84,7 @@
     		</tr>
 		</table>
 <table class="table" border=1>
-<?php	
+<?php
 	// First see if there was a valid project selection.
 	// If not, see if we came here from a delete action.
 	// If not, then get the projectID from the session environment.
@@ -105,11 +111,10 @@
 	$datetime = getdate();
 	$date = date('Y-m-d', $datetime[0]);
 	$time = date('H:i:s', $datetime[0]);
-		
-	$ip=$_SERVER['REMOTE_ADDR'];
-	$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','view-log','','$ip')";
-	$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-			
+
+	$ip=$base->getIP();
+	Util::getInstance()->saveAction('view-log','',$base);
+
 	switch ($objects) {
 		case 'pages':
 			if ($projectID) {
@@ -149,9 +154,9 @@
 				}
 			}
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
-				
+
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -165,9 +170,9 @@
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
 							$results1 = mysql_query($query1) or die(" ". mysql_error());
 						}
-						else	
+						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
+//						echo "<font color=red>Selected records moved.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
@@ -208,7 +213,7 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -219,7 +224,7 @@
 	    	echo "</select>\n";
 			echo "</td></tr>";
 			break;
-			
+
 		case 'saved':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
@@ -254,9 +259,9 @@
 				}
 			}
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
-			
+
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -272,7 +277,7 @@
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
+//						echo "<font color=red>Selected records moved.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
@@ -313,7 +318,7 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -324,7 +329,7 @@
 	    	echo "</select>\n";
 			echo "</td></tr>\n";
 			break;
-		
+
 		case 'queries':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
@@ -353,7 +358,7 @@
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
 
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$queryID = $line['queryID'];
 				if(isset($_GET[$queryID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -369,7 +374,7 @@
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
+//						echo "<font color=red>Selected records moved.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM queries WHERE queryID='$queryID'";
@@ -402,7 +407,7 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -439,9 +444,9 @@
 				}
 			}
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Snippet</th><th>Date</th><th>Time</th></tr>\n";
-			
+
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$snippetID = $line['snippetID'];
 				if(isset($_GET[$snippetID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -450,10 +455,10 @@
 							$query1 = "UPDATE snippets SET projectID='$targetProjectID' WHERE userID='$userID' AND snippetID='$snippetID'";
 							$results1 = mysql_query($query1) or die(" ". mysql_error());
 						}
-						
+
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
+//						echo "<font color=red>Selected records moved.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM snippets WHERE snippetID='$snippetID'";
@@ -478,14 +483,14 @@
 					$time = $line['time'];
 					echo "<tr><td align=center><input type=\"checkbox\" name=\"$snippetID\"></td><td>$title</td><td><a href=\"$url\">$url</a></td><td>$snippet</td><td>$date</td><td>$time</td></tr>\n";
 				}
-			}	
+			}
 			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
 			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
 			echo "<select name=\"targetProjectID\">\n";
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -523,7 +528,7 @@
 			}
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Snippet</th><th>Date</th><th>Time</th></tr>\n";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$noteID = $line['noteID'];
 				if(isset($_GET[$noteID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -539,7 +544,7 @@
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
-//						echo "<font color=red>Selected records moved.</font>\n";					
+//						echo "<font color=red>Selected records moved.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM annotations WHERE noteID='$noteID'";
@@ -564,14 +569,14 @@
 					$time = $line['time'];
 					echo "<tr><td align=center><input type=\"checkbox\" name=\"$noteID\"></td><td>$title</td><td><a href=\"$url\">$url</a></td><td>$note</td><td>$date</td><td>$time</td></tr>\n";
 				}
-			}		
+			}
 			echo "<tr><td colspan=6><input type=\"submit\" value=\"Delete Selected\" /> ";
 			echo " <input type=\"submit\" value=\"Move Selected Objects To ...\" /> ";
 			echo "<select name=\"targetProjectID\">\n";
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = mysql_query($query) or die(" ". mysql_error());
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -580,7 +585,7 @@
 				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
 	    	echo "</select>\n";
-			echo "</td></tr>\n";		
+			echo "</td></tr>\n";
 			break;
 		}
 ?>
@@ -595,7 +600,7 @@
 		echo "<br/><br/><center>\n<table class=\"body\">\n";
 		echo "<tr><td>Sorry. Looks like we had trouble knowing who you are!<br/>Please try <a href=\"index.php\">logging in</a> again.</td></tr>\n";
 		echo "</table>\n</center>\n<br/><br/><br/><br/>\n";
-	} 		
+	}
 	require_once("footer.php");
 ?>
   <!-- end #footer --></div>

@@ -32,21 +32,34 @@
 <h3>Add a Collaborator</h3>
 
 <?php
+
 	session_start();
+	require_once("./core/Connection.class.php");
+	require_once("./core/Base.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	$ip=$_SERVER['REMOTE_ADDR'];
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
+		$userID = $base->getUserID();
+
 ?>
 
 <table class="body" width=100%>
 	<?php
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
+
+
 		if (isset($_GET['targetUserName'])) {
-			require_once("connect.php");
-			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit("SELECT * FROM users WHERE userID='$userID'");
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$firstName = $line['firstName'];
 			$lastName = $line['lastName'];
@@ -54,15 +67,13 @@
 			$targetUserName = $_GET['targetUserName'];
 			$userExists = 0;
 
-			$query = "SELECT count(*) as num FROM users WHERE username='$targetUserName'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit("SELECT count(*) as num FROM users WHERE username='$targetUserName'");
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$num = $line['num'];
 
 			if ($num!=1) {
 				// If we didn't find a match with the username, try it as an email.
-				$query = "SELECT count(*) as num FROM users WHERE email='$targetUserName'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit("SELECT count(*) as num FROM users WHERE email='$targetUserName'");
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 				if ($num!=1) {
@@ -70,15 +81,13 @@
 				} // if the user doesn't exist
 				else {
 					$userExists = 1;
-					$query1 = "SELECT * FROM users WHERE email='$targetUserName'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit("SELECT * FROM users WHERE email='$targetUserName'");
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				}
 			}
 			else {
 				$userExists = 1;
-				$query1 = "SELECT * FROM users WHERE username='$targetUserName'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit("SELECT * FROM users WHERE username='$targetUserName'");
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			}
 
@@ -88,8 +97,7 @@
 				$targetFirstName = $line1['firstName'];
 				$targetLastName = $line1['lastName'];
 				$projectID = $_SESSION['CSpace_projectID'];
-				$query = "SELECT count(*) as num FROM memberships WHERE projectID='$projectID' and userID='$targetUserID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit("SELECT count(*) as num FROM memberships WHERE projectID='$projectID' and userID='$targetUserID'");
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 
@@ -99,35 +107,26 @@
 				else {
 					$targetEmail = $line1['email'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit("SELECT * FROM projects WHERE projectID='$projectID'");
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$query = "INSERT INTO memberships VALUES('','$projectID','$targetUserID','0')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit("INSERT INTO memberships VALUES('','$projectID','$targetUserID','0')");
 
 					// Get the date, time, and timestamp
-					date_default_timezone_set('America/New_York');
-					$timestamp = time();
-					$datetime = getdate();
-					$date = date('Y-m-d', $datetime[0]);
-					$time = date('H:i:s', $datetime[0]);
+					$timestamp = $base->getTimestamp();
+					$date = $base->getDate();
+					$time = $base->getTime();
 
 					// Record the action and update the points
-					$aQuery = "SELECT max(memberID) as num FROM memberships WHERE projectID='$projectID'";
-					$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+					$aResults = $connection->commit("SELECT max(memberID) as num FROM memberships WHERE projectID='$projectID'");
 					$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 					$rID = $aLine['num'];
 
-					$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-collaborator','$rID','$ip')";
-					$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+					Util::getInstance()->saveAction('add-collaborator',"$rID",$base);
 
-					$pQuery = "SELECT points FROM users WHERE userID='$userID'";
-					$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-					$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
-					$totalPoints = $pLine['points'];
-					$newPoints = $totalPoints+100;
-					$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-					$pResults = mysql_query($pQuery) or die(" ". mysql_error());
+					require_once("utilityFunctions.php");
+					addPoints($userID,100);
 
 					// Create an email
 					$headers  = 'MIME-Version: 1.0' . "\r\n";
