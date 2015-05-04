@@ -44,10 +44,10 @@
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");
+
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
-	require_once("connect.php");
-	$userID = $_SESSION['CSpace_userID'];
+	$userID = $base->getUserID();
 
 	// If new project information was sent
 	if (isset($_GET['title'])) {
@@ -57,7 +57,7 @@
 		} // if ($title == "")
 		else {
 			$query = "SELECT * FROM projects,memberships WHERE projects.title='$title' AND memberships.userID='$userID' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$num = mysql_num_rows($results);
 			if ($num!=0) {
 				echo "<tr><td colspan=2><font color=\"red\">Error: project <span style=\"font-weight:bold\">$title</span> already exists. Please choose a different title for your project.</font></td></tr>";
@@ -67,27 +67,20 @@
 				$privacy = $_GET['privacy'];
 				// Get the date, time, and timestamp
 				date_default_timezone_set('America/New_York');
-				$timestamp = time();
-				$datetime = getdate();
-			    $startDate = date('Y-m-d', $datetime[0]);
-				$startTime = date('H:i:s', $datetime[0]);
+				$timestamp = $base->getTimestamp();
+				$startDate = $base->getDate();
+				$startTime = $base->getTime();
+
 				$query = "INSERT INTO projects VALUES('','$title','$description','$startDate','$startTime','1','$privacy')";
-				$results = mysql_query($query) or die(" ". mysql_error());
-				$query = "SELECT max(projectID) as num FROM projects";
-				$results = mysql_query($query) or die(" ". mysql_error());
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				$projectID = $line['num'];
+				$results = $connection->commit($query);
+
+				$projectID = $connection->getLastID();
 				$query = "INSERT INTO memberships VALUES('','$projectID','$userID','1')";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 
 				// Record the action and update the points
-				$aQuery = "SELECT max(projectID) as num FROM projects";
-				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-				$pID = $aLine['num'];
-
 				$ip=$base->getIP();
-				Util::getInstance()->saveAction('create-project',"$pID",$base);
+				Util::getInstance()->saveAction('create-project',"$projectID",$base);
 
 				require_once("utilityFunctions.php");
 				addPoints($userID,100);
@@ -122,12 +115,12 @@
 	echo "<tr><td><table class=\"style1\"><tr><td>&nbsp;</td></tr>";
 	echo "<tr><td><span style=\"font-size: 16px; font-weight:bold\">Existing projects</span></td></tr><tr>\n";
 	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 		$projectID = $line['projectID'];
 		$access = $line['access'];
 		$query1 = "SELECT * FROM projects WHERE projectID='$projectID' AND status=1";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
@@ -135,16 +128,16 @@
 		// If the current user didn't create this project, find out who did
 		if ($access!=1) {
 			$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$uID = $line1['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$uID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$uName = $line1['username'];
 			$title = $title . " ($uName)";
 		}
-//			$description = $line1['description'];
+
 		$startDate = $line1['startDate'];
 		echo "<tr><td><a href='projectInfo.php?projectID=$projectID' class='existing_projects'>$title</a></td></tr>";
 	}

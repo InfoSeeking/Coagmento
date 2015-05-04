@@ -3,20 +3,19 @@
 	$ip=$_SERVER['REMOTE_ADDR'];
 	require_once("connect.php");
 	require_once("utilityFunctions.php");
-
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
-	$userID = $_SESSION['CSpace_userID'];
-	$projectID = $_SESSION['CSpace_projectID'];
+	$userID = $base->getUserID();
+	$projectID = $base->getProjectID();
 
 	// If no active project selected, the default project is 'Untitled'
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$projectID = $line['projectID'];
 	}
@@ -37,7 +36,7 @@
 	$url = str_replace("uk/", "uk", $url);
 	$url = str_replace("es/", "es.", $url);
 	$url = str_replace("net/", "net.", $url);
-//	fwrite($fout, $url."\n");
+
 	$entry = explode(".", $url);
 	$i = 0;
 	$isWebsite = 0;
@@ -58,26 +57,21 @@
 	$queryString = addslashes($queryString);
 
 	// Get the date, time, and timestamp
-	date_default_timezone_set('America/New_York');
-	$timestamp = time();
-	$datetime = getdate();
-    $date = date('Y-m-d', $datetime[0]);
-	$time = date('H:i:s', $datetime[0]);
+	$timestamp = $base->getTimestamp();
+	$date = $base->getDate();
+	$time = $base->getTime();
 
 	// This is to avoid getting duplicates
 	// If the same user has fired the same page just now,
 	// chances are, this is a duplicate entry.
-	$query = "SELECT max(pageID) as num FROM pages WHERE userID='$userID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
-	$lastPageID = $line['num'];
+	$lastPageID = $connection->getLastID();
 	$query = "SELECT url FROM pages WHERE pageID='$lastPageID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$lastURL = $line['url'];
 
 	$query = "SELECT * FROM memberships WHERE userID='$userID' AND projectID='$projectID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	if ($line['access']==-1)
 		$validMembership = FALSE;
@@ -90,22 +84,16 @@ echo "A:Trying";
 	{
 echo "A:$projectID";
 		$query = "INSERT INTO pages VALUES('','$userID','$projectID','$originalURL','$title','$site','$queryString','$timestamp','$date','$time','0','1',NULL,NULL)";
-		$results = mysql_query($query) or die(" ". mysql_error());
-		$aQuery = "SELECT max(pageID) as num FROM pages";
-		$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-		$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-		$pageID = $aLine['num'];
+		$results = $connection->commit($query);
+		$pageID = $connection->getLastID();
 		Util::getInstance()->saveAction('page',"$pageID",$base);
 		if ($queryString)
 		{
 			$resultsPage = urlencode($originalURL);
 			$topResults = file_get_contents($resultsPage);
 			$query = "INSERT INTO queries VALUES('','$userID','$projectID','$site','$queryString','$originalURL','$title','','$topResults','$timestamp','$date','$time','1')";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			$aQuery = "SELECT max(queryID) as num FROM queries";
-			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-			$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-			$queryID = $aLine['num'];
+			$results = $connection->commit($query);
+			$queryID = $connection->getLastID();
 			$contents = file_get_contents($originalURL);
 			$fileName = "/home/scilsnet/chirags/projects/Coagmento/data/study2_queries_results/". $queryID . ".qr";
 			$fout = fopen($fileName, 'w');
@@ -118,7 +106,6 @@ echo "A:$projectID";
 
 		addPoints($userID,1);
 	}
-//	fclose($fout);
 	mysql_close($dbh);
 echo "A:Finished";
 ?>

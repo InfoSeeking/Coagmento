@@ -14,8 +14,6 @@
 		$userID = $base->getUserID();
 		$projectID = $base->getProjectID();
 
-
-
 		$query = "SELECT * FROM users WHERE userID='$userID'";
 		$connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -24,11 +22,10 @@
 		$title = $_GET['title'];
 		$url = $_GET['url'];
 		$message = addslashes($_GET['message']);
-		date_default_timezone_set('America/New_York');
-		$timestamp = time();
-		$datetime = getdate();
-	    $date = date('Y-m-d', $datetime[0]);
-		$time = date('H:i:s', $datetime[0]);
+
+		$timestamp = $base->getTimestamp();
+		$date = $base->getDate();
+		$time = $base->getTime();
 
 		// Create an email
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -62,36 +59,34 @@
 			<table class="body">
 		<?php
 			$query = "SELECT * FROM memberships WHERE userID='$userID' AND projectID='$projectID' GROUP BY projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$projectID = $line['projectID'];
 				$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND userID!='$userID' GROUP BY userID";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				while($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 					$cUserID = $line1['userID'];
 					if (isset($_GET[$cUserID])) {
 						$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
-						$results2 = mysql_query($query2) or die(" ". mysql_error());
+						$results2 = $connection->commit($query2);
 						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 						$receiverEmail = $line2['email'];
 						mail ($receiverEmail, $subject, $messageToSend, $headers);
 
 						$query2 = "INSERT INTO recommendations VALUES('','$userID','$projectID','$cUserID','$title','$url','$message','$timestamp','$date','$time')";
-						$results2 = mysql_query($query2) or die(" ". mysql_error());
+						$results2 = $connection->commit($query2);
 
 						// Record the action and update the points
 						$aQuery = "SELECT max(id) as num FROM recommendations WHERE userID='$userID'";
-						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+						$aResults = $connection->commit($aQuery);
 						$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 						$rID = $aLine['num'];
 
-						$ip=$_SERVER['REMOTE_ADDR'];
 						Util::getInstance()saveAction('recommend',"$rID",$base);
-
 						addPoints($userID,10);
 
 						$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
-						$results2 = mysql_query($query2) or die(" ". mysql_error());
+						$results2 = $connection->commit($query2);
 						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 						$userName = $line2['firstName'] . " " . $line2['lastName'];
 						$avatar = $line2['avatar'];
@@ -113,7 +108,7 @@
 			$message = addslashes($message);
 			while ($email[$i]) {
 				$query2 = "INSERT INTO recommendations VALUES('','$userID','$projectID','$email[$i]','$title','$url','$message','$timestamp','$date','$time')";
-				$results2 = mysql_query($query2) or die(" ". mysql_error());
+				$results2 = $connection->commit($query2);
 				mail ($email[$i], $subject, $messageToSend, $headers);
 				$i++;
 			}

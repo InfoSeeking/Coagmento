@@ -9,7 +9,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -17,7 +17,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -31,12 +31,16 @@
 
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		require_once("connect.php");
-		$userID = $_SESSION['CSpace_userID'];
+		$userID = $base->getUserID();
 		$query = "SELECT points FROM users WHERE userID='$userID'";
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -45,102 +49,96 @@
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p1 = $line['num']*100;
-		
+
 		$query = "SELECT * FROM actions WHERE userID='$userID' AND action='demographic'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		if (mysql_num_rows($results)!=0)
 			$p2 = 100;
 		else
 			$p2 = 0;
-			
+
 		$query = "SELECT * FROM actions WHERE userID='$userID' AND action='pre-study'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		if (mysql_num_rows($results)!=0)
 			$p3 = 100;
 		else
 			$p3 = 0;
-		
+
 		$query = "SELECT count(distinct action,value) as num FROM actions WHERE userID='$userID' AND (action='mid-study' OR action='end-study')";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p4 = $line['num']*500;
-		
-/*
-		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='activate-count'";
-		$results = mysql_query($query) or die(" ". mysql_error());
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
-		$p5 = $line['num']*100;
-*/
-		
+
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='page'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p6 = $line['num'];
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='save'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p7 = $line['num']*10;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='recommend'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p8 = $line['num']*10;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='add-annotation'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p9 = $line['num']*10;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='save-snippet'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p10 = $line['num']*10;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='login'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p11 = $line['num']*10;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='create-project'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p12 = $line['num']*100;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='add-collaborator'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p13 = $line['num']*100;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='recommend-coagmento'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p14 = $line['num']*100;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='join-coagmento'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p15 = $line['num']*200;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='chat'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p16 = $line['num']*5;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND (action='sidebar-page' OR action='sidebar-query' OR action='sidebar-query-snapshot' OR action='sidebar-snippet')";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p17 = $line['num']*5;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='create-note'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p18 = $line['num']*20;
-		
+
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='print-count'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p19 = $line['num']*100;
 ?>
@@ -148,7 +146,6 @@
 	<tr><td colspan=3>Everytime you use Coagmento (toolbar, sidebar, or CSpace), you earn points. These points are explained below along with the points you have gained so far.</td></tr>
 	<tr><td colspan=3><br/></td></tr>
 	<tr><td style="font-weight:bold;" align=center>Action</td><td style="font-weight:bold;" align=center>Award</td><td style="font-weight:bold;" align=center>Earned</td></tr>
-<!-- 	<tr><td>Download and install the plug-in (one per new version)</td><td align=right>100</td><td align=right><?php echo $p1;?></td></tr> -->
 	<tr bgcolor="#EFEFEF"><td>Fill in demographic information (once only)</td><td align=right>100</td><td align=right><?php echo $p2;?></td></tr>
 	<tr><td>Pre-project questionnaire (once only)</td><td align=right>100</td><td align=right><?php echo $p3;?></td></tr>
 	<tr bgcolor="#EFEFEF"><td>End study questionnaires</td><td align=right>500</td><td align=right><?php echo $p4;?></td></tr>

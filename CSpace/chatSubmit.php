@@ -24,11 +24,7 @@
 
 	$query = "INSERT INTO chat VALUES('','$userID','$userName','','$projectID','$message','$timestamp','$date','$time')";
 	$results = $connection->commit($query);
-
-	$aQuery = "SELECT max(chatID) as num FROM chat";
-	$aResults = $connection->commit($aQuery);
-	$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-	$chatID = $aLine['num'];
+	$chatID = $connection->getLastID();
 
 	Util::getInstance()->saveAction('chat',"$chatID",$base);
 	require_once("utilityFunctions.php");

@@ -31,31 +31,32 @@
 
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("utilityFunctions.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-	$userID = $_SESSION['CSpace_userID'];
-	$projectID = $_SESSION['CSpace_projectID'];
+	$userID = $base->getUserID();
+	$projectID = $base->getProjectID();
 ?>
 
 <table class="body" width=100%>
 	<?php
 		if (isset($_GET['inviteEmail'])) {
-			require("./core/Connection.class.php");
-			require("./core/Base.class.php");
-			require("./core/Util.class.php");
-			$base = Base::getInstance();
 
-			require_once("connect.php");
-			require_once("utilityFunctions.php");
 			$code = get_rand_id(10);
 			$inviteEmail = $_GET['inviteEmail'];
 
 			if ($inviteEmail!="") {
 				// First see if this user is already in the system
 				$query = "SELECT count(*) as num FROM users WHERE email='$inviteEmail'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 
@@ -63,15 +64,14 @@
 					echo "<tr><td colspan=2><font color=\"red\">Error: this email is already associated with a user in the system.</font></td></tr>";
 				} // if ($num!=0)
 				else {
-					date_default_timezone_set('America/New_York');
-					$timestamp = time();
-					$datetime = getdate();
-					$date = date('Y-m-d', $datetime[0]);
-					$time = date('H:i:s', $datetime[0]);
+					$timestamp = $base->getTimestamp();
+					$date = $base->getDate();
+					$time = $base->getTime();
 					$pastTimestamp = $timestamp - 518400;
+
 					// Now see if this email has already been used for an invitation
 					$query = "SELECT count(*) as num FROM invitations WHERE email='$inviteEmail' AND timestamp>$pastTimestamp";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 					$line = mysql_fetch_array($results, MYSQL_ASSOC);
 					$num = $line['num'];
 					if ($num!=0) {
@@ -79,7 +79,7 @@
 					} // if ($num!=0)
 					else {
 						$query = "SELECT * FROM users WHERE userID='$userID'";
-						$results = mysql_query($query) or die(" ". mysql_error());
+						$results = $connection->commit($query);
 						$line = mysql_fetch_array($results, MYSQL_ASSOC);
 						$firstName = $line['firstName'];
 						$lastName = $line['lastName'];
@@ -100,19 +100,15 @@
 
 						$userMessage = addslashes($userMessage);
 						$query = "INSERT INTO invitations VALUES('','$userID','$inviteEmail','$userMessage','$timestamp','$date','$time','$code')";
-						$results = mysql_query($query) or die(" ". mysql_error());
+						$results = $connection->commit($query);
 
 						// Record the action and update the points
 						$aQuery = "SELECT max(id) as num FROM invitations WHERE userID='$userID'";
-						$aResults = mysql_query($aQuery) or die(" ". mysql_error());
+						$aResults = $connection->commit($aQuery);
 						$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
 						$rID = $aLine['num'];
 
-						$ip=$_SERVER['REMOTE_ADDR'];
-
 						Util::getInstance()->saveAction("recommend-coagmento","$rID",$base);
-
-						require_once("utilityFunctions.php");
 						addPoints($userID,100);
 
 						echo "<tr><td colspan=2>Thank you for recommending Coagmento! An email has been sent to <span style=\"color:green;font-weight:bold\">$inviteEmail</span> with a unique link to open a free Coagmento account. You have been awarded 100 points for this. If the receiver accepts this invitation and opens an account, you will get additional 200 points!</font></td></tr>";
