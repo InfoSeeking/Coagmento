@@ -11,10 +11,10 @@
 		echo "<div id=\"floatSnippetLayerDelete\" style=\"position:absolute;  width:150px;  padding:16px;background:#FFFFFF;  border:2px solid #2266AA;  z-index:100; display:none \"></div>";
 		echo "<table width=100% cellspacing=0>\n";
 		echo "<tr>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName desc','snippetsBox','snippets.php')\"></td>";
-		echo "<td align=\"left\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title desc','snippetsBox','snippets.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating desc','snippetsBox','snippets.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"left\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID desc','snippetsBox','snippets.php')\"></td>";
 		//echo "<td></td>";
 		echo "</tr>";
 		$query = "SELECT *, (SELECT userName FROM users where users.userID = snippets.userID) AS userName, (SELECT sum(value) from rating where active = 1 and projectID='$projectID' and idResource = snippetID and type = 'snippets' group by idResource)/(SELECT count(*) from rating where active = 1 and projectID='$projectID' and idResource = snippetID and type = 'snippets' group by idResource) as finalRating FROM snippets WHERE projectID='$projectID' AND status=1 order by $orderBy";
@@ -48,7 +48,7 @@
 				$title = $title . '..';
                             }
                         }
-				
+
 			echo "<tr style=\"background:$bgColor;\"><td><span style=\"font-size:10px\">$userName</span> </td><td><span style=\"font-size:10px\">";
                         //echo "<a alt=\"View\" class=\"cursorType\" onclick=\"javascript:showSnippet('floatSnippetLayer',null,'$snippetID','$type')\" style=\"font-size:10px; color:blue\">$title</a></span></td>\n";
                         $viewSnipetOnWindow = "window.open('sidebarComponents/viewSnippet.php?value=$snippetID&action=show_snippet','Snippet View','statusbar=0,menubar=0,resizable=yes,scrollbars=yes,width=600,height=550,left=600')";
@@ -57,9 +57,9 @@
 //				echo "<font color=blue><a alt=\"View\" class=\"cursorType\" onclick=\"javascript:showSnippet('floatSnippetLayer',null,'$snippetID','$type')\" style=\"font-size:10px\">$title</a></span></td>\n";
 //			else
 //				echo "<font color=blue><a alt=\"View\" class=\"cursorType\" onclick=\"javascript:showSnippet('floatSnippetLayer',null,'$snippetID','$type')\" style=\"font-size:10px\">$snippet</a></span></td>\n";
-			
+
 			//$fullSnippet = "[Source: " . $url . "] || ".$snippet;
-			
+
 			echo "<input type=\"hidden\" id=\"snippetValue$snippetID\" value=\"$snippet\">";
 			echo "<input type=\"hidden\" id=\"note$snippetID\" value=\"$note\">";
                         echo "<input type=\"hidden\" id=\"source$snippetID\" value=\"$title\">";
@@ -73,14 +73,6 @@
                         else
                             echo "<td></td>";
 
-                        /*echo "<td align=\"right\">";
-                        if ($url)
-                                echo "<font color=blue><a href=\"$url\" class=\"tt\" target=_content style=\"font-size:10px\"><img src=\"images/link.gif\" height=\"18\" width=\"18\" alt=\"Go\" class=\"cursorType\" /></a>\n";
-			else
-				echo "<img src=\"images/blank.gif\" height=\"18\" width=\"18\">";
-			
-			echo "<span style=\"font-size:10px; color:$bgColor\">-</span><img src=\"images/copy.gif\" height=\"18\" width=\"18\" alt=\"Copy\" class=\"cursorType\" onclick=\"javascript:copyToClipboard('snippetValue$snippetID')\"></td>"; 
-                        */
 			echo "</tr>";
 
 			if ($bgColor == '#E8E8E8')

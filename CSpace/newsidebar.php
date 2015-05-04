@@ -68,7 +68,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 
         <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
-        <link rel="stylesheet" type="text/css" href="ajaxtabs/ajaxtabs.css" />
+        <link rel="stylesheet" type="text/css" href="assets/ajaxtabs/ajaxtabs.css" />
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/fonts/fonts-min.css" />
 	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/tabview/assets/skins/sam/tabview.css" />
 	<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
@@ -77,7 +77,7 @@
 	<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/tabview/tabview-min.js"></script>
 
 	<script type="text/javascript" src="js/utilities.js"></script>
-	<script type="text/javascript" src="ajaxtabs/ajaxtabs.js"></script>
+	<script type="text/javascript" src="assets/ajaxtabs/ajaxtabs.js"></script>
 
 	<script type="text/javascript">
 

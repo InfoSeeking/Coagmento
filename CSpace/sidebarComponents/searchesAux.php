@@ -11,10 +11,10 @@
                 echo "<div id=\"floatQueryLayerDelete\" style=\"position:absolute;  width:150px;  padding:16px;background:#FFFFFF;  border:2px solid #2266AA;  z-index:100; display:none \"></div>";
 		echo "<table width=100% cellspacing=0>\n";
 		echo "<tr>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','userName asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','userName desc','queriesBox','searches.php')\"></td>";
-		echo "<td align=\"left\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','query asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','query desc','queriesBox','searches.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','finalRating asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','finalRating desc','queriesBox','searches.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','queryID asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','queryID desc','queriesBox','searches.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','userName asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','userName desc','queriesBox','searches.php')\"></td>";
+		echo "<td align=\"left\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','query asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','query desc','queriesBox','searches.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','finalRating asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','finalRating desc','queriesBox','searches.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','queryID asc','queriesBox','searches.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Queries','queryID desc','queriesBox','searches.php')\"></td>";
 		//echo "<td></td>";
 		echo "</tr>";
 		$query = "SELECT *, (SELECT DISTINCT userName FROM users where users.userID = queries.userID) AS userName, (SELECT sum(value) from rating where active = 1 and projectID='$projectID' and idResource = queryID and type = 'queries' group by idResource)/(SELECT count(*) from rating where active = 1 and projectID='$projectID' and idResource = queryID and type = 'queries' group by idResource) as finalRating FROM queries WHERE status = 1 AND projectID='$projectID' order by $orderBy";
@@ -32,7 +32,7 @@
                         $date = strftime("%m/%d", $date);
 			$url = $line['url'];
 			$queryAux = substr($queryVal, 0, 11)."-".substr($source, 0, 4);
-				
+
 			echo "<tr style=\"background:$bgColor;\"><td><span style=\"font-size:10px\">$userName</span> </td><td><span style=\"font-size:10px\">";
 			if ($url)
 				echo "<font color=blue><a onclick=\"javascript:ajaxpage('sidebarComponents/insertAction.php?action=sidebar-query&value='+$queryID,null)\" href=\"$url\" class=\"tt\" target=_content style=\"font-size:10px\">$queryAux</a></span></td>\n";
@@ -44,7 +44,7 @@
 			$ratingRepresentation = getRatingRepresentation($finalRating,$queryID,'queries','floatQueryLayer','queriesBox','searches.php');
 			echo "<td align=\"center\">$ratingRepresentation</td>";
 			echo "<td align=\"right\" onmouseover=\"javascript:showTime('floatQueryLayer',null,'$queryID')\" onmouseout=\"javascript:hideLayer('floatQueryLayer')\"><span style=\"font-size:10px\">$date</span></td>";
-			//echo "<td align=\"right\"><img src=\"images/copy.gif\" height=\"18\" width=\"18\" alt=\"Copy\" class=\"cursorType\" onclick=\"javascript:copyToClipboard('queryValue$queryID')\"></td>";
+
 
                         if ($userID==$userIDItem)
                             echo "<td align=\"right\" class=\"cursorType\" onclick=\"javascript:deleteItem('floatQueryLayerDelete',null,'$queryID','queries','queriesBox','searches.php')\"><span style=\"font-size:10px; color:red; font-weight: bold \"> <a style=\"font-size:10px; color:$bgColor\"> - </a>X</span></td>";
