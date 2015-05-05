@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <title>Coagmento Coverflow</title>
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="../assets/css/style_coverflow.css" type="text/css" />
 
-<script type="text/javascript" src="jquery_1.6.1.js"></script>
+<script type="text/javascript" src="../assets/js/jquery_1.6.1.js"></script>
 
-<link rel="stylesheet" href="jquery.fancybox.css" type="text/css" media="screen" />
-<script type="text/javascript" src="jquery.fancybox.pack.js"></script>
+<link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
 
 <!-- This includes the ImageFlow CSS and JavaScript -->
-<link rel="stylesheet" href="imageflow.css" type="text/css" />
-<script type="text/javascript" src="imageflow.js"></script>
+<link rel="stylesheet" href="../assets/css/imageflow.css" type="text/css" />
+<script type="text/javascript" src="../assets/js/imageflow.js"></script>
 
-<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="../assets/js/main.js"></script>
 
 <?php
   include('../func.php');

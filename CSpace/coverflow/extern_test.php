@@ -130,11 +130,11 @@ else {
             $pass_var = "query-".$pageID;
 
             if ($source == "bing") {
-                echo "<img src='query_bing2.png' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
+                echo "<img src='../assets/img/query_bing2.png' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
             }
 
             else if ($source == "google") {
-                echo "<img src='query_google2.png' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
+                echo "<img src='../assets/img/query_google2.png' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
             }
 
         }
@@ -148,12 +148,12 @@ else {
         }
         else if ($type == "snippet") {
             $pass_var = "snippet-".$pageID;
-            echo "<img src='../snippet.png' width='100' height='100' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
+            echo "<img src='../assets/img/snippet.png' width='100' height='100' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
         }
 
         else if ($type == "annotation") {
             $pass_var = "note-".$pageID;
-            echo "<img src='../note.png' width='100' height='100' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
+            echo "<img src='../assets/img/note.png' width='100' height='100' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
         }
     }
 

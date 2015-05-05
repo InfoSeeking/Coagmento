@@ -5,10 +5,11 @@
 @media screen, projection {
 	.imageflow {
 		overflow:hidden;
-		position:relative; 
+		position:absolute; 
 		text-align:left;
 		visibility:hidden;
 		width:100%;
+		height:320px;
 	}
 	.imageflow img {
 		border:none;
@@ -38,28 +39,28 @@
 		width:1%;
 	}
 	.imageflow .navigation{
-		z-index:900;
+		z-index:10000;
 	}
 	.imageflow .caption {
 		font-weight:bold;
 		position:relative; 
 		text-align:center;
-		z-index:901;
+		z-index:10001;
 	}
 	.imageflow .scrollbar {
 		border-bottom:1px solid #b3b3b3;
 		position:relative; 
 		visibility:hidden;
-		z-index:902;
+		z-index:10002;
 		height:1px;
 	}
 	.imageflow .slider {
-		background:url(slider.png) no-repeat;
+		background:url(../img/slider.jpg) no-repeat;
 		height:14px;
 		margin:-6px 0 0 -7px;
 		position:absolute;
 		width:14px;
-		z-index:903;
+		z-index:10003;
 	}
 	.imageflow .slideshow {
 		cursor:pointer;
@@ -67,13 +68,13 @@
 		margin:20px 0 0 20px;
 		position:absolute;
 		width:14px;
-		z-index:903;
+		z-index:10003;
 	}
 	.imageflow .slideshow.pause {
-		background:url(button_pause.png) no-repeat;
+		background:url(../img/button_pause.png) no-repeat;
 	}
 	.imageflow .slideshow.play {
-		background:url(button_play.png) no-repeat;
+		background:url(../img/button_play.png) no-repeat;
 	}
 	.imageflow .images {
 		overflow:hidden;
@@ -81,18 +82,18 @@
 	}
 	.imageflow .button {
 		cursor:pointer;
-		height:17px;
+		height:45px;
 		position:relative;
-		width:17px;
+		width:50px;
 	}
 	.imageflow .previous {
-		background: url(button_left.png) top left no-repeat;
+		background: url(../img/prev.png) top left no-repeat;
 		float:left;
-		margin: -7px 0 0 -30px;
+		margin: -23px -70px 0;
 	}
 	.imageflow .next {
-		background: url(button_right.png) top left no-repeat;
+		background: url(../img/next.png) top left no-repeat;
 		float:right;	
-		margin:-7px -30px 0 30px;
+		margin:-23px -70px 0 30px
 	}
 }

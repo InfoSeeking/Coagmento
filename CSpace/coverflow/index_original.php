@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>jQuery Ajax Test</title>
-<script type="text/javascript" src="jquery_1.6.1.js"></script>
+<script type="text/javascript" src="../assets/js/jquery_1.6.1.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function() {
   // select all the links with class="lnk", when one of them is clicked, get its "href" value
@@ -14,7 +14,7 @@ $(document).ready(function() {
     return false;
   });
 });
---> </script> 
+--> </script>
 
 <script type="text/javascript">
  function foo(bar) {
@@ -27,11 +27,11 @@ $(document).ready(function() {
 </script>
 
 <meta name="robots" content="index, follow, noarchive" />
-		<link rel="stylesheet" href="style.css" type="text/css" />
+		<link rel="stylesheet" href="../assets/css/style_coverflow.css" type="text/css" />
 
 		<!-- This includes the ImageFlow CSS and JavaScript -->
-		<link rel="stylesheet" href="imageflow.packed.css" type="text/css" />
-		<script type="text/javascript" src="imageflow.packed.js"></script>
+		<link rel="stylesheet" href="../assets/css/imageflow.packed.css" type="text/css" />
+		<script type="text/javascript" src="../assets/js/imageflow.packed.js"></script>
 
 		<style type="text/css">
 			p.flip {
@@ -69,10 +69,10 @@ $(document).ready(function() {
             color: #ccc;
             }
         </style>
-        
+
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 
-        <script type="text/javascript"> 
+        <script type="text/javascript">
 		$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -81,7 +81,7 @@ $(document).ready(function() {
 		</script>
 </head>
 <body>
-	<?php 
+	<?php
     // Connecting to database
 	require_once('../connect.php');
     $userID=2;
@@ -90,7 +90,7 @@ $(document).ready(function() {
     $pageResult = mysql_query($getPage) or die(" ". mysql_error());
 
     ?>
-    
+
     <p class="flip" style="display: block; padding: 10px;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
     <div class="panel">
     	<table align="center">
@@ -99,7 +99,7 @@ $(document).ready(function() {
                     	<b>Collaborators</b><br/>
                         <a href="addCollaborator.php">Add</a>
                         <a href="collaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="createProject.php">Create</a>
                         <a href="projects.php">Select</a>
@@ -109,7 +109,7 @@ $(document).ready(function() {
                     	<b>Sharing</b>
                         <a href="showRecommendations.php">Recommendations</a>
                         <a href="interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="etherpad.php">Editor</a>
                         <a href="files.php">Files</a>
@@ -119,7 +119,7 @@ $(document).ready(function() {
                     	<b>Settings</b>
                         <a href="profile.php">Profile</a>
                         <a href="settings.php">Options</a><br/>
-                        
+
                         <a href="../login.php?logout=true"><font color=red>Log out</font></a>
                     </td>
                 </tr>
@@ -129,32 +129,32 @@ $(document).ready(function() {
 <div id="topbar">
 
 	<!-- <div class="left" style="float: left; padding-top: 10px; padding-left: 20px; padding-right: 20px;">
-        <h2><a href="index.php?projects=all&objects=all&years=all&months=all&formSubmit=Submit">Coagmento CSpace</a></h2><br/> 
+        <h2><a href="index.php?projects=all&objects=all&years=all&months=all&formSubmit=Submit">Coagmento CSpace</a></h2><br/>
     </div> border-left: 1px solid #ccc; -->
 
 	<div class="left" style="float: left; padding-left: 25px; min-width: 790px; width: 60%; margin-top: 15px;">
         <div class="form">
         <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="get">
-    
+
         <select name="projects">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_GET['formSubmit'])) 
+            if(isset($_GET['formSubmit']))
             {?>
-            
+
             <? if($_GET['projects'] == 'all') { echo '<option value="all" selected="selected">All Projects</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_GET['projects']; ?>" selected="selected"><?php echo $_GET['projects']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
             <? } ?>
             <?php } ?>
-            
+
             <?php
                 echo '<option value="all">All Projects</option>';
                 $query = "SELECT * FROM memberships WHERE userID='$userID'";
                 $results = mysql_query($query) or die(" ". mysql_error());
-                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
                     $projID = $line['projectID'];
                     $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
                     $results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -167,12 +167,12 @@ $(document).ready(function() {
                 }
             ?>
         </select>
-        
+
         <select id="objects" name="objects">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_GET['formSubmit'])) 
+            if(isset($_GET['formSubmit']))
             {?>
                 <? switch ($_GET['objects']) {
                     case 'pages':
@@ -195,7 +195,7 @@ $(document).ready(function() {
                         break;
                 } ?>
             <? } ?>
-            
+
             <option value="all">All Objects</option>
             <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
             <option value="saved" <?php if ($objects=="saved") echo "SELECTED";?>>Bookmarks</option>
@@ -203,50 +203,50 @@ $(document).ready(function() {
             <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?>>Snippets</option>
             <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?>>Annotations</option>
         </select>
-        
+
         <select id="years" name="years">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_GET['formSubmit'])) 
+            if(isset($_GET['formSubmit']))
             {?>
-            
+
             <? if($_GET['years'] == 'all') { echo '<option value="all" selected="selected">All Years</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_GET['years']; ?>" selected="selected"><?php echo $_GET['years']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
             <? } ?>
             <?php } ?>
-            
+
             <option value="all">All Years</option>
-            <? 
+            <?
             $sql_year="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-            $result_year=mysql_query($sql_year); 
-        
-            $options=""; 
+            $result_year=mysql_query($sql_year);
+
+            $options="";
             $y=array();
-        
-            while ($row=mysql_fetch_array($result_year)) { 
-                $date=$row["date"];  
+
+            while ($row=mysql_fetch_array($result_year)) {
+                $date=$row["date"];
                 $year = date("Y",strtotime($date));
-            
-                if (!in_array($year, $y)){ 
+
+                if (!in_array($year, $y)){
                     $y[] = $year;
-                    $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';  
+                    $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';
                 }
-        
-            } 
+
+            }
             echo $options;
             ?>
         </select>
-        
+
         <select id="months" name="months">
-     
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_GET['formSubmit'])) 
+            if(isset($_GET['formSubmit']))
             {?>
-            
+
             <? switch ($_GET['months']) {
                     case '01':
                         echo '<option value="01" selected="selected">Jan</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
@@ -289,27 +289,27 @@ $(document).ready(function() {
                         break;
                 } ?>
             <? } ?>
-            
+
             <option value="all">All Months</option>
             <?
-            $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')"; 
+            $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')";
             $result_month=mysql_query($sql_month);
-            
+
             $m=array();
-            
-            while ($row2=mysql_fetch_array($result_month)) { 
-                $date2=$row2["date"]; 
+
+            while ($row2=mysql_fetch_array($result_month)) {
+                $date2=$row2["date"];
                 $month = date("m",strtotime($date2));
-                
-                if (!in_array($month, $m)){ 
+
+                if (!in_array($month, $m)){
                     if($month == 01 || $month == 02 || $month == 03 || $month == 04 || $month == 05 || $month == 06 || $month == 07 || $month == 08 || $month == 09 || $month == 10 || $month == 11 || $month == 12) {
                       $m[] = $month;
                     }
                 }
-            } 
-               
+            }
+
             sort($m);
-          
+
             for($i = 0; $i < count($m); ++$i) {
                 echo "<option value=".$m[$i].">";
                 if($m[$i]==01) { echo "Jan"; }
@@ -328,26 +328,26 @@ $(document).ready(function() {
             }
             ?>
         </select>
-        
+
         <input type="checkbox" name="userOnly" value="Yes" <?php if (isset($_GET['userOnly']) == 'Yes') { echo 'checked="checked"'; }?> /> <span style="font-size: 12px;">My stuff only</span>
-        
+
         <input type="submit" name="formSubmit" value="Submit" />
         </form>
         </div>
-        
+
         <div style="clear:both;"></div>
-       
+
         <?php
-            if(isset($_GET['formSubmit'])) 
+            if(isset($_GET['formSubmit']))
             {
                 $varProjects = $_GET['projects'];
                 $varObjects = $_GET['objects'];
                 $varYears = $_GET['years'];
                 $varMonths = $_GET['months'];
 				$userOnly = $_GET['userOnly'];
-                  
+
                 $str = $varProjects.'-'.$varObjects.'-'.$varYears.'-'.$varMonths.'-'.$userOnly;
-                
+
                 echo '<div class="details">';
                 echo 'Viewing ';
                 // Objects
@@ -371,9 +371,9 @@ $(document).ready(function() {
                         echo "<b>Annotations</b>";
                         break;
                 }
-                
+
                 echo ' from ';
-                
+
                 //  Projects
                 if($varProjects == "all") {
                     echo "<b>All Projects</b>";
@@ -381,9 +381,9 @@ $(document).ready(function() {
                 else {
                     echo "<b>".$varProjects."</b>";
                 }
-                
+
                 echo ' from ';
-                
+
                 // Months
                 switch ($varMonths) {
                     case "all":
@@ -426,20 +426,20 @@ $(document).ready(function() {
                         echo "<b>Dec</b>";
                         break;
                 }
-                
+
                 echo ' ';
-                
+
                 // Years
                 if($varYears == "all") {
                     echo "<b>All Years</b>";
                 }
                 else {
                     echo "<b>".$varYears."</b>";
-                }   
+                }
                 echo '</div>';
             }
         ?>
-        
+
         <script type="text/javascript">
             $(document).ready(function() {
                 if(<?php echo json_encode($str) ?> == 'all-all-all-all-') {
@@ -448,7 +448,7 @@ $(document).ready(function() {
             });
         </script>
     </div>
-    
+
 </div>
 
 

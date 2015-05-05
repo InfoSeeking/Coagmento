@@ -1,15 +1,14 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
 /* ImageFlow Settings
 ==================================== */
 @media screen, projection {
 	.imageflow {
 		overflow:hidden;
-		position:absolute; 
+		position:relative; 
 		text-align:left;
 		visibility:hidden;
 		width:100%;
-		height:320px;
 	}
 	.imageflow img {
 		border:none;
@@ -39,28 +38,28 @@
 		width:1%;
 	}
 	.imageflow .navigation{
-		z-index:10000;
+		z-index:900;
 	}
 	.imageflow .caption {
 		font-weight:bold;
 		position:relative; 
 		text-align:center;
-		z-index:10001;
+		z-index:901;
 	}
 	.imageflow .scrollbar {
 		border-bottom:1px solid #b3b3b3;
 		position:relative; 
 		visibility:hidden;
-		z-index:10002;
+		z-index:902;
 		height:1px;
 	}
 	.imageflow .slider {
-		background:url(slider.jpg) no-repeat;
+		background:url(../img/slider_coverflow.png) no-repeat;
 		height:14px;
 		margin:-6px 0 0 -7px;
 		position:absolute;
 		width:14px;
-		z-index:10003;
+		z-index:903;
 	}
 	.imageflow .slideshow {
 		cursor:pointer;
@@ -68,13 +67,13 @@
 		margin:20px 0 0 20px;
 		position:absolute;
 		width:14px;
-		z-index:10003;
+		z-index:903;
 	}
 	.imageflow .slideshow.pause {
-		background:url(button_pause.png) no-repeat;
+		background:url(../img/button_pause.png) no-repeat;
 	}
 	.imageflow .slideshow.play {
-		background:url(button_play.png) no-repeat;
+		background:url(../img/button_play.png) no-repeat;
 	}
 	.imageflow .images {
 		overflow:hidden;
@@ -82,18 +81,18 @@
 	}
 	.imageflow .button {
 		cursor:pointer;
-		height:45px;
+		height:17px;
 		position:relative;
-		width:50px;
+		width:17px;
 	}
 	.imageflow .previous {
-		background: url(prev.png) top left no-repeat;
+		background: url(../img/button_left.png) top left no-repeat;
 		float:left;
-		margin: -23px -70px 0;
+		margin: -7px 0 0 -30px;
 	}
 	.imageflow .next {
-		background: url(next.png) top left no-repeat;
+		background: url(../img/button_right.png) top left no-repeat;
 		float:right;	
-		margin:-23px -70px 0 30px
+		margin:-7px -30px 0 30px;
 	}
 }

@@ -4,11 +4,11 @@
 		<meta charset="utf-8" />
 		<title>Coagmento CSpace Coverflow View</title>
 		<meta name="robots" content="index, follow, noarchive" />
-		<link rel="stylesheet" href="style.css" type="text/css" />
+		<link rel="stylesheet" href="../assets/css/style_coverflow.css" type="text/css" />
 
 		<!-- This includes the ImageFlow CSS and JavaScript -->
-		<link rel="stylesheet" href="imageflow.packed.css" type="text/css" />
-		<script type="text/javascript" src="imageflow.packed.js"></script>
+		<link rel="stylesheet" href="../assets/css/imageflow.packed.css" type="text/css" />
+		<script type="text/javascript" src="../assets/js/imageflow.packed.js"></script>
 
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
@@ -34,7 +34,7 @@
             $title = $line['title'];
 			$link = $line['url'];
 
-            echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/".$thumb."' longdesc='".$link."' alt='".$title."' />";  
+            echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/".$thumb."' longdesc='".$link."' alt='".$title."' />";
         }
         ?>
 
