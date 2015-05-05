@@ -44,7 +44,7 @@ function extractQuery($referrer)
 function addPoints($userID,$points){
 	require_once("./core/Connection.class.php");
 	$connection = Connection::getInstance();
-	$connection->commit("UPDATE users SET points=points+$points WHERE userID='$userID'";
+	$connection->commit("UPDATE users SET points=points+$points WHERE userID='$userID'");
 }
 
 function assign_rand_value($num)
@@ -55,7 +55,7 @@ function assign_rand_value($num)
   if($num>=27){
     return $num-27;
   }else{
-    return chr($num+96)
+    return chr($num+96);
   }
 
   // Assumes 1-36 is input

@@ -1,15 +1,17 @@
 <?php
 	session_start();
+	require('core/Base.class.php');
 	require_once("connect.php");
 	$version = $_GET['version'];
-        $currentVersion = 307;
-        $newToolbarURL = "http://www.coagmento.org/getToolbar.php";
-        if ($version<$currentVersion)
-            echo "0;";
-        else
-            echo "1;";
-	$userID = $_SESSION['CSpace_userID'];
-	$projectID = $_SESSION['CSpace_projectID'];
+  $currentVersion = 307;
+  $newToolbarURL = "http://www.coagmento.org/getToolbar.php";
+  if ($version<$currentVersion)
+      echo "0;";
+  else
+      echo "1;";
+	$base = Base::getInstance();
+	$userID = $base->getUserID();
+	$projectID = $base->getProjectID();
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
 //		fwrite($fout, "$query\n");

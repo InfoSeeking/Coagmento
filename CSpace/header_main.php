@@ -1,61 +1,16 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>Coagmento Coverflow</title>
-<link rel="stylesheet" href="../assets/css/style_coverflow.css" type="text/css" />
-
-<script type="text/javascript" src="../assets/js/jquery_1.6.1.js"></script>
-
-<link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" />
-<script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
-
-<!-- This includes the ImageFlow CSS and JavaScript -->
-<link rel="stylesheet" href="../assets/css/imageflow.css" type="text/css" />
-<script type="text/javascript" src="../assets/js/imageflow.js"></script>
-
-<script type="text/javascript" src="../assets/js/main.js"></script>
-
-<?php
-    session_start();
-    include('../func.php');
-    require_once('../core/Connection.class.php');
-    require_once('../core/Base.class.php');
+<!--
 
 
-    if (!isset($_SESSION['CSpace_userID'])) {
-        echo "<div id='login'>Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.</div>";
-    }
-    else {
-        $base = Base::getInstance();
-        $connection = Connection::getInstance();
-        $userID = $base->getUserID();
-        $projectID = $base->getUserID();
-        $query = "SELECT * FROM users WHERE userID='$userID'";
-        $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
-        $userName = $line['firstName'] . " " . $line['lastName'];
-        $avatar = $line['avatar'];
-        $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
-        $points = $line['points'];
-        $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-        $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
-        $projectNums = $line['num'];
-        $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-        $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
-        $collabNums = $line['num'];
-    }
-?>
+Before $displayMode to '3D','coverflow','timeline'
 
-</head>
-<body>
+
+ -->
+
 
 <div id="topbar">
 
     <div id="toptext">
-        <h2><a href="index.php?displayMode=coverflow&projects=all&objects=all&years=all&months=all&formSubmit=Submit">Coagmento CSpace</a></h2><br>
+        <h2><a href="index.php?projects=all&objects=all&years=all&months=all&displayMode=<?php echo $displayMode?>&formSubmit=Submit">Coagmento CSpace</a></h2><br>
         <p id="getToolbar">Get Toolbar: <a href="../getToolbar.php">Firefox</a> <a href="https://chrome.google.com/webstore/search/coagmento" target="_blank">Chrome</a></p>
     </div>
 
@@ -66,12 +21,31 @@
         <div id="display_box">
         Interface:
         <select name="displayMode" onChange="jumpto(document.form1.displayMode.options[document.form1.displayMode.options.selectedIndex].value)">
-        <?php
-            $displayMode = $_GET['displayMode'];
-        ?>
-        <?php echo "<option value=\"http://".$_SERVER['HTTP_HOST']."/CSpace/index.php?projects=all&objects=all&years=all&months=all&displayMode=timeline&formSubmit=Submit\""; ?> <?php if ($displayMode=='timeline') echo "selected=\"selected\""; ?> >Timeline</option>
-        <option value="coverflow" selected="selected" <?php if ($displayMode=='coverflow') echo "selected=\"selected\""; ?>>Coverflow</option>
-        <?php echo "<option value=\"http://".$_SERVER['HTTP_HOST']."impress/index.php?projects=all&objects=all&years=all&months=all&displayMode=3D&formSubmit=Submit\""; ?> <?php if ($displayMode=='3D') echo "selected=\"selected\""; ?>>3D</option>
+
+
+				<?php
+
+
+					echo "<option value=\"http://".$_SERVER['HTTP_HOST']."/CSpace/index.php?projects=all&objects=all&years=all&months=all&displayMode=timeline&formSubmit=Submit\"";
+
+					if ($displayMode=='timeline')
+						echo "selected=\"selected\"";
+
+					echo ">Timeline</option>";
+
+					echo "<option value=\"http://".$_SERVER['HTTP_HOST']."/CSpace/index.php?projects=all&objects=all&years=all&months=all&displayMode=coverflow&formSubmit=Submit\"";
+
+
+					if ($displayMode=='coverflow')
+						echo "selected=\"selected\"";
+					echo ">Coverflow</option>";
+
+					echo "<option value=\"http://".$_SERVER['HTTP_HOST']."/CSpace/impress/index.php?projects=all&objects=all&years=all&months=all&displayMode=3D&formSubmit=Submit\"";
+					if ($displayMode=='3D')
+						echo "selected=\"selected\"";
+					echo ">3D</option>";
+
+				?>
 
         </select>
         </div>
@@ -81,14 +55,13 @@
             <!-- Sticky dropdown -->
             <?php
             if(isset($_GET['formSubmit']))
-            {?>
-
-            <? if($_GET['projects'] == 'all') { echo '<option value="all" selected="selected">All Projects</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
+            {
+              if($_GET['projects'] == 'all') { echo '<option value="all" selected="selected">All Projects</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_GET['projects']; ?>" selected="selected"><?php echo $_GET['projects']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
-            <? } ?>
-            <?php } ?>
+            <? }
+            } ?>
 
             <?php
                 echo '<option value="all">All Projects</option>';
@@ -113,8 +86,8 @@
             <!-- Sticky dropdown -->
             <?php
             if(isset($_GET['formSubmit']))
-            {?>
-                <? switch ($_GET['objects']) {
+            {
+              switch ($_GET['objects']) {
                     case 'pages':
                         echo '<option value="pages" selected="selected">Webpages</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
                         break;
@@ -133,8 +106,8 @@
                     case 'all':
                         echo '<option value="all" selected="selected">All Objects</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
                         break;
-                } ?>
-            <? } ?>
+                }
+            } ?>
 
             <option value="all">All Objects</option>
             <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
@@ -149,14 +122,13 @@
             <!-- Sticky dropdown -->
             <?php
             if(isset($_GET['formSubmit']))
-            {?>
-
-            <? if($_GET['years'] == 'all') { echo '<option value="all" selected="selected">All Years</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
+            {
+              if($_GET['years'] == 'all') { echo '<option value="all" selected="selected">All Years</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_GET['years']; ?>" selected="selected"><?php echo $_GET['years']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
-            <? } ?>
-            <?php } ?>
+            <? }
+            } ?>
 
             <option value="all">All Years</option>
             <?
@@ -185,9 +157,8 @@
             <!-- Sticky dropdown -->
             <?php
             if(isset($_GET['formSubmit']))
-            {?>
-
-            <? switch ($_GET['months']) {
+            {
+               switch ($_GET['months']) {
                     case '01':
                         echo '<option value="01" selected="selected">Jan</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
                         break;
@@ -227,13 +198,13 @@
                     case 'all':
                         echo '<option value="all" selected="selected">All Months</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
                         break;
-                } ?>
-            <? } ?>
+                }
+              } ?>
 
             <option value="all">All Months</option>
-            <?
+            <?php
             $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')";
-            $result_month=mysql_query($sql_month);
+            $result_month = $connection->commit($sql_month);
 
             $m=array();
 
@@ -384,16 +355,19 @@
                 echo 'filterData("'.$str.'")';
                 echo '</script>';
             }
-            }
-            }
+
+
         ?>
 
     </div>
 
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-        <p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="../arrow.png"/></p>
+			<p class="flip" style="float: right;">
+				<?php
+				echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/img/".$avatar." width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">";
+			?><br><img src="assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
-        <div class="panel">
+        <div id="panel" class="panel">
             <table>
                 <tr>
                     <td valign="top" width="150">
@@ -421,8 +395,8 @@
                         <a href="../profile.php">Profile</a>
                         <a href="../settings.php">Options</a><br/>
 
-         				<a href="help.php"><font color=green>Help</font></a><br/>
-						<a href="../../login.php?logout=true"><font color=red>Log out</font></a>
+                        <a href="help.php"><font color=green>Help</font></a><br/>
+                        <a href="../../login.php?logout=true"><font color=red>Log out</font></a>
                     </td>
                 </tr>
             </table>
@@ -430,7 +404,3 @@
     </div>
 
 </div>
-
-<div id="content"><?php require_once("extern.php");?></div>
-</body>
-</html>

@@ -1,4 +1,5 @@
 <?php
+
 	$q = $_GET['q'];
 
 	if ($q != "")
@@ -12,11 +13,14 @@
 		case "timeline":
 						include("../timeline.php");
 						break;
+
 		case "coverflow":
 						include("extern_test.php");
 						break;
+						
 		case "3D":
-						include("../impress/index.php");
+						include("../impress/impress.php");
 						break;
 	}
+
 ?>

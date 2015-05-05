@@ -11,15 +11,15 @@
 	switch ($displayMode)
 	{
 		case "timeline":
-						include("timeline.php");
-						break;
-
-		case "coverflow":
-						include("coverflow/extern_test.php");
+						include("../timeline.php");
 						break;
 						
+		case "coverflow":
+						include("extern_test.php");
+						break;
+
 		case "3D":
-						include("impress/impress.php");
+						include("../impress/index.php");
 						break;
 	}
 

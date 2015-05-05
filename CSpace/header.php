@@ -1,9 +1,10 @@
-s<div id="topbar">
+<div id="topbar">
 	<!-- logo -->
 	<div class="left" style="float: left; ">
         <h2><a href="index.php?displayMode=timeline&projects=all&objects=all&years=all&months=all&formSubmit=Submit">Coagmento CSpace</a></h2><br/>
         <p id="getToolbar">Get Toolbar: <a href="../getToolbar.php">Firefox</a> <a href="https://chrome.google.com/webstore/search/coagmento" target="_blank">Chrome</a></p>
     </div>
+
 
     <!-- user info -->
     <div style="float: left;">
@@ -78,7 +79,7 @@ s<div id="topbar">
                         <a href="settings.php">Settings</a><br/>
 
                     	<a href="help.php"><font color=green>Help</font></a><br/>
-<a href="../login.php?logout=true"><font color=red>Log out</font></a>
+											<a href="../login.php?logout=true"><font color=red>Log out</font></a>
                     </td>
                 </tr>
             </table>
