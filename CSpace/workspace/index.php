@@ -36,16 +36,10 @@ if(mysql_num_rows($r)<=1){
   $firstLogin = true;
 }
 
-$res = $cxn->commit("SELECT * FROM recruits WHERE userID='$userID'");
-$firstName = '';
-while($line=mysql_fetch_array($res,MYSQL_ASSOC)){
-  $firstName=$line['firstName'];
-}
-
 $feed_data = array(); //sorted by date
 $tag_data = array(); //only for bookmarks page
 $current_tag = "";
-$projectID = $base->getProjectID();
+$projectID = $base->getSelectedProject();
 $sorting = isset($_GET["sorting"]) ? $_GET["sorting"] : "timestamp";
 $sorting_order = isset($_GET["sorting_order"]) ? $_GET["sorting_order"] : "DESC";
 $sorting_query = $sorting . " " . $sorting_order;

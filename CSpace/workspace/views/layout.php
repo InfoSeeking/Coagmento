@@ -29,11 +29,21 @@ function gen_url($param){
           <img src="assets/img/clogo.png" alt="Coagmento Logo" />
         </hgroup>
         <div class='right-side'>
+          Select a project
+          <select id="project_selection">
+            <?php
+            $project_results = $base->getAllProjects();
+            while($row = mysql_fetch_assoc($project_results)) {
+              $extra = "";
+              if($row["projectID"] == $projectID){
+                $extra = "selected";
+              }
+              printf("<option data-url='%s' %s>%s</option>", "selectProject.php?value=" . $row['projectID'], $extra, $row["title"]);
+            }
+            ?>
+          </select>
         </div>
         <div class='right-side'>
-            <?php
-              require_once("views/questionnaires.php");
-            ?>
         </div>
         <nav class='clear'>
           <ul>
@@ -54,35 +64,12 @@ function gen_url($param){
         <?php require_once("views/aside.php"); ?>
       </div>
       <div class="right_col">
-        <?php
-        if($PAGE == "ALL"):
-          $group = getGroupCounts();
-          $sum = array(
-            "bookmarks" => 0,
-            "snippets" => 0,
-            "searches" => 0
-          );
-          foreach($group as $username => $counts){
-            $sum["bookmarks"] += $counts["bookmarks"];
-            $sum["snippets"] += $counts["snippets"];
-            $sum["searches"] += $counts["searches"];
-          }
-        ?>
       <div class="welcome">
-        <p>Welcome, <?php echo $firstName ?>!</p>
+        <p>Welcome, <?php echo $username ?>!</p>
         <?php
-        if(!$firstLogin){
+        if($projectID == -1):
         ?>
-        <p>Your group has done <b><?php echo $sum["searches"]; ?></b> searches, saved <b><?php echo $sum["bookmarks"]; ?></b> bookmarks, and saved <b><?php echo $sum["snippets"]; ?></b> snippets.</p>
-        <?php
-      }else{
-        ?>
-        <p>Please begin by watching this video.  When you log back in, you can click the Help button to review it.</p>
-        <iframe width="640" height="360" src="https://www.youtube.com/embed/YRDrMfROxf4?rel=0" frameborder="0" allowfullscreen></iframe>
-        <?php
-        }
-        ?>
-      </div>
+        Select a project to begin.
         <?php
         endif;
         ?>

@@ -11,8 +11,7 @@ class Tags extends Base{
 
   public function retrieveFromProject($projectID){
     $cxn = Connection::getInstance();
-    // $q = sprintf("select distinct tags.tagID as tagID, tags.name as name FROM tags INNER JOIN tag_assignments ON tags.tagID = tag_assignments.tagID WHERE tags.projectID=%d ORDER BY tags.name", $projectID);
-    $q = "select distinct tags.tagID as tagID, tags.name as name FROM tags INNER JOIN (SELECT tagID,taID FROM tag_assignments INNER JOIN bookmarks on tag_assignments.bookmarkID=bookmarks.bookmarkID AND bookmarks.url NOT LIKE '%coagmento.org/spring2015%' AND bookmarks.url NOT LIKE '%about:blank%' AND bookmarks.url NOT LIKE '%about:home%' AND bookmarks.url NOT LIKE '%about:newtab%' AND bookmarks.url NOT LIKE '%about:addons%') a ON tags.tagID = a.tagID WHERE tags.projectID='$projectID' ORDER BY tags.name";
+    $q = "select distinct bookmark_tags.tagID as tagID, bookmark_tags.name as name FROM bookmark_tags INNER JOIN (SELECT tagID,taID FROM tag_assignments INNER JOIN bookmarks on tag_assignments.bookmarkID=bookmarks.bookmarkID AND bookmarks.url NOT LIKE '%coagmento.org/spring2015%' AND bookmarks.url NOT LIKE '%about:blank%' AND bookmarks.url NOT LIKE '%about:home%' AND bookmarks.url NOT LIKE '%about:newtab%' AND bookmarks.url NOT LIKE '%about:addons%') a ON bookmark_tags.tagID = a.tagID WHERE bookmark_tags.projectID='$projectID' ORDER BY bookmark_tags.name";
 
 
     $arr_results = array();
@@ -28,7 +27,7 @@ class Tags extends Base{
 
   public function retrieveFromBookmark($bookmarkID){
     $cxn = Connection::getInstance();
-    $q = sprintf("select T.* FROM tags T, tag_assignments TA WHERE TA.bookmarkID=%d AND TA.tagID=T.tagID", $bookmarkID);
+    $q = sprintf("select T.* FROM bookmark_tags T, tag_assignments TA WHERE TA.bookmarkID=%d AND TA.tagID=T.tagID", $bookmarkID);
     $arr_results = array();
     $results = $cxn->commit($q);
     while($row = mysql_fetch_assoc($results)){
@@ -56,7 +55,7 @@ class Tags extends Base{
     /* By using IGNORE if user is assigning a previously created tag,
      * it will not insert it again
     */
-    $q = "INSERT IGNORE INTO tags (`projectID`, `name`) VALUES ";
+    $q = "INSERT IGNORE INTO bookmark_tags (`projectID`, `name`) VALUES ";
     $arr = array();
     $cxn = Connection::getInstance();
     foreach($tags as $name){
@@ -74,10 +73,10 @@ class Tags extends Base{
     $tag_assignments_str = array();
 
     foreach($tags as $name){
-      $ins = sprintf("(%d, %d, (SELECT tagID FROM tags WHERE projectID=%d AND name='%s'))", $this->userID, $bookmarkID, $this->projectID, $cxn->esc($name));
+      $ins = sprintf("(%d, %d, (SELECT tagID FROM bookmark_tags WHERE projectID=%d AND name='%s'))", $this->userID, $bookmarkID, $this->projectID, $cxn->esc($name));
       array_push($arr, $ins);
       array_push($tags_str,$name);
-      $r = $cxn->commit("SELECT tagID FROM tags WHERE projectID='".$this->projectID."' AND name='".$cxn->esc($name)."'");
+      $r = $cxn->commit("SELECT tagID FROM bookmark_tags WHERE projectID='".$this->projectID."' AND name='".$cxn->esc($name)."'");
       $line = mysql_fetch_array($r,MYSQL_ASSOC);
       array_push($tag_assignments_str,$line['tagID']);
     }

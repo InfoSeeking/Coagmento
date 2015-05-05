@@ -195,8 +195,6 @@ class Base {
   public function checkTimeout(){
     //currently thirty minutes
     if($this->isSessionActive() && isset($_SESSION["LAST_ACTIVE"]) && time() - $_SESSION["LAST_ACTIVE"] > 1800){
-      require_once("../pubnub-helper.php");
-      pubnubPublishToUser("3");
       $this->setAllowCommunication(0);
       $this->setAllowBrowsing(0);
       session_destroy();
@@ -225,6 +223,11 @@ class Base {
 	{
 		return $this->projectID;
 	}
+  public function getAllProjects(){
+    $cxn = Connection::getInstance();
+    $results = $cxn->commit(sprintf("select * from projects P, memberships M where P.projectID=M.projectID and M.userID=%d", $this->userID));
+    return $results;
+  }
 
 	public function getStageID()
 	{
@@ -419,6 +422,33 @@ class Base {
 		 $_SESSION['CSpace_userID'] = $userID;
 
 	}
+
+  public function selectProject($projectID){
+      // Update the selected project information for this user in the options table
+      $userID = $this->userID;
+      $query = "SELECT * FROM options WHERE userID='$userID' AND `option`='selected-project'";
+      $connection = Connection::getInstance();
+      $results = $connection->commit($query);
+      if (mysql_num_rows($results)==0) {
+       $query = "INSERT INTO options VALUES('','$userID','$projectID','selected-project','$projectID')";
+      }
+      else {
+       $query = "UPDATE options SET value='$projectID' WHERE userID='$userID' AND `option`='selected-project'";
+      }
+      $connection->commit($query);
+  }
+
+  public function getSelectedProject(){
+    $connection = Connection::getInstance();
+    $query = sprintf("SELECT `value` FROM options WHERE `option`='selected-project' AND userID='%s'", $this->userID);
+    $results = $connection->commit($query);
+    if (mysql_num_rows($results) == 0){
+      return -1;
+    } else {
+      $row = mysql_fetch_assoc($results);
+      return $row['value'];
+    }
+  }
 
 	public function setProjectID($projectID)
 	{

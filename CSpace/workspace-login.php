@@ -16,7 +16,7 @@ Maybe we can use this as a replacement for the sidebar login as well.
     $password = sha1($_POST['password']);
     $error = false;
     $connection = Connection::getInstance();
-    $query = "SELECT * FROM users WHERE username='$username' AND password_sha1='$password' AND status=1";
+    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
     $results = $connection->commit($query);
     if(mysql_num_rows($results) == 0){
       $feedback = "Incorrect username/password, please try again";
@@ -24,18 +24,11 @@ Maybe we can use this as a replacement for the sidebar login as well.
     }
     $row = mysql_fetch_array($results, MYSQL_ASSOC);
     $userID = $row['userID'];
-    $projectID = $row['projectID'];
-    $studyID = $row['study'];
-    if(is_null($projectID) || $projectID <= 0){
-      $feedback = "You have not yet been assigned to a group in our system.  Please wait until you have been assigned to log in";
-      return;
-    }
     $base = Base::getInstance();
     $base->setUserName($username);
     $base->setUserID($userID);
-    $base->setProjectID($projectID);
+    //$base->setProjectID(0); - IDK how to set to current project
     $base->setStageID(-1);
-    $base->setStudyID($studyID);
 		$base->setAllowCommunication(1);
 		$base->setAllowBrowsing(1);
     Util::getInstance()->saveAction('login',0,$base);
@@ -91,7 +84,7 @@ Maybe we can use this as a replacement for the sidebar login as well.
 			  position: relative;
 			}
     </style>
-		<link type="text/css" rel="stylesheet" href="study_styles/pure-release-0.5.0/buttons.css" />
+		<!-- <link type="text/css" rel="stylesheet" href="study_styles/pure-release-0.5.0/buttons.css" /> -->
   </head>
   <body>
 

@@ -35,7 +35,7 @@ class Bookmark extends Base {
 
   public static function retrieveWithTagsFromProject($projectID, $sorting="timestamp DESC"){
     $cxn=Connection::getInstance();
-    $query = sprintf("SELECT U.username, B.*, GROUP_CONCAT(tags.name SEPARATOR ',') as tagList FROM users U, bookmarks B LEFT JOIN (tag_assignments, tags) ON (B.bookmarkID = tag_assignments.bookmarkID AND tag_assignments.tagID = tags.tagID) WHERE B.projectID=%d AND B.userID=U.userID GROUP BY B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($sorting));
+    $query = sprintf("SELECT U.username, B.*, GROUP_CONCAT(bookmark_tags.name SEPARATOR ',') as tagList FROM users U, bookmarks B LEFT JOIN (tag_assignments, bookmark_tags) ON (B.bookmarkID = tag_assignments.bookmarkID AND tag_assignments.tagID = bookmark_tags.tagID) WHERE B.projectID=%d AND B.userID=U.userID GROUP BY B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
     while($record = mysql_fetch_assoc($results)){
@@ -46,7 +46,7 @@ class Bookmark extends Base {
 
   public static function retrieveFromProjectAndTag($projectID, $tagName, $sorting="timestamp DESC"){
     $cxn=Connection::getInstance();
-    $query = sprintf("SELECT U.username, B.* FROM users U, bookmarks B, tag_assignments TA, tags T WHERE B.projectID=%d AND B.userID=U.userID AND T.name='%s' AND T.tagID = TA.tagID AND TA.bookmarkID=B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($tagName), $cxn->esc($sorting));
+    $query = sprintf("SELECT U.username, B.* FROM users U, bookmarks B, tag_assignments TA, bookmark_tags T WHERE B.projectID=%d AND B.userID=U.userID AND T.name='%s' AND T.tagID = TA.tagID AND TA.bookmarkID=B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($tagName), $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
     while($record = mysql_fetch_assoc($results)){

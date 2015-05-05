@@ -30,7 +30,7 @@ class Connection
 	public function commit($query)
 	{
 		try{
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = mysql_query($query) or die($query . " ". mysql_error()); //TODO remove query
 			$this->lastID = mysql_insert_id();
 			return $results;
 		}

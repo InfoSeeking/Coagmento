@@ -51,8 +51,8 @@ var WORKSPACE = (function(){
     var ed = $.extend({}, d); //extended data
     var url = ed["url"];
     ed["pretty_url"] = url.length > 150 ? url.substring(0,150) + "..." : url;
-    ed["pretty_date"] = prettyDate(ed["localDate"] + "T" + ed["localTime"]);
-    ed["real_date"] = realDate(ed["localDate"] + "T" + ed["localTime"]);
+    ed["pretty_date"] = prettyDate(ed["date"] + "T" + ed["time"]);
+    ed["real_date"] = realDate(ed["date"] + "T" + ed["time"]);
     ed["label"] = "Bookmark";
     ed["tags"] = ed["tagList"] ? ed["tagList"].split(",") : [];
     ed["all_tags"] = all_tags;
@@ -81,8 +81,8 @@ var WORKSPACE = (function(){
     var ed = $.extend({}, d); //extended data
     var url = ed["url"];
     ed["pretty_url"] = url.length > 150 ? url.substring(0,150) + "..." : url;
-    ed["pretty_date"] = prettyDate(ed["localDate"] + "T" + ed["localTime"]);
-    ed["real_date"] = realDate(ed["localDate"] + "T" + ed["localTime"]);
+    ed["pretty_date"] = prettyDate(ed["date"] + "T" + ed["time"]);
+    ed["real_date"] = realDate(ed["date"] + "T" + ed["time"]);
     ed["label"] = "Page";
     ed["editable"] = ed["userID"] == userID;
     ed["lunr_id"] = cur_lunr_id;
@@ -98,8 +98,8 @@ var WORKSPACE = (function(){
   function displaySnippet(snippet_data, root){
     var d = snippet_data;
     var ed = $.extend({}, d); //extended data
-    ed["pretty_date"] = prettyDate(ed["localDate"] + "T" + ed["localTime"]);
-    ed["real_date"] = realDate(ed["localDate"] + "T" + ed["localTime"]);
+    ed["pretty_date"] = prettyDate(ed["date"] + "T" + ed["time"]);
+    ed["real_date"] = realDate(ed["date"] + "T" + ed["time"]);
     ed["shortened_snippet"] = ed["snippet"].length > 50 ? ed["snippet"].substring(0,50) + "..." : ed["snippet"];
     ed["label"] = "Snippet";
     ed["editable"] = ed["userID"] == userID;
@@ -117,8 +117,8 @@ var WORKSPACE = (function(){
   function displaySearch(search_data, root){
     var d = search_data;
     var ed = $.extend({}, d); //extended data
-    ed["pretty_date"] = prettyDate(ed["localDate"] + "T" + ed["localTime"]);
-    ed["real_date"] = realDate(ed["localDate"] + "T" + ed["localTime"]);
+    ed["pretty_date"] = prettyDate(ed["date"] + "T" + ed["time"]);
+    ed["real_date"] = realDate(ed["date"] + "T" + ed["time"]);
     ed["label"] = "Search";
     ed["editable"] = ed["userID"] == userID;
     ed["lunr_id"] = cur_lunr_id;
@@ -189,7 +189,9 @@ var WORKSPACE = (function(){
   }
 
   function initEventListeners(){
-
+    $("#project_selection").on("change", function(e){
+      window.location = $(this).find("option:selected").attr("data-url");
+    })
     $("#only_mine").on("change", function(e){
       var val = $(this).prop("checked");
       var url = $(this).attr("data-to");
