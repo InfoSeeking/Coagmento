@@ -17,33 +17,33 @@
 <script type="text/javascript" src="../assets/js/main.js"></script>
 
 <?php
-  include('../func.php');
-  require_once('../connect.php');
-?>
-
-<?php
     session_start();
+    include('../func.php');
+    require_once('../core/Connection.class.php');
+    require_once('../core/Base.class.php');
+
+
     if (!isset($_SESSION['CSpace_userID'])) {
         echo "<div id='login'>Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.</div>";
     }
     else {
-        $userID = $_SESSION['CSpace_userID'];
-        require_once("../connect.php");
-        $userID = $_SESSION['CSpace_userID'];
-        $projectID = $_SESSION['CSpace_projectID'];
+        $base = Base::getInstance();
+        $connection = Connection::getInstance();
+        $userID = $base->getUserID();
+        $projectID = $base->getUserID();
         $query = "SELECT * FROM users WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
     }
@@ -93,11 +93,11 @@
             <?php
                 echo '<option value="all">All Projects</option>';
                 $query = "SELECT * FROM memberships WHERE userID='$userID'";
-                $results = mysql_query($query) or die(" ". mysql_error());
+                $results = $connection->commit($query);
                 while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
                     $projID = $line['projectID'];
                     $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-                    $results1 = mysql_query($query1) or die(" ". mysql_error());
+                    $results1 = $connection->commit($query1);
                     $line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
                     $title = $line1['title'];
                     echo "<option value=\"$title\" ";
@@ -161,7 +161,7 @@
             <option value="all">All Years</option>
             <?
             $sql_year="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-            $result_year=mysql_query($sql_year);
+            $result_year = $connection->commit($sql_year);
 
             $options="";
             $y=array();
@@ -431,7 +431,6 @@
 
 </div>
 
-<!-- <a href="extern.php" title="Get extern" class="lnk">Get extern</a> -->
 <div id="content"><?php require_once("extern.php");?></div>
 </body>
 </html>

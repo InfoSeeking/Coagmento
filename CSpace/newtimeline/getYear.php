@@ -6,25 +6,25 @@
 
 $year = $_GET['year'];
 
- session_start(); 
+ session_start();
   session_register('myvar');
   $_SESSION['myvar'] == $year;
 
-require_once("../connect.php"); 
+require_once("../connect.php");
 $userID = 2;
 
-	$sql="SELECT DISTINCT pages.date FROM pages, thumbnails WHERE pages.thumbnailID = thumbnails.thumbnailID AND userID=2"; 
+	$sql="SELECT DISTINCT pages.date FROM pages, thumbnails WHERE pages.thumbnailID = thumbnails.thumbnailID AND userID=2";
 	$result=mysql_query($sql);
-	
-	$buttons=""; 
+
+	$buttons="";
 	$m=array();
 	$month_name="";
-	
-	while ($row=mysql_fetch_array($result)) { 
-		$date=$row["date"];  
+
+	while ($row=mysql_fetch_array($result)) {
+		$date=$row["date"];
 		$yr = date("Y",strtotime($date));
 		$month = date("m",strtotime($date));
-		
+
 		if($month==01) { $month_name="Jan"; }
 		elseif($month==02) { $month_name="Feb"; }
 		elseif($month==03) { $month_name="Mar"; }
@@ -37,22 +37,21 @@ $userID = 2;
 		elseif($month==10) { $month_name="Oct"; }
 		elseif($month==11) { $month_name="Nov"; }
 		else{ $month_name="Dec"; }
-		
+
 		if($yr == $year) {
-			if (!in_array($month, $m)){ 
+			if (!in_array($month, $m)){
 				$m[] = $month;
 				$buttons.="<OPTION VALUE=".$month.">".$month_name; echo'</OPTION>';
 			}
 		}
-		
+
 		$i++;
-	} 
+	}
 
 ?>
 
 <SELECT id='month' name='month' onChange="filterMonth()">
 <option value=" " disabled="disabled" selected="selected">Choose month</option>
-<?=$buttons?> 
-</SELECT> 
-<!-- <input type='button' onclick='filterYear()' value='Query MySQL' /> -->
+<?=$buttons?>
+</SELECT>
 </form>

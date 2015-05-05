@@ -1,9 +1,4 @@
 <?php
-//session_start();
-
-/*if (isset($_SESSION['CSpace_userID'])) 
-{
-*/
 	$q = $_GET['q'];
 
 	if ($q != "")
@@ -14,18 +9,14 @@
 
 	switch ($displayMode)
 	{
-		case "timeline": 
-						// header("Location: http://www.coagmento.org/ctest/CSpace/index.php");
-						include("../timeline.php");					
+		case "timeline":
+						include("../timeline.php");
 						break;
-					 
-		case "coverflow": 
+		case "coverflow":
 						include("extern_test.php");
-						break;					
-		case "3D": 
+						break;
+		case "3D":
 						include("../impress/index.php");
-						break;		
+						break;
 	}
-	/*
-}*/
 ?>

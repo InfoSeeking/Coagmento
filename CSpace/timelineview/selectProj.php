@@ -74,15 +74,8 @@
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$uName = $line1['firstName'] . " " . $line1['lastName'];
-		//echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showCollaborator.php?userID=$cUserID','content');\">$uName</span>, ";
-	}
+		}
         insertAction("switch_project",$projectID);
-        //header("Location: http://www.coagmento.org/CSpace/index.php?project");
-	//echo "</td></tr>\n";
-	//echo "</table>\n";
-        //echo "HOLA MUNDO";
         redirect('http://'.$_SERVER['HTTP_HOST'].'/CSpace/timelineview/index2.php?project');
-        //refresh();
-        //echo "<script>location.reload(true);</script>";
         }
 ?>

@@ -15,7 +15,7 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 <script type="text/javascript" src="../js/utilities.js"></script>
 
 <?php
-  include('func.php');
+  include('../func.php');
 ?>
 
 <script type="text/javascript">

@@ -237,7 +237,7 @@ xmlhttp.send();
 </script>
 
 <?php
-  include('func.php');
+  include('../func.php');
   require_once('../../connect.php');
   $userID=2;
 ?>
