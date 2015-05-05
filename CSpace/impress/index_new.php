@@ -6,10 +6,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Coagmento Impress Experiment</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-    <link href="impress/css/impress-demo.css" rel="stylesheet" />
+    <link href="../assets/impress-demo.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="impress/css/jquery.fancybox.css" type="text/css" media="screen" />
-	<script type="text/javascript" src="impress/js/jquery.fancybox.pack.js"></script>
+	<link rel="stylesheet" href="../assets/css/jquery_impress.fancybox.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="../assets/js/jquery_impress.fancybox.pack.js"></script>
 
 
     <script>
@@ -247,7 +247,7 @@
 </div>
 
 
-<script src="impress/js/impress.js"></script>
+<script src="../assets/js/impress.js"></script>
 <script>impress().init();</script>
 
 <script type="text/javascript">

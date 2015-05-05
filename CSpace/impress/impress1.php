@@ -162,9 +162,7 @@
 					$yval = $yval - 200;
 					$xval = $xval - 300;
 
-					// if($comp_day == $compareDay)
-					// 	// echo '<div class="day">'.$comp_date.'</div>';
-					// 	$xval = $xval + 100;
+
 				}
 
 				if($comp_day != $compareDay) {
@@ -199,5 +197,5 @@
 	}
 	?>
 
-	<script src="js/impress.js"></script>
+	<script src="../assets/js/impress.js"></script>
 	<script>impress().init();</script>
