@@ -25,6 +25,7 @@ var WORKSPACE = (function(){
   }
 
   function recordAction(action, value, cb){
+    return;//temporary fix
     console.log("Recording action workspace:" + action + " = " + value);
     if(value === undefined){
       value = "";
@@ -50,6 +51,8 @@ var WORKSPACE = (function(){
     var d = bookmark_data;
     var ed = $.extend({}, d); //extended data
     var url = ed["url"];
+    ed["rating"] = 0;//temporary fix, since rating isn't being returned now
+    ed["username"] = "";
     ed["pretty_url"] = url.length > 150 ? url.substring(0,150) + "..." : url;
     ed["pretty_date"] = prettyDate(ed["date"] + "T" + ed["time"]);
     ed["real_date"] = realDate(ed["date"] + "T" + ed["time"]);

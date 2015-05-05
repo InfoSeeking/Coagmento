@@ -78,34 +78,42 @@ function gen_url($param){
       <br class="clear" />
     </div>
     <script type="text/html" id="bookmark_template">
-      <li data-bookmarkID="<%= bookmarkID %>" data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
+      <li data-bookmarkID="TODO" data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
-          <div>
-            <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
-            <span><a class="bookmark_link" target="_blank" href="<%= url %>"><%= title %></a></span>
-            <% if(tags.length > 0){ %>
-              <div class="tagList">
-              <b>Tags:</b>
-              <% for(var i = 0; i < tags.length; i++){ %>
-                <span class="tag"><%= tags[i] %></span>
-              <% } %>
-              </div>
-            <% } %>
+          <div class="left_section">
+            <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
           </div>
-          <% if(note) { %>
-          <p><b>Notes:</b> <%= note %> </p>
-          <% } %>
-          <% if(rating > 0) { %>
-            <p><b>Rating:</b>
-              <span class="rating">
-                <% for(var i = 0; i < rating; i++){ %>
-                  <img src="assets/img/star_filled.png" />
+          <div class="right_section">
+
+            <div>
+              <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+              <span><a class="bookmark_link" target="_blank" href="<%= url %>"><%= title %></a></span>
+              <% if(tags.length > 0){ %>
+                <div class="tagList">
+                <b>Tags:</b>
+                <% for(var i = 0; i < tags.length; i++){ %>
+                  <span class="tag"><%= tags[i] %></span>
                 <% } %>
-                <% for(var i = rating; i < 5; i++){ %>
-                  <img src="assets/img/star_unfilled.png" />
-                <% } %>
-              </span></p>
-          <% } %>
+                </div>
+              <% } %>
+            </div>
+
+            <% if(note) { %>
+            <p><b>Notes:</b> <%= note %> </p>
+            <% } %>
+            <% if(rating > 0) { %>
+              <p><b>Rating:</b>
+                <span class="rating">
+                  <% for(var i = 0; i < rating; i++){ %>
+                    <img src="assets/img/star_filled.png" />
+                  <% } %>
+                  <% for(var i = rating; i < 5; i++){ %>
+                    <img src="assets/img/star_unfilled.png" />
+                  <% } %>
+                </span></p>
+            <% } %>
+          </div><!-- /right-section -->
+          <br class="clear" />
         </div><!--/top-->
         <div class="sub">
           <span class="added_by">Added by <b><%= username %></b></span>
@@ -116,8 +124,8 @@ function gen_url($param){
 
           <% if(editable){ %>
           <div class="sub-right">
-            <a href="#" class="delete" data-id="<%= bookmarkID %>">Delete</a>
-            <a href="#" class="edit" data-state="closed">Edit</a>
+            <a href="#" class="delete" data-id="TODO">Delete</a>
+            <!-- <a href="#" class="edit" data-state="closed">Edit</a> -->
           </div>
           <% } %>
         </div>
@@ -141,7 +149,7 @@ function gen_url($param){
               <label>Notes</label><br/>
               <textarea name="note"><%= note %></textarea>
             </div>
-            <a href="#" class="save" data-id="<%= bookmarkID %>">Save Changes</a>
+            <a href="#" class="save" data-id="TODO">Save Changes</a>
           </form>
         </div>
         <% } %>

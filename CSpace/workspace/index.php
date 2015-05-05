@@ -51,7 +51,7 @@ if($only_mine){
 
 switch($PAGE){
   case "ALL":
-    $bookmarks = extend_data(Bookmark::retrieveWithTagsFromProject($projectID), "bookmark");
+    $bookmarks = extend_data(Bookmark::retrieveFromProject($projectID), "bookmark");
     //$pages = extend_data(Page::retrieveFromProject($projectID), "page");
     $snippets = extend_data(Snippet::retrieveFromProject($projectID), "snippet");
     $searches = extend_data(Query::retrieveFromProject($projectID), "search");
@@ -65,7 +65,7 @@ switch($PAGE){
       $current_tag = $_GET["bookmark_tag_filter"];
       $raw_bookmarks = Bookmark::retrieveFromProjectAndTag($projectID, $_GET["bookmark_tag_filter"], $sorting_query);
     } else {
-      $raw_bookmarks = Bookmark::retrieveWithTagsFromProject($projectID, $sorting_query);
+      $raw_bookmarks = Bookmark::retrieveFromProject($projectID, $sorting_query);
     }
     $snippets = extend_data(Snippet::retrieveFromProject($projectID), "snippet");
     $urlToSnippets = array();//maps urls to snippets

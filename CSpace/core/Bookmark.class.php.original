@@ -11,9 +11,31 @@ require_once('Tags.class.php');
 * Bookmark creating/deleting/updating
 */
 class Bookmark extends Base {
-  public static function retrieveFromProject($projectID, $sorting="timestamp DESC"){
+
+  /**
+  * Returns an array of all of the bookmarks belonging to the specified user.
+  * @param int $userID
+  * @param int $projectID if set, it will only retrieve bookmarks from that specified project
+  * @return array Returns an array of Bookmark objects
+  */
+  public static function retrieveFromUser($userID, $projectID=FALSE){
     $cxn=Connection::getInstance();
-    $query = sprintf("select *, P.timestamp as timestamp from pages P, actions A, thumbnails T where A.action='save-page' AND A.value=P.pageID AND P.thumbnailID=T.thumbnailID AND P.projectID=%d ORDER BY P.%s", $projectID, $cxn->esc($sorting));
+    $query = sprintf("SELECT * FROM bookmarks WHERE userID=%d", $userID);
+    if($projectID){
+      $query .= sprintf(" AND projectID=%d", $projectID);
+    }
+    $query .= " ORDER BY timestamp DESC";
+    $bookmarks = array();
+    $results = $cxn->commit($query);
+    while($record = mysql_fetch_assoc($results)){
+      array_push($bookmarks, $record);
+    }
+    return $bookmarks;
+  }
+
+  public static function retrieveWithTagsFromProject($projectID, $sorting="timestamp DESC"){
+    $cxn=Connection::getInstance();
+    $query = sprintf("SELECT U.username, B.*, GROUP_CONCAT(bookmark_tags.name SEPARATOR ',') as tagList FROM users U, bookmarks B LEFT JOIN (tag_assignments, bookmark_tags) ON (B.bookmarkID = tag_assignments.bookmarkID AND tag_assignments.tagID = bookmark_tags.tagID) WHERE B.projectID=%d AND B.userID=U.userID GROUP BY B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
     while($record = mysql_fetch_assoc($results)){
@@ -24,7 +46,7 @@ class Bookmark extends Base {
 
   public static function retrieveFromProjectAndTag($projectID, $tagName, $sorting="timestamp DESC"){
     $cxn=Connection::getInstance();
-    $query = sprintf("SELECT U.username, B.* FROM users U, bookmarks B, tag_assignments TA, bookmark_tags T WHERE B.projectID=%d AND B.userID=U.userID AND T.name='%s' AND T.tagID = TA.tagID AND TA.bookmarkID=B.bookmarkID ORDER BY P.%s", $projectID, $cxn->esc($tagName), $cxn->esc($sorting));
+    $query = sprintf("SELECT U.username, B.* FROM users U, bookmarks B, tag_assignments TA, bookmark_tags T WHERE B.projectID=%d AND B.userID=U.userID AND T.name='%s' AND T.tagID = TA.tagID AND TA.bookmarkID=B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($tagName), $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
     while($record = mysql_fetch_assoc($results)){

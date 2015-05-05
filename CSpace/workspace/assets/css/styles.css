@@ -235,7 +235,17 @@ ul{
   font-size: 12px;
   margin-left: 5px;
 }
-
+#feed li .left_section {
+  float: left;
+}
+#feed li .right_section {
+  float: left;
+  padding-left: 10px;
+  width: 480px;
+}
+#feed li .clear {
+  clear: both;
+}
 table.contributions{
   width: 100%;
   cellspacing: 0;
