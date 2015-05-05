@@ -31,7 +31,7 @@ h2.ss-subtitle:after{
 }
 .ss-links{
 	position: fixed;
-	background: #f7f7f7 url(../images/old_wall.jpg) repeat top left;
+	background: #f7f7f7 url(../../assets/img/timeline/old_wall.jpg) repeat top left;
 	left: 0px;
 	top: 0px;
 	width: 100%;

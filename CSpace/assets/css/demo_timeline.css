@@ -2,7 +2,7 @@
 
 /* General Demo Style */
 body{
-    background: #f7f7f7 url(../images/old_wall.jpg) repeat top left;
+    background: #f7f7f7 url(../../assets/img/timeline/old_wall.jpg) repeat top left;
     color: rgba(0,0,0,0.8);
     font-family: 'Kelly Slab','Myriad Pro', Arial, sans-serif;
     font-size: 15px;
