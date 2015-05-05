@@ -1,16 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=1024" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Coagmento 3D</title>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-    <link rel="stylesheet" href="css/jquery_impress.fancybox.css" type="text/css" media="screen" />
-    <link href="../assets/css/impress-demo.css" rel="stylesheet" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	  <script type="text/javascript" src="js/jquery_impress.fancybox.pack.js"></script>
-    <script type="text/javascript" src="../assets/js/main_imageflow.js"></script>
+<meta charset="utf-8" />
+<title>Coagmento Coverflow</title>
+  <link rel="stylesheet" href="../assets/css/style_coverflow.css" type="text/css" />
+  <link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="../assets/css/imageflow.css" type="text/css" />
+  <script type="text/javascript" src="../assets/js/jquery_1.6.1.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="../assets/js/imageflow.js"></script>
+  <script type="text/javascript" src="../assets/js/main.js"></script>
+
+<!-- This includes the ImageFlow CSS and JavaScript -->
+
 
 <?php
     session_start();
@@ -44,39 +46,15 @@
 ?>
 
 </head>
-<body class="impress-not-supported">
+<body>
 
-<?php
+  <?php
 
-  $displayMode='3D';
-  include('../header.php');
+    $displayMode='coverflow';
+    include('../header.php');
 
-?>
+  ?>
 
-<div class="fallback-message">
-    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
-    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
-</div>
-
-<button id="prev"></button><button id="next"></button>
-
-
-<div id="impress"></div>
-
-
-
-
-<script type="text/javascript">
-
-$("#next").click(function () {
-	impress().next();
-});
-
-$("#prev").click(function () {
-	impress().prev();
-});
-
-</script>
-
+<div id="content"><?php require_once("extern.php");?></div>
 </body>
 </html>

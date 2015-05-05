@@ -93,15 +93,6 @@ $(".flip").click(function(){
                         <a href="../settings.php">Options</a>
                     </td>
                 </tr>
-                <!-- <tr height="10">
-                	<td></td>
-                </tr> -->
-                <!-- <tr>
-                	<td colspan=3 valign="top">
-                    	<a href="" style="color: #95ba23 !important; border: 0 !important; display: inline-block !important;">CSpace</a>&nbsp;&nbsp;
-                		<a href="" style="color: #95ba23 !important; border: 0 !important; display: inline-block !important;">Log out</a>
-                    </td>
-				</tr> -->
             </table>
         </div>
     </div>

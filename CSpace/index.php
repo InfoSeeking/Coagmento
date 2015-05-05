@@ -69,7 +69,7 @@
   <?php
 
     $displayMode='timeline';
-    include('header_main.php');
+    include('header.php');
 
   ?>
 
