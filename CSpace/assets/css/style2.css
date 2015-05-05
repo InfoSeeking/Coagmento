@@ -1,0 +1,464 @@
+body {
+	font-family: arial;
+	background: url('../img/bg.png') no-repeat center center fixed;
+
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+}	
+
+/* Flex Video // CSS taken from Foundation 4, made by ZURB */
+.flex-video {
+  position: relative;
+  padding-top: 1.5625em;
+  padding-bottom: 67.5%;
+  height: 0;
+  margin-bottom: 1em;
+  overflow: hidden; }
+  .flex-video.widescreen {
+    padding-bottom: 57.25%; }
+  .flex-video.vimeo {
+    padding-top: 0; }
+  .flex-video iframe,
+  .flex-video object,
+  .flex-video embed,
+  .flex-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
+/*	--------------------------------------------------
+	Reveal Modals // CSS taken from Foundation 4, made by ZURB
+	-------------------------------------------------- */
+
+.reveal-modal-bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: black;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 101;
+  display: none;
+  top: 0;
+  left: 0; }
+
+.reveal-modal {
+  visibility: hidden;
+  display: none;
+  position: absolute;
+  left: 59%;
+  z-index: 102;
+  height: auto;
+  margin-left: -40%;
+  width: 60%;
+  background-color: white;
+  padding: 1.25em;
+  border: solid 1px #666666;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  top: 50px; }
+  .reveal-modal .column,
+  .reveal-modal .columns {
+    min-width: 0; }
+  .reveal-modal > :first-child {
+    margin-top: 0; }
+  .reveal-modal > :last-child {
+    margin-bottom: 0; }
+  .reveal-modal .close-reveal-modal {
+    font-size: 1.375em;
+    line-height: 1;
+    position: absolute;
+    top: 0.5em;
+    right: 0.6875em;
+    color: #aaaaaa;
+    font-weight: bold;
+    cursor: pointer; }
+
+@media only screen and (min-width: 768px) {
+  .reveal-modal {
+    padding: 1.875em;
+    top: 6.25em; }
+    .reveal-modal.tiny {
+      margin-left: -15%;
+      width: 30%; }
+    .reveal-modal.small {
+      margin-left: -20%;
+      width: 40%; }
+    .reveal-modal.medium {
+      margin-left: -30%;
+      width: 60%; }
+    .reveal-modal.large {
+      margin-left: -35%;
+      width: 70%; }
+    .reveal-modal.xlarge {
+      margin-left: -47.5%;
+      width: 95%; } }
+@media print {
+  .reveal-modal {
+    background: white !important; } }
+
+#close-box {
+	float:right;
+}
+
+#topbar {
+	color: #000;
+	text-shadow: 0px 1px 1px #fff;
+	background: rgb(255,255,255);
+
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+	width: 100%;
+	min-width: 800px;
+	height: 85px;
+	position: fixed;
+	top: 0;
+	left: 0;
+    padding: 15px 0 0 38px;
+	z-index: 100;
+	border-bottom: 1px solid #DFDFDF;
+}
+
+#container {
+	position: relative;
+	padding-left: 30px;
+	padding-right: 30px;
+	margin-top: 120px;
+}
+
+#box_left {
+	width: 55%;
+	float: left;
+	margin-top: 0px;
+}
+
+#results table th {
+	text-align: left;
+}
+
+#results img {
+	margin: 0 10px 5px 0;
+}
+
+#box_right {
+	width: 35%;
+	height: 84%;
+	float: left;
+	position: fixed;
+	top: 110px;
+	left: 60%;
+	overflow: auto;
+}
+
+#box_right h2 a {
+	color: #000;
+	font-size: 20px;
+}
+
+#box_right h2 a:hover {
+	color: #ccc;
+}
+
+#intro table {
+	width: 100%;
+}
+
+#box_right #intro #speech {
+	background-color: rgba(204,204,204,0.5);
+	padding: 5px;
+	font-size: 14px;
+	color: #111 !important;
+}
+
+#box_right #intro div.thumb {
+	background: transparent !important;
+}
+
+h2 {
+	font-family: arial;
+	display: inline;
+	margin: 0;
+	float: left;
+}
+
+h2 a {
+	color: #000;
+	text-decoration: none;
+	padding-right: 20px;
+}
+
+h2 a:hover {
+	color: #ccc;
+}
+
+/* timeline only */
+.thumbnail_info {
+	font-family: arial;
+}
+
+.thumbnail_info a {
+	color: #06F;
+	font-family: arial;
+	text-decoration: none;
+}
+
+.form {
+	float: left;
+	padding-top: 3px;
+}
+
+.details {
+	float: left;
+	padding-top: 6px;
+	padding-left: 3px;
+	font-size: 12px;
+}
+
+.contain {
+	border-left: 1px solid #ccc;
+	padding-left: 20px;
+}
+
+.year h2 {
+	font-size: 24px;
+	font-family: arial;
+	margin: 0;
+	width: 100%; /* text-shadow:  0px -1px 0px rgba(0,0,0,.5);
+	 */
+}
+
+.month h3 {
+	font-family: arial;
+	margin: 10px 0 0; /* text-shadow:  0px -1px 0px rgba(0,0,0,.5);
+	 */
+}
+
+.day {
+	color: #333;
+	font-size: 14px;
+	margin: 10px 0 0;
+}
+
+/* end timeline only */
+	div.panel,p.flip
+	{
+	margin:0px;
+	padding:5px;
+	text-align:center;
+	margin-top: -10px;
+	}
+	div.panel
+	{
+	font-size: 14px;
+	height:auto;
+	display:none;
+	background: #fefefe;
+	padding: 20px;
+	box-shadow: 5px 5px 2px #eee;
+	margin-top: 0px;
+	}
+	div.panel a {
+	display: block;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	color: #333;
+	text-decoration: none;
+	}
+	div.panel a:hover {
+	color: #ccc;
+	}
+
+.top_links a {
+	color: #693;
+	text-decoration: none;
+}
+
+.top_links a:hover {
+	color: #ccc;
+}
+
+.body {
+	color: #333;
+	font-size: 12px;
+}
+
+.body td {
+	padding: 5px;
+}
+
+a.existing_projects {
+	background: #fffbde;
+	padding: 5px;
+	color: #693;
+	text-decoration: none;
+}
+
+a.existing_projects:hover {
+	background: #693;
+	padding: 5px;
+	color: #fffbde;
+	text-decoration: none;
+}
+
+/* content links */
+a.header {
+	color: #000;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+a:hover.header {
+	color: #ccc;
+}
+
+a {
+	color: #06C;
+	text-decoration: none;
+}
+
+.thumbnail_small {
+	display: inline-block;
+	border: solid 1px #ccc;
+	width:100px;
+	height:100px;
+}
+
+.thumbnail_small2 {
+	display: inline-block;
+	border: solid 1px #95ba23;
+	width:100px;
+	height:100px;
+}
+
+#box_left img {
+	width: 100px;
+	height: 100px;
+}
+
+#box_left a:hover, #xml_response a:hover {
+	display: inline-block;
+	border: solid 1px #545454;
+}
+
+.error {
+	margin-bottom:30px;
+}
+
+.summary {
+	margin-bottom:30px;
+}
+
+.wrapper {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin: 10px 10px 30px;
+	float: left;
+}
+
+.summary .wrapper {
+	margin: 0 20px 20px 0;
+}
+
+.rank .wrapper {
+	margin: 0 20px 60px 0;
+}
+
+.summary .thumbnail_small2, .rank .thumbnail_small2 {
+    margin-bottom: 5px;
+}
+
+.summary h4, .rank h4 {
+	margin:0;
+}
+
+input[type="checkbox"] {
+	margin: 10px 5px;
+}
+
+/* micro clearfix hack by Nicolas Gallagher @ http://nicolasgallagher.com/micro-clearfix-hack/ */
+.cf:before,.cf:after {
+	content: " "; /* 1 */
+display: table; /* 2 */
+}
+
+.cf:after {
+	clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+	*zoom: 1;
+}
+
+#method {
+	float:left;
+	margin-right:10px;
+}
+
+#group_opt, #summary_opt {
+	display:none;
+	float:left;
+	margin-right:10px;
+}
+
+#go, #clear {
+	margin:16px 0 0 5px;
+}
+
+#options {
+	margin-bottom:1em;
+	background: none repeat scroll 0 0 #DCDCDC;
+    border: 1px solid #DDD;
+    margin-bottom: 1em;
+    padding: 10px;
+    width: 95%;
+}
+
+#options p {
+	margin:0;
+}
+
+#opt, #groups, #summary_length {
+	border: 1px solid #53b5e6;
+	font-size:.8em;
+	padding:5px;
+}
+
+.powered {
+	float:right;
+	margin-top:-10px;
+}
+
+#intro {
+	margin:40px 0;
+}
+
+span.remove {
+  position:relative;
+  left: 91%;
+  top: 16%;
+  z-index:999;
+  cursor: pointer;
+}
+
+#remove-icon {
+	z-index:999;
+}
+
+.left p a {
+	color:gray;
+	float: right;
+    font-size: 14px;
+    margin-right: 25px;
+}

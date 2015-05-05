@@ -1,63 +1,66 @@
 <?php
 	session_start();
-	require_once("connect.php");
-	//var_dump($_SESSION);
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (isset($_SESSION['CSpace_userID'])) {
-		$userID = $_SESSION['CSpace_userID'];
+		$userID = $base->getUserID();
 		if (isset($_SESSION['CSpace_projectID']))
-                {
-			$projectID = $_SESSION['CSpace_projectID'];
-                        $projectTitle = $_SESSION['CSpace_projectTitle'];
-                }
+    {
+			$projectID = $base->getProjectID();
+      $projectTitle = $_SESSION['CSpace_projectTitle'];
+	  }
 		else {
 			$query = "SELECT projects.projectID, title FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
-                        $projectTitle = $line['$title'];
+      $projectTitle = $line['$title'];
 		}
 
-              if ($projectTitle=="")
-                  $projectTitle="Default";
+    if ($projectTitle=="")
+        $projectTitle="Default";
 
-              if (($projectID > 0)&&($projectTitle != ""))
-              {
-                  require_once "chat/src/phpfreechat.class.php"; // adjust to your own path
-                  //echo $projectID." - ".$projectTitle;
-                  $params["serverid"] = md5(__FILE__);
-                  /*$params["container_type"] = "Mysql";
-                  $params["container_cfg_mysql_host"] = "localhost";
-                  $params["container_cfg_mysql_database"] = "shahonli_coagmento";
-                  $params["container_cfg_mysql_username"] = "shahonli_super";
-                  $params["container_cfg_mysql_password"] = "superman-2010!";*/
-                  $params["nick"] = $_SESSION['userName'].$userID; //$_POST['nickname'];
-                  $params["title"] = "Coagmento";
-                  $params["display_ping"] = FALSE;
-                  $params["displaytabclosebutton"] = FALSE;
-                  $params["showwhosonline"] = FALSE;
-                  $params["btn_sh_whosonline"] = TRUE;
-                  $params["displaytabimage"]= FALSE;
-                  $params["height"]= "180px";
-                  $params["startwithsound"] = TRUE;
-                  $params["max_text_len"] = 5000;
-                  $params["timeout"] = 10000;
-                  $params["date_format"] = "m/d/Y";
-                  $params["time_format"] = "H:i";
-                  $params["short_url_width"] = 20;
-                  $params["showsmileys"] = FALSE;
-                  //$params["connect_at_startup"] = FALSE;
-                  //$params["frozen_channels"] = array();
-                  //$params["frozen_channels"] = array($projectTitle.$projectID);
-                  $params["channels"] = array($projectTitle.$projectID);
-                  $params["dyn_params"] = array("nick","frozen_channels");
-                  $params["max_channels"] = 1;
-                  //$params['frozen_nick'] = true;
-                  $params["max_msg"] = 0;
-                  $params["max_nick_len"]   = 20;
-                  $params['admins'] = array('admin'  => 'soportechatSummer2011');
-                  $params['skip_proxies'] = array('censor','noflood');
-                  $chat = new phpFreeChat($params);
-              }
+    if (($projectID > 0)&&($projectTitle != ""))
+    {
+        require_once "chat/src/phpfreechat.class.php"; // adjust to your own path
+        //echo $projectID." - ".$projectTitle;
+        $params["serverid"] = md5(__FILE__);
+        /*$params["container_type"] = "Mysql";
+        $params["container_cfg_mysql_host"] = "localhost";
+        $params["container_cfg_mysql_database"] = "shahonli_coagmento";
+        $params["container_cfg_mysql_username"] = "shahonli_super";
+        $params["container_cfg_mysql_password"] = "superman-2010!";*/
+        $params["nick"] = $_SESSION['userName'].$userID; //$_POST['nickname'];
+        $params["title"] = "Coagmento";
+        $params["display_ping"] = FALSE;
+        $params["displaytabclosebutton"] = FALSE;
+        $params["showwhosonline"] = FALSE;
+        $params["btn_sh_whosonline"] = TRUE;
+        $params["displaytabimage"]= FALSE;
+        $params["height"]= "180px";
+        $params["startwithsound"] = TRUE;
+        $params["max_text_len"] = 5000;
+        $params["timeout"] = 10000;
+        $params["date_format"] = "m/d/Y";
+        $params["time_format"] = "H:i";
+        $params["short_url_width"] = 20;
+        $params["showsmileys"] = FALSE;
+        //$params["connect_at_startup"] = FALSE;
+        //$params["frozen_channels"] = array();
+        //$params["frozen_channels"] = array($projectTitle.$projectID);
+        $params["channels"] = array($projectTitle.$projectID);
+        $params["dyn_params"] = array("nick","frozen_channels");
+        $params["max_channels"] = 1;
+        //$params['frozen_nick'] = true;
+        $params["max_msg"] = 0;
+        $params["max_nick_len"]   = 20;
+        $params['admins'] = array('admin'  => 'soportechatSummer2011');
+        $params['skip_proxies'] = array('censor','noflood');
+        $chat = new phpFreeChat($params);
+    }
   ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -65,7 +68,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 
         <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
-        <link rel="stylesheet" type="text/css" href="ajaxtabs/ajaxtabs.css" />
+        <link rel="stylesheet" type="text/css" href="assets/ajaxtabs/ajaxtabs.css" />
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/fonts/fonts-min.css" />
 	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/tabview/assets/skins/sam/tabview.css" />
 	<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
@@ -74,7 +77,7 @@
 	<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/tabview/tabview-min.js"></script>
 
 	<script type="text/javascript" src="js/utilities.js"></script>
-	<script type="text/javascript" src="ajaxtabs/ajaxtabs.js"></script>
+	<script type="text/javascript" src="assets/ajaxtabs/ajaxtabs.js"></script>
 
 	<script type="text/javascript">
 
@@ -84,10 +87,10 @@
 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
 ***********************************************/
 
-                setInterval ("reload('sidebarComponents/snippets.php','snippetsBox')", 60000);
+    setInterval ("reload('sidebarComponents/snippets.php','snippetsBox')", 60000);
 		setInterval ("reload('sidebarComponents/bookmarks.php','pagesBox')", 60000);
 		setInterval ("reload('sidebarComponents/searches.php','queriesBox')", 60000);
-                setInterval ("reload('sidebarComponents/files.php','filesBox')", 60000);
+    setInterval ("reload('sidebarComponents/files.php','filesBox')", 60000);
 		setInterval ("refresh()", 5000);
 		setInterval ("getNotifications()", 10000);
 
@@ -153,7 +156,7 @@
 		}
 	</script>
 	<title>Coagmento Sidebar</title>
-        <link rel="stylesheet" href="css/stylesSidebarFusion.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/stylesSidebarFusion.css" type="text/css" />
 	<style type="text/css">
                     .cursorType{
                             cursor:pointer;
@@ -165,22 +168,16 @@
 
 <body onload="initialize();refresh();getNotifications();" background=#FFFFFF>
           <?php
-  		//$chat->printChat();
-               // $chat->printJavascript();
-               // $chat->printStyle();
-               // echo "<script>pfc.sendRequest('/join Chat123')</script>";
 	?>
 <table class="body">
 	<tr>
 		<td>
-<!-- 			<div id="statusMessage">&nbsp;&nbsp;<span style="font-size:10px;color:red;">Warning: Coagmento is turned off.</span><br/>&nbsp;&nbsp;<span style="color:blue;text-decoration:underline;cursor:pointer;font-size:10px;" onClick="tabsReload(0,'source');">Activate it</span>. <span style="color:blue;text-decoration:underline;cursor:pointer;font-size:10px;" onClick="tabsReload(0,'source');">Learn more.</span></div> -->
 				<span style="font-size:10px;"><div id="currentProj"></div></span>
-<!-- 				<div id="reload"><span style="font-size:11px;color:blue;text-decoration:underline;cursor:pointer;" onClick="location.reload(true);">Reload the Sidebar</div>-->
 			<ul class="acc2" id="acc2">
 
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-chat'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
@@ -190,16 +187,15 @@
 					<div class="acc-section2">
 						<div id="chat" class="acc-content2">
 							<?php
-                                                            if (($projectID > 0)&&($projectTitle != ""))
-                                                            {
-                                                                 $chat->printChat();
+                if (($projectID > 0)&&($projectTitle != ""))
+                {
+                     $chat->printChat();
 
-                                                            }
-                                                             else
-                                                             {
-                                                                 echo "In order to use the chat you must select a project first.";
-                                                             }
-								//require_once("sidebarChat.php");
+                }
+                 else
+                 {
+                     echo "In order to use the chat you must select a project first.";
+                 }
 							?>
 						</div>
 					</div>
@@ -210,7 +206,7 @@
 
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
@@ -222,21 +218,21 @@
 							<?php
 								//require_once("sidebarHistory.php");
 							?>
-                                                     <ul id="tabs" class="shadetabs">
-                                                            <li><a href="sidebarComponents/snippets.php" rel="tabscontainer" class="selected">Snipppets</a></li>
-                                                            <li><a href="sidebarComponents/bookmarks.php" rel="tabscontainer">Bookmarks</a></li>
-                                                            <li><a href="sidebarComponents/searches.php" rel="tabsycontainer">Searches</a></li>
-                                                            <li><a href="sidebarComponents/files.php" rel="tabsycontainer">Files</a></li>
-<!--                                                            <li><a href="sidebarComponents/sidebarNotepad" rel="tabsycontainer">Notepad</a></li>-->
+               <ul id="tabs" class="shadetabs">
+                      <li><a href="sidebarComponents/snippets.php" rel="tabscontainer" class="selected">Snipppets</a></li>
+                      <li><a href="sidebarComponents/bookmarks.php" rel="tabscontainer">Bookmarks</a></li>
+                      <li><a href="sidebarComponents/searches.php" rel="tabsycontainer">Searches</a></li>
+                      <li><a href="sidebarComponents/files.php" rel="tabsycontainer">Files</a></li>
+<!--                  <li><a href="sidebarComponents/sidebarNotepad" rel="tabsycontainer">Notepad</a></li>-->
 
-                                                    </ul>
-                                                    <div id="tabsdivcontainer" style="border:1px solid gray; width:285px; margin-bottom: 1em; padding: 10px">  </div>
-                                                    <script type="text/javascript">
-                                                        var tabs=new ddajaxtabs("tabs", "tabsdivcontainer");
-                                                        tabs.setpersist(true);
-                                                        tabs.setselectedClassTarget("link"); //"link" or "linkparent"
-                                                        tabs.init();
-                                                    </script>
+              </ul>
+              <div id="tabsdivcontainer" style="border:1px solid gray; width:285px; margin-bottom: 1em; padding: 10px">  </div>
+              <script type="text/javascript">
+                  var tabs=new ddajaxtabs("tabs", "tabsdivcontainer");
+                  tabs.setpersist(true);
+                  tabs.setselectedClassTarget("link"); //"link" or "linkparent"
+                  tabs.init();
+              </script>
 						</div>
 					</div>
 
@@ -249,7 +245,7 @@
 
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
@@ -270,7 +266,7 @@
 
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
@@ -291,7 +287,7 @@
 	</tr>
 </table>
 
-<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="assets/js/script.js"></script>
 
 <script type="text/javascript">
 
@@ -303,13 +299,6 @@ nestedAccordion.init("nested","h4",1,-1,"acc-selected");
 
 </script>
 <?php
-                    /*function redirect($loc){
-                        echo "<script>window._content.location.href='".$loc."'</script>";
-                    }
-
-                    if($_GET['flagLogin']=="true")
-                        redirect("http://www.coagmento.org/CSpace/");*/
-
 
 	} // if (isset($_SESSION['CSpace_userID']))
 	else {

@@ -30,7 +30,7 @@
 <html>
 <head>
 	<title>Bookmark</title>
-	<link href="css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <?php
 		$query = "SELECT * FROM pages WHERE projectID='$projectID' AND url='$originalURL' AND result=2";

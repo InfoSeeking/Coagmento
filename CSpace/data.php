@@ -1,11 +1,16 @@
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
-		require_once("connect.php");
+		$userID = $base->getUserID();
+
 		if (isset($_GET['searchString']))
 			$searchString = $_GET['searchString'];
 		$maxPerPage = 25;
@@ -51,11 +56,11 @@
 		      <option value="" selected="selected">Project:</option>
 		      <?php
 			  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					echo "<option value=\"$projID\" ";
@@ -71,7 +76,7 @@
 		      <option value="" selected="selected">Session:</option>
 		      <?php
 			  	$query = "SELECT distinct date FROM pages WHERE userID='$userID' ORDER BY date desc";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$date = $line['date'];
 					echo "<option value=\"$date\" ";
@@ -157,7 +162,7 @@
 		case 'pages':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -219,12 +224,12 @@
 				else {
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
@@ -248,7 +253,7 @@
 		case 'saved':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -285,7 +290,7 @@
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
 //			echo "<tr><td align=center><span style=\"font-weight:bold\"><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></span></td><td align=center><span style=\"font-weight:bold\">Project</span></td><td align=center><span style=\"font-weight:bold\">Webpage</span></td><td align=center><span style=\"font-weight:bold\">Source</span></td><td align=center><span style=\"font-weight:bold\">Query</span></td><td align=center><span style=\"font-weight:bold\">Date</span></td><td align=center><span style=\"font-weight:bold\">Time</span></td></tr>\n";
 
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
@@ -293,30 +298,30 @@
 						$targetProjectID = $_GET['targetProjectID'];
 						if ($targetProjectID>0) {
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else if (isset($_GET['del_projectID'])) {
 							$targetProjectID = $_GET['del_projectID'];
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
+						$results1 = $connection->commit($query1);
 					}
 				}
 				else {
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
@@ -340,7 +345,7 @@
 		case 'queries':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -375,7 +380,7 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$queryID = $line['queryID'];
 				if(isset($_GET[$queryID])) {
@@ -383,30 +388,30 @@
 						$targetProjectID = $_GET['targetProjectID'];
 						if ($targetProjectID>0) {
 							$query1 = "UPDATE queries SET status=0 WHERE userID='$userID' AND queryID='$queryID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else if (isset($_GET['del_projectID'])) {
 							$targetProjectID = $_GET['del_projectID'];
-							$query1 = "UPDATE queries SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$query1 = "UPDATE queries SET status='0' WHERE userID='$userID' AND queryID='$pageID'";
+							$results1 = $connection->commit($query1);
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM queries WHERE queryID='$queryID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
+						$results1 = $connection->commit($query1);
 					}
 				}
 				else {
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$source = $line['source'];
@@ -421,7 +426,7 @@
 		case 'snippets':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -464,7 +469,7 @@
 						$targetProjectID = $_GET['targetProjectID'];
 						if ($targetProjectID>0) {
 							$query1 = "UPDATE snippets SET projectID='$targetProjectID' WHERE userID='$userID' AND snippetID='$snippetID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 
 						else
@@ -472,18 +477,18 @@
 					}
 					else {
 						$query1 = "DELETE FROM snippets WHERE snippetID='$snippetID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
+						$results1 = $connection->commit($query1);
 					}
 				}
 				else {
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
@@ -497,7 +502,7 @@
 		case 'annotations':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -532,7 +537,7 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$noteID = $line['noteID'];
 				if(isset($_GET[$noteID])) {
@@ -558,12 +563,12 @@
 				else {
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];

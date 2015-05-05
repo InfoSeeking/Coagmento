@@ -272,12 +272,6 @@
 		else if ($type == "page") {
 		    $pass_var = "page-".$pageID;
 
-		    // if ($bookmarked == 1) {
-		    //     echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
-		    //      //doesn't work
-		    //     echo "<img src='../bookmark.png' class='star' />";
-		    // }
-
 		    if ($thumb !== NULL) {
 				echo '<div class="wrapper">';
 				echo '<a class="thumbnail_small various fancybox.ajax" href="getDetails.php?q='.$pass_var.'">';
@@ -285,13 +279,11 @@
 				echo '</a></div>';
 		    }
 
-		    // else {
-		    //     echo "<img src='noimg.png' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
-		    // }
+
 
 		}
 		else if ($type == "snippet") {
-		    // $snippetID = $line['snippetID'];
+
 		    $pass_var = "snippet-".$pageID;
 
 			echo '<div class="wrapper">';
@@ -301,7 +293,7 @@
 		}
 
 		else if ($type == "annotation") {
-		    // $noteID = $line['noteID'];
+		    
 		    $pass_var = "note-".$pageID;
 			echo '<div class="wrapper">';
 			echo '<a class="thumbnail_small various fancybox.ajax" href="getDetails.php?q='.$pass_var.'">';

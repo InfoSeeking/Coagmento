@@ -17,8 +17,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
-<link rel="stylesheet" href="style.css" type="text/css" />
-<script type="text/javascript" src="js/utilities.js"></script>
+<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+<script type="text/javascript" src="assets/js/utilities.js"></script>
 <body class="body">
 <table class="body">
 		<tr><td style="font-size:12px;"><b>Objects from project <span style="font-weight:bold;font-size:12px;"><?php echo $title?></span></b></td><td align=right><a href="javascript:void(0);" onClick="addAction('print','<?php echo $objects;?>');window.print();">Print</a> <a href="javascript:void(0);" onClick="window.close();">Close</a></td></tr>
@@ -45,10 +45,10 @@
 			}
 			echo "</table></td></tr>\n";
 			break;
-			
+
 		case 'pages':
 			$query2 = "SELECT distinct url FROM pages WHERE projectID='$projectID'";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());	
+			$results2 = mysql_query($query2) or die(" ". mysql_error());
 			$numPages = mysql_num_rows($results2);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numPages</span> webpages visited for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -68,7 +68,7 @@
 			}
 			echo "</table></td></tr>\n";
 			break;
-			
+
 		case 'bookmarks':
 			$query3 = "SELECT distinct url FROM pages WHERE projectID='$projectID' AND result=1";
 			$results3 = mysql_query($query3) or die(" ". mysql_error());
@@ -91,7 +91,7 @@
 			}
 			echo "</table></td></tr>\n";
 			break;
-			
+
 		case 'snippets':
 			$query4 = "SELECT * FROM snippets WHERE projectID='$projectID' ORDER BY timestamp";
 			$results4 = mysql_query($query4) or die(" ". mysql_error());
@@ -113,7 +113,7 @@
 			}
 			echo "</table></td></tr>\n";
 			break;
-			
+
 		case 'annotations':
 			$query5 = "SELECT * FROM annotations WHERE projectID='$projectID' ORDER BY timestamp";
 			$results5 = mysql_query($query5) or die(" ". mysql_error());
@@ -134,7 +134,7 @@
 			}
 			echo "</table></td></tr>\n";
 			break;
-			
+
 		default:
 			$query1 = "SELECT * FROM queries WHERE projectID='$projectID' ORDER BY timestamp";
 			$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -154,11 +154,11 @@
 				echo "<tr><td style=\"font-size:11px;\"> $userName &nbsp;&nbsp;</td><td style=\"font-size:11px;color:gray;\"> $date &nbsp;&nbsp;</td><td style=\"font-size:11px;\"> <a href=\"$url\" style=\"font-size:11px;\" target=_blank>$queryText</a> (<span style=\"color:green;font-size:11px;\">$source</span>) </td></tr>\n";
 			}
 			echo "</table></td></tr>\n";
-			
+
 			echo "<tr><td><br/></td></tr>\n";
 
 			$query2 = "SELECT distinct url FROM pages WHERE projectID='$projectID'";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());	
+			$results2 = mysql_query($query2) or die(" ". mysql_error());
 			$numPages = mysql_num_rows($results2);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numPages</span> webpages visited for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -177,9 +177,9 @@
 				echo "<tr><td style=\"font-size:10px;\"> $userName &nbsp;&nbsp;</td><td style=\"font-size:10px;color:gray;\"> $date &nbsp;&nbsp;</td><td style=\"font-size:10px;\"> <a href=\"$url\" style=\"font-size:10px;\" target=_blank>$pTitle</a> (<span style=\"color:green;font-size:10px;\">$source</span>) </td></tr>\n";
 			}
 			echo "</table></td></tr>\n";
-			
+
 			echo "<tr><td><br/></td></tr>\n";
-			
+
 			$query3 = "SELECT distinct url FROM pages WHERE projectID='$projectID' AND result=1";
 			$results3 = mysql_query($query3) or die(" ". mysql_error());
 			$numBookmarks = mysql_num_rows($results3);
@@ -222,9 +222,9 @@
 				echo "<tr><td style=\"font-size:10px;color:gray;\">$date</td><td>&nbsp;&nbsp;</td><td style=\"font-size:10px;\">$snippet<br/><span style=\"color:gray;\">$note</span></td></tr>\n";
 			}
 			echo "</table></td></tr>\n";
-			
+
 			echo "<tr><td><br/></td></tr>\n";
-			
+
 			$query5 = "SELECT * FROM annotations WHERE projectID='$projectID' ORDER BY timestamp";
 			$results5 = mysql_query($query5) or die(" ". mysql_error());
 			$numAnnotations = mysql_num_rows($results5);
@@ -243,8 +243,8 @@
 				echo "<tr><td style=\"font-size:10px;color:gray;\">$date</td><td>&nbsp;&nbsp;</td><td style=\"font-size:10px;\">$note</td></tr>\n";
 			}
 			echo "</table></td></tr>\n";
-						
-			break;			
+
+			break;
 	}
 ?>
 </table>

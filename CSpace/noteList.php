@@ -9,12 +9,12 @@
 	$connection = Connection::getInstance();
 
 	if ((isset($_SESSION['CSpace_userID']))) {
-		$userID = $_SESSION['CSpace_userID'];
+		$userID = $base->getUserID();
 		if (isset($_SESSION['CSpace_projectID']))
-			$projectID = $_SESSION['CSpace_projectID'];
+			$projectID = $base->getProjectID();
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
@@ -27,29 +27,16 @@
 			if (isset($_GET['noteID'])) {
 				$noteID = $_GET['noteID'];
 				$query = "UPDATE notes SET note='$note' WHERE noteID='$noteID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 			}
 			else {
-				date_default_timezone_set('America/New_York');
-				$timestamp = time();
-				$datetime = getdate();
-			    $date = date('Y-m-d', $datetime[0]);
-				$time = date('H:i:s', $datetime[0]);
+				$timestamp = $base->getTimestamp();
+				$date = $base->getDate();
+				$time = $base->getTime();
 				$query = "INSERT INTO notes VALUES('','$userID','$projectID','$note','$timestamp','$date','$time','$shared','1')";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 
-				// Get the date, time, and timestamp
-				date_default_timezone_set('America/New_York');
-				$timestamp = time();
-				$datetime = getdate();
-				$date = date('Y-m-d', $datetime[0]);
-				$time = date('H:i:s', $datetime[0]);
-
-				// Record the action and update the points
-				$aQuery = "SELECT max(noteID) as num FROM notes WHERE userID='$userID'";
-				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
-				$rID = $aLine['num'];
+				$rID = $connection->getLastID();
 
 				$ip=$base->getIP();
 				Util::getInstance()->saveAction('create-note',"$rID",$base);
@@ -60,7 +47,7 @@
 			$noteID = $_GET['noteID'];
 			$query = "DELETE FROM notes WHERE noteID='$noteID'";
 			echo "$query<br/>\n";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 		}
 
 		$maxPerPage = 3;
@@ -72,24 +59,9 @@
 			$pageNum = $_GET['page'];
 
 		$min = $pageNum*3-3;
-//		$max = $pageNum*3;
-
-		if ($pageNum==1)
-			$query = "SELECT * FROM notes WHERE projectID='$projectID' AND shared='$shared' ORDER BY timestamp LIMIT $min,$maxPerPage";
-		else {
-/*			$prevMin = ($pageNum-1)*3;
-			$prevMax = ($pageNum-1)*3+1;
-			$query = "SELECT noteID FROM notes WHERE projectID='$projectID' AND shared='$shared' ORDER BY timestamp LIMIT $prevMin,$prevMax";
-			$results = mysql_query($query) or die(" ". mysql_error());
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
-			$minID = $line['noteID'];
-*/
-			$query = "SELECT * FROM notes WHERE projectID='$projectID' AND shared='$shared' ORDER BY timestamp LIMIT $min,$maxPerPage";
-		}
-//		echo "$query";
 
 		$query1 = "SELECT * FROM notes WHERE projectID='$projectID' AND shared='$shared'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query1);
 		echo "<table>\n";
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$noteID = $line['noteID'];

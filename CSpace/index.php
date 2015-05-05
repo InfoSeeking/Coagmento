@@ -4,22 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Connect with Information, Collaborate with People</title>
 
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript" src="loadXMLDoc.js"></script>
-<link rel="stylesheet" href="ladda.min.css" type="text/css" />
+<script type="text/javascript" src="assets/js/loadXMLDoc.js"></script>
+<link rel="stylesheet" href="assets/css/ladda.min.css" type="text/css" />
 
-<script type="text/javascript" src="jquery.cookie.js"></script>
-<script type="text/javascript" src="main2.js"></script>
+<script type="text/javascript" src="assets/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="assets/js/main2.js"></script>
 
 <script>
-  document.write('<script src=' +
+  document.write('<script src=assets/js/' +
   ('__proto__' in {} ? 'zepto' : 'jquery') +
   '.js><\/script>')
   </script>
 
-  <script src="foundation.min.js"></script>
-  <script src="foundation.reveal.js"></script>
+  <script src="assets/js/foundation.min.js"></script>
+  <script src="assets/js/foundation.reveal.js"></script>
 
   <script>
     $(document).foundation();
@@ -411,7 +411,7 @@
     </div>
 
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-    	<p class="flip" style="float: right;"><?php echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/img/".$avatar." width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">"; ?><br><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><?php echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/img/".$avatar." width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">"; ?><br><img src="assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -458,7 +458,6 @@
          <h1>Quickstart</h1>
          <div class="flex-video">
             <iframe width="640" height="480" src="//www.youtube.com/embed/JqNY7Xu46BY?rel=0" frameborder="0" allowfullscreen></iframe>
-            <!-- <iframe src="http://player.vimeo.com/video/69355902?byline=0&amp;portrait=0" width="800" height="626" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> -->
         </div>
          <a class="close-reveal-modal">&#215;</a>
          <input type="checkbox" onclick="validate()" id="dismiss" name="dismiss" /> Don't show this again.
@@ -506,7 +505,7 @@
     </div>
 
     <div id="list">
-        <h3>Search Analysis <a class="powered" href='http://iris.infoseeking.org/' target="_blank"><img src='poweredbyIRIS.png' width='70' height='40' alt='Powered by IRIS'></a></h3>
+        <h3>Search Analysis <a class="powered" href='http://iris.infoseeking.org/' target="_blank"><img src='assets/img/poweredbyIRIS_clear.png' width='70' height='40' alt='Powered by IRIS'></a></h3>
         <div id="options">
 
         <div id="method">
@@ -556,7 +555,7 @@
 
     </div>
 </div>
-<script type="text/javascript" src="spin.min.js"></script>
-<script type="text/javascript" src="ladda.min.js"></script>
+<script type="text/javascript" src="assets/js/spin.min.js"></script>
+<script type="text/javascript" src="assets/js/ladda.min.js"></script>
 </body>
 </html>

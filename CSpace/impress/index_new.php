@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Coagmento Impress Experiment</title>    
+    <title>Coagmento Impress Experiment</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-    <link href="impress/css/impress-demo.css" rel="stylesheet" /> 
+    <link href="impress/css/impress-demo.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="impress/css/jquery.fancybox.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="impress/js/jquery.fancybox.pack.js"></script>
@@ -19,7 +19,7 @@
 		$(".various").fancybox({
 			maxWidth	: 600,
 			maxHeight	: 600,
-			autoSize	: false,		
+			autoSize	: false,
 			fitToView	: false,
 			autoCenter  : true,
 			width		: '70%',
@@ -43,11 +43,11 @@
 
 <div id="impress">
 
-<?php 
+<?php
   	// Connecting to database
 		require_once("../connect.php");
 		session_start();
-		
+
 		if (!isset($_SESSION['CSpace_userID'])) {
 			echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 		}
@@ -56,7 +56,7 @@
 		$userID = $_SESSION['CSpace_userID'];
 
 		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ORDER BY date DESC";
-		$pageResult = mysql_query($getPage) or die(" ". mysql_error());	
+		$pageResult = mysql_query($getPage) or die(" ". mysql_error());
 
 		$hasResult = FALSE; // Check if there are any results
 
@@ -78,17 +78,17 @@
 			$title = $line['title'];
 
 			$hasThumb = $line['thumbnailID'];
-			$pass_var = "page-".$hasThumb;		
+			$pass_var = "page-".$hasThumb;
 
 			if($value == $val) {
 			// Bookmarked
-			
+
 			// Label by year, month ,day
 			$comp_date = $line['date'];
 			$comp_year = date("Y",strtotime($comp_date));
 			$comp_month = date("m",strtotime($comp_date));
 			$comp_day = date("d",strtotime($comp_date));
-			
+
 			if($setDate == false) {
 				$compareDate = $comp_date;
 				$compareYear = $comp_year;
@@ -102,7 +102,7 @@
 				//$xval = $xval + 100;
 				if($entered_first == false) {
 					$entered_first = true;
-					
+
 					// Converting months to word format
 					switch ($comp_month) {
 						case 01:
@@ -146,9 +146,9 @@
 					// echo '<div class="year"><h2>'.$comp_year.'</h2></div>';
 					// echo '<div class="month"><h3>'.$le_month.'</h3></div>';
 					// echo '<div class="day">'.$comp_date.'</div>';
-					
+
 					// echo '<div class="contain cf">';
-					echo '<div class="step cf" data-x='.$xval.' data-y='.$yval.' data-z='.$zval.' data-rotate="0" data-scale="1.2">';										
+					echo '<div class="step cf" data-x='.$xval.' data-y='.$yval.' data-z='.$zval.' data-rotate="0" data-scale="1.2">';
 					echo '<div class="day">'.$comp_date.'</div>';
 
 					$contain = true;
@@ -206,10 +206,10 @@
 					$zval = $zval - 500;
 					$yval = $yval - 200;
 					$xval = $xval - 300;
-					
+
 					// if($comp_day == $compareDay)
 					// 	// echo '<div class="day">'.$comp_date.'</div>';
-					// 	$xval = $xval + 100;					
+					// 	$xval = $xval + 100;
 				}
 
 				if($comp_day != $compareDay) {
@@ -218,19 +218,19 @@
 					$yval = $yval - 200;
 					$xval = $xval - 300;
 				}
-				
+
 				if($contain == false) {
 					// echo '<div class="contain cf">';
 					echo '<div class="step cf" data-x='.$xval.' data-y='.$yval.' data-z='.$zval.' data-rotate="0" data-scale="1.2">';
 					echo '<div class="day">'.$comp_date.'</div>';
-					
+
 					$contain = true;
 				}
-				
+
 				$compareDate = $comp_date;
 				$compareYear = $comp_year;
 				$compareMonth = $comp_month;
-				$compareDay = $comp_day; 
+				$compareDay = $comp_day;
 			}
 
 				echo '<div class="wrapper">';
@@ -239,9 +239,9 @@
 				echo '</a></div>';
 
 			$hasResult = TRUE;
-			
+
 		}
-	}		
+	}
 	?>
 
 </div>

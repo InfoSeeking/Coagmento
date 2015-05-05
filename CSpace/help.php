@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -63,7 +63,7 @@
 		<td>
 			<div id="hProj" style="display:none;text-align:left;font-size:12px;">
 			Coagmento allows you to have as many projects as you like. You should always have an active project while working with Coagmento as all your actions with Coagmento (sites visited, bookmarked, searched done, etc.) needs to be recorded under a project. By default, your active project is called 'Default'. If you have your Coagmento toolbar and/or sidebar open, they will show you what your active project is.<br/>
-			You can create a new project by clicking on your profile picture in the top-right corner and selecting 'Create' under 'Projects' from there. To see the list of your projects, click 'Select' instead. On this page, you can click on a project name to see more information about that project. Here, you can also select that project to be your active project. Make sure to refresh you CSpace after changing your active project.			
+			You can create a new project by clicking on your profile picture in the top-right corner and selecting 'Create' under 'Projects' from there. To see the list of your projects, click 'Select' instead. On this page, you can click on a project name to see more information about that project. Here, you can also select that project to be your active project. Make sure to refresh you CSpace after changing your active project.
 			</div>
 		</td>
 	</tr>

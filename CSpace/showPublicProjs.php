@@ -4,13 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="js/utilities.js"></script>
+<script type="text/javascript" src="assets/js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -18,7 +18,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -38,7 +38,7 @@
 	else {
 ?>
 
-<table class="body" width=100%>	
+<table class="body" width=100%>
 	<td><div id="sureJoin"></div><div id="sureDelete"></div></td>
 <?php
 	require_once("../connect.php");
@@ -52,20 +52,20 @@
 		$title = stripslashes($line['title']);
 		$query = "INSERT INTO memberships VALUES('','$projectID','$userID','0')";
 		$results = mysql_query($query) or die(" ". mysql_error());
-		echo "<tr><td colspan=3><font color=\"green\">You have just joined project <span style=\"font-weight:bold\">$title</span>.</font></td></tr>";		
+		echo "<tr><td colspan=3><font color=\"green\">You have just joined project <span style=\"font-weight:bold\">$title</span>.</font></td></tr>";
 		echo "<tr><td colspan=3><br/></td></tr>\n";
-		
+
 		$query = "SELECT * FROM users WHERE userID='$userID'";
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$firstName = $line['firstName'];
 		$lastName = $line['lastName'];
-		
+
 		$query = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$uID = $line['userID'];
-		
+
 		$query = "SELECT * FROM users WHERE userID='$uID'";
 		$results = mysql_query($query) or die(" ". mysql_error());
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -73,7 +73,7 @@
 		$targetFirstName = $line['firstName'];
 		$targetLastName = $line['lastName'];
 		$targetEmail = $line['email'];
-		
+
 		$title = addslashes($title);
 		// Create an email
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -82,7 +82,7 @@
 
 		$subject = 'You have a new collaborator!';
 		$message = "Hello, $targetFirstName $targetLastName,<br/><br/>This is to inform you that <strong>$firstName $lastName</strong> has just joined your  project <strong>$title</strong> as a collaborator.<br/><br/>Do not reply to this email. Visit your <a href=\"http://".$_SERVER['HTTP_HOST']."/CSpace\">CSpace</a> to access your projects. Your username is <strong>$targetUserName</strong>.<br/><br/><strong>The Coagmento Team</strong><br/><font color=\"gray\">'cause two (or more) heads are better than one!</font><br/><a href=\"http://www.coagmento.org\">www.Coagmento.org</a><br/>\n";
-		mail ($targetEmail, $subject, $message, $headers);	
+		mail ($targetEmail, $subject, $message, $headers);
 /*
 		echo "$targetEmail, $subject<br/>\n";
 		echo "$message<br/>\n";
@@ -97,7 +97,7 @@
 		$startDate = $line['startDate'];
 		$title = stripslashes($line['title']);
 		$description = stripslashes($line['description']);
-		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";		
+		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$members = "";
 		$belongsTo = 0;
@@ -124,7 +124,7 @@
 			echo "<tr><td><a href='projectInfo.php?projectID=$projectID'>$title</a><br/><span style=\"color:gray;\">$description</span></td><td>&nbsp;&nbsp;</td><td align=center>$startDate</td><td>&nbsp;&nbsp;</td><td align=center><a href=\"javascript:void(0);\" onClick=\"deleteProj('$projectID','$title');\">Leave</a>";
 		else
 			echo "<tr><td style=\"font-weight:bold\">$title<br/><span style=\"color:gray;\">$description</span></td><td>&nbsp;&nbsp;</td><td align=center>$startDate</td><td>&nbsp;&nbsp;</td><td align=center><a href=\"javascript:void(0);\" onClick=\"joinProj('$projectID','$title');\">Join</a>";
-		echo "</td></tr>\n";		
+		echo "</td></tr>\n";
 		echo "<tr><td colspan=5>Created by: $owner; Other members: $members<br/><hr/></td></tr>\n";
 	}
 	echo "</table></td></tr>\n";

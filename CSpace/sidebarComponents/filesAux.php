@@ -15,10 +15,10 @@
 		echo "<div id=\"floatFileLayerDelete\" style=\"position:absolute;  width:150px;  padding:16px;background:#FFFFFF;  border:2px solid #2266AA;  z-index:100; display:none \"></div>";
 		echo "<table width=100% cellspacing=0>\n";
 		echo "<tr>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','userName asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','userName desc','filesBox','files.php')\"></td>";
-		echo "<td align=\"left\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','name asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','name desc','filesBox','files.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','finalRating asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','finalRating desc','filesBox','files.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"images/asc.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','id asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"images/desc.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','id desc','filesBox','files.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','userName asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','userName desc','filesBox','files.php')\"></td>";
+		echo "<td align=\"left\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','name asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','name desc','filesBox','files.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','finalRating asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','finalRating desc','filesBox','files.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','id asc','filesBox','files.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Files','id desc','filesBox','files.php')\"></td>";
 		echo "<td></td>";
 		echo "</tr>";
 		$query = "SELECT *, (SELECT userName FROM users where users.userID = files.userID) AS userName, (SELECT sum(value) from rating where active = 1 and projectID='$projectID' and idResource = id and type = 'Files' group by idResource)/(SELECT count(*) from rating where active = 1 and projectID='$projectID' and idResource = id and type = 'Files' group by idResource) as finalRating FROM files WHERE projectID='$projectID' AND status=1 order by $orderBy";
@@ -46,17 +46,7 @@
 
 
 			echo "<tr style=\"background:$bgColor;\"><td><span style=\"font-size:10px\">$userName</span> </td><td><span style=\"font-size:10px\">";
-                        //echo "<a alt=\"View\" class=\"cursorType\" onclick=\"javascript:showFile('floatFileLayer',null,'$fileID','$type')\" style=\"font-size:10px; color:blue\">$title</a></span></td>\n";
-                        //$viewSnipetOnWindow = "window.open('sidebarComponents/viewFile.php?value=$fileID&action=show_File','File View','statusbar=0,menubar=0,resizable=yes,scrollbars=yes,width=600,height=550,left=600')";
-                        //echo "<a alt=\"View\" class=\"cursorType\" onclick=\"javascript:$viewSnipetOnWindow\" onmouseover=\"javascript:showFile('floatFileLayer',null,'$fileID','$type')\" onmouseout=\"javascript:hideLayer('floatFileLayer')\" style=\"font-size:10px; color:blue\">$title</a></span></td>\n";
-                        echo "<font color=blue><a onclick=\"javascript:ajaxpage('sidebarComponents/insertAction.php?action=sidebar-file&value='+$fileID,null)\" href=\"files/".$fileName."\" class=\"tt\" target=_content style=\"font-size:10px\">$title</a></span></td>\n";
-
-//			if ($url)
-//				echo "<font color=blue><a alt=\"View\" class=\"cursorType\" onclick=\"javascript:showFile('floatFileLayer',null,'$fileID','$type')\" style=\"font-size:10px\">$title</a></span></td>\n";
-//			else
-//				echo "<font color=blue><a alt=\"View\" class=\"cursorType\" onclick=\"javascript:showFile('floatFileLayer',null,'$fileID','$type')\" style=\"font-size:10px\">$File</a></span></td>\n";
-
-			//$fullFile = "[Source: " . $url . "] || ".$File;
+      echo "<font color=blue><a onclick=\"javascript:ajaxpage('sidebarComponents/insertAction.php?action=sidebar-file&value='+$fileID,null)\" href=\"files/".$fileName."\" class=\"tt\" target=_content style=\"font-size:10px\">$title</a></span></td>\n";
 
 			echo "<input type=\"hidden\" id=\"fileValue$fileID\" value=\"$file\">";
                         echo "<input type=\"hidden\" id=\"source$fileID\" value=\"$title\">";
@@ -65,19 +55,11 @@
 			$ratingRepresentation = getRatingRepresentation($finalRating, $fileID,'Files','floatFileLayer','filesBox','files.php');
 			echo "<td align=\"center\">$ratingRepresentation</td>";
 			echo "<td align=\"center\" onmouseover=\"javascript:showTime('floatFileLayer',null,'$fileID')\" onmouseout=\"javascript:hideLayer('floatFileLayer')\"><span style=\"font-size:10px\">$date</span></td>";
-                        if ($userID==$userIDItem)
-                            echo "<td align=\"right\" class=\"cursorType\" onclick=\"javascript:deleteItem('floatFileLayerDelete',null,'$fileID','files','filesBox','files.php')\"><span style=\"font-size:10px; color:red; font-weight: bold \"> <a style=\"font-size:10px; color:$bgColor\"> - </a>X</span></td>";
-                        else
-                            echo "<td></td>";
+      if ($userID==$userIDItem)
+          echo "<td align=\"right\" class=\"cursorType\" onclick=\"javascript:deleteItem('floatFileLayerDelete',null,'$fileID','files','filesBox','files.php')\"><span style=\"font-size:10px; color:red; font-weight: bold \"> <a style=\"font-size:10px; color:$bgColor\"> - </a>X</span></td>";
+      else
+          echo "<td></td>";
 
-                        /*echo "<td align=\"right\">";
-                        if ($url)
-                                echo "<font color=blue><a href=\"$url\" class=\"tt\" target=_content style=\"font-size:10px\"><img src=\"images/link.gif\" height=\"18\" width=\"18\" alt=\"Go\" class=\"cursorType\" /></a>\n";
-			else
-				echo "<img src=\"images/blank.gif\" height=\"18\" width=\"18\">";
-
-			echo "<span style=\"font-size:10px; color:$bgColor\">-</span><img src=\"images/copy.gif\" height=\"18\" width=\"18\" alt=\"Copy\" class=\"cursorType\" onclick=\"javascript:copyToClipboard('FileValue$fileID')\"></td>";
-                        */
 			echo "</tr>";
 
 			if ($bgColor == '#E8E8E8')

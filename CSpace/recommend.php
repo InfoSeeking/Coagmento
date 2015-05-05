@@ -21,7 +21,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
 <title>Coagmento</title>
-<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
 </head>
 <body class="body">
 <form action="recommendSubmit.php" method=get>
@@ -29,7 +29,7 @@
 	<tr><td align="right"><img src="../img/recommend.jpg" height=40 style="vertical-align:middle;border:0" /> <span style="font-weight:bold;font-size:15px">Recommend a Webpage</span></td></tr>
 	<tr><td><br/></td></tr>
 	<tr><td>Select the collaborators from project <span style="font-weight:bold";><?php echo $projTitle;?></span> to recommend webpage<br/><a href="<?php echo $url;?>"><?php echo $title;?></a></td></tr>
-	<tr><td><br/></td></tr>	
+	<tr><td><br/></td></tr>
 	<tr>
 		<td>
 			<table class="body">
@@ -54,12 +54,12 @@
 			</table>
 		</td>
 	</tr>
-	<tr><td><br/></td></tr>	
+	<tr><td><br/></td></tr>
 	<tr><td>You can also recommend this page to anyone else by entering their emails below.<br/>Multiple emails should be separated using commas(,).</td></tr>
 	<tr><td><input type="text" size=60 name="emails" /></td></tr>
-	<tr><td>Message (optional):</td></tr>	
-	<tr><td><textarea rows="3" cols="55" name="message"></textarea></td></tr>		
-	<tr><td><input type="hidden" name="title" value="<?php echo $title;?>"/><input type="hidden" name="url" value="<?php echo $url;?>"/><br/></td></tr>	
+	<tr><td>Message (optional):</td></tr>
+	<tr><td><textarea rows="3" cols="55" name="message"></textarea></td></tr>
+	<tr><td><input type="hidden" name="title" value="<?php echo $title;?>"/><input type="hidden" name="url" value="<?php echo $url;?>"/><br/></td></tr>
 	<tr><td align="center"><input type="submit" value="Send Recommendation"/></td></tr>
 </table>
 </form>

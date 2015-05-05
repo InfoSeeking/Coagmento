@@ -1,4 +1,4 @@
-<script type="text/javascript"> 
+<script type="text/javascript">
 domReady(function()
 {
     var instanceOne = new ImageFlow();
@@ -35,7 +35,7 @@ else {
 
 	$projectID = "";
 	$userID = $_SESSION['CSpace_userID'];
-	
+
 	// Set project name to project ID
 	$sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
 	$result = mysql_query($sql) or die(" ". mysql_error());
@@ -47,7 +47,7 @@ else {
         $projectFilter = "projectID in (SELECT projectID from memberships where userID = $userID and access = 1)";
     else
         $projectFilter = "projectID = ".$projectID."";
-    
+
     // "My stuff only" filter
     if($checked == 'Yes') {
         $userFilter = "and userID = ".$_SESSION['CSpace_userID'];
@@ -68,15 +68,15 @@ else {
         $monthFilter = NULL;
     }
 
-    $queryPages = "SELECT pageID, 'page' as `type`, userID, projectID, url, source, title, query, result, date, time, timestamp, 
-                   (select fileName from thumbnails b where b.thumbnailID = a.thumbnailID LIMIT 1) thumbnailID 
+    $queryPages = "SELECT pageID, 'page' as `type`, userID, projectID, url, source, title, query, result, date, time, timestamp,
+                   (select fileName from thumbnails b where b.thumbnailID = a.thumbnailID LIMIT 1) thumbnailID
                    FROM pages a WHERE ".$projectFilter." ".$userFilter." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ".$yearFilter." ".$monthFilter."";
-                   //fileName in thumbnails is renamed and moved to 
+                   //fileName in thumbnails is renamed and moved to
 
-    $queryBookmarks = "SELECT pageID, 'page' as `type`, userID, projectID, url, source, title, query, result, date, time, timestamp, 
-                   (select fileName from thumbnails b where b.thumbnailID = a.thumbnailID LIMIT 1) thumbnailID 
+    $queryBookmarks = "SELECT pageID, 'page' as `type`, userID, projectID, url, source, title, query, result, date, time, timestamp,
+                   (select fileName from thumbnails b where b.thumbnailID = a.thumbnailID LIMIT 1) thumbnailID
                    FROM pages a WHERE result = 1 and ".$projectFilter." ".$userFilter." AND result = 1 AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ".$yearFilter." ".$monthFilter."";
-                   //fileName in thumbnails is renamed and moved to 
+                   //fileName in thumbnails is renamed and moved to
 
 	$queryQueries = "SELECT queryID as pageID, 'query' as `type`, userID, projectID, url, source, title, query, '', date, time, timestamp, NULL as thumbnailID FROM queries WHERE ".$projectFilter." ".$userFilter." ".$yearFilter." ".$monthFilter."";
 
@@ -109,7 +109,7 @@ else {
 	}
 
     //echo $fullQuery;
-	$pageResult = mysql_query($fullQuery) or die(" ". mysql_error()); 
+	$pageResult = mysql_query($fullQuery) or die(" ". mysql_error());
 
     //This is all the XHTML ImageFlow needs
     echo "<div id='myImageFlow' class='imageflow'>";
@@ -141,35 +141,20 @@ else {
         else if ($type == "page") {
             $pass_var = "page-".$pageID;
 
-            // if ($bookmarked == 1) {
-            //     echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
-            //      //doesn't work
-            //     echo "<img src='../bookmark.png' class='star' />";
-            // }
-
             if ($thumb !== NULL) {
                 echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
             }
 
-            // else {
-            //     echo "<img src='noimg.png' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
-            // }
-
-        }   
+        }
         else if ($type == "snippet") {
-            // $snippetID = $line['snippetID'];
             $pass_var = "snippet-".$pageID;
             echo "<img src='../snippet.png' width='100' height='100' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
         }
 
         else if ($type == "annotation") {
-            // $noteID = $line['noteID'];
             $pass_var = "note-".$pageID;
             echo "<img src='../note.png' width='100' height='100' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";
         }
-
-        // echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' width='320' height='240' class='various fancybox.ajax' href='getDetails.php?q=".$pass_var."' alt='".$title." (".$comp_date.")' />";  
-
     }
 
     echo "</div>";

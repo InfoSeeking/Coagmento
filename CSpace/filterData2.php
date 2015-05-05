@@ -264,7 +264,7 @@ else {
 					$thumb = $line['fileName'];
 					$background= 'url(http://'.$_SERVER['HTTP_HOST'].'/CSpace/thumbnails/small/'.$thumb.')';
 				}else if($bookmarked){
-					$background="url(page.png);";
+					$background="url(assets/img/page.png);";
 				}
 			}else if($type=='save-page'){
 				$hasThumb = $line['thumbnailID'];
@@ -278,7 +278,7 @@ else {
 					$thumb = $line['fileName'];
 					$background= 'url(http://'.$_SERVER['HTTP_HOST'].'/CSpace/thumbnails/small/'.$thumb.')';
 				}else{
-					$background="url(page.png);";
+					$background="url(assets/img/page.png);";
 				}
 
 
@@ -298,9 +298,9 @@ else {
 
 			// IMAGE
 			if($bookmarked){
-					echo '<img src="bookmark.png" style="width: 25px; height: 25px;" />';
+					echo '<img src="assets/img/bookmark.png" style="width: 25px; height: 25px;" />';
 			}else if($type=='page'){
-					echo "<img src='page.png'>";
+					echo "<img src='assets/img/page.png'>";
 			}else if($type=='save-page'){
 				echo "<img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."'>";
 			}
@@ -311,17 +311,17 @@ else {
 				$id = $line['queryID'];
 
 				if($source == 'google' || $source == 'yahoo' || $source == 'bing') {
-					echo "<img src='query_".$source.".png'>";
+					echo "<img src='assets/img/query_".$source.".png'>";
 				}
 				else {
-					echo "<img src='query.png'>";
+					echo "<img src='assets/img/query.png'>";
 				}
 			}else if($type=='save-page'){
-				echo '<img src="bookmark.png" style="width: 25px; height: 25px;" />';
+				echo '<img src="assets/img/bookmark.png" style="width: 25px; height: 25px;" />';
 			}else if($type=='save-snippet'){
-				echo '<img src="snippet.png">';
+				echo '<img src="assets/img/snippet.png">';
 			}else if($type=='add-annotation'){
-				echo '<img src="note.png">';
+				echo '<img src="assets/img/note.png">';
 			}
 
 

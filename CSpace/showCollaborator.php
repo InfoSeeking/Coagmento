@@ -4,12 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
@@ -17,7 +17,7 @@
 	});
 </script>
 
-<?php 
+<?php
 	include('func.php');
 ?>
 </head>
@@ -51,7 +51,7 @@
 			$organization = $line['organization'];
 			$email = $line['email'];
 			$website = $line['website'];
-			
+
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" style='float: left;' width=100 height=100 /><span style=\"font-weight:bold\">$uName</span><br/>\n";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;Organization: $organization<br/>\n";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;Email: <a href=\"mailto:$email\">$email</a><br/>\n";

@@ -4,11 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="style2.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 
 
 <script type="text/javascript">
@@ -39,7 +39,7 @@
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
-	$ip=$_SERVER['REMOTE_ADDR'];
+	$ip=$base->getIP();
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
@@ -53,6 +53,7 @@
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");
+	require_once("utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -124,8 +125,6 @@
 					$rID = $aLine['num'];
 
 					Util::getInstance()->saveAction('add-collaborator',"$rID",$base);
-
-					require_once("utilityFunctions.php");
 					addPoints($userID,100);
 
 					// Create an email

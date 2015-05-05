@@ -4,7 +4,7 @@ s<div id="topbar">
         <h2><a href="index.php?displayMode=timeline&projects=all&objects=all&years=all&months=all&formSubmit=Submit">Coagmento CSpace</a></h2><br/>
         <p id="getToolbar">Get Toolbar: <a href="../getToolbar.php">Firefox</a> <a href="https://chrome.google.com/webstore/search/coagmento" target="_blank">Chrome</a></p>
     </div>
-    
+
     <!-- user info -->
     <div style="float: left;">
 		<?php
@@ -12,14 +12,14 @@ s<div id="topbar">
         require_once('../connect.php');
         $userID = $_SESSION['CSpace_userID'];
         $projectID = $_SESSION['CSpace_projectID'];
-		
+
 		if (!(isset($_SESSION['CSpace_projectID'])) || $projectID==0) {
 			$query = "select projects.projectID from projects,memberships where memberships.userID=$userID and projects.projectID=memberships.projectID and projects.title='Default' and memberships.access=1";
 			$results = mysql_query($query) or die(" ". mysql_error());
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
-				
+
         $query = "SELECT * FROM users WHERE userID='$userID'";
         $results = mysql_query($query) or die(" ". mysql_error());
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -44,10 +44,10 @@ s<div id="topbar">
         echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='index.php?displayMode=timeline&projects=all&objects=all&years=all&months=all&formSubmit=Submit'>CSpace</a><br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"top\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a><br/>&nbsp;&nbsp;Current project: <strong>$title</strong><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a different project</a></td></tr></table></div>";
         ?>
     </div>
-    
+
     <!-- menu -->
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-    	<p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -56,7 +56,7 @@ s<div id="topbar">
                     	<b>Collaborators</b><br/>
                         <a href="addCollaborator.php">Add</a>
                         <a href="collaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="createProject.php">Create</a>
                         <a href="projects.php">Select</a>
@@ -66,7 +66,7 @@ s<div id="topbar">
                     	<b>Sharing</b>
                         <a href="showRecommendations.php">Recommendations</a>
                         <a href="interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="etherpad.php">Editor</a>
                         <a href="files.php">Files</a>

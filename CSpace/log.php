@@ -23,7 +23,7 @@
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
@@ -48,7 +48,7 @@
 				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					echo "<option value=\"$projectID\">$title</option>\n";
@@ -61,7 +61,7 @@
 		      <option value="" selected="selected">Session:</option>
 		      <?php
 			  	$query = "SELECT distinct date FROM pages WHERE userID='$userID' ORDER BY date desc";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$date = $line['date'];
 					echo "<option value=\"$date\">$date</option>\n";
@@ -107,10 +107,9 @@
 		$objects = 'pages';
 
 	// Get the date, time, and timestamp
-	$timestamp = time();
-	$datetime = getdate();
-	$date = date('Y-m-d', $datetime[0]);
-	$time = date('H:i:s', $datetime[0]);
+	$timestamp = $base->getTimestamp();
+	$date = $base->getDate();
+	$time = $base->getTime();
 
 	$ip=$base->getIP();
 	Util::getInstance()->saveAction('view-log','',$base);
@@ -119,7 +118,7 @@
 		case 'pages':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -163,12 +162,12 @@
 						$targetProjectID = $_GET['targetProjectID'];
 						if ($targetProjectID>0) {
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else if (isset($_GET['del_projectID'])) {
 							$targetProjectID = $_GET['del_projectID'];
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
@@ -176,19 +175,19 @@
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
+						$results1 = $connection->commit($query1);
 //						echo "<font color=red>Selected records deleted.</font>\n";
 					}
 				}
 				else {
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
@@ -228,7 +227,7 @@
 		case 'saved':
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
@@ -260,7 +259,7 @@
 			}
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
 
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
