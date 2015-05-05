@@ -310,9 +310,9 @@ class Questionnaires
 			echo "<link rel=\"stylesheet\" href=\"".$this->basedirectory."study_styles/pure-release-0.5.0/buttons.css\">";
 			echo "<link rel=\"stylesheet\" href=\"".$this->basedirectory."study_styles/pure-release-0.5.0/forms.css\">";
 		  echo "<link rel=\"stylesheet\" href=\"".$this->basedirectory."study_styles/pure-release-0.5.0/grids-min.css\">";
-			echo "<script src=\"".$this->basedirectory."lib/jquery-2.1.3.min.js\"></script>";
-			echo "<script src=\"".$this->basedirectory."lib/validation/jquery-validation-1.13.1/dist/jquery.validate.js\"></script>";
-			echo "<script src=\"".$this->basedirectory."lib/validation/validation.js\"></script>";
+			echo "<script src=\"".$this->basedirectory."assets/js/jquery-2.1.3.min.js\"></script>";
+			echo "<script src=\"".$this->basedirectory."assets/js/validation/jquery-validation-1.13.1/dist/jquery.validate.js\"></script>";
+			echo "<script src=\"".$this->basedirectory."assets/js/validation/validation.js\"></script>";
 		}
 
 		public function printPostamble(){

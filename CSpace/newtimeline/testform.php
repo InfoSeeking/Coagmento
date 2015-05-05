@@ -1,13 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<title>PHP form select box example</title>
 
 <style>
-label,a 
+label,a
 {
 	font-family : Arial, Helvetica, sans-serif;
-	font-size : 12px; 
+	font-size : 12px;
 }
 .details {
 	font-family: arial;
@@ -22,7 +22,7 @@ label,a
 	font-family: arial;
 	padding-left: 20px;
 }
-</style>	
+</style>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 
@@ -33,7 +33,7 @@ if (str=="")
   {
   document.getElementById("box_bottom").innerHTML="HELLLLOOO";
   return;
-  } 
+  }
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -48,7 +48,7 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_bottom").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_bottom").innerHTML = '<img src="loading.gif"/>'; }
+	else { document.getElementById("box_bottom").innerHTML = '<img src="../assets/img/loading.gif"/>'; }
   }
 xmlhttp.open("GET","filterData.php?q="+str,true);
 xmlhttp.send();
@@ -63,15 +63,15 @@ xmlhttp.send();
 ?>
 
 <?php
-	if(isset($_POST['formSubmit'])) 
+	if(isset($_POST['formSubmit']))
 	{
 		$varProjects = $_POST['projects'];
 		$varObjects = $_POST['objects'];
 		$varYears = $_POST['years'];
 		$varMonths = $_POST['months'];
-		  
+
 		$str = $varProjects.'-'.$varObjects.'-'.$varYears.'-'.$varMonths;
-		
+
 		echo '<div class="details">';
 		echo 'Viewing <b>';
 		echo $varObjects;
@@ -122,14 +122,14 @@ xmlhttp.send();
 		echo ' ';
 		echo $varYears;
 		echo '</b>';
-		
+
 		echo '</div>';
-		
+
 		echo '<script type="text/javascript">';
 		echo 'filterData("'.$str.'")';
 		echo '</script>';
-         
-		/*if(empty($varCountry)) 
+
+		/*if(empty($varCountry))
 		{
 			$errorMessage = "<li>You forgot to select a country!</li>";
 		}*/
@@ -144,7 +144,7 @@ xmlhttp.send();
 		echo '<option value="all">All Projects</option>';
         $query = "SELECT * FROM memberships WHERE userID='$userID'";
         $results = mysql_query($query) or die(" ". mysql_error());
-        while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+        while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
             $projID = $line['projectID'];
             $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
             $results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -157,7 +157,7 @@ xmlhttp.send();
         }
     ?>
     </select>
-    
+
 	<select id="objects" name="objects">
       <option value="all">All Objects</option>
       <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
@@ -166,51 +166,51 @@ xmlhttp.send();
       <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?>>Snippets</option>
       <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?>>Annotations</option>
     </select>
-    
+
     <select id="years" name="years">
       <option value="all">All Years</option>
-	  <? 
+	  <?
       $sql_year="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-      $result_year=mysql_query($sql_year); 
-  
-      $options=""; 
+      $result_year=mysql_query($sql_year);
+
+      $options="";
       $y=array();
-  
-      while ($row=mysql_fetch_array($result_year)) { 
-          $date=$row["date"];  
+
+      while ($row=mysql_fetch_array($result_year)) {
+          $date=$row["date"];
           $year = date("Y",strtotime($date));
-      
-          if (!in_array($year, $y)){ 
+
+          if (!in_array($year, $y)){
               $y[] = $year;
-              $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';  
+              $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';
           }
-  
-      } 
+
+      }
       echo $options;
       ?>
     </select>
-    
+
     <select id="months" name="months">
       <option value="all">All Months</option>
       <?
-	  $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')"; 
+	  $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')";
 	  $result_month=mysql_query($sql_month);
-	  
+
 	  $m=array();
-	  
-	  while ($row2=mysql_fetch_array($result_month)) { 
-		  $date2=$row2["date"]; 
+
+	  while ($row2=mysql_fetch_array($result_month)) {
+		  $date2=$row2["date"];
 		  $month = date("m",strtotime($date2));
-		  
-		  if (!in_array($month, $m)){ 
+
+		  if (!in_array($month, $m)){
 		  	  if($month == 01 || $month == 02 || $month == 03 || $month == 04 || $month == 05 || $month == 06 || $month == 07 || $month == 08 || $month == 09 || $month == 10 || $month == 11 || $month == 12) {
 			  	$m[] = $month;
 			  }
 		  }
-	  } 
-		 
+	  }
+
 	  sort($m);
-	
+
 	  for($i = 0; $i < count($m); ++$i) {
 		  echo "<option value=".$m[$i].">";
 		  if($m[$i]==01) { echo "Jan"; }
@@ -229,7 +229,7 @@ xmlhttp.send();
 	  }
 	  ?>
     </select>
-    
+
 	<input type="submit" name="formSubmit" value="Submit" />
 </form>
 </div><br/><br/>

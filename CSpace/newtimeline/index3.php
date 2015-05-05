@@ -55,7 +55,7 @@
 	display: inline-block;
 	width: 100px;
 	height: 100px;
-	}	
+	}
 	a:hover {
 	border: 1px solid #000 !important;
 	}
@@ -70,7 +70,7 @@
 	img.thumbnail_small {
 	margin: 10px 10px 10px 10px;
 	border: 3px solid #ccc;
-	}	
+	}
 	.form {
 	float: left;
 	padding-left: 20px;
@@ -92,7 +92,7 @@ if (str=="")
   {
   document.getElementById("box_left").innerHTML="";
   return;
-  } 
+  }
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -107,7 +107,7 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_left").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_left").innerHTML = '<img src="loading.gif"/>'; }
+	else { document.getElementById("box_left").innerHTML = '<img src="../assets/img/loading.gif"/>'; }
   }
 xmlhttp.open("GET","filterData.php?q="+str,true);
 xmlhttp.send();
@@ -119,7 +119,7 @@ if (str=="")
   {
   document.getElementById("box_right").innerHTML="";
   return;
-  } 
+  }
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -134,14 +134,14 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_right").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_right").innerHTML = '<div style="padding-left: 20px; padding-top: 20px; font-family: arial;"><img src="loading.gif"/></div>'; }
+	else { document.getElementById("box_right").innerHTML = '<div style="padding-left: 20px; padding-top: 20px; font-family: arial;"><img src="../assets/img/loading.gif"/></div>'; }
   }
 xmlhttp.open("GET","getDetails.php?q="+str,true);
 xmlhttp.send();
 }
 </script>
 
-<?php 
+<?php
   include('func.php');
   require_once('../../connect.php');
   $userID=2;
@@ -167,15 +167,15 @@ $(document).ready(function () {
   	<h2>Plain View</h2>
 
 	<?php
-        if(isset($_POST['formSubmit'])) 
+        if(isset($_POST['formSubmit']))
         {
             $varProjects = $_POST['projects'];
             $varObjects = $_POST['objects'];
             $varYears = $_POST['years'];
             $varMonths = $_POST['months'];
-              
+
             $str = $varProjects.'-'.$varObjects.'-'.$varYears.'-'.$varMonths;
-            
+
             echo '<div class="details">';
             echo 'Viewing <b>';
             echo $varObjects;
@@ -226,9 +226,9 @@ $(document).ready(function () {
             echo ' ';
             echo $varYears;
             echo '</b>';
-            
+
             echo '</div>';
-            
+
             echo '<script type="text/javascript">';
             echo 'filterData("'.$str.'")';
             echo '</script>';
@@ -243,7 +243,7 @@ $(document).ready(function () {
             echo '<option value="all">All Projects</option>';
             $query = "SELECT * FROM memberships WHERE userID='$userID'";
             $results = mysql_query($query) or die(" ". mysql_error());
-            while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+            while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
                 $projID = $line['projectID'];
                 $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
                 $results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -256,7 +256,7 @@ $(document).ready(function () {
             }
         ?>
     </select>
-    
+
     <select id="objects" name="objects">
       <option value="all">All Objects</option>
       <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
@@ -265,51 +265,51 @@ $(document).ready(function () {
       <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?>>Snippets</option>
       <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?>>Annotations</option>
     </select>
-    
+
     <select id="years" name="years">
       <option value="all">All Years</option>
-	  <? 
+	  <?
       $sql_year="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-      $result_year=mysql_query($sql_year); 
-  
-      $options=""; 
+      $result_year=mysql_query($sql_year);
+
+      $options="";
       $y=array();
-  
-      while ($row=mysql_fetch_array($result_year)) { 
-          $date=$row["date"];  
+
+      while ($row=mysql_fetch_array($result_year)) {
+          $date=$row["date"];
           $year = date("Y",strtotime($date));
-      
-          if (!in_array($year, $y)){ 
+
+          if (!in_array($year, $y)){
               $y[] = $year;
-              $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';  
+              $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';
           }
-  
-      } 
+
+      }
       echo $options;
       ?>
     </select>
-    
+
     <select id="months" name="months">
       <option value="all">All Months</option>
       <?
-	  $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')"; 
+	  $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')";
 	  $result_month=mysql_query($sql_month);
-	  
+
 	  $m=array();
-	  
-	  while ($row2=mysql_fetch_array($result_month)) { 
-		  $date2=$row2["date"]; 
+
+	  while ($row2=mysql_fetch_array($result_month)) {
+		  $date2=$row2["date"];
 		  $month = date("m",strtotime($date2));
-		  
-		  if (!in_array($month, $m)){ 
+
+		  if (!in_array($month, $m)){
 		  	  if($month == 01 || $month == 02 || $month == 03 || $month == 04 || $month == 05 || $month == 06 || $month == 07 || $month == 08 || $month == 09 || $month == 10 || $month == 11 || $month == 12) {
 			  	$m[] = $month;
 			  }
 		  }
-	  } 
-		 
+	  }
+
 	  sort($m);
-	
+
 	  for($i = 0; $i < count($m); ++$i) {
 		  echo "<option value=".$m[$i].">";
 		  if($m[$i]==01) { echo "Jan"; }
@@ -328,11 +328,11 @@ $(document).ready(function () {
 	  }
 	  ?>
     </select>
-    
+
 	<input type="submit" name="formSubmit" value="Submit" />
     </form>
     </div>
-   
+
 </div>
 
 <div id="container">
@@ -344,33 +344,33 @@ $result = mysql_query($sql) or die(" ". mysql_error());
 
 while($row = mysql_fetch_array($result))
 {
-	$object_type = $row['action'];	
+	$object_type = $row['action'];
 	$object_value = $row['value'];
-	
+
 	// Page
 	if($object_type == 'page') {
 		$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 		$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
-		
+
 		while($line = mysql_fetch_array($allPageResult)) {
 			$hasThumb = $line['thumbnailID'];
 			$value = $line['pageID'];
 			$pass_var = "page-".$value;
-			
+
 			if($hasThumb == NULL) {
 				echo '<a href="javascript:void(0);" class="thumbnail_small" onClick=showDetails("'.$pass_var.'")>';
-				echo "<img src='page.png'>";
+				echo "<img src='../assets/img/page_newtimeline.png'>";
 				echo '</a>';
 			}
 			else {
 				$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 				$pageResult = mysql_query($getPage) or die(" ". mysql_error());
-				
+
 				while($line = mysql_fetch_array($pageResult)) {
 					$value = $line['pageID'];
 					$thumb = $line['fileName'];
 					$pass_var = "page-".$value;
-					
+
 					if($value == $object_value) {
 						echo '<a href="javascript:void(0);" class="thumbnail_small" onClick=showDetails("'.$pass_var.'")>';
 						echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/CSpace/thumbnails//small/';
@@ -378,65 +378,65 @@ while($row = mysql_fetch_array($result))
 						echo '" />';
 						echo '</a>';
 					}
-				}	
+				}
 			}
 		}
 	}
-	
+
 	// Query
 	if($object_type == 'query') {
 		$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
 		$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
 		$entered = FALSE;
-		
+
 		while($line = mysql_fetch_array($queryResult)) {
 			$value = $line['queryID'];
 			$query = $line['query'];
 			$pass_var = "query-".$value;
-			
+
 			if($value == $object_value && $entered == FALSE) {
 				echo '<a href="javascript:void(0);" class="thumbnail_small" onClick=showDetails("'.$pass_var.'")>';
-				echo "<img src='query.png'>";
+				echo "<img src='../assets/img/query.png'>";
 				echo '</a>';
 				$entered = TRUE;
 			}
 		}
 	}
-	
+
 	// Snippet
 	if($object_type == 'save-snippet') {
 		$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
 		$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
 		$entered = FALSE;
-		
+
 		while($line = mysql_fetch_array($snippetResult)) {
 			$value = $line['snippetID'];
 			$snippet = $line['snippet'];
 			$pass_var = "snippet-".$value;
-			
+
 			if($value == $object_value && $entered == FALSE) {
 				echo '<a href="javascript:void(0);" class="thumbnail_small" onClick=showDetails("'.$pass_var.'")>';
-				echo "<img src='snippet.png'>";
+				echo "<img src='../assets/img/snippet.png'>";
 				echo '</a>';
 				$entered = TRUE;
 			}
 		}
 	}
-	
+
 	// Annotation
 	if($object_type == 'add-annotation') {
 		$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
 		$noteResult = mysql_query($getNote) or die(" ". mysql_error());
 		$entered = FALSE;
-		
+
 		while($line = mysql_fetch_array($noteResult)) {
 			$value = $line['noteID'];
 			$note = $line['note'];
 			$pass_var = "note-".$value;
-			
+
 			if($value == $object_value && $entered == FALSE) {
 				echo '<a href="javascript:void(0);" class="thumbnail_small" onClick=showDetails("'.$pass_var.'")>';
-				echo "<img src='note.png'>";
+				echo "<img src='../assets/img/note.png'>";
 				echo '</a>';
 				$entered = TRUE;
 			}
