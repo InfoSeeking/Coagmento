@@ -9,16 +9,16 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<?php 
+<?php
   include('func.php');
 ?>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 $(document).ready(function(){
 $(".flip").click(function(){
     $(".panel").slideToggle("slow");
@@ -33,7 +33,7 @@ $(".flip").click(function(){
 	<div class="left" style="float: left; "> <!-- min-width: 790px; width: 60%; -->
         <h2><a href="index.php">Coagmento CSpace</a></h2><br/>
     </div>
-    
+
         	<div style="float: left;">
     				<?php
 					session_start();
@@ -59,10 +59,10 @@ $(".flip").click(function(){
 					echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a>.<br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a>.<br/>&nbsp;&nbsp;<span id=\"currProj\">abc</span><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a different project.</a></td></tr></table></div>";
 				?>
                 </div>
-                
+
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
 
-    	<p class="flip" style="float: right;"><!-- <img src="menu.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><!-- <img src="../assets/img/menu_dark.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="../assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -71,7 +71,7 @@ $(".flip").click(function(){
                     	<b>Collaborators</b><br/>
                         <a href="../addCollaborator.php">Add</a>
                         <a href="../currentCollaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="../createProject.php">Create</a>
                         <a href="../projects.php">Select</a>
@@ -81,7 +81,7 @@ $(".flip").click(function(){
                     	<b>Sharing</b>
                         <a href="../showRecommendations.php">Recommendations</a>
                         <a href="../interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="../etherpad.php">Editor</a>
                         <a href="../files.php">Files</a>
@@ -105,7 +105,7 @@ $(".flip").click(function(){
             </table>
         </div>
     </div>
-    
+
 </div>
 
 <div id="container">
@@ -126,7 +126,7 @@ $(".flip").click(function(){
 		</td>
 	</tr>
 </table> -->
-<table class="body" width=100%>	
+<table class="body" width=100%>
 	<tr><td>Click on a project title to bring up more information about it. You can click 'Select' to make a project your active project.<br/><br/></td></tr>
 	<td><div id="sureDelete"></div></td>
 <?php
@@ -141,7 +141,7 @@ $(".flip").click(function(){
 		$title = $line['title'];
 		$query = "DELETE FROM memberships WHERE projectID='$projectID' AND userID='$userID'";
 		$results = mysql_query($query) or die(" ". mysql_error());
-		echo "<tr><td colspan=3><font color=\"green\">Your membership to project <span style=\"font-weight:bold\">$title</span> has been canceled.</font></td></tr>";		
+		echo "<tr><td colspan=3><font color=\"green\">Your membership to project <span style=\"font-weight:bold\">$title</span> has been canceled.</font></td></tr>";
 		echo "<tr><td colspan=3><br/></td></tr>\n";
 	}
 	echo "<tr><th><span style=\"font-weight:bold\">Title</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Started on</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Select</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Membership</span></th></tr>\n";
@@ -158,8 +158,8 @@ $(".flip").click(function(){
 		$title = $line1['title'];
 		$startDate = $line1['startDate'];
 		$dispTitle = $title;
-		
-		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";		
+
+		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$members = "";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
@@ -179,14 +179,14 @@ $(".flip").click(function(){
 			echo "N/A";
 		else
 			echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"deleteProj('$projectID','$title');\">Leave</span>";
-			
+
 		echo "</td></tr><tr><td colspan=7><hr/></td></tr>\n";
 	}
 
 	echo "<tr><td colspan=7><br/></td></tr>\n";
 	echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=7>Projects Others Created</td></tr>";
-	
-	// See if this user is a supervisor/teacher/admin	
+
+	// See if this user is a supervisor/teacher/admin
 	$query = "SELECT * FROM users WHERE userID='$userID'";
 	$results = mysql_query($query) or die(" ". mysql_error());
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -199,7 +199,7 @@ $(".flip").click(function(){
 	else if (($subject=="Administrator")&&($type=="HS")) {
 		$query = "SELECT distinct memberships.projectID FROM users,memberships WHERE users.type='HS' AND users.userID=memberships.userID AND users.userID!=$userID ORDER BY projectID";
 	}
-	else	
+	else
 		$query = "SELECT * FROM memberships WHERE userID='$userID' AND access!=1 ORDER BY projectID";
 
 	$results = mysql_query($query) or die(" ". mysql_error());
@@ -223,7 +223,7 @@ $(".flip").click(function(){
 		$uName = $line1['username'];
 		$dispTitle = $title . " (<span style=\"color:green;\">$uName</span>)";
 
-		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";		
+		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$members = "";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
@@ -239,7 +239,7 @@ $(".flip").click(function(){
 		}
 
         echo "<tr><td><a href='projectInfo.php?projectID=$projectID'>$dispTitle</a><br/>$members</td><td>&nbsp;&nbsp;</td><td>$startDate</td><td>&nbsp;&nbsp;</td><td><a href='selectProj.php?projectID=$projectID&projectTitle=$title'>Select</a></td><td>&nbsp;&nbsp;</td><td align=center>";
-		echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"deleteProj('$projectID','$title');\">Leave</span>";	
+		echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"deleteProj('$projectID','$title');\">Leave</span>";
 		echo "</td></tr><tr><td colspan=7><hr/></td></tr>\n";
 	}
 

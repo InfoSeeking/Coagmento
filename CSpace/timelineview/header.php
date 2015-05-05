@@ -3,7 +3,7 @@
 	<div class="left" style="float: left; ">
         <h2><a href="index.php">Coagmento CSpace</a></h2><br/>
     </div>
-    
+
     <!-- user info -->
     <div style="float: left;">
 		<?php
@@ -30,10 +30,10 @@
         echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a><br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a project</a><br/>&nbsp;&nbsp;<a href=''>Log out</a></td></tr></table></div>";
         ?>
     </div>
-    
+
     <!-- menu -->
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-    	<p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="../assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -42,7 +42,7 @@
                     	<b>Collaborators</b><br/>
                         <a href="../addCollaborator.php">Add</a>
                         <a href="../currentCollaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="../createProject.php">Create</a>
                         <a href="../projects.php">Select</a>
@@ -52,7 +52,7 @@
                     	<b>Sharing</b>
                         <a href="../showRecommendations.php">Recommendations</a>
                         <a href="../interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="../etherpad.php">Editor</a>
                         <a href="../files.php">Files</a>

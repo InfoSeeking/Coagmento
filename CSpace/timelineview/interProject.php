@@ -9,16 +9,16 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<?php 
+<?php
   include('func.php');
 ?>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 $(document).ready(function(){
 $(".flip").click(function(){
     $(".panel").slideToggle("slow");
@@ -33,7 +33,7 @@ $(".flip").click(function(){
 	<div class="left" style="float: left; "> <!-- min-width: 790px; width: 60%; -->
         <h2><a href="index.php">Coagmento CSpace</a></h2><br/>
     </div>
-    
+
         	<div style="float: left;">
     				<?php
 					session_start();
@@ -59,10 +59,10 @@ $(".flip").click(function(){
 					echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a>.<br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a>.<br/>&nbsp;&nbsp;<span id=\"currProj\"></span><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a different project.</a></td></tr></table></div>";
 				?>
                 </div>
-                
+
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
 
-    	<p class="flip" style="float: right;"><!-- <img src="menu.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><!-- <img src="../assets/img/menu_dark.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="../assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -71,7 +71,7 @@ $(".flip").click(function(){
                     	<b>Collaborators</b><br/>
                         <a href="../addCollaborator.php">Add</a>
                         <a href="../currentCollaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="../createProject.php">Create</a>
                         <a href="../projects.php">Select</a>
@@ -81,7 +81,7 @@ $(".flip").click(function(){
                     	<b>Sharing</b>
                         <a href="../showRecommendations.php">Recommendations</a>
                         <a href="../interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="../etherpad.php">Editor</a>
                         <a href="../files.php">Files</a>
@@ -105,7 +105,7 @@ $(".flip").click(function(){
             </table>
         </div>
     </div>
-    
+
 </div>
 
 <div id="container">
@@ -135,7 +135,7 @@ $(".flip").click(function(){
 <table class="body" width=100%>
 	<?php
 		require_once("../connect.php");
-		
+
 		// Find collaborators that are in multiple projects
 		$query1 = "SELECT mem2.*,count(*) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' group BY mem2.userID";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -145,18 +145,18 @@ $(".flip").click(function(){
 			if ($num>1)
 				$commonCollab++;
 		}
-		
+
 		// Find queries that are in multiple projects
 		$query2 = "select count(*) as num from queries as q1,queries as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.query=q2.query and q1.projectID!=q2.projectID group by q1.query,q2.query";
 		$results2 = mysql_query($query2) or die(" ". mysql_error());
 		$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 		$commonSearches = $line2['num'];
-		
+
 		// Find webpages that are in multiple projects
 		$query3 = "select * from pages as q1,pages as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.url=q2.url and q1.projectID!=q2.projectID and q1.title!='Coagmento' and q1.url!='about:blank' group by q1.url,q2.url";
 		$results3 = mysql_query($query3) or die(" ". mysql_error());
 		$commonPages = mysql_num_rows($results3);
-		
+
 		// Find bookmarks that are in multiple projects
 		$query4 = "select * from pages as q1,pages as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.url=q2.url and q1.projectID!=q2.projectID and q1.title!='Coagmento' and q1.url!='about:blank' and q1.result=1 group by q1.url,q2.url";
 		$results4 = mysql_query($query4) or die(" ". mysql_error());

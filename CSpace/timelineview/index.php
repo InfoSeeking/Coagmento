@@ -12,7 +12,7 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 <style type="text/css">
 	body {
 	font-family: arial;
-	background: url('bg.png') no-repeat center center fixed;
+	background: url('../img/bg.png') no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -94,16 +94,16 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 	display: inline-block;
 	width: 100px;
 	height: 100px;
-	border: solid 1px #ccc; 
-	}	
+	border: solid 1px #ccc;
+	}
 	.thumbnail_small2 {
 	margin: 10px 10px 10px 10px;
 	/*border: 2px solid #95ba23;*/
 	display: inline-block;
 	width: 100px;
 	height: 100px;
-	border: solid 1px #95ba23; 
-	}	
+	border: solid 1px #95ba23;
+	}
 	#box_left a:hover {
 	border: solid 1px #545454 !important;
 	}
@@ -117,7 +117,7 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 	color: #06F;
 	font-family: arial;
 	text-decoration: none;
-	}	
+	}
 	.form {
 	float: left;
 	padding-left: 20px;
@@ -187,7 +187,7 @@ if (str=="")
   {
   document.getElementById("box_left").innerHTML="";
   return;
-  } 
+  }
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -202,7 +202,7 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_left").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_left").innerHTML = '<img src="loading.gif"/>'; }
+	else { document.getElementById("box_left").innerHTML = '<img src="../assets/img/loading.gif"/>'; }
   }
 xmlhttp.open("GET","filterData.php?q="+str,true);
 xmlhttp.send();
@@ -214,7 +214,7 @@ if (str=="")
   {
   document.getElementById("box_right").innerHTML="";
   return;
-  } 
+  }
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -229,14 +229,14 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_right").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_right").innerHTML = '<div style="padding-left: 20px; padding-top: 20px; font-family: arial;"><img src="loading.gif"/></div>'; }
+	else { document.getElementById("box_right").innerHTML = '<div style="padding-left: 20px; padding-top: 20px; font-family: arial;"><img src="../assets/img/loading.gif"/></div>'; }
   }
 xmlhttp.open("GET","getDetails.php?q="+str,true);
 xmlhttp.send();
 }
 </script>
 
-<?php 
+<?php
   include('func.php');
   require_once('../../connect.php');
   $userID=2;
@@ -268,7 +268,7 @@ $(document).ready(function () {
 });
 </script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 $(document).ready(function(){
 $(".flip").click(function(){
     $(".panel").slideToggle("slow");
@@ -283,29 +283,29 @@ $(".flip").click(function(){
 <div id="topbar">
 	<div class="left" style="float: left; min-width: 790px; width: 60%;">
         <h2><a href="index.php">Timeline View</a></h2>
-    
+
         <div class="form">
         <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-    
+
         <select name="projects">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
-            
+
             <? if($_POST['projects'] == 'all') { echo '<option value="all" selected="selected">All Projects</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_POST['projects']; ?>" selected="selected"><?php echo $_POST['projects']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
             <? } ?>
             <?php } ?>
-            
+
             <?php
                 echo '<option value="all">All Projects</option>';
                 $query = "SELECT * FROM memberships WHERE userID='$userID'";
                 $results = mysql_query($query) or die(" ". mysql_error());
-                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
                     $projID = $line['projectID'];
                     $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
                     $results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -318,12 +318,12 @@ $(".flip").click(function(){
                 }
             ?>
         </select>
-        
+
         <select id="objects" name="objects">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
                 <? switch ($_POST['objects']) {
                     case 'pages':
@@ -346,7 +346,7 @@ $(".flip").click(function(){
                         break;
                 } ?>
             <? } ?>
-            
+
             <option value="all">All Objects</option>
             <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
             <option value="saved" <?php if ($objects=="saved") echo "SELECTED";?>>Bookmarks</option>
@@ -354,50 +354,50 @@ $(".flip").click(function(){
             <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?>>Snippets</option>
             <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?>>Annotations</option>
         </select>
-        
+
         <select id="years" name="years">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
-            
+
             <? if($_POST['years'] == 'all') { echo '<option value="all" selected="selected">All Years</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_POST['years']; ?>" selected="selected"><?php echo $_POST['years']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
             <? } ?>
             <?php } ?>
-            
+
             <option value="all">All Years</option>
-            <? 
+            <?
             $sql_year="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-            $result_year=mysql_query($sql_year); 
-        
-            $options=""; 
+            $result_year=mysql_query($sql_year);
+
+            $options="";
             $y=array();
-        
-            while ($row=mysql_fetch_array($result_year)) { 
-                $date=$row["date"];  
+
+            while ($row=mysql_fetch_array($result_year)) {
+                $date=$row["date"];
                 $year = date("Y",strtotime($date));
-            
-                if (!in_array($year, $y)){ 
+
+                if (!in_array($year, $y)){
                     $y[] = $year;
-                    $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';  
+                    $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';
                 }
-        
-            } 
+
+            }
             echo $options;
             ?>
         </select>
-        
+
         <select id="months" name="months">
-     
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
-            
+
             <? switch ($_POST['months']) {
                     case '01':
                         echo '<option value="01" selected="selected">Jan</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
@@ -440,27 +440,27 @@ $(".flip").click(function(){
                         break;
                 } ?>
             <? } ?>
-            
+
             <option value="all">All Months</option>
             <?
-            $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')"; 
+            $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')";
             $result_month=mysql_query($sql_month);
-            
+
             $m=array();
-            
-            while ($row2=mysql_fetch_array($result_month)) { 
-                $date2=$row2["date"]; 
+
+            while ($row2=mysql_fetch_array($result_month)) {
+                $date2=$row2["date"];
                 $month = date("m",strtotime($date2));
-                
-                if (!in_array($month, $m)){ 
+
+                if (!in_array($month, $m)){
                     if($month == 01 || $month == 02 || $month == 03 || $month == 04 || $month == 05 || $month == 06 || $month == 07 || $month == 08 || $month == 09 || $month == 10 || $month == 11 || $month == 12) {
                       $m[] = $month;
                     }
                 }
-            } 
-               
+            }
+
             sort($m);
-          
+
             for($i = 0; $i < count($m); ++$i) {
                 echo "<option value=".$m[$i].">";
                 if($m[$i]==01) { echo "Jan"; }
@@ -479,26 +479,26 @@ $(".flip").click(function(){
             }
             ?>
         </select>
-        
+
         <input type="checkbox" name="userOnly" value="Yes" <?php if (isset($_POST['userOnly']) == 'Yes') { echo 'checked="checked"'; }?> /> <span style="font-size: 12px;">My stuff only</span>
-        
+
         <input type="submit" name="formSubmit" value="Submit" />
         </form>
         </div>
-        
+
         <div style="clear:both;"></div>
-       
+
         <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {
                 $varProjects = $_POST['projects'];
                 $varObjects = $_POST['objects'];
                 $varYears = $_POST['years'];
                 $varMonths = $_POST['months'];
 				$userOnly = $_POST['userOnly'];
-                  
+
                 $str = $varProjects.'-'.$varObjects.'-'.$varYears.'-'.$varMonths.'-'.$userOnly;
-                
+
                 echo '<div class="details">';
                 echo 'Viewing ';
                 // Objects
@@ -522,9 +522,9 @@ $(".flip").click(function(){
                         echo "<b>Annotations</b>";
                         break;
                 }
-                
+
                 echo ' from ';
-                
+
                 //  Projects
                 if($varProjects == "all") {
                     echo "<b>All Projects</b>";
@@ -532,9 +532,9 @@ $(".flip").click(function(){
                 else {
                     echo "<b>".$varProjects."</b>";
                 }
-                
+
                 echo ' from ';
-                
+
                 // Months
                 switch ($varMonths) {
                     case "all":
@@ -577,27 +577,27 @@ $(".flip").click(function(){
                         echo "<b>Dec</b>";
                         break;
                 }
-                
+
                 echo ' ';
-                
+
                 // Years
                 if($varYears == "all") {
                     echo "<b>All Years</b>";
                 }
                 else {
                     echo "<b>".$varYears."</b>";
-                }   
+                }
                 echo '</div>';
-                
+
                 echo '<script type="text/javascript">';
                 echo 'filterData("'.$str.'")';
                 echo '</script>';
             }
         ?>
     </div>
-    
+
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
-    	<p class="flip" style="float: right;"><img src="menu.png" /></p>
+    	<p class="flip" style="float: right;"><img src="../assets/img/menu_dark.png" /></p>
         <div class="panel">
         	<table>
             	<tr>
@@ -605,7 +605,7 @@ $(".flip").click(function(){
                     	<b>Collaborators</b><br/>
                         <a href="../addCollaborator.php">Add</a>
                         <a href="../currentCollaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="../createProject.php">Create</a>
                         <a href="../projects.php">Select</a>
@@ -615,7 +615,7 @@ $(".flip").click(function(){
                     	<b>Sharing</b>
                         <a href="../showRecommendations.php">Recommendations</a>
                         <a href="../interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="../etherpad.php">Editor</a>
                         <a href="../files.php">Files</a>
@@ -639,12 +639,12 @@ $(".flip").click(function(){
             </table>
         </div>
     </div>
-    
+
 </div>
 
 <div id="container">
     <div id="box_left"></div>
-    
+
     <div id="box_right">Press Submit to get started. Click a thumbnail for details.</div>
 </div>
 

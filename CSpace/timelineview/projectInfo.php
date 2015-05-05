@@ -9,16 +9,16 @@ include('user_agent.php'); // Redirecting http://mobile.site.info
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/utilities.js"></script>
 
-<?php 
+<?php
   include('func.php');
 ?>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 $(document).ready(function(){
 $(".flip").click(function(){
     $(".panel").slideToggle("slow");
@@ -33,7 +33,7 @@ $(".flip").click(function(){
 	<div class="left" style="float: left; "> <!-- min-width: 790px; width: 60%; -->
         <h2><a href="index.php">Coagmento CSpace</a></h2><br/>
     </div>
-    
+
         	<div style="float: left;">
     				<?php
 					session_start();
@@ -59,10 +59,10 @@ $(".flip").click(function(){
 					echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a>.<br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a>.<br/>&nbsp;&nbsp;<span id=\"currProj\"></span><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a different project.</a></td></tr></table></div>";
 				?>
                 </div>
-                
+
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
 
-    	<p class="flip" style="float: right;"><!-- <img src="menu.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="arrow.png"/></p>
+    	<p class="flip" style="float: right;"><!-- <img src="../assets/img/menu_dark.png" /> --> <?php echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$avatar.'" width=45 height=45 style="vertical-align:middle;border:3px solid #000;">'; ?><br/><img src="../assets/img/arrow.png"/></p>
         <div style="clear:both;"></div>
         <div class="panel">
         	<table>
@@ -71,7 +71,7 @@ $(".flip").click(function(){
                     	<b>Collaborators</b><br/>
                         <a href="../addCollaborator.php">Add</a>
                         <a href="../currentCollaborators.php">View</a><br/>
-                        
+
                         <b>Projects</b>
                         <a href="../createProject.php">Create</a>
                         <a href="../projects.php">Select</a>
@@ -81,7 +81,7 @@ $(".flip").click(function(){
                     	<b>Sharing</b>
                         <a href="../showRecommendations.php">Recommendations</a>
                         <a href="../interProject.php">Inter-project</a><br/>
-                        
+
                    		<b>Workspace</b>
                         <a href="../etherpad.php">Editor</a>
                         <a href="../files.php">Files</a>
@@ -105,7 +105,7 @@ $(".flip").click(function(){
             </table>
         </div>
     </div>
-    
+
 </div>
 
 <div id="container">
@@ -116,7 +116,7 @@ $(".flip").click(function(){
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		require_once("../connect.php");               
+		require_once("../connect.php");
 		$projectID = $_GET['projectID'];
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results = mysql_query($query) or die(" ". mysql_error());
@@ -158,7 +158,7 @@ $(".flip").click(function(){
 		echo "</td></tr><tr><td colspan=2><br/></td></tr>\n";
                 if ($projectID==$_SESSION['CSpace_projectID'])
                     echo "<tr><td colspan=2><a href=\"http://www.coagmento.org/CSpace/etherpad.php\" style=\"font-weight:bold; color=brown\">Start editing this project's document</a><hr/></td></tr><tr><td colspan=2><br/></td></tr>\n";
-		
+
 		$query1 = "SELECT count(distinct url) as num FROM pages WHERE projectID='$projectID'";
 		$results1 = mysql_query($query1) or die(" ". mysql_error());
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
@@ -178,8 +178,8 @@ $(".flip").click(function(){
 
 		echo "<tr><td>Webpages: $num1 viewed, $num2 bookmarked.</td></tr>\n";
 		echo "<tr><td>Snippets collected: $num3.</td></tr>\n";
-		echo "<tr><td>Searches done: $num4.</td></tr>\n";				
-		
+		echo "<tr><td>Searches done: $num4.</td></tr>\n";
+
 		echo "</table>\n";
 	}
 ?>
