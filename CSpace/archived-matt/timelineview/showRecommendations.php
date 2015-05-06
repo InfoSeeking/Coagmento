@@ -4,32 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<?php
-include('links_header.php');
-?>
+<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript" src="../js/utilities.js"></script>
 
 <?php
-	include('func.php');
+  include('../func.php');
 ?>
 
 <script type="text/javascript">
 $(document).ready(function(){
-	$(".flip").click(function(){
-		$(".panel").slideToggle("slow");
-	});
+  $(".flip").click(function(){
+    $(".panel").slideToggle("slow");
+  });
 });
 </script>
-
-
 </head>
 
 <body>
 
-<?php include('header.php'); ?>
+<?php include('../header.php'); ?>
 
 <div id="container">
 <h3>Recommend</h3>
-
 <?php
 	session_start();
 	if (!isset($_SESSION['CSpace_userID'])) {
@@ -37,7 +35,6 @@ $(document).ready(function(){
 	}
 	else {
 ?>
-
 <table class="body" width=100%>
 <?php
 	require_once("../connect.php");
@@ -77,6 +74,7 @@ $(document).ready(function(){
 	}
 }
 ?>
+</div>
 
 </body>
 </html>

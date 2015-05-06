@@ -4,11 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/utilities.js"></script>
+<?php
+	include('links_header.php');
+?>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -86,9 +84,6 @@
 				$query1 = "INSERT INTO files VALUES('','$userID','$projectID','$timestamp','$date','$time','$name','$fileName','1')";
 				$results1 = mysql_query($query1) or die(" ". mysql_error());
 			}
-			else {
-//					echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
-			}
 		}
 
 		if (isset($_GET['action'])) {
@@ -118,10 +113,8 @@
 
         echo "<tr><td><form action=\"files.php\" enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
         echo "<tr><td>Upload a new file: <input name=\"uploaded\" type=\"file\"/> <input type=\"submit\" value=\"Upload\"/></form></td></tr>\n";
-//        echo "<br/>Description: <input type=\"text\" name=\"description\" size=40 /> <input type=\"submit\" value=\"Upload\"/></form></td></tr>\n";
         echo "</table>\n";
         echo "<table class=\"body\" width=100%>\n";
-//        echo "</table></td></tr></table>\n<br/><br/><br/><br/>\n";
 		echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=5>Existing files for your active project</td></tr>\n";
 		echo "<tr><td colspan=4>Remember - you are only seeing the files for the currently selected project.</td></tr>\n";
 		echo "<tr><td style=\"font-weight:bold\" align=center>Delete</td><td style=\"font-weight:bold\">Name</td><td style=\"font-weight:bold\">Uploaded by</td><td style=\"font-weight:bold\" align=center>Time</td></tr>\n";
@@ -129,14 +122,8 @@
 		$results = mysql_query($query) or die(" ". mysql_error());
 		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$id = $line['id'];
-			//			$pID = $line['projectID'];
-			//			$query1 = "SELECT title FROM projects WHERE projectID='$pID'";
-			//			$results1 = mysql_query($query1) or die(" ". mysql_error());
-			//			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
-			//		$projectName = $line1['title'];
 			$name = $line['name'];
 			$fileName = $line['fileName'];
-//			$description = $line['description'];
 			$fUserID = $line['userID'];
 			$query1 = "SELECT firstName,lastName FROM users WHERE userID='$fUserID'";
 			$results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -145,7 +132,6 @@
 			$date = $line['date'];
 			$time = $line['time'];
 			echo "<tr><td align=center><a href=\"files.php?action=delete&id=$id\">X</a></td><td><a href=\"files/".$fileName."\">$name</a></td><td>$fullName</td><td align=center>$date, $time</td></tr>\n";
-//			echo "<tr><td></td><td colspan=3><font color=\"gray\">$description</font></td></tr>\n";
 		}
 	}
 ?>

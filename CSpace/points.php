@@ -4,10 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/utilities.js"></script>
+<?php
+	include('links_header.php');
+?>
 
 <script type="text/javascript">
 	$(document).ready(function(){

@@ -106,7 +106,6 @@ return false;
   	<tr>
     <td valign="bottom" align="left">
     	<span class="menu">Coagmento</span>
-<!--       	<div class="submenu"><font color="#555555">'cause two (or more) heads are better than one!</font></div> -->
     </td>
     </tr>
   </table>

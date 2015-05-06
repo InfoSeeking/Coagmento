@@ -15,7 +15,7 @@ if (isset($_SESSION['CSpace_userID'])) {
   $time = $base->getTime();
 
   $value = $_GET['value'];
-
+  
   $query = "INSERT INTO mood (userID, projectID, value, date, time, timestamp) VALUES('$userID','$projectID','$value','$date','$time','$timestamp')";
   $results = $connection->commit($query);
   Util::getInstance->saveAction('change_mood',"$value",$base);

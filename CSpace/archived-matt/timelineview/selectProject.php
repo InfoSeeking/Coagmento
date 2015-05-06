@@ -4,36 +4,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
+<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript" src="../js/utilities.js"></script>
+
 <?php
-include('links_header.php');
+  include('../func.php');
 ?>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$(".flip").click(function(){
-			$(".panel").slideToggle("slow");
-		});
-	});
+$(document).ready(function(){
+$(".flip").click(function(){
+    $(".panel").slideToggle("slow");
+  });
+});
 </script>
-
-<?php
-	include('func.php');
-?>
 </head>
 
 <body>
 
-<?php include('header.php'); ?>
-
 <div id="container">
-<h3>View Select Project</h3>
-
+<h3>Projects</h3>
 <?php
 	session_start();
 	ob_start();
-	require_once("connect.php");
-	$pageName = "CSpace/selectProject.php";
-	require_once("../counter.php");
+	require_once("../connect.php");
+	$pageName = "CSpace/timelineview/selectProject.php";
 
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
@@ -72,11 +69,8 @@ include('links_header.php');
 		echo "<tr><td>Sorry. Looks like we had trouble knowing who you are!<br/>Please try <a href=\"index.php\">logging in</a> again.</td></tr>\n";
 		echo "</table>\n</center>\n<br/><br/><br/><br/>\n";
 	}
-	require_once("footer.php");
 ?>
-  <!-- end #footer --></div>
-<!-- end #container --></div>
-
+</div>
 
 </body>
 </html>

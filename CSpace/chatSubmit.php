@@ -11,7 +11,6 @@
 
 	$message = addslashes($_GET['message']);
 
-
 	$query = "SELECT * FROM users WHERE userID='$userID'";
 	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);

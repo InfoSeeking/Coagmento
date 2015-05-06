@@ -1,8 +1,3 @@
-<?php /*
-include('user_agent.php'); // Redirecting http://mobile.site.info
-// site.com data */
-?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -118,15 +113,6 @@ $(".flip").click(function(){
 	else {
 		$userID = $_SESSION['CSpace_userID'];
 ?>
-<!-- <table class="body" width=100%>
-	<tr>
-		<td colspan=2>
-			<div id="help" style="display:none;text-align:left;font-size:11px;background:#EFEFEF">
-			Collaborators are other people that you may want to have involved in your project. When someone becomes your collaborator/teammate for a project, he/she can <span style="font-weight:bold">see all the things that you do under that project</span>. This involves the websites you visited and the searches you did (given that Coagmento was activated during that time), and the objects you saved. Your collaborators <span style="font-weight:bold">cannot delete</span> any of your records. They can read and comment on them. Using Coagmento, you can chat with your collaborators, share information, recommend websites to them, and create a common product (e.g., a report or homework assignment) using workspace.
-			</div>
-		</td>
-	</tr>
-</table> -->
 <table class="body" width=100%>
 		<?php
 			require_once("../connect.php");

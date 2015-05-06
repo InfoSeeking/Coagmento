@@ -4,11 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Connect with Information, Collaborate with People</title>
 
-<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<?php
+  include('links_header.php');
+?>
+
 <script type="text/javascript" src="assets/js/loadXMLDoc.js"></script>
 <link rel="stylesheet" href="assets/css/ladda.min.css" type="text/css" />
-
 <script type="text/javascript" src="assets/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="assets/js/main2.js"></script>
 

@@ -3,7 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Coagmento</title>
-<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
+<?php
+	include('links_header.php');
+?>
 <body class="body">
 <table class="table">
 <?php
