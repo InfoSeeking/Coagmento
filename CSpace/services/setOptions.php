@@ -6,12 +6,12 @@
 	$value = $_GET['value'];
 	require_once("connect.php");
 	$query = "SELECT count(*) as num FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='$option'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$num = $line['num'];
 	if ($num==0)
 		$query = "INSERT INTO options VALUES('','$userID','$projectID','$option','$value')";
 	else
 		$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND projectID='$projectID' AND `option`='$option'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 ?>

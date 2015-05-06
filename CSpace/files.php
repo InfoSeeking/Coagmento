@@ -30,16 +30,23 @@
 
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
-		$projectID = $_SESSION['CSpace_projectID'];
+		$userID = $base->getUserID();
+		$projectID = $base->getProjectID();
 
 		if (!(isset($_SESSION['CSpace_projectID'])) || $projectID==0) {
 			$query = "select projects.projectID from projects,memberships where memberships.userID=$userID and projects.projectID=memberships.projectID and projects.title='Default' and memberships.access=1";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
@@ -69,20 +76,17 @@
 			$rand = rand(1000, 9999);
 			$target = "files/";
 			$fileName = $rand.$userID.$projectID . '_'. $name;
-			//$fileName = addslashes($fileName);
 			$fileName = str_replace("'","_",$fileName);
 			$fileName = str_replace("\\","_",$fileName);
 			$target = $target . $fileName;
 			$ok=1;
 			// Get the date, time, and timestamp
-			date_default_timezone_set('America/New_York');
-			$timestamp = time();
-			$datetime = getdate();
-			$date = date('Y-m-d', $datetime[0]);
-			$time = date('H:i:s', $datetime[0]);
+			$timestamp = $base->getTimestamp();
+			$date = $base->getDate();
+			$time = $base->getTime();
 			if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $target)) {
 				$query1 = "INSERT INTO files VALUES('','$userID','$projectID','$timestamp','$date','$time','$name','$fileName','1')";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 			}
 		}
 
@@ -91,14 +95,14 @@
 			if ($action=="delete") {
 				$id = $_GET['id'];
 				$query3 = "SELECT * FROM files WHERE id=$id";
-				$results3 = mysql_query($query3) or die(" ". mysql_error());
+				$results3 = $connection->commit($query3);
 				$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 				$fileName = $line3['fileName'];
 				$fUserID = $line3['userID'];
 				if ($fUserID==$userID) {
 					if (isset($_GET['confirmation'])) {
 						$query4 = "UPDATE files SET status=0 WHERE id=$id";
-						$results4 = mysql_query($query4) or die(" ". mysql_error());
+						$results4 = $connection->commit($query4);
 					}
 					else {
 						echo "<tr><td>Are you sure you want to delete <span style=\"font-weight:bold\">$fileName</span>?</td></tr>\n";
@@ -119,14 +123,14 @@
 		echo "<tr><td colspan=4>Remember - you are only seeing the files for the currently selected project.</td></tr>\n";
 		echo "<tr><td style=\"font-weight:bold\" align=center>Delete</td><td style=\"font-weight:bold\">Name</td><td style=\"font-weight:bold\">Uploaded by</td><td style=\"font-weight:bold\" align=center>Time</td></tr>\n";
 		$query = "SELECT * FROM files WHERE projectID='$projectID' AND status=1";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$id = $line['id'];
 			$name = $line['name'];
 			$fileName = $line['fileName'];
 			$fUserID = $line['userID'];
 			$query1 = "SELECT firstName,lastName FROM users WHERE userID='$fUserID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$fullName = $line1['firstName'] . " " . $line1['lastName'];
 			$date = $line['date'];

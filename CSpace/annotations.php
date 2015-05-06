@@ -3,6 +3,7 @@
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");
+	require_once("services/utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -29,8 +30,9 @@
 	echo "<tr><th>Annotations for page: <a href=\"$url\">$title</a><br/><br/></th></tr>\n";
 	echo "<table border=1 cellspacing=0 cellpadding=2 class=\"style3\">\n";
 	$userID = $_GET['userID'];
-	if (isset($_SESSION['CSpace_userID'])) {
-		$userID = $_SESSION['CSpace_userID'];
+	if (isset($_SESSION['CSpace_userID']))
+	{
+		$userID = $base->getProjectID();
 		if (isset($_SESSION['CSpace_projectID']))
 			$projectID = $base->getProjectID();
 		else {
@@ -63,7 +65,6 @@
 
 			$noteID = $connection->getLastID();
 			Util::getInstance()->saveAction('add-annotation',"$noteID",$base);
-			require_once("services/utilityFunctions.php");
 			addPoints($userID,10);
 		}
 		else {
@@ -73,7 +74,6 @@
 		// Get the results for the given user and the project
 		$query = "SELECT * FROM annotations WHERE projectID='$projectID' AND url='$url' ORDER BY timestamp";
 		$results = $connection->commit($query);
-	//	$responseText = "";
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$userID = $line['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$userID'";

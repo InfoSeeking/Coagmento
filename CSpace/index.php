@@ -29,7 +29,6 @@
 
 <?php
   include('services/func.php');
-  require_once('connect.php');
   $userID=2;
 ?>
 
@@ -37,6 +36,8 @@
 	session_start();
   require_once('core/Connection.class.php');
   require_once('core/Base.class.php');
+  $base = Base::getInstance();
+  $connection = Connection::getInstance();
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
@@ -54,11 +55,11 @@
     $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
     $points = $line['points'];
     $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-    $results = mysql_query($query) or die(" ". mysql_error());
+    $results = $connection->commit($query);
     $line = mysql_fetch_array($results, MYSQL_ASSOC);
     $projectNums = $line['num'];
     $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-    $results = mysql_query($query) or die(" ". mysql_error());
+    $results = $connection->commit($query);
     $line = mysql_fetch_array($results, MYSQL_ASSOC);
     $collabNums = $line['num'];
 	}
@@ -94,27 +95,25 @@
     <div id="intro">
         <?php
         session_start();
-        require_once('../connect.php');
-        $userID = $_SESSION['CSpace_userID'];
-        $projectID = $_SESSION['CSpace_projectID'];
+        $userID = $base->getUserID();
+        $projectID = $base->getProjectID();
         $query = "SELECT * FROM users WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
         echo "<div id='speech'>Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='index.php?projects=all&objects=all&years=all&months=all&formSubmit=Submit'>CSpace</a><br>&nbsp;&nbsp;Current login: $lastLogin<br>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a><br>&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a></div>";
-        //}
-        //}
+
         ?>
         <div id="clearthis">
             <h3>Instructions</h3>

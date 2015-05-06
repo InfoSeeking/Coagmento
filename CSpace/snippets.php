@@ -13,7 +13,7 @@
 	$projectID = $_SESSION['CSpace_projectID'];
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$projectID = $line['projectID'];
 	}
@@ -42,7 +42,7 @@
 
 		// Get the results for the given user and the project
 		$query = "SELECT * FROM snippets WHERE projectID='$projectID' AND url='$url' ORDER BY timestamp";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$ip=$_SERVER['REMOTE_ADDR'];
 		Util::getInstance()->saveAction('view-snippets',"$url",$base);
 
@@ -50,7 +50,7 @@
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$sUserID = $line['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$sUserID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$avatar = $line1['avatar'];

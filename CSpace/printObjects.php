@@ -8,7 +8,7 @@
 		$projectID = $_SESSION['CSpace_projectID'];
 		require_once("../connect.php");
 		$query = "SELECT title FROM projects WHERE projectID='$projectID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$title = $line['title'];
 		$objects = $_GET['objects'];
@@ -28,7 +28,7 @@
 	switch ($objects) {
 		case 'queries':
 			$query1 = "SELECT * FROM queries WHERE projectID='$projectID' ORDER BY timestamp";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$numSearches = mysql_num_rows($results1);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numSearches</span> searches for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -49,12 +49,12 @@
 
 		case 'pages':
 			$query2 = "SELECT distinct url FROM pages WHERE projectID='$projectID'";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());
+			$results2 = $connection->commit($query2);
 			$numPages = mysql_num_rows($results2);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numPages</span> webpages visited for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
 			$query2 = "SELECT * FROM pages WHERE projectID='$projectID' GROUP BY url";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());
+			$results2 = $connection->commit($query2);
 			while ($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
 				$url = $line2['url'];
 				$pTitle = $line2['title'];
@@ -72,12 +72,12 @@
 
 		case 'bookmarks':
 			$query3 = "SELECT distinct url FROM pages WHERE projectID='$projectID' AND result=1";
-			$results3 = mysql_query($query3) or die(" ". mysql_error());
+			$results3 = $connection->commit($query3);
 			$numBookmarks = mysql_num_rows($results3);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numBookmarks</span> webpages bookmarked for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
 			$query3 = "SELECT * FROM pages WHERE projectID='$projectID' AND result=1 GROUP BY url";
-			$results3 = mysql_query($query3) or die(" ". mysql_error());
+			$results3 = $connection->commit($query3);
 			while ($line3 = mysql_fetch_array($results3, MYSQL_ASSOC)) {
 				$url = $line3['url'];
 				$pTitle = $line3['title'];
@@ -95,7 +95,7 @@
 
 		case 'snippets':
 			$query4 = "SELECT * FROM snippets WHERE projectID='$projectID' ORDER BY timestamp";
-			$results4 = mysql_query($query4) or die(" ". mysql_error());
+			$results4 = $connection->commit($query4);
 			$numSnippets = mysql_num_rows($results4);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numSnippets</span> snippets collected for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -117,7 +117,7 @@
 
 		case 'annotations':
 			$query5 = "SELECT * FROM annotations WHERE projectID='$projectID' ORDER BY timestamp";
-			$results5 = mysql_query($query5) or die(" ". mysql_error());
+			$results5 = $connection->commit($query5);
 			$numAnnotations = mysql_num_rows($results5);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numAnnotations</span> annotations done for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -138,7 +138,7 @@
 
 		default:
 			$query1 = "SELECT * FROM queries WHERE projectID='$projectID' ORDER BY timestamp";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$numSearches = mysql_num_rows($results1);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numSearches</span> searches for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -159,12 +159,12 @@
 			echo "<tr><td><br/></td></tr>\n";
 
 			$query2 = "SELECT distinct url FROM pages WHERE projectID='$projectID'";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());
+			$results2 = $connection->commit($query2);
 			$numPages = mysql_num_rows($results2);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numPages</span> webpages visited for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
 			$query2 = "SELECT * FROM pages WHERE projectID='$projectID' GROUP BY url";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());
+			$results2 = $connection->commit($query2);
 			while ($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
 				$url = $line2['url'];
 				$pTitle = $line2['title'];
@@ -182,12 +182,12 @@
 			echo "<tr><td><br/></td></tr>\n";
 
 			$query3 = "SELECT distinct url FROM pages WHERE projectID='$projectID' AND result=1";
-			$results3 = mysql_query($query3) or die(" ". mysql_error());
+			$results3 = $connection->commit($query3);
 			$numBookmarks = mysql_num_rows($results3);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numBookmarks</span> webpages bookmarked for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
 			$query3 = "SELECT * FROM pages WHERE projectID='$projectID' AND result=1 GROUP BY url";
-			$results3 = mysql_query($query3) or die(" ". mysql_error());
+			$results3 = $connection->commit($query3);
 			while ($line3 = mysql_fetch_array($results3, MYSQL_ASSOC)) {
 				$url = $line3['url'];
 				$pTitle = $line3['title'];
@@ -205,7 +205,7 @@
 			echo "<tr><td><br/></td></tr>\n";
 
 			$query4 = "SELECT * FROM snippets WHERE projectID='$projectID' ORDER BY timestamp";
-			$results4 = mysql_query($query4) or die(" ". mysql_error());
+			$results4 = $connection->commit($query4);
 			$numSnippets = mysql_num_rows($results4);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numSnippets</span> snippets collected for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";
@@ -227,7 +227,7 @@
 			echo "<tr><td><br/></td></tr>\n";
 
 			$query5 = "SELECT * FROM annotations WHERE projectID='$projectID' ORDER BY timestamp";
-			$results5 = mysql_query($query5) or die(" ". mysql_error());
+			$results5 = $connection->commit($query5);
 			$numAnnotations = mysql_num_rows($results5);
 			echo "<tr><td colspan=2 style=\"font-size:12px;color:gray;\">There were total <span style=\"font-weight:bold;\">$numAnnotations</span> annotations done for this project.</td></tr>\n";
 			echo "<tr><td colspan=2><table>\n";

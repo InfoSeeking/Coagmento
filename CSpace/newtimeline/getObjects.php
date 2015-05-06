@@ -21,7 +21,7 @@ while($row = mysql_fetch_array($result))
 	if($object_type == 'page') {
 //		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID."";
 		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-		$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+		$pageResult = $connection->commit($getPage);
 
 		while($line = mysql_fetch_array($pageResult)) {
 			$value = $line['pageID'];

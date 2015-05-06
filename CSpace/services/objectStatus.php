@@ -8,24 +8,24 @@
 		else {
 			require_once("connect.php");
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		$object = $_GET['object'];
 		$query = "SELECT count(*) as num FROM ".$object." WHERE projectID='$projectID'";
 		
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$numNow = $line['num'];
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='$object'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		
 		// If there was no previous record, insert a new one now
 		if (mysql_num_rows($results)==0) {
 			$value = $projectID.":".$numNow;
 			$query = "INSERT INTO options VALUES('','$userID','$projectID','$object','$value')";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			echo "1";
 		}	
 		// Otherwise check the value.
@@ -38,7 +38,7 @@
 				if ($numNow!=$numBefore) {	
 					$value = $projectID.":".$numNow;
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND projectID='$projectID' AND `option`='$option'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 					echo "1";
 				}
 				else
@@ -47,7 +47,7 @@
 			else {
 				$value = $projectID.":".$numNow;
 				$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND projectID='$projectID' AND `option`='$option'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				echo "1";
 			}
 		}

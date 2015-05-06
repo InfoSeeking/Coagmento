@@ -30,7 +30,7 @@
 
                 if ($query1 != "")
                 {
-                    $results = mysql_query($query1) or die(" ". mysql_error());
+                    $results = $connection->commit($query1);
                     date_default_timezone_set('America/New_York');
                     $timestamp = time();
                     $datetime = getdate();

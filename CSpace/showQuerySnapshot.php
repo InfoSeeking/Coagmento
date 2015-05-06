@@ -17,7 +17,7 @@
 	$projectID = $_SESSION['CSpace_projectID'];
 	$qID = $_GET['qID'];
 	$query = "SELECT * FROM queries WHERE queryID='$qID' AND projectID='$projectID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	if (mysql_num_rows($results)==0) {
 		echo "<tr><td>Error: you are not authorized to access this query snapshot.</td></tr>\n";
 	}

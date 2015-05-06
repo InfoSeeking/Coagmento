@@ -30,6 +30,13 @@
 
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
@@ -39,12 +46,7 @@
 <table class="body" width=100%>
 
 <?php
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
-	require_once("./core/Util.class.php");
 
-	$base = Base::getInstance();
-	$connection = Connection::getInstance();
 	$userID = $base->getUserID();
 
 	// If new project information was sent
@@ -64,7 +66,6 @@
 				$description = addslashes($_GET['description']);
 				$privacy = $_GET['privacy'];
 				// Get the date, time, and timestamp
-				date_default_timezone_set('America/New_York');
 				$timestamp = $base->getTimestamp();
 				$startDate = $base->getDate();
 				$startTime = $base->getTime();

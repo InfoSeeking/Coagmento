@@ -31,7 +31,7 @@ if ($requestType == "cluster") {
 				$id = $resource[$k]->id;
 
 				$page="SELECT * FROM pages WHERE pageID=".$id."";
-				$result = mysql_query($page) or die(" ". mysql_error());
+				$result = $connection->commit($page);
 
 				while($row = mysql_fetch_array($result)) {
 					$hasThumb = $row['thumbnailID'];
@@ -39,7 +39,7 @@ if ($requestType == "cluster") {
 					
 					// Get project name
 					$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-					$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());		
+					$projectNameResult = $connection->commit($getProjectName);		
 
 					while($line = mysql_fetch_array($projectNameResult)) {
 						$projectName = $line['title'];
@@ -53,7 +53,7 @@ if ($requestType == "cluster") {
 					else {					
 						// Get thumbnail
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$id."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 						
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -88,7 +88,7 @@ else if ($requestType == "extract") {
 		if ($id != "-1") {
 
 			$page="SELECT * FROM pages WHERE pageID=".$id."";
-			$result = mysql_query($page) or die(" ". mysql_error());
+			$result = $connection->commit($page);
 
 			while($row = mysql_fetch_array($result)) {
 				$hasThumb = $row['thumbnailID'];
@@ -96,7 +96,7 @@ else if ($requestType == "extract") {
 				
 				// Get project name
 				$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-				$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());		
+				$projectNameResult = $connection->commit($getProjectName);		
 
 				while($line = mysql_fetch_array($projectNameResult)) {
 					$projectName = $line['title'];
@@ -109,7 +109,7 @@ else if ($requestType == "extract") {
 				else {			
 					// Get thumbnail
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$id."";
-					$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+					$pageResult = $connection->commit($getPage);
 					
 					while($line = mysql_fetch_array($pageResult)) {
 						$value = $line['pageID'];
@@ -146,7 +146,7 @@ else if ($requestType == "extract") {
 else if ($requestType == "rank") {
 
 	$firstPage="SELECT * FROM pages WHERE pageID=".$x."";
-	$firstResult = mysql_query($firstPage) or die(" ". mysql_error());
+	$firstResult = $connection->commit($firstPage);
 
 	while($row = mysql_fetch_array($firstResult)) {
 		$hasThumb = $row['thumbnailID'];
@@ -154,7 +154,7 @@ else if ($requestType == "rank") {
 		
 		// Get project name
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-		$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());		
+		$projectNameResult = $connection->commit($getProjectName);		
 
 		while($line = mysql_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
@@ -167,7 +167,7 @@ else if ($requestType == "rank") {
 		else {	
 			//get first selected doc
 			$getFirstPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$x."";
-			$pageFirstResult = mysql_query($getFirstPage) or die(" ". mysql_error());
+			$pageFirstResult = $connection->commit($getFirstPage);
 			
 			while($line = mysql_fetch_array($pageFirstResult)) {
 				$value = $line['pageID'];
@@ -188,7 +188,7 @@ else if ($requestType == "rank") {
 		$rank = $resource[$k]->rank;
 
 		$page="SELECT * FROM pages WHERE pageID=".$id."";
-		$result = mysql_query($page) or die(" ". mysql_error());
+		$result = $connection->commit($page);
 
 		while($row = mysql_fetch_array($result)) {
 			$hasThumb = $row['thumbnailID'];
@@ -196,7 +196,7 @@ else if ($requestType == "rank") {
 			
 			// Get project name
 			$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-			$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());		
+			$projectNameResult = $connection->commit($getProjectName);		
 
 			while($line = mysql_fetch_array($projectNameResult)) {
 				$projectName = $line['title'];
@@ -209,7 +209,7 @@ else if ($requestType == "rank") {
 			else {	
 				// Get thumbnail
 				$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$id."";
-				$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+				$pageResult = $connection->commit($getPage);
 				
 				while($line = mysql_fetch_array($pageResult)) {
 					$value = $line['pageID'];

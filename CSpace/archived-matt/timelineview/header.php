@@ -12,18 +12,18 @@
         $userID = $_SESSION['CSpace_userID'];
         $projectID = $_SESSION['CSpace_projectID'];
         $query = "SELECT * FROM users WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
         /* <td><img src=\"../../img/$avatar\" width=45 height=45 style=\"vertical-align:middle;border:0\" /></td> */

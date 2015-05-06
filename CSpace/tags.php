@@ -9,7 +9,7 @@
 		$projectID = $_SESSION['CSpace_projectID'];
 		require_once("connect.php");
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$projectName = $line['title'];
 ?>
@@ -40,12 +40,12 @@
 		    $date = date('Y-m-d', $datetime[0]);
 			$time = date('H:i:s', $datetime[0]);
 			$query = "INSERT INTO tags VALUES('','$userID','$projectID','$tag','$timestamp','$date','$time','1')";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 		} // if (isset($_GET['tag']))
 		else if (isset($_GET['remove'])) {
 			$tagID = $_GET['remove'];
 			$query = "UPDATE tags SET status=0 WHERE id='$tagID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 		}
 	?>
 	<tr><td>[Work in progress.]</td></tr>
@@ -57,7 +57,7 @@
 		echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=2>Existing tags for your active project</td></tr>\n";
 		
 		$query = "SELECT * FROM tags WHERE projectID='$projectID' AND status=1";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$tagID = $line['id'];
 			$tag = stripslashes($line['tag']);

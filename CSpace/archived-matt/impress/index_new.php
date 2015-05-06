@@ -56,7 +56,7 @@
 		$userID = $_SESSION['CSpace_userID'];
 
 		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ORDER BY date DESC";
-		$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+		$pageResult = $connection->commit($getPage);
 
 		$hasResult = FALSE; // Check if there are any results
 

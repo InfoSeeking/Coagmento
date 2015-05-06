@@ -14,7 +14,7 @@
 	$projectID = $base->getProjectID();
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$projectID = $line['projectID'];
 	}
@@ -28,25 +28,25 @@
 		$pageToRecord = $url.";:;".$title; // Demarker is ;:;
 		$pageToRecord = addslashes($pageToRecord);
 		$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='current-page'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		if (mysql_num_rows($results)==0) {
 			$query = "INSERT INTO options VALUES('','$userID','$projectID','current-page','$pageToRecord')";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 		}
 		else {
 			$query = "UPDATE options SET projectID='$projectID',value='$pageToRecord' WHERE userID='$userID' AND `option`='current-page'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 		}
 
 	if ($userID>0) {
 		$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='page-status'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$pageStatus = $line['value'];
 		if ($pageStatus=='on') {
                         $query = "SELECT (SELECT count(*) as num FROM pages WHERE projectID = '$projectID' AND url='$url' AND result=1) as bookmarked, (SELECT count(*) as num FROM pages WHERE projectID = '$projectID' AND url='$url') as views, (SELECT count(*) as num FROM annotations WHERE projectID = '$projectID' AND url='$url') as annotations,(SELECT count(*) as num FROM snippets WHERE projectID = '$projectID' AND url='$url') as snippets,(SELECT title FROM projects WHERE projectID='$projectID') as title";
-                        $results = mysql_query($query) or die(" ". mysql_error());
+                        $results = $connection->commit($query);
                         $line = mysql_fetch_array($results, MYSQL_ASSOC);
                         $title = $line['title'];
 
@@ -65,7 +65,7 @@
 		} // if ($pageStatus=='on')
 		else {
 			$query = "SELECT (SELECT count(*) as num FROM pages WHERE userID='$userID' AND projectID='$projectID' AND url='$url' AND result=1) as bookmarked, (SELECT title FROM projects WHERE projectID='$projectID') as projectTitle";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
                         $title = $line['title'];
 

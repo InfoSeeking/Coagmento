@@ -41,7 +41,7 @@
 	require_once("connect.php");
 	$userID = $_SESSION['CSpace_userID'];
 	$query = "SELECT * FROM users WHERE userid='$userID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$lastActionTimestamp = $line['lastActionTimestamp'];
 ?>
@@ -50,12 +50,12 @@
 	<tr><td><ul>
 	<?php
 		$query1 = "SELECT lastActionTimestamp FROM users WHERE userID='$userID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$lastActionTimestamp = $line1['lastActionTimestamp'];
 
 		$query4 = "SELECT * FROM memberships,actions WHERE actions.projectID=memberships.projectID AND actions.userID!='$userID' and memberships.userID='$userID' AND actions.timestamp>='$lastActionTimestamp'";
-		$results4 = mysql_query($query4) or die(" ". mysql_error());
+		$results4 = $connection->commit($query4);
 		while ($line4 = mysql_fetch_array($results4, MYSQL_ASSOC)) {
 			$cUserID = $line4['userID'];
 			$cProjID = $line4['projectID'];
@@ -64,18 +64,18 @@
 			$cAction = $line4['action'];
 			$cValue = $line4['value'];
 			$query3 = "SELECT * FROM users WHERE userID='$cUserID'";
-			$results3 = mysql_query($query3) or die(" ". mysql_error());
+			$results3 = $connection->commit($query3);
 			$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 			$cUserName = $line3['firstName'] . " " . $line3['lastName'];
 			$query3 = "SELECT title FROM projects WHERE projectID='$cProjID'";
-			$results3 = mysql_query($query3) or die(" ". mysql_error());
+			$results3 = $connection->commit($query3);
 			$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 			$projTitle = $line3['title'];
 
 			switch ($cAction) {
 				case 'page':
 					$query2 = "SELECT * FROM pages WHERE pageID='$cValue'";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 					$originalTitle = stripslashes($line2['title']);
 					$url = $line2['url'];
@@ -83,7 +83,7 @@
 					break;
 				case 'query':
 					$query2 = "SELECT * FROM queries WHERE queryID='$cValue'";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 					$originalTitle = stripslashes($line2['title']);
 					$url = $line2['url'];
@@ -91,7 +91,7 @@
 					break;
 				case 'save-snippet':
 					$query2 = "SELECT * FROM snippets WHERE snippetID='$cValue'";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 					$originalTitle = stripslashes($line2['snippet']);
 					$url = $line2['url'];
@@ -99,7 +99,7 @@
 					break;
 				case 'save':
 					$query2 = "SELECT * FROM pages WHERE url='$cValue'";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 					$originalTitle = stripslashes($line2['title']);
 					$url = $line2['url'];

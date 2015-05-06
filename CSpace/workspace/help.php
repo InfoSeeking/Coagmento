@@ -4,10 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<?php
-	include('links_header.php');
-?>
-
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
@@ -17,13 +13,12 @@
 </script>
 
 <?php
-	include('services/func.php');
+	include('../services/func.php');
 ?>
 </head>
 
 <body>
 
-<?php include('header.php'); ?>
 
 <div id="container">
 <h3>Help</h3>
@@ -35,7 +30,7 @@
 	}
 	else {
 ?>
-<script type="text/javascript" src="js/utilities.js"></script>
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 <table class="body" width=100%>
 	<tr><td colspan=2><hr/></td></tr>
 	<tr><td colspan=2><div onclick="switchMenu('hStart');" style="cursor:pointer;"><span style="font-weight:bold">Getting started with Coagmento</span> (click here to show/hide)</div></td></tr>
@@ -43,7 +38,7 @@
 		<td>
 		<div id="hStart" style="text-align:left;font-size:12px;">
 		<ol>
-			<li><a href="../getToolbar.php">Download</a> the latest Coagmento plugin for Firefox. Save the file with .xpi extension.</li>
+			<li><a href="../../getToolbar.php">Download</a> the latest Coagmento plugin for Firefox. Save the file with .xpi extension.</li>
 			<li>Drag and drop this .xpi file to an open window of Firefox.</li>
 			<li>Restart Firefox to make the plugin active.</li>
 			<li>Open the Coagmento toolbar in Firefox (View->Toolbars->Coagmento Toolbar).</li>
@@ -111,7 +106,6 @@
 		<td>
 			<div id="hLeave" style="display:none;text-align:left;font-size:12px;">
 			You can uninstall the Firefox plugin by selecting 'Uninstall' from Firefox's menu Tools->Add-ons.<br/>
-<!-- 			If you want to delete the data collected about/by you (other than the log data) using Coagmento, login to your CSpace and expand 'Data & Information' panel on the left. There, you can see the data about you and then delete whatever you want. -->
 			</div>
 		</td>
 	</tr>

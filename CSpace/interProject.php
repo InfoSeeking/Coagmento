@@ -43,7 +43,7 @@
 
 		// Find collaborators that are in multiple projects
 		$query1 = "SELECT mem2.*,count(*) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' group BY mem2.userID";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$commonCollab = 0;
 		while($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 			$num = $line1['num'];
@@ -53,18 +53,18 @@
 
 		// Find queries that are in multiple projects
 		$query2 = "select count(*) as num from queries as q1,queries as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.query=q2.query and q1.projectID!=q2.projectID group by q1.query,q2.query";
-		$results2 = mysql_query($query2) or die(" ". mysql_error());
+		$results2 = $connection->commit($query2);
 		$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 		$commonSearches = $line2['num'];
 
 		// Find webpages that are in multiple projects
 		$query3 = "select * from pages as q1,pages as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.url=q2.url and q1.projectID!=q2.projectID and q1.title!='Coagmento' and q1.url!='about:blank' group by q1.url,q2.url";
-		$results3 = mysql_query($query3) or die(" ". mysql_error());
+		$results3 = $connection->commit($query3);
 		$commonPages = mysql_num_rows($results3);
 
 		// Find bookmarks that are in multiple projects
 		$query4 = "select * from pages as q1,pages as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.url=q2.url and q1.projectID!=q2.projectID and q1.title!='Coagmento' and q1.url!='about:blank' and q1.result=1 group by q1.url,q2.url";
-		$results4 = mysql_query($query4) or die(" ". mysql_error());
+		$results4 = $connection->commit($query4);
 		$commonBookmarks = mysql_num_rows($results4);
 	?>
 	<tr>
@@ -72,7 +72,7 @@
 		<span style="cursor:pointer;"><div onclick="switchMenu('cCollab');">You have <span style="font-weight:bold"><?php echo $commonCollab;?></span> collaborators in multiple projects. Click here to expand or collapse them.</div></span>
 			<div id="cCollab" style="display:none;text-align:left;font-size:11px;">
 			<?php
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				while($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 					$num = $line1['num'];
 					if ($num>1) {
@@ -113,7 +113,7 @@
 			<div id="cSearches" style="display:none;text-align:left;font-size:11px;">
 			<?php
 				$query2 = "select q1.query from queries as q1,queries as q2 where q1.userID='$userID' and q2.userID='$userID' and q1.userID=q2.userID and q1.query=q2.query and q1.projectID!=q2.projectID GROUP BY query";
-				$results2 = mysql_query($query2) or die(" ". mysql_error());
+				$results2 = $connection->commit($query2);
 				while($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
 					$queryText = $line2['query'];
 					echo "$queryText: ";

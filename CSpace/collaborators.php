@@ -29,27 +29,33 @@
 <h3>View Collaborators</h3>
 
 <?php
+	require_once("./core/Connection.class.php");
+	require_once("./core/Base.class.php");
+	require_once("./core/Util.class.php");
+	require_once("services/utilityFunctions.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 	session_start();
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
+		$userID = $base->getUserID();
 ?>
 
 <table class="body" width=100%>
 		<?php
-			require_once("connect.php");
+
 			// If there was a request to remove a collaborator
 			if (isset($_GET['remove'])) {
 				$removeID = $_GET['remove'];
 				$projID = $_GET['projID'];
 				$query3 = "SELECT title FROM projects WHERE projectID='$projID'";
-				$results3 = mysql_query($query3) or die(" ". mysql_error());
+				$results3 = $connection->commit($query3);
 				$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 				$title = $line3['title'];
 				$query2 = "SELECT * FROM users WHERE userID='$removeID'";
-				$results2 = mysql_query($query2) or die(" ". mysql_error());
+				$results2 = $connection->commit($query2);
 				$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 				$userName = $line2['firstName'] . " " . $line2['lastName'];
 				echo "<tr><td>Are you sure you want to remove <span style=\"font-weight:bold\">$userName</span> from project <span style=\"font-weight:bold\">$title</span>?</td></tr>\n";
@@ -65,26 +71,26 @@
 		<td>
 			<?php
 				$query = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' GROUP BY mem2.userID";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 					$projectID = $line['projectID'];
 					$cUserID = $line['userID'];
 					$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
 					$query2 = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' AND mem2.userID='$cUserID'";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					while ($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
 						$cProjectID = $line2['projectID'];
 						$query4 = "SELECT access FROM memberships WHERE projectID='$cProjectID' AND userID='$userID'";
-						$results4 = mysql_query($query4) or die(" ". mysql_error());
+						$results4 = $connection->commit($query4);
 						$line4 = mysql_fetch_array($results4, MYSQL_ASSOC);
 						$access = $line4['access'];
 						$query3 = "SELECT title FROM projects WHERE projectID='$cProjectID'";
-						$results3 = mysql_query($query3) or die(" ". mysql_error());
+						$results3 = $connection->commit($query3);
 						$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 						echo $line3['title'];
 						if ($access==1)
@@ -100,7 +106,7 @@
 					$removeID = $_GET['uID'];
 					$projID = $_GET['projID'];
 					$query1 = "DELETE FROM memberships WHERE userID='$removeID' AND projectID='$projID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					echo "<tr><td><span style=\"color:green;\">A collaborator successfully removed. Refresh to see the updated list.</span></td></tr>\n";
 				}
 			}

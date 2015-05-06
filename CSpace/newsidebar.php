@@ -113,15 +113,11 @@
 		}
 
 		function loadAll() {
-//			ajaxpage('sidebarChat.php','chat');
-			//ajaxpage('collabOnline.php', 'collabOnline');
-			//var chatMessages = document.getElementById('chatMessages');
-			//chatMessages.scrollTop = chatMessages.scrollHeight;
 		}
 
 		function refresh() {
 			ajaxpage("currentProj.php", 'currentProj');
-			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/checkStatus.php");
+			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/checkStatus.php");
 			req.add('version','201');
 			req.add('object','chat');
 			var response = req.execute();

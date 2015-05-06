@@ -4,18 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<?php
-include('links_header.php');
-?>
-
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".flip").click(function(){
-			$(".panel").slideToggle("slow");
-		});
-	});
-</script>
+<!-- // <script type="text/javascript">
+// 	$(document).ready(function(){
+// 		$(".flip").click(function(){
+// 			$(".panel").slideToggle("slow");
+// 		});
+// 	});
+// </script> -->
 
 <?php
 	include('services/func.php');
@@ -34,6 +29,8 @@ include('links_header.php');
 	session_start();
 	require_once("./core/Connection.class.php");
 	require_once("./core/Base.class.php");
+	require_once("./core/Util.class.php");
+	require_once("services/utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -46,14 +43,9 @@ include('links_header.php');
 
 ?>
 
-<table class="body" width=100%>
+	<table class="body" width=100%>
 	<?php
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
-	require_once("./core/Util.class.php");
-	require_once("services/utilityFunctions.php");
-	$base = Base::getInstance();
-	$connection = Connection::getInstance();
+
 
 
 

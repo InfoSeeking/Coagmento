@@ -26,7 +26,7 @@
 		$date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
 		$query = "INSERT INTO pages VALUES('','$userID','$projectID','$originalURL','$title','$site','$queryString','$timestamp','$date','$time','1','1','$note',NULL)";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
     $lastID = mysql_insert_id();
 		if ($rating != "")
 		{

@@ -10,7 +10,7 @@ require_once("../connect.php");
 if($object_type == 'page') {
 
 	$page="SELECT * FROM pages WHERE thumbnailID=".$object_id."";
-	$result = mysql_query($page) or die(" ". mysql_error());
+	$result = $connection->commit($page);
 
 	while($row = mysql_fetch_array($result))
 		{
@@ -20,7 +20,7 @@ if($object_type == 'page') {
 
 		// Get project name
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-		$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());
+		$projectNameResult = $connection->commit($getProjectName);
 
 		while($line = mysql_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
@@ -28,7 +28,7 @@ if($object_type == 'page') {
 
 		// Get user name
 		$getUserName="SELECT * FROM users WHERE userID=".$userID."";
-		$userNameResult = mysql_query($getUserName) or die(" ". mysql_error());
+		$userNameResult = $connection->commit($snippet);
 
 		while($line = mysql_fetch_array($userNameResult)) {
 			$userName = $line['username'];
@@ -36,7 +36,7 @@ if($object_type == 'page') {
 
 		// Get thumbnail
 		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND thumbnails.thumbnailID=".$object_id."";
-		$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+		$pageResult = $connection->commit($getPage);
 
 		while($line = mysql_fetch_array($pageResult)) {
 			//$value = $line['pageID'];

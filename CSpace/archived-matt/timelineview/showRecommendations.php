@@ -45,12 +45,12 @@ $(document).ready(function(){
 			$projectID = $_SESSION['CSpace_projectID'];
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		$query = "SELECT * FROM recommendations WHERE rUserID='$userID' ORDER BY timestamp";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$cUserID = $line['userID'];
 			$cProjectID = $line['projectID'];
@@ -59,12 +59,12 @@ $(document).ready(function(){
 			$cDate = $line['date'];
 			$cMessage = stripslashes($line['message']);
 			$query1 = "SELECT * FROM users WHERE userID='$cUserID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$cName = $line1['firstName'] . " " . $line1['lastName'];
 			$cAvatar = $line1['avatar'];
 			$query1 = "SELECT * FROM projects WHERE projectID='$cProjectID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$projTitle = $line1['title'];
 			echo "<tr><td><a href=\"$cURL\" target=_external>$cTitle</a> on $cDate</td></tr>\n";

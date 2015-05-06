@@ -48,7 +48,7 @@ $(".flip").click(function(){
 		} // if ($title == "")
 		else {
 			$query = "SELECT * FROM projects,memberships WHERE projects.title='$title' AND memberships.userID='$userID' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$num = mysql_num_rows($results);
 			if ($num!=0) {
 				echo "<tr><td colspan=2><font color=\"red\">Error: project <span style=\"font-weight:bold\">$title</span> already exists. Please choose a different title for your project.</font></td></tr>";
@@ -65,7 +65,7 @@ $(".flip").click(function(){
 				$startTime = date('H:i:s', $datetime[0]);
 
 				$query = "UPDATE projects SET title='$title',description='$description',privacy='$privacy' WHERE projectID='$projectID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 
 
 				$ip=$_SERVER['REMOTE_ADDR'];
@@ -79,7 +79,7 @@ $(".flip").click(function(){
 
 	$projectID = $_GET['projectID'];
 	$query = "SELECT * FROM projects WHERE projectID='$projectID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$title = stripslashes($line['title']);
 	$description = stripslashes($line['description']);

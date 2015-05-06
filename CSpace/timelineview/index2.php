@@ -17,18 +17,18 @@
 			$projectID = $_SESSION['CSpace_projectID'];
 		else {
 			$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='default-project'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$value = $line['value'];
 			if (!$value || $value=='default') {
 				$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.title='Default' AND projects.projectID=memberships.projectID";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$projectID = $line['projectID'];
 			}
 			else {
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='selected-project'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$projectID = $line['value'];
 			}
@@ -82,12 +82,12 @@
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','demographic','','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+100;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 
 			$content = "demographic.php?submit=true";
 		}
@@ -118,12 +118,12 @@
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','pre-study','','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+100;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 
 			$content = "preStudy.php?submit=true";
 		}
@@ -170,12 +170,12 @@
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','mid-study','1','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+200;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 
 			$content = "main.php";
 		}
@@ -222,12 +222,12 @@
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','mid-study','2','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+200;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 
 			$content = "main.php";
 		}
@@ -278,12 +278,12 @@
 			$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','end-study','','$ip')";
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+500;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 
 			$content = "main.php";
 		}
@@ -298,7 +298,7 @@
 			mail ($email, $subject, $message, $headers);
 			mail ('chirag@unc.edu', $subject, $message, $headers);
 			$query = "UPDATE users SET type='Beta 2 subject' WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 
 			$content = "studyTerms.php?submit=true";
 		}
@@ -317,7 +317,7 @@
 				if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $target)) {
 //					$message = "Your profile photo ". basename( $_FILES['uploadedfile']['name']). " has been updated.";
 					$query1 = "UPDATE users SET avatar='$fileName' WHERE userID='$userID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 				}
 				else {
 //					echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
@@ -342,7 +342,7 @@
 				$time = date('H:i:s', $datetime[0]);
 				if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $target)) {
 					$query1 = "INSERT INTO files VALUES('','$userID','$projectID','$timestamp','$date','$time','$name','$fileName','1')";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 				}
 
 			}

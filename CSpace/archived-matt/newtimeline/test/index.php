@@ -153,7 +153,7 @@ function finishAjax_tier_three(id, response) {
 	include_once('db.php');
 	
 	$query = "SELECT * from pages, thumbnails where pages.thumbnailID = thumbnails.thumbnailID and pages.userID=2 AND pages.date='".$selected_date."'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	
 	echo '<div id="box_left">';
 	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {

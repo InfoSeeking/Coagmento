@@ -35,7 +35,7 @@ $(".flip").click(function(){
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
@@ -46,7 +46,7 @@ $(".flip").click(function(){
 			echo "<br/><br/><center>\n<table class=\"body\">\n";
 			echo "<tr bgcolor=#DDDDDD><td>Hello, <strong>$firstName $lastName</strong>.</td></tr>\n";
 			$query = "SELECT * FROM projects WHERE projectID='$projectID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$title = $line['title'];
 			echo "<tr><td>You have selected <strong>$title</strong> as your active project.<br/></td></tr>\n";

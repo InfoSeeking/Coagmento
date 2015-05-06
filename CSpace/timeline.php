@@ -73,7 +73,7 @@ else {
 					// Page
 					if($type == 'page') {
 						$getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 						$line = mysql_fetch_array($pageResult);
 
 						$hasThumb = $line['thumbnailID'];
@@ -417,7 +417,7 @@ else {
 						// Has thumbnail
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 							$line = mysql_fetch_array($pageResult);
 
 							$value = $line['pageID'];
@@ -1479,7 +1479,7 @@ else {
 					  // Page
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						  $pageResult = $connection->commit($getPage);
 						  $line = mysql_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
@@ -1822,7 +1822,7 @@ else {
 						  // Has thumbnail
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							  $pageResult = $connection->commit($getPage);
 							  $line = mysql_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
@@ -2868,7 +2868,7 @@ else {
 					  // Page
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						  $pageResult = $connection->commit($getPage);
 						  $line = mysql_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
@@ -3211,7 +3211,7 @@ else {
 						  // Has thumbnail
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							  $pageResult = $connection->commit($getPage);
 							  $line = mysql_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
@@ -4276,7 +4276,7 @@ else {
 					// Page
 					if($type == 'page') {
 						$getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 						$line = mysql_fetch_array($pageResult);
 
 						$hasThumb = $line['thumbnailID'];
@@ -4620,7 +4620,7 @@ else {
 						// Has thumbnail
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 							$line = mysql_fetch_array($pageResult);
 
 							$value = $line['pageID'];
@@ -5190,7 +5190,7 @@ else {
 					  // Page
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						  $pageResult = $connection->commit($getPage);
 						  $line = mysql_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
@@ -5533,7 +5533,7 @@ else {
 						  // Has thumbnail
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							  $pageResult = $connection->commit($getPage);
 							  $line = mysql_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
@@ -6088,7 +6088,7 @@ else {
 					  // Page
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						  $pageResult = $connection->commit($getPage);
 						  $line = mysql_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
@@ -6433,7 +6433,7 @@ else {
 						  // Has thumbnail
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							  $pageResult = $connection->commit($getPage);
 							  $line = mysql_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
@@ -8759,7 +8759,7 @@ else {
 					// Page
 					if($type == 'page') {
 						$getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 						$line = mysql_fetch_array($pageResult);
 
 						$hasThumb = $line['thumbnailID'];
@@ -8929,7 +8929,7 @@ else {
 						// Has thumbnail
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 							$line = mysql_fetch_array($pageResult);
 
 							$value = $line['pageID'];
@@ -9308,7 +9308,7 @@ else {
 					  // Page
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						  $pageResult = $connection->commit($getPage);
 						  $line = mysql_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
@@ -9478,7 +9478,7 @@ else {
 						  // Has thumbnail
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							  $pageResult = $connection->commit($getPage);
 							  $line = mysql_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
@@ -9860,7 +9860,7 @@ else {
 					  // Page
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						  $pageResult = $connection->commit($getPage);
 						  $line = mysql_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
@@ -10029,7 +10029,7 @@ else {
 						  // Has thumbnail
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							  $pageResult = $connection->commit($getPage);
 							  $line = mysql_fetch_array($pageResult);
 
 							  $value = $line['pageID'];

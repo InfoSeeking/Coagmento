@@ -53,7 +53,7 @@ mysql_select_db("shahonli_coagmento", $con);
 $userID=2;
 
 $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND pages.projectID='8'";
-$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+$pageResult = $connection->commit($getPage);
 ?>
 
 		<h1>Coverflow View</h1>

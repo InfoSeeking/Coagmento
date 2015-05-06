@@ -23,7 +23,7 @@
             $title = "Coagmento";
 
             $query = "SELECT * FROM users WHERE userID=$userID";
-            $results = mysql_query($query) or die(" ". mysql_error());
+            $results = $connection->commit($query);
             $line = mysql_fetch_array($results, MYSQL_ASSOC);
             $firstName = $line['firstName'];
             $lastName = $line['lastName'];
@@ -51,7 +51,7 @@
 
 				// QUERY FOR TIMELINE
 				$query = "SELECT * from pages, thumbnails where pages.thumbnailID = thumbnails.thumbnailID and pages.userID=2 and pages.projectID=8 order by date desc ";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$compareDate = NULL;
 				$compareMonth = NULL;
 				$compareYear = NULL;
@@ -64,7 +64,7 @@
 
 				// QUERY FOR POPUPS
 				$query2 = "SELECT * from pages, thumbnails where pages.thumbnailID = thumbnails.thumbnailID order by date desc ";
-				$results2 = mysql_query($query2) or die(" ". mysql_error());
+				$results2 = $connection->commit($query2);
 				$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 				$compareDate2 = NULL;
 				$setDate2 = FALSE;
@@ -73,7 +73,7 @@
 
 				// QUERY FOR DETAILS
 				$query3 = "SELECT * from pages, thumbnails where pages.thumbnailID = thumbnails.thumbnailID order by date desc ";
-				$results3 = mysql_query($query3) or die(" ". mysql_error());
+				$results3 = $connection->commit($query3);
 				$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
 
 

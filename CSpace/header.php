@@ -33,28 +33,28 @@ Before $displayMode to '3D','coverflow','timeline'
 
         if (!(isset($_SESSION['CSpace_projectID'])) || $projectID==0) {
           $query = "select projects.projectID from projects,memberships where memberships.userID=$userID and projects.projectID=memberships.projectID and projects.title='Default' and memberships.access=1";
-          $results = mysql_query($query) or die(" ". mysql_error());
+          $results = $connection->commit($query);
           $line = mysql_fetch_array($results, MYSQL_ASSOC);
           $projectID = $line['projectID'];
         }
 
         $query = "SELECT * FROM users WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         $line = mysql_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
         $query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-        $results1 = mysql_query($query1) or die(" ". mysql_error());
+        $results1 = $connection->commit($query1);
         $line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
         $projectID = $line1['projectID'];
         $title = $line1['title'];

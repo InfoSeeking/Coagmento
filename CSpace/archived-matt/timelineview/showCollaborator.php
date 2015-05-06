@@ -42,7 +42,7 @@ $(".flip").click(function(){
 			require_once("../connect.php");
 			$userID = $_GET['userID'];
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$userName = $line['username'];
 			$avatar = $line['avatar'];

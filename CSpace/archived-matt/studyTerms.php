@@ -34,7 +34,7 @@
 	<?php
 /*
 		$query = "SELECT * FROM users WHERE userID='$userID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$type = $line['type'];
 		if (preg_match("/subject/", $type)) {

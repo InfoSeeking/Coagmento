@@ -130,7 +130,7 @@
  							$query = "UPDATE annotations SET status=0 WHERE noteID=$delID";
  							break;
  					}
- 					$results = mysql_query($query) or die(" ". mysql_error());
+ 					$results = $connection->commit($query);
 	 				echo "<span style=\"color:red;\">Item deleted.</span> <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&undo=$delID&type=$type', 'content');\">Undo it.</span>";
  				}
  				else if (isset($_GET['undo'])) {
@@ -150,7 +150,7 @@
  							$query = "UPDATE annotations SET status=1 WHERE noteID=$undoID";
  							break;
  					}
- 					$results = mysql_query($query) or die(" ". mysql_error());
+ 					$results = $connection->commit($query);
  					echo "<span style=\"color:green;\">Undone!</span>";
  				}
  				echo "</td></tr>";
@@ -198,7 +198,7 @@
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=source', 'content');\">Source</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=query', 'content');\">Query</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
 
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
@@ -206,19 +206,19 @@
 						$targetProjectID = $_GET['targetProjectID'];
 						if ($targetProjectID>0) {
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else if (isset($_GET['del_projectID'])) {
 							$targetProjectID = $_GET['del_projectID'];
 							$query1 = "UPDATE pages SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM pages WHERE pageID='$pageID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
+						$results1 = $connection->commit($query1);
 					}
 				}
 				else {
@@ -461,7 +461,7 @@
 				}
 			}
 			echo "<tr><td align=center><span style=\"font-weight:bold\">Delete</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('data.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 				$snippetID = $line['snippetID'];
 				if(isset($_GET[$snippetID])) {
@@ -545,19 +545,19 @@
 						$targetProjectID = $_GET['targetProjectID'];
 						if ($targetProjectID>0) {
 							$query1 = "UPDATE annotations SET status=0 WHERE userID='$userID' AND noteID='$noteID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else if (isset($_GET['del_projectID'])) {
 							$targetProjectID = $_GET['del_projectID'];
 							$query1 = "UPDATE annotations SET status='0' WHERE userID='$userID' AND pageID='$pageID'";
-							$results1 = mysql_query($query1) or die(" ". mysql_error());
+							$results1 = $connection->commit($query1);
 						}
 						else
 							echo "<font color=red>Please make a valid selection.</font>\n";
 					}
 					else {
 						$query1 = "DELETE FROM annotations WHERE noteID='$noteID'";
-						$results1 = mysql_query($query1) or die(" ". mysql_error());
+						$results1 = $connection->commit($query1);
 					}
 				}
 				else {

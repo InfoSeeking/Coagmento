@@ -34,7 +34,7 @@
 </head>
 <?php
 		$query = "SELECT * FROM pages WHERE projectID='$projectID' AND url='$originalURL' AND result=2";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		if (mysql_num_rows($results)==0) {
 			require_once("utilityFunctions.php");
 
@@ -87,7 +87,7 @@
 		else
                 {
                         $query = "UPDATE pages SET result=1 WHERE projectID='$projectID' AND url='$originalURL' AND result=2";
-                        $results = mysql_query($query) or die(" ". mysql_error());
+                        $results = $connection->commit($query);
                         echo "<script>window.close()</script>";
 												Util::getInstance()->saveAction('save-page',"$url",$base);
                 }
@@ -99,7 +99,7 @@
 	} // if ($save)
 	else {
 		$query = "UPDATE pages SET result=2 WHERE projectID='$projectID' AND url='$originalURL' AND NOT result=0";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
 				Util::getInstance()->saveAction('remove',"$url",$base);
 	}
 

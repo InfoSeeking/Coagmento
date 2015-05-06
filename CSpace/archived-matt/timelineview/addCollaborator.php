@@ -44,7 +44,7 @@ $(".flip").click(function(){
 		if (isset($_GET['targetUserName'])) {
 			require_once("../connect.php");
 			$query = "SELECT * FROM users WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$firstName = $line['firstName'];
 			$lastName = $line['lastName'];
@@ -53,14 +53,14 @@ $(".flip").click(function(){
 			$userExists = 0;
 
 			$query = "SELECT count(*) as num FROM users WHERE username='$targetUserName'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$num = $line['num'];
 
 			if ($num!=1) {
 				// If we didn't find a match with the username, try it as an email.
 				$query = "SELECT count(*) as num FROM users WHERE email='$targetUserName'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 				if ($num!=1) {
@@ -69,14 +69,14 @@ $(".flip").click(function(){
 				else {
 					$userExists = 1;
 					$query1 = "SELECT * FROM users WHERE email='$targetUserName'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				}
 			}
 			else {
 				$userExists = 1;
 				$query1 = "SELECT * FROM users WHERE username='$targetUserName'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			}
 
@@ -87,7 +87,7 @@ $(".flip").click(function(){
 				$targetLastName = $line1['lastName'];
 				$projectID = $_SESSION['CSpace_projectID'];
 				$query = "SELECT count(*) as num FROM memberships WHERE projectID='$projectID' and userID='$targetUserID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 
@@ -97,11 +97,11 @@ $(".flip").click(function(){
 				else {
 					$targetEmail = $line1['email'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-					$results1 = mysql_query($query1) or die(" ". mysql_error());
+					$results1 = $connection->commit($query1);
 					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$query = "INSERT INTO memberships VALUES('','$projectID','$targetUserID','0')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 
 					// Get the date, time, and timestamp
 					date_default_timezone_set('America/New_York');

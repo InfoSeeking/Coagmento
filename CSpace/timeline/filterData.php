@@ -134,7 +134,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 				}
 				else {
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-					$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+					$pageResult = $connection->commit($getPage);
 
 					while($line = mysql_fetch_array($pageResult)) {
 						$value = $line['pageID'];
@@ -206,7 +206,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -362,7 +362,7 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 				}
 				else {
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-					$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+					$pageResult = $connection->commit($getPage);
 
 					while($line = mysql_fetch_array($pageResult)) {
 						$value = $line['pageID'];
@@ -434,7 +434,7 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -590,7 +590,7 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -653,7 +653,7 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -804,7 +804,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -872,7 +872,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 							}
 							else {
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-								$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+								$pageResult = $connection->commit($getPage);
 
 								while($line = mysql_fetch_array($pageResult)) {
 									$value = $line['pageID'];
@@ -1040,7 +1040,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -1109,7 +1109,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 							}
 							else {
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-								$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+								$pageResult = $connection->commit($getPage);
 
 								while($line = mysql_fetch_array($pageResult)) {
 									$value = $line['pageID'];
@@ -1278,7 +1278,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -1354,7 +1354,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -1527,7 +1527,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -1604,7 +1604,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -1776,7 +1776,7 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -1841,7 +1841,7 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -1998,7 +1998,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -2066,7 +2066,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 							}
 							else {
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-								$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+								$pageResult = $connection->commit($getPage);
 
 								while($line = mysql_fetch_array($pageResult)) {
 									$value = $line['pageID'];
@@ -2234,7 +2234,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -2303,7 +2303,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 							}
 							else {
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-								$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+								$pageResult = $connection->commit($getPage);
 
 								while($line = mysql_fetch_array($pageResult)) {
 									$value = $line['pageID'];
@@ -2472,7 +2472,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -2548,7 +2548,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];
@@ -2721,7 +2721,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 					}
 					else {
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-						$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+						$pageResult = $connection->commit($getPage);
 
 						while($line = mysql_fetch_array($pageResult)) {
 							$value = $line['pageID'];
@@ -2798,7 +2798,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 						}
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
-							$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+							$pageResult = $connection->commit($getPage);
 
 							while($line = mysql_fetch_array($pageResult)) {
 								$value = $line['pageID'];

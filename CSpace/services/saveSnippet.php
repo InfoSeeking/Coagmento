@@ -42,7 +42,7 @@
 			echo "<body class=\"body\" onload=\"window.close();\">\n";
 			echo "<center>\n";
 			echo "<table class=\"body\" width=90%>";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
                         $snippetID = mysql_insert_id();
 
 

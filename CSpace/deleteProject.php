@@ -2,25 +2,32 @@
 	session_start();
 	ob_start();
 	require_once("header.php");
-	require_once("connect.php");
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	$pageName = "CSpace/projects.php";
-	require_once("../counter.php");
-		
+
+	// require_once("../counter.php");
+
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
 		echo "<br/><br/><center>\n<table class=\"body\">\n";
 		echo "<tr bgcolor=#DDDDDD><td colspan=2>Hello, <strong>$firstName $lastName</strong>.";
-		
+
 		// If new project information was sent
 		if (isset($_GET['projectID'])) {
 			$projectID = $_GET['projectID'];
 			$query = "SELECT * FROM projects,memberships WHERE projects.projectID='$projectID' AND memberships.userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$num = mysql_num_rows($results);
 			if ($num==0) {
 				echo "<tr><td colspan=2><font color=\"red\">Sorry, you do not have permission to delete this project.</font></td></tr>";
@@ -28,14 +35,14 @@
 			else {
 				if ($_GET['confirm']=="true") {
 					$query = "UPDATE projects SET status=0 WHERE projectID=$projectID";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 					$query = "DELETE FROM memberships WHERE projectID=$projectID AND userID=$userID";
-					$results = mysql_query($query) or die(" ". mysql_error());					
+					$results = $connection->commit($query);
 					echo "<tr><td colspan=2><font color=\"green\">The selected project was deleted.</font></td></tr>";
 				}
 				else {
 					$query = "SELECT title FROM projects WHERE projectID=$projectID";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 					$line = mysql_fetch_array($results, MYSQL_ASSOC);
 					$title = $line['title'];
 					if ($title == "Untitled")
@@ -55,15 +62,14 @@
 		echo "<tr><td><table class=\"style1\">";
 		echo "<tr><th>Title</th><th>Started on</th><th>Edit</th></tr>\n";
 		$query = "SELECT projectID FROM memberships WHERE userID='$userID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$projectID = $line['projectID'];
 			$query1 = "SELECT * FROM projects WHERE projectID='$projectID' AND status=1";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$projectID = $line1['projectID'];
 			$title = $line1['title'];
-//			$description = $line1['description'];
 			$startDate = $line1['startDate'];
 			echo "<tr><td><a href=\"selectProject.php?projectID=$projectID\">$title</a></td><td>$startDate</td><td><a href=\"deleteProject.php?projectID=$projectID\">Delete</a></td></tr>";
 		}
@@ -78,8 +84,3 @@
 	}
 	require_once("footer.php");
 ?>
-  <!-- end #footer - > </div>
-<!-- end #container - > </div>
-
-</body>
-</html>

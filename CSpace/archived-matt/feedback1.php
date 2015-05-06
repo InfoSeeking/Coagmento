@@ -10,7 +10,7 @@
 
 	$userID = $_COOKIE['CSpace_userID'];
 	$query1 = "SELECT count(*) as num FROM users WHERE userID='$userID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 	$num = $line1['num'];
 	

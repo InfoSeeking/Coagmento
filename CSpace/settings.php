@@ -48,85 +48,85 @@
 		switch ($option) {
 			case 'page-status':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='page-status'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				if (mysql_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				else {
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND `option`='page-status'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				break;
 
 			case 'default-project':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='default-project'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				if (mysql_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				else {
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND `option`='default-project'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				break;
 
 			case 'sidebar-chat':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-chat'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				if (mysql_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				else {
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND `option`='sidebar-chat'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				break;
 
 			case 'sidebar-history':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				if (mysql_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				else {
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND `option`='sidebar-history'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				break;
 
 			case 'sidebar-notepad':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				if (mysql_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				else {
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND `option`='sidebar-notepad'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				break;
 
 			case 'sidebar-notifications':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$line = mysql_fetch_array($results, MYSQL_ASSOC);
 				if (mysql_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				else {
 					$query = "UPDATE options SET value='$value' WHERE userID='$userID' AND `option`='sidebar-notifications'";
-					$results = mysql_query($query) or die(" ". mysql_error());
+					$results = $connection->commit($query);
 				}
 				break;
 		}
@@ -134,7 +134,7 @@
 	echo "<tr><td><table class=\"style1\">";
 	echo "<tr><td><span style=\"font-weight:bold\">Page Status</span></td></tr>\n";
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='page-status'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='off')
@@ -146,7 +146,7 @@
 
 	echo "<tr><td><span style=\"font-weight:bold\">Default Project</span></td></tr>\n";
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='default-project'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='default')
@@ -159,7 +159,7 @@
 	echo "<tr><td><span style=\"font-weight:bold\">Sidebar Modules</span></td></tr>\n";
 	echo "<tr><td>Select the modules you want to see in your Coagmento sidebar.<br/><span style=\"color:gray;\">You will have to re-open the sidebar after making your selections.</span></td></tr>\n";
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-chat'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
@@ -168,7 +168,7 @@
 		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-chat&value=on\"/> Chat</td></tr>\n";
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
@@ -177,7 +177,7 @@
 		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-history&value=on\"/> History</td></tr>\n";
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
@@ -186,7 +186,7 @@
 		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-notepad&value=on\"/> Notepad</td></tr>\n";
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')

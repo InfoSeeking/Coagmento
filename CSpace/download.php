@@ -2,11 +2,9 @@
 	session_start();
 	ob_start();
 	require_once("header.php");
-	require_once("connect.php");
 	$pageName = "CSpace/download.php";
-	require_once("../counter.php");
-		
-	// If the user tried to login	
+
+	// If the user tried to login
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
 ?>
@@ -32,7 +30,7 @@
 		echo "<br/><br/><center>\n<table class=\"body\">\n";
 		echo "<tr><td>Sorry. Looks like we had trouble knowing who you are!<br/>Please try <a href=\"index.php\">logging in</a> again.</td></tr>\n";
 		echo "</table>\n</center>\n<br/><br/><br/><br/>\n";
-	} 		
+	}
 	require_once("footer.php");
 ?>
   <!-- end #footer --></div>

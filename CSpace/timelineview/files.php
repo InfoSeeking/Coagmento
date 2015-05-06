@@ -63,14 +63,14 @@ $(".flip").click(function(){
 		echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=4>Existing files for your active project</td></tr>\n";
 		echo "<tr><td style=\"font-weight:bold\" align=center>Delete</td><td style=\"font-weight:bold\">Name</td><td style=\"font-weight:bold\">Uploaded by</td><td style=\"font-weight:bold\" align=center>Time</td></tr>\n";
 		$query = "SELECT * FROM files WHERE userID='$userID' AND projectID='$projectID' AND status=1";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$name = $line['name'];
 			$fileName = $line['fileName'];
 
 			$fUserID = $line['userID'];
 			$query1 = "SELECT firstName,lastName FROM users WHERE userID='$fUserID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$fullName = $line1['firstName'] . " " . $line1['lastName'];
 			$date = $line['date'];

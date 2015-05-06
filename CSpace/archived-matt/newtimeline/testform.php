@@ -143,11 +143,11 @@ xmlhttp.send();
 	<?php
 		echo '<option value="all">All Projects</option>';
         $query = "SELECT * FROM memberships WHERE userID='$userID'";
-        $results = mysql_query($query) or die(" ". mysql_error());
+        $results = $connection->commit($query);
         while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
             $projID = $line['projectID'];
             $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
-            $results1 = mysql_query($query1) or die(" ". mysql_error());
+            $results1 = $connection->commit($query1);
             $line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
             $title = $line1['title'];
             echo "<option value=\"$title\" ";

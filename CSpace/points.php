@@ -41,11 +41,11 @@
 	else {
 		$userID = $base->getUserID();
 		$query = "SELECT points FROM users WHERE userID='$userID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$totalPoints = $line['points'];
 		$query = "SELECT count(distinct value) as num FROM actions WHERE userID='$userID' AND action='download'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$p1 = $line['num']*100;
 

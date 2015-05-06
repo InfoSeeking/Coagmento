@@ -258,7 +258,7 @@ else {
 
 				if($hasThumb && $bookmarked){
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-					$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+					$pageResult = $connection->commit($getPage);
 					$line = mysql_fetch_array($pageResult);
 					$value = $line['pageID'];
 					$thumb = $line['fileName'];

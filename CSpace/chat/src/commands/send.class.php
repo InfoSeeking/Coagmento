@@ -91,7 +91,7 @@ class pfcCommand_send extends pfcCommand
         $userID = $_SESSION['CSpace_userID'];
         $projectID = $_SESSION['CSpace_projectID'];
         $query = "INSERT INTO chat (userID, projectID, username, message, timestamp, date, time) VALUES ('$userID', '$projectID', '$nick', '$text','$timestamp','$date','$time')";
-	$results = mysql_query($query) or die(" ". mysql_error());	
+	$results = $connection->commit($query);	
 	mysql_close($dbh);
 	//mysql_close($con);	
 	//}

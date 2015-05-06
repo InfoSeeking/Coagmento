@@ -46,23 +46,23 @@ include('links_header.php');
 	if (isset($_GET['projectID'])) {
 		$projectID = $_GET['projectID'];
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$title = $line['title'];
 		$query = "DELETE FROM memberships WHERE projectID='$projectID' AND userID='$userID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		echo "<tr><td colspan=3><font color=\"green\">Your membership to project <span style=\"font-weight:bold\">$title</span> has been canceled.</font></td></tr>";
 		echo "<tr><td colspan=3><br/></td></tr>\n";
 	}
 	echo "<tr><th><span style=\"font-weight:bold\">Title</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Started on</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Select</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Membership</span></th></tr>\n";
 	$query = "SELECT * FROM memberships WHERE userID='$userID' AND access=1 ORDER BY projectID";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	echo "<tr><td style=\"background:#EFEFEF;font-weight:bold\" colspan=7>Projects I Created</td></tr>";
 	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 		$access = $line['access'];
 		$projectID = $line['projectID'];
 		$query1 = "SELECT * FROM projects WHERE projectID='$projectID' AND status=1";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
@@ -70,13 +70,13 @@ include('links_header.php');
 		$dispTitle = $title;
 
 		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$members = "";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 			$uID = $line1['userID'];
 			$access = $line1['access'];
 			$query2 = "SELECT * FROM users WHERE userID='$uID'";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());
+			$results2 = $connection->commit($query2);
 			$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 			$uName = $line2['username'];
 			$firstName = $line2['firstName'];
@@ -98,7 +98,7 @@ include('links_header.php');
 
 	// See if this user is a supervisor/teacher/admin
 	$query = "SELECT * FROM users WHERE userID='$userID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$type = $line['type'];
 	$subject = $line['hear'];
@@ -112,35 +112,35 @@ include('links_header.php');
 	else
 		$query = "SELECT * FROM memberships WHERE userID='$userID' AND access!=1 ORDER BY projectID";
 
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 		$access = $line['access'];
 		$projectID = $line['projectID'];
 		$query1 = "SELECT * FROM projects WHERE projectID='$projectID' AND status=1";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
 		$startDate = $line1['startDate'];
 
 		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$uID = $line1['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$uID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$uName = $line1['username'];
 		$dispTitle = $title . " (<span style=\"color:green;\">$uName</span>)";
 
 		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$members = "";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 			$uID = $line1['userID'];
 			$access = $line1['access'];
 			$query2 = "SELECT * FROM users WHERE userID='$uID'";
-			$results2 = mysql_query($query2) or die(" ". mysql_error());
+			$results2 = $connection->commit($query2);
 			$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 			$uName = $line2['username'];
 			$firstName = $line2['firstName'];
