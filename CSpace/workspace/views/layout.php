@@ -28,8 +28,8 @@ function gen_url($param){
         <hgroup class='left-side'>
           <img src="assets/img/clogo.png" alt="Coagmento Logo" />
         </hgroup>
-        <div class='right-side'>
-          Select a project
+        <div class='middle-side project_section'>
+          <label>Select a project</label>
           <select id="project_selection">
             <?php
             $project_results = $base->getAllProjects();

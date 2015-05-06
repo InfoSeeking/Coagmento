@@ -35,6 +35,10 @@ body{
   float: left;
   margin-right: 40px;
 }
+.page_header .middle-side{
+  padding-top: 10px;
+  float: left;
+}
 .page_header .right-side{
   float: right;
 }
@@ -373,4 +377,15 @@ table.questionnaires a:hover{
 .only_mine_container{
   margin-top: 10px;
   font-size: 14px;
+}
+.project_section label{
+  color: #FFF;
+  font-size: 14px;
+  margin-bottom: 1px;
+  display: block;
+}
+#project_selection{
+  background-color: #4798F5;
+  padding: 5px 10px;
+  border: 1px #1B77E0 solid;
 }
