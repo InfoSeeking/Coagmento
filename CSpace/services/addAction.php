@@ -3,6 +3,7 @@
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");
+	require_once("./utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -57,6 +58,5 @@
 	}
 
 	Util::getInstance()->saveAction("activate-count",$value,$base);
-	require_once("utilityFunctions.php");
 	addPoints($userID,$newPoints);
 ?>

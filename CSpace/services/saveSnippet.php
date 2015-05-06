@@ -1,5 +1,4 @@
 <?php
-//	session_name('XULSession'); // Set session name
 	session_start();
 	require_once("connect.php");
 	require_once("utilityFunctions.php");

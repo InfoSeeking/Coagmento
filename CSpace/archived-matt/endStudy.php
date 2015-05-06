@@ -7,7 +7,6 @@
 		require_once("connect.php");
 		$userID = $_SESSION['CSpace_userID'];
 		$projectID = $_SESSION['CSpace_projectID'];
-		require_once("connect.php");
 		$pageName = "endStudy.php";
 		require_once("../counter.php");
 ?>
@@ -17,7 +16,7 @@
 <?php
 		if ($_GET['submit']) {
 			echo "<tr><td>Thank you for submitting your information. You can continue to your <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('main.php','content');\">CSpace</span> now.</td></tr>\n";
-		} // if (isset($_POST['age']))		
+		} // if (isset($_POST['age']))
 		else {
 ?>
 	<tr><th colspan=3><span style="font-weight:bold">End-study Questionnaire</span><br/><br/></th></tr>
@@ -37,21 +36,21 @@
 	<tr><td align=right>13.</td><td>It is easy to find the information I need.</td><td> <input type="radio" name="e1q13" value="0" /> N/A   <input type="radio" name="e1q13" value="1" /> 1 <input type="radio" name="e1q13" value="2" /> 2 <input type="radio" name="e1q13" value="3" /> 3 <input type="radio" name="e1q13" value="4" /> 4 <input type="radio" name="e1q13" value="5" /> 5 <input type="radio" name="e1q13" value="6" /> 6 <input type="radio" name="e1q13" value="7" /> 7 </td></tr>
 	<tr bgcolor=#DEDEDE><td align=right>14.</td><td>The organization of information on the system screens (toolbar, sidebar) is clear.</td><td> <input type="radio" name="e1q14" value="0" /> N/A   <input type="radio" name="e1q14" value="1" /> 1 <input type="radio" name="e1q14" value="2" /> 2 <input type="radio" name="e1q14" value="3" /> 3 <input type="radio" name="e1q14" value="4" /> 4 <input type="radio" name="e1q14" value="5" /> 5 <input type="radio" name="e1q14" value="6" /> 6 <input type="radio" name="e1q14" value="7" /> 7 </td></tr>
 	<tr><td align=right>15.</td><td>This system has all the functions and capabilities I expect it to have.</td><td> <input type="radio" name="e1q15" value="0" /> N/A   <input type="radio" name="e1q15" value="1" /> 1 <input type="radio" name="e1q15" value="2" /> 2 <input type="radio" name="e1q15" value="3" /> 3 <input type="radio" name="e1q15" value="4" /> 4 <input type="radio" name="e1q15" value="5" /> 5 <input type="radio" name="e1q15" value="6" /> 6 <input type="radio" name="e1q15" value="7" /> 7 </td></tr>
-	<tr bgcolor=#DEDEDE><td align=right>16.</td><td>I am able to efficiently complete my work using this system.</td><td> <input type="radio" name="e1q16" value="0" /> N/A   <input type="radio" name="e1q16" value="1" /> 1 <input type="radio" name="e1q16" value="2" /> 2 <input type="radio" name="e1q16" value="3" /> 3 <input type="radio" name="e1q16" value="4" /> 4 <input type="radio" name="e1q16" value="5" /> 5 <input type="radio" name="e1q16" value="6" /> 6 <input type="radio" name="e1q16" value="7" /> 7 </td></tr>	
+	<tr bgcolor=#DEDEDE><td align=right>16.</td><td>I am able to efficiently complete my work using this system.</td><td> <input type="radio" name="e1q16" value="0" /> N/A   <input type="radio" name="e1q16" value="1" /> 1 <input type="radio" name="e1q16" value="2" /> 2 <input type="radio" name="e1q16" value="3" /> 3 <input type="radio" name="e1q16" value="4" /> 4 <input type="radio" name="e1q16" value="5" /> 5 <input type="radio" name="e1q16" value="6" /> 6 <input type="radio" name="e1q16" value="7" /> 7 </td></tr>
 	<tr><td align=right>17.</td><td>Overall, I am satisfied with how easy it is to use this system.</td><td> <input type="radio" name="e1q17" value="0" /> N/A   <input type="radio" name="e1q17" value="1" /> 1 <input type="radio" name="e1q17" value="2" /> 2 <input type="radio" name="e1q17" value="3" /> 3 <input type="radio" name="e1q17" value="4" /> 4 <input type="radio" name="e1q17" value="5" /> 5 <input type="radio" name="e1q17" value="6" /> 6 <input type="radio" name="e1q17" value="7" /> 7 </td></tr>
 	<tr bgcolor=#DEDEDE><td align=right>18.</td><td>Overall, I am satisfied with this system.</td><td> <input type="radio" name="e1q18" value="0" /> N/A   <input type="radio" name="e1q18" value="1" /> 1 <input type="radio" name="e1q18" value="2" /> 2 <input type="radio" name="e1q18" value="3" /> 3 <input type="radio" name="e1q18" value="4" /> 4 <input type="radio" name="e1q18" value="5" /> 5 <input type="radio" name="e1q18" value="6" /> 6 <input type="radio" name="e1q18" value="7" /> 7 </td></tr>
 	<tr><td align=right>19.</td><td colspan=2><table><tr><td>List at least two aspects of this system that you liked the most.<br/><textarea name="e1like" cols=40 rows=2></textarea></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>List at least two aspects of this system that you disliked the most.<br/><textarea name="e1dislike" cols=40 rows=2></textarea></td></tr></table></td></tr>
 
 	<tr bgcolor=#DEDEDE><td align=right>20.</td><td colspan=2><table><tr><td colspan=3 align="center">Using the system was...</td></tr><tr><td>Uninteresting</td><td><input type="radio" name="e1q21" value="1" /> 1 <input type="radio" name="e1q21" value="2" /> 2 <input type="radio" name="e1q21" value="3" /> 3 <input type="radio" name="e1q21" value="4" /> 4 <input type="radio" name="e1q21" value="5" /> 5 <input type="radio" name="e1q21" value="6" /> 6 <input type="radio" name="e1q21" value="7" /> 7</td><td>&nbsp;&nbsp;Interesting</td></tr>
 	<tr><td>Attention was not focused</td><td><input type="radio" name="e1q23" value="1" /> 1 <input type="radio" name="e1q23" value="2" /> 2 <input type="radio" name="e1q23" value="3" /> 3 <input type="radio" name="e1q23" value="4" /> 4 <input type="radio" name="e1q23" value="5" /> 5 <input type="radio" name="e1q23" value="6" /> 6 <input type="radio" name="e1q23" value="7" /> 7</td><td>&nbsp;&nbsp;Attention was focused</td></tr>
-	
+
 	<tr><td>Dull</td><td><input type="radio" name="e1q25" value="1" /> 1 <input type="radio" name="e1q25" value="2" /> 2 <input type="radio" name="e1q25" value="3" /> 3 <input type="radio" name="e1q25" value="4" /> 4 <input type="radio" name="e1q25" value="5" /> 5 <input type="radio" name="e1q25" value="6" /> 6 <input type="radio" name="e1q25" value="7" /> 7</td><td>&nbsp;&nbsp;Exciting</td></tr>
-	
+
 	<tr><td>Not Fun</td><td><input type="radio" name="e1q27" value="1" /> 1 <input type="radio" name="e1q27" value="2" /> 2 <input type="radio" name="e1q27" value="3" /> 3 <input type="radio" name="e1q27" value="4" /> 4 <input type="radio" name="e1q27" value="5" /> 5 <input type="radio" name="e1q27" value="6" /> 6 <input type="radio" name="e1q27" value="7" /> 7</td><td>&nbsp;&nbsp;Fun</td></tr>
 	</table>
 	</td>
 	</tr>
-	
+
 	<tr><td>21.</td><td colspan=2 valign=top>
 		<table>
 		<tr><td colspan=3 align="center">How did you feel while collaborating with this system...</td></tr>
@@ -62,18 +61,18 @@
 		</table>
 		</td>
 	</tr>
-	
+
 	<tr bgcolor=#DEDEDE><td>22.</td><td>How familiar were you about the topic of your project prior starting working on it?</td><td>(Not familiar) <input type="radio" name="familiar" value="1" /> 1 <input type="radio" name="familiar" value="2" /> 2 <input type="radio" name="familiar" value="3" /> 3 <input type="radio" name="familiar" value="4" /> 4 <input type="radio" name="familiar" value="5" /> 5 <input type="radio" name="familiar" value="6" /> 6 <input type="radio" name="familiar" value="7" /> 7 (Very familiar)</td></tr>
 
 	<tr><td>23.</td><td>How interested/motivated were you about the topic of your project?</td><td>(Not at all) <input type="radio" name="motivation" value="1" /> 1 <input type="radio" name="motivation" value="2" /> 2 <input type="radio" name="motivation" value="3" /> 3 <input type="radio" name="motivation" value="4" /> 4 <input type="radio" name="motivation" value="5" /> 5 <input type="radio" name="motivation" value="6" /> 6 <input type="radio" name="motivation" value="7" /> 7 (Very much)</td></tr>
-	
+
 	<tr bgcolor=#DEDEDE><td>24.</td><td>How easy did you find working on this project?</td><td>(Very difficult) <input type="radio" name="easy" value="1" /> 1 <input type="radio" name="easy" value="2" /> 2 <input type="radio" name="easy" value="3" /> 3 <input type="radio" name="easy" value="4" /> 4 <input type="radio" name="easy" value="5" /> 5 <input type="radio" name="easy" value="6" /> 6 <input type="radio" name="easy" value="7" /> 7 (Very easy)</td></tr>
-		
+
 	<tr><td>25.</td><td colspan=2 valign=top>Please tell us how we can improve Coagmento. Any additional comments are highly appreciated.<br/><textarea cols=60 rows=4 name="comments"></textarea></td></tr>
 	<tr><td colspan="3" align=center><input type="hidden" name="endstudy" value="true"/><input type="submit" value="Submit" onclick="alert('Thank you for submitting your responses!');" /></td></tr>
 <?php
 		} // else with if (isset($_POST['age']))
-	} // else with if (!isset($_SESSION['CSpace_userID']))	
+	} // else with if (!isset($_SESSION['CSpace_userID']))
 ?>
 	</table>
 	</form>

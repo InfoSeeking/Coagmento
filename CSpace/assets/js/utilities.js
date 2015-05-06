@@ -148,9 +148,7 @@ function editProj() {
 	var sureCreate = document.getElementById('sureCreate');
 	var page = rootdoain+'/CSpace/timelineview/editProject.php?submit=true&projectID='+projID+'&title='+projTitle+'&description='+projDesc+'&privacy='+projPrivacy;
 	window.location.href = page;
-	/* ajaxpage(page,'content'); */
 
-//	sureCreate.innerHTML = '<font color="green">Are you sure you want to modify project <span style="font-weight:bold">'+projTitle+ '</span>?</font><br/><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage(\'editProject.php?submit=true&projectID='+projID+'&title='+projTitle+'&description='+projDesc+'&privacy='+projPrivacy+'\',\'content\');">Yes</span>&nbsp;&nbsp;&nbsp;<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="cancelCreateProj();">No</span>';
 }
 
 
@@ -341,8 +339,6 @@ function addAction (action, value) {
 
 function hideLayer(layer){
 	document.getElementById(layer).style.display="none";
-	//Save action
-    //ajaxpage('sidebarComponents/insertAction.php?action=hideLayer&value='+layer,null);
 }
 
 copyToClipboard = function(itemID) {

@@ -2,7 +2,6 @@
 	session_start();
 	$shared = $_GET['shared'];
 	$_SESSION['CSpace_noteShared'] = $shared;
-//	$_SESSION['CSpace_'];
 ?>
 	<div id="noteArea">
 	<input type="hidden" id="noteID" value="-1" />
@@ -13,5 +12,5 @@
 	<div id="noteList" style="overflow:auto;height:78px;">
 <?php
 	require_once("noteList.php");
-?>		
+?>
 	</div>

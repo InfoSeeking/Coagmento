@@ -43,14 +43,12 @@
 		else
 			echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"chatOption('chat-show-time','yes');\">Show time</span>";
 
-//		echo " <span style=\"color:green;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"\">Transcript</span>\n";
+
 		echo "</div>\n";
 		echo "<table width=100%><tr><td><div id=\"collabOnline\"></div><hr/></td>";
-//		echo "<td align=right><span style=\"color:blue;font-size:10px;\">[<][>]</span></td></tr><tr><td colspan=2><hr/></td>";
 		echo "</tr></table>";
 		echo "<div id=\"chatMessages\" style=\"height:150px;overflow:auto;\">\n";
 		require_once("chatList.php");
-//		echo "</div>\n";
 		echo "<script type=\"text/javascript\">\n";
 		echo "var chatMessages = document.getElementById('chatMessages')\n";
 		echo "chatMessages.scrollTop = chatMessages.scrollHeight;\n";

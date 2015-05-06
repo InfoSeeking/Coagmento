@@ -27,7 +27,7 @@ $clientIDtext = $clientID->appendChild($clientIDtext);
 $numClusters = $xml->createElement("numClusters");
 $numClusters = $parameters->appendChild($numClusters);
 $three = $xml->createTextNode($n);
-$three = $numClusters->appendChild($three); 
+$three = $numClusters->appendChild($three);
 
 $resourceList = $xml->createElement("resourceList");
 $resourceList = $parameters->appendChild($resourceList);
@@ -54,4 +54,4 @@ foreach ($cpages as $checked) {
 }
 
     echo $xml->saveXML();
-?> 
+?>

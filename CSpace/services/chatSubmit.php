@@ -2,6 +2,7 @@
 	session_start();
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
+	require_once("./utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -26,6 +27,5 @@
 	$chatID = $connection->getLastID();
 
 	Util::getInstance()->saveAction('chat',"$chatID",$base);
-	require_once("utilityFunctions.php");
 	addPoints($userID,5);
 ?>

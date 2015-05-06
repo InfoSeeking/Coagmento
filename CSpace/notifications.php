@@ -13,7 +13,6 @@
 			$projectID = $line['projectID'];
 		}
 		$query = "SELECT * FROM actions WHERE projectID='$projectID' AND userID!='$userID' AND value!='' AND (action='save' OR action='save' OR action='save-snippet' OR action='query') ORDER BY timestamp desc LIMIT 4";
-//		echo "$query";
 		$results = mysql_query($query) or die(" ". mysql_error());
 		if (mysql_num_rows($results)==0)
 			echo "No notifications available.";
