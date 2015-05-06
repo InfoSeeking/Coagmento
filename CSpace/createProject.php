@@ -17,7 +17,7 @@
 </script>
 
 <?php
-	include('func.php');
+	include('services/func.php');
 ?>
 </head>
 
@@ -80,7 +80,7 @@
 				$ip=$base->getIP();
 				Util::getInstance()->saveAction('create-project',"$projectID",$base);
 
-				require_once("utilityFunctions.php");
+				require_once("services/utilityFunctions.php");
 				addPoints($userID,100);
 
 				echo "<tr><td colspan=2><font color=\"green\">Your new project <span style=\"font-weight:bold\">$title</span> has been created.</font></td></tr>";

@@ -1,5 +1,5 @@
 <?
-  include("functions.inc.php");
+  include("../services/functions.inc.php");
 ?>
 
 <?php

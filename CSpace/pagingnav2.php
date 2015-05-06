@@ -13,9 +13,9 @@ if ($numRecords%$maxPerPage!=0)
 if ($pageNum > 1)
 {
     $page = $pageNum - 1;
-    $prev = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$page&orderby=$orderBy&searchString=$searchString', 'content');\">[<]</span> ";
-    $first = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=1&orderby=$orderBy&searchString=$searchString', 'content');\">[<<]</span> ";
-} 
+    $prev = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('services/allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$page&orderby=$orderBy&searchString=$searchString', 'content');\">[<]</span> ";
+    $first = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('services/allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=1&orderby=$orderBy&searchString=$searchString', 'content');\">[<<]</span> ";
+}
 else
 {
   $prev  = ' [<] ';       # If we're on first page, don't hyperlink [Prev]
@@ -26,9 +26,9 @@ else
 if ($pageNum < $maxPage)
 {
   $page = $pageNum + 1;
-  $next = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$page&orderby=$orderBy&searchString=$searchString', 'content');\">[>]</span> ";
-  $last = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$maxPage&orderby=$orderBy&searchString=$searchString', 'content');\">[>>]</a> ";
-} 
+  $next = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('services/allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$page&orderby=$orderBy&searchString=$searchString', 'content');\">[>]</span> ";
+  $last = " <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('services/allData.php?session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$maxPage&orderby=$orderBy&searchString=$searchString', 'content');\">[>>]</a> ";
+}
 else
 {
   $next = ' [>] ';      # If we're on last page, don't hyperlink [Next]

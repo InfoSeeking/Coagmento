@@ -9,7 +9,7 @@ include('links_header.php');
 ?>
 
 <?php
-	include('func.php');
+	include('services/func.php');
 ?>
 
 <script type="text/javascript">

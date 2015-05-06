@@ -28,7 +28,7 @@
   </script>
 
 <?php
-  include('func.php');
+  include('services/func.php');
   require_once('connect.php');
   $userID=2;
 ?>

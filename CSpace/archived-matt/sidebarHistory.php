@@ -70,7 +70,7 @@
 		}
 		switch(option) {
 			case 'title':
-				var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/setOptions.php";
+				var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/setOptions.php";
 				req = new phpRequest(url);
 				req.add('option',opt+'-order');
 				req.add('value', 'title');

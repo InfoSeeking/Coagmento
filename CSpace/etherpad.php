@@ -16,7 +16,7 @@
         } else {
                     require_once("connect.php");
                     $userID = $_SESSION['CSpace_userID'];
-                    require_once("utilityFunctions.php")
+                    require_once("services/utilityFunctions.php")
                     addPoints($userID,20);
 
                     $timestamp = time();

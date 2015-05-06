@@ -14,7 +14,7 @@
 
 <?php
     session_start();
-    include('../func.php');
+    include('../services/func.php');
     require_once('../core/Connection.class.php');
     require_once('../core/Base.class.php');
     if (!isset($_SESSION['CSpace_userID'])) {

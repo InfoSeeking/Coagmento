@@ -1,7 +1,6 @@
 <?php
         session_start();
 	if ((isset($_SESSION['CSpace_userID']))) {
-		//require_once("../connect.php");
                 require_once("insertAction.php");
                 $userID = $_SESSION['CSpace_userID'];
 		if (isset($_SESSION['CSpace_projectID']))

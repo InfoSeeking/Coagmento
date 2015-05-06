@@ -18,7 +18,7 @@ include('links_header.php');
 </script>
 
 <?php
-	include('func.php');
+	include('services/func.php');
 ?>
 </head>
 
@@ -51,7 +51,7 @@ include('links_header.php');
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");
-	require_once("utilityFunctions.php");
+	require_once("services/utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 

@@ -11,7 +11,7 @@
 	else {
 
 		require_once("../core/Connection.class.php");
-    require_once("../insertAction.php");
+    require_once("../services/insertAction.php");
 		$connection = Connection::getInstance();
 		$projectID = $_GET['projectID'];
     $projectTitle = $_GET['projectTitle'];

@@ -1,8 +1,7 @@
 <?php
 	session_start();
 	$ip=$_SERVER['REMOTE_ADDR'];
-	require_once("connect.php");
-	require_once("utilityFunctions.php");
+	require_once("services/utilityFunctions.php");
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");

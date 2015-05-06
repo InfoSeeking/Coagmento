@@ -18,7 +18,7 @@
 </script>
 
 <?php
-	include('../func.php');
+	include('../services/func.php');
 ?>
 </head>
 

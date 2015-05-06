@@ -287,27 +287,25 @@ function filterData() {
 	var projSelected = document.getElementById('projectID').value;
 	var sessionSelected = document.getElementById('session').value;
 //	ajaxpage('showProgress.php','content');
-	ajaxpage('data.php?projectID='+projSelected+'&session='+sessionSelected+'&objects='+objSelected, 'content');
+	ajaxpage('services/data.php?projectID='+projSelected+'&session='+sessionSelected+'&objects='+objSelected, 'content');
 }
 
 function filterAllData() {
 	var objSelected = document.getElementById('objects').value;
 	var projSelected = document.getElementById('projectID').value;
 	var sessionSelected = document.getElementById('session').value;
-//	ajaxpage('showProgress.php','content');
-	ajaxpage('allData.php?projectID='+projSelected+'&session='+sessionSelected+'&objects='+objSelected, 'content');
+	ajaxpage('services/allData.php?projectID='+projSelected+'&session='+sessionSelected+'&objects='+objSelected, 'content');
 }
 
 function search(projID,objs,sess) {
 	var searchString = document.getElementById('searchString').value;
 //	ajaxpage('showProgress.php','content');
-	ajaxpage('data.php?projectID='+projID+'&objects='+objs+'&session='+sess+'&searchString='+searchString, 'content');
+	ajaxpage('services/data.php?projectID='+projID+'&objects='+objs+'&session='+sess+'&searchString='+searchString, 'content');
 }
 
 function searchAll(projID,objs,sess) {
 	var searchString = document.getElementById('searchString').value;
-//	ajaxpage('showProgress.php','content');
-	ajaxpage('allData.php?projectID='+projID+'&objects='+objs+'&session='+sess+'&searchString='+searchString, 'content');
+	ajaxpage('services/allData.php?projectID='+projID+'&objects='+objs+'&session='+sess+'&searchString='+searchString, 'content');
 }
 
 function handleDragDropEvent(oEvent) {
@@ -327,7 +325,7 @@ function handleDragDropEvent(oEvent) {
     	var type = 'image';
     else
     	var type = 'text';
-    window.open(rootdomain+'/CSpace/saveSnippet.php?'+'&URL='+url+'&snippet='+snippet+'&title='+title+'&type='+type,'Save an object','resizable=yes,scrollbars=yes,width=640,height=480,left=600');
+    window.open(rootdomain+'/CSpace/services/saveSnippet.php?'+'&URL='+url+'&snippet='+snippet+'&title='+title+'&type='+type,'Save an object','resizable=yes,scrollbars=yes,width=640,height=480,left=600');
 }
 
 function addAction (action, value) {

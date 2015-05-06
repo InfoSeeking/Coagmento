@@ -304,7 +304,7 @@
 		}
 		else if (isset($_GET['search'])) {
 			$searchString = $_GET['search'];
-			$content = "data.php?searchString=$searchString";
+			$content = "../services/data.php?searchString=$searchString";
 		}
 		else if (isset($_GET['project']))
 			$content = "projectInfo.php?projectID=$projectID";
@@ -341,13 +341,10 @@
 				$date = date('Y-m-d', $datetime[0]);
 				$time = date('H:i:s', $datetime[0]);
 				if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $target)) {
-//					$message = "Your profile photo ". basename( $_FILES['uploadedfile']['name']). " has been updated.";
 					$query1 = "INSERT INTO files VALUES('','$userID','$projectID','$timestamp','$date','$time','$name','$fileName','1')";
 					$results1 = mysql_query($query1) or die(" ". mysql_error());
 				}
-				else {
-//					echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
-				}
+
 			}
 			$content = "files.php";
 		}
@@ -375,114 +372,6 @@
 </head>
 <? echo $content; ?>
 <body onload="loadElems();loadContent('<?php echo $content;?>');">
-<!-- <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("cb95c84269498d94eff10edd6223b863");</script>
-<table class="body">
-	<tr>
-		<td class="menu" align="center"><img src="../img/coagmento4.jpg" style="vertical-align:bottom;border:0;cursor:pointer;" height=44  onClick="ajaxpage('showProgress.php','content');ajaxpage('main.php','content');" /></td>
-		<td align="left">
-			<table class="body">
-				<?php
-					$userID = $_SESSION['CSpace_userID'];
-					$projectID = $_SESSION['CSpace_projectID'];
-					$query = "SELECT * FROM users WHERE userID='$userID'";
-					$results = mysql_query($query) or die(" ". mysql_error());
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
-					$userName = $line['firstName'] . " " . $line['lastName'];
-					$avatar = $line['avatar'];
-					$lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
-					$points = $line['points'];
-					$query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
-					$results = mysql_query($query) or die(" ". mysql_error());
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
-					$projectNums = $line['num'];
-					$query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
-					$results = mysql_query($query) or die(" ". mysql_error());
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
-					$collabNums = $line['num'];
-					echo "<tr><td><img src=\"../img/$avatar\" width=45 height=45 style=\"vertical-align:middle;border:0\" /></td><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showProgress.php','content');ajaxpage('main.php','content');\">CSpace</span>.<br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-weight:bold\" onClick=\"ajaxpage('showProgress.php','content');ajaxpage('points.php','content');\">$points</span></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showProgress.php','content');ajaxpage('projects.php?userID=$userID','content');\">$projectNums projects</span> and <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showProgress.php','content');ajaxpage('collaborators.php?userID=1','content');\">$collabNums collaborators</span>.<br/>&nbsp;&nbsp;<span id=\"currProj\"></span><br/>&nbsp;&nbsp;<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showProgress.php','content');ajaxpage('projects.php?userID=$userID','content');\">Select a different project.</td></tr>";
-				?>
-			</table>
-		</td>
-		<td align="right"><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('help.php', 'content');">Help</a><br/><a href="../login.php?logout=true">Logout</a></td>
-	</tr>
-	<tr>
-		<td valign="top">
-			<ul class="acc" id="acc">
-				<li>
-					<h3><img src="../img/collab.jpg" width=40 style="vertical-align:middle;border:0" /> Collaborators<br/><font color="gray">Add or remove collaborators for your projects, or become a collaborator.</font></h3>
-					<div class="acc-section">
-						<div class="acc-content">
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('addCollaborator.php', 'content');"><img src="../img/add.jpg" width=18 style="vertical-align:middle;border:0" />Add someone</span> as a collaborator.<br/><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('showPublicProjs.php', 'content');"><img src="../img/updates.jpg" width=18 style="vertical-align:middle;border:0" />Join an open project</span><br/>
-							Collaborators for the current project:<br/>
-							<div id="currentCollaborators"></div>
-						</div>
-					</div>
-				</li>
-				<li>
-					<h3><img src="../img/projects.jpg" width=40 style="vertical-align:middle;border:0" /> Projects<br/><font color="gray">Add and manipulate your projects.</font></h3>
-					<div class="acc-section">
-						<div class="acc-content">
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('createProject.php?userID=<?php echo $userID;?>','content');"><img src="../img/add.jpg" width=18 style="vertical-align:middle;border:0" />Create</span> a new project.<br/>
-							<span id="currProj2"/></span><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('projects.php?userID=<?php echo $userID;?>','content');">Select a different project</span> to work with.
-						</div>
-					</div>
-				</li>
-				<li>
-					<h3><img src="../img/data.jpg" width=40 style="vertical-align:middle;border:0" /> Data & Information<br/><font color="gray">Explore data and information about you and your collaborators.</font></h3>
-					<div class="acc-section">
-						<div class="acc-content">
-							See the <span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('data.php?objects=pages','content');">data</span> collected about/by you.<br/>
-							See <span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('allData.php?objects=pages','content');">everyone's data</span>.<br/>
-						</div>
-					</div>
-				</li>
-				<li>
-					<h3><img src="../img/workspace.jpg" width=40 style="vertical-align:middle;border:0" /> Workspace<br/><font color="gray">Explore your collected information and produce results using the workspace.</font></h3>
-					<div class="acc-section">
-						<div class="acc-content">
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('printreport.php','content');">Print reports</span><br/>
-							<a href="www.coagmento.org/CSpace/etherpad.php">Editor</a><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('files.php','content');">Files</span><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('tags.php','content');">Tags</span>
-						</div>
-					</div>
-				</li>
-				<li>
-					<h3><img src="../img/connect.jpg" width=40 style="vertical-align:middle;border:0" /> Connect<br/><font color="gray">Connect with your collaborators, and let the system connect your projects.</font></h3>
-					<div class="acc-section">
-						<div class="acc-content">
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('showRecommendations.php','content');">Recommended by your collaborators</span><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('interProject.php', 'content');">Inter-project analysis</span>
-						</div>
-					</div>
-				</li>
-
-				<li>
-					<h3><img src="../img/settings2.jpg" width=40 style="vertical-align:middle;border:0" /> Tools & Settings<br/><font color="gray">Update your profile, change settings for CSpace and Coagmento plug-in.</font></h3>
-					<div class="acc-section">
-						<div class="acc-content">
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('profile.php?userID=1', 'content');">My profile</span><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('settings.php','content');">Settings</span><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('recommendCoagmento.php','content');">Recommend Coagmento</span><br/>
-							<span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('showProgress.php','content');ajaxpage('terms.php','content');">Terms & Conditions</span>
-						</div>
-					</div>
-				</li>
-			</ul>
-			<br/>
-			<!-- AddThis Button BEGIN -->
-<!-- <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=chirag"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=chirag"></script>
-<!-- AddThis Button END -->
-	<!--	</td>
-		<td colspan=2 valign="top">
-			<div id="content" style="vertical-align:top"></div>
-		</td>
-	</tr>
-</table>
-
-<script type="text/javascript" src="script.js"></script> -->
-
 </body>
 </html>
 <?php

@@ -66,7 +66,7 @@
 	var cText =	document.getElementById('cText');
 	cText.focus();
 	function chatOption(option, value) {
-		var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/setOptions.php";
+		var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/setOptions.php";
 		req = new phpRequest(url);
 		req.add('option', option);
 		req.add('value', value);
@@ -82,7 +82,7 @@
 		var chatMessage = cText.value;
 		cText.value = '';
 		if (chatMessage!='') {
-			var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/chatSubmit.php";
+			var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/chatSubmit.php";
 			req = new phpRequest(url);
 			req.add('message', chatMessage);
 			var response = req.execute();

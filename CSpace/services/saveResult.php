@@ -4,7 +4,7 @@
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
 	require_once("connect.php");
-	require_once("utilityFunctions.php");
+	require_once("services/utilityFunctions.php");
 	require_once('./core/Base.class.php');
 	require_once("./core/Connection.class.php");
 	require_once("./core/Util.class.php");

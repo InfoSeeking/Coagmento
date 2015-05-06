@@ -48,59 +48,31 @@
             color: #ccc;
             }
         </style>
-        
+
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 
-        <script type="text/javascript"> 
+        <script type="text/javascript">
 		$(document).ready(function(){
 		$(".flip").click(function(){
 			$(".panel").slideToggle("slow");
 		  });
 		});
 		</script>
-        
-       <!-- <script type="text/javascript">
-			function filterData(str)
-			{
-			if (str=="")
-			  {
-			  document.getElementById("myImageFlow").innerHTML="";
-			  return;
-			  } 
-			if (window.XMLHttpRequest)
-			  {// code for IE7+, Firefox, Chrome, Opera, Safari
-			  xmlhttp=new XMLHttpRequest();
-			  }
-			else
-			  {// code for IE6, IE5
-			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			  }
-			xmlhttp.onreadystatechange=function()
-			  {
-			  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-				{
-				document.getElementById("myImageFlow").innerHTML=xmlhttp.responseText;
-				}
-				else { document.getElementById("myImageFlow").innerHTML = '<img src="loading.gif"/>'; }
-			  }
-			xmlhttp.open("GET","filterData.php?q="+str,true);
-			xmlhttp.send();
-			}
-		</script> -->
+
 	</head>
 	<body>
-    
-	<?php 
+
+	<?php
     // Connecting to database
     $con = mysql_connect('localhost', 'shahonli_ic', 'collab2010!');
     if (!$con)
       {
       die('Could not connect: ' . mysql_error());
       }
-    
+
     mysql_select_db("shahonli_coagmento", $con);
     $userID=2;
-    
+
     $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND pages.projectID='8'";
     $pageResult = mysql_query($getPage) or die(" ". mysql_error());
     ?>
@@ -108,29 +80,29 @@
     <p class="flip" style="display: block; padding: 10px;"><img src="menu.png"/></p>
     <div class="panel">
     	<h2>Coverflow View</h2>
-    
+
         <div class="form">
         <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-    
+
         <select name="projects">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
-            
+
             <? if($_POST['projects'] == 'all') { echo '<option value="all" selected="selected">All Projects</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_POST['projects']; ?>" selected="selected"><?php echo $_POST['projects']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
             <? } ?>
             <?php } ?>
-            
+
             <?php
                 echo '<option value="all">All Projects</option>';
                 $query = "SELECT * FROM memberships WHERE userID='$userID'";
                 $results = mysql_query($query) or die(" ". mysql_error());
-                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
                     $projID = $line['projectID'];
                     $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
                     $results1 = mysql_query($query1) or die(" ". mysql_error());
@@ -143,12 +115,12 @@
                 }
             ?>
         </select>
-        
+
         <select id="objects" name="objects">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
                 <? switch ($_POST['objects']) {
                     case 'pages':
@@ -171,7 +143,7 @@
                         break;
                 } ?>
             <? } ?>
-            
+
             <option value="all">All Objects</option>
             <option value="pages" <?php if ($objects=="pages") echo "SELECTED";?>>Webpages</option>
             <option value="saved" <?php if ($objects=="saved") echo "SELECTED";?>>Bookmarks</option>
@@ -179,50 +151,50 @@
             <option value="snippets" <?php if ($objects=="snippets") echo "SELECTED";?>>Snippets</option>
             <option value="annotations" <?php if ($objects=="annotations") echo "SELECTED";?>>Annotations</option>
         </select>
-        
+
         <select id="years" name="years">
-        
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
-            
+
             <? if($_POST['years'] == 'all') { echo '<option value="all" selected="selected">All Years</option>'; echo '<option value="" disabled="disabled"> ---------- </option>'; }
             else {?>
                 <option value="<?php echo $_POST['years']; ?>" selected="selected"><?php echo $_POST['years']; ?></option>
                 <option value="" disabled="disabled"> ---------- </option>
             <? } ?>
             <?php } ?>
-            
+
             <option value="all">All Years</option>
-            <? 
+            <?
             $sql_year="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-            $result_year=mysql_query($sql_year); 
-        
-            $options=""; 
+            $result_year=mysql_query($sql_year);
+
+            $options="";
             $y=array();
-        
-            while ($row=mysql_fetch_array($result_year)) { 
-                $date=$row["date"];  
+
+            while ($row=mysql_fetch_array($result_year)) {
+                $date=$row["date"];
                 $year = date("Y",strtotime($date));
-            
-                if (!in_array($year, $y)){ 
+
+                if (!in_array($year, $y)){
                     $y[] = $year;
-                    $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';  
+                    $options.="<OPTION VALUE=".$year.">".$year; echo'</OPTION>';
                 }
-        
-            } 
+
+            }
             echo $options;
             ?>
         </select>
-        
+
         <select id="months" name="months">
-     
+
             <!-- Sticky dropdown -->
             <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {?>
-            
+
             <? switch ($_POST['months']) {
                     case '01':
                         echo '<option value="01" selected="selected">Jan</option>'; echo '<option value="" disabled="disabled"> ---------- </option>';
@@ -265,27 +237,27 @@
                         break;
                 } ?>
             <? } ?>
-            
+
             <option value="all">All Months</option>
             <?
-            $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')"; 
+            $sql_month="SELECT DISTINCT date FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet')";
             $result_month=mysql_query($sql_month);
-            
+
             $m=array();
-            
-            while ($row2=mysql_fetch_array($result_month)) { 
-                $date2=$row2["date"]; 
+
+            while ($row2=mysql_fetch_array($result_month)) {
+                $date2=$row2["date"];
                 $month = date("m",strtotime($date2));
-                
-                if (!in_array($month, $m)){ 
+
+                if (!in_array($month, $m)){
                     if($month == 01 || $month == 02 || $month == 03 || $month == 04 || $month == 05 || $month == 06 || $month == 07 || $month == 08 || $month == 09 || $month == 10 || $month == 11 || $month == 12) {
                       $m[] = $month;
                     }
                 }
-            } 
-               
+            }
+
             sort($m);
-          
+
             for($i = 0; $i < count($m); ++$i) {
                 echo "<option value=".$m[$i].">";
                 if($m[$i]==01) { echo "Jan"; }
@@ -304,26 +276,26 @@
             }
             ?>
         </select>
-        
+
         <input type="checkbox" name="userOnly" value="Yes" <?php if (isset($_POST['userOnly']) == 'Yes') { echo 'checked="checked"'; }?> /> <span style="font-size: 12px;">My stuff only</span>
-        
+
         <input type="submit" name="formSubmit" value="Submit" />
         </form>
         </div>
-        
+
         <div style="clear:both;"></div>
-       
+
         <?php
-            if(isset($_POST['formSubmit'])) 
+            if(isset($_POST['formSubmit']))
             {
                 $varProjects = $_POST['projects'];
                 $varObjects = $_POST['objects'];
                 $varYears = $_POST['years'];
                 $varMonths = $_POST['months'];
 				$userOnly = $_POST['userOnly'];
-                  
+
                 $str = $varProjects.'-'.$varObjects.'-'.$varYears.'-'.$varMonths.'-'.$userOnly;
-                
+
                 echo '<div class="details">';
                 echo 'Viewing ';
                 // Objects
@@ -347,9 +319,9 @@
                         echo "<b>Annotations</b>";
                         break;
                 }
-                
+
                 echo ' from ';
-                
+
                 //  Projects
                 if($varProjects == "all") {
                     echo "<b>All Projects</b>";
@@ -357,9 +329,9 @@
                 else {
                     echo "<b>".$varProjects."</b>";
                 }
-                
+
                 echo ' from ';
-                
+
                 // Months
                 switch ($varMonths) {
                     case "all":
@@ -402,18 +374,18 @@
                         echo "<b>Dec</b>";
                         break;
                 }
-                
+
                 echo ' ';
-                
+
                 // Years
                 if($varYears == "all") {
                     echo "<b>All Years</b>";
                 }
                 else {
                     echo "<b>".$varYears."</b>";
-                }   
+                }
                 echo '</div>';
-                
+
                 echo '<script type="text/javascript">';
                 echo 'filterData("'.$str.'")';
                 echo '</script>';
@@ -421,7 +393,7 @@
         ?>
     	</div>
     </div>
-    
+
     <div id="container">
     <!-- This is all the XHTML ImageFlow needs -->
     <div id="myImageFlow" class="imageflow">
@@ -429,28 +401,12 @@
             $thumb = $line['fileName'];
             $title = $line['title'];
 			$link = $line['url'];
-            
-            echo "<img src='../../thumbnails/small/".$thumb."' longdesc='".$link."' alt='".$title."' />";  
+
+            echo "<img src='../../thumbnails/small/".$thumb."' longdesc='".$link."' alt='".$title."' />";
         }
         ?>
-
-        <!-- <img src="img/img1.png" longdesc="img/img1.png" width="400" height="300" alt="Image 1" />
-        <img src="img/img2.png" longdesc="img/img2.png" width="300" height="400" alt="Image 2" />
-        <img src="img/img3.png" longdesc="img/img3.png" width="400" height="400" alt="Image 3" />
-        <img src="img/img1.png" longdesc="img/img1.png" width="400" height="300" alt="Image 4" />
-        <img src="img/img2.png" longdesc="img/img2.png" width="300" height="400" alt="Image 5" />
-        <img src="img/img1.png" longdesc="img/img1.png" width="400" height="300" alt="Image 6" />
-        <img src="img/img2.png" longdesc="img/img2.png" width="300" height="400" alt="Image 7" />
-        <img src="img/img3.png" longdesc="img/img3.png" width="400" height="400" alt="Image 8" />
-        <img src="img/img1.png" longdesc="img/img1.png" width="400" height="300" alt="Image 9" />
-        <img src="img/img1.png" longdesc="img/img1.png" width="400" height="300" alt="Image 10" />
-        <img src="img/img2.png" longdesc="img/img2.png" width="300" height="400" alt="Image 11" />
-        <img src="img/img3.png" longdesc="img/img3.png" width="400" height="400" alt="Image 12" />
-        <img src="img/img2.png" longdesc="img/img2.png" width="300" height="400" alt="Image 13" />
-        <img src="img/img3.png" longdesc="img/img3.png" width="400" height="400" alt="Image 14" />
-        <img src="img/img3.png" longdesc="img/img3.png" width="400" height="400" alt="Image 15" /> -->
     </div></div>
-    
+
     <?
 	mysql_close($con);
 	?>

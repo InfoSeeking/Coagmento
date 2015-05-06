@@ -63,7 +63,7 @@
 
 			$noteID = $connection->getLastID();
 			Util::getInstance()->saveAction('add-annotation',"$noteID",$base);
-			require_once("utilityFunctions.php");
+			require_once("services/utilityFunctions.php");
 			addPoints($userID,10);
 		}
 		else {

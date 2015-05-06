@@ -8,7 +8,7 @@
 <script type="text/javascript" src="../js/utilities.js"></script>
 
 <?php
-  include('../func.php');
+  include('../services/func.php');
 ?>
 
 <script type="text/javascript">
