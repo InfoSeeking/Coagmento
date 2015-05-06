@@ -47,6 +47,35 @@ var WORKSPACE = (function(){
     alert(msg + " Please contact developers for assistance.");
   }
 
+  var currentYear = null;
+  var currentMonth = null;
+  var currentDay = null;
+  function displayDate(timestamp, root){
+    var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var dt = new Date(timestamp * 1000);
+    var y = dt.getFullYear();
+    var m = month_names[dt.getMonth()];
+    var d = dt.getDate();
+    var data = {
+      "year" : y,
+      "month" : m,
+      "day" : d
+    };
+    if(currentYear != y){
+        //show and set
+        root.append(tmpl("year", data));
+        currentYear = y;
+    }
+    if(currentMonth != m){
+        root.append(tmpl("month", data));
+        currentMonth = m;
+    }
+    if(currentDay != d){
+        root.append(tmpl("day", data));
+        currentDay = d;
+    }
+  }
+
   function displayBookmark(bookmark_data, root){
     var d = bookmark_data;
     var ed = $.extend({}, d); //extended data
@@ -167,6 +196,7 @@ var WORKSPACE = (function(){
       if(d.hasOwnProperty("userID") && d["userID"] != userID && only_mine){
         continue;
       }
+      displayDate(d["timestamp"], root);
       switch(t){
         case "bookmark":
           displayBookmark(d, root);

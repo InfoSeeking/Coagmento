@@ -140,6 +140,12 @@ ul{
   position: relative;
   word-wrap: break-word;
 }
+#feed .day{
+  color: #999;
+  font-weight: normal;
+  margin-bottom: 5px;
+  border-bottom: 1px #999 dashed;
+}
 #feed li .sub{
   font-size: 14px;
   position: relative;

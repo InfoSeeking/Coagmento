@@ -52,7 +52,7 @@ function gen_url($param){
             <li><a class="<?php if($PAGE == 'BOOKMARKS') echo 'current ' ?>" href="?page=BOOKMARKS">Bookmarks</a></li>
             <li><a class="<?php if($PAGE == 'SNIPPETS') echo 'current ' ?>" href="?page=SNIPPETS">Snippets</a></li>
             <li><a class="<?php if($PAGE == 'SEARCHES') echo 'current ' ?>" href="?page=SEARCHES">Search History</a></li>
-            <li><a class="<?php if($PAGE == 'SOURCES') echo 'current ' ?>" href="?page=SOURCES">Sources</a></li>
+            <!-- <li><a class="<?php if($PAGE == 'SOURCES') echo 'current ' ?>" href="?page=SOURCES">Sources</a></li> -->
             <!-- <li><a class="<?php if($PAGE == 'CONTRIBUTIONS') echo 'current ' ?>" href="?page=CONTRIBUTIONS">User Contributions</a></li> -->
           </ul>
         </nav>
@@ -158,8 +158,15 @@ function gen_url($param){
     <script type="text/html" id="page_template">
       <li data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
-          <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
-          <span><a href="<%= url %>"><%= pretty_url %></a></span>
+          <div class="left_section">
+            <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+          </div>
+          <div class="right_section">
+            <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+            <span><a href="<%= url %>"><%= title %></a></span>
+            <p><small><%= pretty_url %></small><p>
+          </div>
+          <br class="clear" />
         </div>
         <div class="sub">
           <span class="added_by">Added by <b><%= username %></b></span>
@@ -167,7 +174,7 @@ function gen_url($param){
           <span class="real_date">(<%= real_date %>)</span>
           <div class="sub-right">
             <% if(editable){ %>
-            <a class="delete" href="#" data-id="<%= pageID %>">Delete</a>
+            <!--<a class="delete" href="#" data-id="<%= pageID %>">Delete</a>-->
             <% } %>
           </div>
         </div>
@@ -186,7 +193,7 @@ function gen_url($param){
           <span class="real_date">(<%= real_date %>)</span>
           <div class="sub-right">
             <% if(editable){ %>
-            <a class="delete" href="#" data-id="<%= snippetID %>">Delete</a>
+            <!--<a class="delete" href="#" data-id="<%= snippetID %>">Delete</a>-->
             <% } %>
           </div>
         </div>
@@ -204,7 +211,7 @@ function gen_url($param){
           <span class="real_date">(<%= real_date %>)</span>
           <div class="sub-right">
             <% if(editable){ %>
-            <a class="delete" href="#" data-id="<%= queryID %>">Delete</a>
+            <!--<a class="delete" href="#" data-id="<%= queryID %>">Delete</a>-->
             <% } %>
           </div>
         </div>
@@ -228,6 +235,15 @@ function gen_url($param){
           </div>
         </div>
       </li>
+    </script>
+    <script type="text/html" id="year">
+      <h2><%= year %></h2>
+    </script>
+    <script type="text/html" id="month">
+      <h3><%= month %></h3>
+    </script>
+    <script type="text/html" id="day">
+      <h4 class="day"><%= month %> <%= day %>, <%= year %></h4>
     </script>
     <script src="assets/js/jquery-2.1.3.min.js"></script>
     <script src="assets/js/simple_template.js"></script>
