@@ -124,7 +124,7 @@ function gen_url($param){
 
           <% if(editable){ %>
           <div class="sub-right">
-            <a href="#" class="delete" data-id="TODO">Delete</a>
+            <!-- <a href="#" class="delete" data-id="TODO">Delete</a> -->
             <!-- <a href="#" class="edit" data-state="closed">Edit</a> -->
           </div>
           <% } %>

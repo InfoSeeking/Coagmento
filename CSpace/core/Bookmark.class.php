@@ -13,7 +13,7 @@ require_once('Tags.class.php');
 class Bookmark extends Base {
   public static function retrieveFromProject($projectID, $sorting="timestamp DESC"){
     $cxn=Connection::getInstance();
-    $query = sprintf("select *, P.timestamp as timestamp from pages P, actions A, thumbnails T where A.action='save-page' AND A.value=P.pageID AND P.thumbnailID=T.thumbnailID AND P.projectID=%d ORDER BY P.%s", $projectID, $cxn->esc($sorting));
+    $query = sprintf("select *, P.timestamp as timestamp from pages P, actions A, thumbnails T, users U where A.action='save-page' AND A.value=P.pageID AND P.thumbnailID=T.thumbnailID AND P.projectID=%d AND U.userID=P.userID ORDER BY P.%s", $projectID, $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
     while($record = mysql_fetch_assoc($results)){
