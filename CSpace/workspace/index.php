@@ -52,9 +52,10 @@ if($only_mine){
 switch($PAGE){
   case "ALL":
     $bookmarks = extend_data(Bookmark::retrieveFromProject($projectID), "bookmark");
-    //$pages = extend_data(Page::retrieveFromProject($projectID), "page");
+    $pages = extend_data(Page::retrieveFromProject($projectID), "page");
     $snippets = extend_data(Snippet::retrieveFromProject($projectID), "snippet");
     $searches = extend_data(Query::retrieveFromProject($projectID), "search");
+    $feed_data = timestamp_merge($feed_data, $pages);
     $feed_data = timestamp_merge($feed_data, $bookmarks);
     $feed_data = timestamp_merge($feed_data, $snippets);
     $feed_data = timestamp_merge($feed_data, $searches);

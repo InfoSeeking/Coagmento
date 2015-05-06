@@ -138,6 +138,7 @@ ul{
 #feed li .top{
   padding: 5px 10px;
   position: relative;
+  word-wrap: break-word;
 }
 #feed li .sub{
   font-size: 14px;
@@ -190,6 +191,10 @@ ul{
   border-color: #E1B1FC;
 }
 .pg_All #feed li.item-source{
+  border-top-width: 18px;
+}
+.pg_All #feed li.item-page {
+  border-color: #98C9F5;
   border-top-width: 18px;
 }
 #feed li.item-source .related-section, #feed li.item-bookmark .bookmark-related-section{
