@@ -2,36 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<?php
-	include('links_header.php');
-?>
 
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".flip").click(function(){
-			$(".panel").slideToggle("slow");
-		});
-	});
-</script>
 
 <?php
-	include('services/func.php');
+	include('../services/func.php');
 ?>
 </head>
 
 <body>
-
-<?php include('header.php'); ?>
 
 <div id="container">
 <h3>Points</h3>
 
 <?php
 	session_start();
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
+	require_once('../core/Base.class.php');
+	require_once("../core/Connection.class.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 

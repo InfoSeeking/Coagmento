@@ -4,28 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
 
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".flip").click(function(){
-			$(".panel").slideToggle("slow");
-		});
-	});
-</script>
-
 <?php
-	include('services/func.php');
+	include('../services/func.php');
 ?>
 </head>
 
 <body>
-
-<?php include('header.php'); ?>
 
 <div id="container">
 <h3>Options</h3>
@@ -41,7 +28,10 @@
 
 <table class="body" width=100%>
 <?php
-	require_once("../connect.php");
+	require_once('../core/Base.class.php');
+	require_once("../core/Connection.class.php");
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 	if (isset($_GET['option'])) {
 		$option = $_GET['option'];
 		$value = $_GET['value'];
