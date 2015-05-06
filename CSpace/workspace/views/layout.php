@@ -18,7 +18,7 @@ function gen_url($param){
     <title>Coagmento Workspace</title>
     <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
     <style></style>
-    <link href="../lib/select2/select2.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/select2/select2.css" rel="stylesheet" type="text/css" />
 
   </head>
   <body class="pg_<?php echo $PAGE ?>">
@@ -234,7 +234,7 @@ function gen_url($param){
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/WORKSPACE.js"></script>
     <script src="assets/js/lunr.js"></script>
-    <script type="text/javascript" src="../lib/select2/select2.full.min.js"></script>
+    <script type="text/javascript" src="../assets/select2/select2.full.min.js"></script>
 
     <script>
     (function(){

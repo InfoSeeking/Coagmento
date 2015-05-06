@@ -179,7 +179,7 @@ $(function () {
             }
 
             else {
-            $.post("summarize_new.php", {cpages:allVals, n:length},
+            $.post("iris/summarize.php", {cpages:allVals, n:length},
                 function(data) {
                     $.post("http://iris.comminfo.rutgers.edu/", {xmldata: data},
                         function(response) {                            
@@ -203,7 +203,7 @@ $(function () {
             }
 
             else {
-                $.post("cluster_new.php", {cpages:allVals, n: numGroups},
+                $.post("iris/cluster.php", {cpages:allVals, n: numGroups},
                     function(data) {
                         $.post("http://iris.comminfo.rutgers.edu/", {xmldata: data},
                             function(response) {                      
@@ -226,7 +226,7 @@ $(function () {
             }
 
             else {
-            $.post("ranking.php", {cpages:allVals},
+            $.post("iris/ranking.php", {cpages:allVals},
                 function(data) {
                     $.post("http://iris.comminfo.rutgers.edu/", {xmldata: data},
                         function(response) {                            
@@ -266,7 +266,7 @@ function sendXML(response) {
         var x = allVals[0];
     }
 
-    $.post("parseXML.php", {xmldata:response, x:x},
+    $.post("services/parseXML.php", {xmldata:response, x:x},
         function(data) {
             $("#xml_response").append("<h3>Results</h3>" + data);      
         });

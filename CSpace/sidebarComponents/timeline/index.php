@@ -5,8 +5,8 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="css/demo.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="../assets/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="../assets/css/style_sidebarComponentstimeline.css" />
     </head>
     <body>
         <div class="container">
@@ -19,7 +19,7 @@
             $title = "Coagmento";
             
             $query = "SELECT * FROM users WHERE userID=$userID";
-            $results = mysql_query($query) or die(" ". mysql_error());
+            $results = $connection->commit($query);
             $line = mysql_fetch_array($results, MYSQL_ASSOC);
             $firstName = $line['firstName'];
             $lastName = $line['lastName'];
@@ -40,7 +40,7 @@
             	<?
 			
 				$query = "SELECT * from pages, thumbnails where pages.thumbnailID = thumbnails.thumbnailID order by date desc limit 150";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 				$compareDate = NULL;
 				$setDate = FALSE;
 				$hasTableHeader = FALSE;

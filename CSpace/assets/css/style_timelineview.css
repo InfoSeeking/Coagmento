@@ -1,0 +1,233 @@
+	body {
+	font-family: arial;
+	background: url('../img/bg.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	}
+	
+	#topbar {
+	color: #000;
+	text-shadow: 0px 1px 1px #fff;
+	background: rgb(255,255,255); 
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1)));
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); 
+	width: 100%;
+	min-width: 800px;
+	height: 70px;
+	position: fixed;
+	top: 0; left: 0;
+	padding-top: 20px;
+	padding-left: 20px;
+	z-index: 100;
+	border-bottom: 1px solid #DFDFDF;
+	}
+	
+	#container {
+	position: relative;
+	padding-left: 30px;
+	padding-right: 200px;
+	margin-top: 120px;
+	}
+	
+	#box_left {
+	width: 55%;
+	float: left;
+	}
+	
+	#box_right {
+	width: 35%;
+	height: 84%;
+	float: left;
+	position: fixed;
+	top: 110px; left: 60%;
+	overflow: auto;
+	}
+	
+	#box_right h2 a {
+	color: #000;
+	font-size: 20px;
+	}
+	#box_right h2 a:hover {
+	color: #ccc;
+	}
+	
+	#box_right table {
+	width: 100%;
+	}
+	#box_right table td {
+	background-color: rgba(204,204,204,0.5);
+	padding: 5px;
+	font-size: 14px;
+	color: #111 !important;
+	}
+	#box_right table td.thumb {
+	background: transparent !important;
+	}
+	
+	h2 {
+	font-family: arial;
+	display: inline;
+	margin: 0;
+	float: left;
+	padding-top: 10px;
+	}
+	h2 a {
+	color: #000;
+	text-decoration: none;
+	padding-right: 20px;
+	}
+	h2 a:hover {
+	color: #ccc;
+	}
+	
+	a img {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	border: 0;
+	}
+	
+	
+	
+	/* timeline only */
+	#box_left a:hover {
+	border: solid 1px #545454 !important;
+	}
+	/*#box_left a:hover {
+	outline: 1px solid #545454 !important;
+	}*/
+	.thumbnail_info {
+	font-family: arial;
+	}
+	.thumbnail_info a {
+	color: #06F;
+	font-family: arial;
+	text-decoration: none;
+	}	
+	.form {
+	float: left;
+	padding-left: 20px;
+	padding-top: 3px;
+	}
+	.details {
+	float: left;
+	padding-top: 6px;
+	padding-left: 3px;
+	font-size: 12px;
+	}
+	.contain {
+	border-left: 1px solid #ccc;
+	padding-left: 20px;
+	}
+	.year h2 {
+	font-size: 24px;
+	font-family: arial;
+	margin: 0;
+	width: 100%;
+	/* text-shadow: 0px -1px 0px rgba(0,0,0,.5); */
+	}
+	.month h3 {
+	font-family: arial;
+	margin: 0;
+	/* text-shadow: 0px -1px 0px rgba(0,0,0,.5); */
+	}
+	.day {
+	color: #333;
+	font-size: 14px;
+	}
+	/* end timeline only */
+	
+	
+	
+	div.panel,p.flip
+	{
+	margin:0px;
+	padding:5px;
+	text-align:center;
+	margin-top: -10px;
+	}
+	div.panel
+	{
+	font-size: 14px;
+	height:auto;
+	display:none;
+	background: #fefefe;
+	padding: 20px;
+	box-shadow: 5px 5px 2px #eee;
+	margin-top: 0px;
+	}
+	div.panel a {
+	display: block;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	color: #333;
+	text-decoration: none;
+	}
+	div.panel a:hover {
+	color: #ccc;
+	}
+	
+	.top_links a {
+	color: #693;
+	text-decoration: none;
+	}
+	.top_links a:hover {
+	color: #ccc;
+	}
+	
+	h3 {
+	background: #693;
+	color: #fefefe;
+	width: 200px;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-shadow: 0px 1px 1px #3d6516;
+	}
+	
+	.body {
+	color: #333;
+	font-size: 12px;
+	}
+	.body td {
+	padding: 5px;
+	}
+	
+	a.existing_projects {
+	background: #fffbde;
+	padding: 5px;
+	color: #693;
+	text-decoration: none;
+	}
+	a.existing_projects:hover {
+	background: #693;
+	padding: 5px;
+	color: #fffbde;
+	text-decoration: none;
+	}
+	
+	/* content links */
+	a.header {
+	color: #000; 
+	font-size: 16px;
+	font-weight: bold;
+	}
+	a:hover.header {
+	color: #ccc;
+	}
+	
+	a {
+	color: #06C;
+	text-decoration: none;
+	}
+	a:hover {
+	color: #ccc;
+	}

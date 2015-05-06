@@ -10,7 +10,7 @@
 
 	$userID = $_COOKIE['CSpace_userID'];
 	$query1 = "SELECT count(*) as num FROM users WHERE userID='$userID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 	$num = $line1['num'];
 	
@@ -38,7 +38,7 @@
 		$f1like = addslashes($_POST['f1like']);
 		$f1dislike = addslashes($_POST['f1dislike']);
 		$query = "INSERT INTO feedback1 VALUES('','$userID','$f1q1','$f1q2','$f1q3','$f1q4','$f1q5','$f1q6','$f1q7','$f1q8','$f1q9','$f1q10','$f1q11','$f1q12','$f1q13','$f1q14','$f1q15','$f1q16','$f1q17','$f1like','$f1dislike','$date')";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		echo "<tr><td><br/>Thank you for your feedback. Proceed to your <a href=\"index.php\">CSpace</a>.<br/><br/></td></tr>\n";
 	}
 	else {

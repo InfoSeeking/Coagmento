@@ -4,11 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/utilities.js"></script>
+<?php
+include('links_header.php');
+?>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -19,7 +17,7 @@
 </script>
 
 <?php
-	include('func.php');
+	include('services/func.php');
 ?>
 </head>
 
@@ -64,7 +62,7 @@
 			if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $target)) {
 //				$message = "Your profile photo ". basename( $_FILES['uploadedfile']['name']). " has been updated.";
 				$query1 = "UPDATE users SET avatar='$fileName' WHERE userID='$userID'";
-				$results1 = mysql_query($query1) or die(" ". mysql_error());
+				$results1 = $connection->commit($query1);
 			}
 			else {
 //				echo "<br/><br/><font color=\"red\">Sorry, there was a problem uploading your file. Please try again.</font>\n";
@@ -84,12 +82,12 @@
 			}
 			else
 				$query = "UPDATE users SET firstName='$fname',lastName='$lname',organization='$organization',email='$email',website='$website' WHERE userID='$userID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			echo "<tr><td><font color=\"green\">Your profile has been updated.</font></td></tr>";
 
 		}
 		$query = "SELECT * FROM users WHERE userID='$userID'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$userName = $line['username'];
 		$firstName = $line['firstName'];

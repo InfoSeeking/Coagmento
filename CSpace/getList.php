@@ -5,7 +5,12 @@ $operator = $_POST["operator"];
 // $x is the first variable isolated for 'ranking' interface
 $x= $cpages[0];
 
-require_once("connect.php");
+require_once('./core/Base.class.php');
+require_once("./core/Connection.class.php");
+require_once("./core/Util.class.php");
+
+$base = Base::getInstance();
+$connection = Connection::getInstance();
 
 // ranking operator
 if ($operator == "rank") {
@@ -15,7 +20,7 @@ if ($operator == "rank") {
 		array_splice($cpages, 0, 1);
 
 		$firstPage="SELECT * FROM pages WHERE pageID=".$x."";
-		$firstResult = mysql_query($firstPage) or die(" ". mysql_error());
+		$firstResult = $connection->commit($firstPage);
 
 		while($row = mysql_fetch_array($firstResult)) {
 			$hasThumb = $row['thumbnailID'];
@@ -24,7 +29,7 @@ if ($operator == "rank") {
 
 			// Get project name
 			$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-			$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());
+			$projectNameResult = $connection->commit($getProjectName);
 
 			while($line = mysql_fetch_array($projectNameResult)) {
 				$projectName = $line['title'];
@@ -40,7 +45,7 @@ if ($operator == "rank") {
 
 				//get first selected doc
 				$getFirstPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$x."";
-				$pageFirstResult = mysql_query($getFirstPage) or die(" ". mysql_error());
+				$pageFirstResult = $connection->commit($getFirstPage);
 
 				while($line = mysql_fetch_array($pageFirstResult)) {
 					$value = $line['pageID'];
@@ -58,7 +63,7 @@ if ($operator == "rank") {
 		foreach ($cpages as $checked) {
 			// Page
 			$page="SELECT * FROM pages WHERE pageID=".$checked."";
-			$result = mysql_query($page) or die(" ". mysql_error());
+			$result = $connection->commit($page);
 
 			while($row = mysql_fetch_array($result)) {
 				$hasThumb = $row['thumbnailID'];
@@ -67,7 +72,7 @@ if ($operator == "rank") {
 
 				// Get project name
 				$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-				$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());
+				$projectNameResult = $connection->commit($getProjectName);
 
 				while($line = mysql_fetch_array($projectNameResult)) {
 					$projectName = $line['title'];
@@ -80,7 +85,7 @@ if ($operator == "rank") {
 
 				else {
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$checked."";
-					$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+					$pageResult = $connection->commit($getPage);
 
 					while($line = mysql_fetch_array($pageResult)) {
 						$value = $line['pageID'];
@@ -104,7 +109,7 @@ else {
 	foreach ($cpages as $checked) {
 		// Page
 		$page="SELECT * FROM pages WHERE pageID=".$checked."";
-		$result = mysql_query($page) or die(" ". mysql_error());
+		$result = $connection->commit($page);
 
 		while($row = mysql_fetch_array($result))
 			{
@@ -114,7 +119,7 @@ else {
 
 			// Get project name
 			$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-			$projectNameResult = mysql_query($getProjectName) or die(" ". mysql_error());
+			$projectNameResult = $connection->commit($getProjectName);
 
 			while($line = mysql_fetch_array($projectNameResult)) {
 				$projectName = $line['title'];
@@ -129,7 +134,7 @@ else {
 			else {
 				// Get thumbnail
 				$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$checked."";
-				$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+				$pageResult = $connection->commit($getPage);
 
 				while($line = mysql_fetch_array($pageResult)) {
 					$value = $line['pageID'];
@@ -146,6 +151,4 @@ else {
 	echo "</table>";
 }
 
-
-mysql_close($con);
 ?>

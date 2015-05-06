@@ -54,7 +54,7 @@ a.tt:hover span.bottom{
 			$projectID = $_SESSION['CSpace_projectID'];
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
@@ -63,7 +63,7 @@ a.tt:hover span.bottom{
 		echo "<table width=100%><tr style=\"background:#CDE;\"><td style=\"font-size:12px;color:green;font-weight:bold\" ondragenter=\"handleDragDropEvent(event);\" align=center>DropZone</td></tr></table>";
 		// Find out the preferences set by this user for this project.
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='snippets-order'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$orderBy = $line['value'];
 		if (!$orderBy)
@@ -75,7 +75,7 @@ a.tt:hover span.bottom{
 			
 		echo "<table width=100%>\n";		
 		$query = "SELECT * FROM snippets WHERE projectID='$projectID' AND status=1 ORDER BY $orderBy desc";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$snippetID = $line['snippetID'];
 			$qUserID = $line['userID'];
@@ -84,7 +84,7 @@ a.tt:hover span.bottom{
 			else
 				$color = '#008C00';
 			$query1 = "SELECT * FROM users WHERE userID='$qUserID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$snippet = stripslashes($line['snippet']);

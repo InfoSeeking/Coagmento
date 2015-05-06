@@ -14,14 +14,14 @@
 		$value = $_GET['value'];
 		require_once("../connect.php");
 		$query1 = "UPDATE rating SET `active`='0' WHERE `idResource`='$itemID' AND `type`='$type' AND `active`='1' AND `userID`='$userID' AND `projectID`='$projectID'";
-		$results = mysql_query($query1) or die(" ". mysql_error());
+		$results = $connection->commit($query1);
 		date_default_timezone_set('America/New_York');
 		$timestamp = time();
 		$datetime = getdate();
 		$date = date('Y-m-d', $datetime[0]);
 		$time = date('H:i:s', $datetime[0]);
 		$query2 = "INSERT INTO rating (`idResource`, `type`, `value`, `userID`, `projectID`, `active`, `time`, `date`, `timestamp`) VALUES ('$itemID', '$type', '$value', '$userID', '$projectID', '1', '$time', '$date', '$timestamp')";
-		$results = mysql_query($query2) or die(" ". mysql_error());
+		$results = $connection->commit($query2);
 		$webPage = $_GET['webPage'];
     $ip=$_SERVER['REMOTE_ADDR'];
 		Util::getInstance()->saveAction("updateRating_$type","itemID:$itemID:$value",$base);

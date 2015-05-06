@@ -12,5 +12,5 @@
 	$action = $_POST['action'];
  	$value = $_POST['value'];
 	$query = "INSERT INTO actions (userID, projectID, timestamp, date, time, action, value, ip) VALUES ('$userID', '$projectID', '$timestamp', '$date', '$time', '$action', '$value','$ip')";
-	$results = mysql_query($query) or die(" ". mysql_error());	
+	$results = $connection->commit($query);	
 ?>

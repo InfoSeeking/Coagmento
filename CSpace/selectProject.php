@@ -1,15 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
+
+<?php
+include('links_header.php');
+?>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".flip").click(function(){
+			$(".panel").slideToggle("slow");
+		});
+	});
+</script>
+
+<?php
+	include('services/func.php');
+?>
+</head>
+
+<body>
+
+<?php include('header.php'); ?>
+
+<div id="container">
+<h3>View Select Project</h3>
+
 <?php
 	session_start();
 	ob_start();
-	require_once("header.php");
 	require_once("connect.php");
 	$pageName = "CSpace/selectProject.php";
 	require_once("../counter.php");
-	
+
 	if (isset($_SESSION['userID'])) {
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
-		$results1 = mysql_query($query1) or die(" ". mysql_error());
+		$results1 = $connection->commit($query1);
 		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
@@ -20,7 +49,7 @@
 			echo "<br/><br/><center>\n<table class=\"body\">\n";
 			echo "<tr bgcolor=#DDDDDD><td>Hello, <strong>$firstName $lastName</strong>.</td></tr>\n";
 			$query = "SELECT * FROM projects WHERE projectID='$projectID'";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$title = $line['title'];
 			echo "<tr><td>You have selected <strong>$title</strong> as your active project.<br/></td></tr>\n";
@@ -42,7 +71,7 @@
 		echo "<br/><br/><center>\n<table class=\"body\">\n";
 		echo "<tr><td>Sorry. Looks like we had trouble knowing who you are!<br/>Please try <a href=\"index.php\">logging in</a> again.</td></tr>\n";
 		echo "</table>\n</center>\n<br/><br/><br/><br/>\n";
-	} 		
+	}
 	require_once("footer.php");
 ?>
   <!-- end #footer --></div>

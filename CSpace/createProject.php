@@ -4,11 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
-<LINK REL=StyleSheet HREF="assets/css/style2.css" TYPE="text/css" MEDIA=screen>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<?php
+	include('links_header.php');
+?>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -19,7 +17,7 @@
 </script>
 
 <?php
-	include('func.php');
+	include('services/func.php');
 ?>
 </head>
 
@@ -32,6 +30,13 @@
 
 <?php
 	session_start();
+	require_once('./core/Base.class.php');
+	require_once("./core/Connection.class.php");
+	require_once("./core/Util.class.php");
+
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
@@ -41,12 +46,7 @@
 <table class="body" width=100%>
 
 <?php
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
-	require_once("./core/Util.class.php");
 
-	$base = Base::getInstance();
-	$connection = Connection::getInstance();
 	$userID = $base->getUserID();
 
 	// If new project information was sent
@@ -66,7 +66,6 @@
 				$description = addslashes($_GET['description']);
 				$privacy = $_GET['privacy'];
 				// Get the date, time, and timestamp
-				date_default_timezone_set('America/New_York');
 				$timestamp = $base->getTimestamp();
 				$startDate = $base->getDate();
 				$startTime = $base->getTime();
@@ -82,7 +81,7 @@
 				$ip=$base->getIP();
 				Util::getInstance()->saveAction('create-project',"$projectID",$base);
 
-				require_once("utilityFunctions.php");
+				require_once("services/utilityFunctions.php");
 				addPoints($userID,100);
 
 				echo "<tr><td colspan=2><font color=\"green\">Your new project <span style=\"font-weight:bold\">$title</span> has been created.</font></td></tr>";

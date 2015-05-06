@@ -1,16 +1,4 @@
 <?php
-/* $iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
-$android = strpos($_SERVER['HTTP_USER_AGENT'],"Android");
-$palmpre = strpos($_SERVER['HTTP_USER_AGENT'],"webOS");
-$berry = strpos($_SERVER['HTTP_USER_AGENT'],"BlackBerry");
-$ipod = strpos($_SERVER['HTTP_USER_AGENT'],"iPod");
-
-if ($iphone || $android || $palmpre || $ipod || $berry == true) 
-{ 
-header('Location: mobile.php');
-//OR
-echo "<script>window.location='mobile.php'</script>";
-} */
 
 $userAgent = $_SERVER['HTTP_USER_AGENT'];
 $pieces = explode("/", $userAgent);
@@ -22,10 +10,10 @@ $height = $pieces[4];
 
 if(($os == 'Android' && $width <= 500) || ($os == 'iOS' && $width <= 500)) {
 	echo $width;
-	
+
 	header('Location: mobile.php');
 	//OR
-	echo "<script>window.location='coverflow/index.php'</script>";	
+	echo "<script>window.location='coverflow/index.php'</script>";
 }
 else {
 	$iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
@@ -33,13 +21,13 @@ else {
 	$palmpre = strpos($_SERVER['HTTP_USER_AGENT'],"webOS");
 	$berry = strpos($_SERVER['HTTP_USER_AGENT'],"BlackBerry");
 	$ipod = strpos($_SERVER['HTTP_USER_AGENT'],"iPod");
-	
-	if ($iphone || $android || $palmpre || $ipod || $berry == true) 
-	{ 
+
+	if ($iphone || $android || $palmpre || $ipod || $berry == true)
+	{
 	header('Location: mobile.php');
 	//OR
 	echo "<script>window.location='coverflow/index.php'</script>";
-	} 
+	}
 }
 
 ?>

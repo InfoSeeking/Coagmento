@@ -99,7 +99,7 @@
 		$pageResult = mysql_query($fullQuery) or die(" ". mysql_error());
 
 		// $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ORDER BY date DESC";
-		// $pageResult = mysql_query($getPage) or die(" ". mysql_error());
+		// $pageResult = $connection->commit($getPage);
 
 		$hasResult = FALSE; // Check if there are any results
 
@@ -243,10 +243,6 @@
 				$compareDay = $comp_day;
 			}
 
-				// echo '<div class="wrapper">';
-				// echo '<a class="thumbnail_small various fancybox.ajax" href="getDetails.php?q='.$pass_var.'">';
-				// echo '<img src="http://'.$_SERVER['HTTP_HOST'].'/CSpace/thumbnails//small/'.$thumb.'">';
-				// echo '</a></div>';
 
 		if ($type == "query") {
 		    // $queryID = $line['queryID'];
@@ -293,7 +289,7 @@
 		}
 
 		else if ($type == "annotation") {
-		    
+
 		    $pass_var = "note-".$pageID;
 			echo '<div class="wrapper">';
 			echo '<a class="thumbnail_small various fancybox.ajax" href="getDetails.php?q='.$pass_var.'">';
@@ -309,5 +305,5 @@
 
 	?>
 
-	<script src="js/impress.js"></script>
+	<script src="../assets/js/impress.js"></script>
 	<script>impress().init();</script>

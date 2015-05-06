@@ -3,7 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Coagmento</title>
-<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
+<?php
+	include('links_header.php');
+?>
 <body class="body">
 <table class="table">
 <?php
@@ -16,17 +18,17 @@
 	$pageID = $_GET['pageID'];
 
 	$query = "SELECT * FROM pages WHERE pageID='$pageID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 
 	$query1 = "SELECT * FROM users WHERE userID='$userID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 	$userName = $line1['username'];
 	$avatar = $line1['avatar'];
 	echo "<tr><td align=center><img src=\"../img/$avatar\" height=60 width=60 /><br/>$userName</td>";
 	$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 	$title = $line1['title'];
 	echo "<td>Project: <em>$title</em></td></tr>\n";
@@ -42,7 +44,7 @@
 	$time = $line['time'];
 	$subText = "";
 	$query1 = "SELECT * FROM snippets WHERE url='$url' AND projectID='$projectID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	if (mysql_num_rows($results1)!=0) {
 		$subText = "<em>Snippets:</em><font color=\"gray\"><ul>";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
@@ -54,7 +56,7 @@
 		$subText = $subText . "</ul></font>";
 	}
 	$query1 = "SELECT note FROM annotations WHERE url='$url' AND projectID='$projectID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	if (mysql_num_rows($results1)!=0) {
 		$subText = "<em>Annotations:</em><font color=\"gray\"><ul>";
 		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
@@ -72,13 +74,13 @@
 		echo "<td align=right>Unsaved</td></tr>\n";
 	echo "<tr><td align=center><strong>User</strong></td><td align=center><strong>Time</strong></td></tr>\n";
 	$query1 = "SELECT * FROM pages WHERE url='$url' AND projectID='$projectID'";
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
 		$userID = $line1['userID'];
 		$date = $line1['date'];
 		$time = $line1['time'];
 		$query2 = "SELECT * FROM users WHERE userID='$userID'";
-		$results2 = mysql_query($query2) or die(" ". mysql_error());
+		$results2 = $connection->commit($query2);
 		$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
 		$userName = $line2['username'];
 		echo "<tr><td align=center>$userName</td><td align=center>$date, $time</td></tr>\n";

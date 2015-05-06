@@ -30,7 +30,7 @@
                             $value = $title;
 
                             $query = "INSERT INTO actions (userID, projectID, timestamp, date, time, action, value, ip) VALUES ('$userID', '$projectID', '$timestamp', '$date', '$time', '$action', '$value','$ip')";
-                      	    $results = mysql_query($query) or die(" ". mysql_error());
+                      	    $results = $connection->commit($query);
 
                             header("Location: http://coagmentopad.rutgers.edu/$title?nickname=$userName");
                             exit;

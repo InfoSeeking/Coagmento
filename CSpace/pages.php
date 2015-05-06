@@ -1,6 +1,6 @@
 <?php
-require_once(dirname(__FILE__) . "/Cspaceconn.php");
-require_once(dirname(__FILE__) . "/functions.inc.php");
+require_once(dirname(__FILE__) . "/services/Cspaceconn.php");
+require_once(dirname(__FILE__) . "/services/functions.inc.php");
 require_once(dirname(__FILE__) . "/XmlSerializer.class.php");
 
 

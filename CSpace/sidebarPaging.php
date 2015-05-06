@@ -1,5 +1,5 @@
 <?php
-	$results1 = mysql_query($query1) or die(" ". mysql_error());
+	$results1 = $connection->commit($query1);
 	$numRecords = mysql_num_rows($results1);
 	$maxPage = floor($numRecords/$maxPerPage);
 	if ($numRecords%$maxPerPage>0)

@@ -103,7 +103,7 @@
 
 		function initialize() {
 			// Get the active project
-			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/checkStatus.php");
+			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/checkStatus.php");
 			req.add('version','201');
 			req.add('object','chat');
 			var response = req.execute();
@@ -113,35 +113,19 @@
 		}
 
 		function loadAll() {
-//			ajaxpage('sidebarChat.php','chat');
-			//ajaxpage('collabOnline.php', 'collabOnline');
-			//var chatMessages = document.getElementById('chatMessages');
-			//chatMessages.scrollTop = chatMessages.scrollHeight;
 		}
 
 		function refresh() {
 			ajaxpage("currentProj.php", 'currentProj');
-			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/checkStatus.php");
+			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/checkStatus.php");
 			req.add('version','201');
 			req.add('object','chat');
 			var response = req.execute();
 			var res = response.split(":");
 			if (res[0]>0) {
 				if (projID!=res[1])
-                                    location.reload(true);
+        	location.reload(true);
 			}
-			/*else {
-				// Status for chat
-				req = new phpRequest("http://www.coagmento.org/CSpace/objectStatus.php");
-				req.add('version','201');
-				req.add('object','chat');
-				var response = req.execute();
-				if (response==1) {
-					//ajaxpage('chatList.php','chatMessages');
-					//var chatMessages = document.getElementById('chatMessages');
-					//chatMessages.scrollTop = chatMessages.scrollHeight;
-				}
-			}	*/
 		}
 
 		function getNotifications() {
@@ -149,7 +133,7 @@
 		}
 
 		function addAction (action, value) {
-			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/addAction.php");
+			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/addAction.php");
 			req.add('action', action);
 			req.add('value', value);
 			var response = req.execute();

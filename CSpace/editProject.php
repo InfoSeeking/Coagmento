@@ -3,9 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
-<LINK REL=StyleSheet HREF="assets/css/style.css" TYPE="text/css" MEDIA=screen>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/utilities.js"></script>
+
+
+<?php
+include('links_header.php');
+?>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".flip").click(function(){
@@ -15,7 +18,7 @@
 </script>
 
 <?php
-	include('func.php');
+	include('services/func.php');
 ?>
 </head>
 
@@ -41,8 +44,7 @@
 ?>
 
 <?php
-	require_once("../connect.php");
-	$userID = $_SESSION['CSpace_userID'];
+	$userID = $base->getUserID();
 
 	// If project update information was sent
 	if (isset($_GET['submit'])) {
@@ -52,7 +54,7 @@
 		} // if ($title == "")
 		else {
 			$query = "SELECT * FROM projects,memberships WHERE projects.title='$title' AND memberships.userID='$userID' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$num = mysql_num_rows($results);
 			if ($num!=0) {
 				echo "<tr><td colspan=2><font color=\"red\">Error: project <span style=\"font-weight:bold\">$title</span> already exists. Please choose a different title for your project.</font></td></tr>";
@@ -62,17 +64,14 @@
 				$description = addslashes($_GET['description']);
 				$privacy = $_GET['privacy'];
 				// Get the date, time, and timestamp
-				date_default_timezone_set('America/New_York');
-				$timestamp = time();
-				$datetime = getdate();
-			    $startDate = date('Y-m-d', $datetime[0]);
-				$startTime = date('H:i:s', $datetime[0]);
+				$timestamp = $base->getTimestamp();
+				$date = $base->getDate();
+				$time = $base->getTime();
 
 				$query = "UPDATE projects SET title='$title',description='$description',privacy='$privacy' WHERE projectID='$projectID'";
-				$results = mysql_query($query) or die(" ". mysql_error());
+				$results = $connection->commit($query);
 
-
-				$ip=$_SERVER['REMOTE_ADDR'];
+				$ip=$base->getIP();;
 				Util::getInstance()->saveAction('edit-project',"$projectID",$base);
 
 
@@ -83,7 +82,7 @@
 
 	$projectID = $_GET['projectID'];
 	$query = "SELECT * FROM projects WHERE projectID='$projectID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$title = stripslashes($line['title']);
 	$description = stripslashes($line['description']);

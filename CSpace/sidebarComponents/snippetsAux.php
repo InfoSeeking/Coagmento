@@ -18,7 +18,7 @@
 		//echo "<td></td>";
 		echo "</tr>";
 		$query = "SELECT *, (SELECT userName FROM users where users.userID = snippets.userID) AS userName, (SELECT sum(value) from rating where active = 1 and projectID='$projectID' and idResource = snippetID and type = 'snippets' group by idResource)/(SELECT count(*) from rating where active = 1 and projectID='$projectID' and idResource = snippetID and type = 'snippets' group by idResource) as finalRating FROM snippets WHERE projectID='$projectID' AND status=1 order by $orderBy";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$bgColor = '#E8E8E8';
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$snippetID = $line['snippetID'];

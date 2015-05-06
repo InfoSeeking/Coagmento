@@ -10,7 +10,7 @@
 			$projectID = $_SESSION['CSpace_projectID'];
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
@@ -18,7 +18,7 @@
 		
 		// Find out the preferences set by this user for this project.
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='docs-order'";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
 		$orderBy = $line['value'];
 		if (!$orderBy)
@@ -26,7 +26,7 @@
 						
 		echo "<table width=100%>\n";
 		$query = "SELECT * FROM pages WHERE projectID='$projectID' AND result=1 AND status=1 GROUP BY url ORDER BY $orderBy";
-		$results = mysql_query($query) or die(" ". mysql_error());
+		$results = $connection->commit($query);
 		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
 			$qUserID = $line['userID'];
 			if ($userID==$qUserID)
@@ -34,7 +34,7 @@
 			else
 				$color = '#008C00';
 			$query1 = "SELECT * FROM users WHERE userID='$qUserID'";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$title = $line['title'];

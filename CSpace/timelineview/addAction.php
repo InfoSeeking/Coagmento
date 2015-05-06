@@ -15,7 +15,7 @@
 	$value = $_GET['value'];	
 
 	$query = "SELECT * FROM users WHERE userID='$userID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$points = $line['points'];
 	$newPoints = $points;
@@ -23,7 +23,7 @@
 		case 'activate':
 			// Award point only if Coagmento was activated more than an hour before this activation.
 			$query1 = "SELECT timestamp FROM actions WHERE userID='$userID' AND action='activate' ORDER BY timestamp desc";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			if (mysql_num_rows($results1)!=0) {
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$oldTime = $line1['timestamp'];
@@ -31,14 +31,14 @@
 				if ($oldTime<$timestamp-3600) {
 					$ip=$_SERVER['REMOTE_ADDR'];
 					$query2 = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','activate-count','','$ip')";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$newPoints+=100;
 				}
 			}
 			else {
 				$ip=$_SERVER['REMOTE_ADDR'];
 				$query2 = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','activate-count','','$ip')";
-				$results2 = mysql_query($query2) or die(" ". mysql_error());
+				$results2 = $connection->commit($query2);
 				$newPoints+=100;
 			}
 			break;
@@ -53,7 +53,7 @@
 		case 'print':
 			// Award point only if Coagmento was activated more than an hour before this activation.
 			$query1 = "SELECT timestamp FROM actions WHERE userID='$userID' AND action='print' ORDER BY timestamp desc";
-			$results1 = mysql_query($query1) or die(" ". mysql_error());
+			$results1 = $connection->commit($query1);
 			if (mysql_num_rows($results1)!=0) {
 				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
 				$oldTime = $line1['timestamp'];
@@ -61,14 +61,14 @@
 				if ($oldTime<$timestamp-86400) {
 					$ip=$_SERVER['REMOTE_ADDR'];
 					$query2 = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','print-count','','$ip')";
-					$results2 = mysql_query($query2) or die(" ". mysql_error());
+					$results2 = $connection->commit($query2);
 					$newPoints+=100;
 				}
 			}
 			else {
 				$ip=$_SERVER['REMOTE_ADDR'];
 				$query2 = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','print-count','','$ip')";
-				$results2 = mysql_query($query2) or die(" ". mysql_error());
+				$results2 = $connection->commit($query2);
 				$newPoints+=100;
 			}
 			break;
@@ -86,7 +86,7 @@
 	$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 
 	$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
-	$results = mysql_query($query) or die(" ". mysql_error());
+	$results = $connection->commit($query);
 	
 	mysql_close($dbh);
 ?>

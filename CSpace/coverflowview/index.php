@@ -235,7 +235,7 @@ body {
 </style>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
-<script type="text/javascript" src="jquery.jswipe-0.1.2.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.jswipe-0.1.2.js"></script>
 <script type="text/javascript">
 
 //  --- Begin Config ---
@@ -508,7 +508,7 @@ mysql_select_db("shahonli_coagmento", $con);
 $userID=2;
 
 $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND pages.projectID='8'";
-$pageResult = mysql_query($getPage) or die(" ". mysql_error());
+$pageResult = $connection->commit($getPage);
 ?>
 
   <div id="gallery">

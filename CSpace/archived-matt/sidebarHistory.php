@@ -10,7 +10,7 @@
 			$projectID = $_SESSION['projectID'];
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
-			$results = mysql_query($query) or die(" ". mysql_error());
+			$results = $connection->commit($query);
 			$line = mysql_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
@@ -70,7 +70,7 @@
 		}
 		switch(option) {
 			case 'title':
-				var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/setOptions.php";
+				var url = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/setOptions.php";
 				req = new phpRequest(url);
 				req.add('option',opt+'-order');
 				req.add('value', 'title');
