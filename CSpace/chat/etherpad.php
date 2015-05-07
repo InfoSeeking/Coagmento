@@ -1,4 +1,5 @@
-<?php 	session_start();
+<?php
+        session_start();
         if ((isset($_SESSION['CSpace_userID'])))
             {
                 $userName = $_SESSION['userName'];
@@ -41,4 +42,4 @@
 
                  }
 
-?> 
+?>

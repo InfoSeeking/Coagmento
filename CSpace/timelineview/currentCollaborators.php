@@ -10,6 +10,7 @@
 <script type="text/javascript" src="../js/utilities.js"></script>
 
 <?php
+  session_start();
   include('../services/func.php');
 ?>
 
@@ -31,7 +32,7 @@ $(".flip").click(function(){
 
         	<div style="float: left;">
     				<?php
-					session_start();
+
 					require_once('../connect.php');
 					$userID = $_SESSION['CSpace_userID'];
 					$projectID = $_SESSION['CSpace_projectID'];
@@ -106,7 +107,6 @@ $(".flip").click(function(){
 <div id="container">
 <h3>View Collaborators</h3>
 <?php
-	session_start();
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}

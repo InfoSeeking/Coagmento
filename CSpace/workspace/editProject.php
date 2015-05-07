@@ -7,6 +7,7 @@
 
 
 <?php
+	session_start();
 	include('../services/func.php');
 ?>
 </head>
@@ -19,7 +20,7 @@
 <h3>Select a Project</h3>
 
 <?php
-	session_start();
+
 	require_once('../core/Base.class.php');
 	require_once("../core/Connection.class.php");
 	require_once("../core/Util.class.php");

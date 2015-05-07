@@ -28,7 +28,7 @@ $(document).ready(function(){
 });
 
 function filterData(str) {
-$.get("filterData.php", { q: str },
+$.get("services/filterData.php", { q: str },
         function(data) {
         $("#impress").empty().append(data);
     });

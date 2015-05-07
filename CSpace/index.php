@@ -6,6 +6,7 @@
 
 
 <?php
+  session_start();
   include('links_header.php');
 ?>
 
@@ -33,7 +34,6 @@
 ?>
 
 <?php
-	session_start();
   require_once('core/Connection.class.php');
   require_once('core/Base.class.php');
   $base = Base::getInstance();
@@ -91,7 +91,6 @@
 
     <div id="intro">
         <?php
-        session_start();
         $userID = $base->getUserID();
         $projectID = $base->getProjectID();
         $query = "SELECT * FROM users WHERE userID='$userID'";

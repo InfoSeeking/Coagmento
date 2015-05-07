@@ -1,6 +1,7 @@
 <?php
-	require_once("../connect.php");
 	session_start(); 
+	require_once("../connect.php");
+
 	date_default_timezone_set('America/New_York');
 	$timestamp = time();
 	$datetime = getdate();
@@ -12,5 +13,5 @@
 	$action = $_POST['action'];
  	$value = $_POST['value'];
 	$query = "INSERT INTO actions (userID, projectID, timestamp, date, time, action, value, ip) VALUES ('$userID', '$projectID', '$timestamp', '$date', '$time', '$action', '$value','$ip')";
-	$results = $connection->commit($query);	
+	$results = $connection->commit($query);
 ?>

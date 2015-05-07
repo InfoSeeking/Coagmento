@@ -18,6 +18,7 @@
 </script>
 
 <?php
+	session_start();
 	include('../services/func.php');
 ?>
 </head>
@@ -30,7 +31,7 @@
 <h3>Home</h3>
 
 <?php
-	session_start();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "<br/><br/>Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}

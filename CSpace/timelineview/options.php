@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../js/utilities.js"></script>
 
 <?php
+  session_start();
   include('../services/func.php');
 ?>
 
@@ -26,7 +27,7 @@ $(".flip").click(function(){
 <div id="container">
 <h3>Options</h3>
 <?php
-	session_start();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}

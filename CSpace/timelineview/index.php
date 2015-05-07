@@ -232,13 +232,14 @@ xmlhttp.send();
 </script>
 
 <?php
-  include('../services/func.php');
+	session_start();
+	include('../services/func.php');
   require_once('../../connect.php');
   $userID=2;
 ?>
 
 <?php
-	session_start();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}

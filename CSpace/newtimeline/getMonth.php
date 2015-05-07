@@ -1,12 +1,10 @@
-<?
-  include("../services/functions.inc.php");
-?>
-
 <?php
+  session_start();
+  include("../services/functions.inc.php");
 
-$month = $_GET['month'];
+  $month = $_GET['month'];
 
- session_start();
+
     echo("1");
     if(session_is_registered('myvar'))
     {

@@ -21,7 +21,7 @@ $(".flip").click(function(){
 });
 
 function filterData(str) {
-$.get("filterData.php", { q: str },
+$.get("services/filterData.php", { q: str },
         function(data) {
         $("#content").empty().append(data);
     });

@@ -1,12 +1,7 @@
 <?
+  session_start();
   include("../services/functions.inc.php");
-?>
-
-<?php
-
-$year = $_GET['year'];
-
- session_start();
+  $year = $_GET['year'];
   session_register('myvar');
   $_SESSION['myvar'] == $year;
 

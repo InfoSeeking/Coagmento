@@ -16,13 +16,14 @@ Before $displayMode to '3D','coverflow','timeline'
 
 
     <?php
+    session_start();
     if(!((isset($displayMode)) && $displayMode!='')){
     ?>
 
     <!-- user info -->
     <div style="float: left;">
     <?php
-        session_start();
+
         require_once('core/Connection.class.php');
         require_once('core/Base.class.php');
         require_once('../connect.php');
@@ -85,7 +86,7 @@ Before $displayMode to '3D','coverflow','timeline'
 
 					echo ">Timeline</option>";
 
-					echo "<option value=\"http://".$_SERVER['HTTP_HOST']."/CSpace/index.php?projects=all&objects=all&years=all&months=all&displayMode=coverflow&formSubmit=Submit\"";
+					echo "<option value=\"http://".$_SERVER['HTTP_HOST']."/CSpace/coverflow/index.php?projects=all&objects=all&years=all&months=all&displayMode=coverflow&formSubmit=Submit\"";
 
 
 					if ($displayMode=='coverflow')

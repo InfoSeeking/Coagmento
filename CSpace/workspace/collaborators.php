@@ -6,6 +6,7 @@
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
+	session_start();
 	include('../services/func.php');
 ?>
 </head>
@@ -24,7 +25,7 @@
 	require_once("../services/utilityFunctions.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
-	session_start();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}

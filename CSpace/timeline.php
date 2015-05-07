@@ -1,11 +1,12 @@
 <?php
+session_start();
 // Db
 require_once('core/Base.class.php');
 require_once('core/Connection.class.php');
 $connection = Connection::getInstance();
 // Session info
 
-session_start();
+
 
 if (!isset($_SESSION['CSpace_userID'])) {
 	echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";

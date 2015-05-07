@@ -32,7 +32,7 @@ xmlhttp.onreadystatechange=function()
     }
 	else { document.getElementById("box_left").innerHTML = '<img src="loading.gif"/>'; }
   }
-xmlhttp.open("GET","filterData.php?q="+str,true);
+xmlhttp.open("GET","services/filterData.php?q="+str,true);
 xmlhttp.send();
 }
 
