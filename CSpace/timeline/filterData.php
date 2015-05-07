@@ -18,9 +18,9 @@ $userID=2;
 
 // Set project name to project ID
 $sql="SELECT DISTINCT * FROM projects WHERE (title='".$project_id."')";
-$result = mysql_query($sql) or die(" ". mysql_error());
+$result = $connection->commit($query);
 
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
 {
 		$project_id = $row['projectID'];
 }
@@ -28,7 +28,7 @@ while($row = mysql_fetch_array($result))
 // IF ALL ALL ALL ALL
 if($project_id == "all" && $object_type == "all" && $year == "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
 	$compareDate = '';
@@ -41,7 +41,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 	$comp_count = 0;
 	$entered_first = false;
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_type2 = $row['action'];
 		$object_value = $row['value'];
@@ -104,7 +104,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 			$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 			$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-			while($line = mysql_fetch_array($allPageResult)) {
+			while($line = mysqli_fetch_array($allPageResult)) {
 				$hasThumb = $line['thumbnailID'];
 				$value = $line['pageID'];
 				$bookmarked = $line['result'];
@@ -136,7 +136,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 					$pageResult = $connection->commit($getPage);
 
-					while($line = mysql_fetch_array($pageResult)) {
+					while($line = mysqli_fetch_array($pageResult)) {
 						$value = $line['pageID'];
 						$thumb = $line['fileName'];
 						$pass_var = "page-".$value;
@@ -176,7 +176,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -208,7 +208,7 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -244,10 +244,10 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 		// Query
 		if($object_type2 == 'query') {
 			$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-			$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+			$queryResult = $connection->commit($getQuery);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($queryResult)) {
+			while($line = mysqli_fetch_array($queryResult)) {
 				$value = $line['queryID'];
 				$query = $line['query'];
 				$pass_var = "query-".$value;
@@ -267,10 +267,10 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 		// Snippet
 		if($object_type2 == 'save-snippet') {
 			$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-			$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+			$snippetResult = $connection->commit($getSnippet);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($snippetResult)) {
+			while($line = mysqli_fetch_array($snippetResult)) {
 				$value = $line['snippetID'];
 				$snippet = $line['snippet'];
 				$pass_var = "snippet-".$value;
@@ -290,10 +290,10 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 		// Annotation
 		if($object_type2 == 'add-annotation') {
 			$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-			$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+			$noteResult = $connection->commit($getNote);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($noteResult)) {
+			while($line = mysqli_fetch_array($noteResult)) {
 				$value = $line['noteID'];
 				$note = $line['note'];
 				$pass_var = "note-".$value;
@@ -319,10 +319,10 @@ if($project_id == "all" && $object_type == "all" && $year == "all" && $month == 
 // IF PROJ ALL ALL ALL
 elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND projectID=".$project_id." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_type2 = $row['action'];
 		$object_value = $row['value'];
@@ -332,7 +332,7 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 			$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 			$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-			while($line = mysql_fetch_array($allPageResult)) {
+			while($line = mysqli_fetch_array($allPageResult)) {
 				$hasThumb = $line['thumbnailID'];
 				$value = $line['pageID'];
 				$bookmarked = $line['result'];
@@ -364,7 +364,7 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 					$pageResult = $connection->commit($getPage);
 
-					while($line = mysql_fetch_array($pageResult)) {
+					while($line = mysqli_fetch_array($pageResult)) {
 						$value = $line['pageID'];
 						$thumb = $line['fileName'];
 						$pass_var = "page-".$value;
@@ -404,7 +404,7 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -436,7 +436,7 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -472,10 +472,10 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 		// Query
 		if($object_type2 == 'query') {
 			$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-			$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+			$queryResult = $connection->commit($getQuery);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($queryResult)) {
+			while($line = mysqli_fetch_array($queryResult)) {
 				$value = $line['queryID'];
 				$query = $line['query'];
 				$pass_var = "query-".$value;
@@ -495,10 +495,10 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 		// Snippet
 		if($object_type2 == 'save-snippet') {
 			$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-			$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+			$snippetResult = $connection->commit($getSnippet);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($snippetResult)) {
+			while($line = mysqli_fetch_array($snippetResult)) {
 				$value = $line['snippetID'];
 				$snippet = $line['snippet'];
 				$pass_var = "snippet-".$value;
@@ -518,10 +518,10 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 		// Annotation
 		if($object_type2 == 'add-annotation') {
 			$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-			$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+			$noteResult = $connection->commit($getNote);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($noteResult)) {
+			while($line = mysqli_fetch_array($noteResult)) {
 				$value = $line['noteID'];
 				$note = $line['note'];
 				$pass_var = "note-".$value;
@@ -547,10 +547,10 @@ elseif($project_id != "all" && $object_type == "all" && $year == "all" && $month
 // IF PROJ OBJ ALL ALL
 elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND projectID=".$project_id." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_value = $row['value'];
 		$pos = strpos($object_value,'http');
@@ -560,7 +560,7 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -592,7 +592,7 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -632,7 +632,7 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 					$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 					$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-					while($line = mysql_fetch_array($allPageResult)) {
+					while($line = mysqli_fetch_array($allPageResult)) {
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
 						$bookmarked = $line['result'];
@@ -655,7 +655,7 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -682,10 +682,10 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 			// Query
 			if($object_type == 'queries') {
 				$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-				$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+				$queryResult = $connection->commit($getQuery);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($queryResult)) {
+				while($line = mysqli_fetch_array($queryResult)) {
 					$value = $line['queryID'];
 					$query = $line['query'];
 					$pass_var = "query-".$value;
@@ -705,10 +705,10 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 			// Snippet
 			if($object_type == 'snippets') {
 				$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-				$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+				$snippetResult = $connection->commit($getSnippet);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($snippetResult)) {
+				while($line = mysqli_fetch_array($snippetResult)) {
 					$value = $line['snippetID'];
 					$snippet = $line['snippet'];
 					$pass_var = "snippet-".$value;
@@ -728,10 +728,10 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 			// Annotation
 			if($object_type == 'annotations') {
 				$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-				$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+				$noteResult = $connection->commit($getNote);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($noteResult)) {
+				while($line = mysqli_fetch_array($noteResult)) {
 					$value = $line['noteID'];
 					$note = $line['note'];
 					$pass_var = "note-".$value;
@@ -757,10 +757,10 @@ elseif($project_id != "all" && $object_type != "all" && $year == "all" && $month
 // IF PROJ OBJ YEAR ALL
 elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND projectID=".$project_id." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_value = $row['value'];
 		$pos = strpos($object_value,'http');
@@ -770,7 +770,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -806,7 +806,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -847,7 +847,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 					$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 					$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-					while($line = mysql_fetch_array($allPageResult)) {
+					while($line = mysqli_fetch_array($allPageResult)) {
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
 						$bookmarked = $line['result'];
@@ -874,7 +874,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 								$pageResult = $connection->commit($getPage);
 
-								while($line = mysql_fetch_array($pageResult)) {
+								while($line = mysqli_fetch_array($pageResult)) {
 									$value = $line['pageID'];
 									$thumb = $line['fileName'];
 									$pass_var = "page-".$value;
@@ -902,10 +902,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 			// Query
 			if($object_type == 'queries') {
 				$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-				$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+				$queryResult = $connection->commit($getQuery);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($queryResult)) {
+				while($line = mysqli_fetch_array($queryResult)) {
 					$value = $line['queryID'];
 					$query = $line['query'];
 					$date = $line['date'];
@@ -930,10 +930,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 			// Snippet
 			if($object_type == 'snippets') {
 				$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-				$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+				$snippetResult = $connection->commit($getSnippet);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($snippetResult)) {
+				while($line = mysqli_fetch_array($snippetResult)) {
 					$value = $line['snippetID'];
 					$snippet = $line['snippet'];
 					$date = $line['date'];
@@ -958,10 +958,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 			// Annotation
 			if($object_type == 'annotations') {
 				$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-				$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+				$noteResult = $connection->commit($getNote);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($noteResult)) {
+				while($line = mysqli_fetch_array($noteResult)) {
 					$value = $line['noteID'];
 					$note = $line['note'];
 					$date = $line['date'];
@@ -992,10 +992,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 // IF PROJ OBJ YEAR MONTH
 elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month != "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND projectID=".$project_id." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_value = $row['value'];
 		$pos = strpos($object_value,'http');
@@ -1005,7 +1005,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -1042,7 +1042,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -1083,7 +1083,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 					$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 					$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-					while($line = mysql_fetch_array($allPageResult)) {
+					while($line = mysqli_fetch_array($allPageResult)) {
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
 						$bookmarked = $line['result'];
@@ -1111,7 +1111,7 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 								$pageResult = $connection->commit($getPage);
 
-								while($line = mysql_fetch_array($pageResult)) {
+								while($line = mysqli_fetch_array($pageResult)) {
 									$value = $line['pageID'];
 									$thumb = $line['fileName'];
 									$pass_var = "page-".$value;
@@ -1139,10 +1139,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 			// Query
 			if($object_type == 'queries') {
 				$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-				$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+				$queryResult = $connection->commit($getQuery);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($queryResult)) {
+				while($line = mysqli_fetch_array($queryResult)) {
 					$value = $line['queryID'];
 					$query = $line['query'];
 					$date = $line['date'];
@@ -1168,10 +1168,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 			// Snippet
 			if($object_type == 'snippets') {
 				$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-				$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+				$snippetResult = $connection->commit($getSnippet);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($snippetResult)) {
+				while($line = mysqli_fetch_array($snippetResult)) {
 					$value = $line['snippetID'];
 					$snippet = $line['snippet'];
 					$date = $line['date'];
@@ -1197,10 +1197,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 			// Annotation
 			if($object_type == 'annotations') {
 				$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-				$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+				$noteResult = $connection->commit($getNote);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($noteResult)) {
+				while($line = mysqli_fetch_array($noteResult)) {
 					$value = $line['noteID'];
 					$note = $line['note'];
 					$date = $line['date'];
@@ -1232,10 +1232,10 @@ elseif($project_id != "all" && $object_type != "all" && $year != "all" && $month
 // IF PROJ ALL YEAR ALL
 elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND projectID=".$project_id." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_type2 = $row['action'];
 		$object_value = $row['value'];
@@ -1245,7 +1245,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 			$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 			$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-			while($line = mysql_fetch_array($allPageResult)) {
+			while($line = mysqli_fetch_array($allPageResult)) {
 				$hasThumb = $line['thumbnailID'];
 				$value = $line['pageID'];
 				$bookmarked = $line['result'];
@@ -1280,7 +1280,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -1321,7 +1321,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -1356,7 +1356,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -1393,10 +1393,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 		// Query
 		if($object_type2 == 'query') {
 			$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-			$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+			$queryResult = $connection->commit($getQuery);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($queryResult)) {
+			while($line = mysqli_fetch_array($queryResult)) {
 				$value = $line['queryID'];
 				$query = $line['query'];
 				$date = $line['date'];
@@ -1420,10 +1420,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 		// Snippet
 		if($object_type2 == 'save-snippet') {
 			$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-			$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+			$snippetResult = $connection->commit($getSnippet);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($snippetResult)) {
+			while($line = mysqli_fetch_array($snippetResult)) {
 				$value = $line['snippetID'];
 				$snippet = $line['snippet'];
 				$date = $line['date'];
@@ -1447,10 +1447,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 		// Annotation
 		if($object_type2 == 'add-annotation') {
 			$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-			$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+			$noteResult = $connection->commit($getNote);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($noteResult)) {
+			while($line = mysqli_fetch_array($noteResult)) {
 				$value = $line['noteID'];
 				$note = $line['note'];
 				$date = $line['date'];
@@ -1480,10 +1480,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 // IF PROJ ALL YEAR MONTH
 elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month != "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND projectID=".$project_id." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_type2 = $row['action'];
 		$object_value = $row['value'];
@@ -1493,7 +1493,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 			$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 			$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-			while($line = mysql_fetch_array($allPageResult)) {
+			while($line = mysqli_fetch_array($allPageResult)) {
 				$hasThumb = $line['thumbnailID'];
 				$value = $line['pageID'];
 				$bookmarked = $line['result'];
@@ -1529,7 +1529,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -1570,7 +1570,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -1606,7 +1606,7 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -1643,10 +1643,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 		// Query
 		if($object_type2 == 'query') {
 			$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-			$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+			$queryResult = $connection->commit($getQuery);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($queryResult)) {
+			while($line = mysqli_fetch_array($queryResult)) {
 				$value = $line['queryID'];
 				$query = $line['query'];
 				$date = $line['date'];
@@ -1671,10 +1671,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 		// Snippet
 		if($object_type2 == 'save-snippet') {
 			$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-			$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+			$snippetResult = $connection->commit($getSnippet);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($snippetResult)) {
+			while($line = mysqli_fetch_array($snippetResult)) {
 				$value = $line['snippetID'];
 				$snippet = $line['snippet'];
 				$date = $line['date'];
@@ -1699,10 +1699,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 		// Annotation
 		if($object_type2 == 'add-annotation') {
 			$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-			$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+			$noteResult = $connection->commit($getNote);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($noteResult)) {
+			while($line = mysqli_fetch_array($noteResult)) {
 				$value = $line['noteID'];
 				$note = $line['note'];
 				$date = $line['date'];
@@ -1733,10 +1733,10 @@ elseif($project_id != "all" && $object_type == "all" && $year != "all" && $month
 // IF ALL OBJ ALL ALL
 elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_value = $row['value'];
 		$pos = strpos($object_value,'http');
@@ -1746,7 +1746,7 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -1778,7 +1778,7 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -1818,7 +1818,7 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 					$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 					$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-					while($line = mysql_fetch_array($allPageResult)) {
+					while($line = mysqli_fetch_array($allPageResult)) {
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
 						$bookmarked = $line['result'];
@@ -1843,7 +1843,7 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -1870,10 +1870,10 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 			// Query
 			if($object_type == 'queries') {
 				$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-				$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+				$queryResult = $connection->commit($getQuery);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($queryResult)) {
+				while($line = mysqli_fetch_array($queryResult)) {
 					$value = $line['queryID'];
 					$query = $line['query'];
 					$date = $line['date'];
@@ -1895,10 +1895,10 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 			// Snippet
 			if($object_type == 'snippets') {
 				$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-				$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+				$snippetResult = $connection->commit($getSnippet);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($snippetResult)) {
+				while($line = mysqli_fetch_array($snippetResult)) {
 					$value = $line['snippetID'];
 					$snippet = $line['snippet'];
 					$date = $line['date'];
@@ -1920,10 +1920,10 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 			// Annotation
 			if($object_type == 'annotations') {
 				$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-				$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+				$noteResult = $connection->commit($getNote);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($noteResult)) {
+				while($line = mysqli_fetch_array($noteResult)) {
 					$value = $line['noteID'];
 					$note = $line['note'];
 					$date = $line['date'];
@@ -1951,10 +1951,10 @@ elseif($project_id == "all" && $object_type != "all" && $year == "all" && $month
 // ALL OBJ YEAR ALL
 elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_value = $row['value'];
 		$pos = strpos($object_value,'http');
@@ -1964,7 +1964,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -2000,7 +2000,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -2041,7 +2041,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 					$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 					$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-					while($line = mysql_fetch_array($allPageResult)) {
+					while($line = mysqli_fetch_array($allPageResult)) {
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
 						$bookmarked = $line['result'];
@@ -2068,7 +2068,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 								$pageResult = $connection->commit($getPage);
 
-								while($line = mysql_fetch_array($pageResult)) {
+								while($line = mysqli_fetch_array($pageResult)) {
 									$value = $line['pageID'];
 									$thumb = $line['fileName'];
 									$pass_var = "page-".$value;
@@ -2096,10 +2096,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 			// Query
 			if($object_type == 'queries') {
 				$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-				$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+				$queryResult = $connection->commit($getQuery);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($queryResult)) {
+				while($line = mysqli_fetch_array($queryResult)) {
 					$value = $line['queryID'];
 					$query = $line['query'];
 					$date = $line['date'];
@@ -2124,10 +2124,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 			// Snippet
 			if($object_type == 'snippets') {
 				$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-				$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+				$snippetResult = $connection->commit($getSnippet);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($snippetResult)) {
+				while($line = mysqli_fetch_array($snippetResult)) {
 					$value = $line['snippetID'];
 					$snippet = $line['snippet'];
 					$date = $line['date'];
@@ -2152,10 +2152,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 			// Annotation
 			if($object_type == 'annotations') {
 				$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-				$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+				$noteResult = $connection->commit($getNote);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($noteResult)) {
+				while($line = mysqli_fetch_array($noteResult)) {
 					$value = $line['noteID'];
 					$note = $line['note'];
 					$date = $line['date'];
@@ -2186,10 +2186,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 // ALL OBJ YEAR MONTH
 elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month != "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_value = $row['value'];
 		$pos = strpos($object_value,'http');
@@ -2199,7 +2199,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -2236,7 +2236,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -2277,7 +2277,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 					$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 					$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-					while($line = mysql_fetch_array($allPageResult)) {
+					while($line = mysqli_fetch_array($allPageResult)) {
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
 						$bookmarked = $line['result'];
@@ -2305,7 +2305,7 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 								$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 								$pageResult = $connection->commit($getPage);
 
-								while($line = mysql_fetch_array($pageResult)) {
+								while($line = mysqli_fetch_array($pageResult)) {
 									$value = $line['pageID'];
 									$thumb = $line['fileName'];
 									$pass_var = "page-".$value;
@@ -2333,10 +2333,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 			// Query
 			if($object_type == 'queries') {
 				$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-				$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+				$queryResult = $connection->commit($getQuery);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($queryResult)) {
+				while($line = mysqli_fetch_array($queryResult)) {
 					$value = $line['queryID'];
 					$query = $line['query'];
 					$date = $line['date'];
@@ -2362,10 +2362,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 			// Snippet
 			if($object_type == 'snippets') {
 				$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-				$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+				$snippetResult = $connection->commit($getSnippet);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($snippetResult)) {
+				while($line = mysqli_fetch_array($snippetResult)) {
 					$value = $line['snippetID'];
 					$snippet = $line['snippet'];
 					$date = $line['date'];
@@ -2391,10 +2391,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 			// Annotation
 			if($object_type == 'annotations') {
 				$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-				$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+				$noteResult = $connection->commit($getNote);
 				$entered = FALSE;
 
-				while($line = mysql_fetch_array($noteResult)) {
+				while($line = mysqli_fetch_array($noteResult)) {
 					$value = $line['noteID'];
 					$note = $line['note'];
 					$date = $line['date'];
@@ -2426,10 +2426,10 @@ elseif($project_id == "all" && $object_type != "all" && $year != "all" && $month
 // ALL ALL YEAR ALL
 elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month == "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_type2 = $row['action'];
 		$object_value = $row['value'];
@@ -2439,7 +2439,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 			$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 			$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-			while($line = mysql_fetch_array($allPageResult)) {
+			while($line = mysqli_fetch_array($allPageResult)) {
 				$hasThumb = $line['thumbnailID'];
 				$value = $line['pageID'];
 				$bookmarked = $line['result'];
@@ -2474,7 +2474,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -2515,7 +2515,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -2550,7 +2550,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -2587,10 +2587,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 		// Query
 		if($object_type2 == 'query') {
 			$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-			$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+			$queryResult = $connection->commit($getQuery);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($queryResult)) {
+			while($line = mysqli_fetch_array($queryResult)) {
 				$value = $line['queryID'];
 				$query = $line['query'];
 				$date = $line['date'];
@@ -2614,10 +2614,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 		// Snippet
 		if($object_type2 == 'save-snippet') {
 			$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-			$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+			$snippetResult = $connection->commit($getSnippet);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($snippetResult)) {
+			while($line = mysqli_fetch_array($snippetResult)) {
 				$value = $line['snippetID'];
 				$snippet = $line['snippet'];
 				$date = $line['date'];
@@ -2641,10 +2641,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 		// Annotation
 		if($object_type2 == 'add-annotation') {
 			$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-			$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+			$noteResult = $connection->commit($getNote);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($noteResult)) {
+			while($line = mysqli_fetch_array($noteResult)) {
 				$value = $line['noteID'];
 				$note = $line['note'];
 				$date = $line['date'];
@@ -2674,10 +2674,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 // ALL ALL YEAR MONTH
 elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month != "all") {
 	$sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-	$result = mysql_query($sql) or die(" ". mysql_error());
+	$result = $connection->commit($query);
 	$hasResult = FALSE; // Check if there are any results
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$object_type2 = $row['action'];
 		$object_value = $row['value'];
@@ -2687,7 +2687,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 			$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 			$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-			while($line = mysql_fetch_array($allPageResult)) {
+			while($line = mysqli_fetch_array($allPageResult)) {
 				$hasThumb = $line['thumbnailID'];
 				$value = $line['pageID'];
 				$bookmarked = $line['result'];
@@ -2723,7 +2723,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 						$pageResult = $connection->commit($getPage);
 
-						while($line = mysql_fetch_array($pageResult)) {
+						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$value;
@@ -2764,7 +2764,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 				$getAllPage="SELECT * FROM pages WHERE pageID=".$object_value."";
 				$allPageResult = mysql_query($getAllPage) or die(" ". mysql_error());
 
-				while($line = mysql_fetch_array($allPageResult)) {
+				while($line = mysqli_fetch_array($allPageResult)) {
 					$hasThumb = $line['thumbnailID'];
 					$value = $line['pageID'];
 					$bookmarked = $line['result'];
@@ -2800,7 +2800,7 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 							$pageResult = $connection->commit($getPage);
 
-							while($line = mysql_fetch_array($pageResult)) {
+							while($line = mysqli_fetch_array($pageResult)) {
 								$value = $line['pageID'];
 								$thumb = $line['fileName'];
 								$pass_var = "page-".$value;
@@ -2837,10 +2837,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 		// Query
 		if($object_type2 == 'query') {
 			$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-			$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+			$queryResult = $connection->commit($getQuery);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($queryResult)) {
+			while($line = mysqli_fetch_array($queryResult)) {
 				$value = $line['queryID'];
 				$query = $line['query'];
 				$date = $line['date'];
@@ -2865,10 +2865,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 		// Snippet
 		if($object_type2 == 'save-snippet') {
 			$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-			$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+			$snippetResult = $connection->commit($getSnippet);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($snippetResult)) {
+			while($line = mysqli_fetch_array($snippetResult)) {
 				$value = $line['snippetID'];
 				$snippet = $line['snippet'];
 				$date = $line['date'];
@@ -2893,10 +2893,10 @@ elseif($project_id == "all" && $object_type == "all" && $year != "all" && $month
 		// Annotation
 		if($object_type2 == 'add-annotation') {
 			$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-			$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+			$noteResult = $connection->commit($getNote);
 			$entered = FALSE;
 
-			while($line = mysql_fetch_array($noteResult)) {
+			while($line = mysqli_fetch_array($noteResult)) {
 				$value = $line['noteID'];
 				$note = $line['note'];
 				$date = $line['date'];
@@ -2930,5 +2930,5 @@ else {
 
 echo '</div>';
 
-mysql_close($con);
+
 ?>

@@ -17,7 +17,7 @@
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
 		echo "<br/><br/><center>\n<table class=\"body\">\n";
@@ -28,7 +28,7 @@
 			$projectID = $_GET['projectID'];
 			$query = "SELECT * FROM projects,memberships WHERE projects.projectID='$projectID' AND memberships.userID='$userID'";
 			$results = $connection->commit($query);
-			$num = mysql_num_rows($results);
+			$num = mysqli_num_rows($results);
 			if ($num==0) {
 				echo "<tr><td colspan=2><font color=\"red\">Sorry, you do not have permission to delete this project.</font></td></tr>";
 			} // if ($num!=0)
@@ -43,7 +43,7 @@
 				else {
 					$query = "SELECT title FROM projects WHERE projectID=$projectID";
 					$results = $connection->commit($query);
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
+					$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 					$title = $line['title'];
 					if ($title == "Untitled")
 						echo "<tr><td colspan=2><font color=\"red\">Sorry, Untitled project cannot be deleted.</font></td></tr>\n";
@@ -63,11 +63,11 @@
 		echo "<tr><th>Title</th><th>Started on</th><th>Edit</th></tr>\n";
 		$query = "SELECT projectID FROM memberships WHERE userID='$userID'";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$projectID = $line['projectID'];
 			$query1 = "SELECT * FROM projects WHERE projectID='$projectID' AND status=1";
 			$results1 = $connection->commit($query);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$projectID = $line1['projectID'];
 			$title = $line1['title'];
 			$startDate = $line1['startDate'];

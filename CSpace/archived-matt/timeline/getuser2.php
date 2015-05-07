@@ -15,7 +15,7 @@ $result = mysql_query($sql);
 
 $sql_name ="SELECT title FROM projects WHERE projectID = '".$proj."'";
 $projectname = mysql_query($sql_name);
-while($row = mysql_fetch_array($projectname)) { echo '<b>Project:</b> '; echo $row['title']; };
+while($row = mysqli_fetch_array($projectname)) { echo '<b>Project:</b> '; echo $row['title']; };
 
 echo "<table border='1'>
 <tr>
@@ -25,7 +25,7 @@ echo "<table border='1'>
 <th>Time</th>
 </tr>";
 
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
   {
   echo "<tr>";
   echo "<td>" . $row['title'] . "</td>";
@@ -36,5 +36,5 @@ while($row = mysql_fetch_array($result))
   }
 echo "</table>";
 
-mysql_close($con);
+
 ?>

@@ -10,7 +10,7 @@
 	$userID = $_SESSION['CSpace_userID'];
 	$query2 = "SELECT * FROM options WHERE userID='$userID' AND `option`='current-page'";
 	$results2 = $connection->commit($query2);
-	$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+	$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 	$value = $line2['value'];
 	echo $value;
 ?>

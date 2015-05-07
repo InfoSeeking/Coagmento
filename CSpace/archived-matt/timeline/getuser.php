@@ -20,7 +20,7 @@ $result_thumb = mysql_query($sql_thumb) or die(" ". mysql_error());
 // Project Name Query
 $sql_name ="SELECT title FROM projects WHERE projectID = '".$q."'";
 $result_name = mysql_query($sql_name);
-while($row = mysql_fetch_array($result_name)) { echo '<h2>Project: '; echo $row['title']; echo '</h2>'; };
+while($row = mysqli_fetch_array($result_name)) { echo '<h2>Project: '; echo $row['title']; echo '</h2>'; };
 
 // Declaring Months
 $jan = 01; $feb = 02; $mar = 03; $apr = 04;
@@ -37,7 +37,7 @@ $once3 = false;
 $once4 = false;
 $entered = false;
 
-while ($row = mysql_fetch_array($result_thumb, MYSQL_ASSOC)) {
+while ($row = mysqli_fetch_array($result_thumb, MYSQL_ASSOC)) {
 	$title = $row['title'];
 	$url = $row['url'];
 	$date = $row['date'];
@@ -146,7 +146,7 @@ echo "<table border='1'>
 <th>Time</th>
 </tr>";
 
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
   {
   echo "<tr>";
   echo "<td>" . $row['title'] . "</td>";
@@ -157,5 +157,5 @@ while($row = mysql_fetch_array($result))
   }
 echo "</table>";*/
 
-mysql_close($con);
+
 ?>

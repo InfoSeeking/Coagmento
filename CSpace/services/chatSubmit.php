@@ -14,7 +14,7 @@
 
 	$query = "SELECT * FROM users WHERE userID='$userID'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$userName = $line['username'];
 	$color = $line['color'];
 

@@ -1,10 +1,10 @@
 <?php
 	session_start();
 	$ip=$_SERVER['REMOTE_ADDR'];
-	require_once("services/utilityFunctions.php");
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
-	require_once("./core/Util.class.php");
+	require_once("utilityFunctions.php");
+	require_once('../core/Base.class.php');
+	require_once("../core/Connection.class.php");
+	require_once("../core/Util.class.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
@@ -15,7 +15,7 @@
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$projectID = $line['projectID'];
 	}
 
@@ -23,6 +23,7 @@
 	$title = $_GET['title'];
 	$title = str_replace(" - Mozilla Firefox","",$title);
 	$url = $originalURL;
+	$site = '';
 
 	// Parse the URL to extract the source
 	$url = str_replace("http://", "", $url); // Remove 'http://' from the reference
@@ -39,7 +40,7 @@
 	$entry = explode(".", $url);
 	$i = 0;
 	$isWebsite = 0;
-	while (($entry[$i]) && ($isWebsite == 0))
+	while (isset($entry[$i]) && ($isWebsite == 0))
 	{
 		$entry[$i] = strtolower($entry[$i]);
 		if (($entry[$i] == "com") || ($entry[$i] == "edu") || ($entry[$i] == "org") || ($entry[$i] == "gov") || ($entry[$i] == "info") || ($entry[$i] == "us") || ($entry[$i] == "ca") || ($entry[$i] == "es") || ($entry[$i] == "uk") || ($entry[$i] == "net"))
@@ -66,12 +67,12 @@
 	$lastPageID = $connection->getLastID();
 	$query = "SELECT url FROM pages WHERE pageID='$lastPageID'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$lastURL = $line['url'];
 
 	$query = "SELECT * FROM memberships WHERE userID='$userID' AND projectID='$projectID'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	if ($line['access']==-1)
 		$validMembership = FALSE;
 	else
@@ -105,6 +106,6 @@ echo "A:$projectID";
 
 		addPoints($userID,1);
 	}
-	mysql_close($dbh);
+
 echo "A:Finished";
 ?>

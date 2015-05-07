@@ -64,14 +64,14 @@ $(".flip").click(function(){
 		echo "<tr><td style=\"font-weight:bold\" align=center>Delete</td><td style=\"font-weight:bold\">Name</td><td style=\"font-weight:bold\">Uploaded by</td><td style=\"font-weight:bold\" align=center>Time</td></tr>\n";
 		$query = "SELECT * FROM files WHERE userID='$userID' AND projectID='$projectID' AND status=1";
 		$results = $connection->commit($query);
-		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$name = $line['name'];
 			$fileName = $line['fileName'];
 
 			$fUserID = $line['userID'];
 			$query1 = "SELECT firstName,lastName FROM users WHERE userID='$fUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$fullName = $line1['firstName'] . " " . $line1['lastName'];
 			$date = $line['date'];
 			$time = $line['time'];

@@ -16,7 +16,7 @@ class Bookmark extends Base {
     $query = sprintf("select *, P.timestamp as timestamp from pages P, actions A, thumbnails T, users U where A.action='save-page' AND A.value=P.pageID AND P.thumbnailID=T.thumbnailID AND P.projectID=%d AND U.userID=P.userID ORDER BY P.%s", $projectID, $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($bookmarks, $record);
     }
     return $bookmarks;
@@ -27,7 +27,7 @@ class Bookmark extends Base {
     $query = sprintf("SELECT U.username, B.* FROM users U, bookmarks B, tag_assignments TA, bookmark_tags T WHERE B.projectID=%d AND B.userID=U.userID AND T.name='%s' AND T.tagID = TA.tagID AND TA.bookmarkID=B.bookmarkID ORDER BY P.%s", $projectID, $cxn->esc($tagName), $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($bookmarks, $record);
     }
     return $bookmarks;

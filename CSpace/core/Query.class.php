@@ -19,7 +19,7 @@ class Query extends Base {
     $query = sprintf("SELECT queries.*, users.username FROM queries, users WHERE queries.projectID=%d AND queries.userID=users.userID ORDER BY %s", $projectID, $cxn->esc($sorting));
     $queries = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($queries, $record);
     }
     return $queries;

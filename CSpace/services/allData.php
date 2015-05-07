@@ -66,10 +66,10 @@
 		      <?php
 			  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 					$results = $connection->commit("SELECT * FROM memberships WHERE userID='$userID'");
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+				while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 					$projID = $line['projectID'];
 					$results = $connection->commit("SELECT * FROM projects WHERE projectID='$projID'");
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					echo "<option value=\"$projID\" ";
 					if ($projID==$projectID)
@@ -85,7 +85,7 @@
 		      <?php
 
 					$results = $connection->commit("SELECT distinct date FROM pages WHERE userID='$userID' AND source!='coagmento' ORDER BY date desc");
-					while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+					while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 						$date = $line['date'];
 						echo "<option value=\"$date\" ";
 						if ($date==$session)
@@ -178,7 +178,7 @@
 	if($projectID){
 		$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$title = $line1['title'];
 		$projectID_str = " AND projectID='$projectID' ";
 		$whatproject_str = "project <span style=\"font-weight:bold\">$title</span> for";
@@ -200,7 +200,7 @@
 	echo "<tr><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=projectID', 'content');\">Project</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=title', 'content');\">Webpage</span></td><td align=center><span style=\"font-weight:bold;color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('allData.php?searchString=$searchString&session=$session&projectID=$projectID&objects=$objects&source=$source&qid=$qid&page=$pageNum&orderby=date', 'content');\">Time</span></td></tr>\n";
 
 	$results = $connection->commit($query);
-	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+	while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 		$elemID = $line[$elemID_str];
 
 		if (isset($_GET[$elemID])){
@@ -248,12 +248,12 @@
 
 			$query1 = "SELECT * FROM users WHERE userID='$userID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['userName'];
 			$projID = $line['projectID'];
 			$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 
 			$title = $line1['title'];
 			$url = $line['url'];

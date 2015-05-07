@@ -38,18 +38,18 @@ $(".flip").click(function(){
 		$projectID = $_GET['projectID'];
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$title = $line['title'];
 		$description = $line['description'];
 		$startDate = $line['startDate'];
 		$startTime = $line['startTime'];
 		$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$uID = $line1['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$uID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$uName = $line1['username'];
 ?>
 <table class="body" width=100%>
@@ -65,11 +65,11 @@ $(".flip").click(function(){
 		echo "<tr><td colspan=2>Collaborators: ";
 		$query = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$cUserID = $line['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$cUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$uName = $line1['firstName'] . " " . $line1['lastName'];
 			echo "<a href='showCollaborator.php?userID=$cUserID'>$uName</a>, ";
 		}
@@ -79,19 +79,19 @@ $(".flip").click(function(){
 
 		$query1 = "SELECT count(distinct url) as num FROM pages WHERE projectID='$projectID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$num1 = $line1['num'];
 		$query1 = "SELECT count(distinct url) as num FROM pages WHERE projectID='$projectID' AND result=1";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$num2 = $line1['num'];
 		$query1 = "SELECT count(*) as num FROM snippets WHERE projectID='$projectID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$num3 = $line1['num'];
 		$query1 = "SELECT count(distinct url) as num FROM queries WHERE projectID='$projectID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$num4 = $line1['num'];
 
 		echo "<tr><td>Webpages: $num1 viewed, $num2 bookmarked.</td></tr>\n";

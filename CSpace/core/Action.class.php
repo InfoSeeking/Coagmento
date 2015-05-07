@@ -54,7 +54,7 @@ class Action extends Base{
 		$connection = Connection::getInstance();
 		$results = $connection->commit($query);
 
-		if ($results = mysql_fetch_array($results, MYSQL_ASSOC))
+		if ($results = mysqli_fetch_array($results, MYSQL_ASSOC))
 		{
 			$action->setActionID($results['actionID']);
 			$action->setUserID($results['userID']);

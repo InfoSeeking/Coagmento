@@ -11,7 +11,7 @@
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		if (isset($_GET['selectTab']))

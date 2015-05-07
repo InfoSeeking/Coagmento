@@ -42,25 +42,22 @@
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-    $base = Base::getInstance();
 		$userID = $base->getUserID();
-    $connection = Connection::getInstance();
-
     $projectID = $base->getProjectID();
     $query = "SELECT * FROM users WHERE userID='$userID'";
     $results = $connection->commit($query);
-    $line = mysql_fetch_array($results, MYSQL_ASSOC);
+    $line = mysqli_fetch_array($results, MYSQL_ASSOC);
     $userName = $line['firstName'] . " " . $line['lastName'];
     $avatar = $line['avatar'];
     $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
     $points = $line['points'];
     $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
     $results = $connection->commit($query);
-    $line = mysql_fetch_array($results, MYSQL_ASSOC);
+    $line = mysqli_fetch_array($results, MYSQL_ASSOC);
     $projectNums = $line['num'];
     $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
     $results = $connection->commit($query);
-    $line = mysql_fetch_array($results, MYSQL_ASSOC);
+    $line = mysqli_fetch_array($results, MYSQL_ASSOC);
     $collabNums = $line['num'];
 	}
 ?>
@@ -99,18 +96,18 @@
         $projectID = $base->getProjectID();
         $query = "SELECT * FROM users WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
         echo "<div id='speech'>Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='index.php?projects=all&objects=all&years=all&months=all&formSubmit=Submit'>CSpace</a><br>&nbsp;&nbsp;Current login: $lastLogin<br>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a><br>&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a></div>";
 

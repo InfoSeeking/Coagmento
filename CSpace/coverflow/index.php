@@ -29,18 +29,18 @@
         $projectID = $base->getUserID();
         $query = "SELECT * FROM users WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
     }
 ?>

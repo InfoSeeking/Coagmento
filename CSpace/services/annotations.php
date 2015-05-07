@@ -38,7 +38,7 @@
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 
@@ -46,7 +46,7 @@
 		if ($projectID == 0) {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		} // if ($projectID == 0)
 
@@ -74,11 +74,11 @@
 		// Get the results for the given user and the project
 		$query = "SELECT * FROM annotations WHERE projectID='$projectID' AND url='$url' ORDER BY timestamp";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$userID = $line['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$userID'";
 			$connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$avatar = $line1['avatar'];
 			$note = $line['note'];
@@ -86,7 +86,7 @@
 			$displayTime = $line['time'];
 			echo "<tr><td align=center><img src=\"../img/$avatar\" height=60 width=60 /><br/>$userName</td><td align=center>$displayDate<br/>$displayTime</td><td>$note</td></tr>\n";
 
-		} // while ($line = mysql_fetch_array($results, MYSQL_ASSOC))
+		} // while ($line = mysqli_fetch_array($results, MYSQL_ASSOC))
 
 	echo "<input type=\"hidden\" name=\"userID\" value=\"$userID\" />\n";
 	echo "<input type=\"hidden\" name=\"projectID\" value=\"$projectID\" />\n";

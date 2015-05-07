@@ -27,7 +27,7 @@ $result=mysql_query($sql);
 $options=""; 
 $y=array();
 
-while ($row=mysql_fetch_array($result)) { 
+while ($row=mysqli_fetch_array($result)) { 
     $date=$row["date"];  
 	$year = date("Y",strtotime($date));
 	

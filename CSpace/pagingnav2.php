@@ -2,7 +2,7 @@
 # Find the pointer to self
 $self = $_SERVER['PHP_SELF'];
 $results1 = $connection->commit($query1);
-$numRecords = mysql_num_rows($results1);
+$numRecords = mysqli_num_rows($results1);
 $maxPage = floor($numRecords/$maxPerPage);
 if ($numRecords%$maxPerPage!=0)
 	$maxPage++;

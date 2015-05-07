@@ -15,7 +15,7 @@
 		else {
 			$query = "SELECT projects.projectID, title FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
       $projectTitle = $line['$title'];
 		}
@@ -162,7 +162,7 @@
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-chat'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
 				?>
@@ -191,7 +191,7 @@
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
 				?>
@@ -230,7 +230,7 @@
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
 				?>
@@ -251,7 +251,7 @@
 				<?php
 					$query1 = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$value = $line1['value'];
 					if (!$value || $value=='on') {
 				?>

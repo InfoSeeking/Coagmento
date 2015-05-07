@@ -33,7 +33,7 @@ function gen_url($param){
           <select id="project_selection">
             <?php
             $project_results = $base->getAllProjects();
-            while($row = mysql_fetch_assoc($project_results)) {
+            while($row = mysqli_fetch_assoc($project_results)) {
               $extra = "";
               if($row["projectID"] == $projectID){
                 $extra = "selected";

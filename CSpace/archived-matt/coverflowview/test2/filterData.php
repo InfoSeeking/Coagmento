@@ -27,9 +27,9 @@ $userID=2;
 
 // Set project name to project ID
 $sql="SELECT DISTINCT * FROM projects WHERE (title='".$project_id."')";
-$result = mysql_query($sql) or die(" ". mysql_error());
+$result = $connection->commit($query);
 
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
 {
 		$project_id = $row['projectID'];
 }
@@ -39,7 +39,7 @@ $getProjects="SELECT DISTINCT * FROM memberships WHERE (userID='".$userID."')";
 $projectsResult = mysql_query($getProjects) or die(" ". mysql_error());
 $project_sql = '';
 
-while($row = mysql_fetch_array($projectsResult))
+while($row = mysqli_fetch_array($projectsResult))
 {
 	$project_sql .= "projectID = ".$row['projectID']." OR ";
 }
@@ -51,7 +51,7 @@ $getProjects_queries="SELECT DISTINCT * FROM memberships WHERE (userID='".$userI
 $projectsResult_queries = mysql_query($getProjects_queries) or die(" ". mysql_error());
 $project_sql_queries = '';
 
-while($row = mysql_fetch_array($projectsResult_queries))
+while($row = mysqli_fetch_array($projectsResult_queries))
 {
 	$project_sql_queries .= "queries.projectID = ".$row['projectID']." OR ";
 }
@@ -63,7 +63,7 @@ $getProjects_snippets="SELECT DISTINCT * FROM memberships WHERE (userID='".$user
 $projectsResult_snippets = mysql_query($getProjects_snippets) or die(" ". mysql_error());
 $project_sql_snippets = '';
 
-while($row = mysql_fetch_array($projectsResult_snippets))
+while($row = mysqli_fetch_array($projectsResult_snippets))
 {
 	$project_sql_snippets .= "snippets.projectID = ".$row['projectID']." OR ";
 }
@@ -75,7 +75,7 @@ $getProjects_annotations="SELECT DISTINCT * FROM memberships WHERE (userID='".$u
 $projectsResult_annotations = mysql_query($getProjects_annotations) or die(" ". mysql_error());
 $project_sql_annotations = '';
 
-while($row = mysql_fetch_array($projectsResult_annotations))
+while($row = mysqli_fetch_array($projectsResult_annotations))
 {
 	$project_sql_annotations .= "annotations.projectID = ".$row['projectID']." OR ";
 }
@@ -97,5 +97,5 @@ $project_sql_annotations = substr($project_sql_annotations,0,-4);
 
 
 <?	
-mysql_close($con); 
+ 
 ?>

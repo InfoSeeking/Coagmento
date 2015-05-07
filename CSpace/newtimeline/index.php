@@ -91,11 +91,11 @@ xmlhttp.send();
 	echo '<option value="">Project</option>';
 	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 	$results = $connection->commit($query);
-	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {	
+	while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {	
 		$projID = $line['projectID'];
 		$query1 = "SELECT * FROM projects WHERE projectID='$projID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$title = $line1['title'];
 		echo "<option value=\"$projID\" ";
 		if ($projID==$projectID)
@@ -127,7 +127,7 @@ $sql="SELECT DISTINCT date FROM pages WHERE userID=2";
 $result=mysql_query($sql); 
 $array=array();
 
-while ($row=mysql_fetch_array($result)) { 
+while ($row=mysqli_fetch_array($result)) { 
 	$date = $row['date'];
 	if (!in_array($date, $array)){ $array[] = $date; }
 }

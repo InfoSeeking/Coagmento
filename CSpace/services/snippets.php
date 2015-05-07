@@ -14,7 +14,7 @@
 	if ($projectID == 0) {
 		$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$projectID = $line['projectID'];
 	}
 ?>
@@ -46,11 +46,11 @@
 		Util::getInstance()->saveAction('view-snippets',"$url",$base);
 
 		$count = 1;
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$sUserID = $line['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$sUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$avatar = $line1['avatar'];
 

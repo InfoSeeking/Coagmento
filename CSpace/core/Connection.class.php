@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 class Connection
 {
 	private static $instance;
-	private static $db_selected;
+	private $db_selected;
 	private $link;
 	private $lastID;
 
@@ -19,8 +19,8 @@ class Connection
 		// $username = DB_USER;
 		// $password = DB_PASS;
 		// $database = DB_DATABASE;
-		$this->link = mysql_connect($host, $username, $password) or die("Cannot connect to the database: ". mysql_error());
-        $this->db_selected = mysql_select_db($database, $this->link) or die ('Cannot connect to the database: ' . mysql_error());
+		$this->link = mysqli_connect($host, $username, $password,$database) or die("Cannot connect to the database: ". mysql_error());
+    $this->db_selected = mysqli_select_db($this->link,$database) or die ('Cannot connect to the database: ' . mysql_error());
 
 	}
 
@@ -36,8 +36,8 @@ class Connection
 	public function commit($query)
 	{
 		try{
-			$results = mysql_query($query) or die($query . " ". mysql_error()); //TODO remove query
-			$this->lastID = mysql_insert_id();
+			$results = mysqli_query($this->link,$query) or die($query . " ". mysql_error()); //TODO remove query
+			$this->lastID = mysqli_insert_id($this->link);
 			return $results;
 		}
 		catch(Exception $e){
@@ -47,7 +47,7 @@ class Connection
 	}
 
 	public function esc($str){
-		return mysql_real_escape_string($str);
+		return mysqli_real_escape_string($this->link,$str);
 	}
 
 	public function getLastID()
@@ -62,7 +62,7 @@ class Connection
 
 	public function close()
 	{
-		mysql_close($link);
+		mysql_close($this->link);
 	}
 
 	/*public function __sleep()

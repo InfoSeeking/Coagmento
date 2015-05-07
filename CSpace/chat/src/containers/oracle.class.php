@@ -195,7 +195,7 @@ if (DB::isError($this->_db))
     
 /* mysql was:
     $res = mysql_query($sql_count, $db);
-    $row = mysql_fetch_array($res, MYSQL_ASSOC);
+    $row = mysqli_fetch_array($res, MYSQL_ASSOC);
 */    
     
     if( $row['C'] == 0 )
@@ -265,14 +265,14 @@ if (DB::isError($this->_db))
           if (DB::isError($thisresult))   {  error_log("sql_select error $sql_select " . $thisresult->getMessage());         }
           	
           	
-      #if (mysql_num_rows($thisresult))
+      #if (mysqli_num_rows($thisresult))
       $this->_db->setOption('portability', DB_PORTABILITY_NUMROWS); 
       
       #error_log("numrows $numrows");
       
       if ($thisresult->numRows())
       {
-        #while ($regel = mysql_fetch_array($thisresult))
+        #while ($regel = mysqli_fetch_array($thisresult))
         while ($regel = $thisresult->fetchRow(DB_FETCHMODE_ASSOC))
         {
           $ret["timestamp"][] = $regel["TIMESTAMPG"];
@@ -311,7 +311,7 @@ if (DB::isError($this->_db))
     if (DEBUGSQL) error_log("sql select $sql_count");
     $row = $res->fetchRow(DB_FETCHMODE_ASSOC);
     #$res = mysql_query($sql_count, $db);
-    #$row = mysql_fetch_array($res, MYSQL_ASSOC);
+    #$row = mysqli_fetch_array($res, MYSQL_ASSOC);
     if( $row['C'] == 0 )
     {
       $leafvalue = 1;
@@ -342,7 +342,7 @@ if (DB::isError($this->_db))
       $res = $this->_db->query($sql_last);
       if (DB::isError($res))   {  error_log("error in SELECT lastleaf $sql_last" . $res->getMessage());         }      
        if (DEBUGSQL) error_log("select: SELECT phpfreechat_leafvalue_seq.currVAL as lastleaf FROM dual");
-      #$row = mysql_fetch_array($res, MYSQL_ASSOC);
+      #$row = mysqli_fetch_array($res, MYSQL_ASSOC);
       $row = $res->fetchRow(DB_FETCHMODE_ASSOC);
       $leafvalue = $row['LASTLEAF'];
     }

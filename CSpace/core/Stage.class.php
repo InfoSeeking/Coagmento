@@ -45,7 +45,7 @@ class Stage
 				  				   )";
 
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 					
 
 		
@@ -209,7 +209,7 @@ class Stage
 				    FROM session_stages b
 				    WHERE stageID>$this->stageID AND status = '1' order by stageID LIMIT 1";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		return $line;
 	}
 	
@@ -273,7 +273,7 @@ class Stage
 					LIMIT 1";
 		//echo $query;
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		return $line;
 	}
 		

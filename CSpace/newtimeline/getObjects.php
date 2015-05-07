@@ -11,9 +11,9 @@ require_once('../../connect.php');
 $userID=2;
 
 $sql="SELECT * FROM actions WHERE userID=".$userID." AND (action='page' OR action='query' OR action='add-annotation' OR action='save-snippet') ORDER BY date DESC";
-$result = mysql_query($sql) or die(" ". mysql_error());
+$result = $connection->commit($query);
 
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
 {
 	$object_type = $row['action'];
 	$object_value = $row['value'];
@@ -23,7 +23,7 @@ while($row = mysql_fetch_array($result))
 		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_value."";
 		$pageResult = $connection->commit($getPage);
 
-		while($line = mysql_fetch_array($pageResult)) {
+		while($line = mysqli_fetch_array($pageResult)) {
 			$value = $line['pageID'];
 			$thumb = $line['fileName'];
 
@@ -37,9 +37,9 @@ while($row = mysql_fetch_array($result))
 
 	if($object_type == 'query') {
 		$getQuery="SELECT * FROM actions,queries WHERE queries.queryID=actions.value AND queries.queryID=".$object_value."";
-		$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
+		$queryResult = $connection->commit($getQuery);
 
-		while($line = mysql_fetch_array($queryResult)) {
+		while($line = mysqli_fetch_array($queryResult)) {
 			$value = $line['queryID'];
 			$query = $line['query'];
 
@@ -51,9 +51,9 @@ while($row = mysql_fetch_array($result))
 
 	if($object_type == 'save-snippet') {
 		$getSnippet="SELECT * FROM actions,snippets WHERE snippets.snippetID=actions.value AND snippets.snippetID=".$object_value."";
-		$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
+		$snippetResult = $connection->commit($getSnippet);
 
-		while($line = mysql_fetch_array($snippetResult)) {
+		while($line = mysqli_fetch_array($snippetResult)) {
 			$value = $line['snippetID'];
 			$snippet = $line['snippet'];
 
@@ -65,9 +65,9 @@ while($row = mysql_fetch_array($result))
 
 	if($object_type == 'add-annotation') {
 		$getNote="SELECT * FROM actions, annotations WHERE annotations.noteID=actions.value AND annotations.noteID=".$object_value."";
-		$noteResult = mysql_query($getNote) or die(" ". mysql_error());
+		$noteResult = $connection->commit($getNote);
 
-		while($line = mysql_fetch_array($noteResult)) {
+		while($line = mysqli_fetch_array($noteResult)) {
 			$value = $line['noteID'];
 			$note = $line['note'];
 

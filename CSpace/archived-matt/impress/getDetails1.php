@@ -12,7 +12,7 @@ if($object_type == 'page') {
 	$page="SELECT * FROM pages WHERE thumbnailID=".$object_id."";
 	$result = $connection->commit($page);
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 		{
 		$hasThumb = $row['thumbnailID'];
 		$projectID = $row['projectID'];
@@ -22,7 +22,7 @@ if($object_type == 'page') {
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 		$projectNameResult = $connection->commit($getProjectName);
 
-		while($line = mysql_fetch_array($projectNameResult)) {
+		while($line = mysqli_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
 		}
 
@@ -30,7 +30,7 @@ if($object_type == 'page') {
 		$getUserName="SELECT * FROM users WHERE userID=".$userID."";
 		$userNameResult = $connection->commit($snippet);
 
-		while($line = mysql_fetch_array($userNameResult)) {
+		while($line = mysqli_fetch_array($userNameResult)) {
 			$userName = $line['username'];
 		}
 
@@ -38,7 +38,7 @@ if($object_type == 'page') {
 		$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND thumbnails.thumbnailID=".$object_id."";
 		$pageResult = $connection->commit($getPage);
 
-		while($line = mysql_fetch_array($pageResult)) {
+		while($line = mysqli_fetch_array($pageResult)) {
 			//$value = $line['pageID'];
 			$thumb = $line['fileName'];
 			$source = $line['source'];
@@ -55,5 +55,5 @@ if($object_type == 'page') {
 	}
 }
 
-mysql_close($con);
+
 ?>

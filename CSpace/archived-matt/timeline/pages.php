@@ -106,7 +106,7 @@ function findAll() {
 
 	//calculate the number of rows in this table
 	$rscount = mysql_query("SELECT count(*) AS cnt FROM `pages` $where");
-	$row_rscount = mysql_fetch_assoc($rscount);
+	$row_rscount = mysqli_fetch_assoc($rscount);
 	$totalrows = (int) $row_rscount["cnt"];
 
 	//get the page number, and the page size
@@ -128,7 +128,7 @@ function findAll() {
 
 	//if we have rows in the table, loop through them and fill the array
 	$toret = array();
-	while ($row_recordset = mysql_fetch_assoc($recordset)) {
+	while ($row_recordset = mysqli_fetch_assoc($recordset)) {
 		array_push($toret, $row_recordset);
 	}
 
@@ -164,7 +164,7 @@ function rowCount() {
 
 	//calculate the number of rows in this table
 	$rscount = mysql_query("SELECT count(*) AS cnt FROM `pages` $where");
-	$row_rscount = mysql_fetch_assoc($rscount);
+	$row_rscount = mysqli_fetch_assoc($rscount);
 	$totalrows = (int) $row_rscount["cnt"];
 
 	//create the standard response structure
@@ -256,12 +256,12 @@ function update() {
 		GetSQLValueString($_REQUEST["pageID"], "int")
 	);
 	$recordset = mysql_query($query_recordset, $conn);
-	$num_rows = mysql_num_rows($recordset);
+	$num_rows = mysqli_num_rows($recordset);
 
 	if ($num_rows > 0) {
 
 		// build and execute the update query
-		$row_recordset = mysql_fetch_assoc($recordset);
+		$row_recordset = mysqli_fetch_assoc($recordset);
 		$query_update = sprintf("UPDATE `pages` SET userID = %s,projectID = %s,url = %s,source = %s,query = %s,date = %s,time = %s WHERE pageID = %s",
 			GetSQLValueString($_REQUEST["userID"], "int"),
 			GetSQLValueString($_REQUEST["projectID"], "int"),
@@ -324,10 +324,10 @@ function delete() {
 		GetSQLValueString($_REQUEST["pageID"], "int")
 	);
 	$recordset = mysql_query($query_recordset, $conn);
-	$num_rows = mysql_num_rows($recordset);
+	$num_rows = mysqli_num_rows($recordset);
 
 	if ($num_rows > 0) {
-		$row_recordset = mysql_fetch_assoc($recordset);
+		$row_recordset = mysqli_fetch_assoc($recordset);
 		$query_delete = sprintf("DELETE FROM `pages` WHERE pageID = %s",
 			GetSQLValueString($row_recordset["pageID"], "int")
 		);

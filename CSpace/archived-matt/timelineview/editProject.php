@@ -49,7 +49,7 @@ $(".flip").click(function(){
 		else {
 			$query = "SELECT * FROM projects,memberships WHERE projects.title='$title' AND memberships.userID='$userID' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$num = mysql_num_rows($results);
+			$num = mysqli_num_rows($results);
 			if ($num!=0) {
 				echo "<tr><td colspan=2><font color=\"red\">Error: project <span style=\"font-weight:bold\">$title</span> already exists. Please choose a different title for your project.</font></td></tr>";
 			} // if ($num!=0)
@@ -80,7 +80,7 @@ $(".flip").click(function(){
 	$projectID = $_GET['projectID'];
 	$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$title = stripslashes($line['title']);
 	$description = stripslashes($line['description']);
 	$privacy = $line['privacy'];

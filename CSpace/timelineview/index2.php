@@ -18,18 +18,18 @@
 		else {
 			$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='default-project'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$value = $line['value'];
 			if (!$value || $value=='default') {
 				$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.title='Default' AND projects.projectID=memberships.projectID";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$projectID = $line['projectID'];
 			}
 			else {
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='selected-project'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$projectID = $line['value'];
 			}
 			$_SESSION['CSpace_projectID'] = $projectID;
@@ -83,7 +83,7 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+100;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
@@ -119,7 +119,7 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+100;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
@@ -171,7 +171,7 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+200;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
@@ -223,7 +223,7 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+200;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
@@ -279,7 +279,7 @@
 			$aResults = mysql_query($aQuery) or die(" ". mysql_error());
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$points = $line['points'];
 			$newPoints = $points+500;
 			$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";

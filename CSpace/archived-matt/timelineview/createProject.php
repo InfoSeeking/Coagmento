@@ -57,7 +57,7 @@ $(".flip").click(function(){
 		else {
 			$query = "SELECT * FROM projects,memberships WHERE projects.title='$title' AND memberships.userID='$userID' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$num = mysql_num_rows($results);
+			$num = mysqli_num_rows($results);
 			if ($num!=0) {
 				echo "<tr><td colspan=2><font color=\"red\">Error: project <span style=\"font-weight:bold\">$title</span> already exists. Please choose a different title for your project.</font></td></tr>";
 			} // if ($num!=0)
@@ -74,7 +74,7 @@ $(".flip").click(function(){
 				$results = $connection->commit($query);
 				$query = "SELECT max(projectID) as num FROM projects";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$projectID = $line['num'];
 				$query = "INSERT INTO memberships VALUES('','$projectID','$userID','1')";
 				$results = $connection->commit($query);
@@ -82,7 +82,7 @@ $(".flip").click(function(){
 				// Record the action and update the points
 				$aQuery = "SELECT max(projectID) as num FROM projects";
 				$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-				$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
+				$aLine = mysqli_fetch_array($aResults, MYSQL_ASSOC);
 				$pID = $aLine['num'];
 
 				$ip=$base->getIP();
@@ -91,7 +91,7 @@ $(".flip").click(function(){
 
 				$pQuery = "SELECT points FROM users WHERE userID='$userID'";
 				$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-				$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
+				$pLine = mysqli_fetch_array($pResults, MYSQL_ASSOC);
 				$totalPoints = $pLine['points'];
 				$newPoints = $totalPoints+100;
 				$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
@@ -128,12 +128,12 @@ $(".flip").click(function(){
 	echo "<tr><td><span style=\"font-size: 16px; font-weight:bold\">Existing projects</span></td></tr><tr>\n";
 	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 	$results = $connection->commit($query);
-	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+	while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 		$projectID = $line['projectID'];
 		$access = $line['access'];
 		$query1 = "SELECT * FROM projects WHERE projectID='$projectID' AND status=1";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
 
@@ -141,11 +141,11 @@ $(".flip").click(function(){
 		if ($access!=1) {
 			$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$uID = $line1['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$uID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$uName = $line1['username'];
 			$title = $title . " ($uName)";
 		}

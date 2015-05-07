@@ -7,7 +7,7 @@
 	require_once("connect.php");
 	$query = "SELECT count(*) as num FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='$option'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$num = $line['num'];
 	if ($num==0)
 		$query = "INSERT INTO options VALUES('','$userID','$projectID','$option','$value')";

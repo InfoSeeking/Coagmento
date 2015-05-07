@@ -12,7 +12,7 @@ foreach($a as $v){
   $word = $v[0];
   $num = $v[1];
   $r = $cxn->commit("SELECT I.questionnaire".(string)$num."start as questionnaire".(string)$num."start,I.questionnaire".(string)$num."end as questionnaire".(string)$num."end FROM recruits R,instructors I WHERE R.userID='$userID' AND R.instructorID=I.instructorID");
-  $line = mysql_fetch_array($r,MYSQL_ASSOC);
+  $line = mysqli_fetch_array($r,MYSQL_ASSOC);
   $startdatestr = date("M d",strtotime($line["questionnaire".(string)$num."start"]));
   $enddatestr = date("M d",strtotime($line["questionnaire".(string)$num."end"])-86400);
   if($word =='third' && ($questionnaire->isQuestionnaireComplete("spring2015-midtask-third",array("$userID","$projectID"),array('userID','projectID'),'questionnaire_midtask_third')

@@ -32,7 +32,7 @@ $cxn = Connection::getInstance();
 
 $firstLogin = false;
 $r = $cxn->commit("SELECT * FROM actions WHERE action='login' AND userID='$userID'");
-if(mysql_num_rows($r)<=1){
+if(mysqli_num_rows($r)<=1){
   $firstLogin = true;
 }
 

@@ -36,7 +36,7 @@
 		if (!(isset($_SESSION['CSpace_projectID'])) || $projectID==0) {
 			$query = "select projects.projectID from projects,memberships where memberships.userID=$userID and projects.projectID=memberships.projectID and projects.title='Default' and memberships.access=1";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 ?>
@@ -84,7 +84,7 @@
 				$id = $_GET['id'];
 				$query3 = "SELECT * FROM files WHERE id=$id";
 				$results3 = $connection->commit($query3);
-				$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
+				$line3 = mysqli_fetch_array($results3, MYSQL_ASSOC);
 				$fileName = $line3['fileName'];
 				$fUserID = $line3['userID'];
 				if ($fUserID==$userID) {
@@ -112,14 +112,14 @@
 		echo "<tr><td style=\"font-weight:bold\" align=center>Delete</td><td style=\"font-weight:bold\">Name</td><td style=\"font-weight:bold\">Uploaded by</td><td style=\"font-weight:bold\" align=center>Time</td></tr>\n";
 		$query = "SELECT * FROM files WHERE projectID='$projectID' AND status=1";
 		$results = $connection->commit($query);
-		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$id = $line['id'];
 			$name = $line['name'];
 			$fileName = $line['fileName'];
 			$fUserID = $line['userID'];
 			$query1 = "SELECT firstName,lastName FROM users WHERE userID='$fUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$fullName = $line1['firstName'] . " " . $line1['lastName'];
 			$date = $line['date'];
 			$time = $line['time'];

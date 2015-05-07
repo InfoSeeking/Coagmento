@@ -10,7 +10,7 @@
 		require_once("connect.php");
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$projectName = $line['title'];
 ?>
 <table class="body" width=100%>
@@ -58,7 +58,7 @@
 		
 		$query = "SELECT * FROM tags WHERE projectID='$projectID' AND status=1";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$tagID = $line['id'];
 			$tag = stripslashes($line['tag']);
 			echo "<tr><td><span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('tags.php?remove=$tagID','content');\">X</span>&nbsp;&nbsp; $tag</td></tr>\n";

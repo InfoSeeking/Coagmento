@@ -19,7 +19,7 @@ class Page extends Base {
     $query = "SELECT pages.*, users.username, thumbnails.fileName FROM pages, users, thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.projectID=".$projectID." AND pages.userID=users.userID AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' AND NOT url LIKE '%google%' AND NOT url LIKE '%yahoo%' AND NOT url LIKE '%bing%'  ORDER BY pages.timestamp DESC LIMIT ".$start.", ".$limit;
     $pages = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($pages, $record);
     }
     return $pages;

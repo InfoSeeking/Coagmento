@@ -16,7 +16,7 @@
 
 	$query = "SELECT * FROM users WHERE userID='$userID'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$points = $line['points'];
 	$newPoints = $points;
 	switch ($action) {
@@ -24,8 +24,8 @@
 			// Award point only if Coagmento was activated more than an hour before this activation.
 			$query1 = "SELECT timestamp FROM actions WHERE userID='$userID' AND action='activate' ORDER BY timestamp desc";
 			$results1 = $connection->commit($query1);
-			if (mysql_num_rows($results1)!=0) {
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			if (mysqli_num_rows($results1)!=0) {
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$oldTime = $line1['timestamp'];
 				echo "$oldTime, $timestamp";
 				if ($oldTime<$timestamp-3600) {
@@ -54,8 +54,8 @@
 			// Award point only if Coagmento was activated more than an hour before this activation.
 			$query1 = "SELECT timestamp FROM actions WHERE userID='$userID' AND action='print' ORDER BY timestamp desc";
 			$results1 = $connection->commit($query1);
-			if (mysql_num_rows($results1)!=0) {
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			if (mysqli_num_rows($results1)!=0) {
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$oldTime = $line1['timestamp'];
 				echo "$oldTime, $timestamp";
 				if ($oldTime<$timestamp-86400) {
@@ -88,5 +88,5 @@
 	$query = "UPDATE users SET points=$newPoints WHERE userID='$userID'";
 	$results = $connection->commit($query);
 	
-	mysql_close($dbh);
+	
 ?>

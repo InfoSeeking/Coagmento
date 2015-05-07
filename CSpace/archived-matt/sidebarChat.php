@@ -12,13 +12,13 @@
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		// Find out the preferences set by this user for this project.
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='chat-status'";
 		$results = mysql_query($query) or die("1 ". mysql_error());
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$chatStatus = $line['value'];
 		if ($chatStatus=='off')
 			echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"chatOption('chat-status','on');\">Show status</span>|";
@@ -27,7 +27,7 @@
 
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='chat-show-date'";
 		$results = mysql_query($query) or die("2 ". mysql_error());
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$showDate = $line['value'];
 		if ($showDate=='yes')
 			echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"chatOption('chat-show-date','no');\">Hide date</span>|";
@@ -36,7 +36,7 @@
 
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='chat-show-time'";
 		$results = mysql_query($query) or die("3 ". mysql_error());
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$showTime = $line['value'];
 		if ($showTime=='yes')
 			echo "<span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"chatOption('chat-show-time','no');\">Hide time</span>";
@@ -60,7 +60,7 @@
 	else {
 		echo "Your session has expired. Please <a href=\"http://www.coagmento.org/\" target=_content><span style=\"color:blue;text-decoration:underline;cursor:pointer;\">login</span> again.\n";
 	}
-//	mysql_close($dbh);
+//	
 ?>
 <script type="text/javascript">
 	var cText =	document.getElementById('cText');

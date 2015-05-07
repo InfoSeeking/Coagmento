@@ -19,7 +19,7 @@
     $_SESSION['CSpace_projectTitle'] = $projectTitle;
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$title = $line['title'];
 		$description = $line['description'];
 		$startDate = $line['startDate'];
@@ -29,7 +29,7 @@
 		$userID = $_SESSION['CSpace_userID'];
 		$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='selected-project'";
 		$results = $connection->commit($query);
-		if (mysql_num_rows($results)==0) {
+		if (mysqli_num_rows($results)==0) {
 			$query = "INSERT INTO options VALUES('','$userID','$projectID','selected-project','$projectID')";
 		}
 		else {
@@ -42,11 +42,11 @@
 
 		$query = "SELECT * FROM memberships WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$cUserID = $line['userID'];
 			$query1 = "SELECT * FROM users WHERE userID='$cUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$uName = $line1['firstName'] . " " . $line1['lastName'];
 		}
 	  insertAction("switch_project",$projectID);

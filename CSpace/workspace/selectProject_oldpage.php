@@ -32,7 +32,7 @@
 		$userID = $base->getUserID();
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
 		if (isset($_GET['projectID'])) {
@@ -43,7 +43,7 @@
 			echo "<tr bgcolor=#DDDDDD><td>Hello, <strong>$firstName $lastName</strong>.</td></tr>\n";
 			$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$title = $line['title'];
 			echo "<tr><td>You have selected <strong>$title</strong> as your active project.<br/></td></tr>\n";
 			echo "<tr><td>Once you activate <em>Coagmento</em> from your toolbar, the following things will be recorded:\n";

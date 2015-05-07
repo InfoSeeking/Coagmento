@@ -8,7 +8,7 @@
 	$query = "SELECT * FROM users WHERE userName='$userName' AND password='$password'";
 	fwrite($fout, $query."\n");
 	fclose($fout);
-	$result = mysql_fetch_array(mysql_query($query));
+	$result = mysqli_fetch_array(mysql_query($query));
 	
 	//start outputting the XML
 	$output = "<loginsuccess>";

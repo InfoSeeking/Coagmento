@@ -8,17 +8,17 @@
 	// Find out the preferences set by this user for this project.
 	$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='chat-show-date'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$showDate = $line['value'];
 	$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='chat-show-time'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$showTime = $line['value'];
 
 	echo "<table width=100%>\n";
 	$query = "SELECT * FROM chat WHERE projectID='$projectID' ORDER BY timestamp";
 	$results = $connection->commit($query);
-	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+	while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 		$chatID = $line['chatID'];
 		$cUserID = $line['userID'];
 		if ($userID==$cUserID)

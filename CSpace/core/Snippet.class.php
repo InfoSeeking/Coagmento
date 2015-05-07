@@ -19,7 +19,7 @@ class Snippet extends Base {
     $query = sprintf("SELECT snippets.*, users.username FROM snippets, users WHERE snippets.projectID=%d AND snippets.userID=users.userID ORDER BY %s", $projectID, $cxn->esc($sorting));
     $snippets = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($snippets, $record);
     }
     return $snippets;

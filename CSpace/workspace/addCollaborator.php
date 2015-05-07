@@ -44,7 +44,7 @@
 
 		if (isset($_GET['targetUserName'])) {
 			$results = $connection->commit("SELECT * FROM users WHERE userID='$userID'");
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$firstName = $line['firstName'];
 			$lastName = $line['lastName'];
 
@@ -52,13 +52,13 @@
 			$userExists = 0;
 
 			$results = $connection->commit("SELECT count(*) as num FROM users WHERE username='$targetUserName'");
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$num = $line['num'];
 
 			if ($num!=1) {
 				// If we didn't find a match with the username, try it as an email.
 				$results = $connection->commit("SELECT count(*) as num FROM users WHERE email='$targetUserName'");
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 				if ($num!=1) {
 					echo "<tr><td colspan=2><font color=\"red\">Error: this user does not exist in the system.</font></td></tr>\n";
@@ -66,13 +66,13 @@
 				else {
 					$userExists = 1;
 					$results1 = $connection->commit("SELECT * FROM users WHERE email='$targetUserName'");
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				}
 			}
 			else {
 				$userExists = 1;
 				$results1 = $connection->commit("SELECT * FROM users WHERE username='$targetUserName'");
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			}
 
 			if ($userExists==1) {
@@ -82,7 +82,7 @@
 				$targetLastName = $line1['lastName'];
 				$projectID = $_SESSION['CSpace_projectID'];
 				$results = $connection->commit("SELECT count(*) as num FROM memberships WHERE projectID='$projectID' and userID='$targetUserID'");
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 
 				if ($num!=0) {
@@ -92,7 +92,7 @@
 					$targetEmail = $line1['email'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit("SELECT * FROM projects WHERE projectID='$projectID'");
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$query = "INSERT INTO memberships VALUES('','$projectID','$targetUserID','0')";
 					$results = $connection->commit("INSERT INTO memberships VALUES('','$projectID','$targetUserID','0')");
@@ -104,7 +104,7 @@
 
 					// Record the action and update the points
 					$aResults = $connection->commit("SELECT max(memberID) as num FROM memberships WHERE projectID='$projectID'");
-					$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
+					$aLine = mysqli_fetch_array($aResults, MYSQL_ASSOC);
 					$rID = $aLine['num'];
 
 					Util::getInstance()->saveAction('add-collaborator',"$rID",$base);

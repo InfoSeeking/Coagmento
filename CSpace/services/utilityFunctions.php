@@ -42,7 +42,7 @@ function extractQuery($referrer)
 } // end extractQuery
 
 function addPoints($userID,$points){
-	require_once("./core/Connection.class.php");
+	require_once("../core/Connection.class.php");
 	$connection = Connection::getInstance();
 	$connection->commit("UPDATE users SET points=points+$points WHERE userID='$userID'");
 }

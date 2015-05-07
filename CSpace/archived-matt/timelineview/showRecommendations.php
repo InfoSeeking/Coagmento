@@ -46,12 +46,12 @@ $(document).ready(function(){
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		$query = "SELECT * FROM recommendations WHERE rUserID='$userID' ORDER BY timestamp";
 		$results = $connection->commit($query);
-		while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$cUserID = $line['userID'];
 			$cProjectID = $line['projectID'];
 			$cTitle = $line['title'];
@@ -60,12 +60,12 @@ $(document).ready(function(){
 			$cMessage = stripslashes($line['message']);
 			$query1 = "SELECT * FROM users WHERE userID='$cUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$cName = $line1['firstName'] . " " . $line1['lastName'];
 			$cAvatar = $line1['avatar'];
 			$query1 = "SELECT * FROM projects WHERE projectID='$cProjectID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$projTitle = $line1['title'];
 			echo "<tr><td><a href=\"$cURL\" target=_external>$cTitle</a> on $cDate</td></tr>\n";
 			echo "<tr><td>Recommended by <img src=\"../../img/$cAvatar\" height=30 width=30 style=\"vertical-align:middle;border:0\" /> <span style=\"font-weight:bold;\">$cName</span> for project <span style=\"font-weight:bold;\">$projTitle</span></td></tr>\n";

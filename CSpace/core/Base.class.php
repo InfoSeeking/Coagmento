@@ -429,7 +429,7 @@ class Base {
       $query = "SELECT * FROM options WHERE userID='$userID' AND `option`='selected-project'";
       $connection = Connection::getInstance();
       $results = $connection->commit($query);
-      if (mysql_num_rows($results)==0) {
+      if (mysqli_num_rows($results)==0) {
        $query = "INSERT INTO options VALUES('','$userID','$projectID','selected-project','$projectID')";
       }
       else {
@@ -442,10 +442,10 @@ class Base {
     $connection = Connection::getInstance();
     $query = sprintf("SELECT `value` FROM options WHERE `option`='selected-project' AND userID='%s'", $this->userID);
     $results = $connection->commit($query);
-    if (mysql_num_rows($results) == 0){
+    if (mysqli_num_rows($results) == 0){
       return -1;
     } else {
-      $row = mysql_fetch_assoc($results);
+      $row = mysqli_fetch_assoc($results);
       return $row['value'];
     }
   }
@@ -732,7 +732,7 @@ class Base {
             $query = "SELECT * FROM users WHERE userID='".$this->userID."' ORDER BY topicAreaID DESC";
             $connection = Connection::getInstance();
             $results = $connection->commit($query);
-            $line = mysql_fetch_array($results, MYSQL_ASSOC);
+            $line = mysqli_fetch_array($results, MYSQL_ASSOC);
             $this->topicAreaID = $line['topicAreaID']; //1: CIS  2: MDP
         }
 
@@ -747,7 +747,7 @@ class Base {
             $query = "SELECT Q.questionID as questionID FROM recruits R,questions_study Q WHERE R.projectID='$projectID' AND R.userID='$userID' AND R.instructorID+1=Q.questionID ORDER BY recruitsID ASC";
             $connection = Connection::getInstance();
             $results = $connection->commit($query);
-            $line = mysql_fetch_array($results, MYSQL_ASSOC);
+            $line = mysqli_fetch_array($results, MYSQL_ASSOC);
             $this->setQuestionID($line['questionID']);
         }
         return $this->questionID;
@@ -778,7 +778,7 @@ class Base {
         $query = "SELECT peerPadID1,peerPadID2 FROM users WHERE userID='".$this->userID."'";
         $connection = Connection::getInstance();
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
 
         if(is_null($line['peerPadID1'])){
             $query = "SELECT a.projectID,qer.pad_projectID,COUNT(qer.pad_projectID) as count
@@ -791,7 +791,7 @@ class Base {
 
             $min = -1;
             $pads = array();
-            while($line = mysql_fetch_array($results, MYSQL_ASSOC)){
+            while($line = mysqli_fetch_array($results, MYSQL_ASSOC)){
                 $id_to_push = $line['projectID'];
                 if($min == -1){
                     $min = intval($line['count']);
@@ -834,7 +834,7 @@ class Base {
         $query = "SELECT diagnosticPadID1,diagnosticPadID2,diagnosticPadID3 FROM users WHERE userID='".$this->userID."'";
         $connection = Connection::getInstance();
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
 
         if(is_null($line['diagnosticPadID1'])){
 
@@ -850,8 +850,8 @@ class Base {
                         $connection = Connection::getInstance();
                         $results = $connection->commit($query);
                         $n_results = 0;
-                        if(mysql_num_rows($results) > 0){
-                            $line = mysql_fetch_array($results, MYSQL_ASSOC);
+                        if(mysqli_num_rows($results) > 0){
+                            $line = mysqli_fetch_array($results, MYSQL_ASSOC);
                             $n_results = $line['count'];
                         }
 

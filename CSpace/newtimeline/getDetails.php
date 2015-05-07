@@ -12,7 +12,7 @@ if($object_type == 'page') {
 	$result = $connection->commit($page);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		$hasThumb = $row['thumbnailID'];
 		if($hasThumb == NULL) {
@@ -22,7 +22,7 @@ if($object_type == 'page') {
 			$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_id."";
 			$pageResult = $connection->commit($getPage);
 
-			while($line = mysql_fetch_array($pageResult)) {
+			while($line = mysqli_fetch_array($pageResult)) {
 				$value = $line['pageID'];
 				$thumb = $line['fileName'];
 
@@ -45,7 +45,7 @@ if($object_type == 'query') {
 	$result = $connection->commit($query);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		echo "<h2> Query #".$row['queryID']."</h2> [<a href=".$row['url']." target='new'>url</a>]<br/><br/>";
 		echo "<strong>Query: </strong>".$row['query']."<br/>";
@@ -61,7 +61,7 @@ if($object_type == 'snippet') {
 	$result = $connection->commit($snippet);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		echo "<h2> Snippet #".$row['snippetID']."</h2> [<a href=".$row['url']." target='new'>url</a>]<br/><br/>";
 	}
@@ -74,12 +74,12 @@ if($object_type == 'note') {
 	$result = $connection->commit($note);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		echo "<h2> Note #".$row['noteID']."</h2> [<a href=".$row['url']." target='new'>url</a>]<br/><br/>";
 	}
 	echo '</div>';
 }
 
-mysql_close($con);
+
 ?>

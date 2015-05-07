@@ -45,7 +45,7 @@
 				// First see if this user is already in the system
 				$query = "SELECT count(*) as num FROM users WHERE email='$inviteEmail'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 
 				if ($num!=0) {
@@ -60,7 +60,7 @@
 					// Now see if this email has already been used for an invitation
 					$query = "SELECT count(*) as num FROM invitations WHERE email='$inviteEmail' AND timestamp>$pastTimestamp";
 					$results = $connection->commit($query);
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
+					$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 					$num = $line['num'];
 					if ($num!=0) {
 						echo "<tr><td colspan=2><font color=\"red\">Error: this person has already been sent an invitation in the past one week.</font></td></tr>";
@@ -68,7 +68,7 @@
 					else {
 						$query = "SELECT * FROM users WHERE userID='$userID'";
 						$results = $connection->commit($query);
-						$line = mysql_fetch_array($results, MYSQL_ASSOC);
+						$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 						$firstName = $line['firstName'];
 						$lastName = $line['lastName'];
 						$rEmail = $line['email'];
@@ -93,7 +93,7 @@
 						// Record the action and update the points
 						$aQuery = "SELECT max(id) as num FROM invitations WHERE userID='$userID'";
 						$aResults = $connection->commit($aQuery);
-						$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
+						$aLine = mysqli_fetch_array($aResults, MYSQL_ASSOC);
 						$rID = $aLine['num'];
 
 						Util::getInstance()->saveAction("recommend-coagmento","$rID",$base);

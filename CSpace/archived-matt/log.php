@@ -24,7 +24,7 @@
 		$userID = $_SESSION['userID'];
 		$query1 = "SELECT * FROM users WHERE userID='$userID'";
 		$results1 = $connection->commit($query1);
-		$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$firstName = $line1['firstName'];
 		$lastName = $line1['lastName'];
 ?>
@@ -45,11 +45,11 @@
 		      <?php
 			  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 				$results = $connection->commit($query);
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+				while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					echo "<option value=\"$projectID\">$title</option>\n";
 				}
@@ -62,7 +62,7 @@
 		      <?php
 			  	$query = "SELECT distinct date FROM pages WHERE userID='$userID' ORDER BY date desc";
 				$results = $connection->commit($query);
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+				while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 					$date = $line['date'];
 					echo "<option value=\"$date\">$date</option>\n";
 				}
@@ -119,7 +119,7 @@
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
 					$query = "SELECT * FROM pages WHERE userID='$userID' AND projectID='$projectID' AND status=1 AND date='$session' ORDER BY timestamp LIMIT $min, $max";
@@ -155,7 +155,7 @@
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
 
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -183,12 +183,12 @@
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
 					if ($line['title'])
@@ -212,11 +212,11 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
@@ -228,7 +228,7 @@
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
 					$query = "SELECT * FROM pages WHERE userID='$userID' AND projectID='$projectID' AND date='$session' AND result='1' ORDER BY timestamp";
@@ -260,7 +260,7 @@
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
 
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$pageID = $line['pageID'];
 				if(isset($_GET[$pageID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -288,12 +288,12 @@
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
 					if ($line['title'])
@@ -317,11 +317,11 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
@@ -333,7 +333,7 @@
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
 					$query = "SELECT * FROM queries WHERE userID='$userID' AND projectID='$projectID' AND date='$session' ORDER BY timestamp";
@@ -357,7 +357,7 @@
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Source</th><th>Query</th><th>Date</th><th>Time</th></tr>\n";
 
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$queryID = $line['queryID'];
 				if(isset($_GET[$queryID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -385,12 +385,12 @@
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$source = $line['source'];
 					$queryText = $line['query'];
@@ -406,11 +406,11 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
@@ -421,7 +421,7 @@
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
 					$query = "SELECT * FROM snippets WHERE userID='$userID' AND projectID='$projectID' AND date='$session' ORDER BY timestamp";
@@ -445,7 +445,7 @@
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Snippet</th><th>Date</th><th>Time</th></tr>\n";
 
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$snippetID = $line['snippetID'];
 				if(isset($_GET[$snippetID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -469,12 +469,12 @@
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
 					$snippet = stripslashes($line['snippet']);
@@ -489,11 +489,11 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}
@@ -504,7 +504,7 @@
 			if ($projectID) {
 				$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				if ($session) {
 					$query = "SELECT * FROM annotations WHERE userID='$userID' AND projectID='$projectID' AND date='$session' ORDER BY timestamp";
@@ -527,7 +527,7 @@
 			}
 			echo "<tr><th><input type=\"checkbox\" name=\"pageID\" value=\"all\" onclick=\"checkUncheckAll(this);\"></th><th>Project</th><th>Document</th><th>Snippet</th><th>Date</th><th>Time</th></tr>\n";
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$noteID = $line['noteID'];
 				if(isset($_GET[$noteID])) {
 					if (isset($_GET['targetProjectID'])) {
@@ -555,12 +555,12 @@
 					$userID = $line['userID'];
 					$query1 = "SELECT * FROM users WHERE userID='$userID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$userName = $line1['userName'];
 					$projectID = $line['projectID'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$url = $line['url'];
 					$note = stripslashes($line['note']);
@@ -575,11 +575,11 @@
 	      	echo "<option value=\"\" selected=\"selected\">Project:</option>\n";
 		  	$query = "SELECT * FROM memberships WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$targetProjectID = $line['projectID'];
 				$query1 = "SELECT * FROM projects WHERE projectID='$targetProjectID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$title = $line1['title'];
 				echo "<option value=\"$targetProjectID\">$title</option>\n";
 			}

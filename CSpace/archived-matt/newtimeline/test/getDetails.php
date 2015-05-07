@@ -13,7 +13,7 @@ mysql_select_db("shahonli_coagmento", $con);
 $sql_thumb="SELECT * FROM pages, thumbnails WHERE pages.thumbnailID = thumbnails.thumbnailID AND userID=2 AND pageID=".$q." order by date desc";
 $result_thumb = mysql_query($sql_thumb) or die(" ". mysql_error());
 
-while($row = mysql_fetch_array($result_thumb))
+while($row = mysqli_fetch_array($result_thumb))
   {
 	    echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
 	    echo $row['title']; echo '<br/>';
@@ -36,5 +36,5 @@ while($row = mysql_fetch_array($result_thumb))
 		echo '<td>'.$row['time'].'</td></tr></table>';
   }
 
-mysql_close($con);
+
 ?>

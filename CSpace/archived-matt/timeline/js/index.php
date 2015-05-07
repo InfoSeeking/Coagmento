@@ -24,7 +24,7 @@
 
             $query = "SELECT * FROM users WHERE userID=$userID";
             $results = $connection->commit($query);
-            $line = mysql_fetch_array($results, MYSQL_ASSOC);
+            $line = mysqli_fetch_array($results, MYSQL_ASSOC);
             $firstName = $line['firstName'];
             $lastName = $line['lastName'];
 
@@ -79,7 +79,7 @@
 				$jan = 01; $feb = 02; $mar = 03; $apr = 04; $may = 05; $jun = 06; $jul = 07; $aug = 08;
 				$sept = 09; $oct = 10; $nov = 11; $dec = 12;
 
-				while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+				while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 					$title = $line['title'];
 					$url = $line['url'];
 					$date = $line['date'];
@@ -210,7 +210,7 @@
 
 
 				// GENERATING POPUPS
-				while ($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
+				while ($line2 = mysqli_fetch_array($results2, MYSQL_ASSOC)) {
 					$title2 = $line2['title'];
 					$url2 = $line2['url'];
 					$date2 = $line2['date'];
@@ -268,7 +268,7 @@
 				echo '</div>';
 
 				// GENERATING THUMBNAILS
-				while ($line3 = mysql_fetch_array($results3, MYSQL_ASSOC)) {
+				while ($line3 = mysqli_fetch_array($results3, MYSQL_ASSOC)) {
 					$title3 = $line2['title'];
 					$url3 = $line2['url'];
 					$date3 = $line2['date'];

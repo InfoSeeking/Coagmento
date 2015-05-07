@@ -45,7 +45,7 @@ $(".flip").click(function(){
 			require_once("../connect.php");
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$firstName = $line['firstName'];
 			$lastName = $line['lastName'];
 
@@ -54,14 +54,14 @@ $(".flip").click(function(){
 
 			$query = "SELECT count(*) as num FROM users WHERE username='$targetUserName'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$num = $line['num'];
 
 			if ($num!=1) {
 				// If we didn't find a match with the username, try it as an email.
 				$query = "SELECT count(*) as num FROM users WHERE email='$targetUserName'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 				if ($num!=1) {
 					echo "<tr><td colspan=2><font color=\"red\">Error: this user does not exist in the system.</font></td></tr>\n";
@@ -70,14 +70,14 @@ $(".flip").click(function(){
 					$userExists = 1;
 					$query1 = "SELECT * FROM users WHERE email='$targetUserName'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				}
 			}
 			else {
 				$userExists = 1;
 				$query1 = "SELECT * FROM users WHERE username='$targetUserName'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			}
 
 			if ($userExists==1) {
@@ -88,7 +88,7 @@ $(".flip").click(function(){
 				$projectID = $_SESSION['CSpace_projectID'];
 				$query = "SELECT count(*) as num FROM memberships WHERE projectID='$projectID' and userID='$targetUserID'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 				$num = $line['num'];
 
 				if ($num!=0) {
@@ -98,7 +98,7 @@ $(".flip").click(function(){
 					$targetEmail = $line1['email'];
 					$query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
 					$results1 = $connection->commit($query1);
-					$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+					$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 					$title = $line1['title'];
 					$query = "INSERT INTO memberships VALUES('','$projectID','$targetUserID','0')";
 					$results = $connection->commit($query);
@@ -113,7 +113,7 @@ $(".flip").click(function(){
 					// Record the action and update the points
 					$aQuery = "SELECT max(memberID) as num FROM memberships WHERE projectID='$projectID'";
 					$aResults = mysql_query($aQuery) or die(" ". mysql_error());
-					$aLine = mysql_fetch_array($aResults, MYSQL_ASSOC);
+					$aLine = mysqli_fetch_array($aResults, MYSQL_ASSOC);
 					$rID = $aLine['num'];
 
 					$aQuery = "INSERT INTO actions VALUES('','$userID','$projectID','$timestamp','$date','$time','add-collaborator','$rID','$ip')";
@@ -121,7 +121,7 @@ $(".flip").click(function(){
 
 					$pQuery = "SELECT points FROM users WHERE userID='$userID'";
 					$pResults = mysql_query($pQuery) or die(" ". mysql_error());
-					$pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
+					$pLine = mysqli_fetch_array($pResults, MYSQL_ASSOC);
 					$totalPoints = $pLine['points'];
 					$newPoints = $totalPoints+100;
 					$pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";

@@ -14,7 +14,7 @@
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		if (isset($_SESSION['CSpace_noteShared']))
@@ -62,7 +62,7 @@
 		$query1 = "SELECT * FROM notes WHERE projectID='$projectID' AND shared='$shared'";
 		$results = $connection->commit($query1);
 		echo "<table>\n";
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$noteID = $line['noteID'];
 			$note = stripslashes($line['note']);
 			$noteSnippet = substr($line['note'], 0, 20);

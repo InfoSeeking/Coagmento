@@ -11,7 +11,7 @@
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		echo "<span style=\"font-size:10px\">Sort by:</span> <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(1,'title');\">Title</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(1,'source');\">Source</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(1,'date');\">Date</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(1,'author');\">Author</span><hr/>\n";
@@ -19,7 +19,7 @@
 		// Find out the preferences set by this user for this project.
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='docs-order'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$orderBy = $line['value'];
 		if (!$orderBy)
 			$orderBy = 'timestamp';
@@ -27,7 +27,7 @@
 		echo "<table width=100%>\n";
 		$query = "SELECT * FROM pages WHERE projectID='$projectID' AND result=1 AND status=1 GROUP BY url ORDER BY $orderBy";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$qUserID = $line['userID'];
 			if ($userID==$qUserID)
 				$color = '#FF7400';
@@ -35,7 +35,7 @@
 				$color = '#008C00';
 			$query1 = "SELECT * FROM users WHERE userID='$qUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$title = $line['title'];
 			$url = $line['url'];
@@ -52,6 +52,6 @@
 	else {
 		echo "Your session has expired. Please <a href=\"http://".$_SERVER['HTTP_HOST']."/CSpace/\" target=_content><span style=\"color:blue;text-decoration:underline;cursor:pointer;\">login</span> again.\n";
 	}
-	mysql_close($dbh);
+	
 ?>
 </div>

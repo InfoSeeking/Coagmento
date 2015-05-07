@@ -13,18 +13,18 @@
         $projectID = $_SESSION['CSpace_projectID'];
         $query = "SELECT * FROM users WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
         /* <td><img src=\"../../img/$avatar\" width=45 height=45 style=\"vertical-align:middle;border:0\" /></td> */
         echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a><br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a project</a><br/>&nbsp;&nbsp;<a href=''>Log out</a></td></tr></table></div>";

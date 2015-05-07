@@ -20,7 +20,7 @@ $userID = 2;
 	$m=array();
 	$month_name="";
 
-	while ($row=mysql_fetch_array($result)) {
+	while ($row=mysqli_fetch_array($result)) {
 		$date=$row["date"];
 		$yr = date("Y",strtotime($date));
 		$month = date("m",strtotime($date));

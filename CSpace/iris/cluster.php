@@ -43,7 +43,7 @@ foreach ($cpages as $checked) {
 	$urlQuery = "SELECT * FROM pages WHERE pageID=".$checked."";
 	$result = mysql_query($urlQuery) or die(" ". mysql_error());
 
-	while($row = mysql_fetch_array($result)) {
+	while($row = mysqli_fetch_array($result)) {
 		$url = $row['url'];
  	}
 

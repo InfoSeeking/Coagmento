@@ -37,18 +37,18 @@ $(".flip").click(function(){
 					$projectID = $_SESSION['CSpace_projectID'];
 					$query = "SELECT * FROM users WHERE userID='$userID'";
 					$results = $connection->commit($query);
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
+					$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 					$userName = $line['firstName'] . " " . $line['lastName'];
 					$avatar = $line['avatar'];
 					$lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
 					$points = $line['points'];
 					$query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
 					$results = $connection->commit($query);
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
+					$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 					$projectNums = $line['num'];
 					$query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
 					$results = $connection->commit($query);
-					$line = mysql_fetch_array($results, MYSQL_ASSOC);
+					$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 					$collabNums = $line['num'];
 					/* <td><img src=\"../../img/$avatar\" width=45 height=45 style=\"vertical-align:middle;border:0\" /></td> */
 					echo "<div class='top_links' style='border-left: 1px solid #ccc; padding-left: 15px;'><table style='font-size: 12px;'><tr><td valign=\"middle\">&nbsp;&nbsp;Welcome, <span style=\"font-weight:bold\">$userName</span> to your <a href='main.php'>CSpace</a>.<br/>&nbsp;&nbsp;Current login: $lastLogin<br/>&nbsp;&nbsp;Points earned: <a href='points.php'>$points</a></td><td valign=\"middle\">&nbsp;&nbsp;</td><td valign=\"middle\">&nbsp;&nbsp;You have <a href='projects.php?userID=$userID'>$projectNums projects</a> and <a href='collaborators.php?userID=1'>$collabNums collaborators</a>.<br/>&nbsp;&nbsp;<span id=\"currProj\"></span><br/>&nbsp;&nbsp;<a href='projects.php?userID=$userID'>Select a different project.</a></td></tr></table></div>";
@@ -122,11 +122,11 @@ $(".flip").click(function(){
 				$projID = $_GET['projID'];
 				$query3 = "SELECT title FROM projects WHERE projectID='$projID'";
 				$results3 = $connection->commit($query3);
-				$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
+				$line3 = mysqli_fetch_array($results3, MYSQL_ASSOC);
 				$title = $line3['title'];
 				$query2 = "SELECT * FROM users WHERE userID='$removeID'";
 				$results2 = $connection->commit($query2);
-				$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+				$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 				$userName = $line2['firstName'] . " " . $line2['lastName'];
 				echo "<tr><td>Are you sure you want to remove <span style=\"font-weight:bold\">$userName</span> from project <span style=\"font-weight:bold\">$title</span>?</td></tr>\n";
 				echo "<tr><td><span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php?uID=$removeID&projID=$projID','content');\">Yes</span>&nbsp;&nbsp;&nbsp;<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php','content');\">No</span></td></tr>\n";
@@ -150,26 +150,26 @@ $(".flip").click(function(){
 				}
 				$query = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' GROUP BY mem2.userID";
 				$results = $connection->commit($query);
-				while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+				while($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 					$projectID = $line['projectID'];
 					$cUserID = $line['userID'];
 					$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
 					$results2 = $connection->commit($query2);
-					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+					$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
 					$query2 = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' AND mem2.userID='$cUserID'";
 					$results2 = $connection->commit($query2);
-					while ($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
+					while ($line2 = mysqli_fetch_array($results2, MYSQL_ASSOC)) {
 						$cProjectID = $line2['projectID'];
 						$query4 = "SELECT access FROM memberships WHERE projectID='$cProjectID' AND userID='$userID'";
 						$results4 = $connection->commit($query4);
-						$line4 = mysql_fetch_array($results4, MYSQL_ASSOC);
+						$line4 = mysqli_fetch_array($results4, MYSQL_ASSOC);
 						$access = $line4['access'];
 						$query3 = "SELECT title FROM projects WHERE projectID='$cProjectID'";
 						$results3 = $connection->commit($query3);
-						$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
+						$line3 = mysqli_fetch_array($results3, MYSQL_ASSOC);
 						echo $line3['title'];
 						if ($access==1)
 							echo " (<a href='collaborators.php?remove=$cUserID&projID=$cProjectID' style='color: #ff0000; text-decoration: none;'>X</a>)";

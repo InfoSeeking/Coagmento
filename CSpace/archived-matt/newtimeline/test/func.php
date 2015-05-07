@@ -11,7 +11,7 @@ function getTierOne()
 	$options=""; 
 	$y=array();
 
-	while ($row=mysql_fetch_array($result)) { 
+	while ($row=mysqli_fetch_array($result)) { 
     	$date=$row["date"];  
 		$year = date("Y",strtotime($date));
 	
@@ -45,7 +45,7 @@ function drop_1($drop_var)
 	echo '<select name="drop_2" id="drop_2">
 	      <option value=" " disabled="disabled" selected="selected">Choose one</option>';
 	
-	while ($row=mysql_fetch_array($result)) { 
+	while ($row=mysqli_fetch_array($result)) { 
 		$date=$row["date"];  
 		$yr = date("Y",strtotime($date));
 		$month = date("m",strtotime($date));
@@ -114,7 +114,7 @@ function drop_2($drop_var)
 	echo '<select name="drop_3" id="drop_3">
 	      <option value=" " disabled="disabled" selected="selected">Choose one</option>';
 	
-	while ($row=mysql_fetch_array($result)) { 
+	while ($row=mysqli_fetch_array($result)) { 
 		$date=$row["date"];  
 		$yr = date("Y",strtotime($date));
 		$month = date("m",strtotime($date));

@@ -43,7 +43,7 @@ $(".flip").click(function(){
 			$userID = $_GET['userID'];
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$userName = $line['username'];
 			$avatar = $line['avatar'];
 			$uName = $line['firstName'] . " " . $line['lastName'];

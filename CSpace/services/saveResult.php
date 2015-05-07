@@ -35,7 +35,7 @@
 <?php
 		$query = "SELECT * FROM pages WHERE projectID='$projectID' AND url='$originalURL' AND result=2";
 		$results = $connection->commit($query);
-		if (mysql_num_rows($results)==0) {
+		if (mysqli_num_rows($results)==0) {
 			require_once("utilityFunctions.php");
 
 			// Parse the URL to extract the source
@@ -83,7 +83,7 @@
                         echo "</form>\n";
 
 
-		} // if (mysql_num_rows($results)==0)
+		} // if (mysqli_num_rows($results)==0)
 		else
                 {
                         $query = "UPDATE pages SET result=1 WHERE projectID='$projectID' AND url='$originalURL' AND result=2";

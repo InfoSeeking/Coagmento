@@ -47,11 +47,11 @@ $(".flip").click(function(){
 				$projID = $_GET['projID'];
 				$query3 = "SELECT title FROM projects WHERE projectID='$projID'";
 				$results3 = $connection->commit($query3);
-				$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
+				$line3 = mysqli_fetch_array($results3, MYSQL_ASSOC);
 				$title = $line3['title'];
 				$query2 = "SELECT * FROM users WHERE userID='$removeID'";
 				$results2 = $connection->commit($query2);
-				$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+				$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 				$userName = $line2['firstName'] . " " . $line2['lastName'];
 				echo "<tr><td>Are you sure you want to remove <span style=\"font-weight:bold\">$userName</span> from project <span style=\"font-weight:bold\">$title</span>?</td></tr>\n";
 				echo "<tr><td><a href='collaborators.php?uID=$removeID&projID=$projID'>Yes</a>&nbsp;&nbsp;&nbsp;<a href='collaborators.php'>No</a></td></tr>\n";
@@ -76,26 +76,26 @@ $(".flip").click(function(){
 				}
 				$query = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' GROUP BY mem2.userID";
 				$results = $connection->commit($query);
-				while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+				while($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 					$projectID = $line['projectID'];
 					$cUserID = $line['userID'];
 					$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
 					$results2 = $connection->commit($query2);
-					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+					$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
 					$query2 = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' AND mem2.userID='$cUserID'";
 					$results2 = $connection->commit($query2);
-					while ($line2 = mysql_fetch_array($results2, MYSQL_ASSOC)) {
+					while ($line2 = mysqli_fetch_array($results2, MYSQL_ASSOC)) {
 						$cProjectID = $line2['projectID'];
 						$query4 = "SELECT access FROM memberships WHERE projectID='$cProjectID' AND userID='$userID'";
 						$results4 = $connection->commit($query4);
-						$line4 = mysql_fetch_array($results4, MYSQL_ASSOC);
+						$line4 = mysqli_fetch_array($results4, MYSQL_ASSOC);
 						$access = $line4['access'];
 						$query3 = "SELECT title FROM projects WHERE projectID='$cProjectID'";
 						$results3 = $connection->commit($query3);
-						$line3 = mysql_fetch_array($results3, MYSQL_ASSOC);
+						$line3 = mysqli_fetch_array($results3, MYSQL_ASSOC);
 						echo $line3['title'];
 						if ($access==1)
 							echo " <a href='collaborators.php?remove=$cUserID&projID=$cProjectID' style='color: #FF0000; text-decoration: none; font-weight: bold; font-size: 14px;'>X</a>";

@@ -55,7 +55,7 @@ a.tt:hover span.bottom{
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		echo "<span style=\"font-size:10px\">Sort by:</span> <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(2,'title');\">Title</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(2,'source');\">Source</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(2,'date');\">Date</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(2,'author');\">Author</span><hr/>\n";
@@ -64,7 +64,7 @@ a.tt:hover span.bottom{
 		// Find out the preferences set by this user for this project.
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='snippets-order'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$orderBy = $line['value'];
 		if (!$orderBy)
 			$orderBy = 'timestamp';
@@ -76,7 +76,7 @@ a.tt:hover span.bottom{
 		echo "<table width=100%>\n";		
 		$query = "SELECT * FROM snippets WHERE projectID='$projectID' AND status=1 ORDER BY $orderBy desc";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$snippetID = $line['snippetID'];
 			$qUserID = $line['userID'];
 			if ($userID==$qUserID)
@@ -85,7 +85,7 @@ a.tt:hover span.bottom{
 				$color = '#008C00';
 			$query1 = "SELECT * FROM users WHERE userID='$qUserID'";
 			$results1 = $connection->commit($query1);
-			$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$userName = $line1['username'];
 			$snippet = stripslashes($line['snippet']);
 /*
@@ -119,6 +119,6 @@ a.tt:hover span.bottom{
 	else {
 		echo "Your session has expired. Please <a href=\"http://".$_SERVER['HTTP_HOST']."/CSpace/\" target=_content><span style=\"color:blue;text-decoration:underline;cursor:pointer;\">login</span> again.\n";
 	}
-	mysql_close($dbh);
+	
 ?>
 </div>

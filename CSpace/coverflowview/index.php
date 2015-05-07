@@ -512,7 +512,7 @@ $pageResult = $connection->commit($getPage);
 ?>
 
   <div id="gallery">
-  	<? while($line = mysql_fetch_array($pageResult)) {
+  	<? while($line = mysqli_fetch_array($pageResult)) {
 		$thumb = $line['fileName'];
 		$title = $line['title'];
 
@@ -552,7 +552,7 @@ $pageResult = $connection->commit($getPage);
   </div> -->
 
 <?
-mysql_close($con);
+
 ?>
 
 </body>

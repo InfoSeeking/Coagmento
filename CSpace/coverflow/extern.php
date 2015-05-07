@@ -36,8 +36,8 @@ else {
 
     // Set project name to project ID
     $sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
-    $result = mysql_query($sql) or die(" ". mysql_error());
-    $line = mysql_fetch_array($result);
+    $result = $connection->commit($query);
+    $line = mysqli_fetch_array($result);
     $projectID = $line['projectID'];
 
     // Project filter
@@ -61,7 +61,7 @@ else {
 //             // all-all-all-all & proj-all-all-all
 //             if($year == 'all' && $month == 'all') {
 //                 $sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') AND value NOT LIKE '%http%' ORDER BY date DESC";
-//                 $result = mysql_query($sql) or die(" ". mysql_error());
+//                 $result = $connection->commit($query);
 //                 $hasResult = FALSE; // Check if there are any results
 
 //                 // $compareDate = '';
@@ -73,7 +73,7 @@ else {
 //                 // $entered_first = false;
 //                 // $contain = false;
 
-//                 while($row = mysql_fetch_array($result))
+//                 while($row = mysqli_fetch_array($result))
 //                 {
 //                     $type = $row['action'];
 //                     $val = $row['value'];
@@ -83,7 +83,7 @@ else {
 
 //                             $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 //                             $pageResult = $connection->commit($getPage);
-//                             $line = mysql_fetch_array($pageResult);
+//                             $line = mysqli_fetch_array($pageResult);
 
 //                             $value = $line['pageID'];
 //                             $thumb = $line['fileName'];
@@ -95,7 +95,7 @@ else {
 
 //                             if ($hasThumb!=NULL) {
 
-//                             while($line = mysql_fetch_array($pageResult)) {
+//                             while($line = mysqli_fetch_array($pageResult)) {
 //                             $thumb = $line['fileName'];
 //                             $title = $line['title'];
 //                             $link = $line['url'];
@@ -123,7 +123,7 @@ else {
     //This is all the XHTML ImageFlow needs
     echo "<div id='myImageFlow' class='imageflow'>";
 
-    while($line = mysql_fetch_array($pageResult)) {
+    while($line = mysqli_fetch_array($pageResult)) {
         $thumb = $line['fileName'];
         $title = $line['title'];
     	$link = $line['url'];
@@ -139,5 +139,5 @@ else {
     echo "</div>";
 }
 
-mysql_close($con);
+
 ?>

@@ -59,7 +59,7 @@ require_once("connect.php");
 $urlQuery = "SELECT * FROM pages WHERE pageID=".$first."";
 $result = mysql_query($urlQuery) or die(" ". mysql_error());
 
-while($row = mysql_fetch_array($result)) {
+while($row = mysqli_fetch_array($result)) {
 	$url = $row['url'];
 }
 
@@ -117,7 +117,7 @@ foreach ($cpages as $checked) {
 	$urlQuery2 = "SELECT * FROM pages WHERE pageID=".$checked."";
 	$result2 = mysql_query($urlQuery2) or die(" ". mysql_error());
 
-	while($row = mysql_fetch_array($result2)) {
+	while($row = mysqli_fetch_array($result2)) {
 		$url2 = $row['url'];
  	}
 

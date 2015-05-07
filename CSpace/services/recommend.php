@@ -19,7 +19,7 @@
 		$url = $_GET['page'];
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$projTitle = $line['title'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -43,15 +43,15 @@
 		<?php
 			$query = "SELECT * FROM memberships WHERE userID='$userID' AND projectID='$projectID' GROUP BY projectID";
 			$results = $connection->commit($query);
-			while($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$projectID = $line['projectID'];
 				$query1 = "SELECT * FROM memberships WHERE projectID='$projectID' AND userID!='$userID' GROUP BY userID";
 				$results1 = $connection->commit($query1);
-				while($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
+				while($line1 = mysqli_fetch_array($results1, MYSQL_ASSOC)) {
 					$cUserID = $line1['userID'];
 					$query2 = "SELECT * FROM users WHERE userID='$cUserID'";
 					$results2 = $connection->commit($query2);
-					$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+					$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
 					echo "<tr><td><input type=\"checkbox\" name=\"$cUserID\"/> </td><td> <img src=\"../img/$avatar\" width=30 height=30 /> </td><td> $userName</td></tr>";

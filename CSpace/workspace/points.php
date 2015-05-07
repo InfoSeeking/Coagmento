@@ -32,103 +32,103 @@
 		$userID = $base->getUserID();
 		$query = "SELECT points FROM users WHERE userID='$userID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$totalPoints = $line['points'];
 		$query = "SELECT count(distinct value) as num FROM actions WHERE userID='$userID' AND action='download'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p1 = $line['num']*100;
 
 		$query = "SELECT * FROM actions WHERE userID='$userID' AND action='demographic'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
-		if (mysql_num_rows($results)!=0)
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+		if (mysqli_num_rows($results)!=0)
 			$p2 = 100;
 		else
 			$p2 = 0;
 
 		$query = "SELECT * FROM actions WHERE userID='$userID' AND action='pre-study'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
-		if (mysql_num_rows($results)!=0)
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+		if (mysqli_num_rows($results)!=0)
 			$p3 = 100;
 		else
 			$p3 = 0;
 
 		$query = "SELECT count(distinct action,value) as num FROM actions WHERE userID='$userID' AND (action='mid-study' OR action='end-study')";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p4 = $line['num']*500;
 
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='page'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p6 = $line['num'];
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='save'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p7 = $line['num']*10;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='recommend'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p8 = $line['num']*10;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='add-annotation'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p9 = $line['num']*10;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='save-snippet'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p10 = $line['num']*10;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='login'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p11 = $line['num']*10;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='create-project'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p12 = $line['num']*100;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='add-collaborator'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p13 = $line['num']*100;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='recommend-coagmento'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p14 = $line['num']*100;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='join-coagmento'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p15 = $line['num']*200;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='chat'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p16 = $line['num']*5;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND (action='sidebar-page' OR action='sidebar-query' OR action='sidebar-query-snapshot' OR action='sidebar-snippet')";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p17 = $line['num']*5;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='create-note'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p18 = $line['num']*20;
 
 		$query = "SELECT count(*) as num FROM actions WHERE userID='$userID' AND action='print-count'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$p19 = $line['num']*100;
 ?>
 <table class="body" width=100%>

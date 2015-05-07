@@ -16,7 +16,7 @@ class Tags extends Base{
 
     $arr_results = array();
     $results = $cxn->commit($q);
-    while($row = mysql_fetch_assoc($results)){
+    while($row = mysqli_fetch_assoc($results)){
       array_push($arr_results, array(
         "tagID" => $row["tagID"],
         "name" => $row["name"]
@@ -30,7 +30,7 @@ class Tags extends Base{
     $q = sprintf("select T.* FROM bookmark_tags T, tag_assignments TA WHERE TA.bookmarkID=%d AND TA.tagID=T.tagID", $bookmarkID);
     $arr_results = array();
     $results = $cxn->commit($q);
-    while($row = mysql_fetch_assoc($results)){
+    while($row = mysqli_fetch_assoc($results)){
       array_push($arr_results, array(
         "tagID" => $row["tagID"],
         "name" => $row["name"]
@@ -77,7 +77,7 @@ class Tags extends Base{
       array_push($arr, $ins);
       array_push($tags_str,$name);
       $r = $cxn->commit("SELECT tagID FROM bookmark_tags WHERE projectID='".$this->projectID."' AND name='".$cxn->esc($name)."'");
-      $line = mysql_fetch_array($r,MYSQL_ASSOC);
+      $line = mysqli_fetch_array($r,MYSQL_ASSOC);
       array_push($tag_assignments_str,$line['tagID']);
     }
     $q .= implode(",", $arr);

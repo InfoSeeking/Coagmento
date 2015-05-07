@@ -156,7 +156,7 @@ function finishAjax_tier_three(id, response) {
 	$results = $connection->commit($query);
 	
 	echo '<div id="box_left">';
-	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+	while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 		$page = $line['pageID'];
 		$thumb = $line['fileName'];
 		
@@ -183,7 +183,7 @@ function finishAjax_tier_three(id, response) {
 	<th>Time</th>
 	</tr>";
 	
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	  {
 	  echo "<tr>";
 	  echo "<td>" . $row['title'] . "</td>";

@@ -34,28 +34,28 @@ Before $displayMode to '3D','coverflow','timeline'
         if (!(isset($_SESSION['CSpace_projectID'])) || $projectID==0) {
           $query = "select projects.projectID from projects,memberships where memberships.userID=$userID and projects.projectID=memberships.projectID and projects.title='Default' and memberships.access=1";
           $results = $connection->commit($query);
-          $line = mysql_fetch_array($results, MYSQL_ASSOC);
+          $line = mysqli_fetch_array($results, MYSQL_ASSOC);
           $projectID = $line['projectID'];
         }
 
         $query = "SELECT * FROM users WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $userName = $line['firstName'] . " " . $line['lastName'];
         $avatar = $line['avatar'];
         $lastLogin = $line['lastLoginDate'] . ", " . $line['lastLoginTime'];
         $points = $line['points'];
         $query = "SELECT count(*) as num FROM memberships WHERE userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $projectNums = $line['num'];
         $query = "SELECT count(distinct mem2.userID) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID'";
         $results = $connection->commit($query);
-        $line = mysql_fetch_array($results, MYSQL_ASSOC);
+        $line = mysqli_fetch_array($results, MYSQL_ASSOC);
         $collabNums = $line['num'];
         $query1 = "SELECT * FROM projects WHERE projectID='$projectID'";
         $results1 = $connection->commit($query1);
-        $line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+        $line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
         $projectID = $line1['projectID'];
         $title = $line1['title'];
 
@@ -119,11 +119,11 @@ Before $displayMode to '3D','coverflow','timeline'
                 echo '<option value="all">All Projects</option>';
                 $query = "SELECT * FROM memberships WHERE userID='$userID'";
                 $results = $connection->commit($query);
-                while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+                while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
                     $projID = $line['projectID'];
                     $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
                     $results1 = $connection->commit($query1);
-                    $line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+                    $line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
                     $title = $line1['title'];
                     echo "<option value=\"$title\" ";
                     if ($projID==$projectID)
@@ -190,7 +190,7 @@ Before $displayMode to '3D','coverflow','timeline'
             $options="";
             $y=array();
 
-            while ($row=mysql_fetch_array($result_year)) {
+            while ($row=mysqli_fetch_array($result_year)) {
                 $date=$row["date"];
                 $year = date("Y",strtotime($date));
 
@@ -260,7 +260,7 @@ Before $displayMode to '3D','coverflow','timeline'
 
             $m=array();
 
-            while ($row2=mysql_fetch_array($result_month)) {
+            while ($row2=mysqli_fetch_array($result_month)) {
                 $date2=$row2["date"];
                 $month = date("m",strtotime($date2));
 

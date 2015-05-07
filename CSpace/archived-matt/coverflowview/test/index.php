@@ -61,7 +61,7 @@ $pageResult = $connection->commit($getPage);
 		<ul class="betterflow" id="example">
 
 
-        <? while($line = mysql_fetch_array($pageResult)) {
+        <? while($line = mysqli_fetch_array($pageResult)) {
 		$thumb = $line['fileName'];
 		$title = $line['title'];
 

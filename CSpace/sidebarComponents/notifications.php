@@ -9,19 +9,19 @@
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		$query = "SELECT * FROM actions WHERE projectID='$projectID' AND userID!='$userID' AND value!='' AND (action='save' OR action='save' OR action='save-snippet' OR action='query') ORDER BY timestamp desc LIMIT 4";
 		$results = $connection->commit($query);
-		if (mysql_num_rows($results)==0)
+		if (mysqli_num_rows($results)==0)
 			echo "No notifications available.";
 		else {
-			while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+			while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$aUserID = $line['userID'];
 				$query1 = "SELECT * FROM users WHERE userID='$aUserID'";
 				$results1 = $connection->commit($query1);
-				$line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+				$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 				$userName = $line1['username'];
 				$action = $line['action'];
 				$value = $line['value'];
@@ -31,7 +31,7 @@
 					case 'page':
 						$query2 = "SELECT * FROM pages WHERE pageID='$value'";
 						$results2 = $connection->commit($query2);
-						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+						$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 						$originalTitle = stripslashes($line2['title']);
 						$url = $line2['url'];
 						$dispTitle = substr($originalTitle, 0, 45);
@@ -44,7 +44,7 @@
 					case 'sidebar-query-snapshot':
 						$query2 = "SELECT * FROM queries WHERE queryID='$value'";
 						$results2 = $connection->commit($query2);
-						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+						$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 						$originalTitle = stripslashes($line2['title']);
 						$url = $line2['url'];
 						$qText = $line2['query'];
@@ -53,7 +53,7 @@
 					case 'save-snippet':
 						$query2 = "SELECT * FROM snippets WHERE snippetID='$value'";
 						$results2 = $connection->commit($query2);
-						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+						$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 						//$originalTitle = stripslashes($line2['snippet']);
                                                 $originalTitle = stripslashes($line2['note']);
                                                 if ($originalTitle=="")
@@ -71,7 +71,7 @@
 						$query2 = "SELECT * FROM pages WHERE url='$value'";
 //						echo "$query2";
 						$results2 = $connection->commit($query2);
-						$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+						$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 						$originalTitle = stripslashes($line2['title']);
 						$url = $line2['url'];
 						$dispTitle = substr($originalTitle, 0, 14);

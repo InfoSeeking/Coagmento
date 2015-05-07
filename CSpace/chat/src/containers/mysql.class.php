@@ -167,7 +167,7 @@ class pfcContainer_Mysql extends pfcContainerInterface
     $sql_update="UPDATE ".$c->container_cfg_mysql_table." SET `leafvalue`='".addslashes($leafvalue)."', `timestamp`='".time()."' WHERE  `server`='$server' AND `group`='$group' AND `subgroup`='$subgroup' AND `leaf`='$leaf'";
 
     $res = mysql_query($sql_count, $db);
-    $row = mysql_fetch_array($res, MYSQL_ASSOC);
+    $row = mysqli_fetch_array($res, MYSQL_ASSOC);
     if( $row['C'] == 0 )
     {
       mysql_query($sql_insert, $db);
@@ -224,9 +224,9 @@ class pfcContainer_Mysql extends pfcContainerInterface
     if ($sql_select != "")
     {
       $thisresult = mysql_query($sql_select, $db);
-      if (mysql_num_rows($thisresult))
+      if (mysqli_num_rows($thisresult))
       {
-        while ($regel = mysql_fetch_array($thisresult))
+        while ($regel = mysqli_fetch_array($thisresult))
         {
           $ret["timestamp"][] = $regel["timestamp"];
           if ($value == "leafvalue")
@@ -259,7 +259,7 @@ class pfcContainer_Mysql extends pfcContainerInterface
     // search for the existing leafvalue
     $sql_count = "SELECT COUNT(*) AS C FROM ".$c->container_cfg_mysql_table." WHERE `server`='$server' AND `group`='$group' AND `subgroup`='$subgroup' AND `leaf`='$leaf' LIMIT 1";
     $res = mysql_query($sql_count, $db);
-    $row = mysql_fetch_array($res, MYSQL_ASSOC);
+    $row = mysqli_fetch_array($res, MYSQL_ASSOC);
     if( $row['C'] == 0 )
     {
       $leafvalue = 1;
@@ -271,7 +271,7 @@ class pfcContainer_Mysql extends pfcContainerInterface
       $sql_update="UPDATE ".$c->container_cfg_mysql_table." SET `leafvalue`= LAST_INSERT_ID( leafvalue + 1 ), `timestamp`='".$time."' WHERE  `server`='$server' AND `group`='$group' AND `subgroup`='$subgroup' AND `leaf`='$leaf'";
       mysql_query($sql_update, $db);
       $res = mysql_query('SELECT LAST_INSERT_ID();', $db);      
-      $row = mysql_fetch_array($res, MYSQL_ASSOC);
+      $row = mysqli_fetch_array($res, MYSQL_ASSOC);
       $leafvalue = $row['LAST_INSERT_ID()'];
     }
     

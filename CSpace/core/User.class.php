@@ -34,7 +34,7 @@ class User extends Base{
     $q = sprintf("SELECT userID, username FROM users WHERE projectID=%d", $projectID);
     $results = $cxn->commit($q);
     $map = array();
-    while($row = mysql_fetch_assoc($results)){
+    while($row = mysqli_fetch_assoc($results)){
       $map[$row["userID"]] = $row["username"];
     }
     return $map;
@@ -55,8 +55,8 @@ class User extends Base{
 
 		$results = $connection->commit($query);
 
-		if (mysql_num_rows($results)!=0) {
-			$record = mysql_fetch_array($results, MYSQL_ASSOC);
+		if (mysqli_num_rows($results)!=0) {
+			$record = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$this->userID = $record['userID'];
 			$this->firstName = $record['firstName'];
 			$this->lastName = $record['lastName'];

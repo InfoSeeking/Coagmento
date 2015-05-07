@@ -27,7 +27,7 @@
 
     <!-- This is all the XHTML ImageFlow needs -->
     <div id="myImageFlow" class="imageflow">
-        <? while($line = mysql_fetch_array($pageResult)) {
+        <? while($line = mysqli_fetch_array($pageResult)) {
             $thumb = $line['fileName'];
             $title = $line['title'];
 			$link = $line['url'];

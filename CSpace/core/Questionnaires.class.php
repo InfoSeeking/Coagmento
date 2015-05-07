@@ -74,7 +74,7 @@ class Questionnaires
 				return false;
 			}else{
 
-				while($line = mysql_fetch_array($results,MYSQL_ASSOC)){
+				while($line = mysqli_fetch_array($results,MYSQL_ASSOC)){
 					$questionID = $line['questionID'];
 					$question = $line['question'];
 					$type = $line['question_type'];
@@ -107,9 +107,9 @@ class Questionnaires
 
 			$cxn = Connection::getInstance();
 			$results = $cxn->commit($query);
-			$nrows = mysql_num_rows($results);
-			$yes = mysql_num_rows($results) == $n_questions;
-			return mysql_num_rows($results) == $n_questions;
+			$nrows = mysqli_num_rows($results);
+			$yes = mysqli_num_rows($results) == $n_questions;
+			return mysqli_num_rows($results) == $n_questions;
 
 		}
 

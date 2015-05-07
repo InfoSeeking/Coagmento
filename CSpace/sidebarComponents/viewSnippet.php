@@ -9,7 +9,7 @@
                 $snippetID = $_GET['value'];
                 $query = "SELECT *, (SELECT userName FROM users where users.userID = snippets.userID) AS userName, (SELECT sum(value) from rating where active = 1 and idResource = snippetID and type = 'snippets' group by idResource)/(SELECT count(*) from rating where active = 1 and idResource = snippetID and type = 'snippets' group by idResource) as finalRating FROM snippets WHERE snippetID='$snippetID' AND status=1";
                 $results = $connection->commit($query);
-                $line = mysql_fetch_array($results, MYSQL_ASSOC);
+                $line = mysqli_fetch_array($results, MYSQL_ASSOC);
                 $userName = $line['userName'];
                 $finalRating = $line['finalRating'];
                 $note = $line['note'];

@@ -20,7 +20,7 @@
 		$query = "SELECT *, (SELECT DISTINCT userName FROM users where users.userID = pages.userID) AS userName, (SELECT sum(value) from rating where active = 1 and projectID='$projectID' and idResource = pageID and type = 'pages' group by idResource)/(SELECT count(*) from rating where active = 1 and projectID='$projectID' and idResource = pageID and type = 'pages' group by idResource) as finalRating FROM pages WHERE projectID='$projectID' AND result=1 order by $orderBy";
                 $results = $connection->commit($query);
 		$bgColor = '#E8E8E8';
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$pageID = $line['pageID'];
 			$userName = $line['userName'];
                         $userIDItem = $line['userID'];
@@ -63,7 +63,7 @@
 				$bgColor = '#E8E8E8';
 		}
 		echo "</table>\n";
-		mysql_close($dbh);
+		
 		}
 	else {
 		echo "Your session has expired. Please <a href=\"http://www.coagmento.org/loginOnSideBar.php\" target=_content><span style=\"color:blue;text-decoration:underline;cursor:pointer;\">login</span> again.\n";

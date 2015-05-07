@@ -35,7 +35,7 @@
 /*
 		$query = "SELECT * FROM users WHERE userID='$userID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$type = $line['type'];
 		if (preg_match("/subject/", $type)) {
 			echo "<tr><td colspan=2><span style=\"font-weight:bold;color:green\">You have already enrolled for this study. Good for you!</span></td></tr>\n";

@@ -129,9 +129,9 @@ class Util
         $results = $connection->commit($query);
         
         $num_users = -1;
-        if(mysql_num_rows($results) > 0)
+        if(mysqli_num_rows($results) > 0)
         {
-            $line = mysql_fetch_array($results, MYSQL_ASSOC);
+            $line = mysqli_fetch_array($results, MYSQL_ASSOC);
             $num_users = $line['numUsers'];
         }
 		
@@ -148,7 +148,7 @@ class Util
 			
 			$connection = Connection::getInstance();
 			$results = $connection->commit($query);	
-			$numRows = mysql_num_rows($results);
+			$numRows = mysqli_num_rows($results);
 			
 			if ($numRows==0)
 				return -1;  //wrong stage

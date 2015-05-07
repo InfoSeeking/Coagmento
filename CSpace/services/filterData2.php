@@ -75,8 +75,8 @@ else {
 
 	// Set project name to project ID
 	$sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
-	$result = mysql_query($sql) or die(" ". mysql_error());
-	$line = mysql_fetch_array($result);
+	$result = $connection->commit($query);
+	$line = mysqli_fetch_array($result);
 	$projectID = $line['projectID'];
 
 	// Project filter
@@ -124,7 +124,7 @@ else {
 	$hasResult = FALSE; // Check if there are any results
 
 
-	while($row = mysql_fetch_array($result)){
+	while($row = mysqli_fetch_array($result)){
 		$type = $row['action'];
 		$val = $row['value'];
 
@@ -167,7 +167,7 @@ else {
 
 			$query = "SELECT * FROM $table_name $id_str $not_str";
 			$result  = $connection->commit($getPage);
-			$line = mysql_fetch_array($result);
+			$line = mysqli_fetch_array($result);
 
 			$comp_date = $line['date'];
 			$comp_year = date("Y",strtotime($comp_date));
@@ -259,7 +259,7 @@ else {
 				if($hasThumb && $bookmarked){
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 					$pageResult = $connection->commit($getPage);
-					$line = mysql_fetch_array($pageResult);
+					$line = mysqli_fetch_array($pageResult);
 					$value = $line['pageID'];
 					$thumb = $line['fileName'];
 					$background= 'url(http://'.$_SERVER['HTTP_HOST'].'/CSpace/thumbnails/small/'.$thumb.')';
@@ -274,7 +274,7 @@ else {
 				if($hasThumb){
 					$getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."";
 					$bookmarkResult = $connection->commit($getBookmark);
-					$line = mysql_fetch_array($bookmarkResult);
+					$line = mysqli_fetch_array($bookmarkResult);
 					$thumb = $line['fileName'];
 					$background= 'url(http://'.$_SERVER['HTTP_HOST'].'/CSpace/thumbnails/small/'.$thumb.')';
 				}else{

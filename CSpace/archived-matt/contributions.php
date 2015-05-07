@@ -12,7 +12,7 @@ function getGroupCounts(){
 
   $q = "select username FROM users WHERE users.projectID=$projectID ORDER BY username";
   $results = $cxn->commit($q);
-  while($row = mysql_fetch_assoc($results)){
+  while($row = mysqli_fetch_assoc($results)){
     $group[$row["username"]] = array(
       "bookmarks" => 0,
       "snippets" => 0,
@@ -22,17 +22,17 @@ function getGroupCounts(){
 
   $q =  "select u.username as username, b.userID, count(b.userID) as count from bookmarks b, users u where b.projectID=$projectID AND b.userID = u.userID group by userID";
   $results = $cxn->commit($q);
-  while($row = mysql_fetch_assoc($results)){
+  while($row = mysqli_fetch_assoc($results)){
     $group[$row["username"]]["bookmarks"] = $row["count"];
   }
   $q =  "select u.username as username, b.userID, count(b.userID) as count from snippets b, users u where b.projectID=$projectID AND b.userID = u.userID group by userID";
   $results = $cxn->commit($q);
-  while($row = mysql_fetch_assoc($results)){
+  while($row = mysqli_fetch_assoc($results)){
     $group[$row["username"]]["snippets"] = $row["count"];
   }
   $q =  "select u.username as username, b.userID, count(b.userID) as count from queries b, users u where b.projectID=$projectID AND b.userID = u.userID group by userID";
   $results = $cxn->commit($q);
-  while($row = mysql_fetch_assoc($results)){
+  while($row = mysqli_fetch_assoc($results)){
     $group[$row["username"]]["searches"] = $row["count"];
   }
   return $group;

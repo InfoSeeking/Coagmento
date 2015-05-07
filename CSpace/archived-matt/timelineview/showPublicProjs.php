@@ -45,7 +45,7 @@ $(".flip").click(function(){
 		$projectID = $_GET['projectID'];
 		$query = "SELECT * FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$title = stripslashes($line['title']);
 		$query = "INSERT INTO memberships VALUES('','$projectID','$userID','0')";
 		$results = $connection->commit($query);
@@ -54,18 +54,18 @@ $(".flip").click(function(){
 
 		$query = "SELECT * FROM users WHERE userID='$userID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$firstName = $line['firstName'];
 		$lastName = $line['lastName'];
 
 		$query = "SELECT * FROM memberships WHERE projectID='$projectID' AND access=1";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$uID = $line['userID'];
 
 		$query = "SELECT * FROM users WHERE userID='$uID'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$targetUserName = $line['username'];
 		$targetFirstName = $line['firstName'];
 		$targetLastName = $line['lastName'];
@@ -85,7 +85,7 @@ $(".flip").click(function(){
 	echo "<tr><th><span style=\"font-weight:bold\">Title</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Started on</span></th><th>&nbsp;&nbsp;</th><th><span style=\"font-weight:bold\">Membership</span></th></tr>\n";
 	$query = "SELECT * FROM projects WHERE privacy=0";
 	$results = $connection->commit($query);
-	while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+	while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 		$projectID = $line['projectID'];
 		$startDate = $line['startDate'];
 		$title = stripslashes($line['title']);
@@ -94,12 +94,12 @@ $(".flip").click(function(){
 		$results1 = $connection->commit($query1);
 		$members = "";
 		$belongsTo = 0;
-		while ($line1 = mysql_fetch_array($results1, MYSQL_ASSOC)) {
+		while ($line1 = mysqli_fetch_array($results1, MYSQL_ASSOC)) {
 			$uID = $line1['userID'];
 			$access = $line1['access'];
 			$query2 = "SELECT * FROM users WHERE userID='$uID'";
 			$results2 = $connection->commit($query2);
-			$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+			$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 			$uName = $line2['username'];
 			$firstName = $line2['firstName'];
 			$lastName = $line2['lastName'];

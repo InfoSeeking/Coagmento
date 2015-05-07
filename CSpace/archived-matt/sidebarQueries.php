@@ -14,7 +14,7 @@ $connection = Connection::getInstance();
 		else {
 			$query = "SELECT projects.projectID FROM projects,memberships WHERE memberships.userID='$userID' AND projects.description LIKE '%Untitled project%' AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
 		}
 		echo "<span style=\"font-size:10px\">Sort by:</span> <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(0,'title');\">Title</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(0,'source');\">Source</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(0,'date');\">Date</span> | <span style=\"color:blue;text-decoration:underline;cursor:pointer;font-size:10px;\" onClick=\"tabsReload(0,'author');\">Author</span><hr/>\n";
@@ -22,7 +22,7 @@ $connection = Connection::getInstance();
 		// Find out the preferences set by this user for this project.
 		$query = "SELECT * FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='query-order'";
 		$results = $connection->commit($query);
-		$line = mysql_fetch_array($results, MYSQL_ASSOC);
+		$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 		$orderBy = $line['value'];
 		if (!$orderBy)
 			$orderBy = 'timestamp';
@@ -46,7 +46,7 @@ $connection = Connection::getInstance();
 			$prevMax = ($pageNum-1)*$maxPerPage;
 			$query = "SELECT queryID FROM queries WHERE projectID='$projectID' GROUP BY query,source ORDER BY $orderBy desc LIMIT $prevMin,$prevMax";
 			$results = $connection->commit($query);
-			$line = mysql_fetch_array($results, MYSQL_ASSOC);
+			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$minID = $line['noteID'];
 			$query = "SELECT * FROM queries WHERE projectID='$projectID' ORDER BY $orderBy desc LIMIT $maxPerPage";
 		}
@@ -55,7 +55,7 @@ $connection = Connection::getInstance();
 
 		echo "<table width=100%>\n";
 		$results = $connection->commit($query);
-		while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+		while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 			$queryID = $line['queryID'];
 			$qUserID = $line['userID'];
 			if ($userID==$qUserID)
@@ -64,7 +64,7 @@ $connection = Connection::getInstance();
 				$color = '#008C00';
 			$query2 = "SELECT * FROM users WHERE userID='$qUserID'";
 			$results2 = $connection->commit($query2);
-			$line2 = mysql_fetch_array($results2, MYSQL_ASSOC);
+			$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 			$userName = $line2['username'];
 			$source = $line['source'];
 			$queryText = $line['query'];
@@ -79,5 +79,5 @@ $connection = Connection::getInstance();
 	else {
 		echo "Your session has expired. Please <a href=\"http://".$_SERVER['HTTP_HOST']."/CSpace/\" target=_content><span style=\"color:blue;text-decoration:underline;cursor:pointer;\">login</span> again.\n";
 	}
-	mysql_close($dbh);
+	
 ?>

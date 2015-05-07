@@ -1,7 +1,8 @@
 <?php
 // Db
-require_once('connect.php');
-
+require_once('core/Base.class.php');
+require_once('core/Connection.class.php');
+$connection = Connection::getInstance();
 // Session info
 
 session_start();
@@ -28,8 +29,8 @@ else {
 
 	// Set project name to project ID
 	$sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
-	$result = mysql_query($sql) or die(" ". mysql_error());
-	$line = mysql_fetch_array($result);
+	$result = $connection->commit($query);
+	$line = mysqli_fetch_array($result);
 	$projectID = $line['projectID'];
 
 	// Project filter
@@ -53,7 +54,7 @@ else {
 			// all-all-all-all & proj-all-all-all
 			if($year == 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
+				$result = $connection->commit($query);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -65,7 +66,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -74,7 +75,7 @@ else {
 					if($type == 'page') {
 						$getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						$pageResult = $connection->commit($getPage);
-						$line = mysql_fetch_array($pageResult);
+						$line = mysqli_fetch_array($pageResult);
 
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
@@ -418,7 +419,7 @@ else {
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							$pageResult = $connection->commit($getPage);
-							$line = mysql_fetch_array($pageResult);
+							$line = mysqli_fetch_array($pageResult);
 
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
@@ -777,8 +778,8 @@ else {
 					// Bookmark
 					if($type == 'save-page') {
 						$getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						$bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						$line = mysql_fetch_array($bookmarkResult);
+						$bookmarkResult = $connection->commit($getBookmark);
+						$line = mysqli_fetch_array($bookmarkResult);
 
 						$hasThumb = $line['thumbnailID'];
 						$pass_var = "page-".$val;
@@ -937,8 +938,8 @@ else {
 						}
 						else {
 							$getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							$bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							$line = mysql_fetch_array($bookmarkResult);
+							$bookmarkResult = $connection->commit($getBookmark);
+							$line = mysqli_fetch_array($bookmarkResult);
 
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$val;
@@ -957,8 +958,8 @@ else {
 					// Query
 					if($type == 'query') {
 						$getQuery="SELECT * FROM queries WHERE queryID=".$val."";
-						$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
-						$line = mysql_fetch_array($queryResult);
+						$queryResult = $connection->commit($getQuery);
+						$line = mysqli_fetch_array($queryResult);
 						$source = $line['source'];
 
 						$query = $line['query'];
@@ -1127,8 +1128,8 @@ else {
 					// Snippet
 					if($type == 'save-snippet') {
 						$getSnippet="SELECT * FROM snippets WHERE snippetID=".$val."";
-						$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
-						$line = mysql_fetch_array($snippetResult);
+						$snippetResult = $connection->commit($getSnippet);
+						$line = mysqli_fetch_array($snippetResult);
 
 						$pass_var = "snippet-".$val;
 
@@ -1288,8 +1289,8 @@ else {
 					// Annotation
 					if($type == 'add-annotation') {
 						$getNote="SELECT * FROM annotations WHERE noteID=".$val."";
-						$noteResult = mysql_query($getNote) or die(" ". mysql_error());
-						$line = mysql_fetch_array($noteResult);
+						$noteResult = $connection->commit($getNote);
+						$line = mysqli_fetch_array($noteResult);
 
 						$pass_var = "note-".$val;
 
@@ -1453,8 +1454,8 @@ else {
 			// all-all-year-all & proj-all-year-all
 			if($year != 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -1466,7 +1467,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -1480,7 +1481,7 @@ else {
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						  $pageResult = $connection->commit($getPage);
-						  $line = mysql_fetch_array($pageResult);
+						  $line = mysqli_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $value = $line['pageID'];
@@ -1823,7 +1824,7 @@ else {
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							  $pageResult = $connection->commit($getPage);
-							  $line = mysql_fetch_array($pageResult);
+							  $line = mysqli_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
 							  $thumb = $line['fileName'];
@@ -2165,8 +2166,8 @@ else {
 					  // Bookmark
 					  if($type == 'save-page') {
 						  $getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($bookmarkResult);
+						  $bookmarkResult = $connection->commit($getBookmark);
+						  $line = mysqli_fetch_array($bookmarkResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $pass_var = "page-".$value;
@@ -2326,8 +2327,8 @@ else {
 						  }
 						  else {
 							  $getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							  $line = mysql_fetch_array($bookmarkResult);
+							  $bookmarkResult = $connection->commit($getBookmark);
+							  $line = mysqli_fetch_array($bookmarkResult);
 
 							  $thumb = $line['fileName'];
 							  $pass_var = "page-".$val;
@@ -2345,8 +2346,8 @@ else {
 					  // Query
 					  if($type == 'query') {
 						  $getQuery="SELECT * FROM queries WHERE queryID=".$val."";
-						  $queryResult = mysql_query($getQuery) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($queryResult);
+						  $queryResult = $connection->commit($getQuery);
+						  $line = mysqli_fetch_array($queryResult);
 						  $source = $line['source'];
 
 						  $query = $line['query'];
@@ -2515,8 +2516,8 @@ else {
 					  // Snippet
 					  if($type == 'save-snippet') {
 						  $getSnippet="SELECT * FROM snippets WHERE snippetID=".$val."";
-						  $snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($snippetResult);
+						  $snippetResult = $connection->commit($getSnippet);
+						  $line = mysqli_fetch_array($snippetResult);
 
 						  $pass_var = "snippet-".$val;
 
@@ -2675,8 +2676,8 @@ else {
 					  // Annotation
 					  if($type == 'add-annotation') {
 						  $getNote="SELECT * FROM annotations WHERE noteID=".$val."";
-						  $noteResult = mysql_query($getNote) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($noteResult);
+						  $noteResult = $connection->commit($getNote);
+						  $line = mysqli_fetch_array($noteResult);
 
 						  $pass_var = "note-".$val;
 
@@ -2841,8 +2842,8 @@ else {
 			// all-all-year-month & proj-all-year-month
 			if($year != 'all' && $month != 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page' OR action='query' OR action='add-annotation' OR action='save-snippet') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -2854,7 +2855,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -2869,7 +2870,7 @@ else {
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						  $pageResult = $connection->commit($getPage);
-						  $line = mysql_fetch_array($pageResult);
+						  $line = mysqli_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $value = $line['pageID'];
@@ -3212,7 +3213,7 @@ else {
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							  $pageResult = $connection->commit($getPage);
-							  $line = mysql_fetch_array($pageResult);
+							  $line = mysqli_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
 							  $thumb = $line['fileName'];
@@ -3571,8 +3572,8 @@ else {
 					  // Bookmark
 					  if($type == 'save-page') {
 						  $getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($bookmarkResult);
+						  $bookmarkResult = $connection->commit($getBookmark);
+						  $line = mysqli_fetch_array($bookmarkResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $pass_var = "page-".$val;
@@ -3731,8 +3732,8 @@ else {
 						  }
 						  else {
 							  $getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							  $line = mysql_fetch_array($bookmarkResult);
+							  $bookmarkResult = $connection->commit($getBookmark);
+							  $line = mysqli_fetch_array($bookmarkResult);
 
 							  $thumb = $line['fileName'];
 							  $pass_var = "page-".$val;
@@ -3750,8 +3751,8 @@ else {
 					  // Query
 					  if($type == 'query') {
 						  $getQuery="SELECT * FROM queries WHERE queryID=".$val."";
-						  $queryResult = mysql_query($getQuery) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($queryResult);
+						  $queryResult = $connection->commit($getQuery);
+						  $line = mysqli_fetch_array($queryResult);
 						  $source = $line['source'];
 
 						  $query = $line['query'];
@@ -3920,8 +3921,8 @@ else {
 					  // Snippet
 					  if($type == 'save-snippet') {
 						  $getSnippet="SELECT * FROM snippets WHERE snippetID=".$val."";
-						  $snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($snippetResult);
+						  $snippetResult = $connection->commit($getSnippet);
+						  $line = mysqli_fetch_array($snippetResult);
 
 						  $pass_var = "snippet-".$val;
 
@@ -4081,8 +4082,8 @@ else {
 					  // Annotation
 					  if($type == 'add-annotation') {
 						  $getNote="SELECT * FROM annotations WHERE noteID=".$val."";
-						  $noteResult = mysql_query($getNote) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($noteResult);
+						  $noteResult = $connection->commit($getNote);
+						  $line = mysqli_fetch_array($noteResult);
 
 						  $pass_var = "note-".$val;
 
@@ -4256,7 +4257,7 @@ else {
 			// all-obj-all-all & proj-obj-all-all
 			if($year == 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
+				$result = $connection->commit($query);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -4268,7 +4269,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -4277,7 +4278,7 @@ else {
 					if($type == 'page') {
 						$getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						$pageResult = $connection->commit($getPage);
-						$line = mysql_fetch_array($pageResult);
+						$line = mysqli_fetch_array($pageResult);
 
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
@@ -4621,7 +4622,7 @@ else {
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							$pageResult = $connection->commit($getPage);
-							$line = mysql_fetch_array($pageResult);
+							$line = mysqli_fetch_array($pageResult);
 
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
@@ -4980,8 +4981,8 @@ else {
 					// Bookmark
 					if($type == 'save-page') {
 						$getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						$bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						$line = mysql_fetch_array($bookmarkResult);
+						$bookmarkResult = $connection->commit($getBookmark);
+						$line = mysqli_fetch_array($bookmarkResult);
 
 						$hasThumb = $line['thumbnailID'];
 						$pass_var = "page-".$val;
@@ -5140,8 +5141,8 @@ else {
 						}
 						else {
 							$getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							$bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							$line = mysql_fetch_array($bookmarkResult);
+							$bookmarkResult = $connection->commit($getBookmark);
+							$line = mysqli_fetch_array($bookmarkResult);
 
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$val;
@@ -5164,8 +5165,8 @@ else {
 			// all-obj-year-all & proj-obj-year-all
 			if($year != 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -5177,7 +5178,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -5191,7 +5192,7 @@ else {
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						  $pageResult = $connection->commit($getPage);
-						  $line = mysql_fetch_array($pageResult);
+						  $line = mysqli_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $value = $line['pageID'];
@@ -5534,7 +5535,7 @@ else {
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							  $pageResult = $connection->commit($getPage);
-							  $line = mysql_fetch_array($pageResult);
+							  $line = mysqli_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
 							  $thumb = $line['fileName'];
@@ -5876,8 +5877,8 @@ else {
 					  // Bookmark
 					  if($type == 'save-page') {
 						  $getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($bookmarkResult);
+						  $bookmarkResult = $connection->commit($getBookmark);
+						  $line = mysqli_fetch_array($bookmarkResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $pass_var = "page-".$val;
@@ -6036,8 +6037,8 @@ else {
 						  }
 						  else {
 							  $getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							  $line = mysql_fetch_array($bookmarkResult);
+							  $bookmarkResult = $connection->commit($getBookmark);
+							  $line = mysqli_fetch_array($bookmarkResult);
 
 							  $thumb = $line['fileName'];
 							  $pass_var = "page-".$val;
@@ -6061,8 +6062,8 @@ else {
 			// all-obj-year-month & proj-obj-year-month
 			if($year != 'all' && $month != 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -6074,7 +6075,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -6089,7 +6090,7 @@ else {
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						  $pageResult = $connection->commit($getPage);
-						  $line = mysql_fetch_array($pageResult);
+						  $line = mysqli_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $value = $line['pageID'];
@@ -6434,7 +6435,7 @@ else {
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							  $pageResult = $connection->commit($getPage);
-							  $line = mysql_fetch_array($pageResult);
+							  $line = mysqli_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
 							  $thumb = $line['fileName'];
@@ -6776,8 +6777,8 @@ else {
 					  // Bookmark
 					  if($type == 'save-page') {
 						  $getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($bookmarkResult);
+						  $bookmarkResult = $connection->commit($getBookmark);
+						  $line = mysqli_fetch_array($bookmarkResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $pass_var = "page-".$val;
@@ -6936,8 +6937,8 @@ else {
 						  }
 						  else {
 							  $getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							  $line = mysql_fetch_array($bookmarkResult);
+							  $bookmarkResult = $connection->commit($getBookmark);
+							  $line = mysqli_fetch_array($bookmarkResult);
 
 							  $thumb = $line['fileName'];
 							  $pass_var = "page-".$val;
@@ -6971,7 +6972,7 @@ else {
 			// all-obj-all-all & proj-obj-all-all
 			if($year == 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='query' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
+				$result = $connection->commit($query);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -6983,7 +6984,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -6991,8 +6992,8 @@ else {
 					// Query
 					if($type == 'query') {
 						$getQuery="SELECT * FROM queries WHERE queryID=".$val."";
-						$queryResult = mysql_query($getQuery) or die(" ". mysql_error());
-						$line = mysql_fetch_array($queryResult);
+						$queryResult = $connection->commit($getQuery);
+						$line = mysqli_fetch_array($queryResult);
 						$source = $line['source'];
 
 						$query = $line['query'];
@@ -7166,8 +7167,8 @@ else {
 			// all-obj-year-all & proj-obj-year-all
 			if($year != 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='query' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -7179,7 +7180,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -7192,8 +7193,8 @@ else {
 					  // Query
 					  if($type == 'query') {
 						  $getQuery="SELECT * FROM queries WHERE queryID=".$val."";
-						  $queryResult = mysql_query($getQuery) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($queryResult);
+						  $queryResult = $connection->commit($getQuery);
+						  $line = mysqli_fetch_array($queryResult);
 						  $source = $line['source'];
 
 						  $query = $line['query'];
@@ -7367,8 +7368,8 @@ else {
 			// all-obj-year-month & proj-obj-year-month
 			if($year != 'all' && $month != 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='query' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -7380,7 +7381,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -7394,8 +7395,8 @@ else {
 					  // Query
 					  if($type == 'query') {
 						  $getQuery="SELECT * FROM queries WHERE queryID=".$val."";
-						  $queryResult = mysql_query($getQuery) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($queryResult);
+						  $queryResult = $connection->commit($getQuery);
+						  $line = mysqli_fetch_array($queryResult);
 						  $source = $line['source'];
 
 						  $query = $line['query'];
@@ -7579,7 +7580,7 @@ else {
 			// all-obj-all-all & proj-obj-all-all
 			if($year == 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='save-snippet' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
+				$result = $connection->commit($query);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -7591,7 +7592,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -7599,8 +7600,8 @@ else {
 					// Snippet
 					if($type == 'save-snippet') {
 						$getSnippet="SELECT * FROM snippets WHERE snippetID=".$val."";
-						$snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
-						$line = mysql_fetch_array($snippetResult);
+						$snippetResult = $connection->commit($getSnippet);
+						$line = mysqli_fetch_array($snippetResult);
 
 						$pass_var = "snippet-".$val;
 
@@ -7764,8 +7765,8 @@ else {
 			// all-obj-year-all & proj-obj-year-all
 			if($year != 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='save-snippet' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -7777,7 +7778,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -7790,8 +7791,8 @@ else {
 					  // Snippet
 					  if($type == 'save-snippet') {
 						  $getSnippet="SELECT * FROM snippets WHERE snippetID=".$val."";
-						  $snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($snippetResult);
+						  $snippetResult = $connection->commit($getSnippet);
+						  $line = mysqli_fetch_array($snippetResult);
 
 						  $pass_var = "snippet-".$val;
 
@@ -7956,8 +7957,8 @@ else {
 			// all-obj-year-month & proj-obj-year-month
 			if($year != 'all' && $month != 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='save-snippet' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -7969,7 +7970,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -7983,8 +7984,8 @@ else {
 					  // Snippet
 					  if($type == 'save-snippet') {
 						  $getSnippet="SELECT * FROM snippets WHERE snippetID=".$val."";
-						  $snippetResult = mysql_query($getSnippet) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($snippetResult);
+						  $snippetResult = $connection->commit($getSnippet);
+						  $line = mysqli_fetch_array($snippetResult);
 
 						  $pass_var = "snippet-".$val;
 
@@ -8159,7 +8160,7 @@ else {
 			// all-obj-all-all & proj-obj-all-all
 			if($year == 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='add-annotation' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
+				$result = $connection->commit($query);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -8171,7 +8172,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -8179,8 +8180,8 @@ else {
 					// Annotation
 					if($type == 'add-annotation') {
 						$getNote="SELECT * FROM annotations WHERE noteID=".$val."";
-						$noteResult = mysql_query($getNote) or die(" ". mysql_error());
-						$line = mysql_fetch_array($noteResult);
+						$noteResult = $connection->commit($getNote);
+						$line = mysqli_fetch_array($noteResult);
 
 						$pass_var = "note-".$val;
 
@@ -8344,8 +8345,8 @@ else {
 			// all-obj-year-all & proj-obj-year-all
 			if($year != 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='add-annotation' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -8357,7 +8358,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -8370,8 +8371,8 @@ else {
 					  // Annotation
 					  if($type == 'add-annotation') {
 						  $getNote="SELECT * FROM annotations WHERE noteID=".$val."";
-						  $noteResult = mysql_query($getNote) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($noteResult);
+						  $noteResult = $connection->commit($getNote);
+						  $line = mysqli_fetch_array($noteResult);
 
 						  $pass_var = "note-".$val;
 
@@ -8536,8 +8537,8 @@ else {
 			// all-obj-year-month & proj-obj-year-month
 			if($year != 'all' && $month != 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND action='add-annotation' AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -8549,7 +8550,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -8563,8 +8564,8 @@ else {
 					  // Annotation
 					  if($type == 'add-annotation') {
 						  $getNote="SELECT * FROM annotations WHERE noteID=".$val."";
-						  $noteResult = mysql_query($getNote) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($noteResult);
+						  $noteResult = $connection->commit($getNote);
+						  $line = mysqli_fetch_array($noteResult);
 
 						  $pass_var = "note-".$val;
 
@@ -8739,7 +8740,7 @@ else {
 			// all-obj-all-all & proj-obj-all-all
 			if($year == 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
+				$result = $connection->commit($query);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -8751,7 +8752,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -8760,7 +8761,7 @@ else {
 					if($type == 'page') {
 						$getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						$pageResult = $connection->commit($getPage);
-						$line = mysql_fetch_array($pageResult);
+						$line = mysqli_fetch_array($pageResult);
 
 						$hasThumb = $line['thumbnailID'];
 						$value = $line['pageID'];
@@ -8930,7 +8931,7 @@ else {
 						else {
 							$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							$pageResult = $connection->commit($getPage);
-							$line = mysql_fetch_array($pageResult);
+							$line = mysqli_fetch_array($pageResult);
 
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
@@ -9099,8 +9100,8 @@ else {
 					// Bookmark
 					if($type == 'save-page') {
 						$getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						$bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						$line = mysql_fetch_array($bookmarkResult);
+						$bookmarkResult = $connection->commit($getBookmark);
+						$line = mysqli_fetch_array($bookmarkResult);
 
 						$hasThumb = $line['thumbnailID'];
 						$pass_var = "page-".$val;
@@ -9259,8 +9260,8 @@ else {
 						}
 						else {
 							$getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							$bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							$line = mysql_fetch_array($bookmarkResult);
+							$bookmarkResult = $connection->commit($getBookmark);
+							$line = mysqli_fetch_array($bookmarkResult);
 
 							$thumb = $line['fileName'];
 							$pass_var = "page-".$val;
@@ -9282,8 +9283,8 @@ else {
 			// all-obj-year-all & proj-obj-year-all
 			if($year != 'all' && $month == 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -9295,7 +9296,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -9309,7 +9310,7 @@ else {
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						  $pageResult = $connection->commit($getPage);
-						  $line = mysql_fetch_array($pageResult);
+						  $line = mysqli_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $value = $line['pageID'];
@@ -9479,7 +9480,7 @@ else {
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							  $pageResult = $connection->commit($getPage);
-							  $line = mysql_fetch_array($pageResult);
+							  $line = mysqli_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
 							  $thumb = $line['fileName'];
@@ -9648,8 +9649,8 @@ else {
 					  // Bookmark
 					  if($type == 'save-page') {
 						  $getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($bookmarkResult);
+						  $bookmarkResult = $connection->commit($getBookmark);
+						  $line = mysqli_fetch_array($bookmarkResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $pass_var = "page-".$val;
@@ -9808,8 +9809,8 @@ else {
 						  }
 						  else {
 							  $getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							  $line = mysql_fetch_array($bookmarkResult);
+							  $bookmarkResult = $connection->commit($getBookmark);
+							  $line = mysqli_fetch_array($bookmarkResult);
 
 							  $thumb = $line['fileName'];
 							  $pass_var = "page-".$val;
@@ -9833,8 +9834,8 @@ else {
 			// all-obj-year-month & proj-obj-year-month
 			if($year != 'all' && $month != 'all') {
 				$sql="SELECT * FROM actions WHERE ".$projectFilter." ".$userFilter." AND (action='page' OR action='save-page') AND value NOT LIKE '%http%' ORDER BY date DESC, time ASC";
-				$result = mysql_query($sql) or die(" ". mysql_error());
-				$line = mysql_fetch_array($result);
+				$result = $connection->commit($query);
+				$line = mysqli_fetch_array($result);
 				$hasResult = FALSE; // Check if there are any results
 
 				$compareDate = '';
@@ -9846,7 +9847,7 @@ else {
 				$entered_first = false;
 				$contain = false;
 
-				while($row = mysql_fetch_array($result))
+				while($row = mysqli_fetch_array($result))
 				{
 					$type = $row['action'];
 					$val = $row['value'];
@@ -9861,7 +9862,7 @@ else {
 					  if($type == 'page') {
 						  $getPage="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 						  $pageResult = $connection->commit($getPage);
-						  $line = mysql_fetch_array($pageResult);
+						  $line = mysqli_fetch_array($pageResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $value = $line['pageID'];
@@ -10030,7 +10031,7 @@ else {
 						  else {
 							  $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val."  AND NOT url = 'about:blank'  and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
 							  $pageResult = $connection->commit($getPage);
-							  $line = mysql_fetch_array($pageResult);
+							  $line = mysqli_fetch_array($pageResult);
 
 							  $value = $line['pageID'];
 							  $thumb = $line['fileName'];
@@ -10198,8 +10199,8 @@ else {
 					  // Bookmark
 					  if($type == 'save-page') {
 						  $getBookmark="SELECT * FROM pages WHERE pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-						  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-						  $line = mysql_fetch_array($bookmarkResult);
+						  $bookmarkResult = $connection->commit($getBookmark);
+						  $line = mysqli_fetch_array($bookmarkResult);
 
 						  $hasThumb = $line['thumbnailID'];
 						  $pass_var = "page-".$val;
@@ -10358,8 +10359,8 @@ else {
 						  }
 						  else {
 							  $getBookmark="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$val." AND NOT url = 'about:blank' and not url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%'";
-							  $bookmarkResult = mysql_query($getBookmark) or die(" ". mysql_error());
-							  $line = mysql_fetch_array($bookmarkResult);
+							  $bookmarkResult = $connection->commit($getBookmark);
+							  $line = mysqli_fetch_array($bookmarkResult);
 
 							  $thumb = $line['fileName'];
 							  $pass_var = "page-".$val;

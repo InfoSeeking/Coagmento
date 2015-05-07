@@ -38,8 +38,8 @@ else {
 
 	// Set project name to project ID
 	$sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
-	$result = mysql_query($sql) or die(" ". mysql_error());
-	$line = mysql_fetch_array($result);
+	$result = $connection->commit($query);
+	$line = mysqli_fetch_array($result);
 	$projectID = $line['projectID'];
 
 	// Project filter
@@ -114,7 +114,7 @@ else {
     //This is all the XHTML ImageFlow needs
     echo "<div id='myImageFlow' class='imageflow'>";
 
-    while($line = mysql_fetch_array($pageResult)) {
+    while($line = mysqli_fetch_array($pageResult)) {
         $type = $line['type'];
         $thumb = $line['thumbnailID'];
         $title = $line['title'];
@@ -160,5 +160,5 @@ else {
     echo "</div>";
 }
 
-mysql_close($con);
+
 ?>

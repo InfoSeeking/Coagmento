@@ -144,11 +144,11 @@ xmlhttp.send();
 		echo '<option value="all">All Projects</option>';
         $query = "SELECT * FROM memberships WHERE userID='$userID'";
         $results = $connection->commit($query);
-        while ($line = mysql_fetch_array($results, MYSQL_ASSOC)) {
+        while ($line = mysqli_fetch_array($results, MYSQL_ASSOC)) {
             $projID = $line['projectID'];
             $query1 = "SELECT * FROM projects WHERE projectID='$projID'";
             $results1 = $connection->commit($query1);
-            $line1 = mysql_fetch_array($results1, MYSQL_ASSOC);
+            $line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
             $title = $line1['title'];
             echo "<option value=\"$title\" ";
             if ($projID==$projectID)
@@ -176,7 +176,7 @@ xmlhttp.send();
       $options="";
       $y=array();
 
-      while ($row=mysql_fetch_array($result_year)) {
+      while ($row=mysqli_fetch_array($result_year)) {
           $date=$row["date"];
           $year = date("Y",strtotime($date));
 
@@ -198,7 +198,7 @@ xmlhttp.send();
 
 	  $m=array();
 
-	  while ($row2=mysql_fetch_array($result_month)) {
+	  while ($row2=mysqli_fetch_array($result_month)) {
 		  $date2=$row2["date"];
 		  $month = date("m",strtotime($date2));
 

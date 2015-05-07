@@ -27,7 +27,7 @@ class Bookmark extends Base {
     $query .= " ORDER BY timestamp DESC";
     $bookmarks = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($bookmarks, $record);
     }
     return $bookmarks;
@@ -38,7 +38,7 @@ class Bookmark extends Base {
     $query = sprintf("SELECT U.username, B.*, GROUP_CONCAT(bookmark_tags.name SEPARATOR ',') as tagList FROM users U, bookmarks B LEFT JOIN (tag_assignments, bookmark_tags) ON (B.bookmarkID = tag_assignments.bookmarkID AND tag_assignments.tagID = bookmark_tags.tagID) WHERE B.projectID=%d AND B.userID=U.userID GROUP BY B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($bookmarks, $record);
     }
     return $bookmarks;
@@ -49,7 +49,7 @@ class Bookmark extends Base {
     $query = sprintf("SELECT U.username, B.* FROM users U, bookmarks B, tag_assignments TA, bookmark_tags T WHERE B.projectID=%d AND B.userID=U.userID AND T.name='%s' AND T.tagID = TA.tagID AND TA.bookmarkID=B.bookmarkID ORDER BY %s", $projectID, $cxn->esc($tagName), $cxn->esc($sorting));
     $bookmarks = array();
     $results = $cxn->commit($query);
-    while($record = mysql_fetch_assoc($results)){
+    while($record = mysqli_fetch_assoc($results)){
       array_push($bookmarks, $record);
     }
     return $bookmarks;

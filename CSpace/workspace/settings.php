@@ -41,8 +41,8 @@
 			case 'page-status':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='page-status'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				if (mysql_num_rows($results)==0) {
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+				if (mysqli_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
 					$results = $connection->commit($query);
 				}
@@ -55,8 +55,8 @@
 			case 'default-project':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='default-project'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				if (mysql_num_rows($results)==0) {
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+				if (mysqli_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
 					$results = $connection->commit($query);
 				}
@@ -69,8 +69,8 @@
 			case 'sidebar-chat':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-chat'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				if (mysql_num_rows($results)==0) {
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+				if (mysqli_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
 					$results = $connection->commit($query);
 				}
@@ -83,8 +83,8 @@
 			case 'sidebar-history':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				if (mysql_num_rows($results)==0) {
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+				if (mysqli_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
 					$results = $connection->commit($query);
 				}
@@ -97,8 +97,8 @@
 			case 'sidebar-notepad':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				if (mysql_num_rows($results)==0) {
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+				if (mysqli_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
 					$results = $connection->commit($query);
 				}
@@ -111,8 +111,8 @@
 			case 'sidebar-notifications':
 				$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
 				$results = $connection->commit($query);
-				$line = mysql_fetch_array($results, MYSQL_ASSOC);
-				if (mysql_num_rows($results)==0) {
+				$line = mysqli_fetch_array($results, MYSQL_ASSOC);
+				if (mysqli_num_rows($results)==0) {
 					$query = "INSERT INTO options VALUES('','$userID','0','$option','$value')";
 					$results = $connection->commit($query);
 				}
@@ -127,7 +127,7 @@
 	echo "<tr><td><span style=\"font-weight:bold\">Page Status</span></td></tr>\n";
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='page-status'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='off')
 		echo "<tr><td>Page status (views, annotations, snippets) on the toolbar is currently off. <a href='settings.php?option=page-status&value=on'>Turn it on</a>.<br/><span style=\"color:gray;\">You may have to switch to a different tab or reload a page afterward to see its effect.</span></td></tr>\n";
@@ -139,7 +139,7 @@
 	echo "<tr><td><span style=\"font-weight:bold\">Default Project</span></td></tr>\n";
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='default-project'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='default')
 		echo "<tr><td>The default selected project when you login to Coagmento is 'Default'. <a href='settings.php?option=default-project&value=last'>Make the last selected project as the default</a>.<br/><span style=\"color:gray;\">This will come into effect the next time you login.</span></td></tr>\n";
@@ -152,7 +152,7 @@
 	echo "<tr><td>Select the modules you want to see in your Coagmento sidebar.<br/><span style=\"color:gray;\">You will have to re-open the sidebar after making your selections.</span></td></tr>\n";
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-chat'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
 		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-chat&value=off'\"/> Chat</td></tr>\n";
@@ -161,7 +161,7 @@
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
 		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-history&value=off'\"/> History</td></tr>\n";
@@ -170,7 +170,7 @@
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
 		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-notepad&value=off'\"/> Notepad</td></tr>\n";
@@ -179,7 +179,7 @@
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
 	$results = $connection->commit($query);
-	$line = mysql_fetch_array($results, MYSQL_ASSOC);
+	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
 		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-notifications&value=off'\"/> Notifications</td></tr>\n";

@@ -28,7 +28,7 @@
 
     $pQuery = "SELECT points FROM users WHERE userID='$userID'";
     $pResults = mysql_query($pQuery) or die(" ". mysql_error());
-    $pLine = mysql_fetch_array($pResults, MYSQL_ASSOC);
+    $pLine = mysqli_fetch_array($pResults, MYSQL_ASSOC);
     $totalPoints = $pLine['points'];
     $newPoints = $totalPoints+10;
     $pQuery = "UPDATE users SET points=$newPoints WHERE userID='$userID'";

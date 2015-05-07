@@ -18,11 +18,11 @@ Maybe we can use this as a replacement for the sidebar login as well.
     $connection = Connection::getInstance();
     $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
     $results = $connection->commit($query);
-    if(mysql_num_rows($results) == 0){
+    if(mysqli_num_rows($results) == 0){
       $feedback = "Incorrect username/password, please try again";
       return;
     }
-    $row = mysql_fetch_array($results, MYSQL_ASSOC);
+    $row = mysqli_fetch_array($results, MYSQL_ASSOC);
     $userID = $row['userID'];
     $base = Base::getInstance();
     $base->setUserName($username);

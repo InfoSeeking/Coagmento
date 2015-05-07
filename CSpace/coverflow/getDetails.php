@@ -14,7 +14,7 @@ if($object_type == 'page') {
 	$result = $connection->commit($page);
 
 	echo '<div class="thumbnail_info">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		$hasThumb = $row['thumbnailID'];
 		$projectID = $row['projectID'];
@@ -24,7 +24,7 @@ if($object_type == 'page') {
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 		$projectNameResult = $connection->commit($getProjectName);
 
-		while($line = mysql_fetch_array($projectNameResult)) {
+		while($line = mysqli_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
 		}
 
@@ -32,7 +32,7 @@ if($object_type == 'page') {
 		$getUserName="SELECT * FROM users WHERE userID=".$userID."";
 		$userNameResult = $connection->commit($getUserName);
 
-		while($line = mysql_fetch_array($userNameResult)) {
+		while($line = mysqli_fetch_array($userNameResult)) {
 			$userName = $line['username'];
 		}
 
@@ -46,7 +46,7 @@ if($object_type == 'page') {
 			$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$object_id."";
 			$pageResult = $connection->commit($getPage);
 
-			while($line = mysql_fetch_array($pageResult)) {
+			while($line = mysqli_fetch_array($pageResult)) {
 				$value = $line['pageID'];
 				$thumb = $line['fileName'];
 				$source = $line['source'];
@@ -71,7 +71,7 @@ if($object_type == 'query') {
 	$result = $connection->commit($query);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		$projectID = $row['projectID'];
 		$userID = $row['userID'];
@@ -80,7 +80,7 @@ if($object_type == 'query') {
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 		$projectNameResult = $connection->commit($getProjectName);
 
-		while($line = mysql_fetch_array($projectNameResult)) {
+		while($line = mysqli_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
 		}
 
@@ -88,7 +88,7 @@ if($object_type == 'query') {
 		$getUserName="SELECT * FROM users WHERE userID=".$userID."";
 		$userNameResult = $connection->commit($getUserName);
 
-		while($line = mysql_fetch_array($userNameResult)) {
+		while($line = mysqli_fetch_array($userNameResult)) {
 			$userName = $line['username'];
 		}
 
@@ -108,7 +108,7 @@ if($object_type == 'snippet') {
 	$result = $connection->commit($snippet);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		$projectID = $row['projectID'];
 		$userID = $row['userID'];
@@ -117,7 +117,7 @@ if($object_type == 'snippet') {
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 		$projectNameResult = $connection->commit($getProjectName);
 
-		while($line = mysql_fetch_array($projectNameResult)) {
+		while($line = mysqli_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
 		}
 
@@ -125,7 +125,7 @@ if($object_type == 'snippet') {
 		$getUserName="SELECT * FROM users WHERE userID=".$userID."";
 		$userNameResult = $connection->commit($getUserName);
 
-		while($line = mysql_fetch_array($userNameResult)) {
+		while($line = mysqli_fetch_array($userNameResult)) {
 			$userName = $line['username'];
 		}
 
@@ -146,7 +146,7 @@ if($object_type == 'note') {
 	$result = $connection->commit($note);
 
 	echo '<div class="thumbnail_info" style="padding-left: 20px; padding-top: 20px;">';
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
   	{
 		$projectID = $row['projectID'];
 		$userID = $row['userID'];
@@ -155,7 +155,7 @@ if($object_type == 'note') {
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 		$projectNameResult = $connection->commit($getProjectName);
 
-		while($line = mysql_fetch_array($projectNameResult)) {
+		while($line = mysqli_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
 		}
 
@@ -163,7 +163,7 @@ if($object_type == 'note') {
 		$getUserName="SELECT * FROM users WHERE userID=".$userID."";
 		$userNameResult = $connection->commit($getUserName);
 
-		while($line = mysql_fetch_array($userNameResult)) {
+		while($line = mysqli_fetch_array($userNameResult)) {
 			$userName = $line['username'];
 		}
 

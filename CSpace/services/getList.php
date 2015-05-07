@@ -22,7 +22,7 @@ if ($operator == "rank") {
 		$firstPage="SELECT * FROM pages WHERE pageID=".$x."";
 		$firstResult = $connection->commit($firstPage);
 
-		while($row = mysql_fetch_array($firstResult)) {
+		while($row = mysqli_fetch_array($firstResult)) {
 			$hasThumb = $row['thumbnailID'];
 			$projectID = $row['projectID'];
 			$value = $row['pageID'];
@@ -31,7 +31,7 @@ if ($operator == "rank") {
 			$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 			$projectNameResult = $connection->commit($getProjectName);
 
-			while($line = mysql_fetch_array($projectNameResult)) {
+			while($line = mysqli_fetch_array($projectNameResult)) {
 				$projectName = $line['title'];
 			}
 
@@ -47,7 +47,7 @@ if ($operator == "rank") {
 				$getFirstPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$x."";
 				$pageFirstResult = $connection->commit($getFirstPage);
 
-				while($line = mysql_fetch_array($pageFirstResult)) {
+				while($line = mysqli_fetch_array($pageFirstResult)) {
 					$value = $line['pageID'];
 					$thumb = $line['fileName'];
 
@@ -65,7 +65,7 @@ if ($operator == "rank") {
 			$page="SELECT * FROM pages WHERE pageID=".$checked."";
 			$result = $connection->commit($page);
 
-			while($row = mysql_fetch_array($result)) {
+			while($row = mysqli_fetch_array($result)) {
 				$hasThumb = $row['thumbnailID'];
 				$projectID = $row['projectID'];
 				$value = $row['pageID'];
@@ -74,7 +74,7 @@ if ($operator == "rank") {
 				$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 				$projectNameResult = $connection->commit($getProjectName);
 
-				while($line = mysql_fetch_array($projectNameResult)) {
+				while($line = mysqli_fetch_array($projectNameResult)) {
 					$projectName = $line['title'];
 				}
 
@@ -87,7 +87,7 @@ if ($operator == "rank") {
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$checked."";
 					$pageResult = $connection->commit($getPage);
 
-					while($line = mysql_fetch_array($pageResult)) {
+					while($line = mysqli_fetch_array($pageResult)) {
 						$value = $line['pageID'];
 						$thumb = $line['fileName'];
 
@@ -111,7 +111,7 @@ else {
 		$page="SELECT * FROM pages WHERE pageID=".$checked."";
 		$result = $connection->commit($page);
 
-		while($row = mysql_fetch_array($result))
+		while($row = mysqli_fetch_array($result))
 			{
 			$hasThumb = $row['thumbnailID'];
 			$projectID = $row['projectID'];
@@ -121,7 +121,7 @@ else {
 			$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
 			$projectNameResult = $connection->commit($getProjectName);
 
-			while($line = mysql_fetch_array($projectNameResult)) {
+			while($line = mysqli_fetch_array($projectNameResult)) {
 				$projectName = $line['title'];
 			}
 
@@ -136,7 +136,7 @@ else {
 				$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$checked."";
 				$pageResult = $connection->commit($getPage);
 
-				while($line = mysql_fetch_array($pageResult)) {
+				while($line = mysqli_fetch_array($pageResult)) {
 					$value = $line['pageID'];
 					$thumb = $line['fileName'];
 
