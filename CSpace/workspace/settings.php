@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
+<link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
 
@@ -14,6 +15,7 @@
 
 <body>
 
+<?php require("views/header.php"); ?>
 <div id="container">
 <h3>Options</h3>
 
@@ -153,36 +155,36 @@
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
-		echo "<tr><td><input type=checkbox checked onclick=\"settings.php?option=sidebar-chat&value=off\"/> Chat</td></tr>\n";
+		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-chat&value=off'\"/> Chat</td></tr>\n";
 	else
-		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-chat&value=on\"/> Chat</td></tr>\n";
+		echo "<tr><td><input type=checkbox onclick=\"window.location = 'settings.php?option=sidebar-chat&value=on'\"/> Chat</td></tr>\n";
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-history'";
 	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
-		echo "<tr><td><input type=checkbox checked onclick=\"settings.php?option=sidebar-history&value=off\"/> History</td></tr>\n";
+		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-history&value=off'\"/> History</td></tr>\n";
 	else
-		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-history&value=on\"/> History</td></tr>\n";
+		echo "<tr><td><input type=checkbox onclick=\"window.location = 'settings.php?option=sidebar-history&value=on'\"/> History</td></tr>\n";
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notepad'";
 	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
-		echo "<tr><td><input type=checkbox checked onclick=\"settings.php?option=sidebar-notepad&value=off\"/> Notepad</td></tr>\n";
+		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-notepad&value=off'\"/> Notepad</td></tr>\n";
 	else
-		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-notepad&value=on\"/> Notepad</td></tr>\n";
+		echo "<tr><td><input type=checkbox onclick=\"window.location = 'settings.php?option=sidebar-notepad&value=on'\"/> Notepad</td></tr>\n";
 
 	$query = "SELECT * FROM options WHERE userID='$userID' AND `option`='sidebar-notifications'";
 	$results = $connection->commit($query);
 	$line = mysql_fetch_array($results, MYSQL_ASSOC);
 	$value = $line['value'];
 	if (!$value || $value=='on')
-		echo "<tr><td><input type=checkbox checked onclick=\"settings.php?option=sidebar-notifications&value=off\"/> Notifications</td></tr>\n";
+		echo "<tr><td><input type=checkbox checked onclick=\"window.location = 'settings.php?option=sidebar-notifications&value=off'\"/> Notifications</td></tr>\n";
 	else
-		echo "<tr><td><input type=checkbox onclick=\"settings.php?option=sidebar-notifications&value=on\"/> Notifications</td></tr>\n";
+		echo "<tr><td><input type=checkbox onclick=\"window.location = 'settings.php?option=sidebar-notifications&value=on'\"/> Notifications</td></tr>\n";
 	echo "</table>\n";
 	}
 ?>

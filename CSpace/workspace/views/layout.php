@@ -43,7 +43,10 @@ function gen_url($param){
             ?>
           </select>
         </div>
-        <div class='right-side'>
+        <div class='right-side links'>
+          <a href="help.php">Help</a><br/>
+          <a href="settings.php">Settings</a><br/>
+          <a href="points.php">Points</a><br/>
         </div>
         <nav class='clear'>
           <ul>

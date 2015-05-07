@@ -5,6 +5,7 @@
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
+<link type="text/css" href="assets/css/styles.css" rel="stylesheet" />
 
 
 <?php
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-
+	<?php require("views/header.php"); ?>
 <div id="container">
 <h3>Points</h3>
 

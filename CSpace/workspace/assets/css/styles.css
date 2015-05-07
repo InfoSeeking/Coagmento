@@ -388,4 +388,12 @@ table.questionnaires a:hover{
   background-color: #4798F5;
   padding: 5px 10px;
   border: 1px #1B77E0 solid;
+  border-radius: 3px;
+}
+
+.links a{
+  color: #FFF;
+}
+.links a:hover{
+  text-decoration: underline;
 }
