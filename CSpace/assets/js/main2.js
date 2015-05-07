@@ -75,7 +75,7 @@ function showList(str) {
 
     // post allVals array and operator to get pages/thumbnails list through PHP
     // interface change depends on operator variable
-    $.post("getList.php", { cpages: allVals, operator: opt},
+    $.post("services/getList.php", { cpages: allVals, operator: opt},
         //on success, refresh the list (basically, clear and append results to div)
         function(data) {
         $("#results").empty().append("<h3>Your Selected Pages</h3>");
@@ -98,7 +98,7 @@ function removeID(str) {
     limitGrouping();
 
     // send data to php
-    $.post("getList.php", { cpages: allVals, operator: opt},
+    $.post("services/getList.php", { cpages: allVals, operator: opt},
         function(data) {
             $("#results").empty().append("<h3>Your Selected Pages</h3>");
             $("#results").append(data);
@@ -149,7 +149,7 @@ $(document).ready(function() {
         var opt = $("#opt").val();
 
         // send data to php
-        $.post("getList.php", { cpages: allVals, operator: opt},
+        $.post("services/getList.php", { cpages: allVals, operator: opt},
             function(data) {
             $("#results").empty().append("<h3>Your Selected Pages</h3>");
             $("#results").append(data);
@@ -273,7 +273,7 @@ function sendXML(response) {
 }
 
 function showDetails(str) {
-$.post("getDetails.php?q=" + str,
+$.post("services/getDetails.php?q=" + str,
     function(data) {
         $("#clearthis").empty();
         $("#details").html(data);

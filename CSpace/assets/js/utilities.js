@@ -286,7 +286,6 @@ function filterData() {
 	var objSelected = document.getElementById('objects').value;
 	var projSelected = document.getElementById('projectID').value;
 	var sessionSelected = document.getElementById('session').value;
-//	ajaxpage('showProgress.php','content');
 	ajaxpage('services/data.php?projectID='+projSelected+'&session='+sessionSelected+'&objects='+objSelected, 'content');
 }
 
@@ -299,7 +298,6 @@ function filterAllData() {
 
 function search(projID,objs,sess) {
 	var searchString = document.getElementById('searchString').value;
-//	ajaxpage('showProgress.php','content');
 	ajaxpage('services/data.php?projectID='+projID+'&objects='+objs+'&session='+sess+'&searchString='+searchString, 'content');
 }
 

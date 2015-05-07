@@ -5,13 +5,6 @@
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".flip").click(function(){
-			$(".panel").slideToggle("slow");
-		});
-	});
-</script>
 <style type="text/css">
 	li, p{
 		font-size: 12pt;

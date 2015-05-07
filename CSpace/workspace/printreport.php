@@ -2,42 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
+<link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
-  include('../func.php');
+	include('../services/func.php');
 ?>
-
-<script type="text/javascript">
-$(document).ready(function(){
-$(".flip").click(function(){
-    $(".panel").slideToggle("slow");
-  });
-});
-</script>
 </head>
 
 <body>
 
-  <?php include('../header.php'); ?>
+<?php include('views/header.php'); ?>
 
 <div id="container">
 <h3>Print Reports</h3>
+
 <?php
 	session_start();
+	require_once('../core/Connection.class.php');
+	require_once('../core/Base.class.php');
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
-		$projectID = $_SESSION['CSpace_projectID'];
+
+		$userID = $base->getUserID();
+		$projectID = $base->getProjectID();
 ?>
 <table class="body" width=100%>
 	<?php
-		require_once("../connect.php");
+
 		$query = "SELECT title FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -58,15 +54,15 @@ $(".flip").click(function(){
 		$results5 = $connection->commit($query5);
 		$numAnnotations = mysql_num_rows($results5);
 	?>
-	<tr><td>Displaying objects for project <span style="font-weight:bold"><?php echo $title?></span></td><td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="window.open('printObjects.php?objects=all', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
-">Print All</span></td></tr>
+	<tr><td>Displaying objects for project <span style="font-weight:bold"><?php echo $title?></span></td><td align=right><a href="javascript:void(0);" onClick="window.open('printObjects.php?objects=all', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
+">Print All</a></td></tr>
 	<tr><td colspan=2><br/></td></tr>
 	<tr>
 		<td>
 			<span style="cursor:pointer;"><div onclick="switchMenu('wSearches');">Show/hide <span style="font-weight:bold"> <?php echo $numSearches;?> searches</span> for project <span style="font-weight:bold"><?php echo $title?></span></div></span>
 		</td>
-		<td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="window.open('printObjects.php?objects=queries', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
-">Print Searches</span></td>
+		<td align=right><a href="javascript:void(0);" onClick="window.open('printObjects.php?objects=queries', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
+">Print Searches</a></td>
 	</tr>
 	<tr>
 		<td colspan=2>
@@ -95,8 +91,8 @@ $(".flip").click(function(){
 		<td>
 			<span style="cursor:pointer;"><div onclick="switchMenu('wPages');">Show/hide <span style="font-weight:bold"> <?php echo $numPages;?> webpages</span> for project <span style="font-weight:bold"><?php echo $title?></span></div></span>
 		</td>
-		<td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="window.open('printObjects.php?objects=pages', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
-">Print Webpages</span></td>
+		<td align=right><a href="javascript:void(0);" onClick="window.open('printObjects.php?objects=pages', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
+">Print Webpages</a></td>
 	</tr>
 	<tr>
 		<td colspan=2>
@@ -127,8 +123,8 @@ $(".flip").click(function(){
 		<td>
 			<span style="cursor:pointer;"><div onclick="switchMenu('wBookmarks');">Show/hide <span style="font-weight:bold"> <?php echo $numBookmarks;?> bookmarks</span> for project <span style="font-weight:bold"><?php echo $title?></span></div></span>
 		</td>
-		<td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="window.open('printObjects.php?objects=bookmarks', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
-">Print Bookmarks</span></td>
+		<td align=right><a href="javascript:void(0);" onClick="window.open('printObjects.php?objects=bookmarks', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
+">Print Bookmarks</a></td>
 	</tr>
 	<tr>
 		<td colspan=2>
@@ -159,8 +155,8 @@ $(".flip").click(function(){
 		<td>
 			<span style="cursor:pointer;"><div onclick="switchMenu('wSnippets');">Show/hide <span style="font-weight:bold"> <?php echo $numSnippets;?> snippets</span> for project <span style="font-weight:bold"><?php echo $title?></span></div></span>
 		</td>
-		<td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="window.open('printObjects.php?objects=snippets', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
-">Print Snippets</span></td>
+		<td align=right><a href="javascript:void(0);" onClick="window.open('printObjects.php?objects=snippets', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
+">Print Snippets</a></td>
 	</tr>
 	<tr>
 		<td colspan=2>
@@ -190,8 +186,8 @@ $(".flip").click(function(){
 		<td>
 			<span style="cursor:pointer;"><div onclick="switchMenu('wAnnotations');">Show/hide <span style="font-weight:bold"> <?php echo $numAnnotations;?> annotations</span> for project <span style="font-weight:bold"><?php echo $title?></span></div></span>
 		</td>
-		<td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="window.open('printObjects.php?objects=annotations', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
-">Print Annotations</span></td>
+		<td align=right><a href="javascript:void(0);" onClick="window.open('printObjects.php?objects=annotations', 'Coagmento - Print Searches', 'width=450,height=450,scrollbars=yes');
+">Print Annotations</a></td>
 	</tr>
 	<tr>
 		<td colspan=2>

@@ -52,7 +52,7 @@
 			if ($rating != "")
 			{
 				$queryRating = "INSERT INTO rating (`idResource`, `type`, `value`, `userID`, `projectID`, `active`,`time`,`date`,`timestamp`) VALUES ('$snippetID', 'snippets', '$rating', '$userID', '$projectID', '1','$time','$date','$timestamp')";
-				$queryRatingResults = mysql_query($queryRating) or die(" ". mysql_error());
+				$queryRatingResults = $connection->commit($queryRating);
 			}
 
 			addPoints($userID,10);

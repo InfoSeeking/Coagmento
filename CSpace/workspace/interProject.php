@@ -2,44 +2,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<LINK REL=StyleSheet HREF="../assets/css/style_timelineview.css" TYPE="text/css" MEDIA=screen>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/utilities.js"></script>
-
 <?php
-  include('../func.php');
+	include('../services/func.php');
 ?>
-
-<script type="text/javascript">
-$(document).ready(function(){
-$(".flip").click(function(){
-    $(".panel").slideToggle("slow");
-  });
-});
-</script>
 </head>
 
 <body>
-
-
-<?php include('../header.php'); ?>
-
+	<?php require("views/header.php"); ?>
 <div id="container">
 <h3>Inter-project Analysis</h3>
+
 <?php
 	session_start();
+	require_once('../core/Connection.class.php');
+	require_once('../core/Base.class.php');
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
 		$userID = $_SESSION['CSpace_userID'];
 ?>
+
 <table class="body" width=100%>
 	<?php
-		require_once("../connect.php");
+
 
 		// Find collaborators that are in multiple projects
 		$query1 = "SELECT mem2.*,count(*) as num FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' group BY mem2.userID";
@@ -88,7 +81,7 @@ $(".flip").click(function(){
 						while ($lineU = mysql_fetch_array($resultsU, MYSQL_ASSOC)) {
 							$cProjectID = $lineU['projectID'];
 							$queryP = "SELECT access FROM memberships WHERE projectID='$cProjectID' AND userID='$userID'";
-							$resultsP = mysql_query($queryP) or die(" ". mysql_error());
+							$resultsP = $connection->commit($queryP);
 							$lineP = mysql_fetch_array($resultsP, MYSQL_ASSOC);
 							$access = $lineP['access'];
 							$queryQ = "SELECT title FROM projects WHERE projectID='$cProjectID'";
@@ -96,7 +89,7 @@ $(".flip").click(function(){
 							$lineQ = mysql_fetch_array($resultsQ, MYSQL_ASSOC);
 							echo $lineQ['title'];
 							if ($access==1)
-								echo " (<a href='collaborators.php?remove=$cUserID&projID=$cProjectID' style='color:#ff0000; text-decoration: none;'>X</a>)";
+								echo " <a href='collaborators.php?remove=$cUserID&projID=$cProjectID' style='color: #FF0000; text-decoration: none; font-weight: bold; font-size: 14px;'>X</a>";
 							echo ", ";
 						}
 						echo "<br/>";
@@ -197,7 +190,6 @@ $(".flip").click(function(){
 <?php
 	}
 ?>
-</div>
 
 </body>
 </html>

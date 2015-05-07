@@ -1,12 +1,16 @@
 <?php
 	session_start();
+	require_once('../core/Connection.class.php');
+	require_once('../core/Base.class.php');
+	$base = Base::getInstance();
+	$connection = Connection::getInstance();
+
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}
 	else {
-		$userID = $_SESSION['CSpace_userID'];
-		$projectID = $_SESSION['CSpace_projectID'];
-		require_once("../connect.php");
+		$userID = $base->getUserID();
+		$projectID = $base->getProjectID();
 		$query = "SELECT title FROM projects WHERE projectID='$projectID'";
 		$results = $connection->commit($query);
 		$line = mysql_fetch_array($results, MYSQL_ASSOC);
@@ -17,11 +21,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
-<link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
-<script type="text/javascript" src="js/utilities.js"></script>
+<link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <body class="body">
-<table class="body" width=95%>
-		<tr><td style="font-size:12px;">Objects from project <span style="font-weight:bold;font-size:12px;"><?php echo $title?></span></td><td align=right><span style="color:blue;text-decoration:underline;cursor:pointer;font-size:12px;" onClick="addAction('print','<?php echo $objects;?>');window.print();">Print</span> <span style="color:blue;text-decoration:underline;cursor:pointer;font-size:12px;" onClick="window.close();">Close</span></td></tr>
+<table class="body">
+		<tr><td style="font-size:12px;"><b>Objects from project <span style="font-weight:bold;font-size:12px;"><?php echo $title?></span></b></td><td align=right><a href="javascript:void(0);" onClick="services/addAction('print','<?php echo $objects;?>');window.print();">Print</a> <a href="javascript:void(0);" onClick="window.close();">Close</a></td></tr>
 		<tr><td colspan=2><hr/></td></tr>
 <?
 	switch ($objects) {

@@ -5,20 +5,14 @@
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
-<!-- // <script type="text/javascript">
-// 	$(document).ready(function(){
-// 		$(".flip").click(function(){
-// 			$(".panel").slideToggle("slow");
-// 		});
-// 	});
-// </script> -->
-
 <?php
 	include('../services/func.php');
 ?>
 </head>
 
 <body>
+
+<?php include('views/header.php'); ?>
 
 <div id="container">
 <h3>Add a Collaborator</h3>

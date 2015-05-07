@@ -116,7 +116,7 @@
 		}
 
 		function refresh() {
-			ajaxpage("currentProj.php", 'currentProj');
+			ajaxpage("sidebarComponents/currentProj.php", 'currentProj');
 			req = new phpRequest("http://<?php echo $_SERVER['HTTP_HOST']; ?>/CSpace/services/checkStatus.php");
 			req.add('version','201');
 			req.add('object','chat');
@@ -129,7 +129,7 @@
 		}
 
 		function getNotifications() {
-			ajaxpage('notifications.php','notifications');
+			ajaxpage('sidebarComponents/notifications.php','notifications');
 		}
 
 		function addAction (action, value) {
@@ -239,7 +239,7 @@
 					<div class="acc-section2">
 						<div id="notepad" class="acc-content2">
 							<?php
-								require_once("sidebarNotepad.php");
+								require_once("sidebarComponents/sidebarNotepad.php");
 							?>
 						</div>
 					</div>
