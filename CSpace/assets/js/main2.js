@@ -30,7 +30,7 @@ xmlhttp.onreadystatechange=function()
     {
     document.getElementById("box_left").innerHTML=xmlhttp.responseText;
     }
-	else { document.getElementById("box_left").innerHTML = '<img src="loading.gif"/>'; }
+	else { document.getElementById("box_left").innerHTML = '<img src="assets/img/loading.gif"/>'; }
   }
 xmlhttp.open("GET","services/filterData.php?q="+str,true);
 xmlhttp.send();

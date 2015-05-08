@@ -41,7 +41,7 @@
 			document.getElementById('r').innerHTML = response;
 		}
 	</script>
-
+<div class="form-container">
 <table class="body" width=100%>
 	<?php
 
@@ -107,6 +107,7 @@
         echo "</table></td></tr></table>\n<br/><br/><br/><br/>\n";
 	?>
 </table>
+</div>
 <?php
 	}
 ?>

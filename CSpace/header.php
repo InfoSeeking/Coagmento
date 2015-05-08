@@ -26,7 +26,6 @@ Before $displayMode to '3D','coverflow','timeline'
 
         require_once('core/Connection.class.php');
         require_once('core/Base.class.php');
-        require_once('../connect.php');
         $base = Base::getInstance();
         $connection = Connection::getInstance();
         $userID = $base->getUserID();
@@ -428,8 +427,9 @@ Before $displayMode to '3D','coverflow','timeline'
     <div class="right" style="position: fixed; top: 25px; right: 20px;">
 			<p class="flip" style="float: right;">
 				<?php
-				echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/img/".$avatar." width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">";
-			?><br><img src="assets/img/arrow.png"/></p>
+				echo "<img src=\"http://".$_SERVER['HTTP_HOST']."/CSpace/assets/img/".$avatar."\" width=45 height=45 style=\"vertical-align:middle;border:3px solid #000;\">";
+        echo "<br><img src=\"http://".$_SERVER['HTTP_HOST']."/CSpace/assets/img/arrow.png\"/></p>"
+			?>
         <div style="clear:both;"></div>
         <div id="panel" class="panel">
             <table>

@@ -31,6 +31,7 @@
 	else {
 ?>
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
+
 <table class="body" width=100%>
 	<tr><td colspan=2><hr/></td></tr>
 	<tr><td colspan=2><div onclick="switchMenu('hStart');" style="cursor:pointer;"><span style="font-weight:bold">Getting started with Coagmento</span> (click here to show/hide)</div></td></tr>
@@ -111,6 +112,7 @@
 	</tr>
 	<tr><td colspan=2><hr/></td></tr>
 </table>
+
 <?php
 	}
 ?>

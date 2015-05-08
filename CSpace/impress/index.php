@@ -6,10 +6,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Coagmento 3D</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-    <link rel="stylesheet" href="css/jquery_impress.fancybox.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../assets/css/jquery_impress.fancybox.css" type="text/css" media="screen" />
     <link href="../assets/css/impress-demo.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	  <script type="text/javascript" src="js/jquery_impress.fancybox.pack.js"></script>
+	  <script type="text/javascript" src="../assets/js/jquery_impress.fancybox.pack.js"></script>
     <script type="text/javascript" src="../assets/js/main_imageflow.js"></script>
 
 <?php

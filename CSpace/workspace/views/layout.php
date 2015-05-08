@@ -1,5 +1,5 @@
 <?php
-require_once("../contributions.php");
+require_once("contributions.php");
 function gen_url($param){
   global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine;
   $defaults = array(
