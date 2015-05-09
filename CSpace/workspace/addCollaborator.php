@@ -125,7 +125,7 @@
 		} // if (isset($_GET['targetUserName']))
 	?>
 	<tr><td>Enter the <span style="font-weight:bold;">username or email</span> of the person you want to have onboard this project.</td></tr><tr><td>This person needs to be a Coagmento user.<br/><br/></td></tr>
-	<tr><td><input type="text" size=40 id="inviteEmail" onKeyDown="if (event.keyCode == 13) document.getElementById('aButton').click();" /> <input type="button" value="Add" id="aButton" onclick="inviteCollab();" /></td></tr>
+	<tr><td><input type="text" size=40 id="inviteEmail" onKeyDown="if (event.keyCode == 13) document.getElementById('aButton').click();" /> <input type="button" class="button-submit" value="Add" id="aButton" onclick="inviteCollab();" /></td></tr>
 	<tr><td><br/></td></tr>
 	<tr>
 		<td>

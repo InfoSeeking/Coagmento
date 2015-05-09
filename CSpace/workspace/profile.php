@@ -95,20 +95,26 @@
         echo "<tr><td>Organization</td><td><input type=\"text\" id=\"organization\" size=30 value=\"$organization\"/></td></tr>\n";
         echo "<tr><td>Email</td><td><input type=\"text\" size=30 id=\"email\" value=\"$email\" disabled /></td></tr>\n";
         echo "<tr><td>Website</td><td><input type=\"text\" size=30 id=\"website\" value=\"$website\"/></td></tr>\n";
-        echo "<tr><td colspan=2>*Only if you want to change your existing password.</td></tr>\n";
-        echo "<tr><td><input type=\"button\" value=\"Update\" onClick=\"updateProfile();\" />";
-        echo "<input type=\"hidden\" name=\"update\" value=\"true\"/></td></tr>\n";
+        echo "<tr><td><input type=\"button\" class=\"button-submit\" value=\"Update\" onClick=\"updateProfile();\">";
+				echo "<tr><td colspan=2><span class=\"paren-text\">*Only if you want to change your existing password.</span></td></tr>\n";
+        echo "<input type=\"hidden\"   name=\"update\" value=\"true\"/></td></tr>\n";
         echo "</table>\n";
         echo "</td><td valign=top><table>";
-        echo "<tr><td><img src=\"../../img/$avatar\" height=100 width=100><br/><br/></td></tr>\n";
         echo "<tr><td>";
-        echo "<form action=\"profile.php\" enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
-        echo "Upload a new picture: <input name=\"uploaded\" type=\"file\"/><br/><input type=\"submit\" value=\"Upload\"/></form></td></tr>\n";
-        echo "</table></td></tr></table>\n<br/><br/><br/><br/>\n";
+				echo "<p><img src=\"../../img/$avatar\" height=100 width=100></p>";
+
+        echo "<form action=\"profile.php\"  enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
+        echo "<div class=\"fileUpload button-other\" style=\"width:100%\"><span>Browse for photos...</span><input type=\"file\" class=\"upload\" /></div>";
+				echo "<input type=\"submit\" class=\"button-submit\" style=\"width:100%\" value=\"Upload\"/></form>";
+				echo "</td></tr>\n";
+        echo "</table></td></tr></table>\n\n";
+
 	?>
 </table>
 </div>
+
 <?php
+echo "<br/><br/><br/><br/>";
 	}
 ?>
 </div>
