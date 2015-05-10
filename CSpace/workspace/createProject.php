@@ -3,6 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
+
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -114,6 +116,7 @@
 		$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 		$projectID = $line1['projectID'];
 		$title = $line1['title'];
+		$startDate = $line1['startDate'];
 
 		// If the current user didn't create this project, find out who did
 		if ($access!=1) {
@@ -128,7 +131,7 @@
 			$title = $title . " ($uName)";
 		}
 
-		$startDate = $line1['startDate'];
+
 		echo "<tr><td><a href='projectInfo.php?projectID=$projectID' class='existing_projects'>$title</a></td></tr>";
 	}
 	echo "</table></td></tr>\n";

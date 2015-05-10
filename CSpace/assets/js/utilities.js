@@ -128,7 +128,7 @@ function createProj() {
 	else
 		projPrivacy = 1;
 	var sureCreate = document.getElementById('sureCreate');
-	sureCreate.innerHTML = 'Are you sure you want to create project <span style="font-weight:bold">'+projTitle+ '</span>?<br/><a href="'+rootdomain+'/CSpace/createProject.php?title='+projTitle+'&description='+projDesc+'&privacy='+projPrivacy+'">Yes</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onClick="cancelCreateProj();">No</a>';
+	sureCreate.innerHTML = 'Are you sure you want to create project <span style="font-weight:bold">'+projTitle+ '</span>?<br/><a href="'+rootdomain+'/CSpace/workspace/createProject.php?title='+projTitle+'&description='+projDesc+'&privacy='+projPrivacy+'">Yes</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onClick="cancelCreateProj();">No</a>';
 }
 
 function cancelCreateProj() {
