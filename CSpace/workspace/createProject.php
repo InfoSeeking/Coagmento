@@ -84,7 +84,7 @@
 ?>
 	<tr><td>
 		<table class="style1">
-		<tr><td><strong>Title</strong></td><td><input id="projTitle" type="text" size=41 /></td><td></td></tr>
+		<tr><td><strong>Title</strong></td><td><input id="projTitle" type="text" size=45 /></td><td></td></tr>
 		<tr><td><strong>Description<br/>(optional)</strong></td><td><textarea id="projDesc" cols=30 rows=4></textarea></td>
 			<td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;
 				<div id="sureCreate"></div>
@@ -98,7 +98,7 @@
 			<td></td>
 		</tr>
 		<tr><td></td><td><span style="color:gray;">Remember, you will be the owner of this project, so no matter what setting<br/> you choose, you can remove any of your collaborators at any time.</span></td><td></td></tr>
-		<tr><td><input type=button value="Create" onClick="createProj();"/></td><td></td></tr>
+		<tr><td><input type=button class="button-submit" value="Create" onClick="createProj();"/></td><td></td></tr>
 		</table>
 		</td>
 	</tr>

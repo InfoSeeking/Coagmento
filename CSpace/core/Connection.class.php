@@ -10,7 +10,6 @@ class Connection
 	private $lastID;
 
 	public function __construct() {
-		// Temp: commented out for debugging purposes
     $host = DB_HOST;
 		$username = DB_USER;
 		$password = DB_PASS;

@@ -14,7 +14,7 @@
 <body>
 	<?php require("views/header.php"); ?>
 <div id="container">
-<h3>Inter-project Analysis</h3>
+<h3>Inter-project Analysis</h3><br>
 
 <?php
 	session_start();

@@ -113,7 +113,7 @@
 	<tr><td><input type="text" size=80 id="inviteEmail" /></td></tr>
 	<tr><td>Your message (optional)</td></tr>
 	<tr><td><textarea id="message" rows=4 cols=78></textarea></td></tr>
-	<tr><td><input type="button" value="Recommend Coagmento" onclick="recommendCoagmento();" /></td></tr>
+	<tr><td><input type="button" class="button-submit" value="Recommend Coagmento" onclick="recommendCoagmento();" /></td></tr>
 	<tr><td><br/></td></tr>
 	<tr>
 		<td>

@@ -42,6 +42,7 @@
 			document.getElementById('r').innerHTML = response;
 		}
 	</script>
+<br>
 <div class="form-container">
 <table class="body" width=100%>
 	<?php
@@ -86,6 +87,7 @@
 		$email = $line['email'];
 		$website = $line['website'];
 		$avatar = $line['avatar'];
+
 		echo "<table class=\"body\"><tr><td>";
 		echo "<table class=\"body\">\n";
 	    echo "<tr><td>Username</td><td>$userName<input type=\"hidden\" name=\"username\" value=\"$userName\"/></td></tr>\n";

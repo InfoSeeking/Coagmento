@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
+<link type="text/css" href="assets/css/pure-release-0.6.0/tables.css" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -18,6 +19,7 @@
 <div id="content">
 <div id="container">
 <h3>Add a Collaborator</h3>
+<br>
 
 <?php
 	session_start();
@@ -32,7 +34,16 @@
 	$projectID = $base->getProjectID();
 
 ?>
-<table>
+<table class="pure-table pure-table-bordered">
+
+	<thead >
+	<tr>
+			<th class="th-text">Collaborator</th>
+			<th class="th-text">Remove from Project?</th>
+	</tr>
+
+</thead>
+	<tbody>
 	<?php
 		$query = "SELECT * FROM memberships WHERE userID='$userID' AND projectID='$projectID' GROUP BY projectID";
 		$results = $connection->commit($query);
@@ -48,15 +59,16 @@
 				$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 				$userName = $line2['firstName'] . " " . $line2['lastName'];
 				$avatar = $line2['avatar'];
-				echo "<tr><td><img src=\"../assets/img/$avatar\" width=20 height=20 /></td><td><span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showCollaborator.php?userID=$cUserID','content');\">$userName</span></td><td>";
+				echo "<tr><td><img src=\"../assets/img/$avatar\" width=20 height=20 /><span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('showCollaborator.php?userID=$cUserID','content');\">$userName</span></td>";
 				if ($access!=1)
-					echo "<span style=\"color:red;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php?remove=$cUserID&projID=$projectID','content');\">X</span>";
+					echo "<td><span style=\"color:red;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php?remove=$cUserID&projID=$projectID','content');\">X</span>";
 				echo "</td></tr>";
 			}
 		}
-		echo "<tr><td colspan=4><span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php','content');\">See all your collaborators</span></td></tr>\n";
 	?>
+</tbody>
 </table>
+<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php','content');\">See all your collaborators</span>
 
 </div>
 </div>

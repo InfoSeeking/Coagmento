@@ -25,7 +25,11 @@ function gen_url($param){
       <header class="page_header">
 
         <hgroup class='left-side'>
+<<<<<<< HEAD
           <img src="assets/img/clogo.png" alt="Coagmento Logo" />
+=======
+          <a href="index.php"><img src="assets/img/clogo.png" alt="Coagmento Logo" /></a>
+>>>>>>> aaf7785f2de4a799c07fcf7df2e6c938ddea462e
         </hgroup>
         <div class='middle-side project_section'>
           <label>Select a project</label>
