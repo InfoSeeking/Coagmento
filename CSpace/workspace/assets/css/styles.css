@@ -255,8 +255,9 @@ ul{
 }
 #feed li .right_section {
   float: left;
-  padding-left: 10px;
-  width: 480px;
+  padding-left: 2%;
+  /* padding-left: 10px; */
+  /* width: 480px;*/
 }
 #feed li .clear {
   clear: both;
