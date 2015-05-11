@@ -67,7 +67,7 @@
     <head>
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 
-        <link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
+        <link rel="Coagmento icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link rel="stylesheet" type="text/css" href="assets/ajaxtabs/ajaxtabs.css" />
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/fonts/fonts-min.css" />
 	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/tabview/assets/skins/sam/tabview.css" />
@@ -167,7 +167,7 @@
 					if (!$value || $value=='on') {
 				?>
 				<li>
-					<h4><img src="../img/chat.jpg" width=36 style="vertical-align:middle;border:0" /> Chat<br/><span style="color:gray;font-size:10px;">Chat with collaborators of the active project.</span></h4>
+					<h4><img src="assets/img/chat.jpg" width=36 style="vertical-align:middle;border:0" /> Chat<br/><span style="color:gray;font-size:10px;">Chat with collaborators of the active project.</span></h4>
 					<div class="acc-section2">
 						<div id="chat" class="acc-content2">
 							<?php
@@ -196,7 +196,7 @@
 					if (!$value || $value=='on') {
 				?>
 				<li>
-					<h4><img src="../img/history.jpg" width=32 style="vertical-align:middle;border:0" />&nbsp; History<br/><span style="color:gray;font-size:10px;">See personal/shared history and objects.</span></h4>
+					<h4><img src="assets/img/history.jpg" width=32 style="vertical-align:middle;border:0" />&nbsp; History<br/><span style="color:gray;font-size:10px;">See personal/shared history and objects.</span></h4>
 					<div class="acc-section2">
 						<div id="history" class="acc-content2">
 							<?php
@@ -235,7 +235,7 @@
 					if (!$value || $value=='on') {
 				?>
 				<li>
-					<h4><img src="../img/notepad.jpg" width=30 style="vertical-align:middle;border:0" />&nbsp;&nbsp; Notepad<br/><span style="color:gray;font-size:10px;">Write/share notes for the active project.</span></h4>
+					<h4><img src="assets/img/notepad.jpg" width=30 style="vertical-align:middle;border:0" />&nbsp;&nbsp; Notepad<br/><span style="color:gray;font-size:10px;">Write/share notes for the active project.</span></h4>
 					<div class="acc-section2">
 						<div id="notepad" class="acc-content2">
 							<?php
@@ -256,7 +256,7 @@
 					if (!$value || $value=='on') {
 				?>
 				<li>
-					<h4><img src="../img/notification.jpg" width=38 style="vertical-align:middle;border:0" /> Notifications<br/><span style="color:gray;font-size:10px;">Recent actions of your collaborators.</span></h4>
+					<h4><img src="assets/img/notification.jpg" width=38 style="vertical-align:middle;border:0" /> Notifications<br/><span style="color:gray;font-size:10px;">Recent actions of your collaborators.</span></h4>
 					<div class="acc-section2">
 						<div id="notifications" class="acc-content2">
 							No notifications available.

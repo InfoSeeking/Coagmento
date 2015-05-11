@@ -25,7 +25,7 @@
 			<tr><td colspan=2><br/></td></tr>
 			<tr><td>
                                 <a href="http://www.coagmento.org/" target=_content>
-                                    <img src="img/signup.jpg" height=80px/>
+                                    <img src="CSpace/assets/img/signup.jpg" height=80px/>
                                 </a>
                             </td>
                             <td>
