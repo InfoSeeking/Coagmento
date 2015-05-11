@@ -1,5 +1,4 @@
 <?php
-require_once("contributions.php");
 function gen_url($param){
   global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine;
   $defaults = array(
@@ -26,7 +25,7 @@ function gen_url($param){
       <header class="page_header">
 
         <hgroup class='left-side'>
-          <img src="../../assets/img/clogo.png" alt="Coagmento Logo" />
+          <img src="assets/img/clogo.png" alt="Coagmento Logo" />
         </hgroup>
         <div class='middle-side project_section'>
           <label>Select a project</label>
@@ -47,6 +46,7 @@ function gen_url($param){
           <a href="help.php">Help</a><br/>
           <a href="settings.php">Settings</a><br/>
           <a href="points.php">Points</a><br/>
+          <a href="workspace-logout.php?redirect=index.php">Logout</a><br/>
         </div>
         <nav class='clear'>
           <ul>
@@ -163,6 +163,9 @@ function gen_url($param){
         <div class="top">
           <div class="left_section">
             <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div>
+              <input type="checkbox" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
+            </div>
           </div>
           <div class="right_section">
             <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>

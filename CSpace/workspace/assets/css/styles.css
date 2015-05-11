@@ -243,6 +243,12 @@ ul{
 #feed li.item-snippet .preview{
   font-size: 14px;
 }
+#feed li .left_section img{
+  border: 1px grey solid;
+}
+#feed li .left_section label{
+  cursor: pointer;
+}
 #feed li.item-bookmark .tag{
   border: 1px black solid;
   border-radius: 3px;

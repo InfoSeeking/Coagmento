@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 // Matt: Temporarily commented out to suppress errors
-// require("config.php");
+require("config.php");
 class Connection
 {
 	private static $instance;
@@ -10,15 +10,11 @@ class Connection
 	private $lastID;
 
 	public function __construct() {
-		$host = "localhost";
-		$username = "root";
-		$password = "";
-		$database = "coagmento-org";
 		// Temp: commented out for debugging purposes
-    // $host = DB_HOST;
-		// $username = DB_USER;
-		// $password = DB_PASS;
-		// $database = DB_DATABASE;
+    $host = DB_HOST;
+		$username = DB_USER;
+		$password = DB_PASS;
+		$database = DB_DATABASE;
 		$this->link = mysqli_connect($host, $username, $password,$database) or die("Cannot connect to the database: ". mysql_error());
     $this->db_selected = mysqli_select_db($this->link,$database) or die ('Cannot connect to the database: ' . mysql_error());
 
@@ -41,8 +37,8 @@ class Connection
 			return $results;
 		}
 		catch(Exception $e){
-			//echo $e->getMessage();
-			//exit();
+			echo $e->getMessage();
+			exit();
 		}
 	}
 
