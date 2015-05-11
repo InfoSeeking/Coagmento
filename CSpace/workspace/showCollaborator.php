@@ -13,7 +13,9 @@
 
 <body>
 
-<?php require("views/header.php"); ?>
+<?php
+require("views/header.php");
+?>
 
 <div id="container">
 <h3>View Collaborators</h3>
@@ -34,7 +36,7 @@
 		<?php
 			$base = Base::getInstance();
 			$connection = Connection::getInstance();
-			$userID = $base->getUserID();
+			$userID = $_GET['userID'];
 			$query = "SELECT * FROM users WHERE userID='$userID'";
 			$results = $connection->commit($query);
 			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
@@ -45,7 +47,7 @@
 			$email = $line['email'];
 			$website = $line['website'];
 
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" style='float: left;' width=100 height=100 /><span style=\"font-weight:bold\">$uName</span><br/>\n";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../assets/img/$avatar\" style='float: left;' width=100 height=100 /><span style=\"font-weight:bold\">$uName</span><br/>\n";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;Organization: $organization<br/>\n";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;Email: <a href=\"mailto:$email\">$email</a><br/>\n";
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;Website: <a href=\"$website\">$website</a><br/>\n";

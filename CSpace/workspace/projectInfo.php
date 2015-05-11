@@ -53,7 +53,7 @@
                 if ($title=='')
                     $title = 'N/A';
                 //echo "<tr><td><span style=\"font-weight:bold\">Project: </span><span>$title</span></td><td><span style=\"color:green;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('selectProj.php?projectID=$projectID','content');loadElems();\">Work on this Project</span></td></tr>\n";
-                echo "<tr><td><span style=\"font-weight:bold\">Project: </span><span>$title</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href='editProject.php?projectID=$projectID'><img src=\"../../img/edit.jpg\" style=\"vertical-align:middle;width:15px;height:15px;border:0\" alt=\"Edit\" title=\"Edit\" /></a></td><td><span style=\"color:green;text-decoration:underline;cursor:pointer;\" onClick=\"javascript:window.document.location = 'selectProj.php?projectID=$projectID&projectTitle=$title'\">Work on this Project</span></td></tr>\n";
+                echo "<tr><td><span style=\"font-weight:bold\">Project: </span><span>$title</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href='editProject.php?projectID=$projectID'><img src=\"../assets/img/edit.jpg\" style=\"vertical-align:middle;width:15px;height:15px;border:0\" alt=\"Edit\" title=\"Edit\" /></a></td><td><span style=\"color:green;text-decoration:underline;cursor:pointer;\" onClick=\"javascript:window.document.location = 'selectProj.php?projectID=$projectID&projectTitle=$title'\">Work on this Project</span></td></tr>\n";
 		echo "<tr><td colspan=2><font color=\"gray\">$description</font></td></tr>\n";
 		echo "<tr><td colspan=2>Started on: $startDate, $startTime, Created by: $uName</td></tr>\n";
 		echo "<tr><td colspan=2>Collaborators: ";
@@ -68,8 +68,8 @@
 			echo "<a href='showCollaborator.php?userID=$cUserID'>$uName</a>, ";
 		}
 		echo "</td></tr><tr><td colspan=2><br/></td></tr>\n";
-                if ($projectID==$_SESSION['CSpace_projectID'])
-                    echo "<tr><td colspan=2><a href=\"http://".$_SERVER['HTTP_HOST']."/CSpace/etherpad.php\" style=\"font-weight:bold; color=brown\">Start editing this project's document</a><hr/></td></tr><tr><td colspan=2><br/></td></tr>\n";
+    if (isset($_SESSION['CSpace_projectID']) && ($projectID==$_SESSION['CSpace_projectID']))
+        echo "<tr><td colspan=2><a href=\"http://".$_SERVER['HTTP_HOST']."/CSpace/etherpad.php\" style=\"font-weight:bold; color=brown\">Start editing this project's document</a><hr/></td></tr><tr><td colspan=2><br/></td></tr>\n";
 
 		$query1 = "SELECT count(distinct url) as num FROM pages WHERE projectID='$projectID'";
 		$results1 = $connection->commit($query1);

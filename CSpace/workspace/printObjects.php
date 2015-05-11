@@ -20,7 +20,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="Coagmento icon" type="image/x-icon" href="../img/favicon.ico">
+<link rel="Coagmento icon" type="image/x-icon" href="../assets/img/favicon.ico">
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <body class="body">
 <table class="body">

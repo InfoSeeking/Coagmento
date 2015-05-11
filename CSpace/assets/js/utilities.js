@@ -146,7 +146,7 @@ function editProj() {
 	else
 		projPrivacy = 1;
 	var sureCreate = document.getElementById('sureCreate');
-	var page = rootdoain+'/CSpace/timelineview/editProject.php?submit=true&projectID='+projID+'&title='+projTitle+'&description='+projDesc+'&privacy='+projPrivacy;
+	var page = rootdomain+'/CSpace/workspace/editProject.php?submit=true&projectID='+projID+'&title='+projTitle+'&description='+projDesc+'&privacy='+projPrivacy;
 	window.location.href = page;
 
 }

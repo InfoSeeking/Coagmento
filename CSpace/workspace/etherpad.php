@@ -12,7 +12,7 @@
         $title = "project".$base->getProjectID();
         if ($_SESSION['CSpace_projectID']=="")
         { echo
-                "<script>alert('In order to open the editor, you must first select a project from your CSpace'); window.location.href='http://".$_SERVER['HTTP_HOST']."/CSpace/projects.php';</script>";
+                "<script>alert('In order to open the editor, you must first select a project from your CSpace'); window.location.href='http://".$_SERVER['HTTP_HOST']."/CSpace/workspace/projects.php';</script>";
         } else {
           $userID = $base->getUserID();
           $projectID = $base->getProjectID();

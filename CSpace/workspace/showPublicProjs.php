@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php

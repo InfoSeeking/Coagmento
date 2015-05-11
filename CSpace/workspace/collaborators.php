@@ -14,7 +14,9 @@
 <body>
 
 
-<?php require("views/header.php"); ?>
+<?php
+include('views/header.php');
+?>
 <div id="container">
 <h3>View Collaborators</h3>
 
@@ -70,7 +72,7 @@
 					$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
-					echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../assets/img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
 					$query2 = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' AND mem2.userID='$cUserID'";
 					$results2 = $connection->commit($query2);
 					while ($line2 = mysqli_fetch_array($results2, MYSQL_ASSOC)) {

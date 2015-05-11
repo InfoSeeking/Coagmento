@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<script type="text/javascript" src="../assets/js/webtoolkit.aim.js"></script>
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -13,8 +14,21 @@
 
 <body>
 
-<?php include('views/header.php'); ?>
+<?php
+if(!isset($_FILES['uploaded']['name']))
+	{
+		if( !(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+			include('views/header.php');
+		}
 
+	}else{
+		if( !(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+			include('views/header.php');
+		}
+	}
+?>
+
+<div id="r">
 <div id="container">
 <h3>Files</h3>
 
@@ -51,7 +65,8 @@
 
 		function completeCallback(response) {
 			// make something useful after (onComplete)
-			document.getElementById('nr').innerHTML = parseInt(document.getElementById('nr').innerHTML) + 1;
+			// alert(response);
+			// document.getElementById('nr').innerHTML = parseInt(document.getElementById('nr').innerHTML) + 1;
 			document.getElementById('r').innerHTML = response;
 		}
 	</script>
@@ -104,7 +119,7 @@
 			}
 		}
 
-        echo "<tr><td><form action=\"files.php\" enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
+        echo "<tr><td><form action=\"files.php\" enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback})\">";
         echo "<tr><td>Upload a new file: <input name=\"uploaded\" type=\"file\"/> <input type=\"submit\" value=\"Upload\"/></form></td></tr>\n";
         echo "</table>\n";
         echo "<table class=\"body\" width=100%>\n";
@@ -130,6 +145,6 @@
 ?>
 </table>
 </div>
-
+</div>
 </body>
 </html>

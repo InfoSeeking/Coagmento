@@ -19,7 +19,7 @@
 <h3>Select a Project</h3>
 
 <?php
-	
+
 	require_once("../core/Connection.class.php");
 	require_once("../core/Base.class.php");
 	$base = Base::getInstance();
@@ -79,7 +79,7 @@
 			$members = $members . $firstName . " " . $lastName . ", ";
 		}
 
-        echo "<tr><td><a href='projectInfo.php?projectID=$projectID'>$dispTitle</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='editProject.php?projectID=$projectID'><img src=\"../../img/edit.jpg\" style=\"width: 15px; height: 15px; vertical-align:middle;border:0\" alt=\"Edit\" title=\"Edit\" /></a><br/>$members</td><td>&nbsp;&nbsp;</td><td align=center>$startDate</td><td>&nbsp;&nbsp;</td><td align=center><a href='selectProj.php?projectID=$projectID&projectTitle=$title'>Select</a></td><td>&nbsp;&nbsp;</td><td align=center>";
+        echo "<tr><td><a href='projectInfo.php?projectID=$projectID'>$dispTitle</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='editProject.php?projectID=$projectID'><img src=\"../assets/img/edit.jpg\" style=\"width: 15px; height: 15px; vertical-align:middle;border:0\" alt=\"Edit\" title=\"Edit\" /></a><br/>$members</td><td>&nbsp;&nbsp;</td><td align=center>$startDate</td><td>&nbsp;&nbsp;</td><td align=center><a href='selectProj.php?projectID=$projectID&projectTitle=$title'>Select</a></td><td>&nbsp;&nbsp;</td><td align=center>";
 		if ($title=='Default')
 			echo "N/A";
 		else

@@ -24,7 +24,7 @@
 ?>
 <table width=100%>
 	<table width=100%>
-	<tr><td align="right"><img src="../img/sign.jpg" height=50 style="vertical-align:middle;border:0" /> <span style="font-weight:bold;font-size:20px">Terms & Conditions</span></td></tr>
+	<tr><td align="right"><img src="../assets/img/sign.jpg" height=50 style="vertical-align:middle;border:0" /> <span style="font-weight:bold;font-size:20px">Terms & Conditions</span></td></tr>
 	<tr><td colspan=2><span style="font-weight:bold;">Agreement with signing up</span></td></tr>
 	<tr><td colspan=2>By signing up for an account for Coagmento (www.coagmento.org), you are agreeing to let us store the following information about you: (1) personal information in your account profile, (2) any data and related information that you create using Coagmento, and (3) all the actions that you perform on this website after logging in to your account. Your data will be stored in a secure server. Your password and other sensitive information will be encrypted. You are also agreeing to let us get in touch with you regarding the services that we provide here, if needed.</td></tr>
 	<tr><td colspan=2><span style="font-weight:bold;">Email</span></td></tr>

@@ -75,7 +75,7 @@
 						$lineU = mysqli_fetch_array($resultsU, MYSQL_ASSOC);
 						$userName = $lineU['firstName'] . " " . $lineU['lastName'];
 						$avatar = $lineU['avatar'];
-						echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
+						echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../../assets/img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
 						$queryU = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' AND mem2.userID='$cUserID'";
 						$resultsU = $connection->commit($queryU);
 						while ($lineU = mysqli_fetch_array($resultsU, MYSQL_ASSOC)) {

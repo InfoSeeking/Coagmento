@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<script type="text/javascript" src="../assets/js/utilities.js"></script>
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -48,7 +49,7 @@
 		$userID = $base->getUserID();
 
 		if (isset($_FILES['uploaded']['name'])) {
-			$target = "../img/";
+			$target = "../assets/img/";
 			$fileName = $userID . '_'. basename($_FILES['uploaded']['name']);
 			$target = $target . $fileName;
 			$ok=1;
@@ -101,7 +102,7 @@
         echo "</table>\n";
         echo "</td><td valign=top><table>";
         echo "<tr><td>";
-				echo "<p><img src=\"../../img/$avatar\" height=100 width=100></p>";
+				echo "<p><img src=\"../assets/img/$avatar\" height=100 width=100></p>";
 
         echo "<form action=\"profile.php\"  enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
         echo "<div class=\"fileUpload button-other\" style=\"width:100%\"><span>Browse for photos...</span><input type=\"file\" class=\"upload\" /></div>";

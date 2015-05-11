@@ -63,7 +63,7 @@
 			$line1 = mysqli_fetch_array($results1, MYSQL_ASSOC);
 			$projTitle = $line1['title'];
 			echo "<tr><td><a href=\"$cURL\" target=_external>$cTitle</a> on $cDate</td></tr>\n";
-			echo "<tr><td>Recommended by <img src=\"../../img/$cAvatar\" height=30 width=30 style=\"vertical-align:middle;border:0\" /> <span style=\"font-weight:bold;\">$cName</span> for project <span style=\"font-weight:bold;\">$projTitle</span></td></tr>\n";
+			echo "<tr><td>Recommended by <img src=\"../assets/img/$cAvatar\" height=30 width=30 style=\"vertical-align:middle;border:0\" /> <span style=\"font-weight:bold;\">$cName</span> for project <span style=\"font-weight:bold;\">$projTitle</span></td></tr>\n";
 			echo "<tr><td><span style=\"color:gray;\">$cMessage</span></td></tr>\n";
 		}
 	}
