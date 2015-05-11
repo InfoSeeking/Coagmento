@@ -97,7 +97,7 @@
 		</tr>
 		<tr><td></td><td><span style="color:gray;">Remember, you will be the owner of this project, so no matter what setting<br/> you choose, you can remove any of your collaborators at any time.</span></td><td></td></tr>
 		<tr><td colspan=2><br/></td></tr>
-		<tr><td colspan=2 align=center><input type=button value="Submit" onClick="editProj();"/> <a href="projects.php">Cancel</a></td><td></td></tr>
+		<tr><td colspan=2 align=center><input type=button class="button-submit" value="Submit" onClick="editProj();"/> <input type=button class="button-other" value="Cancel" onClick="location.href='projects.php'"/></td><td></td></tr>
 		</table>
 		</td>
 	</tr>

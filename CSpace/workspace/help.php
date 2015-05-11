@@ -22,7 +22,7 @@
 <div id="container">
 
 <h3>Help</h3>
-
+<br>
 <?php
 
 	if (!isset($_SESSION['CSpace_userID'])) {
@@ -33,8 +33,8 @@
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
 
 <table class="body" width=100%>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hStart');" style="cursor:pointer;"><span style="font-weight:bold">Getting started with Coagmento</span> (click here to show/hide)</div></td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hStart');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Getting started with Coagmento</span> (click here to show/hide)</div></td></tr>
 	<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>
 		<div id="hStart">
@@ -51,66 +51,79 @@
 		</ol>
 		</div>
 	</td></tr>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hProj');" style="cursor:pointer;"><span style="font-weight:bold">Working with projects</span> (click here to show/hide)</div></td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hProj');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Working with projects</span> (click here to show/hide)</div></td></tr>
 	<tr><td>&nbsp;&nbsp;</td>
 		<td>
 			<div id="hProj" style="display:none;">
-			Coagmento allows you to have as many projects as you like. You should always have an active project while working with Coagmento as all your actions with Coagmento (sites visited, bookmarked, searched done, etc.) needs to be recorded under a project. By default, your active project is called 'Default'. If you have your Coagmento toolbar and/or sidebar open, they will show you what your active project is.<br/>
-			You can create a new project by clicking on your profile picture in the top-right corner and selecting 'Create' under 'Projects' from there. To see the list of your projects, click 'Select' instead. On this page, you can click on a project name to see more information about that project. Here, you can also select that project to be your active project. Make sure to refresh you CSpace after changing your active project.
+			<ol>
+				<li>Coagmento allows you to have as many projects as you like. You should always have an active project while working with Coagmento as all your actions with Coagmento (sites visited, bookmarked, searched done, etc.) needs to be recorded under a project. By default, your active project is called 'Default'. If you have your Coagmento toolbar and/or sidebar open, they will show you what your active project is.</li>
+			<li>You can create a new project by clicking on your profile picture in the top-right corner and selecting 'Create' under 'Projects' from there. To see the list of your projects, click 'Select' instead. On this page, you can click on a project name to see more information about that project. Here, you can also select that project to be your active project. Make sure to refresh you CSpace after changing your active project.</li>
+		</ol>
 			</div>
 		</td>
 	</tr>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hCollab');" style="cursor:pointer;"><span style="font-weight:bold">Working with collaborators</span> (click here to show/hide)</div></td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hCollab');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Working with collaborators</span> (click here to show/hide)</div></td></tr>
 	<tr><td>&nbsp;&nbsp;</td>
 		<td>
 		<div id="hCollab" style="display:none;">
-		<p>You can add other users of Coagmento as your collaborators to your existing projects. To do so, first make sure you have the right project selected as your active project. Then click on your profile picture in the top-right corner and click 'Add' under 'Collaborators'. Enter his/her username and voila! You will have a collaborator in that project! Make sure to refresh your CSpace.</p>
-		<p>Once someone becomes your collaborator for a project, he/she can see things you (and others) have done for that project. This includes your browsing and searching history, annotations on webpages, snippets, and shared notes. Remember, just because someone is your collaborator, it doesn't mean he/she can have access to everything about you. Anything that you do with Coagmento goes under a project, which means you decide when you want to work on a certain project that you share with others.</p>
-		<p>Whatever you do, you always have access to data about/by you that you can delete if you want. Coagmento respects your privacy and provides many ways to protect it.</p>
+			<ol>
+		<li>You can add other users of Coagmento as your collaborators to your existing projects. To do so, first make sure you have the right project selected as your active project. Then click on your profile picture in the top-right corner and click 'Add' under 'Collaborators'. Enter his/her username and voila! You will have a collaborator in that project! Make sure to refresh your CSpace.</li>
+		<li>Once someone becomes your collaborator for a project, he/she can see things you (and others) have done for that project. This includes your browsing and searching history, annotations on webpages, snippets, and shared notes. Remember, just because someone is your collaborator, it doesn't mean he/she can have access to everything about you. Anything that you do with Coagmento goes under a project, which means you decide when you want to work on a certain project that you share with others.</li>
+		<li>Whatever you do, you always have access to data about/by you that you can delete if you want. Coagmento respects your privacy and provides many ways to protect it.</li>
+	</ol>
 		</div>
 		</td>
 	</tr>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hData');" style="cursor:pointer;"><span style="font-weight:bold">Working with collected data</span> (click here to show/hide)</td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hData');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Working with collected data</span> (click here to show/hide)</td></tr>
 	<tr><td>&nbsp;&nbsp;</td>
 		<td>
 		<div id="hData" style="display:none;">
-		<p>When you are working on a project that goes beyond a single sitting or session, you may want to keep track of things you have already done for the project and know where you should go from there. Coagmento makes it easy for you to do this. Once you connect to Coagmento, it starts recording the websites you go to and the searches you do on Google etc., under the currently active project (shown on the toolbar as well). Remember, Coagmento DOES NOT record passwords or any other sensitive information. In fact, the only keyboard entries it records are the searches done on major search engines (Bing, Google, Yahoo!, Wikipedia).</p>
-		<p>When you are ready to come back, you can visit your CSpace by clicking 'Coagmento CSpace' at the top of any Coagmento webpage. This will bring up visual listing of a variety of data (webpages, searches, snippets, annotations, etc.) collected by/about you. You can search into this data, filter it by project, sessions, and objects. You can also delete the data you don't want to save.</p>
+			<ol>
+
+		<li>When you are working on a project that goes beyond a single sitting or session, you may want to keep track of things you have already done for the project and know where you should go from there. Coagmento makes it easy for you to do this. Once you connect to Coagmento, it starts recording the websites you go to and the searches you do on Google etc., under the currently active project (shown on the toolbar as well). Remember, Coagmento DOES NOT record passwords or any other sensitive information. In fact, the only keyboard entries it records are the searches done on major search engines (Bing, Google, Yahoo!, Wikipedia).</li>
+		<li>When you are ready to come back, you can visit your CSpace by clicking 'Coagmento CSpace' at the top of any Coagmento webpage. This will bring up visual listing of a variety of data (webpages, searches, snippets, annotations, etc.) collected by/about you. You can search into this data, filter it by project, sessions, and objects. You can also delete the data you don't want to save.</li>
+	</ol>
 		</div>
 		</td>
 	</tr>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hReport');" style="cursor:pointer;"><span style="font-weight:bold">Creating reports</span> (click here to show/hide)</td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hReport');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Creating reports</span> (click here to show/hide)</td></tr>
 	<tr><td>&nbsp;&nbsp;</td>
 		<td>
 		<div id="hReport" style="display:none;">
-		<p>Coagmento lets you prepare research reports based on your browsing, searching, and data collection (snippets, annotations, etc.). You can do so by accessing the 'Editor' from 'Workspace' menu (click on your profile picture in the top-right corner). Or you can click on 'Print reports' and decide what you want to print (bookmarks, searches, snippets, annotations, or all).</p>
+			<ul>
+		<li>Coagmento lets you prepare research reports based on your browsing, searching, and data collection (snippets, annotations, etc.). You can do so by accessing the 'Editor' from 'Workspace' menu (click on your profile picture in the top-right corner). Or you can click on 'Print reports' and decide what you want to print (bookmarks, searches, snippets, annotations, or all).</li>
+			</ul>
 		</div>
 		</td>
 	</tr>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hSetting');" style="cursor:pointer;"><span style="font-weight:bold">Updating profile and changing settings</span> (click here to show/hide)</div></td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hSetting');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Updating profile and changing settings</span> (click here to show/hide)</div></td></tr>
 	<tr><td>&nbsp;&nbsp;</td>
 		<td>
 			<div id="hSetting" style="display:none;">
-			<p>You can update your profile by clicking 'Profile' in 'Settings' menu. Here, you can change your password, profile picture, and other details about you.</p>
-			<p>There are also some other things that you can configure using 'Options' in the same menu.</p>
+			<ol>
+				<li>You can update your profile by clicking 'Profile' in 'Settings' menu. Here, you can change your password, profile picture, and other details about you.</li>
+				<li>There are also some other things that you can configure using 'Options' in the same menu.</li>
+			</ol>
 			</div>
 		</td>
 	</tr>
-	<tr><td colspan=2><hr/></td></tr>
-	<tr><td colspan=2><div onclick="switchMenu('hLeave');" style="cursor:pointer;"><span style="font-weight:bold">Leaving Coagmento</span> (click here to show/hide)</div></td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
+	<tr><td colspan=2><div onclick="switchMenu('hLeave');" style="cursor:pointer;"><span style="font-weight:bold" class="head-text">Leaving Coagmento</span> (click here to show/hide)</div></td></tr>
 	<tr><td>&nbsp;&nbsp;</td>
 		<td>
 			<div id="hLeave" style="display:none;">
-			You can uninstall the Firefox plugin by selecting 'Uninstall' from Firefox's menu Tools->Add-ons.<br/>
+				<ul>
+			<li>You can uninstall the Firefox plugin by selecting 'Uninstall' from Firefox's menu Tools->Add-ons.</li>
+				</ul>
 			</div>
 		</td>
 	</tr>
-	<tr><td colspan=2><hr/></td></tr>
+	<tr><td colspan=2><hr class="gray-style"></td></tr>
 </table>
 
 <?php

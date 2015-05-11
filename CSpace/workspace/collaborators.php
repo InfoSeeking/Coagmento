@@ -3,6 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<link type="text/css" href="assets/css/pure-release-0.6.0/tables.css" rel="stylesheet" />
+
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -61,6 +63,16 @@ include('views/header.php');
 	<tr><td><br/></td></tr>
 	<tr>
 		<td>
+			<table class="pure-table pure-table-bordered">
+
+				<thead >
+        <tr>
+            <th class="th-text">Collaborator</th>
+            <th class="th-text">Projects</th>
+        </tr>
+
+    	</thead>
+			<tbody>
 			<?php
 				$query = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' GROUP BY mem2.userID";
 				$results = $connection->commit($query);
@@ -72,10 +84,12 @@ include('views/header.php');
 					$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
-					echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"../assets/img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: ";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;<tr><td><img src=\"../assets/img/$avatar\" width=20 height=20 /> <a href='showCollaborator.php?userID=$cUserID'>$userName</a> <font color=\"gray\"> for projects</font>: </td>";
 					$query2 = "SELECT mem2.* FROM memberships as mem1,memberships as mem2 WHERE mem1.userID!=mem2.userID AND mem1.projectID=mem2.projectID AND mem1.userID='$userID' AND mem2.userID='$cUserID'";
 					$results2 = $connection->commit($query2);
+					echo "<td><ul>";
 					while ($line2 = mysqli_fetch_array($results2, MYSQL_ASSOC)) {
+						echo "<li>";
 						$cProjectID = $line2['projectID'];
 						$query4 = "SELECT access FROM memberships WHERE projectID='$cProjectID' AND userID='$userID'";
 						$results4 = $connection->commit($query4);
@@ -87,11 +101,12 @@ include('views/header.php');
 						echo $line3['title'];
 						if ($access==1)
 							echo " <a href='collaborators.php?remove=$cUserID&projID=$cProjectID' style='color: #FF0000; text-decoration: none; font-weight: bold; font-size: 14px;'>X</a>";
-						echo ", ";
+						echo "</li>";
 					}
-					echo "<br/>";
+					echo "</ul></td></tr>";
+
 				}
-				echo '<br/><br/>';
+
 
 				// If the request to remove a collaborator was confirmed
 				if (isset($_GET['uID'])) {
@@ -102,7 +117,8 @@ include('views/header.php');
 					echo "<tr><td><span style=\"color:green;\">A collaborator successfully removed. Refresh to see the updated list.</span></td></tr>\n";
 				}
 			}
-		?>
+		?></tbody>
+		</table>
 		</td>
 	</tr>
 </table>

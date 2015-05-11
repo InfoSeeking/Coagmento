@@ -10,15 +10,15 @@ class Connection
 	private $lastID;
 
 	public function __construct() {
-		$host = "localhost";
-		$username = "root";
-		$password = "";
-		$database = "coagmento-org";
+		// $host = "localhost";
+		// $username = "root";
+		// $password = "";
+		// $database = "coagmento-org";
 		// Temp: commented out for debugging purposes
-    // $host = DB_HOST;
-		// $username = DB_USER;
-		// $password = DB_PASS;
-		// $database = DB_DATABASE;
+    $host = DB_HOST;
+		$username = DB_USER;
+		$password = DB_PASS;
+		$database = DB_DATABASE;
 		$this->link = mysqli_connect($host, $username, $password,$database) or die("Cannot connect to the database: ". mysql_error());
     $this->db_selected = mysqli_select_db($this->link,$database) or die ('Cannot connect to the database: ' . mysql_error());
 

@@ -89,7 +89,7 @@ function addTag() {
 function inviteCollab() {
 	var inviteEmail = document.getElementById('inviteEmail').value;
 	var sureInvite = document.getElementById('sureInvite');
-	sureInvite.innerHTML = 'Are you sure you want to add <span style="font-weight:bold">'+inviteEmail+ '</span> to this project?<br/><a href="'+rootdomain+'/CSpace/addCollaborator.php?targetUserName='+inviteEmail+'">Yes</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onClick="cancelInvite();">No</a>';
+	sureInvite.innerHTML = 'Are you sure you want to add <span style="font-weight:bold">'+inviteEmail+ '</span> to this project?<br/><a href="'+rootdomain+'/CSpace/workspace/addCollaborator.php?targetUserName='+inviteEmail+'">Yes</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onClick="cancelInvite();">No</a>';
 }
 
 function cancelInvite() {

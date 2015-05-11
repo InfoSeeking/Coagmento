@@ -16,7 +16,7 @@
 <?php include('views/header.php'); ?>
 
 <div id="container">
-<h3>Print Reports</h3>
+<h3>Print Reports</h3><br>
 
 <?php
 
