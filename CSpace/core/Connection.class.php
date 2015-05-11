@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 // Matt: Temporarily commented out to suppress errors
-// require("config.php");
+require("config.php");
 class Connection
 {
 	private static $instance;
