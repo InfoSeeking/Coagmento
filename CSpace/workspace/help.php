@@ -4,6 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
+<link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
+<link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" />
+<script src="assets/js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../assets/js/jquery.js"></script>
 <style type="text/css">
 	li, p{
