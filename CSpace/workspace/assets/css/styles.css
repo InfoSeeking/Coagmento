@@ -93,29 +93,11 @@ ul{
   margin-right: 10px;
   font-family: "Arial";
 }
-.label{
-  /* removing color on labels for now */
-  background: transparent !important;
-  display: none;
-}
 .pg_All .label{
   display: block;
+  background: tranparent;
 }
-.label.bookmark{
-  background: #FFF15C;
-}
-.label.page{
-  background: #FF5C5C;
-}
-.label.snippet{
-  background: #40FF59;
-}
-.label.search{
-  background: #FFA769;
-}
-.label.source{
-  background: #C3A1FF;
-}
+
 .clear{
   clear: both;
 }
@@ -156,7 +138,6 @@ ul{
   border-radius: 5px;
 }
 #feed li{
-  overflow: hidden;
 }
 #feed li .top{
   padding: 5px 10px;
@@ -411,7 +392,8 @@ table.questionnaires a:hover{
   display: block;
 }
 #project_selection{
-  background-color: #4798F5;
+  background-color: #FFF;
+  color: #4798F5;
   padding: 5px 10px;
   border: 1px #1B77E0 solid;
   border-radius: 3px;
