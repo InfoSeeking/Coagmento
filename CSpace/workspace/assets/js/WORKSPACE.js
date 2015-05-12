@@ -1,3 +1,4 @@
+
 var WORKSPACE = (function(){
   var that = {};
   var all_tags = [];
@@ -6,6 +7,7 @@ var WORKSPACE = (function(){
   var only_mine;
   var userID;
   var searchRecordTimer;//only record search actions every second, to avoid constant ajax calls
+  var reviewShown = false;
 
   that.init = function(PAGE, feed_data, at, uid, om){
     lunr_index = lunr(function () {
@@ -221,16 +223,93 @@ var WORKSPACE = (function(){
     }
   }
 
+  function toggleReview(val){
+    /* Hacky, but it works */
+    if(val && !reviewShown){
+      reviewShown = true;
+      $(".middle_col").css("width", "0%").animate({
+        width: "39%"
+      });
+      $(".right_col").css("width", "80%").animate({
+        width: "40%"
+      });
+      $(".middle_col .floating").css("width", "0px").animate({
+        width: "310px"
+      });
+    } else if(!val && reviewShown){
+      reviewShown = false;
+      $(".middle_col").css("width", "39%").animate({
+        width: "0%"
+      });
+      $(".right_col").css("width", "40%").animate({
+        width: "80%"
+      });
+      $(".middle_col .floating").css("width", "310px").animate({
+        width: "0px"
+      });
+    }
+  }
+
+  function updateSelections(){
+    var selected = $(".feed_selection:checked");
+    if(selected.size()){
+      toggleReview(true);
+    } else {
+      toggleReview(false);
+    }
+    //clear the current list
+    $(".selection_list").empty();
+    for(var i = 0; i < selected.size(); i++){
+      var url = $(selected.get(i)).attr("data-url");
+      var title = " " + $(selected.get(i)).attr("data-title");
+      var li = $("<li>").html(title).attr("data-url", url);
+      var remove = $("<a>").attr("href", "#").addClass("remove").html("[X]");
+      li.prepend(remove);
+      remove.on("click", function(e){
+        e.preventDefault();
+        $(this).parents("li").detach();
+      })
+      $(".selection_list").append(li);
+    }
+  }
+
+  function clearSelections(){
+    $(".selection_list").empty();
+    toggleReview(false);
+    $(".feed_selection").prop("checked", false);
+  }
+
+  function cluster(){
+    var items = $(".selection_list li");
+    var urls = [];
+    for(var i = 0; i < items.size(); i++){
+      var item = $(items.get(i));
+      var url = item.attr("data-url");
+      urls.push(url);
+    };
+    var num_cluster = $(".cluster_num").val();
+    IRIS.cluster(urls, num_cluster);
+  }
+
+
   function initEventListeners(){
+    $(".cluster_btn").on("click", function(e){
+      cluster();
+    });
+    $(".feed_selection").on("click", function(e){
+      updateSelections();
+    });
+    $(".close_selections").on("click", function(e){
+      e.preventDefault();
+      clearSelections();
+    })
     $("#project_selection").on("change", function(e){
       window.location = $(this).find("option:selected").attr("data-url");
     })
     $("#only_mine").on("change", function(e){
       var val = $(this).prop("checked");
       var url = $(this).attr("data-to");
-      recordAction("only mine", val, function(){
-        window.location = url;
-      });
+      window.location = url;
     });
 
     $("#tag_filter").on("change", function(e){

@@ -16,7 +16,7 @@ Maybe we can use this as a replacement for the sidebar login as well.
     $password = sha1($_POST['password']);
     $error = false;
     $connection = Connection::getInstance();
-    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $query = sprintf("SELECT * FROM users WHERE username='%s' AND password='%s'", $connection->esc($username), $connection->esc($password));
     $results = $connection->commit($query);
     if(mysqli_num_rows($results) == 0){
       $feedback = "Incorrect username/password, please try again";

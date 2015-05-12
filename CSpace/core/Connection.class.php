@@ -10,11 +10,6 @@ class Connection
 	private $lastID;
 
 	public function __construct() {
-		// $host = "localhost";
-		// $username = "root";
-		// $password = "";
-		// $database = "coagmento-org";
-		// Temp: commented out for debugging purposes
     $host = DB_HOST;
 		$username = DB_USER;
 		$password = DB_PASS;
@@ -41,8 +36,8 @@ class Connection
 			return $results;
 		}
 		catch(Exception $e){
-			//echo $e->getMessage();
-			//exit();
+			echo $e->getMessage();
+			exit();
 		}
 	}
 

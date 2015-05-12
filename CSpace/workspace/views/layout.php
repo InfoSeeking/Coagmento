@@ -1,5 +1,4 @@
 <?php
-require_once("contributions.php");
 function gen_url($param){
   global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine;
   $defaults = array(
@@ -46,7 +45,7 @@ function gen_url($param){
         <div class='right-side links'>
           <a href="help.php">Help</a><br/>
           <a href="settings.php">Settings</a><br/>
-          <a href="points.php">Points</a><br/>
+          <a href="workspace-logout.php?redirect=index.php">Logout</a><br/>
         </div>
         <nav class='clear'>
           <ul>
@@ -63,8 +62,26 @@ function gen_url($param){
     </div>
 
     <div id="container">
+
       <div class="left_col">
         <?php require_once("views/aside.php"); ?>
+      </div>
+      <div class="middle_col">
+
+        <div class="floating">
+          <h4>Review your Selections</h4>
+          <ul class="selection_list">
+            <li></li>
+          </ul>
+          <div class="clustering">
+            <h5>Clustering</h5>
+            <p>Cluster into <input class="cluster_num" type="num" value="3" size="2" maxlength="3" /> clusters</p>
+            <button class="cluster_btn">Go</button>
+            <div class="cluster_results">
+            </div>
+          </div>
+          <a href="#" class="close_selections">Clear and Close Selections</a>
+        </div>
       </div>
       <div class="right_col">
       <div class="welcome">
@@ -78,6 +95,7 @@ function gen_url($param){
         ?>
         <ul id="feed"></ul>
       </div>
+
       <br class="clear" />
     </div>
     <script type="text/html" id="bookmark_template">
@@ -85,6 +103,9 @@ function gen_url($param){
         <div class="top">
           <div class="left_section">
             <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div>
+              <input type="checkbox" class="feed_selection" data-title="<%= title %>" data-url="<%= url %>" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
+            </div>
           </div>
           <div class="right_section">
 
@@ -163,6 +184,9 @@ function gen_url($param){
         <div class="top">
           <div class="left_section">
             <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div>
+              <input type="checkbox" class="feed_selection" data-title="<%= title %>" data-url="<%= url %>" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
+            </div>
           </div>
           <div class="right_section">
             <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
@@ -251,6 +275,7 @@ function gen_url($param){
     <script src="assets/js/jquery-2.1.3.min.js"></script>
     <script src="assets/js/simple_template.js"></script>
     <script src="assets/js/utils.js"></script>
+    <script src="assets/js/IRIS.js"></script>
     <script src="assets/js/WORKSPACE.js"></script>
     <script src="assets/js/lunr.js"></script>
     <script type="text/javascript" src="../assets/select2/select2.full.min.js"></script>

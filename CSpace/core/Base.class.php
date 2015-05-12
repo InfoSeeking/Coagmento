@@ -225,7 +225,8 @@ class Base {
 	}
   public function getAllProjects(){
     $cxn = Connection::getInstance();
-    $results = $cxn->commit(sprintf("select * from projects P, memberships M where P.projectID=M.projectID and M.userID=%d", $this->userID));
+    $q = sprintf("select * from projects P, memberships M where P.projectID=M.projectID and M.userID=%d", $this->userID);
+    $results = $cxn->commit($q);
     return $results;
   }
 
