@@ -46,7 +46,7 @@ a{
   text-decoration: none;
 }
 #container{
-  width: 800px;
+  width: 100%;
   margin: 10px auto;
 }
 .page_header nav{
@@ -102,28 +102,30 @@ ul{
 .clear{
   clear: both;
 }
-.left_col{
-  float: right;
-  width: 19%;
+.sidebar_col{
+  float: left;
   padding-left: 1%;
+  width: 8%;
+  padding-right: 1%;
 }
-.right_col{
-  width: 80%;
+.feed_col{
+  width: 40%;
   float: left;
 }
-.middle_col{
-  width: 0%;
+.review_col{
+  width: 48%;
   padding-left: 1%;
-  float: right;
+  float: left;
+  padding-right: 1%;
+  position: relative;
 }
-.middle_col .floating{
-  position: fixed;
-  width: 0px;
-  overflow: hidden;
+.review_col .floating{
 }
-.middle_col .clustering{
-  padding: 5px;
-  background: #EEE;
+.review_col .clustering{
+  padding-top: 5px;
+}
+.some_selections {
+  display: none;
 }
 .cluster_results{
   padding-top: 5px;
@@ -372,7 +374,7 @@ table.questionnaires a:hover{
 #bookmark_filters .current a, #bookmark_filters li:hover a{
   color: #FFF;
 }
-.left_col h4{
+.sidebar_col h4{
   margin-top: 10px;
 }
 .pg_All .welcome{
@@ -407,10 +409,9 @@ table.questionnaires a:hover{
   text-decoration: underline;
 }
 
-#container h3{
+.feed_col h3{
   background: #4798F5;
   color: #FFF;
-  width: 200px;
   text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
