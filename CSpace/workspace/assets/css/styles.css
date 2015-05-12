@@ -92,6 +92,7 @@ ul{
   font-size: 10px;
   margin-right: 10px;
   font-family: "Arial";
+  display: none;
 }
 .pg_All .label{
   display: block;

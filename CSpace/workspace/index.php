@@ -44,6 +44,7 @@ $sorting = isset($_GET["sorting"]) ? $_GET["sorting"] : "timestamp";
 $sorting_order = isset($_GET["sorting_order"]) ? $_GET["sorting_order"] : "DESC";
 $sorting_query = $sorting . " " . $sorting_order;
 $only_mine = isset($_GET["only_mine"]) ? $_GET["only_mine"] : false;
+$hide_pages = isset($_GET["hide_pages"]) ? $_GET["hide_pages"] : true;
 
 if($only_mine){
   $only_mine=$username;
@@ -52,10 +53,14 @@ if($only_mine){
 switch($PAGE){
   case "ALL":
     $bookmarks = extend_data(Bookmark::retrieveFromProject($projectID), "bookmark");
-    $pages = extend_data(Page::retrieveFromProject($projectID), "page");
+    if(!$hide_pages){
+      $pages = extend_data(Page::retrieveFromProject($projectID), "page");
+    }
     $snippets = extend_data(Snippet::retrieveFromProject($projectID), "snippet");
     $searches = extend_data(Query::retrieveFromProject($projectID), "search");
-    $feed_data = timestamp_merge($feed_data, $pages);
+    if(!$hide_pages){
+      $feed_data = timestamp_merge($feed_data, $pages);
+    }
     $feed_data = timestamp_merge($feed_data, $bookmarks);
     $feed_data = timestamp_merge($feed_data, $snippets);
     $feed_data = timestamp_merge($feed_data, $searches);

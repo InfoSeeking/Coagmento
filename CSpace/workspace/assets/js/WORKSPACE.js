@@ -312,6 +312,12 @@ var WORKSPACE = (function(){
       window.location = url;
     });
 
+    $("#hide_pages").on("change", function(e){
+      var val = $(this).prop("checked");
+      var url = $(this).attr("data-to");
+      window.location = url;
+    });
+
     $("#tag_filter").on("change", function(e){
       var url = $(this).val();
       var tag = $(this).find("option:selected").html();

@@ -1,12 +1,13 @@
 <?php
 function gen_url($param){
-  global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine;
+  global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine, $hide_pages;
   $defaults = array(
   "page" => $PAGE,
   "bookmark_tag_filter" => $current_tag,
   "sorting" => $sorting,
   "sorting_order" => $sorting_order,
-  "only_mine" => $only_mine
+  "only_mine" => $only_mine,
+  "hide_pages" => $hide_pages
   );
   $param = array_merge($defaults, $param);
   return "?" . http_build_query($param);
