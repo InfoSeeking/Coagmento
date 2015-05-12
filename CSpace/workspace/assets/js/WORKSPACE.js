@@ -309,9 +309,7 @@ var WORKSPACE = (function(){
     $("#only_mine").on("change", function(e){
       var val = $(this).prop("checked");
       var url = $(this).attr("data-to");
-      recordAction("only mine", val, function(){
-        window.location = url;
-      });
+      window.location = url;
     });
 
     $("#tag_filter").on("change", function(e){

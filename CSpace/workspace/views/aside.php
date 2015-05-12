@@ -62,9 +62,7 @@ if($PAGE == "BOOKMARKS"):
   printf("<option value='%s' %s>Page title [Z to A]</option>", gen_url($params), $params["sorting"] == $sorting && $params["sorting_order"] == $sorting_order ? "selected" : "");
   ?>
 </select>
-<div class="only_mine_container">
-  <input type="checkbox" id="only_mine" <?php echo ($only_mine ? "checked" : ""); ?> data-to="<?php echo gen_url(array("only_mine" => !$only_mine)); ?>"> <label for="only_mine">Only show mine</label>
-</div>
+
 <?php
 elseif($PAGE == "SNIPPETS"):
   $has_sorting = true;
@@ -97,9 +95,7 @@ elseif($PAGE == "SNIPPETS"):
 
   ?>
 </select>
-<div class="only_mine_container">
-  <input type="checkbox" id="only_mine" <?php echo ($only_mine ? "checked" : ""); ?> data-to="<?php echo gen_url(array("only_mine" => !$only_mine)); ?>"> <label for="only_mine">Only show mine</label>
-</div>
+
 <?php
 elseif($PAGE == "SEARCHES"):
   $has_sorting = true;
@@ -118,10 +114,11 @@ elseif($PAGE == "SEARCHES"):
   printf("<option value='%s' %s>Time saved [Oldest first]</option>", gen_url($params), $params["sorting"] == $sorting && $params["sorting_order"] == $sorting_order ? "selected" : "");
   ?>
 </select>
+
+<?php endif; ?>
+
 <div class="only_mine_container">
   <input type="checkbox" id="only_mine" <?php echo ($only_mine ? "checked" : ""); ?> data-to="<?php echo gen_url(array("only_mine" => !$only_mine)); ?>"> <label for="only_mine">Only show mine</label>
 </div>
-<?php endif; ?>
-
 
 </div>

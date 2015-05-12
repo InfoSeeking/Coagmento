@@ -45,7 +45,6 @@ function gen_url($param){
         <div class='right-side links'>
           <a href="help.php">Help</a><br/>
           <a href="settings.php">Settings</a><br/>
-          <a href="points.php">Points</a><br/>
           <a href="workspace-logout.php?redirect=index.php">Logout</a><br/>
         </div>
         <nav class='clear'>
