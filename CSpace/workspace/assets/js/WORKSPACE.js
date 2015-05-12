@@ -267,8 +267,18 @@ var WORKSPACE = (function(){
     IRIS.cluster(urls, num_cluster);
   }
 
+  function showThumbnail(src){
+    $(".enlarged_thumbnail img").attr("src", src);
+    $(".enlarged_thumbnail").show();
+  }
 
   function initEventListeners(){
+    $(".thumbnail_container").on("click", function(e){
+      showThumbnail($(this).attr("data-src"));
+    });
+    $(".close_thumbnail").on("click", function(e){
+      $(".enlarged_thumbnail").hide();
+    });
     $(".cluster_btn").on("click", function(e){
       cluster();
     });

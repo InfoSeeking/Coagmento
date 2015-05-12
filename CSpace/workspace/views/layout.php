@@ -87,6 +87,10 @@ function gen_url($param){
             <p>Select items to review and analyze</p>
             <p>Click a thumbnail to see the full image</p>
           </div>
+          <div class="enlarged_thumbnail">
+            <div class="close_thumbnail">Close</div>
+            <img src="" />
+          </div>
           <div class="some_selections">
             <h4>Review your Selections</h4>
             <a href="#" class="close_selections">Clear Selections</a>
@@ -115,7 +119,10 @@ function gen_url($param){
       <li data-bookmarkID="TODO" data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
           <div class="left_section">
-            <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div class="thumbnail_container" data-src="../thumbnails/<%= fileName %>">
+              <div class="thumbnail_message">Click to view</div>
+              <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            </div>
             <div>
               <input type="checkbox" class="feed_selection" data-title="<%= title %>" data-url="<%= url %>" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
             </div>
@@ -196,7 +203,10 @@ function gen_url($param){
       <li data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
           <div class="left_section">
-            <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div class="thumbnail_container" data-src="../thumbnails/<%= fileName %>">
+              <div class="thumbnail_message">Click to view</div>
+              <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            </div>
             <div>
               <input type="checkbox" class="feed_selection" data-title="<%= title %>" data-url="<%= url %>" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
             </div>

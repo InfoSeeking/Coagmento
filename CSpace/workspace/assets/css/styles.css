@@ -521,8 +521,6 @@ hr.gray-style {
   color: #FFF;
   text-shadow: 0px 1px 1px #3d6516;
 }
-<<<<<<< HEAD
-
 
 
 .custom-file-input::-webkit-file-upload-button {
@@ -550,5 +548,42 @@ hr.gray-style {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 
-=======
->>>>>>> origin/master
+.thumbnail_container {
+  cursor: pointer;
+  position: relative;
+}
+.thumbnail_container .thumbnail_message{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  font-family: "Arial";
+  font-size: 10pt;
+  width: 100%;
+  text-align: center;
+  padding: 1px 0px;
+  color: #FFF;
+  background: rgba(0,0,0,.8);
+  display: none;
+}
+.thumbnail_container:hover .thumbnail_message {
+  display: block;
+}
+.enlarged_thumbnail {
+  display: none;
+  position: relative;
+}
+.enlarged_thumbnail .close_thumbnail{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 2px 4px;
+  background: rgba(0,0,0,.8);
+  font-family: "Arial";
+  color: #FFF;
+  font-size: 10pt;
+  cursor: pointer;
+}
+.enlarged_thumbnail img{
+  width: 100%;
+  outline: 1px black solid;
+}
