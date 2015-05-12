@@ -223,40 +223,16 @@ var WORKSPACE = (function(){
     }
   }
 
-  function toggleReview(val){
-    /* Hacky, but it works */
-    if(val && !reviewShown){
-      reviewShown = true;
-      $(".middle_col").css("width", "0%").animate({
-        width: "39%"
-      });
-      $(".right_col").css("width", "80%").animate({
-        width: "40%"
-      });
-      $(".middle_col .floating").css("width", "0px").animate({
-        width: "310px"
-      });
-    } else if(!val && reviewShown){
-      reviewShown = false;
-      $(".middle_col").css("width", "39%").animate({
-        width: "0%"
-      });
-      $(".right_col").css("width", "40%").animate({
-        width: "80%"
-      });
-      $(".middle_col .floating").css("width", "310px").animate({
-        width: "0px"
-      });
-    }
-  }
-
   function updateSelections(){
     var selected = $(".feed_selection:checked");
-    if(selected.size()){
-      toggleReview(true);
+    if(selected.size() > 0){
+      $(".no_selections").hide();
+      $(".some_selections").show();
     } else {
-      toggleReview(false);
+      $(".no_selections").show();
+      $(".some_selections").hide();
     }
+
     //clear the current list
     $(".selection_list").empty();
     for(var i = 0; i < selected.size(); i++){
@@ -275,8 +251,8 @@ var WORKSPACE = (function(){
 
   function clearSelections(){
     $(".selection_list").empty();
-    toggleReview(false);
     $(".feed_selection").prop("checked", false);
+    updateSelections();
   }
 
   function cluster(){
@@ -291,8 +267,18 @@ var WORKSPACE = (function(){
     IRIS.cluster(urls, num_cluster);
   }
 
+  function showThumbnail(src){
+    $(".enlarged_thumbnail img").attr("src", src);
+    $(".enlarged_thumbnail").show();
+  }
 
   function initEventListeners(){
+    $(".thumbnail_container").on("click", function(e){
+      showThumbnail($(this).attr("data-src"));
+    });
+    $(".close_thumbnail").on("click", function(e){
+      $(".enlarged_thumbnail").hide();
+    });
     $(".cluster_btn").on("click", function(e){
       cluster();
     });
@@ -307,6 +293,12 @@ var WORKSPACE = (function(){
       window.location = $(this).find("option:selected").attr("data-url");
     })
     $("#only_mine").on("change", function(e){
+      var val = $(this).prop("checked");
+      var url = $(this).attr("data-to");
+      window.location = url;
+    });
+
+    $("#hide_pages").on("change", function(e){
       var val = $(this).prop("checked");
       var url = $(this).attr("data-to");
       window.location = url;
@@ -529,5 +521,6 @@ var WORKSPACE = (function(){
       });
     });
   }
+
   return that;
 }());

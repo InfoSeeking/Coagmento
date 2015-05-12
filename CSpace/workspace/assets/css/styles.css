@@ -46,7 +46,7 @@ a{
   text-decoration: none;
 }
 #container{
-  width: 800px;
+  width: 100%;
   margin: 10px auto;
 }
 .page_header nav{
@@ -92,55 +92,40 @@ ul{
   font-size: 10px;
   margin-right: 10px;
   font-family: "Arial";
-}
-.label{
-  /* removing color on labels for now */
-  background: transparent !important;
   display: none;
 }
 .pg_All .label{
   display: block;
+  background: tranparent;
 }
-.label.bookmark{
-  background: #FFF15C;
-}
-.label.page{
-  background: #FF5C5C;
-}
-.label.snippet{
-  background: #40FF59;
-}
-.label.search{
-  background: #FFA769;
-}
-.label.source{
-  background: #C3A1FF;
-}
+
 .clear{
   clear: both;
 }
-.left_col{
-  float: right;
-  width: 19%;
+.sidebar_col{
+  float: left;
   padding-left: 1%;
+  width: 8%;
+  padding-right: 1%;
 }
-.right_col{
-  width: 80%;
+.feed_col{
+  width: 40%;
   float: left;
 }
-.middle_col{
-  width: 0%;
+.review_col{
+  width: 48%;
   padding-left: 1%;
-  float: right;
+  float: left;
+  padding-right: 1%;
+  position: relative;
 }
-.middle_col .floating{
-  position: fixed;
-  width: 0px;
-  overflow: hidden;
+.review_col .floating{
 }
-.middle_col .clustering{
-  padding: 5px;
-  background: #EEE;
+.review_col .clustering{
+  padding-top: 5px;
+}
+.some_selections {
+  display: none;
 }
 .cluster_results{
   padding-top: 5px;
@@ -156,7 +141,6 @@ ul{
   border-radius: 5px;
 }
 #feed li{
-  overflow: hidden;
 }
 #feed li .top{
   padding: 5px 10px;
@@ -390,7 +374,7 @@ table.questionnaires a:hover{
 #bookmark_filters .current a, #bookmark_filters li:hover a{
   color: #FFF;
 }
-.left_col h4{
+.sidebar_col h4{
   margin-top: 10px;
 }
 .pg_All .welcome{
@@ -411,7 +395,8 @@ table.questionnaires a:hover{
   display: block;
 }
 #project_selection{
-  background-color: #4798F5;
+  background-color: #FFF;
+  color: #4798F5;
   padding: 5px 10px;
   border: 1px #1B77E0 solid;
   border-radius: 3px;
@@ -424,10 +409,9 @@ table.questionnaires a:hover{
   text-decoration: underline;
 }
 
-#container h3{
+.feed_col h3{
   background: #4798F5;
   color: #FFF;
-  width: 200px;
   text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -537,8 +521,6 @@ hr.gray-style {
   color: #FFF;
   text-shadow: 0px 1px 1px #3d6516;
 }
-<<<<<<< HEAD
-
 
 
 .custom-file-input::-webkit-file-upload-button {
@@ -566,5 +548,42 @@ hr.gray-style {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 
-=======
->>>>>>> origin/master
+.thumbnail_container {
+  cursor: pointer;
+  position: relative;
+}
+.thumbnail_container .thumbnail_message{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  font-family: "Arial";
+  font-size: 10pt;
+  width: 100%;
+  text-align: center;
+  padding: 1px 0px;
+  color: #FFF;
+  background: rgba(0,0,0,.8);
+  display: none;
+}
+.thumbnail_container:hover .thumbnail_message {
+  display: block;
+}
+.enlarged_thumbnail {
+  display: none;
+  position: relative;
+}
+.enlarged_thumbnail .close_thumbnail{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 2px 4px;
+  background: rgba(0,0,0,.8);
+  font-family: "Arial";
+  color: #FFF;
+  font-size: 10pt;
+  cursor: pointer;
+}
+.enlarged_thumbnail img{
+  width: 100%;
+  outline: 1px black solid;
+}

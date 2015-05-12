@@ -1,12 +1,13 @@
 <?php
 function gen_url($param){
-  global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine;
+  global $PAGE, $sorting, $sorting_order, $current_tag, $only_mine, $hide_pages;
   $defaults = array(
   "page" => $PAGE,
   "bookmark_tag_filter" => $current_tag,
   "sorting" => $sorting,
   "sorting_order" => $sorting_order,
-  "only_mine" => $only_mine
+  "only_mine" => $only_mine,
+  "hide_pages" => $hide_pages
   );
   $param = array_merge($defaults, $param);
   return "?" . http_build_query($param);
@@ -63,29 +64,13 @@ function gen_url($param){
 
     <div id="container">
 
-      <div class="left_col">
+      <div class="sidebar_col">
         <?php require_once("views/aside.php"); ?>
       </div>
-      <div class="middle_col">
-
-        <div class="floating">
-          <h4>Review your Selections</h4>
-          <ul class="selection_list">
-            <li></li>
-          </ul>
-          <div class="clustering">
-            <h5>Clustering</h5>
-            <p>Cluster into <input class="cluster_num" type="num" value="3" size="2" maxlength="3" /> clusters</p>
-            <button class="cluster_btn">Go</button>
-            <div class="cluster_results">
-            </div>
-          </div>
-          <a href="#" class="close_selections">Clear and Close Selections</a>
+      <div class="feed_col">
+        <div class="welcome">
+          <p>Welcome, <?php echo $username ?>!</p>
         </div>
-      </div>
-      <div class="right_col">
-      <div class="welcome">
-        <p>Welcome, <?php echo $username ?>!</p>
         <?php
         if($projectID == -1):
         ?>
@@ -95,6 +80,38 @@ function gen_url($param){
         ?>
         <ul id="feed"></ul>
       </div>
+      <div class="review_col">
+        <div class="floating">
+          <h3>Workspace</h3>
+          <div class="no_selections">
+            <p>Select items to review and analyze</p>
+            <p>Click a thumbnail to see the full image</p>
+          </div>
+          <div class="enlarged_thumbnail">
+            <div class="close_thumbnail">Close</div>
+            <img src="" />
+          </div>
+          <div class="some_selections">
+            <h4>Review your Selections</h4>
+            <a href="#" class="close_selections">Clear Selections</a>
+            <ul class="selection_list">
+              <li></li>
+            </ul>
+            <h4>Analyze with IRIS <img width="70" src="../assets/img/poweredbyIRIS.png" style="position:relative;top:10px" /></h4>
+
+            <div class="clustering">
+              <h5>Cluster Pages</h5>
+              <p>Cluster into <input class="cluster_num" type="num" value="3" size="2" maxlength="3" /> clusters</p>
+              <button class="cluster_btn">Go</button>
+              <div class="cluster_results">
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
 
       <br class="clear" />
     </div>
@@ -102,7 +119,10 @@ function gen_url($param){
       <li data-bookmarkID="TODO" data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
           <div class="left_section">
-            <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div class="thumbnail_container" data-src="../thumbnails/<%= fileName %>">
+              <div class="thumbnail_message">Click to view</div>
+              <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            </div>
             <div>
               <input type="checkbox" class="feed_selection" data-title="<%= title %>" data-url="<%= url %>" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
             </div>
@@ -183,7 +203,10 @@ function gen_url($param){
       <li data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
           <div class="left_section">
-            <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            <div class="thumbnail_container" data-src="../thumbnails/<%= fileName %>">
+              <div class="thumbnail_message">Click to view</div>
+              <img src="../thumbnails/small/<%= fileName %>" width="120" class="thumbnail" />
+            </div>
             <div>
               <input type="checkbox" class="feed_selection" data-title="<%= title %>" data-url="<%= url %>" id="ck_<%= lunr_id %>" /> <label for="ck_<%= lunr_id %>" >Select</label>
             </div>

@@ -3,7 +3,13 @@
 </div>
 
 <?php
-if($PAGE == "BOOKMARKS"):
+if($PAGE == "ALL"):
+?>
+<div class="only_mine_container">
+  <input type="checkbox" id="hide_pages" <?php echo ($hide_pages ? "checked" : ""); ?> data-to="<?php echo gen_url(array("hide_pages" => !$hide_pages)); ?>"> <label for="hide_pages"> Hide history pages</label>
+</div>
+<?php
+elseif($PAGE == "BOOKMARKS"):
 ?>
 <div id="bookmark_filters">
   <h4>Filter by tag</h4>
@@ -118,7 +124,7 @@ elseif($PAGE == "SEARCHES"):
 <?php endif; ?>
 
 <div class="only_mine_container">
-  <input type="checkbox" id="only_mine" <?php echo ($only_mine ? "checked" : ""); ?> data-to="<?php echo gen_url(array("only_mine" => !$only_mine)); ?>"> <label for="only_mine">Only show mine</label>
+  <input type="checkbox" id="only_mine" <?php echo ($only_mine ? "checked" : ""); ?> data-to="<?php echo gen_url(array("only_mine" => !$only_mine)); ?>"> <label for="only_mine"> Only show mine</label>
 </div>
 
 </div>
