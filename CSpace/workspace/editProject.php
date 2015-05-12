@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
+<link type="text/css" href="assets/css/pure-release-0.6.0/forms.css" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 
@@ -80,7 +81,58 @@
 	$privacy = $line['privacy'];
 ?>
 	<tr><td><br/></td></tr>
+
 	<tr><td>
+
+		<!--  Form is dummy.  Used for convenience of Pure styling! :) Bad practice. -->
+		<form class="pure-form pure-form-stacked" onsubmit="return false;">
+    <fieldset>
+
+        <label for="projTitle"><strong>Title</strong></label>
+				<input id="projTitle" type="text" size=32 value="<?php echo $title;?>" />
+				<br>
+
+        <label for="projDesc"><strong>Description (optional)</strong></label>
+				<textarea id="projDesc" cols=30 rows=4><?php echo $description;?></textarea>
+				<br>
+
+				<label for="privacy"><strong>Privacy</strong></label>
+				<input type="radio" name="privacy" id="public" <?php if ($privacy==0) echo "checked"; ?> /> Public (any user can search and join this project)<br/>
+				<input type="radio" name="privacy" id="private"  <?php if ($privacy==1) echo "checked"; ?> /> Private (you will have to invite others to join)<br/>
+				<br>
+
+
+
+				<input type=button class="button-submit" value="Submit" onClick="editProj();"/>
+				<input type=button class="button-other" value="Cancel" onClick="location.href='projects.php';return false;"/>
+				<br><br>
+				<span style="color:gray;">(Remember, you will be the owner of this project, <br/>so no matter what setting you choose, you can<br/>remove any of your collaborators at any time.)</span>
+	    </fieldset>
+	</form>
+
+
+		<!-- <table class="style1">
+
+		<tr><td></td><td></td>
+			<td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;
+			<div id="sureCreate"></div>
+			</td>
+		</tr>
+		<tr><td>Privacy</td>
+			<td>
+				<input type="radio" name="privacy" id="public" <?php if ($privacy==0) echo "checked"; ?> /> Public (any user can search and join this project)<br/>
+				<input type="radio" name="privacy" id="private"  <?php if ($privacy==1) echo "checked"; ?> /> Private (you will have to invite others to join)<br/>
+			</td>
+			<td><input type="hidden" name="projectID" id="projectID" value="<?php echo $projectID;?>" /></td>
+		</tr>
+		<tr><td></td><td><span style="color:gray;">Remember, you will be the owner of this project, so no matter what setting<br/> you choose, you can remove any of your collaborators at any time.</span></td><td></td></tr>
+
+		</table> -->
+		</td>
+	</tr>
+
+
+	<!-- <tr><td>
 		<table class="style1">
 		<tr><td>Title</td><td><input id="projTitle" type="text" size=32 value="<?php echo $title;?>" /></td><td></td></tr>
 		<tr><td>Description<br/>(optional)</td><td><textarea id="projDesc" cols=30 rows=4><?php echo $description;?></textarea></td>
@@ -100,7 +152,7 @@
 		<tr><td colspan=2 align=center><input type=button class="button-submit" value="Submit" onClick="editProj();"/> <input type=button class="button-other" value="Cancel" onClick="location.href='projects.php'"/></td><td></td></tr>
 		</table>
 		</td>
-	</tr>
+	</tr> -->
 </table>
 <?php
 	}

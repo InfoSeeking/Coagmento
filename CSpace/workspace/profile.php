@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
+<link type="text/css" href="assets/css/pure-release-0.6.0/forms.css" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -88,29 +89,103 @@
 		$website = $line['website'];
 		$avatar = $line['avatar'];
 
-		echo "<table class=\"body\"><tr><td>";
-		echo "<table class=\"body\">\n";
-	    echo "<tr><td>Username</td><td>$userName<input type=\"hidden\" name=\"username\" value=\"$userName\"/></td></tr>\n";
-        echo "<tr><td>Password*</td><td><input id=\"password\" type=\"password\" size=30 /></td></tr>\n";
-        echo "<tr><td>Confirm Password*</td><td><input id=\"cpassword\" type=\"password\" size=30 /></td></tr>\n";
-        echo "<tr><td>First Name</td><td><input type=\"text\" id=\"fname\" size=30 value=\"$firstName\"/></td></tr>\n";
-        echo "<tr><td>Last Name</td><td><input type=\"text\" id=\"lname\"  size=30 value=\"$lastName\"/></td></tr>\n";
-        echo "<tr><td>Organization</td><td><input type=\"text\" id=\"organization\" size=30 value=\"$organization\"/></td></tr>\n";
-        echo "<tr><td>Email</td><td><input type=\"text\" size=30 id=\"email\" value=\"$email\" disabled /></td></tr>\n";
-        echo "<tr><td>Website</td><td><input type=\"text\" size=30 id=\"website\" value=\"$website\"/></td></tr>\n";
-        echo "<tr><td><input type=\"button\" class=\"button-submit\" value=\"Update\" onClick=\"updateProfile();\">";
-				echo "<tr><td colspan=2><span class=\"paren-text\">*Only if you want to change your existing password.</span></td></tr>\n";
-        echo "<input type=\"hidden\"   name=\"update\" value=\"true\"/></td></tr>\n";
-        echo "</table>\n";
-        echo "</td><td valign=top><table>";
-        echo "<tr><td>";
-				echo "<p><img src=\"../assets/img/$avatar\" height=100 width=100></p>";
+		echo "<tr><td style=\"padding:0;display:inline-block;\"><table><tr><td>";
+			echo "<form class=\"pure-form pure-form-aligned\" style=\"border-spacing:0;margin:0 0 0 0\">";
+				echo "<fieldset style=\"margin:0 0 0 0\">";
 
-        echo "<form action=\"profile.php\"  enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
-        echo "<div class=\"fileUpload button-other\" style=\"width:100%\"><span>Browse for photos...</span><input type=\"file\" class=\"upload\" /></div>";
-				echo "<input type=\"submit\" class=\"button-submit\" style=\"width:100%\" value=\"Upload\"/></form>";
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"username\"><strong>Username</strong></label>";
+				echo "$userName<input type=\"hidden\" name=\"username\" value=\"$userName\"/>";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"password\"><strong>Password*</strong></label>";
+				echo "<input id=\"password\" type=\"password\" size=30 />";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"cpassword\"><strong>Confirm Password*</strong></label>";
+				echo "<input id=\"cpassword\" type=\"password\" size=30 />";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"fname\"><strong>First Name</strong></label>";
+				echo "<input type=\"text\" id=\"fname\" size=30 value=\"$firstName\"/>";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"lname\"><strong>Last Name</strong></label>";
+				echo "<input type=\"text\" id=\"lname\"  size=30 value=\"$lastName\"/>";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"organization\"><strong>Organization</strong></label>";
+				echo "<input type=\"text\" id=\"organization\" size=30 value=\"$organization\"/>";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"email\"><strong>Email</strong></label>";
+				echo "<input type=\"text\" size=30 id=\"email\" value=\"$email\" disabled />";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<div class=\"pure-control-group\" style=\"margin:0 0 0 0\">";
+				echo "<label for=\"website\"><strong>Website</strong></label>";
+				echo "<input type=\"text\" size=30 id=\"website\" value=\"$website\"/>";
+				echo "</div>";
+				echo "<br>";
+
+				echo "<input type=\"hidden\"   name=\"update\" value=\"true\"/>";
+
+
+
+				echo "<center><input type=\"button\" class=\"button-submit\" value=\"Update\" style=\"align:center\" onClick=\"updateProfile();\"></center>";
+				echo "<br><center><span class=\"paren-text\">*Only if you want to change your existing password.</span></center>";
+				echo "</fieldset>";
+				echo "</form>";
+
+			echo "</table></td>\n";
+
+			echo "<td valign=top halign=left style=\"padding:0;display:inline-block\">";
+			echo "<table>";
+			echo "<tr><td>";
+
+
+
+				echo "<form class=\"pure-form\" action=\"profile.php\"  enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
+					echo "<center><img src=\"../assets/img/$avatar\" height=100 width=100><center>";
+					echo "<center><div class=\"fileUpload button-other\" ><label for=\"inputphoto\">Browse for photos<input type=\"file\" id=\"inputphoto\" class=\"upload custom-file-input\"></label></div></center>";
+					echo "<center><input type=\"submit\" class=\"button-submit\"  style=\"width:90%\" value=\"Upload\"/></center>";
+					echo "</form>";
+
+
+
+
 				echo "</td></tr>\n";
-        echo "</table></td></tr></table>\n\n";
+		    echo "</table></td></tr>\n\n";
+
+
+
+
+		//echo "<table class=\"body\">\n";
+    //echo "<input type=\"hidden\"   name=\"update\" value=\"true\"/></td></tr>\n";
+    //echo "</table>\n";
+    //echo "</td>";
+		//echo "<td valign=top>";
+		//echo "<table>";
+    //echo "<tr><td>";
+		//echo "<p><img src=\"../assets/img/$avatar\" height=100 width=100></p>";
+    //echo "<form action=\"profile.php\"  enctype=\"multipart/form-data\" method=\"post\" onsubmit=\"return AIM.submit(this, {'onStart' : startCallback, 'onComplete' : completeCallback}\">";
+    //echo "<div class=\"fileUpload button-other\" style=\"width:100%\"><span>Browse for photos...</span><input type=\"file\" class=\"upload\" /></div>";
+		//echo "<input type=\"submit\" class=\"button-submit\" style=\"width:100%\" value=\"Upload\"/></form>";
+		//echo "</td></tr>\n";
+    //echo "</table></td></tr></table>\n\n";
 
 	?>
 </table>

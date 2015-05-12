@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
-
+<link type="text/css" href="assets/css/pure-release-0.6.0/forms.css" rel="stylesheet" />
 <title>Coagmento - Collaborative Information Seeking, Synthesis, and Sense-making</title>
 
 <?php
@@ -18,7 +18,7 @@
 <?php include('views/header.php'); ?>
 
 <div id="container">
-<h3>Create a Project</h3>
+<h3>Create a Project</h3><br>
 
 <?php
 
@@ -83,7 +83,35 @@
 	} // if (isset($_GET['title']))
 ?>
 	<tr><td>
-		<table class="style1">
+
+		<form class="pure-form pure-form-stacked" onsubmit="return false;">
+			<div id="sureCreate"></div>
+    <fieldset>
+
+        <label for="projTitle"><strong>Title</strong></label>
+				<input id="projTitle" type="text" size=32 value="<?php echo $title;?>" />
+				<br>
+
+        <label for="projDesc"><strong>Description (optional)</strong></label>
+				<textarea id="projDesc" cols=30 rows=4><?php echo $description;?></textarea>
+				<br>
+
+				<label for="privacy"><strong>Privacy</strong></label>
+				<input type="radio" name="privacy" id="public" <?php if ($privacy==0) echo "checked"; ?> /> Public (any user can search and join this project)<br/>
+				<input type="radio" name="privacy" id="private"  <?php if ($privacy==1) echo "checked"; ?> /> Private (you will have to invite others to join)<br/>
+				<br>
+
+
+
+				<input type=button class="button-submit" value="Submit" onClick="createProj();"/>
+				<input type=button class="button-other" value="Cancel" onClick="location.href='projects.php';return false;"/>
+				<br><br>
+				<span style="color:gray;">(Remember, you will be the owner of this project, <br/>so no matter what setting you choose, you can<br/>remove any of your collaborators at any time.)</span>
+	    </fieldset>
+	</form>
+
+
+		<!-- <table class="style1">
 		<tr><td><strong>Title</strong></td><td><input id="projTitle" type="text" size=45 /></td><td></td></tr>
 		<tr><td><strong>Description<br/>(optional)</strong></td><td><textarea id="projDesc" cols=30 rows=4></textarea></td>
 			<td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -99,10 +127,13 @@
 		</tr>
 		<tr><td></td><td><span style="color:gray;">Remember, you will be the owner of this project, so no matter what setting<br/> you choose, you can remove any of your collaborators at any time.</span></td><td></td></tr>
 		<tr><td><input type=button class="button-submit" value="Create" onClick="createProj();"/></td><td></td></tr>
-		</table>
+		</table> -->
 		</td>
 	</tr>
 
+</table>
+<hr class="gray-style">
+<table class="body" width="100%">
 <?php
 	echo "<tr><td><table class=\"style1\"><tr><td>&nbsp;</td></tr>";
 	echo "<tr><td><span style=\"font-size: 16px; font-weight:bold\">Existing projects</span></td></tr><tr>\n";
