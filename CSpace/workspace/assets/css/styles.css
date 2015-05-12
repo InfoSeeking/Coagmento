@@ -128,7 +128,23 @@ ul{
   width: 80%;
   float: left;
 }
-
+.middle_col{
+  width: 0%;
+  padding-left: 1%;
+  float: right;
+}
+.middle_col .floating{
+  position: fixed;
+  width: 0px;
+  overflow: hidden;
+}
+.middle_col .clustering{
+  padding: 5px;
+  background: #EEE;
+}
+.cluster_results{
+  padding-top: 5px;
+}
 #feed > li, #feed .bookmarks > li, #feed .snippets > li, #feed .bookmark-snippets > li{
   margin-bottom: 20px;
   position: relative;
@@ -138,6 +154,9 @@ ul{
   border-bottom: 1px #1B77E0 solid;
   background: #FFF;
   border-radius: 5px;
+}
+#feed li{
+  overflow: hidden;
 }
 #feed li .top{
   padding: 5px 10px;
@@ -486,8 +505,6 @@ background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0
     opacity: 0;
     filter: alpha(opacity=0);
 }
-<<<<<<< HEAD
-=======
 
 
 hr.gradient-style {
@@ -520,4 +537,3 @@ hr.gray-style {
   color: #FFF;
   text-shadow: 0px 1px 1px #3d6516;
 }
->>>>>>> aaf7785f2de4a799c07fcf7df2e6c938ddea462e
