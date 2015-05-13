@@ -9,6 +9,7 @@ Colors:
 }
 body{
   background: #FFF;
+  padding-top: 59px;
 }
 #header_container{
   background: #7eb3dd;
@@ -49,24 +50,24 @@ a{
   width: 100%;
   margin: 10px auto;
 }
-.page_header nav{
-  padding-top: 10px;
+.feed-links {
+  padding-top: 2px;
+  border-top: 1px white solid;
 }
-.page_header nav li{
+.feed-links ul {
+  margin-bottom: 2px;
+}
+.feed-links li{
   display: inline-block;
 }
-.page_header nav li a{
+.feed-links li a{
   display: inline-block;
   padding: 1px 10px;
   text-decoration: none;
   color: #FFF;
-  background: #4798F5;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 }
-.page_header nav li a:hover, .page_header nav li a.current{
-  background: #1B77E0;
-  color: #FFF;
+.feed-links li a:hover, .feed-links li a.current{
+  color: #0000CB;
 }
 ul{
   list-style-type: none;

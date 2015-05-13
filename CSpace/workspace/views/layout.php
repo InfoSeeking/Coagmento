@@ -19,9 +19,14 @@ function gen_url($param){
     <link type="text/css" href="assets/css/styles.css?v2" rel="stylesheet" />
     <style></style>
     <link href="../assets/select2/select2.css" rel="stylesheet" type="text/css" />
-
+    <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" />
+    <link type="text/css" href="assets/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="assets/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
   </head>
-  <body class="pg_<?php echo $PAGE ?>">
+  <body class="pg_<?php echo $PAGE ?>" style="padding-top: 89px">
+    <!--
     <div id="header_container">
       <header class="page_header">
 
@@ -32,6 +37,7 @@ function gen_url($param){
           <label>Select a project</label>
           <select id="project_selection">
             <?php
+            $base = Base::getInstance();
             $project_results = $base->getAllProjects();
             while($row = mysqli_fetch_assoc($project_results)) {
               $extra = "";
@@ -55,14 +61,14 @@ function gen_url($param){
             <li><a class="<?php if($PAGE == 'BOOKMARKS') echo 'current ' ?>" href="?page=BOOKMARKS">Bookmarks</a></li>
             <li><a class="<?php if($PAGE == 'SNIPPETS') echo 'current ' ?>" href="?page=SNIPPETS">Snippets</a></li>
             <li><a class="<?php if($PAGE == 'SEARCHES') echo 'current ' ?>" href="?page=SEARCHES">Search History</a></li>
-            <!-- <li><a class="<?php if($PAGE == 'SOURCES') echo 'current ' ?>" href="?page=SOURCES">Sources</a></li> -->
-            <!-- <li><a class="<?php if($PAGE == 'CONTRIBUTIONS') echo 'current ' ?>" href="?page=CONTRIBUTIONS">User Contributions</a></li> -->
           </ul>
         </nav>
       </header>
     </div>
+  -->
+    <?php require_once("header.php"); ?>
 
-    <div id="container" class="container">
+    <div id="container" class="container" >
 
       <div class="sidebar_col">
         <?php require_once("views/aside.php"); ?>
