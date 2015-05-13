@@ -55,7 +55,7 @@ a{
 .page_header nav li{
   display: inline-block;
 }
-.page_header nav li a{
+.page_header nav li a.tabnav{
   display: inline-block;
   padding: 1px 10px;
   text-decoration: none;
@@ -693,3 +693,17 @@ li.event:nth-child(even)::before{
 	    clear: both;
 	    float: none;
 	}
+
+
+
+
+.tabnav{
+  display: inline-block;
+  padding: 1px 10px;
+  text-decoration: none;
+  color: #FFF;
+  margin-top:10px;
+  background: #4798F5;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}

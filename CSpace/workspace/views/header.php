@@ -1,3 +1,21 @@
+<?php
+session_start();
+require_once('../core/Connection.class.php');
+require_once('../core/Base.class.php');
+$base = Base::getInstance();
+$connection = Connection::getInstance();
+$avatar = $line['avatar'];
+$avatar = '';
+if (isset($_SESSION['CSpace_userID'])){
+  $userID = $base->getUserID();
+  $query = "SELECT * FROM users WHERE userID='$userID'";
+  $results = $connection->commit($query);
+  $line = mysqli_fetch_array($results, MYSQL_ASSOC);
+  $avatar = $line['avatar'];
+}
+
+?>
+
 <nav class="navbar navbar-default navbar-fixed-top" style="background-color:#7eb3dd;border-bottom:4px black groove">
   <div class="container-fluid">
 
@@ -23,20 +41,42 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a class="btn" href="createProject.php" style="color:white; background-color:#0000CB;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">Create Project</a></li>
+        <li><a class="btn" href="createProject.php" style="color:white; background-color:#3399BE;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">Create Project</a></li>
 
 
+        <?php
+        $curr_title = 'Default';
+        $project_results = $base->getAllProjects();
+        while($row = mysqli_fetch_assoc($project_results)) {
+          if ($row["projectID"] == $base->getProjectID()){
+            $curr_title = $row['title'];
+          }
+        }
+
+        ?>
         <li class="dropdown">
           <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                                            style="color:white; background-color:#0000CB;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">My Project <span class="caret"></span></a>
+                                            style="color:white; background-color:#3399BE;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">
+                                            <?php echo $curr_title; ?>
+                                            <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
+
+            <?php
+
+            $project_results = $base->getAllProjects();
+            while($row = mysqli_fetch_assoc($project_results)) {
+              printf("<li><a href=\"%s\">%s</a></li>", "selectProject.php?value=" . $row['projectID'], $row["title"]);
+            }
+
+            ?>
+
+            <!-- <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li class="divider"></li>
             <li><a href="#">Separated link</a></li>
             <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li><a href="#">One more separated link</a></li> -->
           </ul>
         </li>
 
@@ -62,7 +102,18 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown callout">
 
-          <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user" style="font-size:25px"></i> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">
+
+
+            <i  id="user_default" class="fa fa-user" style="font-size:25px">
+
+          </i>
+          <?php
+          echo "<img src=\"../assets/img/$avatar\" onerror=\"this.style.display='none';\" onload=\"document.getElementById('user_default').style.display='none';\" style=\"width:36px;height:36px;border-radius:18px; -webkit-border-radius:18px; -moz-border-radius:18px;\" />";
+          ?>
+
+            <!-- <i class="fa fa-user" style="font-size:25px"></i>  -->
+            <span class="caret"></span></a>
 
           <!-- <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false" style="padding-top: 0;padding-bottom: 0;"><img height="50" alt="Pic" style="border-radius:100%" src="../assets/img/profile_trans.png" /> <span class="caret"></span></a> -->
           <ul class="dropdown-menu" role="menu">
@@ -90,7 +141,7 @@
 
 <!--TIMELINE-->
 
-<div class="container">
+<!-- <div class="container">
 	<h2 class="title text-center" >Today</h2>
 	<ul class="timeline">
 		<li class="year">2015</li>
@@ -120,7 +171,7 @@
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
 		</li>
 	</ul>
-</div>
+</div> -->
 
 
 <!-- <div id="header_container">
