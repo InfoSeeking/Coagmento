@@ -60,11 +60,8 @@ a{
 .feed-links li{
   display: inline-block;
 }
-<<<<<<< HEAD
-.page_header nav li a.tabnav{
-=======
+
 .feed-links li a{
->>>>>>> origin/master
   display: inline-block;
   padding: 1px 10px;
   text-decoration: none;

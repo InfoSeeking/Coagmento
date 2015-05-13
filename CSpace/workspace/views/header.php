@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 session_start();
 require_once('../core/Connection.class.php');
@@ -18,9 +17,6 @@ if (isset($_SESSION['CSpace_userID'])){
 ?>
 
 <nav class="navbar navbar-default navbar-fixed-top" style="background-color:#7eb3dd;border-bottom:4px black groove">
-=======
-<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#7eb3dd;border-bottom:3px black groove">
->>>>>>> origin/master
   <div class="container-fluid">
 
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,44 +41,7 @@ if (isset($_SESSION['CSpace_userID'])){
       <ul class="nav navbar-nav">
         <li><a class="btn" href="createProject.php" style="color:white; background-color:#3399BE;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">Create Project</a></li>
 
-
-        <?php
-        $curr_title = 'Default';
-        $project_results = $base->getAllProjects();
-        while($row = mysqli_fetch_assoc($project_results)) {
-          if ($row["projectID"] == $base->getProjectID()){
-            $curr_title = $row['title'];
-          }
-        }
-
-        ?>
         <li class="dropdown">
-<<<<<<< HEAD
-          <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                                            style="color:white; background-color:#3399BE;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">
-                                            <?php echo $curr_title; ?>
-                                            <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-
-            <?php
-
-            $project_results = $base->getAllProjects();
-            while($row = mysqli_fetch_assoc($project_results)) {
-              printf("<li><a href=\"%s\">%s</a></li>", "selectProject.php?value=" . $row['projectID'], $row["title"]);
-            }
-
-            ?>
-
-            <!-- <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li> -->
-=======
-
-
             <?php
             require_once("../core/Base.class.php");
             $base = Base::getInstance();
@@ -96,14 +55,12 @@ if (isset($_SESSION['CSpace_userID'])){
               $items .=  sprintf("<li><a href='%s'>%s</a></li>", "selectProject.php?value=" . $row['projectID'], $row["title"]);
             }
             ?>
-            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white; background-color:#0000CB;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white; background-color:#3399BE;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">
 
             <?php echo $selected; ?> <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
             <?php echo $items; ?>
-
->>>>>>> origin/master
-          </ul>
+            </ul>
         </li>
 
         <li>
@@ -174,59 +131,3 @@ if (isset($_SESSION['CSpace_userID'])){
   </div> <!-- /.feed-links -->
   <?php endif; ?>
 </nav>
-<<<<<<< HEAD
-
-<!--TIMELINE-->
-
-<!-- <div class="container">
-	<h2 class="title text-center" >Today</h2>
-	<ul class="timeline">
-		<li class="year">2015</li>
-		<li class="event">
-			<h3 class="heading">Yahoo Live Updates!</h3>
-			<span class="month"><i class="fa fa-calendar"></i> &nbsp; May 2015</span>
-
-			<p>&nbsp;</p>
-			<p>Added By : <a href="m" target="_blank">m</a></p>
-      <p>Date : <a href="#" target="_blank">5/12/2015</a></p>
-			<p>Time : <a href="#" target="_blank">12:34pm</a></p>
-			<div class="text-center">
-				<img class="img-responsive img-thumbnail" src="assets/img/thumbnail1.png" style="width:200px">
-			</div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-		<li class="event">
-			<h3 class="heading">Yahoo News!</h3>
-			<span class="month"><i class="fa fa-calendar"></i> &nbsp; May 2015 </span>
-			<p>&nbsp;</p>
-      <div class="text-center">
-				<img class="img-responsive img-thumbnail" src="assets/img/thumbnail1.png" style="width:200px">
-			</div>
-      <p>Added By : <a href="m" target="_blank">m</a></p>
-      <p>Date : <a href="#" target="_blank">5/13/2015</a></p>
-			<p>Time : <a href="#" target="_blank">1:34am</a></p>
-
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-		</li>
-	</ul>
-</div> -->
-
-
-<!-- <div id="header_container">
-  <header class="page_header">
-    <hgroup class='left-side'>
-      <a href="index.php"><img src="assets/img/clogo.png" alt="Coagmento Logo" /></a>
-    </hgroup>
-    <div class='right-side links'>
-      <a href="help.php">Help</a><br/>
-      <a href="settings.php">Settings</a><br/>
-      <a href="workspace-logout.php?redirect=index.php">Logout</a><br/>
-    </div>
-    <nav class='clear'>
-      <ul>
-        <li><a class="" href="index.php">&laquo; Back to Workspace</a></li>
-      </ul>
-    </nav>
-  </header>
-</div> -->
-=======
->>>>>>> origin/master

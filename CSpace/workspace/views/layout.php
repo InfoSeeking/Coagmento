@@ -40,10 +40,6 @@ if (isset($_SESSION['CSpace_userID'])){
     <link type="text/css" href="assets/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
     <script src="assets/js/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
   </head>
   <body class="pg_<?php echo $PAGE ?>" style="padding-top: 89px">
     <!--
@@ -187,50 +183,8 @@ if (isset($_SESSION['CSpace_userID'])){
           </div>
         </nav>
 
-
-        <!-- <hgroup class='left-side'>
-          <a href="index.php"><img src="assets/img/clogo.png" alt="Coagmento Logo" /></a>
-        </hgroup>
-        <div class='middle-side project_section'>
-          <label>Select a project</label>
-          <select id="project_selection">
-            <?php
-            $base = Base::getInstance();
-            $project_results = $base->getAllProjects();
-            while($row = mysqli_fetch_assoc($project_results)) {
-              $extra = "";
-              if($row["projectID"] == $projectID){
-                $extra = "selected";
-              }
-              printf("<option data-url='%s' %s>%s</option>", "selectProject.php?value=" . $row['projectID'], $extra, $row["title"]);
-            }
-            ?>
-          </select>
-        </div>
-        <div class='right-side links'>
-          <a href="help.php">Help</a><br/>
-          <a href="settings.php">Settings</a><br/>
-          <a href="workspace-logout.php?redirect=index.php">Logout</a><br/>
-        </div>
-        <nav class='clear'>
-          <ul>
-            <li><a class="<?php if($PAGE == 'ALL') echo 'current ' ?>" href="?page=ALL">All</a></li>
-            <li><a class="<?php if($PAGE == 'PAGE_VISITS') echo 'current ' ?>" href="?page=PAGE_VISITS">Page Visits</a></li>
-            <li><a class="<?php if($PAGE == 'BOOKMARKS') echo 'current ' ?>" href="?page=BOOKMARKS">Bookmarks</a></li>
-            <li><a class="<?php if($PAGE == 'SNIPPETS') echo 'current ' ?>" href="?page=SNIPPETS">Snippets</a></li>
-            <li><a class="<?php if($PAGE == 'SEARCHES') echo 'current ' ?>" href="?page=SEARCHES">Search History</a></li>
-<<<<<<< HEAD
-            <!-- <li><a class="<?php if($PAGE == 'SOURCES') echo 'current ' ?>" href="?page=SOURCES">Sources</a></li> -->
-            <!-- <li><a class="<?php if($PAGE == 'CONTRIBUTIONS') echo 'current ' ?>" href="?page=CONTRIBUTIONS">User Contributions</a></li> -->
-        <!-- </ul>
-        </nav> -->
-=======
-          </ul>
-        </nav>
->>>>>>> origin/master
       </header>
     </div>
-  -->
     <?php require_once("header.php"); ?>
 
     <div id="container" class="container" >
