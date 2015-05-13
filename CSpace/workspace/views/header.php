@@ -23,12 +23,12 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="createProject.php" style="color:white">Create Project</a></li>
+        <li><a class="btn" href="createProject.php" style="color:white; background-color:#0000CB;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">Create Project</a></li>
 
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                                            style="color:white">My Project <span class="caret"></span></a>
+          <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                                            style="color:white; background-color:#0000CB;padding-top:5px;padding-bottom:5px;margin-top:10px;margin-left:5px;padding-left:8px;padding-right:8px">My Project <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -42,19 +42,19 @@
 
         <li>
 
-          <a href="etherpad.php" ><span class="glyphicon glyphicon-edit"  style="font-size:25px; color:white"></span></a>
+          <a href="etherpad.php" title="Project etherpad"><span class="glyphicon glyphicon-edit"  style="font-size:25px; color:white"></span></a>
           <!-- <a href="etherpad.php" style="padding-top: 0;padding-bottom: 0;"><img alt="Edit" height="50"  src="../assets/img/edit_trans.png"></a> -->
           </li>
         <li>
-          <a href="files.php" ><span class="glyphicon glyphicon-folder-open"  style="font-size:25px; color:white"></span></a>
+          <a href="files.php" title="Project files"><span class="glyphicon glyphicon-folder-open"  style="font-size:25px; color:white"></span></a>
           <!-- <a href="files.php" style="padding-top: 0;padding-bottom: 0;"><img height="50" alt="Files" src="../assets/img/files_trans.png"></a> -->
           </li>
         <li>
-          <a href="printreport.php" ><span class="glyphicon glyphicon-print" style="font-size:25px; color:white"></span></a>
+          <a href="printreport.php" title="Print project reports"><span class="glyphicon glyphicon-print" style="font-size:25px; color:white"></span></a>
           <!-- <a href="printreport.php" style="padding-top: 0;padding-bottom: 0;"><img alt="Print" height="50"  src="../assets/img/print_trans.png" /></a> -->
           </li>
         <li>
-          <a href="currentCollaborators.php" ><i class="fa fa-group" style="font-size:25px; color:white"></i></a>
+          <a href="currentCollaborators.php" title="View project collaborators"><i class="fa fa-group" style="font-size:25px; color:white"></i></a>
           <!-- <a href="currentCollaborators.php" style="padding-top: 0;padding-bottom: 0;"><img height="50"  alt="Collaborators" src="../assets/img/updates_trans.png"></a> -->
           </li>
       </ul>
@@ -62,7 +62,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown callout">
 
-          <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user" id="logIcon" style="font-size:20px"></span> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user" style="font-size:25px"></i> <span class="caret"></span></a>
 
           <!-- <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false" style="padding-top: 0;padding-bottom: 0;"><img height="50" alt="Pic" style="border-radius:100%" src="../assets/img/profile_trans.png" /> <span class="caret"></span></a> -->
           <ul class="dropdown-menu" role="menu">
