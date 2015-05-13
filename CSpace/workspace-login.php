@@ -4,6 +4,12 @@ Simpler login page for workspace. Allows redirect.
 Maybe we can use this as a replacement for the sidebar login as well.
 */
 	session_start();
+	$protocol = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
+
+	if (substr($_SERVER['HTTP_HOST'], 0, 4) !== 'www.') {
+	    header('Location: '.$protocol.'www.'.$_SERVER['HTTP_HOST'].'/'.$_SERVER['REQUEST_URI']);
+	    exit;
+	}
   require_once('core/Connection.class.php');
 	require_once("core/Base.class.php");
 	require_once("core/Util.class.php");

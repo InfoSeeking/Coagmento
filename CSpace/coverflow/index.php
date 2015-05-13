@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html>
 <head>
@@ -15,7 +18,6 @@
 
 
 <?php
-    session_start();
     include('../services/func.php');
     require_once('../core/Connection.class.php');
     require_once('../core/Base.class.php');
