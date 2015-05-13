@@ -60,7 +60,11 @@ a{
 .feed-links li{
   display: inline-block;
 }
+<<<<<<< HEAD
+.page_header nav li a.tabnav{
+=======
 .feed-links li a{
+>>>>>>> origin/master
   display: inline-block;
   padding: 1px 10px;
   text-decoration: none;
@@ -699,3 +703,17 @@ li.event:nth-child(even)::before{
 	    clear: both;
 	    float: none;
 	}
+
+
+
+
+.tabnav{
+  display: inline-block;
+  padding: 1px 10px;
+  text-decoration: none;
+  color: #FFF;
+  margin-top:10px;
+  background: #4798F5;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
