@@ -19,7 +19,7 @@
 
 <body>
 	<?php require("views/header.php"); ?>
-<div id="container">
+<div id="container" class="container">
 <h3>Points</h3><br>
 
 <?php

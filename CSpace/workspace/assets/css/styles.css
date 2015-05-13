@@ -587,3 +587,109 @@ hr.gray-style {
   width: 100%;
   outline: 1px black solid;
 }
+
+/*timeline*/
+.timeline{
+	background-image: url("../images/line-1.png");
+    background-position: center;
+    background-repeat: repeat-y;
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    height: auto;
+    padding: 0px;
+    clear: both;
+    overflow: hidden;
+}
+
+.timeline li.year{
+	clear: both;
+	width: 4em;
+	margin: 0 auto;
+	line-height: 4em;
+	background-color: #fff;
+	border-radius:50%;
+	text-align: center;
+	margin-bottom: 25px;
+	border: 1px solid #f39c12;
+
+	box-shadow: 2px 2px 2px #888888;
+	-moz-box-shadow: 2px 2px 2px #888888;
+    -webkit-box-shadow: 2px 2px 2px #888888;
+}
+.timeline li.year:first-child{
+	margin-top:0px;
+}
+.timeline li.year, .timeline li.event{
+	list-style-type: none;
+	z-index: 999;
+}
+
+.timeline li.event{
+     width: 45%;
+     background-color: #fff;
+	margin-bottom: 20px;
+	padding: 20px;
+	position: relative;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+        border-image: none;
+        border-style: solid;
+        border-width: 1px;
+}
+
+li.event:nth-child(odd) {
+    color: green;
+    clear:left;
+    float: left;
+}
+li.event:nth-child(even) {
+    color: red;
+    clear: right;
+    float: right;
+    margin-top:100px;
+    margin-bottom:50px;
+}
+
+.timeline li.event:nth-child(odd)::after {
+    background:red;
+    content: "";
+    height: 2px;
+    position: absolute;
+    right: -11.2%;
+    top: 30px;
+    width: 11.2%;
+
+}
+li.event:nth-child(even)::before{
+	background:red;
+    content: "";
+    height: 2px;
+    position: absolute;
+    top: 30px;
+    width: 11.2%;
+    left: -11.2%;
+}
+
+@media (max-width: 640px) {
+	.timeline li.event{
+		width: 80%;
+		background-color: #fff;
+		border: 1px solid #ff0000;
+		margin: 20px auto;
+		padding: 20px;
+		position: relative;
+	}
+
+	li.event:nth-child(odd) {
+	    color: green;
+	    clear: both;
+	    float: none;
+	}
+	li.event:nth-child(even) {
+	    color: red;
+	    clear: both;
+	    float: none;
+	}

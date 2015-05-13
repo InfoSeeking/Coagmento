@@ -32,7 +32,7 @@ if(!isset($_FILES['uploaded']['name']))
 ?>
 
 <div id="r">
-<div id="container">
+<div id="container" class="container">
 <h3>Files</h3>
 
 <?php

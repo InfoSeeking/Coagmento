@@ -22,7 +22,7 @@
 <?php
 include('views/header.php');
 ?>
-<div id="container">
+<div id="container" class="container">
 <h3>View Collaborators</h3>
 
 <?php

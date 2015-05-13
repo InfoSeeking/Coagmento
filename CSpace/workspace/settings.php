@@ -20,7 +20,7 @@
 <body>
 
 <?php require("views/header.php"); ?>
-<div id="container">
+<div id="container" class="container">
 <h3>Options</h3>
 
 <?php

@@ -16,7 +16,7 @@
 
 <body>
 	<?php require("views/header.php"); ?>
-<div id="container">
+<div id="container" class="container">
 <h3>Inter-project Analysis</h3><br>
 
 <?php

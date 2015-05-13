@@ -62,7 +62,7 @@ function gen_url($param){
       </header>
     </div>
 
-    <div id="container">
+    <div id="container" class="container">
 
       <div class="sidebar_col">
         <?php require_once("views/aside.php"); ?>
