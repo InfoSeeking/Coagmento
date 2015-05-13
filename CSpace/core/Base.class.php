@@ -437,6 +437,7 @@ class Base {
        $query = "UPDATE options SET value='$projectID' WHERE userID='$userID' AND `option`='selected-project'";
       }
       $connection->commit($query);
+      $this->setProjectID($projectID);
   }
 
   public function getSelectedProject(){

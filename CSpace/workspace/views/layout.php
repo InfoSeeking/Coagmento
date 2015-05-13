@@ -133,7 +133,7 @@ function gen_url($param){
           <div class="right_section">
 
             <div>
-              <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+              <span class="feed-label <%= label.toLowerCase() %>"> <%= label %> </span>
               <span><a class="bookmark_link" target="_blank" href="<%= url %>"><%= title %></a></span>
               <% if(tags.length > 0){ %>
                 <div class="tagList">
@@ -215,7 +215,7 @@ function gen_url($param){
             </div>
           </div>
           <div class="right_section">
-            <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+            <span class="feed-label <%= label.toLowerCase() %>"> <%= label %> </span>
             <span><a href="<%= url %>"><%= title %></a></span>
             <p><small><%= pretty_url %></small><p>
           </div>
@@ -236,7 +236,7 @@ function gen_url($param){
     <script type="text/html" id="snippet_template">
       <li data-snippetID="<%= snippetID %>" data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
-          <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+          <span class="feed-label <%= label.toLowerCase() %>"> <%= label %> </span>
           <a target="_blank" class="snippet_link" href="<%= url %>"><%= title %></a>
           <p class="preview"><%= snippet %></p>
         </div>
@@ -255,7 +255,7 @@ function gen_url($param){
     <script type="text/html" id="query_template">
       <li data-queryID="<%= queryID %>" data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
-          <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+          <span class="feed-label <%= label.toLowerCase() %>"> <%= label %> </span>
           <a class="query_link" target="_blank" href="<%= url %>"><%= query %> (<%= source %>)</a>
         </div>
         <div class="sub">
@@ -273,7 +273,7 @@ function gen_url($param){
     <script type="text/html" id="source_template">
       <li data-lunr="<%= lunr_id %>" class="item-<%= label.toLowerCase() %>">
         <div class="top">
-          <span class="label <%= label.toLowerCase() %>"> <%= label %> </span>
+          <span class="feed-label <%= label.toLowerCase() %>"> <%= label %> </span>
           <span class="source_name"> <%= source %></span>
         </div>
         <div class="sub">

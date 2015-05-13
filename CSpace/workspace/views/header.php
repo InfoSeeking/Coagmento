@@ -28,6 +28,7 @@
 
 
             <?php
+            require_once("../core/Base.class.php");
             $base = Base::getInstance();
             $project_results = $base->getAllProjects();
             $items = "";
@@ -83,10 +84,9 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-option-horizontal" id="logIcon" style="font-size:20px"></span> <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="help.php">Help</a></li>
-            <li><a href="#">Contact Us</a></li>
             <li class="divider"></li>
             <li><a href="http://coagmento.org/download.php">Get Toolbar</a></li>
-            <li><a href="#">Recommendation</a></li>
+            <li><a href="showRecommendations.php">Recommendations</a></li>
             <li><a href="interProject.php">Inter-Project</a></li>
           </ul>
         </li>

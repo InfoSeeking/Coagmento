@@ -84,7 +84,7 @@ ul{
   padding: 10px;
 }
 
-.label{
+.feed-label{
   position: absolute;
   top: -17px;
   left: 0px;
@@ -95,7 +95,7 @@ ul{
   font-family: "Arial";
   display: none;
 }
-.pg_All .label{
+.pg_All .feed-label{
   display: block;
   background: tranparent;
 }
