@@ -68,20 +68,21 @@ function gen_url($param){
         <?php require_once("views/aside.php"); ?>
       </div>
       <div class="feed_col">
-        <div class="welcome">
-          <p>Welcome, <?php echo $username ?>!</p>
+        <div class="scroller">
+          <div class="welcome">
+            <p>Welcome, <?php echo $username ?>!</p>
+          </div>
+          <?php
+          if($projectID == -1):
+          ?>
+          Select a project to begin.
+          <?php
+          endif;
+          ?>
+          <ul id="feed"></ul>
         </div>
-        <?php
-        if($projectID == -1):
-        ?>
-        Select a project to begin.
-        <?php
-        endif;
-        ?>
-        <ul id="feed"></ul>
       </div>
       <div class="review_col">
-        <div class="floating">
           <h3>Workspace</h3>
           <div class="no_selections">
             <p>Select items to review and analyze</p>
@@ -107,10 +108,6 @@ function gen_url($param){
               </div>
             </div>
           </div>
-
-
-
-        </div>
       </div>
 
       <br class="clear" />
