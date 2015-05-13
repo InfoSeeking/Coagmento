@@ -9,6 +9,7 @@ Colors:
 }
 body{
   background: #FFF;
+  padding-top: 59px;
 }
 #header_container{
   background: #7eb3dd;
@@ -49,24 +50,28 @@ a{
   width: 100%;
   margin: 10px auto;
 }
-.page_header nav{
-  padding-top: 10px;
+.feed-links {
+  padding-top: 2px;
+  border-top: 1px white solid;
 }
-.page_header nav li{
+.feed-links ul {
+  margin-bottom: 2px;
+}
+.feed-links li{
   display: inline-block;
 }
+<<<<<<< HEAD
 .page_header nav li a.tabnav{
+=======
+.feed-links li a{
+>>>>>>> origin/master
   display: inline-block;
   padding: 1px 10px;
   text-decoration: none;
   color: #FFF;
-  background: #4798F5;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 }
-.page_header nav li a:hover, .page_header nav li a.current{
-  background: #1B77E0;
-  color: #FFF;
+.feed-links li a:hover, .feed-links li a.current{
+  color: #0000CB;
 }
 ul{
   list-style-type: none;
@@ -105,15 +110,15 @@ ul{
 .sidebar_col{
   float: left;
   padding-left: 1%;
-  width: 8%;
+  width: 13%;
   padding-right: 1%;
 }
 .feed_col{
-  width: 40%;
+  width: 45%;
   float: left;
 }
 .review_col{
-  width: 48%;
+  width: 38%;
   padding-left: 1%;
   float: left;
   padding-right: 1%;
@@ -671,6 +676,11 @@ li.event:nth-child(even)::before{
     top: 30px;
     width: 11.2%;
     left: -11.2%;
+}
+
+.scroller {
+  height: 100%;
+  overflow: auto;
 }
 
 @media (max-width: 640px) {
