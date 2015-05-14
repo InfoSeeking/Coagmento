@@ -1,11 +1,11 @@
 <?php
 	session_start();
-        $ip=$_SERVER['REMOTE_ADDR'];
-	require_once("connect.php");
+  $ip=$_SERVER['REMOTE_ADDR'];
+
 	require_once("utiliFunctions.php");
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
-	require_once("./core/Util.class.php");
+	require_once('../core/Base.class.php');
+	require_once("../core/Connection.class.php");
+	require_once("../core/Util.class.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 

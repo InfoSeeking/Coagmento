@@ -1,7 +1,7 @@
 <?php
 	session_start();
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
+	require_once('../core/Base.class.php');
+	require_once("../core/Connection.class.php");
 	if (!isset($_SESSION['CSpace_userID'])) {
 		echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
 	}

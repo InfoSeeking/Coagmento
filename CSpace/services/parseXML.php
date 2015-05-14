@@ -1,6 +1,6 @@
 <?php
 // $x is length of summary if requestType is summarization
-// $x is first doc selected if requestType is rank / compare 
+// $x is first doc selected if requestType is rank / compare
 $x = $_POST["x"];
 $xmldata = $_POST["xmldata"];
 $xmldata_parsed = stripslashes($xmldata);
@@ -10,12 +10,13 @@ $error = $xml->error->message;
 $requestType = $xml->requestType;
 
 //connect to DB
-require_once("connect.php");
+require_once("../core/Connection.class.php");
+$connection = Connection::getInstance();
 
 if ($requestType == "cluster") {
 	$cluster = $xml->clusterList->cluster;
 	//for each cluster, get clusterID
-	for ($i=0; $i < count($cluster); $i++) { 
+	for ($i=0; $i < count($cluster); $i++) {
 		$clusterID = $cluster[$i]->clusterID;
 		$groupNum = $clusterID + 1;
 		echo "<div class='cf'> <div class='cluster'>Group ".$groupNum." </div>";
@@ -36,10 +37,10 @@ if ($requestType == "cluster") {
 				while($row = mysqli_fetch_array($result)) {
 					$hasThumb = $row['thumbnailID'];
 					$projectID = $row['projectID'];
-					
+
 					// Get project name
 					$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-					$projectNameResult = $connection->commit($getProjectName);		
+					$projectNameResult = $connection->commit($getProjectName);
 
 					while($line = mysqli_fetch_array($projectNameResult)) {
 						$projectName = $line['title'];
@@ -47,20 +48,20 @@ if ($requestType == "cluster") {
 
 					// if thumbnail is nonexistent in database
 					if($hasThumb == NULL || $hasThumb == -1 ) {
-					    echo "<div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div>";	
+					    echo "<div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div>";
 					}
 
-					else {					
+					else {
 						// Get thumbnail
 						$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$id."";
 						$pageResult = $connection->commit($getPage);
-						
+
 						while($line = mysqli_fetch_array($pageResult)) {
 							$value = $line['pageID'];
 							$thumb = $line['fileName'];
 
-						  	if ($value == $id) {  		
-					    		echo "<div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div>";	
+						  	if ($value == $id) {
+					    		echo "<div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div>";
 							}
 						}
 					}
@@ -93,30 +94,30 @@ else if ($requestType == "extract") {
 			while($row = mysqli_fetch_array($result)) {
 				$hasThumb = $row['thumbnailID'];
 				$projectID = $row['projectID'];
-				
+
 				// Get project name
 				$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-				$projectNameResult = $connection->commit($getProjectName);		
+				$projectNameResult = $connection->commit($getProjectName);
 
 				while($line = mysqli_fetch_array($projectNameResult)) {
 					$projectName = $line['title'];
 				}
 
 				if($hasThumb == NULL || $hasThumb == -1 ) {
-				    echo "<div class='summary cf'><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div>";	
+				    echo "<div class='summary cf'><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div>";
 				}
 
-				else {			
+				else {
 					// Get thumbnail
 					$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$id."";
 					$pageResult = $connection->commit($getPage);
-					
+
 					while($line = mysqli_fetch_array($pageResult)) {
 						$value = $line['pageID'];
 						$thumb = $line['fileName'];
 
-					  	if ($value == $id) {  		
-				    		echo "<div class='summary cf'><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div>";	
+					  	if ($value == $id) {
+				    		echo "<div class='summary cf'><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div>";
 						}
 					}
 				}
@@ -131,7 +132,7 @@ else if ($requestType == "extract") {
 			    $stringCut = substr($summarization, 0, $x);
 
 			    // make sure it ends in a word so assassinate doesn't become ass...
-			    $summarization = substr($stringCut, 0, strrpos($stringCut, ' ')).''; 
+			    $summarization = substr($stringCut, 0, strrpos($stringCut, ' ')).'';
 			}
 
 			echo "<h4>Summary:</h4>".$summarization."</div>";
@@ -151,30 +152,30 @@ else if ($requestType == "rank") {
 	while($row = mysqli_fetch_array($firstResult)) {
 		$hasThumb = $row['thumbnailID'];
 		$projectID = $row['projectID'];
-		
+
 		// Get project name
 		$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-		$projectNameResult = $connection->commit($getProjectName);		
+		$projectNameResult = $connection->commit($getProjectName);
 
 		while($line = mysqli_fetch_array($projectNameResult)) {
 			$projectName = $line['title'];
 		}
 
 		if($hasThumb == NULL || $hasThumb == -1 ) {
-		    echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div></div>";	
+		    echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div></div>";
 		}
 
-		else {	
+		else {
 			//get first selected doc
 			$getFirstPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$x."";
 			$pageFirstResult = $connection->commit($getFirstPage);
-			
+
 			while($line = mysqli_fetch_array($pageFirstResult)) {
 				$value = $line['pageID'];
 				$thumb = $line['fileName'];
 
-			  	if ($value == $x) {  		
-		    		echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div></div>";	
+			  	if ($value == $x) {
+		    		echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a></div></div>";
 				}
 			}
 		}
@@ -193,30 +194,30 @@ else if ($requestType == "rank") {
 		while($row = mysqli_fetch_array($result)) {
 			$hasThumb = $row['thumbnailID'];
 			$projectID = $row['projectID'];
-			
+
 			// Get project name
 			$getProjectName="SELECT * FROM projects WHERE projectID=".$projectID."";
-			$projectNameResult = $connection->commit($getProjectName);		
+			$projectNameResult = $connection->commit($getProjectName);
 
 			while($line = mysqli_fetch_array($projectNameResult)) {
 				$projectName = $line['title'];
 			}
 
 			if($hasThumb == NULL || $hasThumb == -1 ) {
-			    echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div></div>";	
+			    echo "<div class='summary cf'><h4>Comparing Document:</h4><div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px'></a></div></div>";
 			}
 
-			else {	
+			else {
 				// Get thumbnail
 				$getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.pageID=".$id."";
 				$pageResult = $connection->commit($getPage);
-				
+
 				while($line = mysqli_fetch_array($pageResult)) {
 					$value = $line['pageID'];
 					$thumb = $line['fileName'];
 
-				  	if ($value == $id) {  		
-			    		echo "<div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a>";	
+				  	if ($value == $id) {
+			    		echo "<div class='wrapper'><a class='thumbnail_small2' href=".$row['url']." target='new'><img width='100px' height='100px' src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/small/".$thumb."' /></a>";
 					}
 				}
 			}

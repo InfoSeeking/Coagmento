@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	require_once('./core/Base.class.php');
-	require_once("./core/Connection.class.php");
-	require_once("./core/Util.class.php");
+	require_once('../core/Base.class.php');
+	require_once("../core/Connection.class.php");
+	require_once("../core/Util.class.php");
 	$base = Base::getInstance();
 	$connection = Connection::getInstance();
 
