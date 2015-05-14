@@ -11,7 +11,7 @@ if($PAGE == "ALL"):
 <?php
 elseif($PAGE == "BOOKMARKS"):
 ?>
-<div id="bookmark_filters">
+<div  style="display:none" id="bookmark_filters">
   <h4>Filter by tag</h4>
   <select id="tag_filter">
   <?php

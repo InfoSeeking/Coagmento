@@ -203,6 +203,17 @@ class Base {
     }
   }
 
+  public function getAvatar(){
+    $connection = Connection::getInstance();
+    $avatar = '';
+    if (isset($_SESSION['CSpace_userID'])){
+      $userID = $this->getUserID();
+      $query = "SELECT * FROM users WHERE userID='$userID'";
+      $results = $connection->commit($query);
+      $line = mysqli_fetch_array($results, MYSQL_ASSOC);
+      return $line['avatar'];
+    }
+  }
 	//GETTERS
     public function isUserActive()
 	{

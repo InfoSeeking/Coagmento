@@ -66,7 +66,6 @@ session_start();
 
   ?>
 <?php
-$HEADER_DIR_PREFIX = "../";
 require_once("views/header.php");
 ?>
 <div id="content"><?php require_once("extern.php");?></div>

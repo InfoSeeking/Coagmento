@@ -9,8 +9,15 @@
     <link rel="stylesheet" href="../assets/css/jquery_impress.fancybox.css" type="text/css" media="screen" />
     <link href="../assets/css/impress-demo.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!--<script src="assets/js/jquery-2.1.3.min.js"></script>-->
 	  <script type="text/javascript" src="../assets/js/jquery_impress.fancybox.pack.js"></script>
     <script type="text/javascript" src="../assets/js/main_imageflow.js"></script>
+
+    <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" />
+    <link type="text/css" href="assets/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
 
 <?php
     session_start();
@@ -49,9 +56,10 @@
 <?php
 
   $displayMode='3D';
-  include('../header.php');
-
+  include('views/header.php');
+  require("impress.php");
 ?>
+
 
 <div class="fallback-message">
     <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
@@ -59,7 +67,6 @@
 </div>
 
 <button id="prev"></button><button id="next"></button>
-
 
 <div id="impress"></div>
 

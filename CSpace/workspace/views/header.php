@@ -1,18 +1,7 @@
 <?php
-session_start();
-require_once('../core/Connection.class.php');
 require_once('../core/Base.class.php');
 $base = Base::getInstance();
-$connection = Connection::getInstance();
-$avatar = $line['avatar'];
-$avatar = '';
-if (isset($_SESSION['CSpace_userID'])){
-  $userID = $base->getUserID();
-  $query = "SELECT * FROM users WHERE userID='$userID'";
-  $results = $connection->commit($query);
-  $line = mysqli_fetch_array($results, MYSQL_ASSOC);
-  $avatar = $line['avatar'];
-}
+$avatar = $base->getAvatar();
 
 ?>
 
@@ -43,8 +32,6 @@ if (isset($_SESSION['CSpace_userID'])){
 
         <li class="dropdown">
             <?php
-            require_once("../core/Base.class.php");
-            $base = Base::getInstance();
             $project_results = $base->getAllProjects();
             $items = "";
             $selected = "Select a Project";
@@ -102,13 +89,15 @@ if (isset($_SESSION['CSpace_userID'])){
           <ul class="dropdown-menu" role="menu">
             <li><a href="profile.php">Profile</a></li>
             <li><a href="settings.php">Settings</a></li>
+            <li><a href="help.php">Help</a></li>
             <li><a href="workspace-logout.php?redirect=index.php">Logout</a></li>
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-option-horizontal" id="logIcon" style="font-size:20px"></span> <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="help.php">Help</a></li>
+            <li><a href="index.php">Timeline Interface</a></li>
+            <li><a href="coverflow.php">Coverflow Interface</a></li>
             <li class="divider"></li>
             <li><a href="http://coagmento.org/download.php">Get Toolbar</a></li>
             <li><a href="showRecommendations.php">Recommendations</a></li>
