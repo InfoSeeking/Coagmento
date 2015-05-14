@@ -6,7 +6,7 @@ Before $displayMode to '3D','coverflow','timeline'
 
  -->
 
-<?
+
 <div id="topbar">
 
   <div id="toptext" class="left" style="float: left; ">

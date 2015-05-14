@@ -1,7 +1,13 @@
 <?php
+		session_start();
   	// Connecting to database
 		require_once("../connect.php");
-		session_start();
+		require_once("../core/Base.class.php");
+		require_once("../core/Connection.class.php");
+
+		$cxn = Connection::getInstance();
+
+		$base = Base::getInstance();
 
 		if (!isset($_SESSION['CSpace_userID'])) {
 			echo "Sorry. Your session has expired. Please <a href=\"http://www.coagmento.org\">login again</a>.";
@@ -10,8 +16,15 @@
 
 		$userID = $_SESSION['CSpace_userID'];
 
-	    $q=$_GET["q"];
-	    if ($q != "")
+
+			$projects = "";
+			$checked = "No";
+			$year = "all";
+			$month = "all";
+			$object_type = "all";
+			$userFilter = "";
+			$q=@$_GET["q"];
+	    if ($q && $q != "")
 	    {
 	        $pieces = explode("-", $q);
 	        $projects = $pieces[0];
@@ -25,10 +38,10 @@
 		$userID = $_SESSION['CSpace_userID'];
 
 		// Set project name to project ID
-		$sql="SELECT DISTINCT * FROM projects WHERE (title='".$projects."')";
+		$sql="SELECT DISTINCT * FROM projects WHERE projectID=".$base->getProjectID();
 		$result = $connection->commit($query);
 		$line = mysqli_fetch_array($result);
-		$projectID = $line['projectID'];
+		$projectID = $base->getSelectedProject();
 
 		// Project filter
 	    if ($projects == "all")
@@ -37,9 +50,9 @@
 	        $projectFilter = "projectID = ".$projectID."";
 
 	    // "My stuff only" filter
-	    if($checked == 'Yes') {
+	   // if($checked == 'Yes') {
 	        $userFilter = "and userID = ".$_SESSION['CSpace_userID'];
-	    }
+	  //  }
 
 	    // Date filter
 	    if ($year !== 'all') {
@@ -96,7 +109,7 @@
 			}
 		}
 		// echo $fullQuery;
-		$pageResult = mysql_query($fullQuery) or die(" ". mysql_error());
+		$pageResult = $cxn->commit($fullQuery);
 
 		// $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ORDER BY date DESC";
 		// $pageResult = $connection->commit($getPage);

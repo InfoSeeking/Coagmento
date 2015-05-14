@@ -14,7 +14,6 @@
     <script type="text/javascript" src="../assets/js/main_imageflow.js"></script>
 
     <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" />
     <link type="text/css" href="assets/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
 
     <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
@@ -57,7 +56,7 @@
 
   $displayMode='3D';
   include('views/header.php');
-  require("impress.php");
+
 ?>
 
 
@@ -71,7 +70,9 @@
 <div id="impress"></div>
 
 
-
+<?php
+require("impress.php");
+?>
 
 <script type="text/javascript">
 
