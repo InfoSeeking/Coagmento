@@ -8,8 +8,8 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/jquery_impress.fancybox.css" type="text/css" media="screen" />
     <link href="../assets/css/impress-demo.css" rel="stylesheet" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <!--<script src="assets/js/jquery-2.1.3.min.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <script src="assets/js/jquery-2.1.3.min.js"></script>
 	  <script type="text/javascript" src="../assets/js/jquery_impress.fancybox.pack.js"></script>
     <script type="text/javascript" src="../assets/js/main_imageflow.js"></script>
 
@@ -67,13 +67,13 @@
 
 <button id="prev"></button><button id="next"></button>
 
-<div id="impress"></div>
+<div id="impress">
 
 
 <?php
 require("impress.php");
 ?>
-
+</div>
 <script type="text/javascript">
 
 $("#next").click(function () {
