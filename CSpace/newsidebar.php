@@ -10,14 +10,17 @@
 		if (isset($_SESSION['CSpace_projectID']))
     {
 			$projectID = $base->getProjectID();
-      $projectTitle = $_SESSION['CSpace_projectTitle'];
+			$projectTitle = '';
+			if(isset($_SESSION['CSpace_projectTitle'])){
+				$projectTitle = $_SESSION['CSpace_projectTitle'];
+			}
 	  }
 		else {
 			$query = "SELECT projects.projectID, title FROM projects,memberships WHERE memberships.userID='$userID' AND (projects.description LIKE '%Untitled project%' OR projects.description LIKE '%Default project%') AND projects.projectID=memberships.projectID";
 			$results = $connection->commit($query);
 			$line = mysqli_fetch_array($results, MYSQL_ASSOC);
 			$projectID = $line['projectID'];
-      $projectTitle = $line['$title'];
+      $projectTitle = $line['title'];
 		}
 
     if ($projectTitle=="")
@@ -203,7 +206,7 @@
 								//require_once("sidebarHistory.php");
 							?>
                <ul id="tabs" class="shadetabs">
-                      <li><a href="sidebarComponents/snippets.php" rel="tabscontainer" class="selected">Snipppets</a></li>
+                      <li><a href="sidebarComponents/snippets.php" rel="tabscontainer" class="selected">Snippets</a></li>
                       <li><a href="sidebarComponents/bookmarks.php" rel="tabscontainer">Bookmarks</a></li>
                       <li><a href="sidebarComponents/searches.php" rel="tabsycontainer">Searches</a></li>
                       <li><a href="sidebarComponents/files.php" rel="tabsycontainer">Files</a></li>

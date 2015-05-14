@@ -2,7 +2,7 @@
 	session_start();
   $ip=$_SERVER['REMOTE_ADDR'];
 
-	require_once("utiliFunctions.php");
+	require_once("utilityFunctions.php");
 	require_once('../core/Base.class.php');
 	require_once("../core/Connection.class.php");
 	require_once("../core/Util.class.php");
@@ -27,7 +27,7 @@
 		$time = date('H:i:s', $datetime[0]);
 		$query = "INSERT INTO pages VALUES('','$userID','$projectID','$originalURL','$title','$site','$queryString','$timestamp','$date','$time','1','1','$note',NULL)";
 		$results = $connection->commit($query);
-    $lastID = mysql_insert_id();
+    $lastID = $connection->getLastID();
 		if ($rating != "")
 		{
 			$queryRating = "INSERT INTO rating (`idResource`, `type`, `value`, `userID`, `projectID`, `active`,`time`,`date`,`timestamp`) VALUES ('$lastID', 'pages', '$rating', '$userID', '$projectID', '1','$time','$date','$timestamp')";

@@ -13,7 +13,7 @@
 	else {
 		$userID = $base->getUserID();
 		$projectID = $base->getProjectID();
-		
+
 		$title = $_GET['title'];
 		$title = str_replace(" - Mozilla Firefox","",$title);
 		$url = $_GET['page'];
@@ -33,7 +33,7 @@
 <body class="body">
 <form action="recommendSubmit.php" method=get>
 <table class="body" width=90%>
-	<tr><td align="right"><img src="../img/recommend.jpg" height=40 style="vertical-align:middle;border:0" /> <span style="font-weight:bold;font-size:15px">Recommend a Webpage</span></td></tr>
+	<tr><td align="right"><img src="../assets/img/recommend.jpg" height=40 style="vertical-align:middle;border:0" /> <span style="font-weight:bold;font-size:15px">Recommend a Webpage</span></td></tr>
 	<tr><td><br/></td></tr>
 	<tr><td>Select the collaborators from project <span style="font-weight:bold";><?php echo $projTitle;?></span> to recommend webpage<br/><a href="<?php echo $url;?>"><?php echo $title;?></a></td></tr>
 	<tr><td><br/></td></tr>
@@ -54,7 +54,7 @@
 					$line2 = mysqli_fetch_array($results2, MYSQL_ASSOC);
 					$userName = $line2['firstName'] . " " . $line2['lastName'];
 					$avatar = $line2['avatar'];
-					echo "<tr><td><input type=\"checkbox\" name=\"$cUserID\"/> </td><td> <img src=\"../img/$avatar\" width=30 height=30 /> </td><td> $userName</td></tr>";
+					echo "<tr><td><input type=\"checkbox\" name=\"$cUserID\"/> </td><td> <img src=\"../assets/img/$avatar\" width=30 height=30 /> </td><td> $userName</td></tr>";
 				}
 			}
 		?>

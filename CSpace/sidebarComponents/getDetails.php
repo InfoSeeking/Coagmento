@@ -4,9 +4,9 @@ $pieces = explode("-", $q);
 $object_type = $pieces[0];
 $object_id = $pieces[1];
 
-require_once('./core/Base.class.php');
-require_once("./core/Connection.class.php");
-require_once("./core/Util.class.php");
+require_once('../core/Base.class.php');
+require_once("../core/Connection.class.php");
+require_once("../core/Util.class.php");
 
 $base = Base::getInstance();
 $connection = Connection::getInstance();
@@ -40,7 +40,7 @@ if($object_type == 'page') {
 		}
 
 		if($hasThumb === NULL || $hasThumb == -1 ) {
-			echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
+			echo "<img src='../assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
 			echo "<div style='clear:both;'></div>";
 			echo "<table><tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";
 			echo "<tr><td><strong>Project:</strong> ".$projectName."</td></tr>";
@@ -57,7 +57,7 @@ if($object_type == 'page') {
 				$date = $line['date'];
 
 				if($value == $object_id) {
-					echo "<img src='assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
+					echo "<img src='../assets/img/links.png' style='float:left; margin-top: 4px;'/><h2><a href=".$row['url']." target='new'>".$row['title']."</a></h2>";
 					echo "<div style='clear:both;'></div>";
 					echo "<table>";
 					echo "<tr><td><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</td></tr>";

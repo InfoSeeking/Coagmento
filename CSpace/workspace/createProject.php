@@ -46,6 +46,7 @@
 <?php
 
 	$userID = $base->getUserID();
+	$privacy = '';
 
 	// If new project information was sent
 	if (isset($_GET['title'])) {

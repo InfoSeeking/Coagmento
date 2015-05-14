@@ -64,7 +64,15 @@ $avatar = $base->getAvatar();
           <!-- <a href="printreport.php" style="padding-top: 0;padding-bottom: 0;"><img alt="Print" height="50"  src="../assets/img/print_trans.png" /></a> -->
           </li>
         <li>
-          <a href="currentCollaborators.php" title="View project collaborators"><i class="fa fa-group" style="font-size:25px; color:white"></i></a>
+
+          <a href="#" title="View project collaborators" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-group" style="font-size:25px; color:white"></i><span class="caret" style="color:white"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="currentCollaborators.php">View Collaborators</a></li>
+            <li><a href="addCollaborator.php">Add Collaborators</a></li>
+          </ul>
+
+
+          <!-- <a href="currentCollaborators.php" title="View project collaborators"><i class="fa fa-group" style="font-size:25px; color:white"></i></a> -->
           <!-- <a href="currentCollaborators.php" style="padding-top: 0;padding-bottom: 0;"><img height="50"  alt="Collaborators" src="../assets/img/updates_trans.png"></a> -->
           </li>
       </ul>
