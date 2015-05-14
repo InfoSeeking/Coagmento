@@ -42,7 +42,7 @@
 			echo "<center>\n";
 			echo "<table class=\"body\" width=90%>";
 			$results = $connection->commit($query);
-                        $snippetID = mysql_insert_id();
+                        $snippetID = $connection->getLastID();
 
 
                         $ip=$_SERVER['REMOTE_ADDR'];

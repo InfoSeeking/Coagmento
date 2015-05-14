@@ -1,8 +1,13 @@
 <?php
 	if ((isset($_SESSION['CSpace_userID']))) {
 		require_once("functions.php");
-		require_once("../connect.php");
-                $userID = $_SESSION['CSpace_userID'];
+		require_once("../core/Connection.class.php");
+		require_once("../core/Base.class.php");
+		$base = Base::getInstance();
+		date_default_timezone_set('America/New_York');
+		$connection = Connection::getInstance();
+    $userID = $_SESSION['CSpace_userID'];
+		$projectID = $base->getProjectID();
 		if (isset($_SESSION['CSpace_projectID']))
 			$projectID = $_SESSION['CSpace_projectID'];
 		$orderBy = $_SESSION['orderBySnippets'];
@@ -11,10 +16,10 @@
 		echo "<div id=\"floatSnippetLayerDelete\" style=\"position:absolute;  width:150px;  padding:16px;background:#FFFFFF;  border:2px solid #2266AA;  z-index:100; display:none \"></div>";
 		echo "<table width=100% cellspacing=0>\n";
 		echo "<tr>";
-		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName desc','snippetsBox','snippets.php')\"></td>";
-		echo "<td align=\"left\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title desc','snippetsBox','snippets.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating desc','snippetsBox','snippets.php')\"></td>";
-		echo "<td align=\"center\"><img src=\"assets/images/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/images/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/img/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/img/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','userName desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"left\"><img src=\"assets/img/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/img/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','title desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/img/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/img/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','finalRating desc','snippetsBox','snippets.php')\"></td>";
+		echo "<td align=\"center\"><img src=\"assets/img/asc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Asc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID asc','snippetsBox','snippets.php')\"><span style=\"font-size:10px; color:#FFFFFF\">-</span><img src=\"assets/img/desc_sidebar.gif\" height=\"10\" width=\"10\" alt=\"Desc\" class=\"cursorType\" onclick=\"javascript:changeOrder('Snippets','snippetID desc','snippetsBox','snippets.php')\"></td>";
 		//echo "<td></td>";
 		echo "</tr>";
 		$query = "SELECT *, (SELECT userName FROM users where users.userID = snippets.userID) AS userName, (SELECT sum(value) from rating where active = 1 and projectID='$projectID' and idResource = snippetID and type = 'snippets' group by idResource)/(SELECT count(*) from rating where active = 1 and projectID='$projectID' and idResource = snippetID and type = 'snippets' group by idResource) as finalRating FROM snippets WHERE projectID='$projectID' AND status=1 order by $orderBy";
@@ -81,7 +86,7 @@
 				$bgColor = '#E8E8E8';
 		}
 		echo "</table>\n";
-		
+
 		}
 	else {
 		echo "Your session has expired. Please <a href=\"http://www.coagmento.org/loginOnSideBar.php\" target=_content><span style=\"color:blue;text-decoration:underline;cursor:pointer;\">login</span> again.\n";

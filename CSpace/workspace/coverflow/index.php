@@ -18,7 +18,7 @@ session_start();
 
   <link href="../assets/select2/select2.css" rel="stylesheet" type="text/css" />
   <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" />
+  <!-- <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" /> -->
   <link type="text/css" href="assets/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
 
   <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>

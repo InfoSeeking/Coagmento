@@ -1,6 +1,7 @@
 <?php
 	session_start();
-	require_once("connect.php");
+	require_once("../core/Connection.class.php");
+	$connection = Connection::getInstance();
 	echo "<table class=\"style3\" width=100%>\n";
 	if (isset($_SESSION['CSpace_userID'])) {
 		$userID = $_SESSION['CSpace_userID'];

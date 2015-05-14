@@ -18,8 +18,6 @@ require_once('../core/Connection.class.php');
 require_once('../core/Base.class.php');
 $base = Base::getInstance();
 $connection = Connection::getInstance();
-$avatar = $line['avatar'];
-$avatar = '';
 if (isset($_SESSION['CSpace_userID'])){
   $userID = $base->getUserID();
   $query = "SELECT * FROM users WHERE userID='$userID'";
@@ -36,7 +34,7 @@ if (isset($_SESSION['CSpace_userID'])){
     <style></style>
     <link href="../assets/select2/select2.css" rel="stylesheet" type="text/css" />
     <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" />
+    <!-- <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap-flat-extras.css" rel="stylesheet" /> -->
     <link type="text/css" href="assets/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
     <script src="assets/js/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>

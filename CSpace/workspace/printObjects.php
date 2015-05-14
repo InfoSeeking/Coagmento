@@ -26,7 +26,7 @@
 <table class="body">
 		<tr><td style="font-size:12px;"><b>Objects from project <span style="font-weight:bold;font-size:12px;"><?php echo $title?></span></b></td><td align=right><a href="javascript:void(0);" onClick="services/addAction('print','<?php echo $objects;?>');window.print();">Print</a> <a href="javascript:void(0);" onClick="window.close();">Close</a></td></tr>
 		<tr><td colspan=2><hr/></td></tr>
-<?
+<?php
 	switch ($objects) {
 		case 'queries':
 			$query1 = "SELECT * FROM queries WHERE projectID='$projectID' ORDER BY timestamp";

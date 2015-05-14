@@ -61,7 +61,6 @@ if(!isset($_FILES['uploaded']['name']))
 		}
 ?>
 
-	<script type="text/javascript" src="assets/js/webtoolkit.aim.js"></script>
 	<script type="text/javascript">
 		function startCallback() {
 			// make something useful before submit (onStart)
