@@ -25,9 +25,11 @@ if(!in_array($PAGE, $valid_pages)){
   exit("Invalid page " . $PAGE);
 }
 
-$username = $base->getUserName();
-$userID = $base->getUserID();
 $cxn = Connection::getInstance();
+$results = mysqli_fetch_assoc($cxn->commit("SELECT username FROM users WHERE userID=" . $base->getUserID()));
+$username = $results["username"];
+$userID = $base->getUserID();
+
 
 $firstLogin = false;
 $r = $cxn->commit("SELECT * FROM actions WHERE action='login' AND userID='$userID'");
