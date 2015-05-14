@@ -1,10 +1,12 @@
 <?php
 	session_start();
+	require_once("../core/Connection.class.php");
+	$connection = Connection::getInstance();
 	$userID = $_SESSION['CSpace_userID'];
 	$projectID = $_SESSION['CSpace_projectID'];
 	$option = $_GET['option'];
 	$value = $_GET['value'];
-	require_once("connect.php");
+
 	$query = "SELECT count(*) as num FROM options WHERE userID='$userID' AND projectID='$projectID' AND `option`='$option'";
 	$results = $connection->commit($query);
 	$line = mysqli_fetch_array($results, MYSQL_ASSOC);
