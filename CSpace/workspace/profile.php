@@ -5,6 +5,7 @@
 
 <script type="text/javascript" src="../assets/js/utilities.js"></script>
 <script src="assets/js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="../assets/js/webtoolkit.aim.js"></script>
 <link type="text/css" href="assets/css/pure-release-0.6.0/forms.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" />
 <script type="text/javascript" src="assets/css/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
@@ -35,7 +36,7 @@
 	}
 	else {
 ?>
-	<script type="text/javascript" src="assets/js/webtoolkit.aim.js"></script>
+
 	<script type="text/javascript">
 		function startCallback() {
 			// make something useful before submit (onStart)
