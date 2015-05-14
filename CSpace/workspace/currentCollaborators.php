@@ -42,6 +42,7 @@ session_start();
 	$projectID = $base->getProjectID();
 
 ?>
+<a style="color:blue;text-decoration:underline;cursor:pointer;" href="collaborators.php">See all your collaborators</a>
 <table class="pure-table pure-table-bordered">
 
 	<thead >
@@ -76,7 +77,8 @@ session_start();
 	?>
 </tbody>
 </table>
-<!-- <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php','content');\">See all your collaborators</span> -->
+
+<!-- <span style="color:blue;text-decoration:underline;cursor:pointer;" onClick="ajaxpage('collaborators.php','content');">See all your collaborators</span> -->
 
 </div>
 </div>

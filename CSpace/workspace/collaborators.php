@@ -65,6 +65,7 @@ include('views/header.php');
 	<tr><td>If you don't see a 'X' next to a project name, that project is owned by your collaborator. You can only leave from such a project.</td></tr>
 	<tr><td>To leave a project, see the list of <a href="projects.php">your projects</a>.</td></tr>
 	<tr><td><br/></td></tr>
+	<tr><td><a style="color:blue;text-decoration:underline;cursor:pointer;" href="currentCollaborators.php">See your collaborators for your current project.</a></td></tr>
 	<tr>
 		<td>
 			<table class="pure-table pure-table-bordered">
