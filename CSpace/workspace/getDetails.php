@@ -55,7 +55,7 @@ if($object_type == 'page') {
 					echo "<p><strong>Viewed on:</strong> ".$row['date']." ".$row['time']."</p>";
 					echo "<p><strong>Project:</strong> ".$projectName."</p>";
 					echo "<p><strong>User:</strong> ".$userName."</p>";
-					echo "<div><a href=".$row['url']." target='new'><img src='http://".$_SERVER['HTTP_HOST']."CSpace/thumbnails/".$thumb."' width='100%'/></a></div>";
+					echo "<div><a href=".$row['url']." target='new'><img src='http://".$_SERVER['HTTP_HOST']."/CSpace/thumbnails/".$thumb."' width='100%'/></a></div>";
 				}
 			}
 		}
