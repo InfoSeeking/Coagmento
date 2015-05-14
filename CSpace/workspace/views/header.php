@@ -106,6 +106,7 @@ $avatar = $base->getAvatar();
           <ul class="dropdown-menu" role="menu">
             <li><a href="index.php">Timeline Interface</a></li>
             <li><a href="coverflow.php">Coverflow Interface</a></li>
+            <li><a href="3d.php">3D Interface</a></li>
             <li class="divider"></li>
             <li><a href="http://coagmento.org/download.php">Get Toolbar</a></li>
             <li><a href="showRecommendations.php">Recommendations</a></li>
