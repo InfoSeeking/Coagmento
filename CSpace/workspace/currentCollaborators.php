@@ -26,7 +26,7 @@ session_start();
 
 <div id="content">
 <div id="container" class="container">
-<h3>Add a Collaborator</h3>
+<h3>Current Collaborators</h3>
 <br>
 
 <?php
@@ -76,7 +76,7 @@ session_start();
 	?>
 </tbody>
 </table>
-<span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php','content');\">See all your collaborators</span>
+<!-- <span style=\"color:blue;text-decoration:underline;cursor:pointer;\" onClick=\"ajaxpage('collaborators.php','content');\">See all your collaborators</span> -->
 
 </div>
 </div>

@@ -1,11 +1,10 @@
 <?php
 		session_start();
   	// Connecting to database
-		require_once("../connect.php");
 		require_once("../core/Base.class.php");
 		require_once("../core/Connection.class.php");
 
-		$cxn = Connection::getInstance();
+		$connection = Connection::getInstance();
 
 		$base = Base::getInstance();
 
@@ -109,7 +108,7 @@
 			}
 		}
 		// echo $fullQuery;
-		$pageResult = $cxn->commit($fullQuery);
+		$pageResult = $connection->commit($fullQuery);
 
 		// $getPage="SELECT * FROM pages,thumbnails WHERE thumbnails.thumbnailID=pages.thumbnailID AND pages.userID=".$userID." AND NOT url = 'about:blank' AND NOT url like '%coagmento.org%' AND NOT url like '%coagmentopad.rutgers.edu%' ORDER BY date DESC";
 		// $pageResult = $connection->commit($getPage);
