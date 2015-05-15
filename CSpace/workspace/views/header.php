@@ -98,7 +98,7 @@ $avatar = $base->getAvatar();
             <li><a href="profile.php">Profile</a></li>
             <li><a href="settings.php">Settings</a></li>
             <li><a href="help.php">Help</a></li>
-            <li><a href="workspace-logout.php?redirect=index.php">Logout</a></li>
+            <li><a href="workspace-logout.php?redirect=http://coagmento.org">Logout</a></li>
           </ul>
         </li>
         <li class="dropdown">
