@@ -1,0 +1,56 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+hbox#browser { 
+    direction: rtl !important;
+     }         
+hbox#browser > vbox {
+    direction: ltr !important; 
+    }
+
+#coagmento-CSpaceLogin-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(32px 144px 48px 128px);  
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Save-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(16px 80px 32px 64px);  
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Snip-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(32px 96px 48px 80px);  
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Etherpad-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(0px 208px 16px 192px);
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Sidebar-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(208px 161px 224px 144px);
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Login-Button {
+    label: "hola";
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(160px 64px 176px 47px);
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Annotate-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(144px 192px 160px 176px);
+  -moz-box-orient: horizontal;
+}
+
+#coagmento-Recommend-Button {
+    list-style-image: url("chrome://coagmento/skin/cutemenu.png");
+  -moz-image-region: rect(256px 16px 272px 0px);
+  -moz-box-orient: horizontal;
+}

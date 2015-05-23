@@ -10,7 +10,7 @@
 <html>
 <head>
 	<title>Snippet</title>
-	<link href="assets/css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="../assets/css/styles.css" rel="stylesheet" type="text/css" />
 </head>
 <?php
 	$userID = $_SESSION['CSpace_userID'];
