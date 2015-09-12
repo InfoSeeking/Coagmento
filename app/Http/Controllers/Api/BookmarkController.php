@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\BookmarkService;
 
 class BookmarkController extends Controller
 {
@@ -15,9 +18,10 @@ class BookmarkController extends Controller
      * @return Response
      */
     public function index()
-    {
-        //
-        return "Hello there";
+    {   
+        $user = Auth::user();
+        BookmarkService::getAllForUser($user);
+        return "Bookmarks listed";
     }
 
     /**
@@ -85,4 +89,5 @@ class BookmarkController extends Controller
     {
         //
     }
+
 }

@@ -18,7 +18,7 @@ class ApiAuthenticate
     public function handle($request, Closure $next)
     {
         if (!Auth::check()) {
-            //return new ApiError("Not authenticated, either use a browser session or pass encrypted.");
+            //return ApiError::make("Not authenticated, either use a browser session or pass encrypted.");
             $content = [
                 "error" => [
                     "messages" => [
