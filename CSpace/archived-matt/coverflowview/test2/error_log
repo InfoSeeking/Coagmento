@@ -1,6 +1,0 @@
-[26-Mar-2012 13:40:43] PHP Warning:  mysql_query() [<a href='function.mysql-query'>function.mysql-query</a>]: Access denied for user 'shahonli'@'localhost' (using password: NO) in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test2/index.php on line 133
-[26-Mar-2012 13:40:43] PHP Warning:  mysql_query() [<a href='function.mysql-query'>function.mysql-query</a>]: A link to the server could not be established in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test2/index.php on line 133
-[26-Mar-2012 13:40:49] PHP Warning:  mysql_query() [<a href='function.mysql-query'>function.mysql-query</a>]: Access denied for user 'shahonli'@'localhost' (using password: NO) in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test2/index.php on line 133
-[26-Mar-2012 13:40:49] PHP Warning:  mysql_query() [<a href='function.mysql-query'>function.mysql-query</a>]: A link to the server could not be established in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test2/index.php on line 133
-[31-Mar-2012 19:55:52] PHP Parse error:  syntax error, unexpected $end in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test2/index.php on line 413
-[31-Mar-2012 19:55:56] PHP Parse error:  syntax error, unexpected $end in /home1/shahonli/public_html/coagmento.org/CSpace/coverflowview/test2/index.php on line 413

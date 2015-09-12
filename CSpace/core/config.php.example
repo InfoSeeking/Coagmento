@@ -1,5 +1,0 @@
-<?php
-define("DB_HOST", "localhost");
-define("DB_USER", "<your mysql username>");
-define("DB_PASS", "<your mysql password>");
-define("DB_DATABASE", "coagmento-org");
