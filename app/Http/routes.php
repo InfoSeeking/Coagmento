@@ -23,7 +23,14 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 // API.
-Route::get('bookmarks', [
+Route::get('api/bookmarks', [
 	'uses' => 'Api\BookmarkController@index',
 	'middleware' => 'api.auth'
 	]);
+
+Route::post('api/bookmarks', [
+	'uses' => 'Api\BookmarkController@store',
+	'middleware' => 'api.auth'
+	]);
+
+Route::get('api/bookmarks/ajax', 'Api\BookmarkController@helper');

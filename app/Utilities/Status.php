@@ -1,8 +1,7 @@
 <?php
 namespace App\Utilities;
 
-use App\Utilities\Status;
-use App\Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Validator;
 
 abstract class StatusCodes {
 	const OK = 0;
@@ -29,10 +28,10 @@ class Status {
 		return $status;
 	}
 
-	public static function fromValidation(Validator $validator) {
-		$code = $validator->fails() ? StatusCodes::BAD_INPUT : StatusCodes::OK;
+	public static function fromValidator(Validator $validator) {
 		$status = new Status();
 		$status->setValidationErrors($validator);
+		$status->code = $validator->fails() ? StatusCodes::BAD_INPUT : StatusCodes::OK;
 		return $status;
 	}
 
@@ -44,17 +43,25 @@ class Status {
 		return $this->code == StatusCodes::OK;
 	}
 
+	public function getCode() {
+		return $this->code;
+	}
+
 	public function asArray() {
+		$inputErrors = [];
+		if (!is_null($this->validationErrors)) {
+			$inputErrors = $this->validationErrors->getMessages();
+		}
 		return [
-			"status" => $this->ok ? "ok" : "error",
+			"status" => $this->code == StatusCodes::OK ? "ok" : "error",
 			"errors" => [
-				"input" => !is_null($this->validationErrors) ? $this->validationErrors->all() : [],
+				"input" => $inputErrors,
 				"general" => $this->generalErrors
 			]
 		];
 	}
 
-	private function Status() {}
+	private function __construct() {}
 
 	private function setValidationErrors(Validator $validator) {
 		if ($validator->fails()) {
@@ -69,45 +76,4 @@ class Status {
 	private $code = StatusCodes::OK;
 	private $generalErrors = [];
 	private $validationErrors = null;
-}
-
-// StatusWithResult is a wrapper around Status to include a return object.
-// It is meant to be returned from a function which may return errors (not exceptions).
-//
-class StatusWithResult {
-	public static function fromErrors(array $messages, $code=StatusCodes::GENERIC_ERROR) {
-		$statusWithResult = new StatusWithResult();
-		$statusWithResult->status = Status::fromErrors($messages, $code);
-		return $statusWithResult;
-	}
-
-	public static function fromError(string $message, $code=StatusCodes::GENERIC_ERROR) {
-		$statusWithResult = new StatusWithResult();
-		$statusWithResult->status = Status::fromError($message, $code);
-		return $statusWithResult;
-	}
-
-	public static function fromValidation(Validator $validator) {
-		$statusWithResult = new StatusWithResult();
-		$statusWithResult->status = Status::fromValidation($validator, $code);
-		return $statusWithResult;
-	}
-
-	public static function fromResult($result) {
-		$statusWithResult = new StatusWithResult();
-		$statusWithResult->result = $result;
-		return $statusWithResult;
-	}
-
-	public function getResult() {
-		return $result;
-	}
-
-	public function getStatus() {
-		return $status;
-	}
-
-	private StatusWithResult() {}
-	private $result = null;
-	private Status $status;
 }

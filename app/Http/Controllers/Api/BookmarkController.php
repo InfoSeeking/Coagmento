@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\BookmarkService;
+use App\Utilities\ApiResponse;
 
 class BookmarkController extends Controller
 {
@@ -20,18 +21,11 @@ class BookmarkController extends Controller
     public function index()
     {   
         $user = Auth::user();
-        BookmarkService::getAllForUser($user);
-        return "Bookmarks listed";
+        return ApiResponse::fromResult(BookmarkService::getAllForUser($user));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
+    public function helper() {
+        return view('ajaxTest');
     }
 
     /**
@@ -42,7 +36,9 @@ class BookmarkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $bookmarkAndStatus = BookmarkService::insert($user, $request);
+        return ApiResponse::fromStatus($bookmarkAndStatus);
     }
 
     /**
@@ -51,29 +47,11 @@ class BookmarkController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function get($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
         //
@@ -87,7 +65,9 @@ class BookmarkController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Auth::user();
+        $status = BookmarkService::delete($user, $id);
+        return ApiResponse::fromStatus($status);
     }
 
 }
