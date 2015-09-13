@@ -21,6 +21,10 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::get('sidebar/home', [
+	'uses' => 'SidebarController@getHome',
+	'middleware' => 'auth'
+	]);
 
 // API.
 Route::get('api/bookmarks', [
