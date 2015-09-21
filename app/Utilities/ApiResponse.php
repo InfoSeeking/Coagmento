@@ -12,11 +12,6 @@ class ApiResponse {
 		return Response::json($status->asArray(), $httpCode);
 	}
 
-	public static function fromStatusWithResult($statusWithResult) {
-		$httpCode = self::getHttpCode($statusWithResult->getCode());
-		return response()->json($statusWithResult->asArrray(), $httpCode);
-	}
-
 	public static function fromResult($result) {
 		$json = [
 			"status" => "ok",
