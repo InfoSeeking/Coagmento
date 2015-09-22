@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/apitest', function () {
+	return view('apitest');
+});
+
 // Authentication.
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -27,14 +31,22 @@ Route::get('sidebar/home', [
 	]);
 
 // API.
-Route::get('api/bookmarks', [
+Route::get('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@index',
 	'middleware' => 'api.auth'
 	]);
 
-Route::post('api/bookmarks', [
-	'uses' => 'Api\BookmarkController@store',
+Route::post('api/v1/bookmarks', [
+	'uses' => 'Api\BookmarkController@create',
 	'middleware' => 'api.auth'
 	]);
 
-Route::get('api/bookmarks/ajax', 'Api\BookmarkController@helper');
+Route::get('api/v1/projects', [
+	'uses' => 'Api\ProjectController@index',
+	'middleware' => 'api.auth'
+	]);
+
+Route::post('api/v1/projects', [
+	'uses' => 'Api\ProjectController@create',
+	'middleware' => 'api.auth'
+	]);

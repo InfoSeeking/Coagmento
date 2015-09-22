@@ -7,3 +7,4 @@ Next up:
 - Create endpoints for snippets
 - Create endpoints for pages
 - Create endpoints for annotations
+- Comment and generate docs with http://apidocjs.com/ or similar tool

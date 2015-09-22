@@ -2,32 +2,39 @@
 
 namespace App\Services;
 
+use Auth;
+use Illuminate\Http\Request;
+use Validator;
+
 use App\Models\Bookmark;
 use App\Models\User;
 use App\Utilities\Status;
 use App\Utilities\StatusWithResult;
-use Validator;
 
 class BookmarkService {
-	public static function getAllForUser(User $user) {
+	public static function getForUser() {
+		$user = Auth::user();
 		return Bookmark::where('user_id', $user->id)->get();
 	}
 
-	public static function insert(User $user, $request) {
-		$validator = Validator::make($request->all(), [
-			'url' => 'required|url'
+	public static function create(Request $req, $project_id) {
+		$user = Auth::user();
+		$validator = Validator::make($req->all(), [
+			'url' => 'required|url',
 			]);
 		if ($validator->fails()) {
 			return StatusWithResult::fromValidator($validator);
 		}
-		$title = $request->input('title', 'Untitled');
-		$bookmark = new Bookmark($request->all());
+		$title = $req->input('title', 'Untitled');
+		$bookmark = new Bookmark($req->all());
 		$bookmark->user_id = $user->id;
+		$bookmark->project_id = $project_id;
 		$bookmark->save();
 		return StatusWithResult::fromResult($bookmark);
 	}
 
-	public static function delete(User $user, $id) {
+	public static function delete($id) {
+		$user = Auth::user();
 		$validator = Validator::make([$id], [
 			'id' => 'required|integer|min:0'
 			]);
