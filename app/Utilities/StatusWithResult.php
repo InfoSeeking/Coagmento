@@ -1,21 +1,28 @@
 <?php
 namespace App\Utilities;
 
+use App\Utilities\StatusCodes;
 use Illuminate\Validation\Validator;
 
 // StatusWithResult is a wrapper around Status to include a return object.
 // It is meant to be returned from a function which may return errors (not exceptions).
 //
 class StatusWithResult {
-	public static function fromErrors(array $messages, $code=StatusCodes::GENERIC_ERROR) {
+	public static function fromErrors($messages, $code=StatusCodes::GENERIC_ERROR) {
 		$statusWithResult = new StatusWithResult();
 		$statusWithResult->status = Status::fromErrors($messages, $code);
 		return $statusWithResult;
 	}
 
-	public static function fromError(string $message, $code=StatusCodes::GENERIC_ERROR) {
+	public static function fromError($message, $code=StatusCodes::GENERIC_ERROR) {
 		$statusWithResult = new StatusWithResult();
 		$statusWithResult->status = Status::fromError($message, $code);
+		return $statusWithResult;
+	}
+
+	public static function fromStatus($status) {
+		$statusWithResult = new StatusWithResult();
+		$statusWithResult->status = $status;
 		return $statusWithResult;
 	}
 

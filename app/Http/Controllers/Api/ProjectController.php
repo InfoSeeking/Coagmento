@@ -13,8 +13,8 @@ use App\Utilities\ApiResponse;
 class ProjectController extends Controller
 {
     function index() {
-        $user = Auth::user();
-        return 'Showing projects for ' . $user->id;
+        $projects = ProjectService::getForUser();
+        return ApiResponse::fromResults($projects);
     }
 
     function create(Request $req) {

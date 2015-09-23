@@ -1,27 +1,21 @@
 <?php
 namespace App\Utilities;
 
+use App\Utilities\StatusCodes;
 use Illuminate\Validation\Validator;
 
-abstract class StatusCodes {
-	const OK = 0;
-	const GENERIC_ERROR = 1;
-	const BAD_INPUT = 2;
-	const INSUFFICIENT_PERMISSIONS = 3;
-}
-
-// A Status can have either generic errors or input errors (not both)
+// A Status can have either general errors or input errors (not both)
 // as well as an internal error code.
 //
 class Status {
-	public static function fromErrors(array $messages, $code=StatusCodes::GENERIC_ERROR) {
+	public static function fromErrors($messages, $code=StatusCodes::GENERIC_ERROR) {
 		$status = new Status();
 		$status->setGeneralErrors($messages);
 		$status->code = $code;
 		return $status;
 	}
 
-	public static function fromError(string $message, $code=StatusCodes::GENERIC_ERROR) {
+	public static function fromError($message, $code=StatusCodes::GENERIC_ERROR) {
 		$status = new Status();
 		$status->setGeneralErrors([$message]);
 		$status->code = $code;
@@ -69,8 +63,8 @@ class Status {
 		}
 	}
 
-	private function setGenericErrors(array $messages) {
-		$generalErrors = $messages;
+	private function setGeneralErrors($messages) {
+		$this->generalErrors = $messages;
 	}
 
 	private $code = StatusCodes::OK;

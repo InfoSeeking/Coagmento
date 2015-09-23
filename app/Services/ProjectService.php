@@ -5,10 +5,10 @@ use Auth;
 use Illuminate\Http\Request;
 use Validator;
 
+use App\Models\Membership;
 use App\Models\Project;
 use App\Models\User;
 use App\Utilities\StatusWithResult;
-use App\Services\BookmarkService;
 
 class ProjectService {
 	public static function create(Request $req){
@@ -22,20 +22,17 @@ class ProjectService {
         $project = new Project($req->all());
         $project->save();
         $project->creator_id = $user->id;
+
+        $owner = new Membership();
+        $owner->user_id = $user->id;
+        $owner->project_id = $project->id;
+        $owner->level = 'o';
+        $owner->save();
         return StatusWithResult::fromResult($project);
 	}
 
-	public static function addBookmark(Request $req) {
+	public static function getForUser(Request $req) {
 		$user = Auth::user();
-		$validator = Validator::make($req->all(), [
-			'project_id' => 'required|exists:projects,id'
-			]);
-		if ($validator->fails()) {
-        	return StatusWithResult::fromValidator($validator);
-        }
-        $project_id = $req->input('project_id');
-		// TODO: Check if user has correct permissions to create a bookmark.
-		$bookmarkStatus = BookmarkService::create($req, $project_id);
-		return $bookmarkStatus;
+		return Project::where('user_id', $user->id)->get();
 	}
 }

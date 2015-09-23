@@ -36,13 +36,14 @@
     }
 	});
 */
+
     $.ajax({
     url: "/api/v1/bookmarks",
     method: "post",
     data: {
       'title' : 'Google',
       'url' : 'http://google.com',
-      'project_id' : 5
+      'project_id' : 11
     },
     success: function(resp) {
       document.write(resp);
@@ -51,6 +52,7 @@
       document.write(xhr.responseText);
     }
   });
+
   </script>
 </body>
 </html>

@@ -16,7 +16,7 @@ class BookmarkController extends Controller
 {
 
     function create(Request $req) {
-        $bookmarkStatus = ProjectService::addBookmark($req);
+        $bookmarkStatus = BookmarkService::create($req);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 
@@ -25,9 +25,9 @@ class BookmarkController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $req)
     {   
-        return ApiResponse::fromResult(BookmarkService::getForUser());
+        return ApiResponse::fromResult(BookmarkService::getForUser($req));
     }
 
     /**
