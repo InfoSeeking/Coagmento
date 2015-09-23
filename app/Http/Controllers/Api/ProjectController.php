@@ -13,12 +13,22 @@ use App\Utilities\ApiResponse;
 class ProjectController extends Controller
 {
     function index() {
-        $projects = ProjectService::getForUser();
-        return ApiResponse::fromResults($projects);
+        $projects = ProjectService::getMultiple();
+        return ApiResponse::fromResult($projects);
+    }
+
+    function get($id) {
+        $projectStatus = ProjectService::get($id);
+        return ApiResponse::fromStatus($projectStatus);
     }
 
     function create(Request $req) {
         $status = ProjectService::create($req);
         return ApiResponse::fromStatus($status);
+    }
+
+    function delete(Request $req, $id) {
+    	$status = ProjectService::delete($req, $id);
+    	return ApiResponse::fromStatus($status);
     }
 }

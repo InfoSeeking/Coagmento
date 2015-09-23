@@ -1,8 +1,9 @@
 <?php
 namespace App\Utilities;
 
-use App\Utilities\StatusCodes;
 use Illuminate\Validation\Validator;
+
+use App\Utilities\StatusCodes;
 
 // StatusWithResult is a wrapper around Status to include a return object.
 // It is meant to be returned from a function which may return errors (not exceptions).

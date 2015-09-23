@@ -33,6 +33,8 @@ class ApiResponse {
 			return 400;
 			case StatusCodes::INSUFFICIENT_PERMISSIONS:
 			return 403;
+			case StatusCodes::NOT_FOUND:
+			return 404;
 			default:
 			return 400;
 		}

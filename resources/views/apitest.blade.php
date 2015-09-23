@@ -20,38 +20,55 @@
 <body>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script>
-  /*
-  	$.ajax({
-		url: "/api/v1/projects/",
-		method: "post",
-    data: {
-      'title' : 'New Project',
-      'description' : 'Testing a new project'
-    },
-		success: function(resp) {
-			document.write(resp);
-		},
-    complete: function(xhr) {
-      document.write(xhr.responseText);
-    }
-	});
-*/
-
+  function test(write, url, method, data) {
     $.ajax({
-    url: "/api/v1/bookmarks",
-    method: "post",
-    data: {
-      'title' : 'Google',
-      'url' : 'http://google.com',
-      'project_id' : 11
-    },
-    success: function(resp) {
-      document.write(resp);
-    },
-    complete: function(xhr) {
-      document.write(xhr.responseText);
-    }
-  });
+      url: url,
+      method: method,
+      data: data,
+      success: function(resp) {
+        if (write) {
+          document.write(resp);
+        } else {
+          console.log("===");
+          console.log(url);
+          console.log(resp);
+          console.log("===");
+        }
+      },
+      complete: function(xhr) {
+        var resp = xhr.responseText;
+        if (write) {
+          document.write(resp);
+        } else {
+          console.log("===");
+          console.log(url);
+          console.log(resp);
+          console.log("===");
+        }
+      }
+    })
+  }
+
+  // test(false, 'api/v1/projects', 'post', {
+  //   'title': 'A new project',
+  //   'description': 'A second project template'
+  // });
+
+  // test(false, 'api/v1/bookmarks', 'post', {
+  //   'title': 'A new bookmark 2',
+  //   'url': 'http://yahoo.com',
+  //   'project_id': 33
+  // });
+
+  // test(true, 'api/v1/bookmarks/37', 'put', {
+  //   'title': 'Changed title'
+  // });
+
+  // test(true, 'api/v1/bookmarks/42/move', 'put', {
+  //   'project_id': 33
+  // });
+
+  //test(true, 'api/v1/projects/34', 'delete', {});
 
   </script>
 </body>

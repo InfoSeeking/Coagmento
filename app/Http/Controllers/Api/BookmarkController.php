@@ -15,31 +15,31 @@ use App\Utilities\ApiResponse;
 class BookmarkController extends Controller
 {
 
-    function create(Request $req) {
+    public function create(Request $req) {
         $bookmarkStatus = BookmarkService::create($req);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 
-    /**
-     * Return a list of all bookmarks saved by the user.
-     *
-     * @return Response
-     */
-    public function index(Request $req)
-    {   
-        return ApiResponse::fromResult(BookmarkService::getForUser($req));
+    public function index(Request $req) {   
+        return ApiResponse::fromStatus(BookmarkService::getMultiple($req));
     }
 
-    /**
-     * Delete the specified bookmark.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
+    public function get($id) {
+        return ApiResponse::fromStatus(BookmarkService::get($id));
+    }
+
+    public function delete($id) {
         $status = BookmarkService::delete($id);
         return ApiResponse::fromStatus($status);
     }
 
+    public function update(Request $req, $id) {
+        $bookmarkStatus = BookmarkService::update($req, $id);
+        return ApiResponse::fromStatus($bookmarkStatus);
+    }
+
+    public function move(Request $req, $id) {
+        $bookmarkStatus = BookmarkService::move($req, $id);
+        return ApiResponse::fromStatus($bookmarkStatus);
+    }
 }

@@ -2,14 +2,12 @@
 This is a prototype of the next version of Coagmento, written with Laravel. The corresponding Firefox extension is located [here](https://bitbucket.org/kevinalbertson/coagmentoprototypeextension).
 
 Next up:
-- Make service classes actual services with facades.
-
-- Create endpoints for projects
 - Add unit tests
 - Create endpoints for snippets
 - Create endpoints for pages
 - Create endpoints for annotations
-- Comment and generate docs with http://apidocjs.com/ or similar tool
+- Comment API docs on controllers and generate docs with http://apidocjs.com/ or similar tool
+- Make service classes actual services with facades?
 
 The classes in the Services directory should only be a centralized form of the controllers (shared between API and back-end pages).Services should not use other services. Database access logic should be pushed to the models. Sharing code should be done in some other way.
 

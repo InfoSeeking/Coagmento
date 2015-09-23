@@ -6,4 +6,5 @@ abstract class StatusCodes {
 	const GENERIC_ERROR = 1;
 	const BAD_INPUT = 2;
 	const INSUFFICIENT_PERMISSIONS = 3;
+	const NOT_FOUND = 4;
 }

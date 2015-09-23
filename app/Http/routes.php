@@ -25,6 +25,8 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+// Back-end pages.
 Route::get('sidebar/home', [
 	'uses' => 'SidebarController@getHome',
 	'middleware' => 'auth'
@@ -36,8 +38,29 @@ Route::get('api/v1/bookmarks', [
 	'middleware' => 'api.auth'
 	]);
 
+Route::get('api/v1/bookmarks/{bookmark_id}', [
+	'uses' => 'Api\BookmarkController@get',
+	'middleware' => 'api.auth'
+	]);
+
+
 Route::post('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@create',
+	'middleware' => 'api.auth'
+	]);
+
+Route::put('api/v1/bookmarks/{bookmark_id}', [
+	'uses' => 'Api\BookmarkController@update',
+	'middleware' => 'api.auth'
+	]);
+
+Route::put('api/v1/bookmarks/{bookmark_id}/move', [
+	'uses' => 'Api\BookmarkController@move',
+	'middleware' => 'api.auth'
+	]);
+
+Route::delete('api/v1/bookmarks/{bookmark_id}', [
+	'uses' => 'Api\BookmarkController@delete',
 	'middleware' => 'api.auth'
 	]);
 
@@ -46,7 +69,17 @@ Route::get('api/v1/projects', [
 	'middleware' => 'api.auth'
 	]);
 
+Route::get('api/v1/projects/{project_id}', [
+	'uses' => 'Api\ProjectController@get',
+	'middleware' => 'api.auth'
+	]);
+
 Route::post('api/v1/projects', [
 	'uses' => 'Api\ProjectController@create',
+	'middleware' => 'api.auth'
+	]);
+
+Route::delete('api/v1/projects/{project_id}', [
+	'uses' => 'Api\ProjectController@delete',
 	'middleware' => 'api.auth'
 	]);

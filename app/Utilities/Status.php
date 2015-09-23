@@ -1,8 +1,9 @@
 <?php
 namespace App\Utilities;
 
-use App\Utilities\StatusCodes;
 use Illuminate\Validation\Validator;
+
+use App\Utilities\StatusCodes;
 
 // A Status can have either general errors or input errors (not both)
 // as well as an internal error code.
