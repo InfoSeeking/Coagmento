@@ -1,8 +1,8 @@
 <?php
 namespace App\Utilities;
 
+use Redirect;
 use Illuminate\Validation\Validator;
-
 use App\Utilities\StatusCodes;
 
 // A Status can have either general errors or input errors (not both)
@@ -25,7 +25,7 @@ class Status {
 
 	public static function fromValidator(Validator $validator) {
 		$status = new Status();
-		$status->setValidationErrors($validator);
+		$status->setValidator($validator);
 		$status->code = $validator->fails() ? StatusCodes::BAD_INPUT : StatusCodes::OK;
 		return $status;
 	}
@@ -44,8 +44,8 @@ class Status {
 
 	public function asArray() {
 		$inputErrors = [];
-		if (!is_null($this->validationErrors)) {
-			$inputErrors = $this->validationErrors->getMessages();
+		if (!is_null($this->validator)) {
+			$inputErrors = $this->validator->getMessageBag()->getMessages();
 		}
 		return [
 			"status" => $this->code == StatusCodes::OK ? "ok" : "error",
@@ -56,11 +56,25 @@ class Status {
 		];
 	}
 
+	public function getValidator() {
+		return $this->validator;
+	}
+
+	public function getGeneralErrors() {
+		return $this->generalErrors;
+	}
+
+	public function asRedirect($path) {
+		return Redirect::to($path)
+            ->withErrors($this->getValidator())
+            ->with('generalErrors', $this->getGeneralErrors());
+	}
+
 	private function __construct() {}
 
-	private function setValidationErrors(Validator $validator) {
+	private function setValidator(Validator $validator) {
 		if ($validator->fails()) {
-			$this->validationErrors = $validator->getMessageBag();
+			$this->validator = $validator;
 		}
 	}
 
@@ -70,5 +84,5 @@ class Status {
 
 	private $code = StatusCodes::OK;
 	private $generalErrors = [];
-	private $validationErrors = null;
+	private $validator = null;
 }

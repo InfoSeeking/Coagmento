@@ -32,6 +32,21 @@ Route::get('sidebar/home', [
 	'middleware' => 'auth'
 	]);
 
+Route::get('workspace', [
+	'uses' => 'WorkspaceController@index',
+	'middleware' => 'auth'
+	]);
+
+Route::post('workspace/project/create', [
+	'uses' => 'WorkspaceController@createProject',
+	'middleware' => 'auth'
+	]);
+
+Route::delete('workspace/project/{project_id}', [
+	'uses' => 'WorkspaceController@deleteProject',
+	'middleware' => 'auth'
+	]);
+
 // API.
 Route::get('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@index',

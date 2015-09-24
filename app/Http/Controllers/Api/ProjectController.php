@@ -52,7 +52,7 @@ class ProjectController extends Controller
 	 * @apiName DeleteProject
 	 */
     function delete(Request $req, $id) {
-    	$status = ProjectService::delete($req, $id);
+    	$status = ProjectService::delete(['id' => $id]);
     	return ApiResponse::fromStatus($status);
     }
 }

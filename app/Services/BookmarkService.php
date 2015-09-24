@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Auth;
-use Illuminate\Http\Request;
 use Validator;
 
 use App\Models\Bookmark;
@@ -40,12 +39,12 @@ class BookmarkService {
 	 * Retrieves a list of bookmarks.
 	 *
 	 * If a project is specified, returns all bookmarks from the project.
-	 * @param Request $req Can filter by project.
+	 * @param Array $args Can filter by project.
 	 * @return StatusWithResult Collection of bookmarks.
 	 */
-	public static function getMultiple(Request $req) {
+	public static function getMultiple($args) {
 		$user = Auth::user();
-		$validator = Validator::make($req->all(), [
+		$validator = Validator::make($args, [
 			'project_id' => 'sometimes|exists:projects,id'
 			]);
 		if ($validator->fails()) {
@@ -53,8 +52,8 @@ class BookmarkService {
 		}
 
 		$bookmarks = Bookmark::where('user_id', $user->id);
-		if ($req->has('project_id')) {
-			$bookmarks->where('project_id', $req->input('project_id'));
+		if (array_key_exists('project_id', $args)) {
+			$bookmarks->where('project_id', $args['project_id']);
 			$memberStatus = MembershipUtils::checkPermission(
 				$user->id, $bookmark->project_id, 'r');
 
@@ -68,12 +67,12 @@ class BookmarkService {
 	/**
 	 * Creates a bookmark.
 	 * 
-	 * @param Request $req Must contain url and project.
+	 * @param Array $args Must contain url and project.
 	 * @return StatusWithResult The newly created bookmark.
 	 */
-	public static function create(Request $req) {
+	public static function create($args) {
 		$user = Auth::user();
-		$validator = Validator::make($req->all(), [
+		$validator = Validator::make($args, [
 			'url' => 'required|url',
 			'project_id' => 'required|exists:projects,id'
 			]);
@@ -81,14 +80,14 @@ class BookmarkService {
 		if ($validator->fails()) {
 			return StatusWithResult::fromValidator($validator);
 		}
-		$projectId = $req->input('project_id');
+		$projectId = $args['project_id'];
 		$memberStatus = MembershipUtils::checkPermission($user->id, $projectId, 'w');
 		if (!$memberStatus->isOK()) {
 			return StatusWithResult::fromStatus($memberStatus);
 		}
 
-		$title = $req->input('title', 'Untitled');
-		$bookmark = new Bookmark($req->all());
+		$title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
+		$bookmark = new Bookmark($args);
 		$bookmark->user_id = $user->id;
 		$bookmark->project_id = $projectId;
 		$bookmark->save();
@@ -127,13 +126,13 @@ class BookmarkService {
 	/**
 	 * Updates a bookmark's fillable fields.
 	 * 
-	 * @param Request $req
-	 * @param int $id The bookmark ID
+	 * @param Array $args
 	 * @return StatusWithResult The updated bookmark.
 	 */
-	public static function update(Request $req, $id) {
+	public static function update($args) {
 		$user = Auth::user();
-		$validator = Validator::make($req->all(), [
+		$validator = Validator::make($args, [
+			'id' => 'required|integer',
 			'url' => 'sometimes|url',
 			'move_to' => 'sometimes|integer|exists:projects,id'
 			]);
@@ -142,7 +141,7 @@ class BookmarkService {
 			return StatusWithResult::fromValidator($validator);
 		}
 
-		$bookmark = Bookmark::find($id);
+		$bookmark = Bookmark::find($args['id']);
 		if (is_null($bookmark)) {
 			return StatusWithResult::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
@@ -151,27 +150,28 @@ class BookmarkService {
 		if (!$memberStatus->isOK()) {
 			return $memberStatus;
 		}
-		$bookmark->update($req->all());
+		$bookmark->update($args);
 		return StatusWithResult::fromResult($bookmark);
     }
 
     /**
      * Moves bookmark to another project
      *
-     * @param Request $req Must contain project id as input.
-     * @param int $id The bookmark ID.
+     * @param Array $args Must contain project id as input.
      * @return StatusWithResult The updated bookmark.
      */
-    public static function move(Request $req, $id) {
+    public static function move($args) {
     	$user = Auth::user();
-    	$validator = Validator::make($req->all(), [
-    		'project_id' => 'required|integer']);
+    	$validator = Validator::make($args, [
+    		'project_id' => 'required|integer|exists:projects,id',
+    		'id' => 'required|integer'
+    		]);
     	if ($validator->fails()) {
     		return StatusWithResult::fromValidator($validator);
     	}
 
-    	$toProject = $req->input('project_id');
-    	$bookmark = Bookmark::find($id);
+    	$toProject = $args['project_id'];
+    	$bookmark = Bookmark::find($args['id']);
 		if (is_null($bookmark)) {
 			return StatusWithResult::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
@@ -195,5 +195,5 @@ class BookmarkService {
     }
 
     // TODO.
-    public static function moveMultiple(Request $req) {}
+    public static function moveMultiple($args) {}
 }

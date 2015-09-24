@@ -3,7 +3,6 @@ namespace App\Services;
 
 use Auth;
 use DB;
-use Illuminate\Http\Request;
 use Validator;
 
 use App\Models\Membership;
@@ -16,15 +15,15 @@ use App\Utilities\StatusCodes;
 use App\Utilities\StatusWithResult;
 
 class ProjectService {
-	public static function create(Request $req){
+	public static function create($args){
 		$user = Auth::user();
-        $validator = Validator::make($req->all(), [
+        $validator = Validator::make($args, [
             'title' => 'required',
             ]);
         if ($validator->fails()) {
         	return StatusWithResult::fromValidator($validator);
         }
-        $project = new Project($req->all());
+        $project = new Project($args);
         $project->creator_id = $user->id;
         $project->save();
 
@@ -58,24 +57,28 @@ class ProjectService {
 		return $projects;
 	}
 
-    public static function delete(Request $req, $id) {
+    public static function delete($args) {
         $user = Auth::user();
-        $project = Project::where('id', $id);
-        if ($project->count() == 0) {
-            return Status::fromError('Project does not exist', StatusCodes::NOT_FOUND);
+        $validator = Validator::make($args, [
+            'id' => 'required|integer|exists:projects,id'
+            ]);
+        if ($validator->fails()) {
+            return Status::fromValidator($validator);
         }
-        $memberStatus = MembershipUtils::checkPermission($user->id, $id, 'o');
+        $projectId = $args['id'];
+        $project = Project::where('id', $projectId);
+        $memberStatus = MembershipUtils::checkPermission($user->id, $projectId, 'o');
         if (!$memberStatus->isOK()) {
             return $memberStatus;
         }
-        Membership::where('project_id', $id)->delete();
-        Bookmark::where('project_id', $id)->delete();
+        Membership::where('project_id', $projectId)->delete();
+        Bookmark::where('project_id', $projectId)->delete();
         $project->delete();
         return Status::OK();
     }
 
     // TODO.
-    public static function update(Request $req) {
+    public static function update($args) {
 
     }
 }

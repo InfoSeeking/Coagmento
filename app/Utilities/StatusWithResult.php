@@ -1,6 +1,7 @@
 <?php
 namespace App\Utilities;
 
+use Redirect;
 use Illuminate\Validation\Validator;
 
 use App\Utilities\StatusCodes;
@@ -60,6 +61,19 @@ class StatusWithResult {
 		$array = $this->status->asArray();
 		$array["result"] = $this->result;
 		return $array;
+	}
+
+	public function asRedirect($path) {
+		$redirect = Redirect::to($path);
+		$validator = $this->status->getValidator();
+		if (!is_null($validator)) {
+			$redirect->withErrors($validator);
+		}
+		$generalErrors = $this->status->getGeneralErrors();
+		if (count($generalErrors) > 0) {
+			$redirect->with('generalErrors', $generalErrors);
+		}
+		return $redirect;
 	}
 
 	private function __construct() {}

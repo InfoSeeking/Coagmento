@@ -49,18 +49,18 @@
     })
   }
 
-  // test(false, 'api/v1/projects', 'post', {
+  // test(true, 'api/v1/projects', 'post', {
   //   'title': 'A new project',
   //   'description': 'A second project template'
   // });
 
-  // test(false, 'api/v1/bookmarks', 'post', {
+  // test(true, 'api/v1/bookmarks', 'post', {
   //   'title': 'A new bookmark 2',
   //   'url': 'http://yahoo.com',
-  //   'project_id': 33
+  //   'project_id': 36
   // });
 
-  // test(true, 'api/v1/bookmarks/37', 'put', {
+  // test(true, 'api/v1/bookmarks/1', 'put', {
   //   'title': 'Changed title'
   // });
 

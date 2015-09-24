@@ -22,7 +22,7 @@ class BookmarkController extends Controller
      * @apiName CreateBookmark
      */
     public function create(Request $req) {
-        $bookmarkStatus = BookmarkService::create($req);
+        $bookmarkStatus = BookmarkService::create($req->all());
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 
@@ -33,7 +33,7 @@ class BookmarkController extends Controller
      * @apiName GetBookmarks
      */
     public function index(Request $req) {   
-        return ApiResponse::fromStatus(BookmarkService::getMultiple($req));
+        return ApiResponse::fromStatus(BookmarkService::getMultiple($req->all()));
     }
 
     /**
@@ -64,7 +64,8 @@ class BookmarkController extends Controller
      * @apiName UpdateBookmark
      */
     public function update(Request $req, $id) {
-        $bookmarkStatus = BookmarkService::update($req, $id);
+        $args = array_merge($req->all(), ['id' => $id]);
+        $bookmarkStatus = BookmarkService::update($args);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 
@@ -76,7 +77,8 @@ class BookmarkController extends Controller
      * @apiName MoveBookmark
      */
     public function move(Request $req, $id) {
-        $bookmarkStatus = BookmarkService::move($req, $id);
+        $args = array_merge($req->all(), ['id' => $id]);
+        $bookmarkStatus = BookmarkService::move($args);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 }
