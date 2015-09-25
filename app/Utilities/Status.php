@@ -30,6 +30,12 @@ class Status {
 		return $status;
 	}
 
+	public static function fromResult($result) {
+		$status = new Status();
+		$status->result = $result;
+		return $status;
+	}
+
 	public static function OK() {
 		return new Status();
 	}
@@ -48,10 +54,11 @@ class Status {
 			$inputErrors = $this->validator->getMessageBag()->getMessages();
 		}
 		return [
-			"status" => $this->code == StatusCodes::OK ? "ok" : "error",
-			"errors" => [
-				"input" => $inputErrors,
-				"general" => $this->generalErrors
+			'status' => $this->code == StatusCodes::OK ? 'ok' : 'error',
+			'errors' => [
+				'input' => $inputErrors,
+				'general' => $this->generalErrors,
+				'result' => $this->result
 			]
 		];
 	}
@@ -65,9 +72,16 @@ class Status {
 	}
 
 	public function asRedirect($path) {
-		return Redirect::to($path)
-            ->withErrors($this->getValidator())
-            ->with('generalErrors', $this->getGeneralErrors());
+		$redirect = Redirect::to($path);
+		$validator = $this->status->getValidator();
+		if (!is_null($validator)) {
+			$redirect->withErrors($validator);
+		}
+		$generalErrors = $this->status->getGeneralErrors();
+		if (count($generalErrors) > 0) {
+			$redirect->with('generalErrors', $generalErrors);
+		}
+		return $redirect;
 	}
 
 	private function __construct() {}
@@ -85,4 +99,5 @@ class Status {
 	private $code = StatusCodes::OK;
 	private $generalErrors = [];
 	private $validator = null;
+	private $result = null;
 }

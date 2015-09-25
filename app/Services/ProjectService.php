@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Utilities\MembershipUtils;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
-use App\Utilities\StatusWithResult;
 
 class ProjectService {
 	public static function create($args){
@@ -21,7 +20,7 @@ class ProjectService {
             'title' => 'required',
             ]);
         if ($validator->fails()) {
-        	return StatusWithResult::fromValidator($validator);
+        	return Status::fromValidator($validator);
         }
         $project = new Project($args);
         $project->creator_id = $user->id;
@@ -32,7 +31,7 @@ class ProjectService {
         $owner->project_id = $project->id;
         $owner->level = 'o';
         $owner->save();
-        return StatusWithResult::fromResult($project);
+        return Status::fromResult($project);
 	}
 
     public static function get($id) {
@@ -43,9 +42,9 @@ class ProjectService {
             ->leftJoin('projects', 'project_id', '=', 'projects.id')
             ->first();
         if (is_null($project)) {
-            return StatusWithResult::fromError('Project not found');
+            return Status::fromError('Project not found');
         }
-        return StatusWithResult::fromResult($project);
+        return Status::fromResult($project);
     }
 
 	public static function getMultiple() {
