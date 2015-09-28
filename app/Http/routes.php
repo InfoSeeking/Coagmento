@@ -48,6 +48,8 @@ Route::delete('workspace/project/{project_id}', [
 	]);
 
 // API.
+
+// Bookmarks.
 Route::get('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@index',
 	'middleware' => 'api.auth'
@@ -57,7 +59,6 @@ Route::get('api/v1/bookmarks/{bookmark_id}', [
 	'uses' => 'Api\BookmarkController@get',
 	'middleware' => 'api.auth'
 	]);
-
 
 Route::post('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@create',
@@ -79,6 +80,7 @@ Route::delete('api/v1/bookmarks/{bookmark_id}', [
 	'middleware' => 'api.auth'
 	]);
 
+// Projects.
 Route::get('api/v1/projects', [
 	'uses' => 'Api\ProjectController@index',
 	'middleware' => 'api.auth'
@@ -86,6 +88,11 @@ Route::get('api/v1/projects', [
 
 Route::get('api/v1/projects/{project_id}', [
 	'uses' => 'Api\ProjectController@get',
+	'middleware' => 'api.auth'
+	]);
+
+Route::put('api/v1/projects/{project_id}', [
+	'uses' => 'Api\ProjectController@update',
 	'middleware' => 'api.auth'
 	]);
 

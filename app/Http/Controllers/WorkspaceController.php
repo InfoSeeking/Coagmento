@@ -21,10 +21,13 @@ class WorkspaceController extends Controller
             ]);
     }
 
-    public function viewProject($projectId) {
+    public function viewProject(Request $req, $projectId) {
         $projects = ProjectService::getMultiple();
         $project = ProjectService::get($projectId);
-
+        return view('workspace.project', [
+            'projects' => $projects,
+            'project' => $project
+            ]);
     }
 
     public function createProject(Request $req) {

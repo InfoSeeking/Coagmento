@@ -42,7 +42,7 @@ class ProjectService {
             ->leftJoin('projects', 'project_id', '=', 'projects.id')
             ->first();
         if (is_null($project)) {
-            return Status::fromError('Project not found');
+            return Status::fromError('Project not found', StatusCodes::NOT_FOUND);
         }
         return Status::fromResult($project);
     }
@@ -59,13 +59,16 @@ class ProjectService {
     public static function delete($args) {
         $user = Auth::user();
         $validator = Validator::make($args, [
-            'id' => 'required|integer|exists:projects,id'
+            'id' => 'required|integer'
             ]);
         if ($validator->fails()) {
             return Status::fromValidator($validator);
         }
         $projectId = $args['id'];
-        $project = Project::where('id', $projectId);
+        $project = Project::find($projectId);
+        if (is_null($project)) {
+            return Status::fromError("Project not found", StatusCodes::NOT_FOUND);
+        }
         $memberStatus = MembershipUtils::checkPermission($user->id, $projectId, 'o');
         if (!$memberStatus->isOK()) {
             return $memberStatus;
@@ -76,8 +79,19 @@ class ProjectService {
         return Status::OK();
     }
 
-    // TODO.
     public static function update($args) {
-
+        $user = Auth::user();
+        $validator = Validator::make($args, [
+            'id' => 'required|integer'
+            ]);
+        if ($validator->fails()) {
+            return Status::fromValidator($validator);
+        }
+        $project = Project::find($args['id']);
+        if (is_null($project)) {
+            return Status::fromError("Project not found", StatusCodes::NOT_FOUND);
+        }
+        $project->update($args);
+        return Status::OK();
     }
 }

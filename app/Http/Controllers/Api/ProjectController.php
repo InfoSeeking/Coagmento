@@ -55,4 +55,10 @@ class ProjectController extends Controller
     	$status = ProjectService::delete(['id' => $id]);
     	return ApiResponse::fromStatus($status);
     }
+
+    function update(Request $req, $id) {
+    	$args = array_merge($req->all(), ['id' => $id]);
+    	$status = ProjectService::update($args);
+    	return ApiResponse::fromStatus($status);
+    }
 }

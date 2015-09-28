@@ -5,9 +5,9 @@ use Redirect;
 use Illuminate\Validation\Validator;
 use App\Utilities\StatusCodes;
 
-// A Status can have either general errors or input errors (not both)
-// as well as an internal error code.
-//
+/** A Status can have general errors and/or input errors
+ *  as well as an internal error code.
+ */
 class Status {
 	public static function fromErrors($messages, $code=StatusCodes::GENERIC_ERROR) {
 		$status = new Status();
@@ -98,6 +98,8 @@ class Status {
 
 	private $code = StatusCodes::OK;
 	private $generalErrors = [];
+	// Input errors have both a key and value (key being input field), this can be used
+	// to show inline errors in forms.
 	private $validator = null;
 	private $result = null;
 }

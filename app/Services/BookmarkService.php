@@ -102,7 +102,7 @@ class BookmarkService {
 	public static function delete($id) {
 		$user = Auth::user();
 		$validator = Validator::make([$id], [
-			'id' => 'required|integer|min:0'
+			'id' => 'required|integer'
 			]);
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);

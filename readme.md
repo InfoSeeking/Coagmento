@@ -2,6 +2,7 @@
 This is a prototype of the next version of Coagmento, written with Laravel. The corresponding Firefox extension is located [here](https://bitbucket.org/kevinalbertson/coagmentoprototypeextension).
 
 Next up:
+- Make services into services :3
 - Add unit tests
 - Create endpoints for snippets
 - Create endpoints for pages
