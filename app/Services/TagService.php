@@ -30,6 +30,17 @@ class TagService {
 		return Status::OK();
 	}
 
+	public function getMultiple($args) {
+		$validator = Validator::make($args, [
+			'project_id' => 'required|integer|exists:projects,id',
+			]);
+		if ($validator->fails()) {
+			return Status::fromValidator($validator);
+		}
+		$tags = Tag::where('project_id', $args['project_id']);
+		return Status::fromResult($tags->get());
+	}
+
 	public function getMultipleOrCreate($args) {
 		$validator = Validator::make($args, [
 			'name_list' => 'required|array',

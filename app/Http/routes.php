@@ -115,3 +115,8 @@ Route::delete('api/v1/projects/{project_id}', [
 	'uses' => 'Api\ProjectController@delete',
 	'middleware' => 'api.auth'
 	]);
+
+Route::get('api/v1/projects/{project_id}/tags', [
+	'uses' => 'Api\ProjectController@getTags',
+	'middleware' => 'api.auth'
+	]);
