@@ -37,18 +37,23 @@ Route::get('workspace', [
 	'middleware' => 'auth'
 	]);
 
-Route::post('workspace/project/create', [
+Route::post('workspace/projects/create', [
 	'uses' => 'WorkspaceController@createProject',
 	'middleware' => 'auth'
 	]);
 
-Route::delete('workspace/project/{project_id}', [
+Route::delete('workspace/projects/{project_id}', [
 	'uses' => 'WorkspaceController@deleteProject',
 	'middleware' => 'auth'
 	]);
 
-Route::get('workspace/project/{project_id}', [
+Route::get('workspace/projects/{project_id}', [
 	'uses' => 'WorkspaceController@viewProject',
+	'middleware' => 'auth'
+	]);
+
+Route::get('workspace/projects/{project_id}/bookmarks/{bookmark_id}', [
+	'uses' => 'WorkspaceController@viewBookmark',
 	'middleware' => 'auth'
 	]);
 

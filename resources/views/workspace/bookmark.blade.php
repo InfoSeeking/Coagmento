@@ -8,18 +8,13 @@
     <div class="row">
     	@include('helpers.showAllErrors')
         <div class="col-md-12">
-		<h2>Projects</h2>
-		@foreach($projects as $project)
-		<li> <a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a> <a class='delete' href='#' data-id='{{$project->id}}'>X</a></li>
-		@endforeach
+		<h2>Viewing Bookmark {{ $project->title }}</h2>
 		
-		<h3>Create</h3>
-		<form action='/workspace/projects/create' method='post'>
-		{!! csrf_field() !!}
-		<input type='text' name='title' placeholder='Project Name' />
-		<input type='submit' />
+		<h3>Create Tag</h3>
+		<form action='/api/v1/bookmark/{{ $bookmark->id }}/addTag' method='put'>
+			<input type='text' placeholder='Tag name'/>
+			<input type='submit' value='Add' />
 		</form>
-
 		</div>
 	</div>
 </div>

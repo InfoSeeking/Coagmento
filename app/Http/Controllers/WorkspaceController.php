@@ -14,8 +14,11 @@ use App\Utilities\Status;
 
 class WorkspaceController extends Controller
 {
-    public function __construct(ProjectService $projectService) {
+    public function __construct(
+        ProjectService $projectService,
+        BookmarkService $bookmarkService) {
         $this->projectService = $projectService;
+        $this->bookmarkService = $bookmarkService;
     }
 
     public function index() {
@@ -26,14 +29,34 @@ class WorkspaceController extends Controller
     }
 
     public function viewProject(Request $req, $projectId) {
-        $projects = $this->projectService->getMultiple();
+        $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
+        if (!$bookmarksStatus->isOK()) {
+            return $bookmarkStatus->asRedirect('workspace');
+        }
+
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) {
             return $projectStatus->asRedirect('workspace');
         }
+
         return view('workspace.project', [
-            'projects' => $projects,
+            'bookmarks' => $bookmarksStatus->getResult(),
             'project' => $projectStatus->getResult()
+            ]);
+    }
+
+    public function viewBookmark(Request $req, $projectId, $bookmarkId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+        $bookmarkStatus = $this->bookmarkService->get($bookmarkId);
+        if (!$bookmarkStatus->isOK()) {
+            return $bookmarkStatus->asRedirect('workspace');
+        }
+        return view('workspace.bookmark', [
+            'project' => $projectStatus->getResult(),
+            'bookmark' => $bookmarkStatus->getResult()
             ]);
     }
 
@@ -50,4 +73,5 @@ class WorkspaceController extends Controller
     }
 
     private $projectService;
+    private $bookmarkService;
 }

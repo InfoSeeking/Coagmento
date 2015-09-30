@@ -6,14 +6,20 @@ use Auth;
 use Validator;
 
 use App\Models\Bookmark;
+use App\Models\BookmarksAndTags;
 use App\Models\Membership;
 use App\Models\User;
 use App\Services\MembershipService;
+use App\Services\TagService;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class BookmarkService {
-	public function __construct(MembershipService $memberService) {
+	public function __construct(
+		TagService $tagService,
+		MembershipService $memberService
+		) {
+		$this->tagService = $tagService;
 		$this->memberService = $memberService;
 		$this->user = Auth::user();
 	}
@@ -30,7 +36,7 @@ class BookmarkService {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memBerservice->checkPermission($this->user->id, $bookmark->project_id, 'r');
+		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'r');
 		if (!$memberStatus->isOK()) {
 			return Status::fromStatus($memberStatus);
 		}
@@ -47,21 +53,22 @@ class BookmarkService {
 	 */
 	public function getMultiple($args) {
 		$validator = Validator::make($args, [
-			'project_id' => 'sometimes|exists:projects,id'
+			'project_id' => 'required|exists:projects,id'
 			]);
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
 		}
-
+		// TODO: do we want all user bookmarks or all bookmarks from the project?
 		$bookmarks = Bookmark::where('user_id', $this->user->id);
 		if (array_key_exists('project_id', $args)) {
-			$bookmarks->where('project_id', $args['project_id']);
-			$memberStatus = $this->memBerservice->checkPermission(
-				$this->user->id, $bookmark->project_id, 'r');
+			$memberStatus = $this->memberService->checkPermission(
+				$this->user->id, $args['project_id'], 'r');
 
 			if (!$memberStatus->isOK()) {
 				return Status::fromStatus($memberStatus);
 			}
+
+			$bookmarks->where('project_id', $args['project_id']);
 		}
 		return Status::fromResult($bookmarks->get());
 	}
@@ -75,23 +82,42 @@ class BookmarkService {
 	public function create($args) {
 		$validator = Validator::make($args, [
 			'url' => 'required|url',
-			'project_id' => 'required|exists:projects,id'
+			'project_id' => 'required|exists:projects,id',
+			'tags' => 'sometimes|array'
 			]);
 
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
 		}
 		$projectId = $args['project_id'];
-		$memberStatus = $this->memBerservice->checkPermission($this->user->id, $projectId, 'w');
+		$memberStatus = $this->memberService->checkPermission($this->user->id, $projectId, 'w');
 		if (!$memberStatus->isOK()) {
-			return Status::fromStatus($memberStatus);
+			return $memberStatus;
 		}
 
 		$title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
+
 		$bookmark = new Bookmark($args);
 		$bookmark->user_id = $this->user->id;
 		$bookmark->project_id = $projectId;
 		$bookmark->save();
+
+		if (array_key_exists('tags', $args)) {
+			$tagStatus = $this->tagService->getMultipleOrCreate([
+				'project_id' => $args['project_id'],
+				'name_list' => $args['tags']
+				]);
+			if (!$tagStatus->isOK()) {
+				return $tagStatus;
+			}
+			foreach ($tagStatus->getResult() as $tag) {
+				$relation = new BookmarksAndTags();
+				$relation->bookmark_id = $bookmark->id;
+				$relation->tag_id = $tag->id;
+				$relation->save();
+			}
+		}
+
 		return Status::fromResult($bookmark);
 	}
 
@@ -114,7 +140,7 @@ class BookmarkService {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memBerservice->checkPermission($this->user->id, $bookmark->project_id, 'w');
+		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
 		if (!$memberStatus->isOK()) {
 			return $memberStatus;
 		}
@@ -130,6 +156,7 @@ class BookmarkService {
 	 * @return Status The updated bookmark.
 	 */
 	public function update($args) {
+		// TODO: Handle tags.
 		$validator = Validator::make($args, [
 			'id' => 'required|integer',
 			'url' => 'sometimes|url',
@@ -145,7 +172,7 @@ class BookmarkService {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memBerservice->checkPermission($this->user->id, $bookmark->project_id, 'w');
+		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
 		if (!$memberStatus->isOK()) {
 			return $memberStatus;
 		}
@@ -175,13 +202,13 @@ class BookmarkService {
 		}
 
 		// User needs to have write permission on both the 'from' and 'to' projects.
-		$memberStatus = $this->memBerservice->checkPermission($this->user->id, $bookmark->project_id, 'w');
+		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
 		if (!$memberStatus->isOK()) {
 			return Status::fromError(
 				'Insufficient permissions to remove bookmark from current project.');
 		}
 
-		$memberStatus = $this->memBerservice->checkPermission($this->user->id, $toProject, 'w');
+		$memberStatus = $this->memberService->checkPermission($this->user->id, $toProject, 'w');
 		if (!$memberStatus->isOK()) {
 			return Status::fromError(
 				'Insufficient permissions to move bookmark to new project.');
@@ -194,4 +221,7 @@ class BookmarkService {
 
     // TODO.
     public function moveMultiple($args) {}
+
+    private $memberService;
+    private $tagService;
 }

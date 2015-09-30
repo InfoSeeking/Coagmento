@@ -74,6 +74,7 @@ class ProjectService {
         if (!$memberStatus->isOK()) {
             return $memberStatus;
         }
+        // Delete all project data.
         Membership::where('project_id', $projectId)->delete();
         Bookmark::where('project_id', $projectId)->delete();
         $project->delete();
