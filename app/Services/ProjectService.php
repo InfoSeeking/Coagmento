@@ -9,13 +9,17 @@ use App\Models\Membership;
 use App\Models\Bookmark;
 use App\Models\Project;
 use App\Models\User;
-use App\Utilities\MembershipUtils;
+use App\Services\MembershipService;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class ProjectService {
-	public static function create($args){
-		$user = Auth::user();
+    public function __construct(MembershipService $memberService) {
+        $this->user = Auth::user();
+        $this->memberService = $memberService;
+    }
+
+	public function create($args){
         $validator = Validator::make($args, [
             'title' => 'required',
             ]);
@@ -23,21 +27,20 @@ class ProjectService {
         	return Status::fromValidator($validator);
         }
         $project = new Project($args);
-        $project->creator_id = $user->id;
+        $project->creator_id = $this->user->id;
         $project->save();
 
         $owner = new Membership();
-        $owner->user_id = $user->id;
+        $owner->user_id = $this->user->id;
         $owner->project_id = $project->id;
         $owner->level = 'o';
         $owner->save();
         return Status::fromResult($project);
 	}
 
-    public static function get($id) {
-        $user = Auth::user();
+    public function get($id) {
         $project = DB::table('memberships')
-            ->where('user_id', $user->id)
+            ->where('user_id', $this->user->id)
             ->where('project_id', $id)
             ->leftJoin('projects', 'project_id', '=', 'projects.id')
             ->first();
@@ -47,17 +50,15 @@ class ProjectService {
         return Status::fromResult($project);
     }
 
-	public static function getMultiple() {
-		$user = Auth::user();
+	public function getMultiple() {
         $projects = DB::table('memberships')
-            ->where('user_id', $user->id)
+            ->where('user_id', $this->user->id)
             ->leftJoin('projects', 'project_id', '=', 'projects.id')
             ->get();
 		return $projects;
 	}
 
-    public static function delete($args) {
-        $user = Auth::user();
+    public function delete($args) {
         $validator = Validator::make($args, [
             'id' => 'required|integer'
             ]);
@@ -69,7 +70,7 @@ class ProjectService {
         if (is_null($project)) {
             return Status::fromError("Project not found", StatusCodes::NOT_FOUND);
         }
-        $memberStatus = MembershipUtils::checkPermission($user->id, $projectId, 'o');
+        $memberStatus = $this->memberService->checkPermission($this->user->id, $projectId, 'o');
         if (!$memberStatus->isOK()) {
             return $memberStatus;
         }
@@ -79,8 +80,7 @@ class ProjectService {
         return Status::OK();
     }
 
-    public static function update($args) {
-        $user = Auth::user();
+    public function update($args) {
         $validator = Validator::make($args, [
             'id' => 'required|integer'
             ]);
@@ -94,4 +94,7 @@ class ProjectService {
         $project->update($args);
         return Status::OK();
     }
+
+    private $user;
+    private $memberService;
 }

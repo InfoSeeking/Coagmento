@@ -12,6 +12,9 @@ use App\Utilities\ApiResponse;
 
 class ProjectController extends Controller
 {
+    function __construct(ProjectService $projectService) {
+        $this->projectService = $projectService;
+    }
 	/**
 	 * @api{get} /v1/projects
 	 * @apiDescription Returns a list of projects which the user has membership.
@@ -19,7 +22,7 @@ class ProjectController extends Controller
 	 * @apiName GetProjects
 	 */
     function index() {
-        $projects = ProjectService::getMultiple();
+        $projects = $this->projectService->getMultiple();
         return ApiResponse::fromResult($projects);
     }
 
@@ -30,7 +33,7 @@ class ProjectController extends Controller
 	 * @apiName GetProject
 	 */
     function get($id) {
-        $projectStatus = ProjectService::get($id);
+        $projectStatus = $this->projectService->get($id);
         return ApiResponse::fromStatus($projectStatus);
     }
 
@@ -41,7 +44,7 @@ class ProjectController extends Controller
 	 * @apiName CreateProject
 	 */
     function create(Request $req) {
-        $status = ProjectService::create($req);
+        $status = $this->projectService->create($req);
         return ApiResponse::fromStatus($status);
     }
 
@@ -52,13 +55,15 @@ class ProjectController extends Controller
 	 * @apiName DeleteProject
 	 */
     function delete(Request $req, $id) {
-    	$status = ProjectService::delete(['id' => $id]);
+    	$status = $this->projectService->delete(['id' => $id]);
     	return ApiResponse::fromStatus($status);
     }
 
     function update(Request $req, $id) {
     	$args = array_merge($req->all(), ['id' => $id]);
-    	$status = ProjectService::update($args);
+    	$status = $this->projectService->update($args);
     	return ApiResponse::fromStatus($status);
     }
+
+    private $projectService;
 }

@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\BookmarkService;
-use App\Services\ProjectService;
 use App\Utilities\ApiResponse;
 
 class BookmarkController extends Controller
 {
-
+    public function __construct(BookmarkService $bookmarkService) {
+        $this->bookmarkService = $bookmarkService;
+    }
     /**
      * @api{post} /v1/bookmarks
      * @apiDescription Creates a new bookmark.
@@ -22,7 +23,7 @@ class BookmarkController extends Controller
      * @apiName CreateBookmark
      */
     public function create(Request $req) {
-        $bookmarkStatus = BookmarkService::create($req->all());
+        $bookmarkStatus = $this->bookmarkService->create($req->all());
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 
@@ -33,7 +34,7 @@ class BookmarkController extends Controller
      * @apiName GetBookmarks
      */
     public function index(Request $req) {   
-        return ApiResponse::fromStatus(BookmarkService::getMultiple($req->all()));
+        return ApiResponse::fromStatus($this->bookmarkService->getMultiple($req->all()));
     }
 
     /**
@@ -43,7 +44,7 @@ class BookmarkController extends Controller
      * @apiName GetBookmark
      */
     public function get($id) {
-        return ApiResponse::fromStatus(BookmarkService::get($id));
+        return ApiResponse::fromStatus($this->bookmarkService->get($id));
     }
 
     /**
@@ -53,7 +54,7 @@ class BookmarkController extends Controller
      * @apiName DeleteBookmark
      */
     public function delete($id) {
-        $status = BookmarkService::delete($id);
+        $status = $this->bookmarkService->delete($id);
         return ApiResponse::fromStatus($status);
     }
 
@@ -65,7 +66,7 @@ class BookmarkController extends Controller
      */
     public function update(Request $req, $id) {
         $args = array_merge($req->all(), ['id' => $id]);
-        $bookmarkStatus = BookmarkService::update($args);
+        $bookmarkStatus = $this->bookmarkService->update($args);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
 
@@ -78,7 +79,9 @@ class BookmarkController extends Controller
      */
     public function move(Request $req, $id) {
         $args = array_merge($req->all(), ['id' => $id]);
-        $bookmarkStatus = BookmarkService::move($args);
+        $bookmarkStatus = $this->bookmarkService->move($args);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
+
+    private $bookmarkService;
 }

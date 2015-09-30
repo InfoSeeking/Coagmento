@@ -14,30 +14,40 @@ use App\Utilities\Status;
 
 class WorkspaceController extends Controller
 {
+    public function __construct(ProjectService $projectService) {
+        $this->projectService = $projectService;
+    }
+
     public function index() {
-        $projects = ProjectService::getMultiple();
+        $projects = $this->projectService->getMultiple();
         return view('workspace.home', [
             'projects' => $projects
             ]);
     }
 
     public function viewProject(Request $req, $projectId) {
-        $projects = ProjectService::getMultiple();
-        $project = ProjectService::get($projectId);
+        $projects = $this->projectService->getMultiple();
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
         return view('workspace.project', [
             'projects' => $projects,
-            'project' => $project
+            'project' => $projectStatus->getResult()
             ]);
     }
 
     public function createProject(Request $req) {
-        $projectStatus = ProjectService::create($req->all());
+        $projectStatus = $this->projectService->create($req->all());
         return $projectStatus->asRedirect('workspace');
     }
 
     public function updateProject(){}
+    
     public function deleteProject(Request $req, $projectId) {
-        $status = ProjectService::delete(['id' => $projectId]);
+        $status = $this->projectService->delete(['id' => $projectId]);
         return $status->asRedirect('workspace');
     }
+
+    private $projectService;
 }

@@ -73,15 +73,19 @@ class Status {
 
 	public function asRedirect($path) {
 		$redirect = Redirect::to($path);
-		$validator = $this->status->getValidator();
+		$validator = $this->getValidator();
 		if (!is_null($validator)) {
 			$redirect->withErrors($validator);
 		}
-		$generalErrors = $this->status->getGeneralErrors();
+		$generalErrors = $this->getGeneralErrors();
 		if (count($generalErrors) > 0) {
 			$redirect->with('generalErrors', $generalErrors);
 		}
 		return $redirect;
+	}
+
+	public function getResult() {
+		return $this->result;
 	}
 
 	private function __construct() {}

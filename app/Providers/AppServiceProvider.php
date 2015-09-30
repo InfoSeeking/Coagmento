@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ProjectService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // TODO: It may be more Laravel-esque to make separate interface classes.
+        $this->app->singleton('App\Services\ProjectService', 'App\Services\ProjectService', true);
+        $this->app->singleton('App\Services\BookmarkService', 'App\Services\BookmarkService', true);
+        $this->app->singleton('App\Services\MembershipService', 'App\Services\MembershipService', true);
     }
 }

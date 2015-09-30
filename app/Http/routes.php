@@ -47,6 +47,11 @@ Route::delete('workspace/project/{project_id}', [
 	'middleware' => 'auth'
 	]);
 
+Route::get('workspace/project/{project_id}', [
+	'uses' => 'WorkspaceController@viewProject',
+	'middleware' => 'auth'
+	]);
+
 // API.
 
 // Bookmarks.
