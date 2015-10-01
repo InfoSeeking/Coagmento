@@ -10,15 +10,18 @@ use App\Http\Controllers\Controller;
 
 use App\Services\ProjectService;
 use App\Services\BookmarkService;
+use App\Services\SnippetService;
 use App\Utilities\Status;
 
 class WorkspaceController extends Controller
 {
     public function __construct(
         ProjectService $projectService,
-        BookmarkService $bookmarkService) {
+        BookmarkService $bookmarkService,
+        SnippetService $snippetService) {
         $this->projectService = $projectService;
         $this->bookmarkService = $bookmarkService;
+        $this->snippetService = $snippetService;
     }
 
     public function index() {
@@ -34,6 +37,11 @@ class WorkspaceController extends Controller
             return $bookmarkStatus->asRedirect('workspace');
         }
 
+        $snippetStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
+        if (!$snippetStatus->isOK()) {
+            return $snippetStatus->asRedirect('workspace');
+        }
+
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) {
             return $projectStatus->asRedirect('workspace');
@@ -41,6 +49,7 @@ class WorkspaceController extends Controller
 
         return view('workspace.project', [
             'bookmarks' => $bookmarksStatus->getResult(),
+            'snippets' => $snippetStatus->getResult(),
             'project' => $projectStatus->getResult()
             ]);
     }
@@ -74,4 +83,5 @@ class WorkspaceController extends Controller
 
     private $projectService;
     private $bookmarkService;
+    private $snippetService;
 }
