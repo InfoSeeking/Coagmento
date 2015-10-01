@@ -15,6 +15,17 @@ class SnippetController extends Controller
         $this->snippetService = $snippetService;
     }
 
+    /**
+     * @api{post} /v1/bookmarks
+     * @apiDescription Creates a new snippet.
+     * @apiPermission write
+     * @apiGroup Snippet
+     * @apiName CreateSnippet
+     * @apiParam {Integer} project_id
+     * @apiParam {String} url
+     * @apiParam {String} text The snippet contents.
+     * @apiVersion 1.0.0
+     */
     public function create(Request $req) {
         $snippetStatus = $this->snippetService->create($req->all());
         return ApiResponse::fromStatus($snippetStatus);

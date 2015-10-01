@@ -17,10 +17,16 @@ class BookmarkController extends Controller
         $this->bookmarkService = $bookmarkService;
     }
     /**
-     * @api{post} /v1/bookmarks
+     * @api{post} /v1/bookmarks Create
      * @apiDescription Creates a new bookmark.
+     * @apiPermission write
      * @apiGroup Bookmark
      * @apiName CreateBookmark
+     * @apiParam {Integer} project_id
+     * @apiParam {String} url
+     * @apiParam {String} title The contents of title in the page.
+     * @apiParam {Array[String]} [tags] A list of initial tags.
+     * @apiVersion 1.0.0
      */
     public function create(Request $req) {
         $bookmarkStatus = $this->bookmarkService->create($req->all());
@@ -28,30 +34,39 @@ class BookmarkController extends Controller
     }
 
     /**
-     * @api{get} /v1/bookmarks
-     * @apiDescription Gets a list of bookmarks the user has some access to.
+     * @api{get} /v1/bookmarks Get Multiple
+     * @apiDescription Gets a list of bookmarks.
+     * If the project_id is specified, returns all bookmarks in a project (not just owned by user).
+     * If project_id is omitted, then returns all user owned bookmarks.
+     * @apiPermission read
      * @apiGroup Bookmark
      * @apiName GetBookmarks
+     * @apiParam {Integer} [project_id]
+     * @apiVersion 1.0.0
      */
     public function index(Request $req) {   
         return ApiResponse::fromStatus($this->bookmarkService->getMultiple($req->all()));
     }
 
     /**
-     * @api{get} /v1/bookmarks/:id
+     * @api{get} /v1/bookmarks/:id Get
      * @apiDescription Gets a single bookmark.
+     * @apiPermission read
      * @apiGroup Bookmark
      * @apiName GetBookmark
+     * @apiVersion 1.0.0
      */
     public function get($id) {
         return ApiResponse::fromStatus($this->bookmarkService->get($id));
     }
 
     /**
-     * @api{delete} /v1/bookmarks/:id
-     * @apiDescription Deletes a single bookmark if the user has write permission.
+     * @api{delete} /v1/bookmarks/:id Delete
+     * @apiDescription Deletes a single bookmark.
+     * @apiPermission write
      * @apiGroup Bookmark
      * @apiName DeleteBookmark
+     * @apiVersion 1.0.0
      */
     public function delete($id) {
         $status = $this->bookmarkService->delete($id);
@@ -59,10 +74,15 @@ class BookmarkController extends Controller
     }
 
     /**
-     * @api{put} /v1/bookmarks/:id
-     * @apiDescription Updates a bookmark if the user has write permission.
+     * @api{put} /v1/bookmarks/:id Update
+     * @apiDescription Updates a bookmark.
+     * @apiPermission write
+     * @apiParam {String} [url]
+     * @apiParam {String} [title] The contents of title in the page.
+     * @apiParam {Array[String]} [tags] A list of tags.
      * @apiGroup Bookmark
      * @apiName UpdateBookmark
+     * @apiVersion 1.0.0
      */
     public function update(Request $req, $id) {
         $args = array_merge($req->all(), ['id' => $id]);
@@ -71,11 +91,14 @@ class BookmarkController extends Controller
     }
 
     /**
-     * @api{put} /v1/bookmarks/:id/move
-     * @apiDescription Moves the bookmark to another project if the user 
-     * has write permission on both projects.
-     * @apiGroup Bookmark
+     * @api{put} /v1/bookmarks/:id/move Move to Project
+     * @apiDescription Moves the bookmark to another project.
+     * Note: the user must have write permission on both 'from' and 'to' projects.
+     * @apiPermission write
+     * @apiParam {Integer} project_id The destination project.
      * @apiName MoveBookmark
+     * @apiGroup Bookmark
+     * @apiVersion 1.0.0
      */
     public function move(Request $req, $id) {
         $args = array_merge($req->all(), ['id' => $id]);
