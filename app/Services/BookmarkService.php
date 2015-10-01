@@ -48,18 +48,18 @@ class BookmarkService {
 	 * Retrieves a list of bookmarks.
 	 *
 	 * If a project is specified, returns all bookmarks from the project.
+	 * Otherwise returns only bookmarks created by this user.
 	 * @param Array $args Can filter by project.
 	 * @return Status Collection of bookmarks.
 	 */
 	public function getMultiple($args) {
 		$validator = Validator::make($args, [
-			'project_id' => 'required|exists:projects,id'
+			'project_id' => 'sometimes|exists:projects,id'
 			]);
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
 		}
-		// TODO: do we want all user bookmarks or all bookmarks from the project?
-		$bookmarks = Bookmark::where('user_id', $this->user->id);
+
 		if (array_key_exists('project_id', $args)) {
 			$memberStatus = $this->memberService->checkPermission(
 				$this->user->id, $args['project_id'], 'r');
@@ -68,8 +68,12 @@ class BookmarkService {
 				return Status::fromStatus($memberStatus);
 			}
 
-			$bookmarks->where('project_id', $args['project_id']);
+			$bookmarks = Bookmark::where('project_id', $args['project_id']);
+			return Status::fromResult($bookmarks->get());
 		}
+
+		// Return all user created bookmarks.
+		$bookmarks = Bookmark::where('user_id', $this->user->id);
 		return Status::fromResult($bookmarks->get());
 	}
 
@@ -103,18 +107,9 @@ class BookmarkService {
 		$bookmark->save();
 
 		if (array_key_exists('tags', $args)) {
-			$tagStatus = $this->tagService->getMultipleOrCreate([
-				'project_id' => $args['project_id'],
-				'name_list' => $args['tags']
-				]);
+			$tagStatus = $this->updateTags($bookmark, $args['tags']);
 			if (!$tagStatus->isOK()) {
 				return $tagStatus;
-			}
-			foreach ($tagStatus->getResult() as $tag) {
-				$relation = new BookmarksAndTags();
-				$relation->bookmark_id = $bookmark->id;
-				$relation->tag_id = $tag->id;
-				$relation->save();
 			}
 		}
 
@@ -156,11 +151,11 @@ class BookmarkService {
 	 * @return Status The updated bookmark.
 	 */
 	public function update($args) {
-		// TODO: Handle tags.
 		$validator = Validator::make($args, [
 			'id' => 'required|integer',
 			'url' => 'sometimes|url',
-			'move_to' => 'sometimes|integer|exists:projects,id'
+			'move_to' => 'sometimes|integer|exists:projects,id',
+			'tags' => 'sometimes|array'
 			]);
 
 		if ($validator->fails()) {
@@ -175,6 +170,13 @@ class BookmarkService {
 		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
 		if (!$memberStatus->isOK()) {
 			return $memberStatus;
+		}
+
+		if (array_key_exists('tags', $args)) {
+			$tagStatus = $this->updateTags($bookmark, $args['tags']);
+			if (!$tagStatus->isOK()) {
+				return $tagStatus;
+			}
 		}
 		$bookmark->update($args);
 		return Status::fromResult($bookmark);
@@ -221,6 +223,23 @@ class BookmarkService {
 
     // TODO.
     public function moveMultiple($args) {}
+
+    private function updateTags(Bookmark $bookmark, $tagList) {
+		$tagStatus = $this->tagService->getMultipleOrCreate([
+			'project_id' => $bookmark->project_id,
+			'name_list' => $tagList
+			]);
+		if (!$tagStatus->isOK()) {
+			return $tagStatus;
+		}
+		foreach ($tagStatus->getResult() as $tag) {
+			$relation = new BookmarksAndTags();
+			$relation->bookmark_id = $bookmark->id;
+			$relation->tag_id = $tag->id;
+			$relation->save();
+		}
+		return Status::OK();
+    }
 
     private $memberService;
     private $tagService;
