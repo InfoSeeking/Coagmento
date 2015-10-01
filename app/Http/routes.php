@@ -132,6 +132,11 @@ Route::get('api/v1/snippets/{snippet_id}', [
 	'middleware' => 'api.auth'
 	]);
 
+Route::get('api/v1/snippets', [
+	'uses' => 'Api\SnippetController@index',
+	'middleware' => 'api.auth'
+	]);
+
 Route::put('api/v1/snippets/{snippet_id}', [
 	'uses' => 'Api\SnippetController@update',
 	'middleware' => 'api.auth'
@@ -139,5 +144,26 @@ Route::put('api/v1/snippets/{snippet_id}', [
 
 Route::delete('api/v1/snippets/{snippet_id}', [
 	'uses' => 'Api\SnippetController@delete',
+	'middleware' => 'api.auth'
+	]);
+
+// Pages.
+Route::post('api/v1/pages', [
+	'uses' => 'Api\PageController@create',
+	'middleware' => 'api.auth'
+	]);
+
+Route::get('api/v1/pages/{page_id}', [
+	'uses' => 'Api\PageController@get',
+	'middleware' => 'api.auth'
+	]);
+
+Route::get('api/v1/pages', [
+	'uses' => 'Api\PageController@index',
+	'middleware' => 'api.auth'
+	]);
+
+Route::delete('api/v1/pages/{page_id}', [
+	'uses' => 'Api\PageController@delete',
 	'middleware' => 'api.auth'
 	]);

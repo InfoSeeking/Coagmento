@@ -25,7 +25,7 @@ class BookmarkController extends Controller
      * @apiParam {Integer} project_id
      * @apiParam {String} url
      * @apiParam {String} title The contents of title in the page.
-     * @apiParam {Array[String]} [tags] A list of initial tags.
+     * @apiParam {String[]} [tags] A list of initial tags.
      * @apiVersion 1.0.0
      */
     public function create(Request $req) {
@@ -79,7 +79,7 @@ class BookmarkController extends Controller
      * @apiPermission write
      * @apiParam {String} [url]
      * @apiParam {String} [title] The contents of title in the page.
-     * @apiParam {Array[String]} [tags] A list of tags.
+     * @apiParam {String[]} [tags] A list of tags.
      * @apiGroup Bookmark
      * @apiName UpdateBookmark
      * @apiVersion 1.0.0

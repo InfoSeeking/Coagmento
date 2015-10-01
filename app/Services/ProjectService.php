@@ -8,6 +8,8 @@ use Validator;
 use App\Models\Membership;
 use App\Models\Bookmark;
 use App\Models\Project;
+use App\Models\Snippet;
+use App\Models\Tag;
 use App\Models\User;
 use App\Services\MembershipService;
 use App\Utilities\Status;
@@ -77,6 +79,8 @@ class ProjectService {
         // Delete all project data.
         Membership::where('project_id', $projectId)->delete();
         Bookmark::where('project_id', $projectId)->delete();
+        Tag::where('project_id', $projectId)->delete();
+        Snippet::where('project_id', $projectId)->delete();
         $project->delete();
         return Status::OK();
     }
