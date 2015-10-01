@@ -22,4 +22,21 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+
+    protected function assertJSONErrors($response) {
+        $this->assertTrue($response->status() != 200);
+        $json = json_decode($response->content(), true);
+        $this->assertTrue(array_key_exists('errors', $json));
+        $hasErrors = false;
+        if (count($json['errors']['input']) > 0) {
+            $hasErrors = true;
+        } else if (count($json['errors']['general']) > 0) {
+            $hasErrors = true;
+        }
+        $this->assertTrue($hasErrors);
+    }
+
+    protected function assertJSONSuccess($response) {
+        $this->assertTrue($response->status() == 200);
+    }
 }
