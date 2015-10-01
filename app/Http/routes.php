@@ -120,3 +120,24 @@ Route::get('api/v1/projects/{project_id}/tags', [
 	'uses' => 'Api\ProjectController@getTags',
 	'middleware' => 'api.auth'
 	]);
+
+// Snippets.
+Route::post('api/v1/snippets', [
+	'uses' => 'Api\SnippetController@create',
+	'middleware' => 'api.auth'
+	]);
+
+Route::get('api/v1/snippets/{snippet_id}', [
+	'uses' => 'Api\SnippetController@get',
+	'middleware' => 'api.auth'
+	]);
+
+Route::put('api/v1/snippets/{snippet_id}', [
+	'uses' => 'Api\SnippetController@update',
+	'middleware' => 'api.auth'
+	]);
+
+Route::delete('api/v1/snippets/{snippet_id}', [
+	'uses' => 'Api\SnippetController@delete',
+	'middleware' => 'api.auth'
+	]);

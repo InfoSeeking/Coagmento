@@ -27,6 +27,14 @@
 			<input type='submit' value='Create' />
 		</form>
 
+		<h3>Create Snippet</h3>
+		<form action='/api/v1/snippets' method='post' id='createSnippet'>
+			<input type='text' name='url' placeholder='url' value='http://example.com' />
+			<textarea name='text'>Snippet Text</textarea>
+			<input type='hidden' name='project_id' value='{{ $project->id }}' />
+			<input type='submit' value='Create' />
+		</form>
+
 		</div>
 	</div>
 </div>
@@ -67,7 +75,29 @@ $('#createBookmark').on('submit', function(e){
 		success: function() {
 			window.location.reload();
 		}
-	})
+	});
+});
+
+$("#createSnippet").on('submit', function(e){
+	e.preventDefault();
+	var projectId = $(this).find('input[name=project_id]').val();
+	var text = $(this).find('textarea[name=text]').val();
+	var url = $(this).find('input[name=url]').val();
+	$.ajax({
+		url: '/api/v1/snippets/',
+		method: 'post',
+		data: {
+			'project_id' : projectId,
+			'url': url,
+			'text' : text
+		},
+		complete: function(xhr) {
+			document.write(xhr.responseText);
+		},
+		success: function() {
+			window.location.reload();
+		}
+	});
 })
 </script>
 @endsection('content')
