@@ -123,13 +123,6 @@ class BookmarkService {
 	 * @return Status
 	 */
 	public function delete($id) {
-		$validator = Validator::make([$id], [
-			'id' => 'required|integer'
-			]);
-		if ($validator->fails()) {
-			return Status::fromValidator($validator);
-		}
-
 		$bookmark = Bookmark::find($id);
 		if (is_null($bookmark)) {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);

@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\Bookmark;
+use App\Models\Membership;
+use App\Models\Project;
+use App\Models\User;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -38,5 +43,30 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     protected function assertJSONSuccess($response) {
         $this->assertTrue($response->status() == 200);
+    }
+
+    // Some helpers for populating the database.
+    // TODO: Consider using factories for data population.
+    protected function createProject() {
+        $project = new Project(['title' => 'Project Title', 'creator_id' => $this->user->id]);
+        $project->save();
+        return $project;
+    }
+
+    protected function createMembership(Project $project) {
+        $membership = new Membership();
+        $membership->user_id = $this->user->id;
+        $membership->project_id = $project->id;
+        $membership->level = 'w';
+        $membership->save();
+        return $membership;
+    }
+
+    protected function createBookmark(Project $project) {
+        $bookmark = new Bookmark(['title' => 'Bookmark Title', 'url' => 'http://website.com']);
+        $bookmark->project_id = $project->id;
+        $bookmark->user_id = $this->user->id;
+        $bookmark->save();
+        return $bookmark;
     }
 }
