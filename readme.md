@@ -3,7 +3,7 @@ This is the start of the next version of Coagmento, written with Laravel.
 
 Tentative timeline:
 
-### By 10/4 ###
+### By 10/7 ###
 - Finish unit tests
 - Query parsing and endpoints
 - Create endpoints for annotations
