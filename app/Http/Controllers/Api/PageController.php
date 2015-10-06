@@ -22,7 +22,10 @@ class PageController extends Controller
      * @apiName CreatePage
      * @apiParam {Integer} project_id
      * @apiParam {String} url
-     * @apiParam {String} title The contents of title in the page.
+     * @apiParam {String} [title] The contents of title in the page.
+     * @apiParam {String} [if_query=both] Used to determine the behavior when the url
+     * represents a search engine query page (e.g. https://www.google.com/search?q=test)
+     * This should be set to one of the following: 'page_only', 'query_only', or 'both'
      * @apiVersion 1.0.0
      */
     public function create(Request $req) {

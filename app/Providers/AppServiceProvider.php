@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Services\MembershipService', 'App\Services\MembershipService', true);
         $this->app->singleton('App\Services\TagService', 'App\Services\TagService', true);
         $this->app->singleton('App\Services\SnippetService', 'App\Services\SnippetService', true);
+        $this->app->singleton('App\Services\QueryService', 'App\Services\QueryService', true);
     }
 }
