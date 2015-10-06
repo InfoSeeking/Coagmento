@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use App\Services\Query;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -12,8 +11,6 @@ class QueryTest extends TestCase
 
     public function setUp() {
         parent::setUp();
-        $this->user = factory(User::class)->create();
-        $this->be($this->user);
 
         $app = $this->createApplication();
         $this->queryService = $app->make('App\Services\QueryService');

@@ -53,11 +53,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $project;
     }
 
-    protected function createMembership(Project $project) {
+    protected function createMembership(Project $project, $level='w') {
         $membership = new Membership();
         $membership->user_id = $this->user->id;
         $membership->project_id = $project->id;
-        $membership->level = 'w';
+        $membership->level = $level;
         $membership->save();
         return $membership;
     }

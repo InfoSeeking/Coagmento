@@ -55,7 +55,7 @@ class ProjectController extends Controller
      * @apiVersion 1.0.0
 	 */
     function create(Request $req) {
-        $status = $this->projectService->create($req);
+        $status = $this->projectService->create($req->all());
         return ApiResponse::fromStatus($status);
     }
 

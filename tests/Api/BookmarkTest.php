@@ -16,6 +16,7 @@ class BookmarkTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->user = factory(User::class)->create();
+		$this->be($this->user);
 	}
 
 	public function testCreate() {
@@ -27,14 +28,14 @@ class BookmarkTest extends TestCase {
 			'url' => 'http://website.com',
 			'project_id' => $project->id
 		];
-		$response = $this->actingAs($this->user)->call('POST', 'api/v1/bookmarks', $params);
+		$response = $this->call('POST', 'api/v1/bookmarks', $params);
 		$this->assertJSONSuccess($response);
 
 		// Check that the bookmark actually exists in the database.
 		$this->assertEquals(1, Bookmark::where('user_id', $this->user->id)->count());
 
 		// Expect an error because malformed url.
-		$response = $this->actingAs($this->user)->call('POST',
+		$response = $this->call('POST',
 			'api/v1/bookmarks',
 			array_merge($params, ['url' => 'malformed.url'])
 			);
@@ -42,14 +43,14 @@ class BookmarkTest extends TestCase {
 
 		$membership->delete();
 		// Expect an error because user is not a member of the project.
-		$response = $this->actingAs($this->user)->call('POST', 'api/v1/bookmarks', $params);
+		$response = $this->call('POST', 'api/v1/bookmarks', $params);
 		$this->assertJSONErrors($response);
 
 		$membership->level = 'r';
 		$membership->save();
 
 		// Still expect an error because the user does not have write permissions.
-		$response = $this->actingAs($this->user)->call('POST', 'api/v1/bookmarks', $params);
+		$response = $this->call('POST', 'api/v1/bookmarks', $params);
 		$this->assertJSONErrors($response);
 
 		// Return membership to write permission.
@@ -62,7 +63,7 @@ class BookmarkTest extends TestCase {
 		$membership = $this->createMembership($project);
 		$bookmark = $this->createBookmark($project);
 		$params = ['title' => 'Updated Title'];
-		$response = $this->actingAs($this->user)->call('PUT', '/api/v1/bookmarks/' . $bookmark->id, $params);
+		$response = $this->call('PUT', '/api/v1/bookmarks/' . $bookmark->id, $params);
 		$this->assertJSONSuccess($response);
 
 		// Eloquent will not auto update, so we need to refetch.
@@ -74,7 +75,7 @@ class BookmarkTest extends TestCase {
 		$project = $this->createProject();
 		$membership = $this->createMembership($project);
 		$bookmark = $this->createBookmark($project);
-		$response = $this->actingAs($this->user)->call('DELETE', '/api/v1/bookmarks/' . $bookmark->id);
+		$response = $this->call('DELETE', '/api/v1/bookmarks/' . $bookmark->id);
 		$this->assertJSONSuccess($response);
 		$this->assertNull(Bookmark::find($bookmark->id));
 	}
@@ -87,7 +88,7 @@ class BookmarkTest extends TestCase {
 		$projectB = $this->createProject();
 		$membershipB = $this->createMembership($projectB);
 
-		$response = $this->actingAs($this->user)->call(
+		$response = $this->call(
 			'PUT',
 			'/api/v1/bookmarks/' . $bookmark->id . '/move',
 			['project_id' => $projectB->id]);
@@ -99,7 +100,7 @@ class BookmarkTest extends TestCase {
 		$membershipA->level = 'r';
 		$membershipA->save();
 
-		$response = $this->actingAs($this->user)->call(
+		$response = $this->call(
 			'PUT',
 			'/api/v1/bookmarks/' . $bookmark->id . '/move',
 			['project_id' => $projectA->id]);
