@@ -5,9 +5,7 @@ Tentative timeline:
 
 ### By 10/7 ###
 - Finish unit tests
-- Query parsing and endpoints
 - Create endpoints for annotations
-- Finish API comments
 
 ### By 10/11 ###
 - Realtime component
