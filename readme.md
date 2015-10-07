@@ -3,11 +3,8 @@ This is the start of the next version of Coagmento, written with Laravel.
 
 Tentative timeline:
 
-### By 10/7 ###
-- Finish unit tests
-- Create endpoints for annotations
-
 ### By 10/11 ###
+- Create endpoints for annotations
 - Realtime component
 - Firefox extension prototype
 
@@ -18,5 +15,6 @@ Tentative timeline:
 - Getting Started guide
 - Style guide
 - Design documents
+- Analytics
 
 The classes in the Services directory should only be a centralized form of the controllers (shared between API and back-end pages).Services should not use other services. Database access logic should be pushed to the models. Sharing code should be done in some other way.

@@ -3,6 +3,7 @@
 use App\Models\Bookmark;
 use App\Models\Membership;
 use App\Models\Project;
+use App\Models\Snippet;
 use App\Models\User;
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase
@@ -68,5 +69,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $bookmark->user_id = $this->user->id;
         $bookmark->save();
         return $bookmark;
+    }
+
+    protected function createSnippet(Project $project) {
+        $snippet = new Snippet(['text' => 'Snippet Title', 'url' => 'http://website.com']);
+        $snippet->project_id = $project->id;
+        $snippet->user_id = $this->user->id;
+        $snippet->save();
+        return $snippet;
     }
 }
