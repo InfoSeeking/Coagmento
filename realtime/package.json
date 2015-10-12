@@ -1,0 +1,11 @@
+{
+  "name": "CoagmentoRealtime",
+  "version": "1.0.0",
+  "description": "Gives realtime updates to user data from Coagmento",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Albertson",
+  "license": "ISC"
+}
