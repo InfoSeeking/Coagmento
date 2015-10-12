@@ -3,12 +3,12 @@ This is the start of the next version of Coagmento, written with Laravel.
 
 Tentative timeline:
 
-### By 10/11 ###
+### By 10/16 ###
 - Create endpoints for annotations
 - Realtime component
 - Firefox extension prototype
 
-### By 10/18 ###
+### By 10/19 ###
 - Prototype of workspace
 
 ## Eventually ##
