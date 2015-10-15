@@ -15,9 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/apitest', function () {
-	return view('apitest');
-});
+Route::get('/new', 'SplashController@index');
+Route::post('/new/notify', 'SplashController@notify');
 
 // Authentication.
 Route::get('auth/login', 'Auth\AuthController@getLogin');
