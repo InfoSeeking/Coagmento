@@ -85,7 +85,7 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>
-<div class="main" style="background-image: url('/images/splash/bg16.jpg')">
+<div class="main" style="background-image: url('images/splash/bg16.jpg')">
 
 <!--    Change the image source '/images/default.jpg' with your favourite image.     -->
     
@@ -122,7 +122,7 @@
                 </h5>
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3 ">
-                        <form class="form-inline" role="form" method="post" action="/new/notify">
+                        <form class="form-inline" role="form" method="post" action="new/notify">
                           <div class="form-group">
                             <label class="sr-only" for="exampleInputEmail2">Email address</label>
                             <input type="email" name="email" class="form-control transparent" placeholder="Your email here..." value="{{ old('email') }}">
