@@ -102,10 +102,11 @@
 		
         <div class="row">
 			<div class="col-lg-12 motto">
-				<h4>COMING SOON ...</h4>
-				<p><i class="fa fa-cog"> Realtime feed of user activity</i></p>
-				<p><i class="fa fa-cog"> Simple and open API</i></p>
-				<p><i class="fa fa-cog"> Painless study setup</i></p>
+				<h4>COMING SOON ...</h4>				
+        <p><i class="fa fa-cog"> Thorough developer documentation and an <a href='{{ url("apidoc")}}/'>open API</a></i></p>
+        <p><i class="fa fa-cog"> Realtime feed of user activity</i></p>
+        <p><i class="fa fa-cog"> Up to date Firefox extension</i></p>
+				<p><i class="fa fa-cog"> Easy setup for your own custom studies</i></p>
 				
 			</div>
 		</div>
