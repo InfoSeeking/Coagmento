@@ -96,8 +96,7 @@ Route::get('api/v1/projects', [
 	]);
 
 Route::get('api/v1/projects/{project_id}', [
-	'uses' => 'Api\ProjectController@get',
-	'middleware' => 'api.auth'
+	'uses' => 'Api\ProjectController@get'
 	]);
 
 Route::put('api/v1/projects/{project_id}', [
@@ -117,7 +116,6 @@ Route::delete('api/v1/projects/{project_id}', [
 
 Route::get('api/v1/projects/{project_id}/tags', [
 	'uses' => 'Api\ProjectController@getTags',
-	'middleware' => 'api.auth'
 	]);
 
 // Snippets.
@@ -128,7 +126,6 @@ Route::post('api/v1/snippets', [
 
 Route::get('api/v1/snippets/{snippet_id}', [
 	'uses' => 'Api\SnippetController@get',
-	'middleware' => 'api.auth'
 	]);
 
 Route::get('api/v1/snippets', [
@@ -153,13 +150,11 @@ Route::post('api/v1/pages', [
 	]);
 
 Route::get('api/v1/pages/{page_id}', [
-	'uses' => 'Api\PageController@get',
-	'middleware' => 'api.auth'
+	'uses' => 'Api\PageController@get'
 	]);
 
 Route::get('api/v1/pages', [
-	'uses' => 'Api\PageController@index',
-	'middleware' => 'api.auth'
+	'uses' => 'Api\PageController@index'
 	]);
 
 Route::delete('api/v1/pages/{page_id}', [

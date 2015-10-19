@@ -13,10 +13,10 @@ class ProjectTest extends TestCase {
 		parent::setUp();
 		$this->user = factory(User::class)->create();
 		$this->memberService = $this->app->make('App\Services\MembershipService');
-		$this->be($this->user);
 	}
 
 	public function testCreate() {
+		$this->be($this->user);
 		$params = [
 			'title' => 'Test Project'
 		];
@@ -28,7 +28,7 @@ class ProjectTest extends TestCase {
 		$this->assertTrue(!is_null($project));
 
 		// Check that user has owner membership.
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $project->id, 'o');
+		$memberStatus = $this->memberService->checkPermission($project->id, 'o', $this->user);
 		$this->assertTrue($memberStatus->isOK());
 
 		// Expect an error because missing title.
@@ -37,11 +37,40 @@ class ProjectTest extends TestCase {
 	}
 
 	public function testDelete() {
+		$this->be($this->user);
 		$project = $this->createProject();
 		$membership = $this->createMembership($project, 'o');
 		$response = $this->call('DELETE', 'api/v1/projects/' . $project->id, []);
 		$this->assertJSONSuccess($response);
 		$this->assertTrue(is_null(Project::find($project->id)));
+	}
+
+	public function testPrivate() {
+		$project = $this->createProject();
+		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
+		// Project is public by default, so reading should be permissible without
+		// logging in.
+		$this->assertJSONSuccess($response);
+
+		$project->private = true;
+		$project->save();
+
+		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
+		$this->assertJSONErrors($response);
+
+		$project->private = false;
+		$project->save();
+
+		// The same behavior is expected when the user is logged in, and not a member.
+		$this->be($this->user);
+		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
+		$this->assertJSONSuccess($response);
+
+		$project->private = true;
+		$project->save();
+
+		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
+		$this->assertJSONErrors($response);
 	}
 
 }

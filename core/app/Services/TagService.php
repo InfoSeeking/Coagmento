@@ -80,7 +80,4 @@ class TagService {
 		$tag->delete();
 		return Status::OK();
 	}
-
-	private $user;
-	private $memberService;
 }

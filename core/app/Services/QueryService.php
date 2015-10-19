@@ -97,10 +97,8 @@ class QueryService {
 			return Status::fromValidator($validator);
 		}
 		
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $args['project_id'], 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$query = new Query($args);
 		$query->project_id = $args['project_id'];

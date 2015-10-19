@@ -29,10 +29,8 @@ class PageService {
 			return Status::fromError('Page not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $page->project_id, 'r');
-		if (!$memberStatus->isOK()) {
-			return Status::fromStatus($memberStatus);
-		}
+		$memberStatus = $this->memberService->checkPermission($page->project_id, 'r', $this->user);
+		if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 		return Status::fromResult($page);
 	}
@@ -47,11 +45,8 @@ class PageService {
 
 		if (array_key_exists('project_id', $args)) {
 			$memberStatus = $this->memberService->checkPermission(
-				$this->user->id, $args['project_id'], 'r');
-
-			if (!$memberStatus->isOK()) {
-				return Status::fromStatus($memberStatus);
-			}
+				$args['project_id'], 'r', $this->user);
+			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 			$pages = Page::where('project_id', $args['project_id']);
 			return Status::fromResult($pages->get());
@@ -74,10 +69,8 @@ class PageService {
 		}
 
 		$projectId = $args['project_id'];
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $projectId, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($projectId, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 
@@ -124,10 +117,8 @@ class PageService {
 			return Status::fromError('Page not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $page->project_id, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($page->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 		
 		$page->delete();
 		return Status::OK();

@@ -24,12 +24,14 @@ class ProjectService {
 	public function create($args){
         $validator = Validator::make($args, [
             'title' => 'required',
+            'private' => 'sometimes|boolean'
             ]);
         if ($validator->fails()) {
         	return Status::fromValidator($validator);
         }
         $project = new Project($args);
         $project->creator_id = $this->user->id;
+        $project->private = array_key_exists('private', $args) ? $args['private'] : false;
         $project->save();
 
         $owner = new Membership();
@@ -41,14 +43,12 @@ class ProjectService {
 	}
 
     public function get($id) {
-        $project = DB::table('memberships')
-            ->where('user_id', $this->user->id)
-            ->where('project_id', $id)
-            ->leftJoin('projects', 'project_id', '=', 'projects.id')
-            ->first();
+        $project = Project::find($id);
         if (is_null($project)) {
             return Status::fromError('Project not found', StatusCodes::NOT_FOUND);
         }
+        $memberStatus = $this->memberService->checkPermission($project->id, 'r', $this->user);
+        if (!$memberStatus->isOK()) return $memberStatus;
         return Status::fromResult($project);
     }
 
@@ -72,10 +72,8 @@ class ProjectService {
         if (is_null($project)) {
             return Status::fromError("Project not found", StatusCodes::NOT_FOUND);
         }
-        $memberStatus = $this->memberService->checkPermission($this->user->id, $projectId, 'o');
-        if (!$memberStatus->isOK()) {
-            return $memberStatus;
-        }
+        $memberStatus = $this->memberService->checkPermission($project->id, 'o', $this->user);
+        if (!$memberStatus->isOK()) return $memberStatus;
         // Delete all project data.
         Membership::where('project_id', $projectId)->delete();
         Bookmark::where('project_id', $projectId)->delete();
@@ -96,10 +94,9 @@ class ProjectService {
         if (is_null($project)) {
             return Status::fromError("Project not found", StatusCodes::NOT_FOUND);
         }
+        $memberStatus = $this->memberService->checkPermission($project->id, 'w', $this->user);
+        if (!$memberStatus->isOK()) return $memberStatus;
         $project->update($args);
         return Status::OK();
     }
-
-    private $user;
-    private $memberService;
 }

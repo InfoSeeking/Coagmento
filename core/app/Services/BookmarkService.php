@@ -36,10 +36,8 @@ class BookmarkService {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'r');
-		if (!$memberStatus->isOK()) {
-			return Status::fromStatus($memberStatus);
-		}
+		$memberStatus = $this->memberService->checkPermission($bookmark->project_id, 'r', $this->user);
+		if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 		return Status::fromResult($bookmark);
 	}
@@ -61,12 +59,8 @@ class BookmarkService {
 		}
 
 		if (array_key_exists('project_id', $args)) {
-			$memberStatus = $this->memberService->checkPermission(
-				$this->user->id, $args['project_id'], 'r');
-
-			if (!$memberStatus->isOK()) {
-				return Status::fromStatus($memberStatus);
-			}
+			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
+			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 			$bookmarks = Bookmark::where('project_id', $args['project_id']);
 			return Status::fromResult($bookmarks->get());
@@ -93,17 +87,14 @@ class BookmarkService {
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
 		}
-		$projectId = $args['project_id'];
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $projectId, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 
 		$bookmark = new Bookmark($args);
 		$bookmark->user_id = $this->user->id;
-		$bookmark->project_id = $projectId;
+		$bookmark->project_id = $args['project_id'];
 		$bookmark->save();
 
 		if (array_key_exists('tags', $args)) {
@@ -127,11 +118,9 @@ class BookmarkService {
 		if (is_null($bookmark)) {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
-
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		
+		$memberStatus = $this->memberService->checkPermission($bookmark->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 		
 		$bookmark->delete();
 		return Status::OK();
@@ -160,10 +149,8 @@ class BookmarkService {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}
 
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($bookmark->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 
 		if (array_key_exists('tags', $args)) {
 			$tagStatus = $this->updateTags($bookmark, $args['tags']);
@@ -197,13 +184,13 @@ class BookmarkService {
 		}
 
 		// User needs to have write permission on both the 'from' and 'to' projects.
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $bookmark->project_id, 'w');
+		$memberStatus = $this->memberService->checkPermission($bookmark->project_id, 'w', $this->user);
 		if (!$memberStatus->isOK()) {
 			return Status::fromError(
 				'Insufficient permissions to remove bookmark from current project.');
 		}
 
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $toProject, 'w');
+		$memberStatus = $this->memberService->checkPermission($toProject, 'w', $this->user);
 		if (!$memberStatus->isOK()) {
 			return Status::fromError(
 				'Insufficient permissions to move bookmark to new project.');
@@ -233,7 +220,4 @@ class BookmarkService {
 		}
 		return Status::OK();
     }
-
-    private $memberService;
-    private $tagService;
 }

@@ -19,10 +19,9 @@ class SnippetService {
 		if (is_null($snippet)) {
 			return Status::fromError('Snippet not found', StatusCodes::NOT_FOUND);
 		}
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $snippet->project_id, 'r');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($snippet->project_id, 'r', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
 		return Status::fromResult($snippet);
 	}
 
@@ -36,11 +35,8 @@ class SnippetService {
 
 		if (array_key_exists('project_id', $args)) {
 			$memberStatus = $this->memberService->checkPermission(
-				$this->user->id, $args['project_id'], 'r');
-
-			if (!$memberStatus->isOK()) {
-				return Status::fromStatus($memberStatus);
-			}
+				$args['project_id'], 'r', $this->user);
+			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 			$snippets = Snippet::where('project_id', $args['project_id']);
 			return Status::fromResult($snippets->get());
@@ -61,10 +57,8 @@ class SnippetService {
 			return Status::fromValidator($validator);
 		}
 
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $args['project_id'], 'r');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$snippet = new Snippet($args);
 		$snippet->user_id = $this->user->id;
@@ -78,10 +72,9 @@ class SnippetService {
 		if (is_null($snippet)) {
 			return Status::fromError('Snippet not found', StatusCodes::NOT_FOUND);
 		}
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $snippet->project_id, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($snippet->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
 		$snippet->delete();
 		return Status::OK();
 	}
@@ -96,14 +89,10 @@ class SnippetService {
 		if (is_null($snippet)) {
 			return Status::fromError('Snippet not found', StatusCodes::NOT_FOUND);
 		}
-		$memberStatus = $this->memberService->checkPermission($this->user->id, $snippet->project_id, 'w');
-		if (!$memberStatus->isOK()) {
-			return $memberStatus;
-		}
+		$memberStatus = $this->memberService->checkPermission($snippet->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
 		$snippet->update($args);
 		return Status::fromResult($snippet);
 	}
-
-	private $user;
-	private $memberService;
 }

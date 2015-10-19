@@ -35,6 +35,7 @@ class ProjectController extends Controller
     /**
 	 * @api{get} /v1/projects/:id Get
 	 * @apiDescription Returns a single project and the user's membership.
+     * If the project is public, the user does not need any permissions.
 	 * @apiGroup Project
 	 * @apiName GetProject
      * @apiPermission read
@@ -51,6 +52,7 @@ class ProjectController extends Controller
 	 * @apiGroup Project
 	 * @apiName CreateProject
      * @apiParam {String} title
+     * @apiParam {Boolean} [private=false] Private projects are not publicly searchable.
      * @apiPermission write
      * @apiVersion 1.0.0
 	 */

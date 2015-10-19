@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Membership;
+use App\Models\Project;
 use App\Utilities\Status;
 
 class MembershipService {
@@ -18,8 +19,21 @@ class MembershipService {
 		}
 	}
 
- 	public function checkPermission($userId, $projectId, $level) {
-    	$rows = Membership::where('user_id', $userId)->where('project_id', $projectId)->get();
+ 	public function checkPermission($project_id, $level, $user=null) {
+        // Public projects give read permission to any user.
+        if ($level == 'r') {
+            // Check if this is a public project.
+            $project = Project::find($project_id);
+            if (!$project->private) {
+                return Status::OK();
+            }
+        }
+
+        if ($user == null) {
+            return Status::fromError('You must be logged in to view this project');
+        }
+
+    	$rows = Membership::where('user_id', $user->id)->where('project_id', $project_id)->get();
     	if ($rows->count() == 0) {
     		return Status::fromError('You do not have access to this project.');
     	}
