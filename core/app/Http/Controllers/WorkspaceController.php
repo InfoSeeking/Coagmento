@@ -79,8 +79,10 @@ class WorkspaceController extends Controller
     }
 
     public function createProject(Request $req) {
-        $projectStatus = $this->projectService->create($req->all());
-        return $projectStatus->asRedirect('workspace');
+        $private = $req->input('visibility') == 'private';
+        $args = array_merge($req->all(), ['private' => $private]);
+        $projectStatus = $this->projectService->create($args);
+        return $projectStatus->asRedirect('workspace', ['New project created']);
     }
 
     public function updateProject(){}
@@ -89,9 +91,4 @@ class WorkspaceController extends Controller
         $status = $this->projectService->delete(['id' => $projectId]);
         return $status->asRedirect('workspace');
     }
-
-    private $projectService;
-    private $bookmarkService;
-    private $snippetService;
-    private $pageService;
 }

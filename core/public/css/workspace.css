@@ -1,0 +1,15 @@
+.navbar-fixed {
+	background: #9ac3ff;
+}
+
+.navbar-brand {
+	height: auto;
+}
+
+
+.main-content {
+}
+
+#body_container {
+	min-height: 100%;
+}

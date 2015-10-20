@@ -71,15 +71,22 @@ class Status {
 		return $this->generalErrors;
 	}
 
-	public function asRedirect($path) {
+	public function asRedirect($path, $successMessages=null) {
 		$redirect = Redirect::to($path);
 		$validator = $this->getValidator();
+		$hasErrors = false;
 		if (!is_null($validator)) {
 			$redirect->withErrors($validator);
+			$hasErrors = true;
 		}
 		$generalErrors = $this->getGeneralErrors();
 		if (count($generalErrors) > 0) {
 			$redirect->with('generalErrors', $generalErrors);
+			$hasErrors = true;
+		}
+
+		if(!$hasErrors) {
+			$redirect->with('successMessages', $successMessages);
 		}
 		return $redirect;
 	}

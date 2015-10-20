@@ -38,7 +38,6 @@ Route::get('workspace', [
 
 Route::post('workspace/projects/create', [
 	'uses' => 'WorkspaceController@createProject',
-	'middleware' => 'auth'
 	]);
 
 Route::delete('workspace/projects/{project_id}', [
