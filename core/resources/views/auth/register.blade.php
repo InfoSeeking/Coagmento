@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <h1>Register for a New Account</h1>
-    <div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             @include('helpers.showAllMessages')

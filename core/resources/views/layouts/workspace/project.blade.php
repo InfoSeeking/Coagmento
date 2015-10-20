@@ -1,7 +1,7 @@
 @extends('layouts.workspace.main')
 @section('content')
 <div class='row'>
-    <div class='col-md-2 col-sm-4'>
+    <div class='col-md-2 col-sm-4 sidebar'>
     <ul>
         <li><a href='/workspace/projects/create' class='active'>New Project</a></li>
         <li><a href='/workspace/projects'>My Projects</a></li>

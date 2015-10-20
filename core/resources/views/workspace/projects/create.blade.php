@@ -4,7 +4,7 @@
 
 @include('helpers.showAllMessages')
 <div class='col-sm-6'>
-	<form class='form-horizontal' action='/workspace/projects/create' method='post'>
+	<form class='form-horizontal create-form' action='/workspace/projects/create' method='post'>
 		<div class='form-group'>
 			<label class='col-sm-4 control-label'>Create a Project</label>	
 		</div>
@@ -18,10 +18,8 @@
 		
 		<div class='form-group'>
 			<div class='col-sm-4 control-label'>
-				<div class='row'>
-					<label for='inputProjectDescription'>Project Description</label>
-				</div>
-				<div class='row'><small>(Optional)</small></div>
+				<label for='inputProjectDescription'>Project Description</label>
+				<small>(Optional)</small>
 			</div>
 			<div class='col-sm-8'>
 				<textarea class='form-control' id='inputProjectDescription' name='description'></textarea>
@@ -47,7 +45,7 @@
 		<div class='form-group'>
 			<div class='col-sm-4'></div>
 			<div class='col-sm-8'>
-				<button type='submit'>Create Project</button>
+				<button type='submit' class="btn btn-primary">Create Project</button>
 			</div>
 		</div>
 	</form>

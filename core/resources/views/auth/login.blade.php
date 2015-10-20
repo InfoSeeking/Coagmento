@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <h1>Login</h1>
-    <div>
+    </div>
     <div class="row">
         
         <div class="col-md-12">

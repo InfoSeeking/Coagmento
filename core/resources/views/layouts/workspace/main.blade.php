@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/fonts/myriad-pro/style.css" />
         <link rel="stylesheet" href="/css/workspace.css" />
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,12 +30,16 @@
             </div>
             <div class="container-fluid" id="subnav">
                 <a href='/workspace/projects'>Projects</a>
+                <!-- <a href='/workspace/bookmarks'>Bookmarks</a> -->
             </div>
         </nav>
 
         <div class="container-fluid" id="body_container">
         @yield('content')
         </div>
+        <footer class="container-fluid">
+        Development of Coagmento is supported by Institute of Museum and Library Services (IMLS). Coagmento 2007-2015
+        </footer>
 
     </body>
 </html>

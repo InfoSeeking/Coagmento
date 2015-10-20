@@ -45,6 +45,12 @@ class WorkspaceController extends Controller
             ]);
     }
 
+    public function showShared() {
+        return view('workspace.projects.index', [
+            'projects' => []
+            ]);
+    }
+
     public function viewProject(Request $req, $projectId) {
         $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
         if (!$bookmarksStatus->isOK()) {

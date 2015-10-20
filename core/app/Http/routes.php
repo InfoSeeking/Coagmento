@@ -47,6 +47,11 @@ Route::get('workspace/projects/create', [
 	'middleware' => 'auth'
 	]);
 
+Route::get('workspace/projects/sharedWithMe', [
+	'uses' => 'WorkspaceController@showShared',
+	'middleware' => 'auth'
+	]);
+
 Route::post('workspace/projects/create', [
 	'uses' => 'WorkspaceController@createProject',
 	'middleware' => 'auth'
