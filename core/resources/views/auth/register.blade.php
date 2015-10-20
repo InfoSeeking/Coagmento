@@ -1,8 +1,8 @@
-@extends('layouts/main')
+@extends('layouts.workspace.main')
 @section('content')
 <div class="container">
     <div class="row">
-        <h1>Coagmento Register</h1>
+        <h1>Register for a New Account</h1>
     <div>
     <div class="row">
         <div class="col-md-12">

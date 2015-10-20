@@ -10,7 +10,8 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
-    protected $redirectPath = '/';
+    protected $redirectPath = '/workspace';
+    protected $redirectAfterLogout = '/auth/login';
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller

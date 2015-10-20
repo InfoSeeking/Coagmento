@@ -9,6 +9,7 @@ use Session;
 use Redirect;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 
 use App\Services\ProjectService;
 use App\Services\BookmarkService;
@@ -27,6 +28,10 @@ class WorkspaceController extends Controller
         $this->bookmarkService = $bookmarkService;
         $this->snippetService = $snippetService;
         $this->pageService = $pageService;
+    }
+
+    public function showHome() {
+        return view('workspace.home');
     }
 
     public function showProjectCreate() {
@@ -96,5 +101,14 @@ class WorkspaceController extends Controller
     public function deleteProject(Request $req, $projectId) {
         $status = $this->projectService->delete(['id' => $projectId]);
         return $status->asRedirect('workspace');
+    }
+
+    public function demoLogin() {
+        $demoUser = User::firstOrCreate([
+            'email' => 'demo@demo.demo',
+            'password' => 'demo'
+            ]);
+        Auth::login($demoUser, true);
+        return redirect('workspace');
     }
 }

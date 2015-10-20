@@ -7,9 +7,22 @@
 }
 
 
-.main-content {
+#subnav {
+	background: #599bb4;
+}
+
+#subnav a {
+	color: #FFF;
 }
 
 #body_container {
 	min-height: 100%;
+}
+
+#project_list {
+	list-style-type: none;
+}
+
+#project_list li {
+	border-bottom: 1px #969797 solid;
 }

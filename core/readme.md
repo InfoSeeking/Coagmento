@@ -3,13 +3,12 @@ This is the start of the next version of Coagmento, written with Laravel.
 
 Tentative timeline:
 
-### By 10/16 ###
+### Next Up ###
+- Prototype of workspace
 - Create endpoints for annotations
+- Create endpoints for follow/unfollow
 - Realtime component
 - Firefox extension prototype
-
-### By 10/19 ###
-- Prototype of workspace
 
 ## Eventually ##
 - Getting Started guide
@@ -17,4 +16,5 @@ Tentative timeline:
 - Design documents
 - Analytics
 
-The classes in the Services directory should only be a centralized form of the controllers (shared between API and back-end pages).Services should not use other services. Database access logic should be pushed to the models. Sharing code should be done in some other way.
+## Bugs
+For whatever reason, local Chrome sometimes (only sometimes) drops the session. Specifically, when submitting a form, it would sporadically think the user was not logged in, but then after a refresh be fine.

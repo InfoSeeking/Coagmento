@@ -56,6 +56,7 @@ class ProjectService {
         $projects = DB::table('memberships')
             ->where('user_id', $this->user->id)
             ->leftJoin('projects', 'project_id', '=', 'projects.id')
+            ->orderBy('projects.created_at', 'desc')
             ->get();
 		return $projects;
 	}
@@ -80,6 +81,28 @@ class ProjectService {
         Tag::where('project_id', $projectId)->delete();
         Snippet::where('project_id', $projectId)->delete();
         $project->delete();
+        return Status::OK();
+    }
+
+    public function deleteMultiple($args) {
+        $validator = Validator::make($args, [
+            'ids' => 'required|array'
+            ]);
+        if ($validator->fails()) {
+            return Status::fromValidator($validator);
+        }
+
+        // TODO: make separate checkPermission function accepting multiple project ids.
+        foreach ($args['ids'] as $id) {
+            $memberStatus = $this->memberService->checkPermission($id, 'o', $this->user);
+            if (!$memberStatus->isOK()) return $memberStatus;
+        }
+        // Delete all projects and data.
+        Project::whereIn('id', $args['ids'])->delete();
+        Membership::whereIn('project_id', $args['ids'])->delete();
+        Bookmark::whereIn('project_id', $args['ids'])->delete();
+        Tag::whereIn('project_id', $args['ids'])->delete();
+        Snippet::whereIn('project_id', $args['ids'])->delete();
         return Status::OK();
     }
 

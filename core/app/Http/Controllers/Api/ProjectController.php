@@ -66,12 +66,26 @@ class ProjectController extends Controller
 	 * @apiDescription Deletes a project if the user is the owner.
 	 * @apiGroup Project
 	 * @apiName DeleteProject
-     * @apiPermission write
+     * @apiPermission owner
      * @apiVersion 1.0.0
 	 */
     function delete(Request $req, $id) {
     	$status = $this->projectService->delete(['id' => $id]);
     	return ApiResponse::fromStatus($status);
+    }
+
+    /**
+     * @api{delete} /v1/projects DeleteProjects
+     * @apiDescription Deletes multiple projects if the user is the owner.
+     * @apiGroup Project
+     * @apiName DeleteProjects
+     * @apiParam {Integer[]} ids
+     * @apiPermission owner
+     * @apiVersion 1.0.0
+     */
+    function deleteMultiple(Request $req) {
+        $status = $this->projectService->deleteMultiple($req->all());
+        return ApiResponse::fromStatus($status);
     }
 
     /**

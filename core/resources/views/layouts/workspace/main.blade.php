@@ -22,10 +22,13 @@
         <nav class="navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><img alt="Coagmento" src="/images/workspace/titled-logo.png" /></a>
+                    <a class="navbar-brand" href="/workspace"><img alt="Coagmento" src="/images/workspace/titled-logo.png" /></a>
                 </div>
                 <ul class="nav navbar-nav">
                 </ul>
+            </div>
+            <div class="container-fluid" id="subnav">
+                <a href='/workspace/projects'>Projects</a>
             </div>
         </nav>
 

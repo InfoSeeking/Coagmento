@@ -2,24 +2,80 @@
 
 @section('page-content')
 @include('helpers.showAllMessages')
-<ul>
+
+@if (count($projects) == 0)
+<p>There aren't any projects here yet, but you can <a href='/workspace/projects/create'>create one</a> now!</p>
+@endif
+
+<a href='#' class='deleteSelected' style='display:none'>Delete Selected</a>
+
+<ul id='project_list'>
 @foreach($projects as $project)
-<li> <a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a> <a class='delete' href='#' data-id='{{$project->id}}'>X</a></li>
+<li>
+	<h4><a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a></h4>
+	<p>{{ $project->description }}</p>
+	<input class='select' type='checkbox' data-id='{{$project->id}}'/> |
+	<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a> | 
+	<a class='share' href='#' data-id='{{$project->id}}'>Share</a>
+</li>
 @endforeach
 </ul>
 
 <script>
 $('.delete').on('click', function(e) {
 	e.preventDefault();
-	var projectId = $(this).attr('data-id');
-	var link = $(this).parent();
-	$.ajax({
-		url: 'api/v1/projects/' + projectId,
-		method: 'delete',
-		success: function() {
-			link.fadeOut();
-		}
-	})
+	var confirmed = confirm('Are you sure you want to delete this project with its data?');
+	if (confirmed) {
+		var projectId = $(this).attr('data-id');
+		var link = $(this).parent();
+		$.ajax({
+			url: '/api/v1/projects/' + projectId,
+			method: 'delete',
+			success: function() {
+				link.fadeOut(150);
+				// TODO: hacky way of making sure "deleted" dom doesn't effect us.
+				// We should remove from the DOM on deletion.
+				linl.find('.select').prop('checked', false);
+			}
+		});
+	}
 });
+
+$('.select').on('click', function(){
+	$('.deleteSelected').fadeIn(150);
+});
+
+$('.deleteSelected').on('click', function(e) {
+	e.preventDefault();
+	var ids = [];
+	var items = [];
+	var inputBoxes = $('.select');
+	
+	inputBoxes.each(function(i,e){
+		var checkbox = $(e);
+		if (checkbox.prop('checked')) {
+			ids.push(parseInt(checkbox.attr('data-id')));
+			items.push(checkbox.parent());
+		}
+	});
+
+	var confirmed = confirm('Are you sure you want to delete these ' + ids.length + ' projects with their data?');
+	if (confirmed) {
+		$.ajax({
+			url: '/api/v1/projects',
+			data: {
+				'ids' : ids
+			},
+			method: 'delete',
+			success: function() {
+				for(var i = 0; i < items.length; i++) {
+					items[i].fadeOut(150);
+					items[i].find('.select').prop('checked', false);
+				}
+			}
+		});
+	}
+});
+
 </script>
 @endsection('page-content')

@@ -24,10 +24,16 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::post('workspace/demoLogin', 'WorkspaceController@demoLogin');
 
 // Back-end pages.
 Route::get('sidebar/home', [
 	'uses' => 'SidebarController@getHome',
+	'middleware' => 'auth'
+	]);
+
+Route::get('workspace', [
+	'uses' => 'WorkspaceController@showHome',
 	'middleware' => 'auth'
 	]);
 
@@ -116,6 +122,11 @@ Route::post('api/v1/projects', [
 
 Route::delete('api/v1/projects/{project_id}', [
 	'uses' => 'Api\ProjectController@delete',
+	'middleware' => 'api.auth'
+	]);
+
+Route::delete('api/v1/projects', [
+	'uses' => 'Api\ProjectController@deleteMultiple',
 	'middleware' => 'api.auth'
 	]);
 
