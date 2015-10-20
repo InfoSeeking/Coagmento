@@ -31,13 +31,19 @@ Route::get('sidebar/home', [
 	'middleware' => 'auth'
 	]);
 
-Route::get('workspace', [
-	'uses' => 'WorkspaceController@index',
+Route::get('workspace/projects', [
+	'uses' => 'WorkspaceController@showProjects',
+	'middleware' => 'auth'
+	]);
+
+Route::get('workspace/projects/create', [
+	'uses' => 'WorkspaceController@showProjectCreate',
 	'middleware' => 'auth'
 	]);
 
 Route::post('workspace/projects/create', [
 	'uses' => 'WorkspaceController@createProject',
+	'middleware' => 'auth'
 	]);
 
 Route::delete('workspace/projects/{project_id}', [

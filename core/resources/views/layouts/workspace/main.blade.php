@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/workspace.css" />
+        <link rel="stylesheet" href="/css/workspace.css" />
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -22,7 +22,7 @@
         <nav class="navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><img alt="Coagmento" src="images/workspace/titled-logo.png" /></a>
+                    <a class="navbar-brand" href="#"><img alt="Coagmento" src="/images/workspace/titled-logo.png" /></a>
                 </div>
                 <ul class="nav navbar-nav">
                 </ul>

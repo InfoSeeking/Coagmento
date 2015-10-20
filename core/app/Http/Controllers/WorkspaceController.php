@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+use Session;
 use Redirect;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -27,9 +29,13 @@ class WorkspaceController extends Controller
         $this->pageService = $pageService;
     }
 
-    public function index() {
+    public function showProjectCreate() {
+        return view('workspace.projects.create');
+    }
+
+    public function showProjects() {
         $projects = $this->projectService->getMultiple();
-        return view('workspace.home', [
+        return view('workspace.projects.index', [
             'projects' => $projects
             ]);
     }
@@ -37,7 +43,7 @@ class WorkspaceController extends Controller
     public function viewProject(Request $req, $projectId) {
         $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
         if (!$bookmarksStatus->isOK()) {
-            return $bookmarkStatus->asRedirect('workspace');
+            return $bookmarksStatus->asRedirect('workspace');
         }
 
         $snippetStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
@@ -55,7 +61,7 @@ class WorkspaceController extends Controller
             return $projectStatus->asRedirect('workspace');
         }
 
-        return view('workspace.project', [
+        return view('workspace.projects.view', [
             'bookmarks' => $bookmarksStatus->getResult(),
             'snippets' => $snippetStatus->getResult(),
             'pages' => $pageStatus->getResult(),
@@ -82,7 +88,7 @@ class WorkspaceController extends Controller
         $private = $req->input('visibility') == 'private';
         $args = array_merge($req->all(), ['private' => $private]);
         $projectStatus = $this->projectService->create($args);
-        return $projectStatus->asRedirect('workspace', ['New project created']);
+        return $projectStatus->asRedirect('workspace/projects', ['New project created']);
     }
 
     public function updateProject(){}

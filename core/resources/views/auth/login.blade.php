@@ -6,7 +6,7 @@
     <div>
     <div class="row">
         <div class="col-md-12">
-            @include('helpers.showAllErrors')
+            @include('helpers.showAllMessages')
             <form method="POST" action="/auth/login">
                 {!! csrf_field() !!}
                 <div class="form-group">

@@ -112,7 +112,7 @@
 		</div>
 		
             <div class="subscribe">
-                @include('helpers.showAllErrors')
+                @include('helpers.showAllMessages')
                 @if(session('emailSaved'))
                 <div class="alert alert-success">
                     <p>Got it! We'll email {{ session('emailSaved') }} when Coagmento 2.0 is released.</p>

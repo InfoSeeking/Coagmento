@@ -1,12 +1,12 @@
-@extends('layouts.main')
+@extends('layouts.workspace.project')
+@section('page-content')
 
-@section('content')
 <div class="container">
     <div class="row">
         <h1>Coagmento Workspace</h1>
     <div>
     <div class="row">
-    	@include('helpers.showAllErrors')
+    	@include('helpers.showAllMessages')
         <div class="col-md-12">
 			<h2>Viewing Project '{{ $project->title }}'</h2>
 			
@@ -161,4 +161,4 @@ $('#createPage').on('submit', function(e){
 });
 
 </script>
-@endsection('content')
+@endsection('page-content')

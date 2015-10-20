@@ -24,7 +24,7 @@
 	<div class='alert alert-success'>
 		<ul>
 		@foreach (Session::get('successMessages') as $success)
-			<li>{{ $success }}<li/>
+			<li>{{ $success }}</li>
 		@endforeach
 		</ul>
 	</div>
@@ -34,7 +34,7 @@
 	<div class='alert alert-info'>
 		<ul>
 		@foreach (Session::get('infoMessages') as $info)
-			<li>{{ $info }}<li/>
+			<li>{{ $info }}</li>
 		@endforeach
 		</ul>
 	</div>
