@@ -78,6 +78,10 @@
 	min-height: 300px;
 }
 
+.main-content p {
+	color: #dbdbdb;
+}
+
 #project_list {
 	list-style-type: none;
 	padding-left: 0px;

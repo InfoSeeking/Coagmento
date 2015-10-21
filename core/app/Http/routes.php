@@ -139,6 +139,10 @@ Route::get('api/v1/projects/{project_id}/tags', [
 	'uses' => 'Api\ProjectController@getTags',
 	]);
 
+Route::post('api/v1/projects/{project_id}/share', [
+	'uses' => 'Api\ProjectController@share'
+	]);
+
 // Snippets.
 Route::post('api/v1/snippets', [
 	'uses' => 'Api\SnippetController@create',

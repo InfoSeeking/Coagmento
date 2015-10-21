@@ -17,4 +17,5 @@ Tentative timeline:
 - Analytics
 
 ## Bugs
-For whatever reason, local Chrome sometimes (only sometimes) drops the session. Specifically, when submitting a form, it would sporadically think the user was not logged in, but then after a refresh be fine.
+- For whatever reason, local Chrome sometimes (only sometimes) drops the session. Specifically, when submitting a form, it would sporadically think the user was not logged in, but then after a refresh be fine.
+- Ensure that the creator of a project is always the owner. There was one case where a creator's membership was deleted.

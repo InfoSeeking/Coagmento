@@ -4,7 +4,7 @@
 @include('helpers.showAllMessages')
 
 @if (count($projects) == 0)
-<p>There aren't any projects here yet, but you can <a href='/workspace/projects/create'>create one</a> now!</p>
+<p>There aren't any projects here yet.</p>
 @endif
 
 <a href='#' class='deleteSelected' style='display:none'>Delete Selected</a>
@@ -14,9 +14,12 @@
 <li>
 	<h4><a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a></h4>
 	<p>{{ $project->description }}</p>
+	<!-- Owner specific settings -->
+	@if ($project->creator_id == $user->id || $project->level == 'o')
 	<input class='select' type='checkbox' data-id='{{$project->id}}'/> |
 	<a href='/workspace/projects/{{ $project->id}}/settings'>Settings</a> |
 	<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a>
+	@endif
 </li>
 @endforeach
 </ul>

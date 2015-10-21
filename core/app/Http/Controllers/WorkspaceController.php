@@ -39,15 +39,18 @@ class WorkspaceController extends Controller
     }
 
     public function showProjects() {
-        $projects = $this->projectService->getMultiple();
+        $projects = $this->projectService->getMyProjects();
         return view('workspace.projects.index', [
-            'projects' => $projects
+            'projects' => $projects,
+            'user' => Auth::user()
             ]);
     }
 
     public function showShared() {
+        $projectsWithMemberships = $this->projectService->getSharedProjects();
         return view('workspace.projects.index', [
-            'projects' => []
+            'projects' => $projectsWithMemberships,
+            'user' => Auth::user()
             ]);
     }
 
@@ -72,11 +75,14 @@ class WorkspaceController extends Controller
             return $projectStatus->asRedirect('workspace');
         }
 
+        $sharedUsers = $this->projectService->getSharedUsers($projectId);
+
         return view('workspace.projects.settings', [
             'bookmarks' => $bookmarksStatus->getResult(),
             'snippets' => $snippetStatus->getResult(),
             'pages' => $pageStatus->getResult(),
-            'project' => $projectStatus->getResult()
+            'project' => $projectStatus->getResult(),
+            'sharedUsers' => $sharedUsers
             ]);
     }
 

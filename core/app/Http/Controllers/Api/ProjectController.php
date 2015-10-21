@@ -116,6 +116,9 @@ class ProjectController extends Controller
         return ApiResponse::fromStatus($status);
     }
 
-    private $projectService;
-    private $tagService;
+    function share(Request $req, $id) {
+        $args = array_merge($req->all(), ['id' => $id]);
+        $status = $this->projectService->share($args);
+        return ApiResponse::fromStatus($status);
+    }
 }
