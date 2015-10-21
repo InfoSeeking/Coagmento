@@ -15,6 +15,7 @@ use App\Services\ProjectService;
 use App\Services\BookmarkService;
 use App\Services\SnippetService;
 use App\Services\PageService;
+use App\Services\MembershipService;
 use App\Utilities\Status;
 
 class WorkspaceController extends Controller
@@ -23,11 +24,13 @@ class WorkspaceController extends Controller
         ProjectService $projectService,
         BookmarkService $bookmarkService,
         SnippetService $snippetService,
-        PageService $pageService) {
+        PageService $pageService,
+        MembershipService $memberService) {
         $this->projectService = $projectService;
         $this->bookmarkService = $bookmarkService;
         $this->snippetService = $snippetService;
         $this->pageService = $pageService;
+        $this->memberService = $memberService;
     }
 
     public function showHome() {
@@ -83,6 +86,29 @@ class WorkspaceController extends Controller
             'pages' => $pageStatus->getResult(),
             'project' => $projectStatus->getResult(),
             'sharedUsers' => $sharedUsers
+            ]);
+    }
+
+    public function viewProject(Request $req, $projectId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+
+        $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
+        if (!$bookmarksStatus->isOK()) {
+            return $bookmarksStatus->asRedirect('workspace');
+        }
+
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+        return view('workspace.projects.view', [
+                'project' => $projectStatus->getResult(),
+                'permission' => $permissionStatus->getResult(),
+                'user' => Auth::user(),
+                'bookmarks' => $bookmarksStatus->getResult()
             ]);
     }
 

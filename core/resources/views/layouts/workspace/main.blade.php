@@ -32,7 +32,11 @@
             <div class="container-fluid" id="subnav">
                 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
                 <!-- <a href='/workspace/bookmarks'>Bookmarks</a> -->
+                @if(isset($user))
                 <a class='pull-right' href='/auth/logout'>Logout</a>
+                @else
+                <a class='pull-right' href='/auth/login'>Login</a>
+                @endif
             </div>
         </nav>
 

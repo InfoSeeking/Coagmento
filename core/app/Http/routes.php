@@ -72,6 +72,10 @@ Route::get('workspace/projects/{project_id}/bookmarks/{bookmark_id}', [
 	'middleware' => 'auth'
 	]);
 
+Route::get('workspace/projects/{project_id}', [
+	'uses' => 'WorkspaceController@viewProject'
+	]);
+
 // API.
 
 // Bookmarks.

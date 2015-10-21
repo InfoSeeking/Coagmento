@@ -123,3 +123,8 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: "Myriad Pro Bold";
 	color: #dbdbdb;
 }
+
+#bookmark_list {
+	list-style-type: none;
+	padding-left: 0px;
+}

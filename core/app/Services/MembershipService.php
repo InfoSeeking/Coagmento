@@ -21,16 +21,14 @@ class MembershipService {
 
  	public function checkPermission($project_id, $level, $user=null) {
         // Public projects give read permission to any user.
-        if ($level == 'r') {
+        if ($user == null) {
             // Check if this is a public project.
             $project = Project::find($project_id);
             if (!$project->private) {
-                return Status::OK();
+                return Status::fromResult('r');
+            } else {
+                return Status::fromError('You must be logged in to view this project');    
             }
-        }
-
-        if ($user == null) {
-            return Status::fromError('You must be logged in to view this project');
         }
 
     	$rows = Membership::where('user_id', $user->id)->where('project_id', $project_id)->get();
@@ -39,11 +37,11 @@ class MembershipService {
     	}
     	$current = $rows->first()['level'];
     	if ($level == 'r') {
-    		return Status::OK();
+    		return Status::fromResult($current);
     	} else if ($level == 'w' && ($current == 'w' || $current == 'o')) {
-    		return Status::OK();
+    		return Status::fromResult($current);
     	} else if ($level == 'o' && $current == 'o') {
-    		return Status::OK();
+    		return Status::fromResult($current);
     	}
 
     	$msg = sprintf('You need %s permission to access this project, but you only have %s permission.',

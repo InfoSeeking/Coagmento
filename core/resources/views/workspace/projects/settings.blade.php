@@ -33,7 +33,7 @@
 			@endforeach
 			</ul>
 		@endif
-		<form class='form-inline' action='/api/v1/bookmarks' method='post' id='shareUser'>
+		<form class='form-inline' action='/api/v1/project/{{ $project->id }}/share' method='post' id='shareUser'>
 			<div class="form-group">
 				<input class='form-control' id='inputShareEmail' type='email' name='email' placeholder='User email'/>
 				<select class='form-control' name='permissions'>
