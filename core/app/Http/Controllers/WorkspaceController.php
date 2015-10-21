@@ -51,7 +51,7 @@ class WorkspaceController extends Controller
             ]);
     }
 
-    public function viewProject(Request $req, $projectId) {
+    public function viewProjectSettings(Request $req, $projectId) {
         $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
         if (!$bookmarksStatus->isOK()) {
             return $bookmarksStatus->asRedirect('workspace');
@@ -72,7 +72,7 @@ class WorkspaceController extends Controller
             return $projectStatus->asRedirect('workspace');
         }
 
-        return view('workspace.projects.view', [
+        return view('workspace.projects.settings', [
             'bookmarks' => $bookmarksStatus->getResult(),
             'snippets' => $snippetStatus->getResult(),
             'pages' => $pageStatus->getResult(),
@@ -99,7 +99,10 @@ class WorkspaceController extends Controller
         $private = $req->input('visibility') == 'private';
         $args = array_merge($req->all(), ['private' => $private]);
         $projectStatus = $this->projectService->create($args);
-        return $projectStatus->asRedirect('workspace/projects', ['New project created']);
+        $project = $projectStatus->getResult();
+        return $projectStatus->asRedirect(
+            'workspace/projects/' . $project->id . '/settings', 
+            ['Project ' . $project->name . ' created']);
     }
 
     public function updateProject(){}

@@ -15,8 +15,8 @@
 	<h4><a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a></h4>
 	<p>{{ $project->description }}</p>
 	<input class='select' type='checkbox' data-id='{{$project->id}}'/> |
-	<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a> | 
-	<a class='share' href='#' data-id='{{$project->id}}'>Share</a>
+	<a href='/workspace/projects/{{ $project->id}}/settings'>Settings</a> |
+	<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a>
 </li>
 @endforeach
 </ul>
@@ -35,7 +35,7 @@ $('.delete').on('click', function(e) {
 				link.fadeOut(150);
 				// TODO: hacky way of making sure "deleted" dom doesn't effect us.
 				// We should remove from the DOM on deletion.
-				linl.find('.select').prop('checked', false);
+				link.find('.select').prop('checked', false);
 			}
 		});
 	}

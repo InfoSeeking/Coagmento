@@ -3,9 +3,9 @@
 <div class='row'>
     <div class='col-md-2 col-sm-4 sidebar'>
     <ul>
-        <li><a href='/workspace/projects/create' class='active'>New Project</a></li>
-        <li><a href='/workspace/projects'>My Projects</a></li>
-        <li><a href='/workspace/projects/sharedWithMe'>Shared with me</a></li>
+        <li><a href='/workspace/projects/create' class='active'><span class='fa fa-plus-square-o'></span> New Project<div class='highlight'></div></a></li>
+        <li><a href='/workspace/projects'><span class='fa fa-user'></span> My Projects<div class='highlight'></div></a></li>
+        <li><a href='/workspace/projects/sharedWithMe'><span class='fa fa-users'></span> Shared with me<div class='highlight'></div></a></li>
     </ul>
     </div>
     <div class='col-md-10 col-sm-8 main-content'>

@@ -1,3 +1,7 @@
+.messageList ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
 .navbar-fixed {
 	background: #9ac3ff;
 	font-family: 'Myriad Pro Regular';
@@ -9,7 +13,6 @@
 	height: auto;
 }
 
-
 #subnav {
 	background: #599bb4;
 	padding-top: 5px;
@@ -20,9 +23,15 @@
 	color: #FFF;
 	padding-right: 12px;
 }
-
+.sidebar {
+	padding-left: 0px;
+}
 .sidebar ul {
 	list-style-type: none;
+	padding-left: 0px;
+}
+
+.sidebar ul li {
 	padding-left: 0px;
 }
 
@@ -30,24 +39,48 @@
 	color: #808080;
 	font-family: 'Myriad Pro Bold';
 	font-size: 12pt;
+	position: relative;
+	display: block;
+	padding-left: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.sidebar a span {
+	padding-right: 5px;
 }
 
 .sidebar a:hover {
 	color: #ffa15c;
 }
 
+.sidebar a .highlight {
+	background: #ffa15c;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 10px;
+	height: 100%;
+	display: none;
+}
+.sidebar a:hover .highlight {
+	display: block;
+}
+
 #body_container {
-	min-height: 100%;
+	min-height: 200px;
 }
 
 .main-content {
 	background: #969797;
 	padding-top: 20px;
 	padding-bottom: 20px;
+	min-height: 300px;
 }
 
 #project_list {
 	list-style-type: none;
+	padding-left: 0px;
 }
 
 #project_list li {
@@ -80,4 +113,9 @@ footer {
 	color: #dbdbdb;
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Myriad Pro Bold";
+	color: #dbdbdb;
 }

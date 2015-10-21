@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/fonts/myriad-pro/style.css" />
         <link rel="stylesheet" href="/css/workspace.css" />
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -29,8 +30,9 @@
                 </ul>
             </div>
             <div class="container-fluid" id="subnav">
-                <a href='/workspace/projects'>Projects</a>
+                <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
                 <!-- <a href='/workspace/bookmarks'>Bookmarks</a> -->
+                <a class='pull-right' href='/auth/logout'>Logout</a>
             </div>
         </nav>
 
