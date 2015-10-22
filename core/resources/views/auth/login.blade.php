@@ -3,15 +3,10 @@
 <div class="row">
     <div class='col-md-2'></div>
     <div class="col-md-10 main-content">
-        <div class='col-sm-4'>
+        
         <h1>Login</h1>
         @include('helpers.showAllMessages')
-        <p>Don't want to create an account?</p>
-        <form method="POST" action="/workspace/demoLogin">
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Continue as Demo User <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
-            </div>
-        </form>
+        <div class='col-sm-5'>
             <form method="POST" action="/auth/login">
                 {!! csrf_field() !!}
                 <div class="form-group">
@@ -36,6 +31,14 @@
                 </div>
             </form>
             <p>Don't have an account yet? <a href='/auth/register'>Register here</a>.</p>
+        </div>
+        <div class='col-sm-5'>
+            <p>Don't want to create an account?</p>
+            <form method="POST" action="/workspace/demoLogin">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Continue as Demo User <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

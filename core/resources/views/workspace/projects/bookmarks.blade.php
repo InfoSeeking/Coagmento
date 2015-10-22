@@ -34,7 +34,10 @@
 						<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
 					</div>
 					<input type='hidden' name='project_id' value='{{ $project->id }}' />
-					<button type='submit' class='btn btn-default'>Create</button>
+					<button class='cancel btn btn-danger'>Cancel</button>
+					<div class='pull-right'>
+						<button type='submit' class='btn btn-primary'>Create</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -115,6 +118,11 @@ $('#createBookmark').on('submit', function(e){
 		}
 	});
 });
+
+$("#createBookmark .cancel").on("click", function(e){
+	e.preventDefault();
+	$("#add_new").fadeOut(150);
+})
 
 $("#btn_add_new").on('click', function(){
 	$("#add_new").fadeIn(150);

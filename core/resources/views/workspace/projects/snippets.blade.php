@@ -31,7 +31,10 @@
 						<textarea class='form-control' type='text' name='text' placeholder='Snippet Text'></textarea>
 					</div>
 					<input type='hidden' name='project_id' value='{{ $project->id }}' />
-					<button type='submit' class='btn btn-default'>Create</button>
+					<button class='cancel btn btn-danger'>Cancel</button>
+					<div class='pull-right'>
+						<button type='submit' class='btn btn-primary'>Create</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -113,6 +116,11 @@ $('#createSnippet').on('submit', function(e){
 		}
 	});
 });
+
+$("#createSnippet .cancel").on("click", function(e){
+	e.preventDefault();
+	$("#add_new").fadeOut(150);
+})
 
 $("#btn_add_new").on('click', function(){
 	$("#add_new").fadeIn(150);

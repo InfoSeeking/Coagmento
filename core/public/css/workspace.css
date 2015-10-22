@@ -51,7 +51,10 @@
 	padding-right: 5px;
 }
 
-.sidebar a:hover {
+.sidebar a:hover,
+.page-new-project .link-new-project,
+.page-my-projects .link-my-projects,
+.page-shared-projects .link-shared-projects {
 	color: #ffa15c;
 }
 
@@ -64,7 +67,10 @@
 	height: 100%;
 	display: none;
 }
-.sidebar a:hover .highlight {
+.sidebar a:hover .highlight,
+.page-new-project .link-new-project .highlight,
+.page-my-projects .link-my-projects .highlight,
+.page-shared-projects .link-shared-projects .highlight{
 	display: block;
 }
 
@@ -136,5 +142,5 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .context {
-	padding: 10px 15px;
+	padding: 0px 15px;
 }
