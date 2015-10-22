@@ -107,33 +107,35 @@
         <p><i class="fa fa-cog"> Realtime feed of user activity</i></p>
         <p><i class="fa fa-cog"> Up to date Firefox extension</i></p>
 				<p><i class="fa fa-cog"> Easy setup for your own custom studies</i></p>
-				
+				<form action='/auth/login' method='get'>
+          <button class='btn btn-primary btn-fill' type='submit'>See the Demo &raquo;</button>
+        </form>
 			</div>
 		</div>
-		
-            <div class="subscribe">
-                @include('helpers.showAllMessages')
-                @if(session('emailSaved'))
-                <div class="alert alert-success">
-                    <p>Got it! We'll email {{ session('emailSaved') }} when Coagmento 2.0 is released.</p>
-                </div>
-                @endif
-                <h5 class="info-text">
-                    Get notified when Coagmento 2.0 is fully released!
-                </h5>
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3 ">
-                        <form class="form-inline" role="form" method="post" action="new/notify">
-                          <div class="form-group">
-                            <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                            <input type="email" name="email" class="form-control transparent" placeholder="Your email here..." value="{{ old('email') }}">
-                          </div>
-                          <button type="submit" class="btn btn-danger btn-fill">Notify Me</button>
-                        </form>
 
-                    </div>
-                </div>
+    <div class="subscribe">
+        @include('helpers.showAllMessages')
+        @if(session('emailSaved'))
+        <div class="alert alert-success">
+            <p>Got it! We'll email {{ session('emailSaved') }} when Coagmento 2.0 is released.</p>
+        </div>
+        @endif
+        <h5 class="info-text">
+            Get notified when Coagmento 2.0 is fully released!
+        </h5>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3 ">
+                <form class="form-inline" role="form" method="post" action="new/notify">
+                  <div class="form-group">
+                    <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                    <input type="email" name="email" class="form-control transparent" placeholder="Your email here..." value="{{ old('email') }}">
+                  </div>
+                  <button type="submit" class="btn btn-danger btn-fill">Notify Me</button>
+                </form>
+
             </div>
+        </div>
+    </div>
        
     </div>
     <div class="footer">  

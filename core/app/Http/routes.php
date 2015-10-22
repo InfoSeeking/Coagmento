@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', 'SplashController@index');
 Route::get('/new', 'SplashController@index');
 Route::post('/new/notify', 'SplashController@notify');
 

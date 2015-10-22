@@ -12,10 +12,16 @@
     </ul>
     </div>
     <div class='col-md-10 col-sm-8 main-content'>
-    <h2>Welcome to Coagmento 2.0</h2>
-	<p>
-		This is your new Coagmento workspace. Here you can easily manage and share your projects and see updates on projects you follow.
-	</p>
+        <div class="col-md-6">
+            <h2>Welcome to Coagmento 2.0</h2>
+             <p>
+                 This is your new Coagmento workspace. You can manage your projects, share and collaborate with others, view and edit saved project data, and view analytics on your projects.
+             </p>
+             <p> To get started, click <a href="/workspace/projects">Projects</a>!</p>
+             <p>
+                Coagmento is still under active development, but you can follow the development on our <a href="https://github.com/InfoSeeking/Coagmento" target="_blank">GitHub page</a>.
+             </p>
+        </div> 
     </div>
 </div>
 
