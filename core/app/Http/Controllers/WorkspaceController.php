@@ -34,11 +34,15 @@ class WorkspaceController extends Controller
     }
 
     public function showHome() {
-        return view('workspace.home');
+        return view('workspace.home', [
+            'user' => Auth::user()
+            ]);
     }
 
     public function showProjectCreate() {
-        return view('workspace.projects.create');
+        return view('workspace.projects.create', [
+            'user' => Auth::user()
+            ]);
     }
 
     public function showProjects() {
@@ -85,7 +89,8 @@ class WorkspaceController extends Controller
             'snippets' => $snippetStatus->getResult(),
             'pages' => $pageStatus->getResult(),
             'project' => $projectStatus->getResult(),
-            'sharedUsers' => $sharedUsers
+            'sharedUsers' => $sharedUsers,
+            'user' => Auth::user()
             ]);
     }
 
@@ -100,15 +105,71 @@ class WorkspaceController extends Controller
             return $bookmarksStatus->asRedirect('workspace');
         }
 
+        $snippetStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
+        if (!$snippetStatus->isOK()) {
+            return $snippetStatus->asRedirect('workspace');
+        }
+
         $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
         if (!$permissionStatus->isOK()) {
             return $permissionStatus->asRedirect('workspace');
         }
+
+        $sharedUsers = $this->projectService->getSharedUsers($projectId);
+        
         return view('workspace.projects.view', [
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user(),
+                'bookmarks' => $bookmarksStatus->getResult(),
+                'snippets' => $snippetStatus->getResult(),
+                'sharedUsers' => $sharedUsers,
+            ]);
+    }
+
+    public function viewProjectBookmarks(Request $req, $projectId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+
+        $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
+        if (!$bookmarksStatus->isOK()) {
+            return $bookmarksStatus->asRedirect('workspace');
+        }
+
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+        return view('workspace.projects.bookmarks', [
+                'project' => $projectStatus->getResult(),
+                'permission' => $permissionStatus->getResult(),
+                'user' => Auth::user(),
                 'bookmarks' => $bookmarksStatus->getResult()
+            ]);
+    }
+
+    public function viewProjectSnippets(Request $req, $projectId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+
+        $snippetsStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
+        if (!$snippetsStatus->isOK()) {
+            return $snippetsStatus->asRedirect('workspace');
+        }
+
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+        return view('workspace.projects.snippets', [
+                'project' => $projectStatus->getResult(),
+                'permission' => $permissionStatus->getResult(),
+                'user' => Auth::user(),
+                'snippets' => $snippetsStatus->getResult()
             ]);
     }
 

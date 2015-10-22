@@ -30,8 +30,7 @@
                 </ul>
             </div>
             <div class="container-fluid" id="subnav">
-                <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
-                <!-- <a href='/workspace/bookmarks'>Bookmarks</a> -->
+                @yield('navigation')
                 @if(isset($user))
                 <a class='pull-right' href='/auth/logout'>Logout</a>
                 @else

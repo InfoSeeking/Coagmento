@@ -76,6 +76,14 @@ Route::get('workspace/projects/{project_id}', [
 	'uses' => 'WorkspaceController@viewProject'
 	]);
 
+Route::get('workspace/projects/{project_id}/bookmarks', [
+	'uses' => 'WorkspaceController@viewProjectBookmarks'
+	]);
+
+Route::get('workspace/projects/{project_id}/snippets', [
+	'uses' => 'WorkspaceController@viewProjectSnippets'
+	]);
+
 // API.
 
 // Bookmarks.

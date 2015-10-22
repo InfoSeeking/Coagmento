@@ -17,6 +17,7 @@
 	background: #599bb4;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	color: #FFF;
 }
 
 #subnav a {
@@ -127,4 +128,13 @@ h1, h2, h3, h4, h5, h6 {
 #bookmark_list {
 	list-style-type: none;
 	padding-left: 0px;
+}
+
+#add_new {
+	display: none;
+	margin-bottom: 20px;
+}
+
+.context {
+	padding: 10px 15px;
 }

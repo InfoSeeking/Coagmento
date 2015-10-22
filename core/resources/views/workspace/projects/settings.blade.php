@@ -1,4 +1,12 @@
 @extends('layouts.workspace.project')
+@section('navigation')
+<a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
+<span class='fa fa-angle-right'></span>
+<a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
+<span class='fa fa-angle-right'></span>
+<a href='/workspace/projects/{{ $project->id }}/settings'>Settings</a>
+@endsection('navigation')
+
 @section('page-content')
 
 <div class="row">

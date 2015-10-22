@@ -1,5 +1,9 @@
 @extends('layouts.workspace.project')
 
+@section('navigation')
+<a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
+@endsection('navigation')
+
 @section('page-content')
 @include('helpers.showAllMessages')
 

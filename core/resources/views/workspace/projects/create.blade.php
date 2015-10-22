@@ -1,4 +1,9 @@
 @extends('layouts.workspace.project')
+@section('navigation')
+<a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
+<span class='fa fa-angle-right'></span>
+<a href='/workspace/projects/create'>New</a>
+@endsection('navigation')
 
 @section('page-content')
 
