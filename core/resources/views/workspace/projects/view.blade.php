@@ -17,7 +17,9 @@
     	<canvas id="canvas" height="200" width="300"></canvas>
     	<p><small>* This data is random and only a temporary placeholder</small></p>
 		<h3>Statistics</h3>
+    	@if ($permission == 'o')
     	<p>There are {{ count($sharedUsers)}} collaborators. <a href='/workspace/projects/{{ $project->id }}/settings'>Share</a> with others.</p>
+    	@endif
 		<p>{{ count($bookmarks) }} bookmarks have been saved in total.</p>
 		<p>{{ count($snippets) }} snippets have been saved in total.</p>
 	</div>

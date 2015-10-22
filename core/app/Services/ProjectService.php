@@ -45,7 +45,7 @@ class ProjectService {
     public function get($id) {
         $project = Project::find($id);
         if (is_null($project)) {
-            return Status::fromError('Project not found', StatusCodes::NOT_FOUND);
+            return Status::fromError('Project not found?', StatusCodes::NOT_FOUND);
         }
         $memberStatus = $this->memberService->checkPermission($project->id, 'r', $this->user);
         if (!$memberStatus->isOK()) return $memberStatus;
@@ -183,6 +183,7 @@ class ProjectService {
             ->join('memberships', 'projects.id', '=', 'memberships.project_id')
             ->where('projects.creator_id', '!=', $this->user->id)
             ->where('memberships.user_id', '=', $this->user->id)
+            ->select('projects.*', 'memberships.level as level')
             ->get();
     }
 

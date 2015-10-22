@@ -57,25 +57,25 @@
       
       <ul class="nav navbar-nav navbar-right">
             <li>
-                <a id="facebook_share" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.coagmento.org/new"> 
+                <a target="_blank" id="facebook_share" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnew.coagmento.org"> 
                     <i class="fa fa-facebook-square"></i>
                     Share
                 </a>
             </li>
              <li>
-                <a href="https://twitter.com/intent/tweet?status=Check%20out%20the%20next%20version%20of%20Coagmento%3A+http//www.coagmento.org/new"> 
+                <a target="_blank" href="https://twitter.com/intent/tweet?status=Check%20out%20the%20next%20version%20of%20Coagmento%3A+http//new.coagmento.org"> 
                     <i class="fa fa-twitter"></i>
                     Tweet
                 </a>
             </li>
 			 <li>
-                <a href="https://plusone.google.com/_/+1/confirm?hl=en&url=http://www.coagmento.org/new&title=Coagmento"> 
+                <a target="_blank" href="https://plusone.google.com/_/+1/confirm?hl=en&url=http://new.coagmento.org&title=Coagmento"> 
                     <i class="fa fa-google-plus"></i>
                     Google+
                 </a>
             </li>
              <li>
-                <a href="https://github.com/InfoSeeking/Coagmento"> 
+                <a target="_blank" href="https://github.com/InfoSeeking/Coagmento"> 
                     <i class="fa fa-github"></i>
                     Github
                 </a>
@@ -148,7 +148,7 @@
             e.preventDefault();
             FB.ui({
                 method: 'share',
-                href: 'http://coagmento.org/new'
+                href: 'http://new.coagmento.org'
             });
         });
     </script>
