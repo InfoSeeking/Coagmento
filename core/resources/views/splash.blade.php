@@ -114,15 +114,15 @@
 		</div>
 
     <div class="subscribe">
-        @include('helpers.showAllMessages')
-        @if(session('emailSaved'))
-        <div class="alert alert-success">
-            <p>Got it! We'll email {{ session('emailSaved') }} when Coagmento 2.0 is released.</p>
-        </div>
-        @endif
         <h5 class="info-text">
             Get notified when Coagmento 2.0 is fully released!
         </h5>
+        @include('helpers.showAllMessages')
+        @if (Session::has('emailSaved'))
+        <div class="alert alert-success col-md-6 col-md-offset-3 text-center">
+            <p>Got it! We'll email {{ session('emailSaved') }} when Coagmento 2.0 is released.</p>
+        </div>
+        @endif
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3 ">
                 <form class="form-inline" role="form" method="post" action="new/notify">
