@@ -49,7 +49,7 @@
 		<ul id='bookmark_list'>
 		@foreach ($bookmarks as $bookmark) 
 		<li>
-			<div><a href='{{ $bookmark->url }}'>{{ $bookmark->title }}</a></div>
+			<div><a target="_blank" href='{{ $bookmark->url }}'>{{ $bookmark->title }}</a></div>
 			<p>
 				Saved {{ $bookmark->created_at }} 
 				@if ($permission == 'w' || $permission == 'o')

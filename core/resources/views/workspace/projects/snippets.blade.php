@@ -47,7 +47,7 @@
 		@foreach ($snippets as $snippet) 
 		<li>
 			<div>
-				<a href='{{ $snippet->url }}'>{{ $snippet->url }}</a>
+				<a target="_blank" href='{{ $snippet->url }}'>{{ $snippet->url }}</a>
 				<p>{{ $snippet->text }}</p>
 			</div>
 			<p>

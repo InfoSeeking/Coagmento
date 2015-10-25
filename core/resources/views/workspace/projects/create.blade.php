@@ -50,7 +50,8 @@
 		<div class='form-group'>
 			<div class='col-sm-4'></div>
 			<div class='col-sm-8'>
-				<button type='submit' class="btn btn-primary">Create Project</button>
+				<a class='btn btn-danger' href='/workspace/projects'>Cancel</a>
+				<button type='submit' class="btn btn-primary pull-right">Create Project</button>
 			</div>
 		</div>
 	</form>
