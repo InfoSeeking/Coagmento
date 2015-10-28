@@ -21,11 +21,15 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
-Route::post('workspace/demoLogin', 'WorkspaceController@demoLogin');
+Route::post('auth/demoLogin', 'Auth\AuthController@demoLogin');
 
 // Back-end pages.
-Route::get('sidebar/home', [
-	'uses' => 'SidebarController@getHome',
+Route::get('sidebar', [
+	'uses' => 'SidebarController@getProjectSelection',
+	'middleware' => 'auth'
+	]);
+Route::get('sidebar/{project_id}', [
+	'uses' => 'SidebarController@getFeed',
 	'middleware' => 'auth'
 	]);
 

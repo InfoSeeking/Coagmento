@@ -11,9 +11,17 @@ use App\Services\BookmarkService;
 
 class SidebarController extends Controller
 {
-    public function getHome() {
+	public function __construct(BookmarkService $bookmarkService) {
+		$this->bookmarkService = $bookmarkService;
+	}
+	public function getProjectSelection() {
+		return "Select a project";
+	}
+    public function getFeed(Request $req, $projectId) {
     	$user = Auth::user();
-    	$bookmarks = BookmarkService::getAllForUser($user);
+    	$bookmarks = $this->bookmarkService->getMultiple([
+    		'project_id' => $projectId
+    		]);
         return view('sidebar', ['bookmarks' => $bookmarks]);
     }
 }

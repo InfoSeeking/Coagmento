@@ -204,13 +204,4 @@ class WorkspaceController extends Controller
         $status = $this->projectService->delete(['id' => $projectId]);
         return $status->asRedirect('workspace');
     }
-
-    public function demoLogin() {
-        $demoUser = User::firstOrCreate([
-            'email' => 'demo@demo.demo',
-            'password' => 'demo'
-            ]);
-        Auth::login($demoUser, true);
-        return redirect('workspace');
-    }
 }

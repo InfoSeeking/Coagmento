@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Auth;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -64,5 +66,25 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Called when the user is authenticated
+     */
+    protected function authenticated(Request $req, User $user) {
+        if ($req->has('after_login_redirect')) {
+            return redirect($req->input('after_login_redirect'));
+        } else {
+            return redirect()->intended($this->redirectPath());
+        }
+    }
+
+    public function demoLogin(Request $req) {
+        $demoUser = User::firstOrCreate([
+            'email' => 'demo@demo.demo',
+            'password' => 'demo'
+            ]);
+        Auth::login($demoUser, true);
+        return $this->authenticated($req, $demoUser);
     }
 }
