@@ -33,7 +33,13 @@ composer install
 ```
 After this runs, all of the project dependencies should be installed.
 
-The final step is to tell Laravel about your development environment. In the Coagmento/core directory, there is a [.env.example](https://github.com/InfoSeeking/Coagmento/blob/master/core/.env.example) file. Most importantly, rename this file to .env (without the .example). The .env file ignored by git for obvious security reasons, so it needs to be created. Change the DB values in the .env file to match your database setup. The [Laravel enviroment documentation](http://laravel.com/docs/5.1#environment-configuration) has more information on setting up your environment.
+The final step is to tell Laravel about your development environment. In the Coagmento/core directory, there is a [.env.example](https://github.com/InfoSeeking/Coagmento/blob/master/core/.env.example) file. Most importantly, rename this file to .env (without the .example) as follows.
+
+```
+mv .env.example .env
+```
+
+The .env file ignored by git for obvious security reasons, so it needs to be created. Change the DB values in the .env file to match your database setup. The [Laravel enviroment documentation](http://laravel.com/docs/5.1#environment-configuration) has more information on setting up your environment.
 
 To finalize the enviroment setup, you should set APP\_KEY in .env to a random 32 character string. Laravel provides a shortcut to doing this. While in the Coagmento/core directory in the terminal, run the following.
 ```
