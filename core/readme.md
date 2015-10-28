@@ -4,11 +4,17 @@ This is the start of the next version of Coagmento, written with Laravel.
 Tentative timeline:
 
 ### Next Up ###
-- Prototype of workspace
-- Create endpoints for annotations
-- Create endpoints for follow/unfollow
-- Realtime component
-- Firefox extension prototype
+Back-End
+	- Create endpoints for annotations
+	- Create endpoints for follow/unfollow
+
+Workspace
+	- Organize Javascript (consider Backbone) and incorporate realtime
+
+Realtime component
+	- Add chat room
+
+Firefox Extension
 
 ## Eventually ##
 - Getting Started guide

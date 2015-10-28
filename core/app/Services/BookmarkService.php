@@ -11,16 +11,19 @@ use App\Models\Membership;
 use App\Models\User;
 use App\Services\MembershipService;
 use App\Services\TagService;
+use App\Services\RealtimeService;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class BookmarkService {
 	public function __construct(
 		TagService $tagService,
-		MembershipService $memberService
+		MembershipService $memberService,
+		RealtimeService $realtimeService
 		) {
 		$this->tagService = $tagService;
 		$this->memberService = $memberService;
+		$this->realtimeService = $realtimeService;
 		$this->user = Auth::user();
 	}
 	
@@ -104,6 +107,7 @@ class BookmarkService {
 			}
 		}
 
+		$this->realtimeService->create($args['project_id'], $bookmark);
 		return Status::fromResult($bookmark);
 	}
 

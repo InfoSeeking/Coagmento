@@ -4,7 +4,7 @@ var express = require('express')
     , io = require('socket.io')(http)
     , bodyParser = require('body-parser') // Middleware for express.
     , feed = require('./feed')(io)
-    , whitelist = ['http://localhost'] // From where to accept HTTP requests.
+    , whitelist = ['http://localhost:8000'] // From where to accept HTTP requests.
     , port = 3000
     ;
 
@@ -15,8 +15,12 @@ app.post('/publish', function(req, res){
   if(whitelist.indexOf(origin) != -1){
     console.log('Allowing');
     res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    console.log('Disallowing');
   }
-  feed.publish(req.body.userID, req.body.projectID, req.body.data);
+  console.log(origin);
+  feed.publish(req.body);
+  res.send('{"status" : "ok"}');
 });
 
 http.listen(port);

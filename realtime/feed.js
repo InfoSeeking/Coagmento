@@ -33,15 +33,16 @@ function onSocketConnection(socket) {
   * @param {int} projectID
   * @param {object[]} data An array of feed data.
   */
-function publish(userID, projectID, data){
+function publish(param){
   if(!io){
     throw 'Feed is not initialized, cannot publish';
   }
-  room = 'project/' + projectID;
+  console.log("Publishing data", param.data);
+  room = 'project/' + param.projectID;
   var message = {
-    from : userID,
-    projectID : projectID,
-    data : data
+    from : param.userID,
+    projectID : param.projectID,
+    data : param.data
   };
   feed.to(room).emit('data', message);
 }

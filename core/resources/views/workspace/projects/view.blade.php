@@ -24,6 +24,11 @@
 		<p>{{ count($snippets) }} snippets have been saved in total.</p>
 	</div>
 
+	<div class='col-md-4'>
+		<h3>Incoming Data</h3>
+		<ul id="incoming_data">
+		</ul>
+	</div>
 </div>
 
 <script src='/js/vendor/chart.js'></script>
@@ -58,5 +63,21 @@ window.onload = function(){
 	var ctx = document.getElementById("canvas").getContext("2d");
 	window.myLine = new Chart(ctx).Line(lineChartData, {});
 }
+</script>
+
+<script src='/js/vendor/socket.io.js'></script>
+<script>
+	@if (env('REALTIME_SERVER'))
+	var socket = io('{{ env('REALTIME_SERVER') }}/feed');
+	socket.on('data', function(data){
+		console.log('Incoming');
+		console.log(data);
+		var newElement = $("<li>" + data.data[0]['title'] + "</li>");
+		$("#incoming_data").append(newElement);
+	});
+	socket.emit('subscribe', {
+		projectID : {{$project->id}}
+	});
+	@endif
 </script>
 @endsection('page-content')

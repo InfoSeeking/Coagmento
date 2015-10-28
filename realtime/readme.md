@@ -24,3 +24,13 @@ Edge cases:
 
 4. The project itself is deleted, or the user is kicked out by an owner.
 	The user should be prompted and redirected.
+
+
+Authentication
+--------------
+It will be simple to authenticate from the back-end application to the realtime application. However, it will
+be more complex to do so for the client.
+
+For simplicity, let's have the chat send POST requests directly to the back-end, which will forward them to
+the realtime server. In the future, this could be changed to be direct communication with the realtime server
+with a buffer periodically being saved.
