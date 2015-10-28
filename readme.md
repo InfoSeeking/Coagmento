@@ -33,7 +33,7 @@ composer install
 ```
 After this runs, all of the project dependencies should be installed.
 
-The final step is to tell Laravel about your development environment. In the Coagmento/core directory, there is a [.env.example](https://github.com/InfoSeeking/Coagmento/blob/master/core/.env.example) file. Most importantly, rename this file to .env (without the .example) as follows.
+Now we need to tell Laravel about your development environment. In the Coagmento/core directory, there is a [.env.example](https://github.com/InfoSeeking/Coagmento/blob/master/core/.env.example) file. Most importantly, rename this file to .env (without the .example) as follows.
 
 ```
 mv .env.example .env
@@ -46,6 +46,13 @@ To finalize the enviroment setup, you should set APP\_KEY in .env to a random 32
 php artisan key:generate
 ```
 This will automatically set the APP\_KEY in your .env file.
+
+Lastly, we need to import the database schema for Coagmento. While in Coagmento/core, run the following.
+
+```
+php artisan migrate
+```
+This should create all of the necessary database tables for Coagmento.
 
 Now you should be ready to go. Run
 ```
