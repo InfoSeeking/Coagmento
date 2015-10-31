@@ -107,7 +107,11 @@ class BookmarkService {
 			}
 		}
 
-		$this->realtimeService->create($args['project_id'], $bookmark);
+		$this->realtimeService
+			->withModel($bookmark)
+			->onProject($bookmark->project_id)
+			->emit('create');
+
 		return Status::fromResult($bookmark);
 	}
 
@@ -126,6 +130,10 @@ class BookmarkService {
 		$memberStatus = $this->memberService->checkPermission($bookmark->project_id, 'w', $this->user);
 		if (!$memberStatus->isOK()) return $memberStatus;
 		
+		$this->realtimeService
+			->withModel($bookmark)
+			->onProject($bookmark->project_id)
+			->emit('delete');
 		$bookmark->delete();
 		return Status::OK();
 	}
@@ -163,6 +171,11 @@ class BookmarkService {
 			}
 		}
 		$bookmark->update($args);
+
+		$this->realtimeService
+			->withModel($bookmark)
+			->onProject($bookmark->project_id)
+			->emit('update');
 		return Status::fromResult($bookmark);
     }
 
@@ -199,9 +212,22 @@ class BookmarkService {
 			return Status::fromError(
 				'Insufficient permissions to move bookmark to new project.');
 		}
+		$fromProject = $bookmark->project_id;
 
 		$bookmark->project_id = $toProject;
 		$bookmark->save();
+
+		$this->realtimeService
+			->withModel($bookmark)
+			->onProject($fromProject)
+			->withContext('move_from')
+			->emit('update');
+
+		$this->realtimeService
+			->withModel($bookmark)
+			->onProject($toProject)
+			->withContext('move_to')
+			->emit('update');
 		return Status::fromResult($bookmark);
     }
 
@@ -216,12 +242,23 @@ class BookmarkService {
 		if (!$tagStatus->isOK()) {
 			return $tagStatus;
 		}
+		$serializedTags = [];
 		foreach ($tagStatus->getResult() as $tag) {
 			$relation = new BookmarksAndTags();
 			$relation->bookmark_id = $bookmark->id;
 			$relation->tag_id = $tag->id;
 			$relation->save();
+			array_push($serializedTags, $tag);
 		}
+
+		$this->realtimeService
+			->withRawData([
+				'bookmark_id' => $bookmark->id,
+				'tag_list' => $serializedTags
+				])
+			->onProject($toProject)
+			->withContext('update_tags')
+			->emit('update');
 		return Status::OK();
     }
 }
