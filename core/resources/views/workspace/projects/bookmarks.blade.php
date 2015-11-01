@@ -34,7 +34,7 @@
 						<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
 					</div>
 					<input type='hidden' name='project_id' value='{{ $project->id }}' />
-					<button class='cancel btn btn-danger'>Cancel</button>
+					<button class='cancel btn btn-danger'>Close</button>
 					<div class='pull-right'>
 						<button type='submit' class='btn btn-primary'>Create</button>
 					</div>
@@ -47,6 +47,8 @@
 		@endif
 
 		<ul id='bookmark_list'>
+		<!--
+		Remove this once Backbone is working.
 		@foreach ($bookmarks as $bookmark) 
 		<li>
 			<div><a target="_blank" href='{{ $bookmark->url }}'>{{ $bookmark->title }}</a></div>
@@ -58,71 +60,127 @@
 			</p>
 		</li>
 		@endforeach
+		-->
 		</ul>
 	</div>
 </div>
 
+<script type='text/template' id='bookmarkTemplate'>
+	<div><a target="_blank" href='<%= url %>'><%= title %></a></div>
+	<p>
+		Saved <%= created_at %>
+		<% if(permission == 'w' || permission == 'o') { %>
+		| <a data-id='<%= id %>' class='delete'>Delete</a>
+		<% } %>
+	</p>
+</script>
+
+<script src='/js/vendor/underscore.js'></script>
+<script src='/js/vendor/backbone.js'></script>
+
 <script>
-$('.delete').on('click', function(e) {
-	e.preventDefault();
-	var bookmarkId = $(this).attr('data-id');
-	var link = $(this).parent().parent();
-	$.ajax({
-		url: '/api/v1/bookmarks/' + bookmarkId,
-		method: 'delete',
-		complete: function(xhr) {
-			console.log(xhr.responseText);
-		},
-		success: function() {
-			link.fadeOut();
-		}
-	})
+var permission = '{{ $permission }}';
+
+var BookmarkModel = Backbone.Model.extend({
+	events: {
+		'error' : 'onError'
+	},
+	onError: function(response) {
+		console.log("ERROR");
+		console.log(response);
+	}
 });
 
-$('#createBookmark').on('submit', function(e){
-	e.preventDefault();
-	var projectId = $(this).find('input[name=project_id]').val();
-	var title = $(this).find('input[name=title]').val();
-	var url = $(this).find('input[name=url]').val();
-	var tags = $(this).find('input[name=tags]').val();
-	tags = tags.split(/\s*,\s*/);
-	$.ajax({
-		url: '/api/v1/bookmarks',
-		method: 'post',
-		data: {
-			'project_id' : projectId,
-			'title': title,
-			'url': url,
-			'tags' : tags
-		},
-		complete: function(xhr) {
-			console.log("COMPLETE");
-
-			var errorJson = JSON.parse(xhr.responseText);
-			console.log(errorJson);
-			if (errorJson.status == 'error') {
-				if (errorJson['errors']['general'].length > 0) {
-					alert(errorJson['errors']['general'].join(' '));
-				}
-				var inputErrors = '';
-				for (var prop in errorJson['errors']['input']) {
-					if (errorJson['errors']['input'].hasOwnProperty(prop)) {
-						inputErrors += errorJson['errors']['input'][prop] + ' ';
-					}
-				}
-				if (inputErrors != '') alert(inputErrors);
-			}			
-		},
-		success: function() {
-			window.location.reload();
-		}
-	});
+var BookmarkCollection = Backbone.Collection.extend({
+	model: BookmarkModel,
+	url: '/api/v1/bookmarks',
+	parse: function(json){
+		return json.result;
+	}
 });
+
+var BookmarkListItemView = Backbone.View.extend({
+	tagName: 'li',
+	className: 'bookmark',
+	template: _.template($('#bookmarkTemplate').html()),
+	events: {
+		'click .delete': 'onDelete',
+	},
+	attributes: function() {
+		return {
+			'data-id': this.model.id
+		}
+	},
+	onDelete: function(e) {
+		e.preventDefault();
+		this.model.destroy();
+	},
+	render: function() {
+		var html = this.template(this.model.toJSON());
+		this.$el.html(html);
+		return this;
+	}
+})
+
+var BookmarkListView = Backbone.View.extend({
+	el: '#bookmark_list',
+	initialize: function() {
+		this.collection.on('add', this.add, this);
+	},
+	render: function() {
+		this.$el.empty();
+		this.collection.each(function(model){
+			this.add(model);
+		});
+	},
+	add: function(model) {
+		var item = new BookmarkListItemView({model: model});
+		this.$el.append(item.render().$el);
+		model.on('destroy', function() {
+			item.remove();
+		});
+	}
+});
+
+var bookmarkList = new BookmarkCollection();
+bookmarkList.fetch();
+
+var bookmarkListView = new BookmarkListView({collection: bookmarkList});
 
 $("#createBookmark .cancel").on("click", function(e){
 	e.preventDefault();
 	$("#add_new").fadeOut(150);
 })
+
+$("#createBookmark").on('submit', function(e){
+	e.preventDefault();
+	var form = $(this),
+		urlInput = form.find('input[name=url]'),
+		titleInput = form.find('input[name=title]'),
+		tagsInput = form.find('input[name=tags]');
+
+	$.ajax({
+		url: '/api/v1/bookmarks',
+		method: 'post',
+		data: {
+			project_id : {{ $project->id }},
+			url: urlInput.val(),
+			title: titleInput.val(),
+			tags: tagsInput.val().split(/\s*,\s*/)
+		},
+		dataType: 'json',
+		success: function(response) {
+			bookmarkList.add(new BookmarkModel(response.result));
+		},
+		error: function(xhr) {
+			console.log("error");
+			console.log(xhr.responseText);
+		}
+	});
+	urlInput.val("");
+	titleInput.val("");
+	tagsInput.val("");
+});
 
 $("#btn_add_new").on('click', function(){
 	$("#add_new").fadeIn(150);

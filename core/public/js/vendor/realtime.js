@@ -1,0 +1,1 @@
+// Connects to realtime service and synchronizes with Backbone.

@@ -37,7 +37,7 @@ function publish(param){
   if(!io){
     throw 'Feed is not initialized, cannot publish';
   }
-  console.log("Publishing data", param.data);
+  console.log("Received feed update:", param);
   room = 'project/' + param.projectID;
   var message = {
     from : param.userID,

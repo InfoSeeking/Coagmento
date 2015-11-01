@@ -57,9 +57,9 @@ class Status {
 			'status' => $this->code == StatusCodes::OK ? 'ok' : 'error',
 			'errors' => [
 				'input' => $inputErrors,
-				'general' => $this->generalErrors,
-				'result' => $this->result
-			]
+				'general' => $this->generalErrors
+			],
+			'result' => $this->result
 		];
 	}
 
