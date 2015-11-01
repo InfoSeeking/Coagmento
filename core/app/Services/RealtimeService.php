@@ -26,7 +26,7 @@ class RealtimeService {
 		return $this;
 	}
 
-	public function withModels($models, $type=null) {
+	public function withModels($models) {
 		$this->data = [];
 		if (count($models) == 0) return;
 		$this->dataType = $models[0]->getTable();
@@ -36,7 +36,7 @@ class RealtimeService {
 		return $this;
 	}
 
-	public function withRawData($data, $type="") {
+	public function withRawData($data, $type=null) {
 		$this->data = $data;
 		$this->dataType = $type;
 		return $this;

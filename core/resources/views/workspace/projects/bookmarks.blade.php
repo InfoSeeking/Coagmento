@@ -76,6 +76,7 @@
 </script>
 
 <script src='/js/vendor/underscore.js'></script>
+<script src='/js/vendor/socket.io.js'></script>
 <script src='/js/vendor/backbone.js'></script>
 
 <script>
@@ -110,6 +111,9 @@ var BookmarkListItemView = Backbone.View.extend({
 		return {
 			'data-id': this.model.id
 		}
+	},
+	initialize: function () {
+		this.model.on('remove', this.remove, this);
 	},
 	onDelete: function(e) {
 		e.preventDefault();
@@ -184,7 +188,35 @@ $("#createBookmark").on('submit', function(e){
 
 $("#btn_add_new").on('click', function(){
 	$("#add_new").fadeIn(150);
-})
+});
 
+var socket = io('{{ env('REALTIME_SERVER') }}/feed');
+socket.on('data', function(params){
+	console.log(params);
+	if (params.dataType != "bookmarks") return;
+	var list = params.data;
+	_.each(list, function(el) {
+		if (params.action == 'create') {
+			bookmarkList.add(el);
+		} else if (params.action == 'delete') {
+			bookmarkList.remove(el);
+		}
+	});
+});
+
+socket.emit('subscribe', {
+	projectID : {{$project->id}}
+});
+
+/*
+Interesting finds
+=================
+- Backbone doesn't complain if you try to remove a non-existing item. 
+- Additionally, if you add an item to a collection with the same id, it
+ignores it.
+- The create method had to be done with regular AJAX, because I can't find out
+how to have Backbone create an item based on the response
+data (which includes the ID).
+*/
 </script>
 @endsection('page-content')

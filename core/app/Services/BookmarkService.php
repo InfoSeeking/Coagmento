@@ -251,14 +251,6 @@ class BookmarkService {
 			array_push($serializedTags, $tag);
 		}
 
-		$this->realtimeService
-			->withRawData([
-				'bookmark_id' => $bookmark->id,
-				'tag_list' => $serializedTags
-				])
-			->onProject($toProject)
-			->withContext('update_tags')
-			->emit('update');
 		return Status::OK();
     }
 }

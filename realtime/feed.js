@@ -39,12 +39,7 @@ function publish(param){
   }
   console.log("Received feed update:", param);
   room = 'project/' + param.projectID;
-  var message = {
-    from : param.userID,
-    projectID : param.projectID,
-    data : param.data
-  };
-  feed.to(room).emit('data', message);
+  feed.to(room).emit('data', param);
 }
 
 module.exports = function(socketio){
