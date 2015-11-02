@@ -69,8 +69,9 @@
 	<div><a target="_blank" href='<%= url %>'><%= title %></a></div>
 	<p>
 		Saved <%= created_at %>
-		<% if(permission == 'w' || permission == 'o') { %>
+		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
 		| <a data-id='<%= id %>' class='delete'>Delete</a>
+		| <a data-id='<%= id %>' class='edit'>Edit</a>
 		<% } %>
 	</p>
 </script>
@@ -78,72 +79,17 @@
 <script src='/js/vendor/underscore.js'></script>
 <script src='/js/vendor/socket.io.js'></script>
 <script src='/js/vendor/backbone.js'></script>
+<script src='/js/config.js'></script>
+<script src='/js/data.js'></script>
+<script src='/js/realtime.js'></script>
 
 <script>
-var permission = '{{ $permission }}';
-
-var BookmarkModel = Backbone.Model.extend({
-	events: {
-		'error' : 'onError'
-	},
-	onError: function(response) {
-		console.log("ERROR");
-		console.log(response);
-	}
-});
-
-var BookmarkCollection = Backbone.Collection.extend({
-	model: BookmarkModel,
-	url: '/api/v1/bookmarks',
-	parse: function(json){
-		return json.result;
-	}
-});
-
-var BookmarkListItemView = Backbone.View.extend({
-	tagName: 'li',
-	className: 'bookmark',
-	template: _.template($('#bookmarkTemplate').html()),
-	events: {
-		'click .delete': 'onDelete',
-	},
-	attributes: function() {
-		return {
-			'data-id': this.model.id
-		}
-	},
-	initialize: function () {
-		this.model.on('remove', this.remove, this);
-	},
-	onDelete: function(e) {
-		e.preventDefault();
-		this.model.destroy();
-	},
-	render: function() {
-		var html = this.template(this.model.toJSON());
-		this.$el.html(html);
-		return this;
-	}
-})
-
-var BookmarkListView = Backbone.View.extend({
-	el: '#bookmark_list',
-	initialize: function() {
-		this.collection.on('add', this.add, this);
-	},
-	render: function() {
-		this.$el.empty();
-		this.collection.each(function(model){
-			this.add(model);
-		});
-	},
-	add: function(model) {
-		var item = new BookmarkListItemView({model: model});
-		this.$el.append(item.render().$el);
-		model.on('destroy', function() {
-			item.remove();
-		});
-	}
+Config.setAll({
+	permission: '{{ $permission }}',
+	projectId: {{ $project->id }},
+	userId: {{ $user->id }},
+	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
+	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
 
 var bookmarkList = new BookmarkCollection();
@@ -190,23 +136,29 @@ $("#btn_add_new").on('click', function(){
 	$("#add_new").fadeIn(150);
 });
 
-var socket = io('{{ env('REALTIME_SERVER') }}/feed');
-socket.on('data', function(params){
-	console.log(params);
-	if (params.dataType != "bookmarks") return;
-	var list = params.data;
-	_.each(list, function(el) {
-		if (params.action == 'create') {
-			bookmarkList.add(el);
-		} else if (params.action == 'delete') {
-			bookmarkList.remove(el);
-		}
-	});
-});
 
-socket.emit('subscribe', {
-	projectID : {{$project->id}}
-});
+function realtimeDataHandler(param) {
+	if (param.dataType != "bookmarks") return;
+	if (param.action == "create") {
+		_.each(param.data, function(bookmark){
+			bookmarkList.add(bookmark);	
+		});
+	} else if (param.action == "delete") {
+		_.each(param.data, function(bookmark){
+			bookmarkList.remove(bookmark);
+		});	
+	} else if (param.action == "update") {
+		// TODO.
+		_.each(param.data, function(bookmark){
+			var model = bookmarkList.get(bookmark);
+			model.set(bookmark);
+		});
+		
+	}
+}
+
+Realtime.init(realtimeDataHandler);
+
 
 /*
 Interesting finds
@@ -217,6 +169,15 @@ ignores it.
 - The create method had to be done with regular AJAX, because I can't find out
 how to have Backbone create an item based on the response
 data (which includes the ID).
+
+Next:
+- Display errors
+- Add toggling option
+- Organize
+- Ignore self edits (potentially).
+	- My concern is if an update takes 2 seconds, and the user makes another quick update 
+	in 1 second, they'll see their update revert for 1 second.
+
 */
 </script>
 @endsection('page-content')
