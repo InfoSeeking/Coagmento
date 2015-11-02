@@ -25,7 +25,7 @@
 				<h3>Create Bookmark</h3>
 				<form action='/api/v1/bookmarks' method='post' id='createBookmark'>
 					<div class='form-group'>
-						<input class='form-control' type='url' name='url' placeholder='Bookmark URL'/>
+						<input class='form-control' type='text' name='url' placeholder='Bookmark URL'/>
 					</div>
 					<div class='form-group'>
 						<input class='form-control' type='text' name='title' placeholder='Page title'/>
@@ -76,7 +76,6 @@
 	</p>
 </script>
 
-<script src='/js/vendor/underscore.js'></script>
 <script src='/js/vendor/socket.io.js'></script>
 <script src='/js/vendor/backbone.js'></script>
 <script src='/js/config.js'></script>
@@ -121,15 +120,17 @@ $("#createBookmark").on('submit', function(e){
 		dataType: 'json',
 		success: function(response) {
 			bookmarkList.add(new BookmarkModel(response.result));
+			urlInput.val("");
+			titleInput.val("");
+			tagsInput.val("");
 		},
 		error: function(xhr) {
-			console.log("error");
-			console.log(xhr.responseText);
+			var json = JSON.parse(xhr.responseText);
+			if (json) {
+				MessageDisplay.displayIfError(json);
+			}
 		}
 	});
-	urlInput.val("");
-	titleInput.val("");
-	tagsInput.val("");
 });
 
 $("#btn_add_new").on('click', function(){
@@ -148,12 +149,10 @@ function realtimeDataHandler(param) {
 			bookmarkList.remove(bookmark);
 		});	
 	} else if (param.action == "update") {
-		// TODO.
 		_.each(param.data, function(bookmark){
 			var model = bookmarkList.get(bookmark);
 			model.set(bookmark);
-		});
-		
+		});	
 	}
 }
 

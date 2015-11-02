@@ -44,7 +44,7 @@ class BookmarkController extends Controller
      * @apiParam {Integer} [project_id]
      * @apiVersion 1.0.0
      */
-    public function index(Request $req) {   
+    public function index(Request $req) {
         return ApiResponse::fromStatus($this->bookmarkService->getMultiple($req->all()));
     }
 

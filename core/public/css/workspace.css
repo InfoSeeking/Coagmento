@@ -5,6 +5,20 @@ a {
 	list-style-type: none;
 	padding-left: 0px;
 }
+.messageList {
+	position: relative;
+}
+.messageList .close-btn {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	color: #5b5b5b;
+}
+
+.messageList .close-btn:hover{
+	color: #000;
+}
+
 .navbar-fixed {
 	background: #9ac3ff;
 	font-family: 'Myriad Pro Regular';

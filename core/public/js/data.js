@@ -1,20 +1,25 @@
 // Backbone classes for data models, collections, and views.
 
 var BookmarkModel = Backbone.Model.extend({
-	events: {
-		'error' : 'onError'
+	initialize: function() {
+		this.on('error', this.onError, this);
 	},
-	onError: function(response) {
-		console.log('ERROR');
-		console.log(response);
+	onError: function(model, response) {
+		MessageDisplay.displayIfError(response.responseJSON);
 	}
 });
 
 var BookmarkCollection = Backbone.Collection.extend({
 	model: BookmarkModel,
 	url: '/api/v1/bookmarks',
+	initialize: function() {
+		this.on('error', this.onError, this);
+	},
 	parse: function(json){
 		return json.result;
+	},
+	onError: function(collection, response) {
+		MessageDisplay.displayIfError(response.responseJSON);
 	}
 });
 

@@ -11,6 +11,13 @@
         <link rel="stylesheet" href="/css/workspace.css" />
         <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
         <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src='/js/vendor/underscore.js'></script>
+        <script src='/js/message.js'></script>
+
         <title>Coagmento Workspace</title>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,10 +27,6 @@
         <![endif]-->
     </head>
     <body class='@yield('page')'>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
         <nav class="navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -48,6 +51,9 @@
         <footer class="container-fluid">
         Development of Coagmento is supported by Institute of Museum and Library Services (IMLS). Coagmento 2007-2015
         </footer>
-
+        
+        <script>
+            MessageDisplay.init();
+        </script>
     </body>
 </html>
