@@ -158,25 +158,5 @@ function realtimeDataHandler(param) {
 
 Realtime.init(realtimeDataHandler);
 
-
-/*
-Interesting finds
-=================
-- Backbone doesn't complain if you try to remove a non-existing item. 
-- Additionally, if you add an item to a collection with the same id, it
-ignores it.
-- The create method had to be done with regular AJAX, because I can't find out
-how to have Backbone create an item based on the response
-data (which includes the ID).
-
-Next:
-- Display errors
-- Add toggling option
-- Organize
-- Ignore self edits (potentially).
-	- My concern is if an update takes 2 seconds, and the user makes another quick update 
-	in 1 second, they'll see their update revert for 1 second.
-
-*/
 </script>
 @endsection('page-content')
