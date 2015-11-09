@@ -9,9 +9,12 @@ use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class SnippetService {
-	public function __construct(MembershipService $memberService){
+	public function __construct(
+		MembershipService $memberService,
+		RealtimeService $realtimeService){
 		$this->user = Auth::user();
 		$this->memberService = $memberService;
+		$this->realtimeService = $realtimeService;
 	}
 
 	public function get($id) {
@@ -66,6 +69,11 @@ class SnippetService {
 		$snippet->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 		$snippet->project_id = $args['project_id'];
 		$snippet->save();
+
+		$this->realtimeService->withModel($snippet)
+			->onProject($snippet->project_id)
+			->emit('create');
+
 		return Status::fromResult($snippet);
 	}
 
@@ -77,6 +85,9 @@ class SnippetService {
 		$memberStatus = $this->memberService->checkPermission($snippet->project_id, 'w', $this->user);
 		if (!$memberStatus->isOK()) return $memberStatus;
 
+		$this->realtimeService->withModel($snippet)
+			->onProject($snippet->project_id)
+			->emit('delete');
 		$snippet->delete();
 		return Status::OK();
 	}
@@ -95,6 +106,9 @@ class SnippetService {
 		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$snippet->update($args);
+		$this->realtimeService->withModel($snippet)
+			->onProject($snippet->project_id)
+			->emit('update');
 		return Status::fromResult($snippet);
 	}
 }

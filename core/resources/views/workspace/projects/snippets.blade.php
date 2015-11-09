@@ -75,6 +75,26 @@ snippetList.fetch({
 
 var snippetListView = new SnippetListView({collection: snippetList});
 
+function realtimeDataHandler(param) {
+	if (param.dataType != "snippets") return;
+	if (param.action == "create") {
+		_.each(param.data, function(snippet){
+			snippetList.add(snippet);	
+		});
+	} else if (param.action == "delete") {
+		_.each(param.data, function(snippet){
+			snippetList.remove(snippet);
+		});	
+	} else if (param.action == "update") {
+		_.each(param.data, function(snippet){
+			var model = snippetList.get(snippet);
+			model.set(snippet);
+		});	
+	}
+}
+
+Realtime.init(realtimeDataHandler);
+
 $('#create-snippet').on('submit', function(e){
 	e.preventDefault();
 	var projectId = Config.get('projectId');
