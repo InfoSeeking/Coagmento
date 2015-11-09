@@ -1,12 +1,12 @@
 // Connects to realtime service.
 
 var Realtime = (function () {
-	var socket, dataHandler;
+	var socket, dataHandler, listeningStatus;
 
 	function init(onData) {
 		if (!Config.get('realtimeEnabled')) {
 			console.log("Coagmento realtime disabled.");
-			return;
+			return false;
 		}
 		socket = io(Config.get('realtimeServer') + '/feed');
 		socket.emit('subscribe', {
@@ -14,20 +14,28 @@ var Realtime = (function () {
 		});
 		dataHandler = onData;
 		listen();
+		return true;
 	}
 
 	function unlisten() {
 		socket.off('data', dataHandler);
+		listeningStatus = false;
 	}
 
 	function listen() {
 		socket.on('data', dataHandler);
+		listeningStatus = true;
+	}
+
+	function getListeningStatus() {
+		return listeningStatus;
 	}
 
 	return {
 		init: init,
 		listen: listen,
-		unlisten: unlisten
+		unlisten: unlisten,
+		getListeningStatus: getListeningStatus
 	};
 }());
 

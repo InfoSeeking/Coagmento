@@ -84,6 +84,7 @@ class BookmarkService {
 		$validator = Validator::make($args, [
 			'url' => 'required|url',
 			'project_id' => 'required|exists:projects,id',
+			'notes' => 'sometimes|string',
 			'tags' => 'sometimes|array'
 			]);
 
@@ -93,10 +94,9 @@ class BookmarkService {
 		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'w', $this->user);
 		if (!$memberStatus->isOK()) return $memberStatus;
 
-		$title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
-
 		$bookmark = new Bookmark($args);
 		$bookmark->user_id = $this->user->id;
+		$bookmark->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 		$bookmark->project_id = $args['project_id'];
 		$bookmark->save();
 

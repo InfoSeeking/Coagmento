@@ -43,7 +43,7 @@ class SnippetService {
 		}
 
 		// Return all user created snippets.
-		$snippets = Bookmark::where('user_id', $this->user->id);
+		$snippets = Snippet::where('user_id', $this->user->id);
 		return Status::fromResult($snippets->get());
 	}
 
@@ -51,6 +51,7 @@ class SnippetService {
 		$validator = Validator::make($args, [
 			'text' => 'required|string',
 			'url' => 'required|string|url',
+			'title' => 'sometimes|string',
 			'project_id' => 'required|integer|exists:projects,id'
 			]);
 		if ($validator->fails()) {
@@ -62,6 +63,7 @@ class SnippetService {
 
 		$snippet = new Snippet($args);
 		$snippet->user_id = $this->user->id;
+		$snippet->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 		$snippet->project_id = $args['project_id'];
 		$snippet->save();
 		return Status::fromResult($snippet);

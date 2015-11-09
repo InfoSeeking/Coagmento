@@ -2,7 +2,7 @@
 
 @section('context')
 <div class='context'>
-	<button class='btn btn-warning' id='btn_add_new'>New Snippet</button>
+	<button class='btn btn-warning' id='new-btn'>New Snippet</button>
 </div>
 @endsection('context')
 
@@ -20,12 +20,15 @@
 <div class='row'>
 	@include('helpers.showAllMessages')
     <div class='col-md-12'>
-    	<div class='row' id='add_new'>
+    	<div class='row' id='new'>
 			<div class='col-md-6' >
 				<h3>Create Snippet</h3>
-				<form action='/api/v1/snippets' method='post' id='createSnippet'>
+				<form action='/api/v1/snippets' method='post' id='create-snippet'>
 					<div class='form-group'>
 						<input class='form-control' type='url' name='url' placeholder='Snippet URL'/>
+					</div>
+					<div class='form-group'>
+						<input class='form-control' type='text' name='title' placeholder='Page Title'/>
 					</div>
 					<div class='form-group'>
 						<textarea class='form-control' type='text' name='text' placeholder='Snippet Text'></textarea>
@@ -43,87 +46,72 @@
 		<p>No snippets have been saved.</p>
 		@endif
 
-		<ul id='bookmark_list'>
-		@foreach ($snippets as $snippet) 
-		<li>
-			<div>
-				<a target="_blank" href='{{ $snippet->url }}'>{{ $snippet->url }}</a>
-				<p>{{ $snippet->text }}</p>
-			</div>
-			<p>
-				Saved {{ $snippet->created_at }} 
-				@if ($permission == 'w' || $permission == 'o')
-				| <a href='#' data-id='{{ $snippet->id }}' class='delete'>Delete</a>
-				@endif
-			</p>
-		</li>
-		@endforeach
+		<ul id='snippet-list'>
 		</ul>
+
+		@include('helpers.dataTemplates')
 
 	</div>
 </div>
 
+<script src='/js/realtime.js'></script>
+<script src='/js/data/snippet.js'></script>
 <script>
-$('.delete').on('click', function(e) {
-	e.preventDefault();
-	var snippetId = $(this).attr('data-id');
-	var link = $(this).parent().parent();
-	$.ajax({
-		url: '/api/v1/snippets/' + snippetId,
-		method: 'delete',
-		complete: function(xhr) {
-			console.log(xhr.responseText);
-		},
-		success: function() {
-			link.fadeOut();
-		}
-	})
+Config.setAll({
+	permission: '{{ $permission }}',
+	projectId: {{ $project->id }},
+	userId: {{ $user->id }},
+	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
+	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
 
-$('#createSnippet').on('submit', function(e){
+
+var snippetList = new SnippetCollection();
+snippetList.fetch({
+	data: {
+		project_id: Config.get('projectId')
+	}
+});
+
+var snippetListView = new SnippetListView({collection: snippetList});
+
+$('#create-snippet').on('submit', function(e){
 	e.preventDefault();
-	var projectId = $(this).find('input[name=project_id]').val();
-	var text = $(this).find('textarea[name=text]').val();
-	var url = $(this).find('input[name=url]').val();
+	var projectId = Config.get('projectId');
+	var textInput = $(this).find('textarea[name=text]');
+	var urlInput = $(this).find('input[name=url]');
+	var titleInput = $(this).find('input[name=title]');
 	$.ajax({
 		url: '/api/v1/snippets',
 		method: 'post',
 		data: {
 			'project_id' : projectId,
-			'text': text,
-			'url': url,
+			'text': textInput.val(),
+			'url': urlInput.val(),
+			'title': titleInput.val()
 		},
 		complete: function(xhr) {
-			console.log("COMPLETE");
-
-			var errorJson = JSON.parse(xhr.responseText);
-			console.log(errorJson);
-			if (errorJson.status == 'error') {
-				if (errorJson['errors']['general'].length > 0) {
-					alert(errorJson['errors']['general'].join(' '));
-				}
-				var inputErrors = '';
-				for (var prop in errorJson['errors']['input']) {
-					if (errorJson['errors']['input'].hasOwnProperty(prop)) {
-						inputErrors += errorJson['errors']['input'][prop] + ' ';
-					}
-				}
-				if (inputErrors != '') alert(inputErrors);
-			}			
+			var json = JSON.parse(xhr.responseText);
+			if (json) {
+				MessageDisplay.displayIfError(json);
+			}	
 		},
-		success: function() {
-			window.location.reload();
+		success: function(response) {
+			snippetList.add(new SnippetModel(response.result));
+			urlInput.val('');
+			textInput.val('');
+			titleInput.val('');
 		}
 	});
 });
 
-$("#createSnippet .cancel").on("click", function(e){
+$("#create-snippet .cancel").on("click", function(e){
 	e.preventDefault();
-	$("#add_new").fadeOut(150);
+	$("#new").fadeOut(150);
 })
 
-$("#btn_add_new").on('click', function(){
-	$("#add_new").fadeIn(150);
+$("#new-btn").on('click', function(){
+	$("#new").fadeIn(150);
 })
 
 </script>

@@ -15,7 +15,11 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
         <script src='/js/vendor/underscore.js'></script>
+        <script src='/js/vendor/socket.io.js'></script>
+        <script src='/js/vendor/backbone.js'></script>
+        <script src='/js/config.js'></script>
         <script src='/js/message.js'></script>
 
         <title>Coagmento Workspace</title>

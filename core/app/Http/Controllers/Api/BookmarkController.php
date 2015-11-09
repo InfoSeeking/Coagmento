@@ -24,6 +24,7 @@ class BookmarkController extends Controller
      * @apiName CreateBookmark
      * @apiParam {Integer} project_id
      * @apiParam {String} url
+     * @apiParam {String} [notes] Related user written notes about this bookmark.
      * @apiParam {String} title The contents of title in the page.
      * @apiParam {String[]} [tags] A list of initial tags.
      * @apiVersion 1.0.0

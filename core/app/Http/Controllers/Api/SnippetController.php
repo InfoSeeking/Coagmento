@@ -23,6 +23,7 @@ class SnippetController extends Controller
      * @apiName CreateSnippet
      * @apiParam {Integer} project_id
      * @apiParam {String} url
+     * @apiParam {String} [title] The web page title.
      * @apiParam {String} text The snippet contents.
      * @apiVersion 1.0.0
      */
