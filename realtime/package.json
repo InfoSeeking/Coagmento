@@ -1,11 +1,21 @@
 {
-  "name": "CoagmentoRealtime",
-  "version": "1.0.0",
-  "description": "Gives realtime updates to user data from Coagmento",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Kevin Albertson",
-  "license": "ISC"
+	"name": "CoagmentoRealtime",
+	"license": "ISC",
+	"version": "0.0.1",
+	"description": "The add-on component to the main Coagmento product which syncs project data in realtime.",
+	"homepage": "http://coagmento.org",
+	"bugs": {
+		"url": "https://github.com/InfoSeeking/Coagmento/issues"
+	},
+	"author": {
+		"name": "Kevin Albertson",
+		"email": "ka324@scarletmail.rutgers.edu",
+		"url": "http://kevinalbs.com"
+	},
+	"main": "server.js",
+	"dependencies": {
+		"socket.io": "latest",
+		"body-parser": "latest",
+		"express": "latest"
+	}
 }
