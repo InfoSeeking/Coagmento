@@ -1,9 +1,18 @@
 <html>
-<head></head>
+<head>
+	<style>
+		a {
+			cursor: pointer;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
 <body>
 	<h4>Bookmark Feed</h4>
 
-	<ul id="bookmark_list">
+	<ul id="bookmark-list">
 	</ul>
 
 	<script type='text/template' id='bookmarkTemplate'>
@@ -13,13 +22,20 @@
 		</p>
 	</script>
 
+	<div id="save-bookmark" style="display:none">
+		<h4>Save a new Bookmark</h4>
+	</div>
+
+	@include('helpers/dataTemplates')
+
 	<script src='/js/vendor/socket.io.js'></script>
 	<script src='/js/vendor/jquery-1.10.2.js'></script>
 	<script src='/js/vendor/underscore.js'></script>
 	<script src='/js/vendor/backbone.js'></script>
 	<script src='/js/config.js'></script>
-	<script src='/js/data.js'></script>
+	<script src='/js/data/bookmark.js'></script>
 	<script src='/js/realtime.js'></script>
+	<script src='/js/sidebar.js'></script>
 
 	<script>
 	Config.setAll({
@@ -31,7 +47,11 @@
 	});
 
 	var bookmarkList = new BookmarkCollection();
-	bookmarkList.fetch();
+	bookmarkList.fetch({
+		data: {
+			project_id: Config.get('projectId')
+		}
+	});
 
 	var bookmarkListView = new BookmarkListView({collection: bookmarkList});
 
@@ -55,6 +75,22 @@
 	}
 
 	Realtime.init(realtimeDataHandler);
+
+
+	Sidebar.sendToParent({
+		'destination': 'add-on',
+		'state': {
+			'projectId': {{ $project->id }},
+			'permission': '{{ $permission }}'
+		}
+	});
+
+	Sidebar.onParentMessage(function(data) {
+		console.log(data);
+		if (data.action == 'save-bookmark') {
+			$("#save-bookmark").show();
+		}
+	});
 
 	</script>
 </body>

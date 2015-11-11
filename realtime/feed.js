@@ -28,11 +28,11 @@ function onSocketConnection(socket) {
   });
 }
 
- /**
-  * @param {int} userID
-  * @param {int} projectID
-  * @param {object[]} data An array of feed data.
-  */
+/**
+ * @param {int} userID
+ * @param {int} projectID
+ * @param {object[]} data An array of feed data.
+ */
 function publish(param){
   if(!io){
     throw 'Feed is not initialized, cannot publish';
@@ -47,4 +47,4 @@ module.exports = function(socketio){
   return {
     publish : publish
   }
-}
+};

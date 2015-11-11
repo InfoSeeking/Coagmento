@@ -6,8 +6,5 @@
 @endforeach
 
 <script>
-// TODO until Node server is up and running.
-window.setTimeout(function(){
-	window.location.reload();
-}, 5000);
+
 </script>

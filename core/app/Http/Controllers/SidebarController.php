@@ -8,20 +8,41 @@ use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\BookmarkService;
+use App\Services\ProjectService;
+use App\Services\MembershipService;
 
 class SidebarController extends Controller
 {
-	public function __construct(BookmarkService $bookmarkService) {
+	public function __construct(
+        ProjectService $projectService,
+        BookmarkService $bookmarkService,
+        MembershipService $memberService) {
 		$this->bookmarkService = $bookmarkService;
+        $this->projectService = $projectService;
+        $this->memberService = $memberService;
 	}
 	public function getProjectSelection() {
-		return "Select a project";
+        $projects = $this->projectService->getMultiple();
+		return view('sidebar.select', [
+            'projects' => $projects,
+            'user' => Auth::user()
+            ]);
 	}
     public function getFeed(Request $req, $projectId) {
     	$user = Auth::user();
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) return $projectStatus->asRedirect('sidebar');
+        $memberStatus = $this->memberService->checkPermission($projectId, 'w', $user);
+        if (!$memberStatus->isOK()) return $memberStatus->asRedirect('sidebar');
     	$bookmarks = $this->bookmarkService->getMultiple([
-    		'project_id' => $projectId
+    		'project_id' => $projectId,
     		]);
-        return view('sidebar', ['bookmarks' => $bookmarks]);
+
+        return view('sidebar.feed', [
+            'bookmarks' => $bookmarks,
+            'permission' => $memberStatus->getResult(),
+            'project' => $projectStatus->getResult(),
+            'user' => $user
+            ]);
     }
 }
