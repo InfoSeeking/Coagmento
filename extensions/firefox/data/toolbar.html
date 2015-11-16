@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+
+  <title></title>
+
+  <style type='text/css'>
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  </style>
+
+  <!--[if lt IE 9]>
+  <script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
+  <![endif]-->
+</head>
+
+<body>
+  <button id='save-bookmark'>Save Bookmark</button>
+  <script src='js/jquery-1.10.2.js'></script>
+  <script>
+    $('#save-bookmark').on('click', function(e){
+      var message = {
+        'action': 'save-bookmark'
+      };
+      window.parent.postMessage(message, '*');
+    });
+  </script>
+</body>
+</html>

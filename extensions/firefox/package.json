@@ -1,0 +1,16 @@
+{
+  "title": "Coagmento",
+  "name": "coagmentoprototypeextension",
+  "version": "0.0.1",
+  "description": "A prototype client extension for Coagmento on Firefox",
+  "main": "index.js",
+  "author": "",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
+}

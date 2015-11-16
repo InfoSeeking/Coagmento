@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+
+  <title>Coagmento Sidebar</title>
+
+  <style type='text/css'>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+  iframe {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  </style>
+
+  <!--[if lt IE 9]>
+  <script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
+  <![endif]-->
+</head>
+
+<body>
+  <iframe id='frame' src='http://localhost:8000/sidebar'></iframe>
+  <script>
+    // This simple script forwards messages from the add-on to the sidebar iframe
+    // and vice-versa. The destination is required to distinguish between the messages.
+    var iframe = document.getElementById('frame');
+    window.addEventListener('message', handleIFrameMessage, false);
+    addon.port.on('message', handleAddonMessage);
+
+    function handleIFrameMessage(evt) {
+      // Forward message to main add-on.
+      var data = evt.data;
+      console.log('Sidebar - Forwarding message from iframe to add-on', data);
+      addon.port.emit('message', data);        
+    }
+
+    
+    function handleAddonMessage(data) {
+      // Forward message to iframe.
+      console.log('Sidebar - Forwarding message from add-on to iframe', data);
+    }
+
+  </script>
+</body>
+</html>

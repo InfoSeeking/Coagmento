@@ -16,7 +16,6 @@ Sidebar.onParentMessage(function(evt){
 });
 
 Sidebar.sendToParent({
-	'destination': 'add-on',
 	'event': {
 		'login' : {
 			'status': true,
