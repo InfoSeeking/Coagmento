@@ -16,17 +16,13 @@ Sidebar.onParentMessage(function(evt){
 });
 
 Sidebar.sendToParent({
-	'event': {
-		'login' : {
-			'status': true,
-			'id': {{ $user->id }}
-		}
-	},
 	'state': {
 		'user': {
 			'status': true,
-			'id': {{ $user->id }}
-		}
+			'id': {{ $user->id }},
+			'name': '{{ $user->username }}'
+		},
+		'page': 'select'
 	}
 });
 </script>

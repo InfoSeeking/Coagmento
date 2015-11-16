@@ -5,11 +5,14 @@ We need to know:
 	- Username, whether or not they are logged in
 	- Current project
 
-This could be accomplished through realtime (not preferred, as I'd rather not have mission critical logic depend on realtime).
+The message pipeline is as follows:
+- Toolbar <-> Add-on
+- Add-on <-> Sidebar
+- Sidebar <-> Sidebar iframe
 
-Currently attempting to have a message pipeline.
-Toolbar <-> Add-on
-Add-on <-> Sidebar
-Sidebar <-> Sidebar iframe
-
-But running into some issues. Debugging with Firefox 'Browser Toolbox' seems to give log output for all frames.
+Next up:
+- Add authentication pages exclusive to sidebar (including middleware)
+- Add config with server url
+- Clean and comment
+- Add integrated feed
+- Add unit tests

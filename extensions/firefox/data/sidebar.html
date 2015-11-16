@@ -33,17 +33,35 @@
     window.addEventListener('message', handleIFrameMessage, false);
     addon.port.on('message', handleAddonMessage);
 
+    function navigateIFrame(page) {
+      var root = 'http://localhost:8000/';
+      iframe.src = root + page;
+    }
+
     function handleIFrameMessage(evt) {
       // Forward message to main add-on.
       var data = evt.data;
       console.log('Sidebar - Forwarding message from iframe to add-on', data);
-      addon.port.emit('message', data);        
+      // Sidebar messages to add-on are sent via the addon global.
+      addon.port.emit('message', data);
     }
 
     
     function handleAddonMessage(data) {
-      // Forward message to iframe.
-      console.log('Sidebar - Forwarding message from add-on to iframe', data);
+      console.log('Sidebar - Received from add-on', data);
+      switch (data.action) {
+        case 'login':
+        navigateIFrame('sidebar');
+        break;
+        case 'logout':
+        navigateIFrame('auth/logout');
+        break;
+        default:
+        // Forward message to iframe.
+        console.log('Forwarding to iframe');
+        iframe.contentWindow.postMessage(data, '*');
+        break;
+      }
     }
 
   </script>

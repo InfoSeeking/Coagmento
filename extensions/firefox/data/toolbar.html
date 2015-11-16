@@ -5,30 +5,89 @@
   <meta charset='utf-8'>
 
   <title></title>
-
-  <style type='text/css'>
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
+  
+  <style type="text/css">
+    #welcome {
+      display: none;
+    }
+    #project-specific {
+      display: none;
+    }
+    #container {
+      width: 100%;
+      position: relative;
+    }
+    #right-side {
+      position: absolute;
+      right: 10px;
+      top: 5px;
+    }
   </style>
-
   <!--[if lt IE 9]>
   <script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
   <![endif]-->
 </head>
 
 <body>
-  <button id='save-bookmark'>Save Bookmark</button>
+  <div id="container">
+    <div id='project-specific'>
+      <button id='save-bookmark'>Save Bookmark</button>
+      <button id='save-snippet'>Save Snippet</button>
+    </div>
+    <div id='right-side'>
+      <span id='welcome'></span>
+      <a href='#' data-value='' id='toggle-login'></a>
+    </div>
+  </div>
+
   <script src='js/jquery-1.10.2.js'></script>
   <script>
+    var sidebarState = {};
+
+    function handleAddonMessage(evt) {
+      var data = evt.data;
+      if (data.state) onStateUpdate(data.state);
+    }
+
+    function onStateUpdate(state) {
+      sidebarState = state;
+      if (sidebarState.user) {
+        $('#toggle-login').attr('data-value', 'logout').html('Log out');
+        $('#welcome').html('Hello ' + sidebarState.user.name).show();
+      } else {
+        $('#toggle-login').attr('data-value', 'login').html('Log in');
+        $('#welcome').hide();
+      }
+
+      if (sidebarState.project) {
+        $('#project-specific').show();
+      } else {
+        $('#project-specific').fadeOut();
+      }
+    }
+
     $('#save-bookmark').on('click', function(e){
-      var message = {
-        'action': 'save-bookmark'
-      };
-      window.parent.postMessage(message, '*');
+      if (!sidebarState.project) return;
+      window.parent.postMessage({action: 'save-bookmark'}, '*');
     });
+
+    $('#save-snippet').on('click', function(e){
+      if (!sidebarState.project) return;
+      window.parent.postMessage({action: 'save-snippet'}, '*');
+    });
+
+    $("#toggle-login").on('click', function(e){
+      e.preventDefault();
+      var actionValue = $(this).attr('data-value');
+      window.parent.postMessage({action: actionValue}, '*');
+    });
+
+    // Frame messages to add-on are sent via postMessage.
+    window.addEventListener('message', handleAddonMessage, false);
+
+    // Initialize with empty state.
+    onStateUpdate({});
+
   </script>
 </body>
 </html>

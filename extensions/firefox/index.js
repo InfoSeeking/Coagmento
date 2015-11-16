@@ -7,6 +7,8 @@ var self = require('sdk/self')
 	, api = require('lib/api')
 	, tabutils = require("sdk/tabs/utils")
 	, windowutils = require("sdk/window/utils")
+	, selection = require("sdk/selection")
+	, selectionText = null
 	, sidebarWorker = null
 	;
 
@@ -14,37 +16,59 @@ var sidebar = ui.Sidebar({
 	id: 'coagmento-sidebar',
 	title: 'Coagmento Sidebar',
 	url: require('sdk/self').data.url('sidebar.html'),
-	onReady: initializeSidebarWorker,
+
+	onReady: function(worker) {
+		// I'm not sure why, but for some reason sending messages
+		// only seems to work with the worker received in the Ready event
+		// while receiving messages only seems to work with the Attach event.
+		sidebarWorker = worker;
+	},
+	onAttach: function(worker) {
+		worker.port.on('message', onSidebarMessage);
+	}
 });
 
 sidebar.show();
 
-var frame = ui.Frame({
+var toolbarFrame = ui.Frame({
 	url: require('sdk/self').data.url('toolbar.html'),
 	onMessage: onToolbarMessage
 });
 
 var toolbar = ui.Toolbar({
 	title: 'Coagmento Toolbar',
-	items: [frame]
+	items: [toolbarFrame]
 });
 
 // Listen for save bookmark requests from the frame.
 function onToolbarMessage(e) {
 	console.log('Extension receiving from toolbar', e.data);
-	if(e.data.action == 'save-bookmark') {
-		// Forward to sidebar if possible.
+	var data = e.data;
+	var forwarding = ['save-bookmark', 'save-snippet'];
+	switch (data.action) {
+		case 'save-bookmark':
+		data.url = getCurrentURL();
+		data.title = getCurrentTitle();
 		sendSidebarMessage(e.data);
-	}
-}
+		break;
 
-function initializeSidebarWorker(worker) {
-	sidebarWorker = worker;
-	console.log(sidebarWorker);
-	sidebarWorker.port.on('message', onSidebarMessage);
-	sidebarWorker.port.emit('message', 'hello!');
-	sidebarWorker.port.emit('message', {a: 2});
-	this.worker = worker;
+		case 'save-snippet':
+		data.url = getCurrentURL();
+		data.title = getCurrentTitle();
+		if (selectionText) data.text = selectionText;
+		sendSidebarMessage(data);
+		break;
+
+		case 'login':
+		sidebar.show();
+		sendSidebarMessage(data);
+		break;
+
+		default:
+		// Forward to sidebar.
+		sendSidebarMessage(data);
+		break;
+	}
 }
 
 function sendSidebarMessage(data) {
@@ -57,14 +81,20 @@ function sendSidebarMessage(data) {
 
 function onSidebarMessage(data) {
 	console.log('Add-on: recieved message from sidebar', data);
+	toolbarFrame.postMessage(data, toolbarFrame.url);
 }
 
 function getCurrentURL(){
     var res = tabutils.getTabURL(tabutils.getActiveTab(windowutils.getMostRecentBrowserWindow()));
-    return encodeURIComponent(res);
+    return res;
 }
 
 function getCurrentTitle(){
     var res = tabutils.getTabTitle(tabutils.getActiveTab(windowutils.getMostRecentBrowserWindow()));
-    return encodeURIComponent(res);
+    return res;
 }
+
+
+selection.on('select', function(){
+	selectionText = selection.text;
+});
