@@ -65,7 +65,9 @@ class BookmarkService {
 			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
-			$bookmarks = Bookmark::where('project_id', $args['project_id']);
+			$bookmarks = Bookmark::with('thumbnail')->where('project_id', $args['project_id']);
+
+			//$thumbnail = Bookmark::find(100)->thumbnail;
 			return Status::fromResult($bookmarks->get());
 		}
 
