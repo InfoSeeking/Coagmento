@@ -16,7 +16,7 @@ class SnippetController extends Controller
     }
 
     /**
-     * @api{post} /v1/bookmarks Create
+     * @api{post} /v1/snippets Create
      * @apiDescription Creates a new snippet.
      * @apiPermission write
      * @apiGroup Snippet
@@ -33,7 +33,7 @@ class SnippetController extends Controller
     }
 
     /**
-     * @api{delete} /v1/bookmarks/:id Delete
+     * @api{delete} /v1/snippets/:id Delete
      * @apiDescription Deletes a snippet
      * @apiPermission write
      * @apiGroup Snippet
@@ -46,7 +46,7 @@ class SnippetController extends Controller
     }
 
     /**
-     * @api{get} /v1/bookmarks/:id Get
+     * @api{get} /v1/snippets/:id Get
      * @apiDescription Returns a single snippet
      * @apiPermission read
      * @apiGroup Snippet
@@ -59,7 +59,7 @@ class SnippetController extends Controller
     }
 
     /**
-     * @api{put} /v1/bookmarks/:id Update
+     * @api{put} /v1/snippets/:id Update
      * @apiPermission write
      * @apiGroup Snippet
      * @apiName UpdateSnippet
@@ -74,7 +74,7 @@ class SnippetController extends Controller
     }
 
     /**
-     * @api{get} /v1/bookmarks Get Multiple
+     * @api{get} /v1/snippets Get Multiple
      * @apiDescription Returns multiple snippets
      * @apiPermission read
      * @apiGroup Snippet

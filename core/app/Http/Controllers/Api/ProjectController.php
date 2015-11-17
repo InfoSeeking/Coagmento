@@ -75,7 +75,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @api{delete} /v1/projects DeleteProjects
+     * @api{delete} /v1/projects Delete Projects
      * @apiDescription Deletes multiple projects if the user is the owner.
      * @apiGroup Project
      * @apiName DeleteProjects
@@ -122,6 +122,7 @@ class ProjectController extends Controller
      * @apiPermission own
      * @apiParam {String} [user_id] The id of the user (required if user_email is not present)
      * @apiParam {String} [user_email] The email of the user (required if user_id is not present)
+     * @apiParam {String} permission Can be one of {w,r,o} representing write, read, and owner permissions.
      * @apiGroup Project
      * @apiName ShareProject
      * @apiVersion 1.0.0
