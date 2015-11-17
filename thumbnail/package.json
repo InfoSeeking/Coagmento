@@ -1,0 +1,13 @@
+{
+	"name": "ThumbnailGenerator",
+	"description": "A simple API which generates thumbnails using PhantomJS. Used in the Coagmento services.",
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/InfoSeeking/Coagmento"
+	},
+	"dependencies": {
+		"phantomjs": "latest"
+	},
+	"main": "server.js"
+}
