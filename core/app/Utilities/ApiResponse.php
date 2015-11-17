@@ -29,6 +29,8 @@ class ApiResponse {
 		switch($code) {
 			case StatusCodes::OK:
 			return 200;
+			case StatusCodes::UNAUTHENTICATED:
+			return 401;
 			case StatusCodes::BAD_INPUT:
 			return 400;
 			case StatusCodes::INSUFFICIENT_PERMISSIONS:

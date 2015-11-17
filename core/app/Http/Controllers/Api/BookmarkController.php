@@ -57,7 +57,7 @@ class BookmarkController extends Controller
      * @apiName GetBookmark
      * @apiVersion 1.0.0
      */
-    public function get($id) {
+    public function get(Request $req, $id) {
         return ApiResponse::fromStatus($this->bookmarkService->get($id));
     }
 
@@ -106,6 +106,6 @@ class BookmarkController extends Controller
         $bookmarkStatus = $this->bookmarkService->move($args);
         return ApiResponse::fromStatus($bookmarkStatus);
     }
-
+    
     private $bookmarkService;
 }

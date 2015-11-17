@@ -64,15 +64,12 @@ class BookmarkService {
 		if (array_key_exists('project_id', $args)) {
 			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
-
 			$bookmarks = Bookmark::with('thumbnail')->where('project_id', $args['project_id']);
-
-			//$thumbnail = Bookmark::find(100)->thumbnail;
 			return Status::fromResult($bookmarks->get());
 		}
 
 		// Return all user created bookmarks.
-		$bookmarks = Bookmark::where('user_id', $this->user->id);
+		$bookmarks = Bookmark::with('thumbnail')->where('user_id', $this->user->id);
 		return Status::fromResult($bookmarks->get());
 	}
 

@@ -25,17 +25,23 @@
 </head>
 
 <body>
-  <iframe id='frame' src='http://localhost:8000/sidebar'></iframe>
+  <iframe id='frame' src=''></iframe>
   <script>
     // This simple script forwards messages from the add-on to the sidebar iframe
     // and vice-versa. The destination is required to distinguish between the messages.
     var iframe = document.getElementById('frame');
+    var config = {
+      url: 'http://localhost:8000/sidebar'
+    };
+    navigateIFrame('');
+
     window.addEventListener('message', handleIFrameMessage, false);
+    
     addon.port.on('message', handleAddonMessage);
 
     function navigateIFrame(page) {
-      var root = 'http://localhost:8000/';
-      iframe.src = root + page;
+      if (!config.url) throw 'Config uninitialized';
+      iframe.src = config.url + page;
     }
 
     function handleIFrameMessage(evt) {

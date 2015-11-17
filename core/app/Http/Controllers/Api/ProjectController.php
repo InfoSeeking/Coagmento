@@ -116,6 +116,16 @@ class ProjectController extends Controller
         return ApiResponse::fromStatus($status);
     }
 
+    /**
+     * @api{post} /v1/projects/:id/share Share Project
+     * @apiDescription Share a project with another user.
+     * @apiPermission own
+     * @apiParam {String} [user_id] The id of the user (required if user_email is not present)
+     * @apiParam {String} [user_email] The email of the user (required if user_id is not present)
+     * @apiGroup Project
+     * @apiName ShareProject
+     * @apiVersion 1.0.0
+     */
     function share(Request $req, $id) {
         $args = array_merge($req->all(), ['id' => $id]);
         $status = $this->projectService->share($args);

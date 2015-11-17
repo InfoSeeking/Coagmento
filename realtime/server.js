@@ -4,7 +4,7 @@ var express = require('express')
     , io = require('socket.io')(http)
     , bodyParser = require('body-parser') // Middleware for express.
     , feed = require('./feed')(io)
-    , whitelist = ['http://localhost:8000'] // From where to accept HTTP requests.
+    , whitelist = ['http://localhost:8000'] // From where to accept HTTP requests. TODO: update.
     , port = 3000
     ;
 

@@ -7,4 +7,5 @@ abstract class StatusCodes {
 	const BAD_INPUT = 2;
 	const INSUFFICIENT_PERMISSIONS = 3;
 	const NOT_FOUND = 4;
+	const UNAUTHENTICATED = 5;
 }

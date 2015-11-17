@@ -22,6 +22,7 @@ var sidebar = ui.Sidebar({
 		// only seems to work with the worker received in the Ready event
 		// while receiving messages only seems to work with the Attach event.
 		sidebarWorker = worker;
+		// Sending a message here also breaks sending messages subsequently...
 	},
 	onAttach: function(worker) {
 		worker.port.on('message', onSidebarMessage);
@@ -44,7 +45,6 @@ var toolbar = ui.Toolbar({
 function onToolbarMessage(e) {
 	console.log('Extension receiving from toolbar', e.data);
 	var data = e.data;
-	var forwarding = ['save-bookmark', 'save-snippet'];
 	switch (data.action) {
 		case 'save-bookmark':
 		data.url = getCurrentURL();
@@ -72,6 +72,7 @@ function onToolbarMessage(e) {
 }
 
 function sendSidebarMessage(data) {
+	console.log('Add-on: Sending to sidebar', data);
 	if (sidebarWorker) {
 		sidebarWorker.port.emit('message', data);
 	} else {

@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Closure;
+use App\Utilities\Status;
+use App\Utilities\StatusCodes;
+use App\Utilities\ApiResponse;
 
 class ApiAuthenticate
 {
@@ -17,20 +20,27 @@ class ApiAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::check()) {
-            //return ApiError::make("Not authenticated, either use a browser session or pass encrypted.");
-            $content = [
-                "error" => [
-                    "messages" => [
-                            "Not authenticated. Either use a session or pass email/password"
-                        ]
-                    ]
-                ];
-            return (new Response($content, 401))->header("Content-Type", "application/json");
-        }
         // TODO: For non-browser uses of the API, implement a stateless security based on
         // http://talks.codegram.com/http-authentication-methods
+        if (!Auth::check()) {
+            if ($request->has('auth_email') && $request->has('auth_password')) {
+                $args = [
+                    'email' => $request->input('auth_email'),
+                    'password' => $request->input('auth_password')
+                    ];
+                if (!Auth::attempt($args)) {
+                    return ApiResponse::fromStatus(
+                        Status::fromError('Incorrect credentials',
+                        StatusCodes::UNAUTHENTICATED));
+                } else {
+                    return $next($request);
+                }
+            }
 
+            return ApiResponse::fromStatus(
+                Status::fromError('Not authenticated',
+                StatusCodes::UNAUTHENTICATED));
+        }
         return $next($request);
     }
 }

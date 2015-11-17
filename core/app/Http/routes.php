@@ -87,6 +87,11 @@ Route::get('workspace/projects/{project_id}/snippets', [
 
 // API.
 
+// User.
+Route::get('api/v1/user', [
+	'uses' => 'Api\UserController@get',
+	'middleware' => 'api.auth'
+	]);
 // Bookmarks.
 Route::get('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@index',
