@@ -9,7 +9,8 @@
 	"dependencies": {
 		"phantomjs": "latest",
 		"express": "latest",
-		"body-parser": "latest"
+		"body-parser": "latest",
+		"lwip": "latest"
 	},
 	"main": "server.js"
 }
