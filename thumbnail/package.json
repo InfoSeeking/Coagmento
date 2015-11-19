@@ -10,7 +10,8 @@
 		"phantomjs": "latest",
 		"express": "latest",
 		"body-parser": "latest",
-		"lwip": "latest"
+		"lwip": "latest",
+		"async": "latest"
 	},
 	"main": "server.js"
 }

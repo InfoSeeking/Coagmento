@@ -61,4 +61,9 @@ php artisan serve
 To run the Laravel test server.
 
 ### Windows ###
-TODO.
+
+Differences:
+
+Install XAMPP (https://www.apachefriends.org/index.html) for PHP and MariaDB (MySQL compatible database). Add php folder and mysql folder to environment variables.
+
+Use composer Windows installer.
