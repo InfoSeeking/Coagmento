@@ -51,7 +51,8 @@ class ProjectController extends Controller
 	 * @apiDescription Creates a single project and sets the user as owner.
 	 * @apiGroup Project
 	 * @apiName CreateProject
-     * @apiParam {String} title
+     * @apiParam {String} title The project title.
+     * @apiParam {String} [description] The project description.
      * @apiParam {Boolean} [private=false] Private projects are not publicly searchable.
      * @apiPermission write
      * @apiVersion 1.0.0

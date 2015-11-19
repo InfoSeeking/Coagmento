@@ -80,10 +80,15 @@ class AuthController extends Controller
     }
 
     public function demoLogin(Request $req) {
-        $demoUser = User::firstOrCreate([
-            'email' => 'demo@demo.demo',
-            'password' => 'demo'
-            ]);
+        $demoEmail = 'coagmento_demo@demo.demo';
+        $demoUser = User::where('email', $demoEmail)->first();
+        if (is_null($demoUser)) {
+            $demoUser = $this->create([
+                'name' => 'Coagmento Demo',
+                'email' => $demoEmail,
+                'password' => 'demo'
+                ]);
+        }
         Auth::login($demoUser, true);
         return $this->authenticated($req, $demoUser);
     }

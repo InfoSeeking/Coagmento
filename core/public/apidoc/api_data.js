@@ -316,7 +316,14 @@ define({ "api": [
             "type": "<p>String</p> ",
             "optional": false,
             "field": "title",
-            "description": ""
+            "description": "<p>The project title.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "description",
+            "description": "<p>The project description.</p> "
           },
           {
             "group": "Parameter",
@@ -651,9 +658,58 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/v1/user",
-    "title": "Get",
+    "url": "/v1/users",
+    "title": "Create",
+    "description": "<p>Create a new user.</p> ",
+    "group": "User",
+    "name": "CreateUser",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "email",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "password",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "name",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "filename": "./UserController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/v1/users/current",
+    "title": "Get Current",
     "description": "<p>Get the currently logged in user.</p> ",
+    "group": "User",
+    "name": "GetLoggedIn",
+    "version": "1.0.0",
+    "filename": "./UserController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/v1/users",
+    "title": "Get",
+    "description": "<p>Get information about a user.</p> ",
     "group": "User",
     "name": "GetUser",
     "parameter": {
@@ -662,16 +718,9 @@ define({ "api": [
           {
             "group": "Parameter",
             "type": "<p>String</p> ",
-            "optional": true,
-            "field": "auth_email",
-            "description": "<p>The user email to authenticate.</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "<p>String</p> ",
-            "optional": true,
-            "field": "auth_password",
-            "description": "<p>The user password to authenticate.</p> "
+            "optional": false,
+            "field": "email",
+            "description": ""
           }
         ]
       }

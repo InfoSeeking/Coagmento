@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 Route::get('/', 'SplashController@index');
 Route::get('/new', 'SplashController@index');
@@ -88,10 +90,23 @@ Route::get('workspace/projects/{project_id}/snippets', [
 // API.
 
 // User.
-Route::get('api/v1/user', [
-	'uses' => 'Api\UserController@get',
+Route::get('api/v1/users/current', [
+	'uses' => 'Api\UserController@getCurrent',
 	'middleware' => 'api.auth'
 	]);
+
+Route::get('api/v1/users', [
+	'uses' => 'Api\UserController@get',
+	]);
+
+Route::post('api/v1/users', [
+	'uses' => 'Api\UserController@create'
+	]);
+
+Route::get('api/v1/users/logout', function(){
+	Auth::logout();
+});
+
 // Bookmarks.
 Route::get('api/v1/bookmarks', [
 	'uses' => 'Api\BookmarkController@index',

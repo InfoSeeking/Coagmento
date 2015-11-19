@@ -23,6 +23,7 @@ class ApiAuthenticate
         // TODO: For non-browser uses of the API, implement a stateless security based on
         // http://talks.codegram.com/http-authentication-methods
         if (!Auth::check()) {
+            // For now, simply check for additional email and password parameters.
             if ($request->has('auth_email') && $request->has('auth_password')) {
                 $args = [
                     'email' => $request->input('auth_email'),
@@ -38,8 +39,10 @@ class ApiAuthenticate
             }
 
             return ApiResponse::fromStatus(
-                Status::fromError('Not authenticated',
-                StatusCodes::UNAUTHENTICATED));
+                Status::fromError(
+                    'Not authenticated, log in or pass auth_email and auth_password parameters.',
+                    StatusCodes::UNAUTHENTICATED
+                    ));
         }
         return $next($request);
     }
