@@ -59,9 +59,6 @@ class RealtimeService {
 		return $this;
 	}
 
-	/**
-	 * @param {array} $data Must be JSON serializable.
-	 */
 	public function emit($action) {
 		if (!$this->active) return;
 		$json = [
@@ -73,13 +70,13 @@ class RealtimeService {
 			'userID' => $this->user->id,
 			];
 		// use key 'http' even if you send the request to https://...
-		$options = array(
-		    'http' => array(
+		$options = [
+		    'http' => [
 		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
 		        'method'  => 'POST',
 		        'content' => http_build_query($json),
-		    ),
-		);
+		    ],
+		];
 		$context  = stream_context_create($options);
 		file_get_contents($this->url, false, $context);
 		$this->clear();

@@ -1,3 +1,6 @@
+// TODO: For whatever reason, the thumbnail server simply stops running sometimes.
+// This is not stable enough for production.
+
 var express = require('express')
 	, app = express()
 	, http = require('http').Server(app)
@@ -32,22 +35,27 @@ function successStatus(results, message) {
 }
 
 function getUniqueFilename(base, extension) {
-	base += (new Date()).getTime();
+	var filename = (new Date()).getTime();
 	var extra = 1;
 	while (true) {
-		var filename = base + '_' + extra + '.' + extension;
+		var file = filename + '_' + extra + '.' + extension;
+		var path = base + file;
 		try {
 			// The following throws an error if the file DNE.
-			fs.statSync(filename);
+			fs.statSync(path);
 			extra++;
 		} catch(e) {
-			return filename;
+			return {
+				path: path,
+				file: file
+			};
 		}
 	}
 }
 
 function openImage(entry, callback) {
-	lwip.open(entry.thumbnail.image_large, 'png', function(err, img) {
+	var path = 'public/generated/' + entry.thumbnail.image_large;
+	lwip.open(path, 'png', function(err, img) {
 		callback(err, entry, img);
 	});
 }
@@ -60,9 +68,9 @@ function resizeImage(entry, img, callback) {
 
 function saveImage(entry, img, callback) {
 	var outFile = getUniqueFilename('public/generated/', 'png');
-	img.writeFile(outFile, 'png', {}, function(err, img) {
+	img.writeFile(outFile.path, 'png', {}, function(err, img) {
 		if (!err) {
-			entry.thumbnail.image_small = outFile;
+			entry.thumbnail.image_small = outFile.file;
 		}
 		callback(err);
 	});
@@ -90,7 +98,7 @@ function queueTask(task, callback) {
 		var childArgs = [
 			path.join(__dirname, 'rasterize.js'),
 			entry.url,
-			outFile
+			outFile.path
 		];
 
 		childProcess.execFile(phantomjs.path, childArgs, {timeout: 15000}, function(err) {
@@ -101,11 +109,11 @@ function queueTask(task, callback) {
 				callback(err);
 			} else {
 				entry.thumbnail = {
-					image_large: outFile,
+					image_large: outFile.file,
 					status: 'success'
 				};
+				callback();
 			}
-			callback();
 		});
 	}
 }

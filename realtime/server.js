@@ -9,6 +9,7 @@ var express = require('express')
     ;
 
 // Listen for published data via http requests.
+// TODO: Change accepting content type to be application/json.
 app.use(bodyParser.urlencoded({extended: true}));
 app.post('/publish', function(req, res){
   var origin = req.headers.referer;

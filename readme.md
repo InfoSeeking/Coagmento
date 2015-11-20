@@ -2,7 +2,7 @@
 
 This is the next version of Coagmento, which is under active development.
 
-## Installation for Developers ##
+## Developer Installation ##
 
 ### OSX and Linux ###
 Coagmento is built on top of the PHP framework [Laravel](http://laravel.com/). Before setting up Coagmento, make sure your environment meets the server requirements of Laravel. Most notably, make sure your version of PHP is >= 5.5.9. On Ubuntu 14.04, the default PHP from apt-get satisfies this criteria.
@@ -62,8 +62,10 @@ To run the Laravel test server.
 
 ### Windows ###
 
-Differences:
+Check the [requirements of Laravel](http://laravel.com/docs/5.1) and ensure that these are satisfied. One potential way to install PHP and MySQL is to install XAMPP (https://www.apachefriends.org/index.html). This will install the Apache web server, PHP, and MariaDB (MySQL compatible database). Afterwards, edit your system PATH variable to add the folders containing php.exe and the mysql.exe. php.exe should be located in `C:\xampp\php` and mysql.exe should be in `C:\xampp\mysql\bin` assuming you installed xampp to `C:\xampp`.
 
-Install XAMPP (https://www.apachefriends.org/index.html) for PHP and MariaDB (MySQL compatible database). Add php folder and mysql folder to environment variables.
+Now, in powershell you should be able to run `php` and `mysql`.
 
-Use composer Windows installer.
+Install Composer via the [Windows installer](https://getcomposer.org/download/).
+
+You should now be able to follow the instructions for OSX and Linux.
