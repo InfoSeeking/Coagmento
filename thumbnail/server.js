@@ -15,7 +15,8 @@ var express = require('express')
 	// The maximum number of thumbnails it will accept per request.
 	, maxEntries = 50
 	// The maximum number of concurrent screen capture processes possible.
-	, concurrency = 10 
+	, concurrency = 10
+	, iid = 0
 	;
 
 function errorStatus(message, error_code) {
@@ -34,11 +35,12 @@ function successStatus(results, message) {
 	};
 }
 
-function getUniqueFilename(base, extension) {
+function getUniqueFilename(base, prefix, extension) {
 	var filename = (new Date()).getTime();
 	var extra = 1;
+	iid++;
 	while (true) {
-		var file = filename + '_' + extra + '.' + extension;
+		var file = prefix + '_' +  iid + '_' + filename + '_' + extra + '.' + extension;
 		var path = base + file;
 		try {
 			// The following throws an error if the file DNE.
@@ -67,7 +69,7 @@ function resizeImage(entry, img, callback) {
 }
 
 function saveImage(entry, img, callback) {
-	var outFile = getUniqueFilename('public/generated/', 'png');
+	var outFile = getUniqueFilename('public/generated/', 'small', 'png');
 	img.writeFile(outFile.path, 'png', {}, function(err, img) {
 		if (!err) {
 			entry.thumbnail.image_small = outFile.file;
@@ -87,13 +89,16 @@ function queueTask(task, callback) {
 			resizeImage,
 			saveImage],
 			function(err, result) {
-				if (err) entry.thumbnail.status = 'error';
+				if (err) {
+					console.log('Image resize error', err);
+					entry.thumbnail.status = 'error';
+				}
 				callback();		
 			});
 	}
 	if (task.action == 'capture') {
 		console.log('Capturing image for ' + entry.url);
-		var outFile = getUniqueFilename('public/generated/', 'png');
+		var outFile = getUniqueFilename('public/generated/', 'large', 'png');
 
 		var childArgs = [
 			path.join(__dirname, 'rasterize.js'),
@@ -103,6 +108,7 @@ function queueTask(task, callback) {
 
 		childProcess.execFile(phantomjs.path, childArgs, {timeout: 15000}, function(err) {
 			if (err) {
+				console.log('PhantomJS error', err);
 				entry.thumbnail = {
 					status: 'error'
 				};
