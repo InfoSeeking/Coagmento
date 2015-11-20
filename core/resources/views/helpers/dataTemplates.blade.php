@@ -1,5 +1,8 @@
 <script type='text/template' id='bookmark-template'>
 	<div>
+		<% if (typeof(thumbnail) !== 'undefined' && thumbnail) { %>
+	    <img src="/images/thumbnails/small/<%= thumbnail.image_small %>" />
+	    <% } %>
 		<a target="_blank" href='<%= url %>'><%= title %></a>
 		<% if(notes) { %>
 		<p>Notes: <%= notes %></p>

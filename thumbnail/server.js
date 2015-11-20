@@ -126,6 +126,11 @@ function generateThumbnails(req, callback) {
 
 	var data = req.body.data;
 
+	if (data.length == 0) {
+		callback.call(null, successStatus([], 'No entries passed'));
+		return;
+	}
+
 	// Preliminary checks. These are all-or-nothing checks, so we don't partially begin generating.
 	for (var i = 0; i < data.length; i++) {
 		var entry = data[i];
