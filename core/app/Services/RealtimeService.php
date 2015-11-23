@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Auth;
 use Log;
+use App\Services\HttpService;
 
 // Problems:
 // This depends on $item being a Model. What if we only update tags? What if we want to include additional data?
@@ -13,10 +14,11 @@ use Log;
 // Item type: "bookmark", etc. 
 // Emission type: "create", "update", "delete"
 class RealtimeService {
-	public function __construct() {
+	public function __construct(HttpService $httpService) {
 		$this->active = !!env('REALTIME_SERVER');
 		$this->url = env('REALTIME_SERVER') . '/publish';
 		$this->user = Auth::user();
+		$this->httpService = $httpService;
 		$this->clear();
 	}
 
@@ -69,16 +71,10 @@ class RealtimeService {
 			'projectID' => $this->projectId,
 			'userID' => $this->user->id,
 			];
-		// use key 'http' even if you send the request to https://...
-		$options = [
-		    'http' => [
-		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-		        'method'  => 'POST',
-		        'content' => http_build_query($json),
-		    ],
-		];
-		$context  = stream_context_create($options);
-		file_get_contents($this->url, false, $context);
-		$this->clear();
+
+		return $this->httpService
+			->withJson($json)
+			->withMethod('POST')
+			->send($this->url);
 	}
 }

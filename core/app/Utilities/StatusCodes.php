@@ -8,4 +8,5 @@ abstract class StatusCodes {
 	const INSUFFICIENT_PERMISSIONS = 3;
 	const NOT_FOUND = 4;
 	const UNAUTHENTICATED = 5;
+	const SERVER_DOWN = 6;
 }

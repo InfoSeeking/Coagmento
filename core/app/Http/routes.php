@@ -145,7 +145,8 @@ Route::get('api/v1/projects', [
 	]);
 
 Route::get('api/v1/projects/{project_id}', [
-	'uses' => 'Api\ProjectController@get'
+	'uses' => 'Api\ProjectController@get',
+	'middleware' => 'api.optional.auth'
 	]);
 
 Route::put('api/v1/projects/{project_id}', [
@@ -170,10 +171,12 @@ Route::delete('api/v1/projects', [
 
 Route::get('api/v1/projects/{project_id}/tags', [
 	'uses' => 'Api\ProjectController@getTags',
+	'middleware' => 'api.optional.auth'
 	]);
 
 Route::post('api/v1/projects/{project_id}/share', [
-	'uses' => 'Api\ProjectController@share'
+	'uses' => 'Api\ProjectController@share',
+	'middleware' => 'api.optional.auth'
 	]);
 
 // Snippets.
@@ -184,6 +187,7 @@ Route::post('api/v1/snippets', [
 
 Route::get('api/v1/snippets/{snippet_id}', [
 	'uses' => 'Api\SnippetController@get',
+	'middleware' => 'api.optional.auth'
 	]);
 
 Route::get('api/v1/snippets', [
@@ -208,14 +212,27 @@ Route::post('api/v1/pages', [
 	]);
 
 Route::get('api/v1/pages/{page_id}', [
-	'uses' => 'Api\PageController@get'
+	'uses' => 'Api\PageController@get',
+	'middleware' => 'api.optional.auth'
 	]);
 
 Route::get('api/v1/pages', [
-	'uses' => 'Api\PageController@index'
+	'uses' => 'Api\PageController@index',
+	'middleware' => 'api.optional.auth'
 	]);
 
 Route::delete('api/v1/pages/{page_id}', [
 	'uses' => 'Api\PageController@delete',
 	'middleware' => 'api.auth'
+	]);
+
+// Chat.
+Route::post('api/v1/chat_messages', [
+	'uses' => 'Api\ChatController@create',
+	'middleware' => 'api.auth'
+	]);
+
+Route::get('api/v1/chat_messages', [
+	'uses' => 'Api\ChatController@getMultiple',
+	'middleware' => 'api.optional.auth'
 	]);
