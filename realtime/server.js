@@ -10,7 +10,7 @@ var express = require('express')
 
 // Listen for published data via http requests.
 // TODO: Change accepting content type to be application/json.
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.post('/publish', function(req, res){
   var origin = req.headers.referer;
   if(whitelist.indexOf(origin) != -1){
@@ -19,7 +19,6 @@ app.post('/publish', function(req, res){
   } else {
     console.log('Disallowing request for origin', origin);
   }
-
   feed.publish(req.body);
   res.send('{"status" : "ok"}');
 });
