@@ -1,6 +1,8 @@
 @extends('layouts.workspace.single-project')
 
-
+@section('page')
+page-activity
+@endsection
 
 @section('navigation')
 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>

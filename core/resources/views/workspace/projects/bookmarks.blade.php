@@ -1,5 +1,10 @@
 @extends('layouts.workspace.single-project')
 
+
+@section('page')
+page-bookmarks
+@endsection
+
 @section('context')
 <div class='context'>
 	<button class='btn btn-warning' id='new-btn'>New Bookmark</button>

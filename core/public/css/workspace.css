@@ -71,7 +71,11 @@ a {
 .sidebar a:hover,
 .page-new-project .link-new-project,
 .page-my-projects .link-my-projects,
-.page-shared-projects .link-shared-projects {
+.page-shared-projects .link-shared-projects,
+.page-chat .link-chat,
+.page-snippets .link-snippets,
+.page-bookmarks .link-bookmarks,
+.page-activity .link-activity {
 	color: #ffa15c;
 }
 

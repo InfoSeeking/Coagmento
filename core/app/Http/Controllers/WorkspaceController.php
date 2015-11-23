@@ -204,4 +204,22 @@ class WorkspaceController extends Controller
         $status = $this->projectService->delete(['id' => $projectId]);
         return $status->asRedirect('workspace');
     }
+
+    public function viewChat(Request $req, $projectId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
+        return view('workspace.projects.chat', [
+                'project' => $projectStatus->getResult(),
+                'permission' => $permissionStatus->getResult(),
+                'user' => Auth::user()
+            ]);
+    }
 }

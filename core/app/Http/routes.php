@@ -87,6 +87,10 @@ Route::get('workspace/projects/{project_id}/snippets', [
 	'uses' => 'WorkspaceController@viewProjectSnippets'
 	]);
 
+Route::get('workspace/projects/{project_id}/chat', [
+	'uses' => 'WorkspaceController@viewChat'
+	]);
+
 // API.
 
 // User.
