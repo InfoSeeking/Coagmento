@@ -38,7 +38,7 @@ class HttpService {
 		$returnData = false;
 		try {
 			$returnData = file_get_contents($url, false, $context);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			return Status::fromError('Server at ' . $url . ' unreachable', StatusCodes::SERVER_DOWN);
 		}
 		$this->clear();

@@ -2,7 +2,9 @@
 This is the start of the next version of Coagmento, written with Laravel.
 
 ### Next Up ###
-
+- Integration of Etherpad
+	+ Import Etherpad service
+	+ Make docs endpoints
 
 ## Eventually ##
 - Getting Started guide
