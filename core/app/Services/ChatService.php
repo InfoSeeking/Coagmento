@@ -34,6 +34,7 @@ class ChatService {
 		$chatMessage->user_id = $user->id;
 		$chatMessage->project_id = $projectId;
 		$chatMessage->save();
+		$chatMessage->load('user');
 
 		$this->realtimeService
 			->onProject($projectId)
@@ -44,6 +45,7 @@ class ChatService {
 	}
 
 	public function getMultiple($args) {
+		// TODO: implement older_than parameter.
 		$validator = Validator::make($args, [
 			'project_id' => 'required|exists:projects,id'
 			]);
@@ -55,7 +57,13 @@ class ChatService {
 		$memberStatus = $this->memberService->checkPermission($projectId, 'r', $user);
 		if (!$memberStatus->isOK()) return $memberStatus;
 
-		$messages = Chat::where('project_id', $projectId)->orderBy('created_at', 'ASC')->get();
+		$messages = Chat::where('project_id', $projectId)
+			->orderBy('created_at', 'DESC')
+			->limit(20)
+			->with('user')
+			->get()
+			->reverse();
+
 		return Status::fromResult($messages);
 	}
 }

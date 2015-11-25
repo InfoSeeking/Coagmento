@@ -1,6 +1,6 @@
 <script type='text/template' id='bookmark-template'>
 	<div>
-		<% if (typeof(thumbnail) !== 'undefined' && thumbnail) { %>
+		<% if (thumbnail) { %>
 	    <img class='thumbnail' src="/images/thumbnails/small/<%= thumbnail.image_small %>" />
 	    <% } %>
 		<a target="_blank" href='<%= url %>'><%= title %></a>
@@ -29,4 +29,10 @@
 		| <a data-id='<%= id %>' class='edit'>Edit</a>
 		<% } %>
 	</p>
+</script>
+
+<script type='text/template' id='chat-template'>
+<span class='name'><%= user.name %></span>
+<span class='content'><%= message %></span>
+<span class='time'><%= created_at %></span>
 </script>

@@ -38,6 +38,16 @@ class RealtimeService {
 		return $this;
 	}
 
+	public function withCollection($collection, $type) {
+		$this->data = [];
+		if (count($collection) == 0) return;
+		$this->dataType = $type;
+		foreach ($collection as $model) {
+			array_push($this->data, $model->jsonSerialize());
+		}
+		return $this;
+	}
+
 	public function withRawData($data, $type=null) {
 		$this->data = $data;
 		$this->dataType = $type;

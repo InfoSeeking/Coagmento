@@ -99,7 +99,7 @@ Route::get('api/v1/users/current', [
 	'middleware' => 'api.auth'
 	]);
 
-Route::get('api/v1/users', [
+Route::get('api/v1/users/{user_id}', [
 	'uses' => 'Api\UserController@get',
 	]);
 
@@ -110,6 +110,10 @@ Route::post('api/v1/users', [
 Route::get('api/v1/users/logout', function(){
 	Auth::logout();
 });
+
+Route::get('api/v1/users', [
+	'uses' => 'Api\UserController@getMultiple'
+	]);
 
 // Bookmarks.
 Route::get('api/v1/bookmarks', [
@@ -231,12 +235,12 @@ Route::delete('api/v1/pages/{page_id}', [
 	]);
 
 // Chat.
-Route::post('api/v1/chat_messages', [
+Route::post('api/v1/chatMessages', [
 	'uses' => 'Api\ChatController@create',
 	'middleware' => 'api.auth'
 	]);
 
-Route::get('api/v1/chat_messages', [
+Route::get('api/v1/chatMessages', [
 	'uses' => 'Api\ChatController@getMultiple',
 	'middleware' => 'api.optional.auth'
 	]);

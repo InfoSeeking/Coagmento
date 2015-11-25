@@ -97,6 +97,7 @@ class BookmarkService {
 		$bookmark->user_id = $this->user->id;
 		$bookmark->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 		$bookmark->project_id = $args['project_id'];
+		$bookmark->load('thumbnail');
 		$bookmark->save();
 
 		if (array_key_exists('tags', $args)) {

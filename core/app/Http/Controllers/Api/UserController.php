@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+use App\Models\Membership;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 use App\Utilities\ApiResponse;
@@ -29,24 +30,50 @@ class UserController extends Controller
     }
 
     /**
+     * @api{get} /v1/users GetMultiple
+     * @apiDescription Get a list of multiple users.
+     * @apiGroup User
+     * @apiName GetMultipleUsers
+     * @apiParam {Integer} [project_id] Restrict to only users which are a member of this project.
+     * @apiVersion 1.0.0
+     */
+    public function getMultiple(Request $req) {
+        $validator = Validator::make($req->all(), [
+            'project_id' => 'sometimes|exists:projects,id'
+            ]);
+
+        if ($validator->fails()) return ApiResponse::fromStatus(Status::fromValidator($validator));
+
+        
+        if ($req->has('project_id')) {
+            $projectId = $req->input('project_id');
+            $users = Membership::where('project_id', $projectId)->with('user')->get()->pluck('user');
+        } else {
+            $users = User::all();
+        }
+        
+        return ApiResponse::fromStatus(Status::fromResult($users));
+    }
+
+    /**
      * @api{get} /v1/users Get
      * @apiDescription Get information about a user.
      * @apiGroup User
      * @apiName GetUser
-     * @apiParam {String} email
+     * @apiParam {String} [email] Required if id not present.
+     * @apiParam {Integer} [id] Required if email not present.
      * @apiVersion 1.0.0
      */
-    public function get(Request $req) {
+    public function get(Request $req, $user_id) {
         $status = Status::OK();
-        $validator = Validator::make($req->all(), [
-            'email' => 'required|email'
+        $args = ['id' => $user_id];
+        $validator = Validator::make($args, [
+            'id' => 'sometimes|integer'
             ]);
 
-        if ($validator->fails()) {
-            return ApiResponse::fromStatus(Status::fromValidator($validator));
-        }
+        if ($validator->fails()) return ApiResponse::fromStatus(Status::fromValidator($validator));
 
-        $user = User::where('email', $req->input('email'))->first();
+        $user = User::find($args['id']);
 
         if (is_null($user)) {
             return ApiResponse::fromStatus(

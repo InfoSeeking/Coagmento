@@ -1,6 +1,6 @@
-// Backbone classes for snippet models, collections, and views.
+// Backbone classes for chat models, collections, and views.
 
-var SnippetModel = Backbone.Model.extend({
+var ChatModel = Backbone.Model.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
 	},
@@ -9,9 +9,9 @@ var SnippetModel = Backbone.Model.extend({
 	}
 });
 
-var SnippetCollection = Backbone.Collection.extend({
-	model: SnippetModel,
-	url: '/api/v1/snippets',
+var ChatCollection = Backbone.Collection.extend({
+	model: ChatModel,
+	url: '/api/v1/chatMessages',
 	initialize: function() {
 		this.on('error', this.onError, this);
 	},
@@ -23,36 +23,17 @@ var SnippetCollection = Backbone.Collection.extend({
 	}
 });
 
-var SnippetListItemView = Backbone.View.extend({
+var ChatListItemView = Backbone.View.extend({
 	tagName: 'li',
-	className: 'snippet',
-	template: _.template($('#snippet-template').html()),
-	events: {
-		'click .delete': 'onDelete',
-		'click .edit': 'onEdit',
-	},
+	className: 'chat-message',
+	template: _.template($('#chat-template').html()),
 	attributes: function() {
 		return {
 			'data-id': this.model.id
 		}
 	},
 	initialize: function () {
-		this.model.on('remove', this.remove, this);
 		this.model.on('change', this.render, this);
-	},
-	onDelete: function(e) {
-		e.preventDefault();
-		this.model.destroy();
-	},
-	onEdit: function(e) {
-		e.preventDefault();
-		// TODO: use a modal window.
-		var response = prompt('Enter new text', this.model.get('text'));
-		if (response) {
-			this.model.set('text', response);
-			this.model.save();
-		}
-		this.render();
 	},
 	render: function() {
 		var html = this.template(this.model.toJSON());
@@ -61,8 +42,8 @@ var SnippetListItemView = Backbone.View.extend({
 	}
 });
 
-var SnippetListView = Backbone.View.extend({
-	el: '#snippet-list',
+var ChatListView = Backbone.View.extend({
+	el: '#chat-list',
 	initialize: function() {
 		this.collection.on('add', this.add, this);
 	},
@@ -73,8 +54,9 @@ var SnippetListView = Backbone.View.extend({
 		});
 	},
 	add: function(model) {
-		var item = new SnippetListItemView({model: model});
-		this.$el.prepend(item.render().$el);
+		var item = new ChatListItemView({model: model});
+		this.$el.append(item.render().$el);
+		this.$el.scrollTop(this.$el.prop('scrollHeight'));
 		model.on('destroy', function() {
 			item.remove();
 		});

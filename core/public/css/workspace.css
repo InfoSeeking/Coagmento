@@ -169,3 +169,55 @@ h1, h2, h3, h4, h5, h6 {
 .thumbnail {
 	background: #FFF;
 }
+
+
+#chat-list {
+	list-style-type: none;
+	background: #FFF;
+	padding: 10px 10px 50px 10px;
+	border: 1px black solid;
+	overflow: auto;
+	height: 200px;
+	position: relative;
+}
+
+#chat-list li {
+	position: relative;
+}
+
+@keyframes enterin {
+  from {
+    background: #DDD;
+  }
+
+  to {
+    background: #FFF;
+  }
+}
+
+#chat-list li.new {
+	animation-duration: 1s;
+  	animation-name: enterin;
+}
+
+#chat-list li .name {
+	color: #599BB4;
+	display: inline-block;
+	width: 10%;
+}
+
+#chat-list li .content {
+	width: 70%;
+	display: inline-block;
+}
+
+#chat-list li .time {
+	width: 15%;
+	display: inline-block;
+	text-align: right;
+}
+
+#chat-form .message {
+	padding: 2px 10px;
+	width: 50%;
+}
