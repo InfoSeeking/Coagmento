@@ -1,11 +1,11 @@
 <script type='text/template' id='bookmark-template'>
 	<div>
 		<% if (thumbnail) { %>
-	    <img class='thumbnail' src="/images/thumbnails/small/<%= thumbnail.image_small %>" />
+	    <img class='thumbnail' src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>" />
 	    <% } %>
-		<a target="_blank" href='<%= url %>'><%= title %></a>
+		<a target="_blank" href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
 		<% if(notes) { %>
-		<p>Notes: <%= notes %></p>
+		<p>Notes: <%= _.escape(notes) %></p>
 		<% } %>
 	</div>
 	<p>
@@ -19,8 +19,8 @@
 
 <script type='text/template' id='snippet-template'>
 	<div>
-		<a target="_blank" href='<%= url %>'><%= title %></a>
-		<p><%= text %>
+		<a target="_blank" href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
+		<p><%= _.escape(text) %>
 	</div>
 	<p>
 		Saved <%= created_at %>
@@ -32,7 +32,7 @@
 </script>
 
 <script type='text/template' id='chat-template'>
-<span class='name'><%= user.name %></span>
-<span class='content'><%= message %></span>
-<span class='time'><%= created_at %></span>
+<span class='name'><%= _.escape(user.name) %></span>
+<span class='content'><%= _.escape(message) %></span>
+<span class='time'><%= _.escape(created_at) %></span>
 </script>
