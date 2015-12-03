@@ -45,7 +45,6 @@
 		Saved <%= created_at %>
 		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
 		| <a data-id='<%= id %>' class='delete'>Delete</a>
-		| <a data-id='<%= id %>' class='edit'>Edit</a>
 		<% } %>
 	</p>
 </script>

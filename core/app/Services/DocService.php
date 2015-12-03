@@ -139,12 +139,12 @@ class DocService {
 	public function delete($docId) {
 		if (!$this->active) return Status::fromError('Documents are disabled');
 
-		$validator = Validator::make($args, [
+		$validator = Validator::make(['doc_id' => $docId], [
 			'doc_id' => 'required|integer'
 			]);
 		if ($validator->fails()) return Status::fromValidator($validator);
 
-		$doc = Doc::find($args['doc_id']);
+		$doc = Doc::find($docId);
 		if (is_null($doc)) return Status::fromError('Document not found', StatusCodes::NOT_FOUND);
 
 		$memberStatus = $this->memberService->checkPermission($doc->project_id, 'w', $this->user);

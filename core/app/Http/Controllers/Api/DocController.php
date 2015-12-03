@@ -45,4 +45,17 @@ class DocController extends Controller
     public function getMultiple(Request $req) {
         return ApiResponse::fromStatus($this->docService->getMultiple($req->all()));
     }
+
+    /**
+     * @api{delete} /v1/docs/:id Delete
+     * @apiDescription Deletes a single doc.
+     * @apiPermission write
+     * @apiGroup Doc
+     * @apiName DeleteDoc
+     * @apiVersion 1.0.0
+     */
+    public function delete($id) {
+        $status = $this->docService->delete($id);
+        return ApiResponse::fromStatus($status);
+    }
 }
