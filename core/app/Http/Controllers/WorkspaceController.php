@@ -249,4 +249,22 @@ class WorkspaceController extends Controller
                 'doc' => $docStatus->getResult()
             ]);
     }
+
+    public function viewDocs(Request $req, $projectId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
+        return view('workspace.projects.docs', [
+                'project' => $projectStatus->getResult(),
+                'permission' => $permissionStatus->getResult(),
+                'user' => Auth::user()
+            ]);
+    }
 }

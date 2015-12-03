@@ -22,9 +22,14 @@ This is the start of the next version of Coagmento, written with Laravel.
 	+ Organize Javascript and CSS
 
 ## Minor Updates to do ##
-- Rename creator_id columns to user_id
-- Make documents readonly for public projects
-- Delete thumbnails if no bookmarks or pages are referencing them
+- Rename creator_id columns to user_id.
+- Delete thumbnails if no bookmarks or pages are referencing them.
+- Rename API endpoint internal functions from 'index' to 'getMultiple' for consistency.
+- Make docs read-only for public projects.
+- Ensure endpoints and pages which claim to support public viewing:
+	1. Do not rely on user being logged in.
+	2. Only show the user functionality which they can interact with.
+- Decide if API should include project id in url (e.g. /api/v1/projects/300/bookmarks) for consistency with workspace.
 
 ## Installation ##
 

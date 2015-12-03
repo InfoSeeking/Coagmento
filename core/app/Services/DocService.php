@@ -16,11 +16,15 @@ class DocService {
 		$this->memberService = $memberService;
 		$this->active = !!env('ETHERPAD_SERVER');
 		$this->url = env('ETHERPAD_SERVER');
-		$this->client = new \EtherpadLite\Client(env('ETHERPAD_APIKEY'), $this->url);
 		$this->user = Auth::user();
+		if ($this->active) {
+			$this->client = new \EtherpadLite\Client(env('ETHERPAD_APIKEY'), $this->url);
+		}
 	}
 
 	public function create($args) {
+		if (!$this->active) return Status::fromError('Documents are disabled');
+
 		$validator = Validator::make($args, [
 			'title' => 'required|string',
 			'project_id' => 'required|exists:projects,id'
@@ -62,6 +66,8 @@ class DocService {
 	}
 
 	public function getWithSession($args) {
+		if (!$this->active) return Status::fromError('Documents are disabled');
+
 		$validator = Validator::make($args, [
 			'doc_id' => 'required|integer'
 			]);
@@ -94,6 +100,8 @@ class DocService {
 	}
 
 	public function get($docId) {
+		if (!$this->active) return Status::fromError('Documents are disabled');
+
 		$validator = Validator::make($args, [
 			'doc_id' => 'required|integer'
 			]);
@@ -108,7 +116,29 @@ class DocService {
 		return Status::fromResult($doc);
 	}
 
+	public function getMultiple($args) {
+		$validator = Validator::make($args, [
+			'project_id' => 'sometimes|exists:projects,id'
+			]);
+		if ($validator->fails()) {
+			return Status::fromValidator($validator);
+		}
+
+		if (array_key_exists('project_id', $args)) {
+			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
+			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
+			$docs = Doc::where('project_id', $args['project_id']);
+			return Status::fromResult($docs->get());
+		}
+
+		// Return all user created docs.
+		$docs = Doc::where('user_id', $this->user->id);
+		return Status::fromResult($docs->get());
+	}
+
 	public function delete($docId) {
+		if (!$this->active) return Status::fromError('Documents are disabled');
+
 		$validator = Validator::make($args, [
 			'doc_id' => 'required|integer'
 			]);

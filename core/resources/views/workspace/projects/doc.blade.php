@@ -10,7 +10,7 @@ page-doc
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
 <span class='fa fa-angle-right'></span>
-<a href='/workspace/projects/{{ $project->id }}/docs'><span class='fa fa-star-o'></span> Documents</a>
+<a href='/workspace/projects/{{ $project->id }}/docs'><span class='fa fa-star-o'></span> Docs</a>
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/{{ $project->id }}/docs/'><span class='fa fa-star-o'></span> {{ $doc->title }}</a>
 @endsection('navigation')

@@ -97,6 +97,10 @@ Route::get('workspace/projects/{project_id}/docs/{doc_id}', [
 	'middleware' => 'auth'
 	]);
 
+Route::get('workspace/projects/{project_id}/docs', [
+	'uses' => 'WorkspaceController@viewDocs'
+	]);
+
 // API.
 
 // User.
@@ -254,5 +258,10 @@ Route::get('api/v1/chatMessages', [
 // Docs.
 Route::post('api/v1/docs', [
 	'uses' => 'Api\DocController@create',
+	'middleware' => 'api.auth'
+	]);
+
+Route::get('api/v1/docs', [
+	'uses' => 'Api\DocController@getMultiple',
 	'middleware' => 'api.auth'
 	]);
