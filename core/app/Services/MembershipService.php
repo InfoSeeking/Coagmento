@@ -24,7 +24,7 @@ class MembershipService {
         if ($user == null) {
             // Check if this is a public project.
             $project = Project::find($project_id);
-            if (!$project->private) {
+            if (!$project->private && $level == 'r') {
                 return Status::fromResult('r');
             } else {
                 return Status::fromError('You must be logged in to view this project');    

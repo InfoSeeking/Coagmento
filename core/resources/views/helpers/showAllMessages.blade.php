@@ -1,3 +1,4 @@
+<script src='/js/message.js'></script>
 <div id="messageArea">
 <!-- General errors are on the session -->
 @if (Session::has('generalErrors'))
@@ -55,3 +56,7 @@
 </script>
 
 </div>
+
+<script>
+    MessageDisplay.init();
+</script>

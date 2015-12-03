@@ -1,10 +1,11 @@
-## Coagmento Prototype
+## Coagmento Core
 This is the start of the next version of Coagmento, written with Laravel.
 
 ### Working On ###
 - Integration of Etherpad
 	+ Import Etherpad service
 	+ Make docs endpoints
+- Make sure public projects are viewable
 
 ## Future Features ##
 - Getting Started guide
@@ -20,7 +21,12 @@ This is the start of the next version of Coagmento, written with Laravel.
 	+ Escape html entities on all output (from realtime and from blade templates)
 	+ Organize Javascript and CSS
 
-## Developer Installation ##
+## Minor Updates to do ##
+- Rename creator_id columns to user_id
+- Make documents readonly for public projects
+- Delete thumbnails if no bookmarks or pages are referencing them
+
+## Installation ##
 
 ### OSX and Linux ###
 Coagmento is built on top of the PHP framework [Laravel](http://laravel.com/). Before setting up Coagmento, make sure your environment meets the server requirements of Laravel. Most notably, make sure your version of PHP is >= 5.5.9. On Ubuntu 14.04, the default PHP from apt-get satisfies this criteria.

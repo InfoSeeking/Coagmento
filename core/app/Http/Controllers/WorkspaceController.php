@@ -11,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
+use App\Services\DocService;
 use App\Services\ProjectService;
 use App\Services\BookmarkService;
 use App\Services\SnippetService;
@@ -25,12 +26,14 @@ class WorkspaceController extends Controller
         BookmarkService $bookmarkService,
         SnippetService $snippetService,
         PageService $pageService,
-        MembershipService $memberService) {
+        MembershipService $memberService,
+        DocService $docService) {
         $this->projectService = $projectService;
         $this->bookmarkService = $bookmarkService;
         $this->snippetService = $snippetService;
         $this->pageService = $pageService;
         $this->memberService = $memberService;
+        $this->docService = $docService;
     }
 
     public function showHome() {
@@ -220,6 +223,30 @@ class WorkspaceController extends Controller
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user()
+            ]);
+    }
+
+    public function viewDoc(Request $req, $projectId, $docId) {
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
+        }
+
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'w', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
+        $docStatus = $this->docService->getWithSession(['doc_id' => $docId]);
+        if (!$docStatus->isOK()) {
+            return $docStatus->asRedirect('workspace');
+        }
+
+        return view('workspace.projects.doc', [
+                'project' => $projectStatus->getResult(),
+                'permission' => $permissionStatus->getResult(),
+                'user' => Auth::user(),
+                'doc' => $docStatus->getResult()
             ]);
     }
 }

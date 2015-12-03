@@ -20,7 +20,6 @@
         <script src='/js/vendor/socket.io.js'></script>
         <script src='/js/vendor/backbone.js'></script>
         <script src='/js/config.js'></script>
-        <script src='/js/message.js'></script>
 
         <title>Coagmento Workspace</title>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -55,9 +54,5 @@
         <footer class="container-fluid">
         Development of Coagmento is supported by Institute of Museum and Library Services (IMLS). Coagmento 2007-2015
         </footer>
-        
-        <script>
-            MessageDisplay.init();
-        </script>
     </body>
 </html>

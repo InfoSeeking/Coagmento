@@ -91,6 +91,12 @@ Route::get('workspace/projects/{project_id}/chat', [
 	'uses' => 'WorkspaceController@viewChat'
 	]);
 
+// Viewing document requires write permissions until we can get read-only to work.
+Route::get('workspace/projects/{project_id}/docs/{doc_id}', [
+	'uses' => 'WorkspaceController@viewDoc',
+	'middleware' => 'auth'
+	]);
+
 // API.
 
 // User.
@@ -243,4 +249,10 @@ Route::post('api/v1/chatMessages', [
 Route::get('api/v1/chatMessages', [
 	'uses' => 'Api\ChatController@getMultiple',
 	'middleware' => 'api.optional.auth'
+	]);
+
+// Docs.
+Route::post('api/v1/docs', [
+	'uses' => 'Api\DocController@create',
+	'middleware' => 'api.auth'
 	]);
