@@ -10,9 +10,10 @@ use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class DocService {
-	protected $sessionTime = 60*60*24*30; // Time of session in seconds (thirty days).
+	protected $sessionTime; 
 
 	public function __construct(MembershipService $memberService) {
+		$this->sessionTime = 60*60*24*30; // Time of session in seconds (thirty days).
 		$this->memberService = $memberService;
 		$this->active = !!env('ETHERPAD_SERVER');
 		$this->url = env('ETHERPAD_SERVER');
