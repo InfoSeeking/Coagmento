@@ -99,7 +99,7 @@ class DocService {
 	        }
 	        $sessionID = $response->getData()['sessionID'];
 
-			setcookie('sessionID', $sessionID);
+			setcookie('sessionID', $sessionID, 0, '/');
 			return Status::fromResult($doc);
 		} catch (\Exception $e) {
 			return Status::fromError('Cannot connect to document service');
