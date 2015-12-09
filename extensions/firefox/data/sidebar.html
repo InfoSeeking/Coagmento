@@ -31,9 +31,9 @@
     // and vice-versa. The destination is required to distinguish between the messages.
     var iframe = document.getElementById('frame');
     var config = {
-      url: 'http://localhost:8000/sidebar'
+      url: 'http://localhost:8000/'
     };
-    navigateIFrame('');
+    navigateIFrame('sidebar');
 
     window.addEventListener('message', handleIFrameMessage, false);
     
