@@ -7,6 +7,7 @@ This is the start of the next version of Coagmento, written with Laravel.
 - Unit tests for all endpoints and services
 - Make sure public projects are viewable
 - Developer documentation
+- Pagination
 
 ## Future Features ##
 - Getting Started guide
@@ -18,6 +19,8 @@ This is the start of the next version of Coagmento, written with Laravel.
 	+ Serve over HTTPS (and can just use basic auth)
 - Back-End
 	+ Endpoints for follow/unfollowing a project
+	+ Replace HTTPService with Guzzle
+	+ Pagination
 - Workspace
 	+ Escape html entities on all output (from realtime and from blade templates)
 	+ Organize Javascript and CSS
