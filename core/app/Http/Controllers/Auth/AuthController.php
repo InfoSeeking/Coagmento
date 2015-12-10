@@ -75,7 +75,7 @@ class AuthController extends Controller
         if ($req->has('after_login_redirect')) {
             return redirect($req->input('after_login_redirect'));
         } else {
-            return redirect()->intended($this->redirectPath());
+            return redirect($this->redirectPath());
         }
     }
 
