@@ -73,6 +73,6 @@ class SidebarController extends Controller
                 ]);
         }
         Auth::login($demoUser, true);
-        return redirect($this->redirectPath());
+        return redirect($this->redirectPath);
     }
 }
