@@ -45,11 +45,7 @@ page-snippets
 				</form>
 			</div>
 		</div>
-
-		@if (count($snippets) == 0)
-		<p>No snippets have been saved.</p>
-		@endif
-
+		
 		<ul id='snippet-list'>
 		</ul>
 

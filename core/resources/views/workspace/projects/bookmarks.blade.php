@@ -50,10 +50,6 @@ page-bookmarks
 			</div>
 		</div>
 
-		@if (count($bookmarks) == 0)
-		<p>No bookmarks have been saved.</p>
-		@endif
-
 		<ul id='bookmark-list'>
 		</ul>
 	</div>
