@@ -39,4 +39,17 @@
         </div>
     </form>
 </div>
+<script src='/js/config.js'></script>
+<script src='/js/sidebar.js'></script>
+
+<script>
+Sidebar.sendToParent({
+    'state': {
+        'user': false,
+        'page': 'auth',
+        'project': false
+    }
+});
+
+</script>
 @endsection('content')
