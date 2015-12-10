@@ -42,6 +42,7 @@ var BookmarkListItemView = Backbone.View.extend({
 	},
 	onDelete: function(e) {
 		e.preventDefault();
+		if (!confirm('Are you sure you wish to delete?')) return;
 		this.model.destroy();
 	},
 	onEdit: function(e) {

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 
 use Auth;
+use App\Models\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\BookmarkService;
@@ -43,7 +44,7 @@ class SidebarController extends Controller
     	$user = Auth::user();
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) return $projectStatus->asRedirect('sidebar');
-        $memberStatus = $this->memberService->checkPermission($projectId, 'w', $user);
+        $memberStatus = $this->memberService->checkPermission($projectId, 'r', $user);
         if (!$memberStatus->isOK()) return $memberStatus->asRedirect('sidebar');
     	$bookmarks = $this->bookmarkService->getMultiple([
     		'project_id' => $projectId,
@@ -59,5 +60,19 @@ class SidebarController extends Controller
 
     public function getSidebarLogin(Request $req) {
         return view('sidebar.auth');
+    }
+
+    public function demoLogin(Request $req) {
+        $demoEmail = 'coagmento_demo@demo.demo';
+        $demoUser = User::where('email', $demoEmail)->first();
+        if (is_null($demoUser)) {
+            $demoUser = $this->create([
+                'name' => 'Coagmento Demo',
+                'email' => $demoEmail,
+                'password' => 'demo'
+                ]);
+        }
+        Auth::login($demoUser, true);
+        return redirect($this->redirectPath());
     }
 }

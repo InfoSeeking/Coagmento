@@ -88,7 +88,7 @@ body {
 }
 
 @media(min-width:768px) {
-    /*.sidebar {
+    .sidebar {
         z-index: 1;
         position: fixed;
 		top: 0px;
@@ -98,7 +98,11 @@ body {
         margin-top: 0px;
 		overflow-x: hidden;
 		overflow-y: auto;
-    }*/
+    }
+}
+
+.sidebar .data-list {
+    overflow-x: hidden;
 }
 
 .btn-outline {
@@ -139,6 +143,7 @@ body {
     margin: 0;
     padding: 0;
     list-style: none;
+    font-size: 12px;
 }
 
 .chat li {
@@ -159,11 +164,19 @@ body {
     margin: 0;
 }
 
+.chat-name {
+    color: #5DBAD9;
+}
 
 
-.chat-panel .panel-body {
-    height: 350px;
+#chat-list {
+    height: 100px;
     overflow-y: scroll;
+}
+
+#chat-list li {
+    padding-left: 10px;
+    padding-right: 10px
 }
 
 .login-panel {
@@ -307,4 +320,28 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+.data-list {
+    padding-left: 0px;
+    list-style-type: none;
+}
+
+#chat-form {
+    padding: 0px; margin: 0px;
+}
+
+@keyframes enterin {
+  from {
+    background: #DDD;
+  }
+
+  to {
+    background: #FFF;
+  }
+}
+
+#chat-list li.new {
+    animation-duration: 1s;
+    animation-name: enterin;
 }

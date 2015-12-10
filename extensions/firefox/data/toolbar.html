@@ -1,4 +1,4 @@
-<!doctype html>
+  <!doctype html>
 
 <html lang='en'>
 <head>
@@ -22,6 +22,13 @@
       right: 10px;
       top: 5px;
     }
+    .left {
+      float: left;
+      margin-left: 10px;
+    }
+    .clear {
+      clear: both;
+    }
   </style>
   <!--[if lt IE 9]>
   <script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
@@ -30,15 +37,17 @@
 
 <body>
   <div id="container">
-    <div id='project-specific'>
+    
+    <div id='project-specific' class='left'>
       <button id='save-bookmark'>Save Bookmark</button>
       <button id='save-snippet'>Save Snippet</button>
-      <button id='view-workspace'>View Workspace</button>
     </div>
+    <button class='left' id='view-workspace'>View Workspace</button>
     <div id='right-side'>
       <span id='welcome'></span>
       <a href='#' data-value='' id='toggle-login'></a>
     </div>
+    <br class='clear' />
   </div>
 
   <script src='js/jquery-1.10.2.js'></script>
@@ -82,6 +91,11 @@
       var actionValue = $(this).attr('data-value');
       window.parent.postMessage({action: actionValue}, '*');
     });
+
+    $('#view-workspace').on('click', function(e){
+      e.preventDefault();
+      window.parent.postMessage({action: 'view-workspace'}, '*');
+    })
 
     // Frame messages to add-on are sent via postMessage.
     window.addEventListener('message', handleAddonMessage, false);

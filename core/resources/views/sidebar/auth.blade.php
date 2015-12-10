@@ -30,4 +30,13 @@
         </div>
     </form>
 </div>
+
+<div class='col-md-12'>
+    <p>Don't want to create an account?</p>
+    <form method="POST" action="/sidebar/auth/demoLogin">
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Continue as Demo User <span class="fa fa-arrow-circle-o-right" aria-hidden="true"></span></button>
+        </div>
+    </form>
+</div>
 @endsection('content')

@@ -38,6 +38,8 @@ Route::get('sidebar/project/{project_id}', [
 
 Route::get('sidebar/auth/login', 'SidebarController@getSidebarLogin');
 Route::post('sidebar/auth/login', 'SidebarController@postLogin');
+Route::get('sidebar/auth/logout', 'SidebarController@getLogout');
+Route::post('sidebar/auth/demoLogin', 'Auth\AuthController@demoLogin');
 
 Route::get('workspace', [
 	'uses' => 'WorkspaceController@showHome',

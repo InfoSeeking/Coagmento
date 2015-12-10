@@ -91,7 +91,7 @@ function onSidebarMessage(data) {
 
 function setCurrentUrl(path) {
 	var tab = tabutils.getActiveTab(windowutils.getMostRecentBrowserWindow());
-	tabutils.setTabUrl(tab, config.url + path);
+	tabutils.setTabURL(tab, config.url + path);
 }
 function getCurrentURL(){
     var res = tabutils.getTabURL(tabutils.getActiveTab(windowutils.getMostRecentBrowserWindow()));
