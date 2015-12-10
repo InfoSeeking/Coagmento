@@ -4,6 +4,7 @@ This is the start of the next version of Coagmento, written with Laravel.
 ### Working On ###
 - Add soft deletes
 - Front end integration
+	- Use requirejs or something to better organize JS dependencies.
 - Unit tests for all endpoints and services
 - Make sure public projects are viewable
 - Developer documentation

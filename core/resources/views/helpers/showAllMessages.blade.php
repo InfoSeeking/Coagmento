@@ -1,3 +1,4 @@
+<script src='/js/vendor/underscore.js'></script>
 <script src='/js/message.js'></script>
 <div id="messageArea">
 <!-- General errors are on the session -->

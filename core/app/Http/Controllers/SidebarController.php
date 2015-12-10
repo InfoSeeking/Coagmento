@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -11,8 +13,17 @@ use App\Services\BookmarkService;
 use App\Services\ProjectService;
 use App\Services\MembershipService;
 
+
 class SidebarController extends Controller
 {
+
+    protected $loginPath = '/sidebar/auth/login';
+    protected $redirectPath = '/sidebar';
+    protected $redirectTo = '/sidebar';
+    protected $redirectAfterLogout = '/sidebar/auth/login';
+
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
 	public function __construct(
         ProjectService $projectService,
         BookmarkService $bookmarkService,
@@ -44,5 +55,9 @@ class SidebarController extends Controller
             'project' => $projectStatus->getResult(),
             'user' => $user
             ]);
+    }
+
+    public function getSidebarLogin(Request $req) {
+        return view('sidebar.auth');
     }
 }

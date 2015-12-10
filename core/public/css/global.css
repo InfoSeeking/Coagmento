@@ -1,0 +1,17 @@
+.messageList ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+.messageList {
+	position: relative;
+}
+.messageList .close-btn {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	color: #5b5b5b;
+}
+
+.messageList .close-btn:hover{
+	color: #000;
+}

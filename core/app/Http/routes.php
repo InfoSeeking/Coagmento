@@ -28,12 +28,16 @@ Route::post('auth/demoLogin', 'Auth\AuthController@demoLogin');
 // Back-end pages.
 Route::get('sidebar', [
 	'uses' => 'SidebarController@getProjectSelection',
-	'middleware' => 'auth'
+	'middleware' => 'sidebar.auth'
 	]);
-Route::get('sidebar/{project_id}', [
+
+Route::get('sidebar/project/{project_id}', [
 	'uses' => 'SidebarController@getFeed',
-	'middleware' => 'auth'
+	'middleware' => 'sidebar.auth'
 	]);
+
+Route::get('sidebar/auth/login', 'SidebarController@getSidebarLogin');
+Route::post('sidebar/auth/login', 'SidebarController@postLogin');
 
 Route::get('workspace', [
 	'uses' => 'WorkspaceController@showHome',

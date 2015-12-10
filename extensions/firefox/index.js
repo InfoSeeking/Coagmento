@@ -64,6 +64,10 @@ function onToolbarMessage(e) {
 		sendSidebarMessage(data);
 		break;
 
+		case 'view-workspace':
+		setCurrentUrl('workspace');
+		break;
+
 		default:
 		// Forward to sidebar.
 		sendSidebarMessage(data);
@@ -85,6 +89,10 @@ function onSidebarMessage(data) {
 	toolbarFrame.postMessage(data, toolbarFrame.url);
 }
 
+function setCurrentUrl(path) {
+	var tab = tabutils.getActiveTab(windowutils.getMostRecentBrowserWindow());
+	tabutils.setTabUrl(tab, config.url + path);
+}
 function getCurrentURL(){
     var res = tabutils.getTabURL(tabutils.getActiveTab(windowutils.getMostRecentBrowserWindow()));
     return res;

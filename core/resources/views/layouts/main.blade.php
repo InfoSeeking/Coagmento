@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/css/global.css" />
         <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
         <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
         <title>Coagmento</title>

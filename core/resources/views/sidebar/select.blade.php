@@ -1,8 +1,11 @@
+@extends('sidebar.layout')
+
+@section('content')
 <h2>Select a project</h2>
 
 <ul>
 @foreach($projects as $project)
-<li><a target="_self" href='/sidebar/{{$project->id}}'>{{$project->title}}</a>
+<li><a target="_self" href='/sidebar/project/{{$project->id}}'>{{$project->title}}</a>
 {{$project->level}}
 </li>
 @endforeach
@@ -22,7 +25,10 @@ Sidebar.sendToParent({
 			'id': {{ $user->id }},
 			'name': '{{ $user->username }}'
 		},
-		'page': 'select'
+		'page': 'select',
+		'project': null
 	}
 });
 </script>
+
+@endsection('content')
