@@ -17,6 +17,7 @@ class DocService {
 		$this->memberService = $memberService;
 		$this->active = !!env('ETHERPAD_SERVER');
 		$this->url = env('ETHERPAD_SERVER');
+		$this->domain = env('DOMAIN') ? env('DOMAIN') : '';
 		$this->user = Auth::user();
 		if ($this->active) {
 			$this->client = new \EtherpadLite\Client(env('ETHERPAD_APIKEY'), $this->url);
@@ -99,7 +100,7 @@ class DocService {
 	        }
 	        $sessionID = $response->getData()['sessionID'];
 
-			setcookie('sessionID', $sessionID, 0, '/');
+			setcookie('sessionID', $sessionID, 0, '/', $this->domain);
 			return Status::fromResult($doc);
 		} catch (\Exception $e) {
 			return Status::fromError('Cannot connect to document service');
