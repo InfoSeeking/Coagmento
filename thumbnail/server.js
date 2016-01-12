@@ -1,7 +1,8 @@
 // TODO: For whatever reason, the thumbnail server simply stops running sometimes.
 // This is not stable enough for production.
 
-var express = require('express')
+var config = require('./config')
+	, express = require('express')
 	, app = express()
 	, http = require('http').Server(app)
 	, path = require('path')
@@ -11,12 +12,13 @@ var express = require('express')
 	, bodyParser = require('body-parser')
 	, async = require('async')
 	, lwip = require('lwip')
-	, port = 4000
+	, port = config.server_port
 	// The maximum number of thumbnails it will accept per request.
 	, maxEntries = 50
 	// The maximum number of concurrent screen capture processes possible.
 	, concurrency = 10
 	, iid = 0
+	, garbageCollection = require('./garbage')
 	;
 
 function errorStatus(message, error_code) {
@@ -56,7 +58,7 @@ function getUniqueFilename(base, prefix, extension) {
 }
 
 function openImage(entry, callback) {
-	var path = 'public/generated/' + entry.thumbnail.image_large;
+	var path = config.thumbnail_directory + entry.thumbnail.image_large;
 	lwip.open(path, 'png', function(err, img) {
 		callback(err, entry, img);
 	});
@@ -69,7 +71,7 @@ function resizeImage(entry, img, callback) {
 }
 
 function saveImage(entry, img, callback) {
-	var outFile = getUniqueFilename('public/generated/', 'small', 'png');
+	var outFile = getUniqueFilename(config.thumbnail_directory, 'small', 'png');
 	img.writeFile(outFile.path, 'png', {}, function(err, img) {
 		if (!err) {
 			entry.thumbnail.image_small = outFile.file;
@@ -98,7 +100,7 @@ function queueTask(task, callback) {
 	}
 	if (task.action == 'capture') {
 		console.log('Capturing image for ' + entry.url);
-		var outFile = getUniqueFilename('public/generated/', 'large', 'png');
+		var outFile = getUniqueFilename(config.thumbnail_directory, 'large', 'png');
 
 		var childArgs = [
 			path.join(__dirname, 'rasterize.js'),
@@ -180,3 +182,6 @@ app.post('/generate', function(req, res) {
 
 http.listen(port);
 console.log('Coagmento Thumbnail Server running on port ' + port);
+
+console.log('Garbage collection scheduled for every ' + config.garbage_collection_delay + ' minutes');
+setInterval(garbageCollection.run, config.garbage_collection_delay * 60 * 1000);
