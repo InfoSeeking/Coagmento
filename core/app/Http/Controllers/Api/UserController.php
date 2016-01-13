@@ -56,19 +56,18 @@ class UserController extends Controller
     }
 
     /**
-     * @api{get} /v1/users Get
+     * @api{get} /v1/users/:id Get
      * @apiDescription Get information about a user.
      * @apiGroup User
      * @apiName GetUser
-     * @apiParam {String} [email] Required if id not present.
-     * @apiParam {Integer} [id] Required if email not present.
+     * @apiParam {Integer} id The user id.
      * @apiVersion 1.0.0
      */
     public function get(Request $req, $user_id) {
         $status = Status::OK();
         $args = ['id' => $user_id];
         $validator = Validator::make($args, [
-            'id' => 'sometimes|integer'
+            'id' => 'integer'
             ]);
 
         if ($validator->fails()) return ApiResponse::fromStatus(Status::fromValidator($validator));
