@@ -190,6 +190,58 @@
     "groupTitle": "Bookmark"
   },
   {
+    "type": "delete",
+    "url": "/v1/docs/:id",
+    "title": "Delete",
+    "description": "<p>Deletes a single doc.</p> ",
+    "permission": [
+      {
+        "name": "write"
+      }
+    ],
+    "group": "Doc",
+    "name": "DeleteDoc",
+    "version": "1.0.0",
+    "filename": "./DocController.php",
+    "groupTitle": "Doc"
+  },
+  {
+    "type": "post",
+    "url": "/v1/docs",
+    "title": "Create",
+    "description": "<p>Creates a new document.</p> ",
+    "permission": [
+      {
+        "name": "write"
+      }
+    ],
+    "group": "Document",
+    "name": "CreateDocument",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Integer</p> ",
+            "optional": false,
+            "field": "project_id",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "title",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "filename": "./DocController.php",
+    "groupTitle": "Document"
+  },
+  {
     "type": "post",
     "url": "/v1/pages",
     "title": "Create",
@@ -708,6 +760,30 @@
   {
     "type": "get",
     "url": "/v1/users",
+    "title": "GetMultiple",
+    "description": "<p>Get a list of multiple users.</p> ",
+    "group": "User",
+    "name": "GetMultipleUsers",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Integer</p> ",
+            "optional": true,
+            "field": "project_id",
+            "description": "<p>Restrict to only users which are a member of this project.</p> "
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "filename": "./UserController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/v1/users/:id",
     "title": "Get",
     "description": "<p>Get information about a user.</p> ",
     "group": "User",
@@ -717,10 +793,10 @@
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "<p>String</p> ",
+            "type": "<p>Integer</p> ",
             "optional": false,
-            "field": "email",
-            "description": ""
+            "field": "id",
+            "description": "<p>The user id.</p> "
           }
         ]
       }
