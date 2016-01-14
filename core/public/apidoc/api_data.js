@@ -53,7 +53,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./BookmarkController.php",
+    "filename": "app/Http/Controllers/Api/BookmarkController.php",
     "groupTitle": "Bookmark"
   },
   {
@@ -69,7 +69,7 @@ define({ "api": [
     "group": "Bookmark",
     "name": "DeleteBookmark",
     "version": "1.0.0",
-    "filename": "./BookmarkController.php",
+    "filename": "app/Http/Controllers/Api/BookmarkController.php",
     "groupTitle": "Bookmark"
   },
   {
@@ -85,7 +85,7 @@ define({ "api": [
     "group": "Bookmark",
     "name": "GetBookmark",
     "version": "1.0.0",
-    "filename": "./BookmarkController.php",
+    "filename": "app/Http/Controllers/Api/BookmarkController.php",
     "groupTitle": "Bookmark"
   },
   {
@@ -114,7 +114,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./BookmarkController.php",
+    "filename": "app/Http/Controllers/Api/BookmarkController.php",
     "groupTitle": "Bookmark"
   },
   {
@@ -143,7 +143,7 @@ define({ "api": [
     "name": "MoveBookmark",
     "group": "Bookmark",
     "version": "1.0.0",
-    "filename": "./BookmarkController.php",
+    "filename": "app/Http/Controllers/Api/BookmarkController.php",
     "groupTitle": "Bookmark"
   },
   {
@@ -186,7 +186,7 @@ define({ "api": [
     "group": "Bookmark",
     "name": "UpdateBookmark",
     "version": "1.0.0",
-    "filename": "./BookmarkController.php",
+    "filename": "app/Http/Controllers/Api/BookmarkController.php",
     "groupTitle": "Bookmark"
   },
   {
@@ -202,7 +202,7 @@ define({ "api": [
     "group": "Doc",
     "name": "DeleteDoc",
     "version": "1.0.0",
-    "filename": "./DocController.php",
+    "filename": "app/Http/Controllers/Api/DocController.php",
     "groupTitle": "Doc"
   },
   {
@@ -238,7 +238,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./DocController.php",
+    "filename": "app/Http/Controllers/Api/DocController.php",
     "groupTitle": "Document"
   },
   {
@@ -289,7 +289,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./PageController.php",
+    "filename": "app/Http/Controllers/Api/PageController.php",
     "groupTitle": "Page"
   },
   {
@@ -305,7 +305,7 @@ define({ "api": [
     "group": "Page",
     "name": "DeletePage",
     "version": "1.0.0",
-    "filename": "./PageController.php",
+    "filename": "app/Http/Controllers/Api/PageController.php",
     "groupTitle": "Page"
   },
   {
@@ -321,7 +321,7 @@ define({ "api": [
     "group": "Page",
     "name": "GetPage",
     "version": "1.0.0",
-    "filename": "./PageController.php",
+    "filename": "app/Http/Controllers/Api/PageController.php",
     "groupTitle": "Page"
   },
   {
@@ -350,7 +350,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./PageController.php",
+    "filename": "app/Http/Controllers/Api/PageController.php",
     "groupTitle": "Page"
   },
   {
@@ -394,7 +394,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -410,7 +410,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -439,7 +439,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -455,7 +455,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -471,7 +471,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -487,7 +487,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -530,7 +530,7 @@ define({ "api": [
     "group": "Project",
     "name": "ShareProject",
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -559,7 +559,7 @@ define({ "api": [
       }
     ],
     "version": "1.0.0",
-    "filename": "./ProjectController.php",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"
   },
   {
@@ -609,7 +609,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./SnippetController.php",
+    "filename": "app/Http/Controllers/Api/SnippetController.php",
     "groupTitle": "Snippet"
   },
   {
@@ -625,7 +625,7 @@ define({ "api": [
     "group": "Snippet",
     "name": "DeleteSnippet",
     "version": "1.0.0",
-    "filename": "./SnippetController.php",
+    "filename": "app/Http/Controllers/Api/SnippetController.php",
     "groupTitle": "Snippet"
   },
   {
@@ -641,7 +641,7 @@ define({ "api": [
     "group": "Snippet",
     "name": "GetSnippet",
     "version": "1.0.0",
-    "filename": "./SnippetController.php",
+    "filename": "app/Http/Controllers/Api/SnippetController.php",
     "groupTitle": "Snippet"
   },
   {
@@ -670,7 +670,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./SnippetController.php",
+    "filename": "app/Http/Controllers/Api/SnippetController.php",
     "groupTitle": "Snippet"
   },
   {
@@ -705,7 +705,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./SnippetController.php",
+    "filename": "app/Http/Controllers/Api/SnippetController.php",
     "groupTitle": "Snippet"
   },
   {
@@ -743,7 +743,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./UserController.php",
+    "filename": "app/Http/Controllers/Api/UserController.php",
     "groupTitle": "User"
   },
   {
@@ -754,7 +754,7 @@ define({ "api": [
     "group": "User",
     "name": "GetLoggedIn",
     "version": "1.0.0",
-    "filename": "./UserController.php",
+    "filename": "app/Http/Controllers/Api/UserController.php",
     "groupTitle": "User"
   },
   {
@@ -778,7 +778,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./UserController.php",
+    "filename": "app/Http/Controllers/Api/UserController.php",
     "groupTitle": "User"
   },
   {
@@ -802,7 +802,7 @@ define({ "api": [
       }
     },
     "version": "1.0.0",
-    "filename": "./UserController.php",
+    "filename": "app/Http/Controllers/Api/UserController.php",
     "groupTitle": "User"
   }
 ] });
