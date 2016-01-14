@@ -119,7 +119,8 @@ class ProjectController extends Controller
 
     /**
      * @api{post} /v1/projects/:id/share Share Project
-     * @apiDescription Share a project with another user.
+     * @apiDescription Share a project with another user. If the user is already a member, 
+     * it will not overwrite their existing membership (to do so, use the Update Project Sharing endpoint).
      * @apiPermission own
      * @apiParam {String} [user_id] The id of the user (required if user_email is not present)
      * @apiParam {String} [user_email] The email of the user (required if user_id is not present)
@@ -130,7 +131,40 @@ class ProjectController extends Controller
      */
     function share(Request $req, $id) {
         $args = array_merge($req->all(), ['id' => $id]);
-        $status = $this->projectService->share($args);
+        $status = $this->projectService->share($args, false);
+        return ApiResponse::fromStatus($status);
+    }
+
+    /**
+     * @api{put} /v1/projects/:id/share Update Project Sharing
+     * @apiDescription Change the permission level of sharing for a user.
+     * @apiPermission own
+     * @apiParam {String} [user_id] The id of the user (required if user_email is not present)
+     * @apiParam {String} [user_email] The email of the user (required if user_id is not present)
+     * @apiParam {String} permission Can be one of {w,r,o} representing write, read, and owner permissions.
+     * @apiGroup Project
+     * @apiName UpdateShareProject
+     * @apiVersion 1.0.0
+     */
+    function updateShare(Request $req, $id) {
+        $args = array_merge($req->all(), ['id' => $id]);
+        $status = $this->projectService->share($args, true);
+        return ApiResponse::fromStatus($status);
+    }
+
+    /**
+     * @api{delete} /v1/projects/:id/share Delete Project Sharing
+     * @apiDescription Remove a user as a member of a project.
+     * @apiPermission own
+     * @apiParam {String} [user_id] The id of the user (required if user_email is not present)
+     * @apiParam {String} [user_email] The email of the user (required if user_id is not present)
+     * @apiGroup Project
+     * @apiName UnshareProject
+     * @apiVersion 1.0.0
+     */
+    function unshare(Request $req, $id) {
+        $args = array_merge($req->all(), ['id' => $id]);
+        $status = $this->projectService->unshare($args);
         return ApiResponse::fromStatus($status);
     }
 }

@@ -21,7 +21,7 @@ class DocController extends Controller
      * @api{post} /v1/docs Create
      * @apiDescription Creates a new document.
      * @apiPermission write
-     * @apiGroup Document
+     * @apiGroup Doc
      * @apiName CreateDocument
      * @apiParam {Integer} project_id
      * @apiParam {String} title

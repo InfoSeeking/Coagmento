@@ -190,22 +190,6 @@ define({ "api": [
     "groupTitle": "Bookmark"
   },
   {
-    "type": "delete",
-    "url": "/v1/docs/:id",
-    "title": "Delete",
-    "description": "<p>Deletes a single doc.</p> ",
-    "permission": [
-      {
-        "name": "write"
-      }
-    ],
-    "group": "Doc",
-    "name": "DeleteDoc",
-    "version": "1.0.0",
-    "filename": "app/Http/Controllers/Api/DocController.php",
-    "groupTitle": "Doc"
-  },
-  {
     "type": "post",
     "url": "/v1/docs",
     "title": "Create",
@@ -215,7 +199,7 @@ define({ "api": [
         "name": "write"
       }
     ],
-    "group": "Document",
+    "group": "Doc",
     "name": "CreateDocument",
     "parameter": {
       "fields": {
@@ -239,7 +223,23 @@ define({ "api": [
     },
     "version": "1.0.0",
     "filename": "app/Http/Controllers/Api/DocController.php",
-    "groupTitle": "Document"
+    "groupTitle": "Doc"
+  },
+  {
+    "type": "delete",
+    "url": "/v1/docs/:id",
+    "title": "Delete",
+    "description": "<p>Deletes a single doc.</p> ",
+    "permission": [
+      {
+        "name": "write"
+      }
+    ],
+    "group": "Doc",
+    "name": "DeleteDoc",
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/DocController.php",
+    "groupTitle": "Doc"
   },
   {
     "type": "post",
@@ -494,7 +494,7 @@ define({ "api": [
     "type": "post",
     "url": "/v1/projects/:id/share",
     "title": "Share Project",
-    "description": "<p>Share a project with another user.</p> ",
+    "description": "<p>Share a project with another user. If the user is already a member, it will not overwrite their existing membership (to do so, use the Update Project Sharing endpoint).</p> ",
     "permission": [
       {
         "name": "own"
@@ -534,6 +534,42 @@ define({ "api": [
     "groupTitle": "Project"
   },
   {
+    "type": "delete",
+    "url": "/v1/projects/:id/share",
+    "title": "Delete Project Sharing",
+    "description": "<p>Remove a user as a member of a project.</p> ",
+    "permission": [
+      {
+        "name": "own"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "user_id",
+            "description": "<p>The id of the user (required if user_email is not present)</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "user_email",
+            "description": "<p>The email of the user (required if user_id is not present)</p> "
+          }
+        ]
+      }
+    },
+    "group": "Project",
+    "name": "UnshareProject",
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
+    "groupTitle": "Project"
+  },
+  {
     "type": "put",
     "url": "/v1/projects/:id",
     "title": "Update",
@@ -558,6 +594,49 @@ define({ "api": [
         "name": "write"
       }
     ],
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/ProjectController.php",
+    "groupTitle": "Project"
+  },
+  {
+    "type": "put",
+    "url": "/v1/projects/:id/share",
+    "title": "Update Project Sharing",
+    "description": "<p>Change the permission level of sharing for a user.</p> ",
+    "permission": [
+      {
+        "name": "own"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "user_id",
+            "description": "<p>The id of the user (required if user_email is not present)</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "user_email",
+            "description": "<p>The email of the user (required if user_id is not present)</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "permission",
+            "description": "<p>Can be one of {w,r,o} representing write, read, and owner permissions.</p> "
+          }
+        ]
+      }
+    },
+    "group": "Project",
+    "name": "UpdateShareProject",
     "version": "1.0.0",
     "filename": "app/Http/Controllers/Api/ProjectController.php",
     "groupTitle": "Project"

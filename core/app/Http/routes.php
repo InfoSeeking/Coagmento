@@ -200,7 +200,17 @@ Route::get('api/v1/projects/{project_id}/tags', [
 
 Route::post('api/v1/projects/{project_id}/share', [
 	'uses' => 'Api\ProjectController@share',
-	'middleware' => 'api.optional.auth'
+	'middleware' => 'api.auth'
+	]);
+
+Route::put('api/v1/projects/{project_id}/share', [
+	'uses' => 'Api\ProjectController@updateShare',
+	'middleware' => 'api.auth'
+	]);
+
+Route::delete('api/v1/projects/{project_id}/share', [
+	'uses' => 'Api\ProjectController@unshare',
+	'middleware' => 'api.auth'
 	]);
 
 // Snippets.

@@ -6,48 +6,61 @@ use App\Models\Project;
 use App\Utilities\Status;
 
 class MembershipService {
-	public function permissionToString($level) {
-		switch ($level) {
-			case 'w':
-			return 'write';
-			case 'r':
-			return 'read';
-			case 'o':
-			return 'owner';
-			default:
-			return 'non-existant';
-		}
-	}
+    public function permissionToString($level) {
+        switch ($level) {
+            case 'w':
+            return 'write';
+            case 'r':
+            return 'read';
+            case 'o':
+            return 'owner';
+            default:
+            return 'non-existant';
+        }
+    }
 
- 	public function checkPermission($project_id, $level, $user=null) {
-        // Public projects give read permission to any user.
+    // Checks if the user has a membership permission satisfiying $level.
+    // own   - has all permissions
+    // write - has write/read permissions
+    // read  - has read permissions
+    // none  - has read permissions on a public project
+    // Returns a status with the existing highest level of permission the user has.
+    public function checkPermission($project_id, $level, $user=null) {
         if ($user == null) {
-            // Check if this is a public project.
-            $project = Project::find($project_id);
-            if (!$project->private && $level == 'r') {
-                return Status::fromResult('r');
-            } else {
-                return Status::fromError('You must be logged in to view this project');    
-            }
+            return $this->checkPermissionWithoutMembership($level, $project_id);
         }
 
-    	$rows = Membership::where('user_id', $user->id)->where('project_id', $project_id)->get();
-    	if ($rows->count() == 0) {
-    		return Status::fromError('You do not have access to this project.');
-    	}
-    	$current = $rows->first()['level'];
-    	if ($level == 'r') {
-    		return Status::fromResult($current);
-    	} else if ($level == 'w' && ($current == 'w' || $current == 'o')) {
-    		return Status::fromResult($current);
-    	} else if ($level == 'o' && $current == 'o') {
-    		return Status::fromResult($current);
-    	}
+        $membership = Membership::where('user_id', $user->id)->where('project_id', $project_id)->first();
+        if (is_null($membership)) {
+            return $this->checkPermissionWithoutMembership($level, $project_id);
+        }
 
-    	$msg = sprintf('You need %s permission to access this project, but you only have %s permission.',
-    		self::permissionToString($level),
-    		self::permissionToString($current));
+        $current = $membership['level'];
+        if ($level == 'r') {
+            return Status::fromResult($current);
+        } else if ($level == 'w' && ($current == 'w' || $current == 'o')) {
+            return Status::fromResult($current);
+        } else if ($level == 'o' && $current == 'o') {
+            return Status::fromResult($current);
+        }  
 
-    	return Status::fromError($msg);
+        $msg = sprintf('You need %s permission to access this project, but you only have %s permission.',
+            $this->permissionToString($level),
+            $this->permissionToString($current));
+
+        return Status::fromError($msg);
+    }
+
+    protected function checkPermissionWithoutMembership($level, $project_id) {
+        // If the user requests anything other than read permission, deny it.
+        if ($level != 'r') {
+            return Status::fromError('You must be logged in to access this project');
+        }
+        $project = Project::find($project_id);
+        if ($project->private) {
+            return Status::fromError('You must be logged in to access this project');
+        } else {
+            return Status::OK();
+        }
     }
 }

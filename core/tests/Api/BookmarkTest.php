@@ -15,13 +15,14 @@ class BookmarkTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->user = factory(User::class)->create();
-		$this->be($this->user);
 	}
 
 	public function testCreate() {
-		$project = $this->createProject();
-		$membership = $this->createMembership($project);
+		$user = factory(User::class)->create();
+		$this->be($user);
+
+		$project = $this->createProject($user);
+		$membership = $this->createMembership($user, $project);
 
 		$params = [
 			'title' => 'Web page',
@@ -32,7 +33,7 @@ class BookmarkTest extends TestCase {
 		$this->assertJSONSuccess($response);
 
 		// Check that the bookmark actually exists in the database.
-		$this->assertEquals(1, Bookmark::where('user_id', $this->user->id)->count());
+		$this->assertEquals(1, Bookmark::where('user_id', $user->id)->count());
 
 		// Expect an error because malformed url.
 		$response = $this->call('POST',
@@ -59,9 +60,12 @@ class BookmarkTest extends TestCase {
 	}
 
 	public function testUpdate() {
-		$project = $this->createProject();
-		$membership = $this->createMembership($project);
-		$bookmark = $this->createBookmark($project);
+		$user = factory(User::class)->create();
+		$this->be($user);
+
+		$project = $this->createProject($user);
+		$membership = $this->createMembership($user, $project);
+		$bookmark = $this->createBookmark($user, $project);
 		$params = ['title' => 'Updated Title'];
 		$response = $this->call('PUT', '/api/v1/bookmarks/' . $bookmark->id, $params);
 		$this->assertJSONSuccess($response);
@@ -72,21 +76,27 @@ class BookmarkTest extends TestCase {
 	}
 
 	public function testDelete() {
-		$project = $this->createProject();
-		$membership = $this->createMembership($project);
-		$bookmark = $this->createBookmark($project);
+		$user = factory(User::class)->create();
+		$this->be($user);
+
+		$project = $this->createProject($user);
+		$membership = $this->createMembership($user, $project);
+		$bookmark = $this->createBookmark($user, $project);
 		$response = $this->call('DELETE', '/api/v1/bookmarks/' . $bookmark->id);
 		$this->assertJSONSuccess($response);
 		$this->assertNull(Bookmark::find($bookmark->id));
 	}
 
 	public function testMove() {
-		$projectA = $this->createProject();
-		$membershipA = $this->createMembership($projectA);
-		$bookmark = $this->createBookmark($projectA);
+		$user = factory(User::class)->create();
+		$this->be($user);
+		
+		$projectA = $this->createProject($user);
+		$membershipA = $this->createMembership($user, $projectA);
+		$bookmark = $this->createBookmark($user, $projectA);
 
-		$projectB = $this->createProject();
-		$membershipB = $this->createMembership($projectB);
+		$projectB = $this->createProject($user);
+		$membershipB = $this->createMembership($user, $projectB);
 
 		$response = $this->call(
 			'PUT',

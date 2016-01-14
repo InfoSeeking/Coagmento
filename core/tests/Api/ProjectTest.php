@@ -11,12 +11,12 @@ class ProjectTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->user = factory(User::class)->create();
 		$this->memberService = $this->app->make('App\Services\MembershipService');
 	}
 
 	public function testCreate() {
-		$this->be($this->user);
+		$user = factory(User::class)->create();
+		$this->be($user);
 		$params = [
 			'title' => 'Test Project'
 		];
@@ -24,29 +24,32 @@ class ProjectTest extends TestCase {
 		$this->assertJSONSuccess($response);
 
 		// Check that the project actually exists in the database.
-		$project = Project::where('creator_id', $this->user->id)->first();
+		$project = Project::where('creator_id', $user->id)->first();
 		$this->assertTrue(!is_null($project));
 
 		// Check that user has owner membership.
-		$memberStatus = $this->memberService->checkPermission($project->id, 'o', $this->user);
+		$memberStatus = $this->memberService->checkPermission($project->id, 'o', $user);
 		$this->assertTrue($memberStatus->isOK());
 
 		// Expect an error because missing title.
-		$response = $this->actingAs($this->user)->call('POST', 'api/v1/projects', []);
+		$response = $this->actingAs($user)->call('POST', 'api/v1/projects', []);
 		$this->assertJSONErrors($response);
 	}
 
 	public function testDelete() {
-		$this->be($this->user);
-		$project = $this->createProject();
-		$membership = $this->createMembership($project, 'o');
+		$user = factory(User::class)->create();
+		$this->be($user);
+		$project = $this->createProject($user);
+		$membership = $this->createMembership($user, $project, 'o');
 		$response = $this->call('DELETE', 'api/v1/projects/' . $project->id, []);
 		$this->assertJSONSuccess($response);
 		$this->assertTrue(is_null(Project::find($project->id)));
 	}
 
 	public function testPrivate() {
-		$project = $this->createProject();
+		$user = factory(User::class)->create();
+		
+		$project = $this->createProject($user);
 		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
 		// Project is public by default, so reading should be permissible without
 		// logging in.
@@ -62,7 +65,7 @@ class ProjectTest extends TestCase {
 		$project->save();
 
 		// The same behavior is expected when the user is logged in, and not a member.
-		$this->be($this->user);
+		$this->be($user);
 		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
 		$this->assertJSONSuccess($response);
 
@@ -71,6 +74,10 @@ class ProjectTest extends TestCase {
 
 		$response = $this->call('GET', 'api/v1/projects/'. $project->id, []);
 		$this->assertJSONErrors($response);
+	}
+
+	public function testSharing() {
+		// TODO.
 	}
 
 }

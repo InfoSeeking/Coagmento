@@ -48,33 +48,33 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     // Some helpers for populating the database.
     // TODO: Consider using factories for data population.
-    protected function createProject() {
-        $project = new Project(['title' => 'Project Title', 'creator_id' => $this->user->id]);
+    protected function createProject(User $user) {
+        $project = new Project(['title' => 'Project Title', 'creator_id' => $user->id]);
         $project->save();
         return $project;
     }
 
-    protected function createMembership(Project $project, $level='w') {
+    protected function createMembership(User $user, Project $project, $level='w') {
         $membership = new Membership();
-        $membership->user_id = $this->user->id;
+        $membership->user_id = $user->id;
         $membership->project_id = $project->id;
         $membership->level = $level;
         $membership->save();
         return $membership;
     }
 
-    protected function createBookmark(Project $project) {
+    protected function createBookmark(User $user, Project $project) {
         $bookmark = new Bookmark(['title' => 'Bookmark Title', 'url' => 'http://website.com']);
         $bookmark->project_id = $project->id;
-        $bookmark->user_id = $this->user->id;
+        $bookmark->user_id = $user->id;
         $bookmark->save();
         return $bookmark;
     }
 
-    protected function createSnippet(Project $project) {
+    protected function createSnippet(User $user, Project $project) {
         $snippet = new Snippet(['text' => 'Snippet Title', 'url' => 'http://website.com']);
         $snippet->project_id = $project->id;
-        $snippet->user_id = $this->user->id;
+        $snippet->user_id = $user->id;
         $snippet->save();
         return $snippet;
     }

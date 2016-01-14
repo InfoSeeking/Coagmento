@@ -123,7 +123,32 @@ class ProjectService {
         return Status::OK();
     }
 
-    public function share($args) {
+
+    public function getSharedUsers($project_id) {
+        return DB::table('users')
+            ->join('memberships', 'users.id', '=', 'memberships.user_id')
+            ->where('user_id', '!=', $this->user->id)
+            ->where('project_id', $project_id)
+            ->get();
+    }
+
+    public function getSharedProjects() {
+        return DB::table('projects')
+            ->join('memberships', 'projects.id', '=', 'memberships.project_id')
+            ->where('projects.creator_id', '!=', $this->user->id)
+            ->where('memberships.user_id', '=', $this->user->id)
+            ->select('projects.*', 'memberships.level as level')
+            ->get();
+    }
+
+    public function getMyProjects() {
+        return Project::where('creator_id', $this->user->id)->get();
+    }
+
+    // Shares the project with user with the specified level.
+    // If $overwrite is false then it will return error if
+    // the user is already being shared on this project.
+    public function share($args, $overwrite=false) {
         $validator = Validator::make($args, [
             'id' => 'required|integer',
             'user_id' => 'sometimes|integer|exists:users,id',
@@ -153,45 +178,63 @@ class ProjectService {
             $user_id = $user->id;
         }
 
-        $existing = Membership::where([
+        $membership = Membership::where([
             'user_id' => $user_id,
             'project_id' => $project->id
-            ]);
-        if ($existing->count() > 0) {
-            return Status::fromError('This user is already a member');
+            ])->first();
+        if (!is_null($membership)) {
+            if (!$overwrite) {
+                return Status::fromError('This user is already a member');
+            }
+        } else {
+            $membership = new Membership();
+            $membership->user_id = $user_id;
+            $membership->project_id = $project->id;
         }
 
-        $member = new Membership();
-        $member->user_id = $user_id;
-        $member->project_id = $project->id;
-        $member->level = $args['permission'];
-        $member->save();
+        $membership->level = $args['permission'];
+        $membership->save();
 
         return Status::OK();
     }
 
-    public function getSharedUsers($project_id) {
-        return DB::table('users')
-            ->join('memberships', 'users.id', '=', 'memberships.user_id')
-            ->where('user_id', '!=', $this->user->id)
-            ->where('project_id', $project_id)
-            ->get();
-    }
-
-    public function getSharedProjects() {
-        return DB::table('projects')
-            ->join('memberships', 'projects.id', '=', 'memberships.project_id')
-            ->where('projects.creator_id', '!=', $this->user->id)
-            ->where('memberships.user_id', '=', $this->user->id)
-            ->select('projects.*', 'memberships.level as level')
-            ->get();
-    }
-
-    public function getMyProjects() {
-        return Project::where('creator_id', $this->user->id)->get();
-    }
-
     public function unshare($args) {
-        // TODO.
+        $validator = Validator::make($args, [
+            'id' => 'required|integer',
+            'user_id' => 'sometimes|integer|exists:users,id',
+            'user_email' => 'required_without:user_id|email'
+            ]);
+        if ($validator->fails()) {
+            return Status::fromValidator($validator);
+        }
+
+        $project = Project::find($args['id']);
+        if (is_null($project)) {
+            return Status::fromError('Project not found', StatusCodes::NOT_FOUND);
+        }
+
+        $memberStatus = $this->memberService->checkPermission($project->id, 'o', $this->user);
+        if (!$memberStatus->isOK()) return $memberStatus;
+
+        $user_id = null;
+        if (array_key_exists('user_id', $args)) {
+            $user_id = $args['user_id'];
+        } else {
+            $user = User::where('email', $args['user_email'])->first();
+            if (is_null($user)) {
+                return Status::fromError('User not found', StatusCodes::NOT_FOUND);
+            }
+            $user_id = $user->id;
+        }
+
+        $membership = Membership::where([
+            'user_id' => $user_id,
+            'project_id' => $project->id
+            ])->first();
+        if (is_null($membership)) {
+            return Status::fromError('This user is not a member');
+        }
+        $membership->delete();
+        return Status::OK();
     }
 }
