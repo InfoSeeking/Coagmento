@@ -5,8 +5,8 @@ To install dependencies, run `npm install` in the terminal.
 
 To start the server, run `npm start` in the terminal.
 
-If offers an HTTP API which the core Coagmento application calls periodically to generate and
-download screenshots from website URLs. Both a large and small version of a screenshot are saved.
+It offers an HTTP API which the core Coagmento application calls periodically to generate
+screenshots from website URLs. Both a large and small version of a screenshot are saved.
 
 This server is not meant for storage. Saved images are deleted periodically from this server. 
 Therefore, they are downloaded from the core Coagmento application soon after generating.
