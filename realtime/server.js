@@ -1,11 +1,12 @@
-var express = require('express')
+var config = require('./config')
+    , express = require('express')
     , app = express()
     , http = require('http').Server(app)
     , io = require('socket.io')(http)
     , bodyParser = require('body-parser') // Middleware for express.
     , feed = require('./feed')(io)
     , whitelist = ['http://localhost:8000'] // From where to accept HTTP requests. TODO: update.
-    , port = 3000
+    , port = config.server_port
     ;
 
 // Listen for published data via http requests.

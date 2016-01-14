@@ -1,0 +1,5 @@
+// Rename this file to config.js and modify the values for your environment.
+
+module.exports = {
+	server_port: 8000,
+};
