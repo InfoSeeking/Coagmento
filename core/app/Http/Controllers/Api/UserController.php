@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     /**
-     * @api{get} /v1/users GetMultiple
+     * @api{get} /v1/users Get Multiple
      * @apiDescription Get a list of multiple users.
      * @apiGroup User
      * @apiName GetMultipleUsers
@@ -47,7 +47,16 @@ class UserController extends Controller
         
         if ($req->has('project_id')) {
             $projectId = $req->input('project_id');
-            $users = Membership::where('project_id', $projectId)->with('user')->get()->pluck('user');
+            $users = Membership::where('project_id', $projectId)
+                ->with('user')
+                ->get()
+                ->map(function($item){
+                    return [
+                        'user' => $item->user,
+                        'level' => $item->level
+                        ];
+                });
+
         } else {
             $users = User::all();
         }

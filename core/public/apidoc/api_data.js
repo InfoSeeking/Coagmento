@@ -839,7 +839,7 @@ define({ "api": [
   {
     "type": "get",
     "url": "/v1/users",
-    "title": "GetMultiple",
+    "title": "Get Multiple",
     "description": "<p>Get a list of multiple users.</p> ",
     "group": "User",
     "name": "GetMultipleUsers",

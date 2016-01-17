@@ -148,7 +148,6 @@ class BookmarkService {
 		$validator = Validator::make($args, [
 			'id' => 'required|integer',
 			'url' => 'sometimes|url',
-			'move_to' => 'sometimes|integer|exists:projects,id',
 			'tags' => 'sometimes|array'
 			]);
 
