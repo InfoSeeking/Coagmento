@@ -1,4 +1,4 @@
-@extends('layouts.workspace.single-project')
+@extends('workspace.layouts.single-project')
 
 @section('page')
 page-chat
@@ -9,10 +9,10 @@ page-chat
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
 <span class='fa fa-angle-right'></span>
-<a href='/workspace/projects/{{ $project->id }}/bookmarks'><span class='fa fa-star-o'></span> Bookmarks</a>
+<a href='/workspace/projects/{{ $project->id }}/chat'><span class='fa fa-comment'></span> Group Chat</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 <div class='row'>
 	@include('helpers.showAllMessages')
@@ -88,4 +88,4 @@ $('#chat-form').on('submit', function(e){
 	});
 });
 </script>
-@endsection('page-content')
+@endsection('main-content')

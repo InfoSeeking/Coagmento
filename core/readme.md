@@ -94,6 +94,9 @@ php artisan serve
 ```
 To run the Laravel test server.
 
+## Task Scheduling
+Refer to the [Laravel documentation](https://laravel.com/docs/5.2/scheduling) on setting up the periodic scheduler.
+
 ### Windows ###
 
 Check the [requirements of Laravel](http://laravel.com/docs/5.1) and ensure that these are satisfied. One potential way to install PHP and MySQL is to install XAMPP (https://www.apachefriends.org/index.html). This will install the Apache web server, PHP, and MariaDB (MySQL compatible database). Afterwards, edit your system PATH variable to add the folders containing php.exe and the mysql.exe. php.exe should be located in `C:\xampp\php` and mysql.exe should be in `C:\xampp\mysql\bin` assuming you installed xampp to `C:\xampp`.

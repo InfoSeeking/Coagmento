@@ -1,32 +1,63 @@
-@extends('layouts.workspace.project')
+@extends('workspace.layouts.project')
+@inject('memberService', 'App\Services\MembershipService')
+
+@section('page')
+@if ($type == 'mine')
+page-my-projects
+@elseif ($type == 'shared')
+page-shared-projects
+@endif
+@endsection
 
 @section('navigation')
 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 @include('helpers.showAllMessages')
 
-@if (count($projects) == 0)
-<p>There aren't any projects here yet.</p>
-@endif
+<div class='row'>
+	<div class='col-md-8'>
+		<p>
+		@if ($type == 'mine')		
+			Welcome to your new Coagmento workspace. You can manage and share your projects and view analytics to see your progress. Coagmento is still under active development, but you can follow the development on our <a href="https://github.com/InfoSeeking/Coagmento" target="_blank">GitHub page</a>.
+		@elseif ($type == 'shared')
+			Projects which other users share with you appear here.
+		@endif
+		</p>
 
-<a href='#' class='deleteSelected' style='display:none'>Delete Selected</a>
 
-<ul id='project_list'>
-@foreach($projects as $project)
-<li>
-	<h4><a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a></h4>
-	<p>{{ $project->description }}</p>
-	<!-- Owner specific settings -->
-	@if ($project->creator_id == $user->id || $project->level == 'o')
-	<input class='select' type='checkbox' data-id='{{$project->id}}'/> |
-	<a href='/workspace/projects/{{ $project->id}}/settings'>Settings</a> |
-	<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a>
-	@endif
-</li>
-@endforeach
-</ul>
+		@if (count($projects) == 0)
+		<p>There aren't any projects here yet.</p>
+		@endif
+
+		<a href='#' class='deleteSelected' style='display:none'>Delete Selected</a>
+
+		<ul id='project-list'>
+		@foreach($projects as $project)
+		<li>
+			<h4>
+				@if ($project->creator_id == $user->id || $project->level == 'o')
+				<input class='select' type='checkbox' data-id='{{$project->id}}'/> 
+				@endif
+				<a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a>
+			</h4>
+			<p>{{ $project->description }}</p>
+
+
+			<!-- Owner specific settings -->
+			@if ($project->creator_id == $user->id || $project->level == 'o')
+			<a href='/workspace/projects/{{ $project->id}}/settings'>Settings</a>&nbsp;
+			<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a>
+			@else
+			<p> You have {{ $memberService->permissionToString($project->level) }} permission.</p>
+			@endif
+				
+		</li>
+		@endforeach
+		</ul>
+	</div>
+</div>
 
 <script>
 $('.delete').on('click', function(e) {
@@ -85,4 +116,4 @@ $('.deleteSelected').on('click', function(e) {
 });
 
 </script>
-@endsection('page-content')
+@endsection('main-content')

@@ -42,7 +42,7 @@ Route::get('sidebar/auth/logout', 'SidebarController@getLogout');
 Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 
 Route::get('workspace', [
-	'uses' => 'WorkspaceController@showHome',
+	'uses' => 'WorkspaceController@showProjects',
 	'middleware' => 'auth'
 	]);
 

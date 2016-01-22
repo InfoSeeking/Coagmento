@@ -36,12 +36,6 @@ class WorkspaceController extends Controller
         $this->docService = $docService;
     }
 
-    public function showHome() {
-        return view('workspace.home', [
-            'user' => Auth::user()
-            ]);
-    }
-
     public function showProjectCreate() {
         return view('workspace.projects.create', [
             'user' => Auth::user()
@@ -52,7 +46,8 @@ class WorkspaceController extends Controller
         $projects = $this->projectService->getMyProjects();
         return view('workspace.projects.index', [
             'projects' => $projects,
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'type' => 'mine'
             ]);
     }
 
@@ -60,7 +55,8 @@ class WorkspaceController extends Controller
         $projectsWithMemberships = $this->projectService->getSharedProjects();
         return view('workspace.projects.index', [
             'projects' => $projectsWithMemberships,
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'type' => 'shared'
             ]);
     }
 

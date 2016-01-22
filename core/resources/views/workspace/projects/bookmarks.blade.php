@@ -1,4 +1,4 @@
-@extends('layouts.workspace.single-project')
+@extends('workspace.layouts.single-project')
 
 
 @section('page')
@@ -19,7 +19,7 @@ page-bookmarks
 <a href='/workspace/projects/{{ $project->id }}/bookmarks'><span class='fa fa-star-o'></span> Bookmarks</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 <div class='row'>
 	@include('helpers.showAllMessages')
@@ -142,4 +142,4 @@ $("#new-btn").on('click', function(){
 });
 
 </script>
-@endsection('page-content')
+@endsection('main-content')

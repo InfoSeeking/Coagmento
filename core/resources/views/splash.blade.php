@@ -4,19 +4,21 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-    
-    <title>Coagmento 2.0 Announcement</title>
-    
-	<link rel="icon" type="image/png" href="images/coagfavicon.png" />
-    <link href="css/vendor/bootstrap.css" rel="stylesheet" />
-	<link href="css/splash.css" rel="stylesheet" />    
-    
-    <!--     Fonts     -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+  <meta name="viewport" content="width=device-width" />
   
+  <title>Coagmento 2.0 Announcement</title>
+  
+	<link rel="icon" type="image/png" href="images/coagfavicon.png" />
+  <!-- Bootstrap + FontAwesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<link href="css/splash.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -141,8 +143,9 @@
     <div class="footer">  
     </div>
  </div>
-    <script src="js/vendor/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="js/vendor/bootstrap.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
     <script>
         $("#facebook_share").on("click", function(e) {
             e.preventDefault();

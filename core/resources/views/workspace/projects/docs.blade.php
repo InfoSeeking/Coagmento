@@ -1,4 +1,4 @@
-@extends('layouts.workspace.single-project')
+@extends('workspace.layouts.single-project')
 
 
 @section('page')
@@ -16,10 +16,10 @@ page-docs
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
 <span class='fa fa-angle-right'></span>
-<a href='/workspace/projects/{{ $project->id }}/docs'><span class='fa fa-star-o'></span> Docs</a>
+<a href='/workspace/projects/{{ $project->id }}/docs'><span class='fa fa-file-text-o'></span> Docs</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 <div class='row'>
 	@include('helpers.showAllMessages')
@@ -119,4 +119,4 @@ $("#new-btn").on('click', function(){
 });
 
 </script>
-@endsection('page-content')
+@endsection('main-content')

@@ -1,4 +1,4 @@
-@extends('layouts.workspace.single-project')
+@extends('workspace.layouts.single-project')
 
 
 @section('page')
@@ -15,7 +15,7 @@ page-doc
 <a href='/workspace/projects/{{ $project->id }}/docs/'><span class='fa fa-star-o'></span> {{ $doc->title }}</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 @include('helpers.showAllMessages')
 <div id='etherpad'></div>
@@ -48,4 +48,4 @@ $('#etherpad').pad({
 });
 
 </script>
-@endsection('page-content')
+@endsection('main-content')

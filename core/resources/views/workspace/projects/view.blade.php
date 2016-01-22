@@ -1,4 +1,4 @@
-@extends('layouts.workspace.single-project')
+@extends('workspace.layouts.single-project')
 
 @section('page')
 page-activity
@@ -10,7 +10,7 @@ page-activity
 <a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 <div class='row'>
 	@include('helpers.showAllMessages')
@@ -82,4 +82,4 @@ window.onload = function(){
 	});
 	@endif
 </script>
-@endsection('page-content')
+@endsection('main-content')

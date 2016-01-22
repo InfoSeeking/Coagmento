@@ -1,4 +1,4 @@
-@extends('layouts.workspace.project')
+@extends('workspace.layouts.project')
 @section('navigation')
 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
 <span class='fa fa-angle-right'></span>
@@ -7,7 +7,7 @@
 <a href='/workspace/projects/{{ $project->id }}/settings'>Settings</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 <div class="row">
 	@include('helpers.showAllMessages')
@@ -195,4 +195,4 @@ $("#shareUser").on('submit', function(e){
 })
 
 </script>
-@endsection('page-content')
+@endsection('main-content')

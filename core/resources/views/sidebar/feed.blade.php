@@ -176,7 +176,6 @@
 
 
 <script src='/js/vendor/socket.io.js'></script>
-<script src='/js/vendor/jquery-1.10.2.js'></script>
 <script src='/js/vendor/underscore.js'></script>
 <script src='/js/vendor/backbone.js'></script>
 <script src='/js/config.js'></script>

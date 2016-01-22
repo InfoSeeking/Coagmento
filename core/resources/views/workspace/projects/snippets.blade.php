@@ -1,4 +1,4 @@
-@extends('layouts.workspace.single-project')
+@extends('workspace.layouts.single-project')
 
 @section('page')
 page-snippets
@@ -16,10 +16,10 @@ page-snippets
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
 <span class='fa fa-angle-right'></span>
-<a href='/workspace/projects/{{ $project->id }}/snippets'><span class='fa fa-star-o'></span> Snippets</a>
+<a href='/workspace/projects/{{ $project->id }}/snippets'><span class='fa fa-sticky-note-o'></span> Snippets</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('main-content')
 
 <div class='row'>
 	@include('helpers.showAllMessages')
@@ -135,4 +135,4 @@ $("#new-btn").on('click', function(){
 })
 
 </script>
-@endsection('page-content')
+@endsection('main-content')

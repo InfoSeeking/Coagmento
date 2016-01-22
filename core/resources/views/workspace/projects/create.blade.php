@@ -1,11 +1,15 @@
-@extends('layouts.workspace.project')
+@extends('workspace.layouts.project')
 @section('navigation')
 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/create'>New</a>
 @endsection('navigation')
 
-@section('page-content')
+@section('page')
+page-new-project
+@endsection('page')
+
+@section('main-content')
 
 @include('helpers.showAllMessages')
 <div class='col-sm-6'>
@@ -58,4 +62,4 @@
 </div>
 
 
-@endsection('page-content')
+@endsection('main-content')
