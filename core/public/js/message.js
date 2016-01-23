@@ -15,6 +15,7 @@ var MessageDisplay = (function() {
 
 	// Given an API response, display the status message if there is an error.
 	function displayIfError(json) {
+		if (!json) return;
 		var errors = [];
 		if (json.status == 'error') {
 			errors = errors.concat(json.errors.general);

@@ -108,7 +108,8 @@ class ProjectService {
 
     public function update($args) {
         $validator = Validator::make($args, [
-            'id' => 'required|integer'
+            'id' => 'required|integer',
+            'private' => 'sometimes|boolean'
             ]);
         if ($validator->fails()) {
             return Status::fromValidator($validator);
@@ -119,6 +120,9 @@ class ProjectService {
         }
         $memberStatus = $this->memberService->checkPermission($project->id, 'w', $this->user);
         if (!$memberStatus->isOK()) return $memberStatus;
+        if (array_key_exists('private', $args)) {
+            $project->private = $args['private'];
+        }
         $project->update($args);
         return Status::OK();
     }

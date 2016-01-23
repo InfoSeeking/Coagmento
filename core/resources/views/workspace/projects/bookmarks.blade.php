@@ -130,9 +130,7 @@ $("#create-bookmark").on('submit', function(e){
 		},
 		error: function(xhr) {
 			var json = JSON.parse(xhr.responseText);
-			if (json) {
-				MessageDisplay.displayIfError(json);
-			}
+			MessageDisplay.displayIfError(json);
 		}
 	});
 });

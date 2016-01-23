@@ -1,4 +1,5 @@
 @extends('workspace.layouts.project')
+@inject('memberService', 'App\Services\MembershipService')
 @section('navigation')
 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
 <span class='fa fa-angle-right'></span>
@@ -11,9 +12,35 @@
 
 <div class="row">
 	@include('helpers.showAllMessages')
-    <div class="col-md-12">
-		<h2>{{ $project->title }} Settings</h2>
-		<h3>Sharing</h3>
+    <div class="col-md-8">
+		<h2>Project Settings ({{ $project->title }})</h2>
+		<h4>Manage</h4>
+		<p>
+			<p>This is a {{ $project->private ? "private" : "public"}} project.</p>
+			<a class='btn btn-primary' href='/workspace/projects/{{$project->id}}'>View this Project</a>
+			<a href='#' data-target-privateness='{{ $project->private ? "0" : "1"}}' class='btn btn-danger switch-visibility'>
+				Make this Project {{ $project->private ? "Public" : "Private"}}
+			</a>
+			<a href='#' class='btn btn-danger delete'>Delete this Project</a>
+		</p>
+		<p>Edit your project information.
+		<div class='row'><div class='col-md-12'>
+		<form id='project-description'>
+			<div class='form-group'>
+				<input type='text' name='title' placeholder='Edit project title.' class='form-control' value='{{$project->title}}'/>
+			</div>
+			<div class='form-group'>
+
+				<textarea class='form-control' name='description' placeholder='Edit project description.'>{{$project->description}}</textarea>
+			</div>
+			<div class='form-group'>
+				<button type='submit' class='btn btn-primary pull-right'>Save</button>
+			</div>
+		</form>
+		</div></div>
+		</p>
+
+		<h4>Sharing</h4>
 		@if (count($sharedUsers) == 0)
 			<p>This project is currently not being shared with anyone</p>
 		@else
@@ -28,15 +55,8 @@
 			<ul>
 			@foreach ($sharedUsers as $user)
 			<li>
-			{{$user->name}} ({{$user->email}}) has
-			@if ($user->level == 'r')
-			read
-			@elseif ($user->level == 'w')
-			write
-			@elseif ($user->level == 'o')
-			own
-			@endif
-			permissions
+			{{$user->name}} ({{$user->email}}) has {{ $memberService->permissionToString($user->level) }} permission. 
+			<a href='#' data-user-id='{{$user->user_id}}' data-user-email='{{$user->email}}' class='remove-permissions'>Remove</a>.
 			</li>
 			@endforeach
 			</ul>
@@ -53,146 +73,127 @@
 			</div>
 			<input type='hidden' name='project_id' value='{{ $project->id }}' />
 		</form>
-		<!--
-		<div class='col-md-4'>
-			<h4>Bookmarks</h4>
-			<ul>
-			@foreach ($bookmarks as $bookmark)
-				<li>{{ $bookmark->title }}</li>
-			@endforeach
-			</ul>
-		</div>
-		<div class='col-md-8'>
-			<h3>Create Bookmark</h3>
-			<form action='/api/v1/bookmarks' method='post' id='createBookmark'>
-				<div class="form-group">
-					<input type='text' name='url' placeholder='url' value='http://example.com' />
-				</div>
-				<div class="form-group">
-					<input type='text' name='title' placeholder='title' value='Example Title' />
-				</div>
-				<div class="form-group">
-					<input type='text' name='tags' placeholder='tags' value='tag1, tag2' />
-				</div>
-				<input type='hidden' name='project_id' value='{{ $project->id }}' />
-				<button type='submit' class='btn btn-default'>Create</button>
-			</form>
-		</div>
-		-->
+
 
 	</div>
 </div>
 
 <script>
-$('.delete').on('click', function(e) {
-	e.preventDefault();
-	var projectId = $(this).attr('data-id');
-	var link = $(this).parent();
-	$.ajax({
-		url: 'api/v1/projects/' + projectId,
-		method: 'delete',
-		success: function() {
-			link.fadeOut();
-		}
-	})
-});
+(function(){
+	var projectId = {{ $project->id}};
 
-$('#createBookmark').on('submit', function(e){
-	e.preventDefault();
-	var projectId = $(this).find('input[name=project_id]').val();
-	var title = $(this).find('input[name=title]').val();
-	var url = $(this).find('input[name=url]').val();
-	var tags = $(this).find('input[name=tags]').val();
-	tags = tags.split(/\s*,\s*/);
-	$.ajax({
-		url: '/api/v1/bookmarks/',
-		method: 'post',
-		data: {
-			'project_id' : projectId,
-			'title': title,
-			'url': url,
-			'tags' : tags
-		},
-		complete: function(xhr) {
-			document.write(xhr.responseText);
-		},
-		success: function() {
-			window.location.reload();
-		}
-	});
-});
-
-$("#createSnippet").on('submit', function(e){
-	e.preventDefault();
-	var projectId = $(this).find('input[name=project_id]').val();
-	var text = $(this).find('textarea[name=text]').val();
-	var url = $(this).find('input[name=url]').val();
-	$.ajax({
-		url: '/api/v1/snippets/',
-		method: 'post',
-		data: {
-			'project_id' : projectId,
-			'url': url,
-			'text' : text
-		},
-		complete: function(xhr) {
-			document.write(xhr.responseText);
-		},
-		success: function() {
-			window.location.reload();
-		}
-	});
-});
-
-$('#createPage').on('submit', function(e){
-	e.preventDefault();
-	var projectId = $(this).find('input[name=project_id]').val();
-	var title = $(this).find('input[name=title]').val();
-	var url = $(this).find('input[name=url]').val();
-	$.ajax({
-		url: '/api/v1/pages/',
-		method: 'post',
-		data: {
-			'project_id' : projectId,
-			'title': title,
-			'url': url
-		},
-		complete: function(xhr) {
-			document.write(xhr.responseText);
-		},
-		success: function() {
-			window.location.reload();
-		}
-	});
-});
-
-$("#shareUser").on('submit', function(e){
-	e.preventDefault();
-	var projectId = $(this).find('input[name=project_id]').val();
-	var permissions = $(this).find('select[name=permissions]').val();
-	var email = $(this).find('input[name=email]').val();
-	$.ajax({
-		url: '/api/v1/projects/' + projectId + '/share',
-		method: 'post',
-		data: {
-			'user_email': email,
-			'permission': permissions,
-		},
-		complete: function(xhr) {
-			var errorJson = JSON.parse(xhr.responseText);
-			if (errorJson['errors']['input'].length > 0) {
-				alert(errorJson['errors']['input'].join(' '));
+	// Handles deleting the project. Redirects to workspace after alerting user.
+	$('.delete').on('click', function(e) {
+		e.preventDefault();
+		var confirmation = confirm("Are you sure you wish to delete this project with all of it's data");
+		if (!confirmation) return;
+		$.ajax({
+			url: '/api/v1/projects/' + projectId,
+			method: 'delete',
+			success: function() {
+				alert('Project has been deleted');
+				window.location = '/workspace';
+			},
+			error: function(xhr)  {
+				var json = JSON.parse(xhr.responseText);
+				MessageDisplay.displayIfError(json);
 			}
-			if (errorJson['errors']['general'].length > 0) {
-				alert(errorJson['errors']['general'].join(' '));
+		})
+	});
+
+	$('.remove-permissions').on('click', function(e) {
+		e.preventDefault();
+		var userEmail = $(this).attr('data-user-email');
+		var userId = $(this).attr('data-user-id');
+		var listItem = $(this).parent();
+		var confirmation = confirm("Are you sure you wish to remove the user (" + userEmail + ") from this project?");
+		if (!confirmation) return;
+		$.ajax({
+			url: '/api/v1/projects/' + projectId + '/share',
+			data: {
+				user_id: userId
+			},
+			method: 'delete',
+			success: function(response) {
+				MessageDisplay.display(['User removed from project'], 'success');
+				listItem.detach();
+			},
+			error: function(xhr) {
+				var json = JSON.parse(xhr.responseText);
+				MessageDisplay.displayIfError(json);
 			}
-		},
-		success: function() {
-			// Add to list.
-			window.location.reload();
-		}
-	})
-})
+		})
+	});
+
+	$("#shareUser").on('submit', function(e){
+		e.preventDefault();
+		var permissions = $(this).find('select[name=permissions]').val();
+		var email = $(this).find('input[name=email]').val();
+		$.ajax({
+			url: '/api/v1/projects/' + projectId + '/share',
+			method: 'post',
+			data: {
+				'user_email': email,
+				'permission': permissions,
+			},
+			success: function() {
+				// Add to list.
+				window.location.reload();
+			},
+			error: function(xhr) {
+				var json = JSON.parse(xhr.responseText);
+				MessageDisplay.displayIfError(json);
+			}
+		});
+	});
+
+	// Handles updating project title and description.
+	$('#project-description').on('submit', function(e){
+		e.preventDefault();
+		var description = $(this).find('textarea[name=description]').val();
+		var title = $(this).find('input[name=title]').val();
+		$.ajax({
+			url: '/api/v1/projects/' + projectId,
+			method: 'put',
+			data: {
+				'title': title,
+				'description': description
+			},
+			success: function() {
+				MessageDisplay.display(['Project title and description updated.'], 'success');
+			},
+			error: function(xhr) {
+				var json = JSON.parse(xhr.responseText);
+				MessageDisplay.displayIfError(json);
+			}
+		})
+	});
+
+
+	$('.switch-visibility').on('click', function(e){
+		e.preventDefault();
+		var targetPrivateness = $(this).attr('data-target-privateness');
+		var targetWord = targetPrivateness ? 'private' : 'public';
+		var confirmation = confirm('Are you sure you wish to make this project ' + targetWord);
+		if (!confirmation) return;
+		$.ajax({
+			url: '/api/v1/projects/' + projectId,
+			method: 'put',
+			data: {
+				"private": targetPrivateness
+			},
+			success: function(response) {
+				// Reload to update button.
+				window.location.reload();
+			},
+			error: function(xhr) {
+				var json = JSON.parse(xhr.responseText);
+				MessageDisplay.displayIfError(json);
+			}
+		});
+	});
+
+}());
 
 </script>
 @endsection('main-content')

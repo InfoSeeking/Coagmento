@@ -44,7 +44,7 @@ page-new-project
 				</label>
 				<p>Public projects are publicly searchable and can be viewed by others.</p>
 				<label>
-					<input type='radio' name='visibility' id='inputVisibility' value='public'/>
+					<input type='radio' name='visibility' id='inputVisibility' value='private'/>
 					Private
 				</label>
 				<p>Private projects are unlisted and restricted to project members.</p>

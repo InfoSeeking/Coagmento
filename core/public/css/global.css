@@ -12,6 +12,8 @@ a {
 }
 .messageList {
 	position: relative;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 .messageList .close-btn {
 	position: absolute;

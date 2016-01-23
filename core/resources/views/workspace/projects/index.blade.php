@@ -18,9 +18,9 @@ page-shared-projects
 
 <div class='row'>
 	<div class='col-md-8'>
-		<p>
+		<p class='welcome'>
 		@if ($type == 'mine')		
-			Welcome to your new Coagmento workspace. You can manage and share your projects and view analytics to see your progress. Coagmento is still under active development, but you can follow the development on our <a href="https://github.com/InfoSeeking/Coagmento" target="_blank">GitHub page</a>.
+			Welcome to your new Coagmento workspace. Here you can manage, share, and analyze your projects. Coagmento is still under active development, but you can follow the development on our <a href="https://github.com/InfoSeeking/Coagmento" target="_blank">GitHub page</a>.
 		@elseif ($type == 'shared')
 			Projects which other users share with you appear here.
 		@endif
@@ -28,7 +28,13 @@ page-shared-projects
 
 
 		@if (count($projects) == 0)
-		<p>There aren't any projects here yet.</p>
+		<p>
+		@if ($type == 'mine')		
+			There are no projects here yet. You can <a href='/workspace/projects/new'>create one</a> now.
+		@elseif ($type == 'shared')
+			There are no projects here yet.
+		@endif
+		</p>
 		@endif
 
 		<a href='#' class='deleteSelected' style='display:none'>Delete Selected</a>
@@ -37,22 +43,16 @@ page-shared-projects
 		@foreach($projects as $project)
 		<li>
 			<h4>
-				@if ($project->creator_id == $user->id || $project->level == 'o')
-				<input class='select' type='checkbox' data-id='{{$project->id}}'/> 
-				@endif
 				<a href='/workspace/projects/{{ $project->id}}'>{{ $project->title }}</a>
+				<small>
+				@if ($project->creator_id == $user->id || $project->level == 'o')
+				<a href='/workspace/projects/{{ $project->id}}/settings'>Settings</a>
+				@else
+				{{ ucfirst($memberService->permissionToString($project->level)) }} permission.
+				@endif
+				</small>
 			</h4>
-			<p>{{ $project->description }}</p>
-
-
-			<!-- Owner specific settings -->
-			@if ($project->creator_id == $user->id || $project->level == 'o')
-			<a href='/workspace/projects/{{ $project->id}}/settings'>Settings</a>&nbsp;
-			<a class='delete' href='#' data-id='{{$project->id}}'>Delete</a>
-			@else
-			<p> You have {{ $memberService->permissionToString($project->level) }} permission.</p>
-			@endif
-				
+			<p>{{ $project->description or 'No description.' }}</p>		
 		</li>
 		@endforeach
 		</ul>

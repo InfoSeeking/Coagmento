@@ -23,6 +23,7 @@
         <script src='/js/vendor/socket.io.js'></script>
         <script src='/js/vendor/backbone.js'></script>
         <script src='/js/config.js'></script>
+        <script src='/js/message.js'></script>
 
         <title>Coagmento Workspace</title>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -55,7 +56,9 @@
             <div class="container-fluid" id="body-container">
                 <div class="row">
                     <div class='col-md-2 sidebar'>@yield('sidebar')</div>
-                    <div class="col-md-10 main-content">@yield('main-content')</div>
+                    <div class="col-md-10 main-content">
+                        @yield('main-content')
+                    </div>
                 </div>
             </div>
             
@@ -65,10 +68,11 @@
         </div>
         
         <script>
+            // Initialize the message display.
+
             // Compute the minimum height necessary of the body-container to render full screen.
             function computeMinHeight() {
                 var value = $(window).height() - $('#page-footer').outerHeight(true) - $('#page-navigation').outerHeight(true);
-                console.log(value);
                 $('.main-content').css({
                     'min-height' : value + 'px'
                 })

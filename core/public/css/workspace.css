@@ -103,8 +103,23 @@
 #project-list li {
 	border-bottom: 1px #969797 solid;
 	color: #5b5b5b;
+	background: #F5F5F5;
+	padding: 1px 10px;
 }
 
+#project-list li:last-child {
+	border-bottom: none;
+}
+
+#project-list li h4 {
+	position: relative;
+}
+
+#project-list li h4 small {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
 
 
 .create-form label{
