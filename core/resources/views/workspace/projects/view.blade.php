@@ -16,20 +16,16 @@ page-activity
 	@include('helpers.showAllMessages')
 	
     <div class='col-md-4'>
+    	<!--
     	<canvas id="canvas" height="200" width="300"></canvas>
     	<p><small>* This data is random and only a temporary placeholder</small></p>
-		<h3>Statistics</h3>
+    	-->
+		<!-- <h3>Statistics</h3> -->
     	@if ($permission == 'o')
     	<p>There are {{ count($sharedUsers)}} collaborators. <a href='/workspace/projects/{{ $project->id }}/settings'>Share</a> with others.</p>
     	@endif
 		<p>{{ count($bookmarks) }} bookmarks have been saved in total.</p>
 		<p>{{ count($snippets) }} snippets have been saved in total.</p>
-	</div>
-
-	<div class='col-md-4'>
-		<h3>Incoming Data</h3>
-		<ul id="incoming_data">
-		</ul>
 	</div>
 </div>
 
@@ -61,25 +57,12 @@ var lineChartData = {
 		}
 	]
 }
+/*
 window.onload = function(){
 	var ctx = document.getElementById("canvas").getContext("2d");
 	window.myLine = new Chart(ctx).Line(lineChartData, {});
 }
+*/
 </script>
 
-<script src='/js/vendor/socket.io.js'></script>
-<script>
-	@if (env('REALTIME_SERVER'))
-	var socket = io('{{ env('REALTIME_SERVER') }}/feed');
-	socket.on('data', function(data){
-		console.log('Incoming');
-		console.log(data);
-		var newElement = $("<li>" + data.data[0]['title'] + "</li>");
-		$("#incoming_data").append(newElement);
-	});
-	socket.emit('subscribe', {
-		projectID : {{$project->id}}
-	});
-	@endif
-</script>
 @endsection('main-content')
