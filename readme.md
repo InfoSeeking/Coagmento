@@ -13,7 +13,7 @@ Coagmento is split into four main services.
 	<tr>
 		<th align="left"> Coagmento Core </th>
 		<td> Consists of the main Coagmento web application and API. </td>
-		<td> <a href='wiki/Coagmento-Core-Installation'>See Installation Instructions</a></td>
+		<td> <a href='/wiki/Coagmento-Core-Installation'>See Installation Instructions</a></td>
 	</tr>
 	<tr>
 		<th align="left"> Coagmento Realtime</th>
