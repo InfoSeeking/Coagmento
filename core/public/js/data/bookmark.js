@@ -27,9 +27,15 @@ var BookmarkListItemView = Backbone.View.extend({
 	tagName: 'div',
 	className: 'bookmark',
 	layout: 'grid',
-	templates: {
-		'grid': _.template($('[data-template=bookmark][data-layout=grid]').html()),
-		'list': _.template($('[data-template=bookmark][data-layout=list]').html())
+	layouts: {
+		'grid': {
+			'template': _.template($('[data-template=bookmark][data-layout=grid]').html()),
+			'classes': 'grid'
+		},
+		'list': {
+			'template': _.template($('[data-template=bookmark][data-layout=list]').html()),
+			'classes': 'list'
+		}
 	},
 	events: {
 		'click .delete': 'onDelete',
@@ -60,12 +66,13 @@ var BookmarkListItemView = Backbone.View.extend({
 		this.render();
 	},
 	render: function() {
-		var html = this.templates[this.layout](this.model.toJSON());
-		this.$el.html(html).addClass(this.layout);
+		var layout = this.layouts[this.layout];
+		var html = layout.template(this.model.toJSON());
+		this.$el.html(html).addClass(layout.classes);
 		return this;
 	},
 	withLayout: function(layout) {
-		if (!this.templates.hasOwnProperty(layout)) {
+		if (!this.layouts.hasOwnProperty(layout)) {
 			throw 'Layout ' + this.layout + ' is not supported for bookmarks';
 		};
 		this.layout = layout;

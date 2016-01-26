@@ -1,20 +1,16 @@
 <script type='text/template' data-template='bookmark' data-layout='grid'>
-	<div>
-		<% if (thumbnail) { %>
-	    <img class='thumbnail' src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>" />
-	    <% } %>
-		<a target="_blank" href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
-		<% if(notes) { %>
-		<p>Notes: <%= _.escape(notes) %></p>
+	<% if (thumbnail) { %>
+    <img class='thumbnail' src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>" />
+    <% } %>
+    <div class='overlay'>
+		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title).substring(0,20) %></a>
+		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
+			<div class='right'>
+				<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
+				<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
+			</div>
 		<% } %>
 	</div>
-	<p>
-		Saved <%= created_at %>
-		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-		| <a data-id='<%= id %>' class='delete'>Delete</a>
-		| <a data-id='<%= id %>' class='edit'>Edit</a>
-		<% } %>
-	</p>
 </script>
 
 <script type='text/template' data-template='bookmark' data-layout='list'>

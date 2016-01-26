@@ -50,7 +50,7 @@ page-bookmarks
 			</div>
 		</div>
 
-		<ul id='bookmark-list'>
+		<ul id='bookmark-list' class='data-view row'>
 		</ul>
 	</div>
 </div>
