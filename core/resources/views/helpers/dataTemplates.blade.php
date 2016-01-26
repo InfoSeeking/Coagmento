@@ -1,3 +1,18 @@
+<script type='text/template' data-template='bookmark' data-layout='coverflow'>
+	<% if (thumbnail) { %>
+    <img src="/images/thumbnails/large/<%= _.escape(thumbnail.image_large) %>" />
+    <% } %>
+    <div class='overlay'>
+		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title) %></a>
+		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
+			<div class='right'>
+				<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
+				<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
+			</div>
+		<% } %>
+	</div>
+</script>
+
 <script type='text/template' data-template='bookmark' data-layout='grid'>
 	<% if (thumbnail) { %>
     <img class='thumbnail' src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>" />

@@ -14,6 +14,7 @@
 
         <link rel="stylesheet" href="/css/global.css" />
         <link rel="stylesheet" href="/css/workspace.css" />
+        <link rel="stylesheet" href="/css/vendor/jquery.flipster.min.css" />
         <link rel="stylesheet" href="/fonts/myriad-pro/style.css" />
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

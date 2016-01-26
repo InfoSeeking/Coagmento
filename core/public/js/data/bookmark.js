@@ -26,16 +26,10 @@ var BookmarkCollection = Backbone.Collection.extend({
 var BookmarkListItemView = Backbone.View.extend({
 	tagName: 'div',
 	className: 'bookmark',
-	layout: 'grid',
-	layouts: {
-		'grid': {
-			'template': _.template($('[data-template=bookmark][data-layout=grid]').html()),
-			'classes': 'grid'
-		},
-		'list': {
-			'template': _.template($('[data-template=bookmark][data-layout=list]').html()),
-			'classes': 'list'
-		}
+	templates: {
+		'grid': _.template($('[data-template=bookmark][data-layout=grid]').html()),
+		'list': _.template($('[data-template=bookmark][data-layout=list]').html()),
+		'coverflow': _.template($('[data-template=bookmark][data-layout=coverflow]').html()),
 	},
 	events: {
 		'click .delete': 'onDelete',
@@ -46,7 +40,8 @@ var BookmarkListItemView = Backbone.View.extend({
 			'data-id': this.model.id
 		}
 	},
-	initialize: function () {
+	initialize: function (options) {
+		this.layout = options.layout;
 		this.model.on('remove', this.remove, this);
 		this.model.on('change', this.render, this);
 	},
@@ -66,29 +61,29 @@ var BookmarkListItemView = Backbone.View.extend({
 		this.render();
 	},
 	render: function() {
-		var layout = this.layouts[this.layout];
-		var html = layout.template(this.model.toJSON());
-		this.$el.html(html).addClass(layout.classes);
+		var template = this.templates[this.layout];
+		var html = template(this.model.toJSON());
+		this.$el.html(html).addClass(this.layout);
 		return this;
 	},
-	withLayout: function(layout) {
-		if (!this.layouts.hasOwnProperty(layout)) {
-			throw 'Layout ' + this.layout + ' is not supported for bookmarks';
-		};
-		this.layout = layout;
-		return this;
-	}
 });
 
 var BookmarkListView = Backbone.View.extend({
 	el: '#bookmark-list',
+	container: $('#bookmark-list'),
 	layout: 'grid',
-	supportedLayouts: ['grid', 'list'],
+	supportedLayouts: ['grid', 'list', 'coverflow'],
 	initialize: function() {
 		this.collection.on('add', this.add, this);
 	},
 	render: function() {
 		this.$el.empty();
+		if (this.layout == 'coverflow') {
+			this.container = $('<div id="coverflow-container"></div>');
+			this.$el.append(this.container);
+		} else {
+			this.container = $('#bookmark-list');
+		}
 		this.collection.forEach(function(model){
 			this.add(model);
 		}, this);
@@ -101,12 +96,27 @@ var BookmarkListView = Backbone.View.extend({
 		}
 		this.layout = layout;
 		this.render();
+		if (layout == 'coverflow') {
+			// Initialize the coverflow.
+			this.coverflow = $('#bookmark-list').flipster({
+				itemContainer: '#coverflow-container',
+				itemSelector: '.coverflow',
+				start: 'center'
+			})
+		}
 	},
 	add: function(model) {
-		var item = new BookmarkListItemView({model: model});
-		this.$el.prepend(item.withLayout(this.layout).render().$el);
+		var item = new BookmarkListItemView({model: model, layout: this.layout});
+		this.container.prepend(item.render().$el);
 		model.on('destroy', function() {
 			item.remove();
+			this.reindexCoverflow();
 		});
+		this.reindexCoverflow();
+	},
+	reindexCoverflow: function() {
+		if (this.layout != 'coverflow') return;
+		if (!this.coverflow) return;
+		this.coverflow.flipster('index');
 	}
 });

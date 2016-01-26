@@ -49,15 +49,26 @@ page-bookmarks
 				</form>
 			</div>
 		</div>
+		
+		<form id='layout-selection' class='form-inline'>
+			<select class='form-control'>
+				<option value="grid">Grid</option>
+				<option value="list">List</option>
+				<option value="coverflow">Coverflow</option>
+			</select>
+		</form>
 
-		<ul id='bookmark-list' class='data-view row'>
-		</ul>
+		
+		<div id='bookmark-list' class='data-view row'>
+		</div>
+		
 	</div>
 </div>
 
 @include('helpers.dataTemplates')
 
 <script src='/js/realtime.js'></script>
+<script src='/js/vendor/jquery.flipster.min.js'></script>
 <script src='/js/data/bookmark.js'></script>
 <script>
 Config.setAll({
@@ -137,6 +148,12 @@ $("#create-bookmark").on('submit', function(e){
 
 $("#new-btn").on('click', function(){
 	$("#new").fadeIn(150);
+});
+
+$('#layout-selection').on('change', function(e){
+	e.preventDefault();
+	var layout = $(this).find('option:selected').attr('value');
+	bookmarkListView.setLayout(layout);
 });
 
 </script>
