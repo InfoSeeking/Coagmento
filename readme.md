@@ -9,6 +9,7 @@ This is the next version of [Coagmento](http://www.coagmento.org/), which is und
 
 Coagmento is split into four main services.
 
+|--------------------------|---------------------------------------------------------|------------------------------------------------------|
 | **Coagmento Core**       | Consists of the main Coagmento web application and API. | [See Installation Instructions](core/readme.md)      |
 | **Coagmento Realtime**   | Enables realtime data updates and chat.                 | [See Installation Instructions](realtime/readme.md)  |
 | **Coagmento Thumbnails** | Generates web page thumbnails.                          | [See Installation Instructions](thumbnail/readme.md) |
