@@ -13,22 +13,22 @@ Coagmento is split into four main services.
 	<tr>
 		<th align="left"> Coagmento Core </th>
 		<td> Consists of the main Coagmento web application and API. </td>
-		<td> <a href='core/readme.md'>See Installation Instructions</a></td>
+		<td> <a href='wiki/Coagmento-Core-Installation'>See Installation Instructions</a></td>
 	</tr>
 	<tr>
 		<th align="left"> Coagmento Realtime</th>
 		<td> Enables realtime data updates and chat.</td>
-		<td> <a href='realtime/readme.md'>See Installation Instructions</a> </td>
+		<td> <a href='wiki/Coagmento-Realtime-Installation'>See Installation Instructions</a> </td>
 	</tr>
 	<tr>
 		<th align="left"> Coagmento Thumbnails </th>
 		<td> Generates web page thumbnails.</td>
-		<td> <a href='thumbnail/readme.md'>See Installation Instructions</a> </td>
+		<td> <a href='wiki/Coagmento-Thumbnail-Generator-Installation'>See Installation Instructions</a> </td>
 	</tr>
 	<tr>
 		<th align="left"> Coagmento Docs</th>
 		<td> Allows collaborative document editing (using Etherpad). </td>
-		<td> <a href='docs/readme.md'>See Installation Instructions</a></td>
+		<td> <a href='wiki/Coagmento-Docs-Installation'>See Installation Instructions</a></td>
 	</tr>
 </table>
 

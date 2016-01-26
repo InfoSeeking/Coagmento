@@ -1,15 +1,13 @@
 # Coagmento Thumbnail Generator #
 A small NodeJS server built using [PhantomJS](http://phantomjs.org/).
 
-To install dependencies, run `npm install` in the terminal.
-
-To start the server, run `npm start` in the terminal.
-
 It offers an HTTP API which the core Coagmento application calls periodically to generate
 screenshots from website URLs. Both a large and small version of a screenshot are saved.
 
 This server is not meant for storage. Saved images are deleted periodically from this server. 
 Therefore, they are downloaded from the core Coagmento application soon after generating.
+
+See the [wiki](https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Thumbnail-Generator-Installation) for installation instructions and other information.
 
 ## Example HTTP request and response ##
 A request simply sends a list of URLs.
