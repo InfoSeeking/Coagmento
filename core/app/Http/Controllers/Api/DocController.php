@@ -40,7 +40,9 @@ class DocController extends Controller
      * @apiName GetText
      * @apiParam {Boolean} [as_html=false] If true, returns formatted HTML instead of plain text.
      * @apiVersion 1.0.0
-     * @apiSuccessExample {json} Success-Response:
+     * @apiExample {curl} Example Usage
+     * curl "http://localhost:8000/api/v1/docs/2/text?auth_email=coagmento_demo@demo.demo&auth_password=demo&project_id=300&as_html=1"
+     * @apiSuccessExample {json} Success Response
      *   {
      *    "status": "ok",
      *    "errors": {

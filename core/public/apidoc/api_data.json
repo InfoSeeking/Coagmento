@@ -242,6 +242,52 @@
     "groupTitle": "Doc"
   },
   {
+    "type": "get",
+    "url": "/v1/docs/{doc-id}/text",
+    "title": "Get Text",
+    "description": "<p>Gets the plain text of a document.</p> ",
+    "permission": [
+      {
+        "name": "read"
+      }
+    ],
+    "group": "Doc",
+    "name": "GetText",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Boolean</p> ",
+            "optional": true,
+            "field": "as_html",
+            "defaultValue": "false",
+            "description": "<p>If true, returns formatted HTML instead of plain text.</p> "
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "Example Usage",
+        "content": "curl \"http://localhost:8000/api/v1/docs/2/text?auth_email=coagmento_demo@demo.demo&auth_password=demo&project_id=300&as_html=1\"",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": " {\n  \"status\": \"ok\",\n  \"errors\": {\n    \"input\": [],\n    \"general\": []\n  },\n  \"result\": {\n    \"text\": {\n      \"html\": \"<!DOCTYPE HTML><html><body>This is a test of getting text.</body></html>\"\n    }\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Http/Controllers/Api/DocController.php",
+    "groupTitle": "Doc"
+  },
+  {
     "type": "post",
     "url": "/v1/pages",
     "title": "Create",
@@ -585,6 +631,20 @@
             "optional": true,
             "field": "title",
             "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "description",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>Boolean</p> ",
+            "optional": true,
+            "field": "private",
+            "description": "<p>Whether or not the project is private or publically visible.</p> "
           }
         ]
       }
