@@ -1,3 +1,5 @@
+<!-- TODO: dates are assumed to be EST. Should we try to change this or just document it? -->
+<script src='/js/vendor/moment.js'></script>
 <script type='text/template' data-template='bookmark' data-layout='coverflow'>
 	<% if (thumbnail) { %>
     <img src="/images/thumbnails/large/<%= _.escape(thumbnail.image_large) %>"/>
@@ -36,7 +38,7 @@
 		<% } %>
 	</div>
 	<p>
-		Saved <%= created_at %>
+		Saved <%= moment(created_at).subtract(5, 'hours').format('MMM Mo h:mma') %>
 		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
 		| <a data-id='<%= id %>' class='delete'>Delete</a>
 		| <a data-id='<%= id %>' class='edit'>Edit</a>
@@ -50,7 +52,7 @@
 		<p><%= _.escape(text) %>
 	</div>
 	<p>
-		Saved <%= created_at %>
+		Saved <%= moment(created_at).subtract(5, 'hours').format('MMM Mo h:mma') %>
 		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
 		| <a data-id='<%= id %>' class='delete'>Delete</a>
 		| <a data-id='<%= id %>' class='edit'>Edit</a>
@@ -75,7 +77,7 @@
 		<a href='/workspace/projects/<%= project_id %>/docs/<%= id %>'><%= _.escape(title) %></a>
 	</div>
 	<p>
-		Saved <%= created_at %>
+		Saved <%= moment(created_at).subtract(5, 'hours').format('MMM Mo h:mma') %>
 		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
 		| <a data-id='<%= id %>' class='delete'>Delete</a>
 		<% } %>

@@ -26,25 +26,26 @@ class DocService {
 
 	public function create($args) {
 		if (!$this->active) return Status::fromError('Documents are disabled');
+		
+		$validator = Validator::make($args, [
+			'title' => 'required|string',
+			'project_id' => 'required|exists:projects,id'
+			]);
+		if ($validator->fails()) return Status::fromValidator($validator);
+
+		$projectId = $args['project_id'];
+		$memberStatus = $this->memberService->checkPermission($projectId, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
+		// Begin a transaction in case there are errors with Etherpad.
+		DB::beginTransaction();
+		$doc = new Doc($args);
+		$doc->save();
+
 		try {
-			$validator = Validator::make($args, [
-				'title' => 'required|string',
-				'project_id' => 'required|exists:projects,id'
-				]);
-			if ($validator->fails()) return Status::fromValidator($validator);
-
-			$projectId = $args['project_id'];
-			$memberStatus = $this->memberService->checkPermission($projectId, 'w', $this->user);
-			if (!$memberStatus->isOK()) return $memberStatus;
-
-			// Begin a transaction in case there are errors with Etherpad.
-			DB::beginTransaction();
-			$doc = new Doc($args);
-			$doc->save();
-
 			// Create a group from the project id.
 			$response = $this->client->createGroupIfNotExistsFor($projectId);
-			if ($response->getCode() != 0) {
+			if ($response->getCode() != \EtherpadLite\Response::CODE_OK) {
 				DB::rollback();
 				return Status::fromError('Could not create document');
 			}
@@ -54,7 +55,7 @@ class DocService {
 			$padId = '' . $doc->id;
 			$response = $this->client->createGroupPad($groupId, $padId);
 			$response = $this->client->createPad($padId, '');
-			if ($response->getCode() != 0) {
+			if ($response->getCode() != \EtherpadLite\Response::CODE_OK) {
 				DB::rollback();
 				return Status::fromError('Could not create document');
 			}
@@ -72,20 +73,21 @@ class DocService {
 
 	public function getWithSession($args) {
 		if (!$this->active) return Status::fromError('Documents are disabled');
+		
+		$validator = Validator::make($args, [
+			'doc_id' => 'required|integer'
+			]);
+		if ($validator->fails()) return Status::fromValidator($validator);
+
+		$doc = Doc::find($args['doc_id']);
+		if (is_null($doc)) return Status::fromError('Document not found', StatusCodes::NOT_FOUND);
+
+		$memberStatus = $this->memberService->checkPermission($doc->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
 		try {
-			$validator = Validator::make($args, [
-				'doc_id' => 'required|integer'
-				]);
-			if ($validator->fails()) return Status::fromValidator($validator);
-
-			$doc = Doc::find($args['doc_id']);
-			if (is_null($doc)) return Status::fromError('Document not found', StatusCodes::NOT_FOUND);
-
-			$memberStatus = $this->memberService->checkPermission($doc->project_id, 'w', $this->user);
-			if (!$memberStatus->isOK()) return $memberStatus;
-
 			$response = $this->client->createAuthorIfNotExistsFor($this->user->id, $this->user->name);
-			if ($response->getCode() != 0) {
+			if ($response->getCode() != \EtherpadLite\Response::CODE_OK) {
 				return Status::fromError('Could not create document user');
 			}
 			$authorId = $response->getData()['authorID'];
@@ -95,7 +97,7 @@ class DocService {
 	        	$authorId,
 	        	time() + $this->sessionTime);
 
-	        if ($response->getCode() !== 0) {
+	        if ($response->getCode() !== \EtherpadLite\Response::CODE_OK) {
 	        	return Status::fromError('Could not create document session');
 	        }
 	        $sessionID = $response->getData()['sessionID'];
@@ -145,21 +147,22 @@ class DocService {
 
 	public function delete($docId) {
 		if (!$this->active) return Status::fromError('Documents are disabled');
+		
+		$validator = Validator::make(['doc_id' => $docId], [
+			'doc_id' => 'required|integer'
+			]);
+		if ($validator->fails()) return Status::fromValidator($validator);
+
+		$doc = Doc::find($docId);
+		if (is_null($doc)) return Status::fromError('Document not found', StatusCodes::NOT_FOUND);
+
+		$memberStatus = $this->memberService->checkPermission($doc->project_id, 'w', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
 		try {
-			$validator = Validator::make(['doc_id' => $docId], [
-				'doc_id' => 'required|integer'
-				]);
-			if ($validator->fails()) return Status::fromValidator($validator);
-
-			$doc = Doc::find($docId);
-			if (is_null($doc)) return Status::fromError('Document not found', StatusCodes::NOT_FOUND);
-
-			$memberStatus = $this->memberService->checkPermission($doc->project_id, 'w', $this->user);
-			if (!$memberStatus->isOK()) return $memberStatus;
-
 			$padId = $this->getPadId($doc);
 	        $response = $this->client->deletePad($padId);
-	        if ($response->getCode() != 0) {
+	        if ($response->getCode() != \EtherpadLite\Response::CODE_OK) {
 	        	return Status::fromError('Could not delete document');
 	        }
 
@@ -172,5 +175,40 @@ class DocService {
 
 	public function getPadId($doc) {
 		return $doc->etherpad_group_id . '$' . $doc->id;
+	}
+
+	public function getText($args) {
+		if (!$this->active) return Status::fromError('Documents are disabled');
+
+		$validator = Validator::make($args, [
+				'id' => 'required|integer',
+				'as_html' => 'sometimes|boolean'
+				]);
+		if ($validator->fails()) return Status::fromValidator($validator);
+
+		$doc = Doc::find($args['id']);
+		if (is_null($doc)) return Status::fromError('Document not found', StatusCodes::NOT_FOUND);
+
+		$memberStatus = $this->memberService->checkPermission($doc->project_id, 'r', $this->user);
+		if (!$memberStatus->isOK()) return $memberStatus;
+
+		try {
+			$padId = $this->getPadId($doc);
+			$asHtml = false;
+			if (array_key_exists('as_html', $args)) $asHtml = $args['as_html'];
+
+			if ($asHtml) {
+				$response = $this->client->getHTML($padId);
+			} else {
+				$response = $this->client->getText($padId);
+			}
+			
+			if ($response->getCode() != \EtherpadLite\Response::CODE_OK) {
+				return Status::fromError('Could not get document text');
+			}
+			return Status::fromResult(['text' => $response->getData()]);
+		} catch (\Exception $e) {
+			return Status::fromError('Cannot connect to document service');
+		}
 	}
 }

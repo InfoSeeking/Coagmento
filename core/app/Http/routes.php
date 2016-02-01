@@ -286,3 +286,8 @@ Route::delete('api/v1/docs/{doc_id}', [
 	'uses' => 'Api\DocController@delete',
 	'middleware' => 'api.auth'
 	]);
+
+Route::get('api/v1/docs/{doc_id}/text', [
+	'uses' => 'Api\DocController@getText',
+	'middleware' => 'api.auth'
+	]);

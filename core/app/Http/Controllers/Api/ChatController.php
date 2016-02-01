@@ -15,7 +15,7 @@ class ChatController extends Controller
     public function __construct(ChatService $chatService) {
         $this->chatService = $chatService;
     }
-
+    
     public function getMultiple(Request $req) {
         $chatStatus = $this->chatService->getMultiple($req->all());
         return ApiResponse::fromStatus($chatStatus);

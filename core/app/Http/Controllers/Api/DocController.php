@@ -32,6 +32,33 @@ class DocController extends Controller
         return ApiResponse::fromStatus($docStatus);
     }
 
+    /**
+     * @api{get} /v1/docs/{doc-id}/text Get Text
+     * @apiDescription Gets the plain text of a document.
+     * @apiPermission read
+     * @apiGroup Doc
+     * @apiName GetText
+     * @apiParam {Boolean} [as_html=false] If true, returns formatted HTML instead of plain text.
+     * @apiVersion 1.0.0
+     * @apiSuccessExample {json} Success-Response:
+     *   {
+     *    "status": "ok",
+     *    "errors": {
+     *      "input": [],
+     *      "general": []
+     *    },
+     *    "result": {
+     *      "text": {
+     *        "html": "<!DOCTYPE HTML><html><body>This is a test of getting text.</body></html>"
+     *      }
+     *    }
+     *  }
+     */
+    public function getText(Request $req, $id) {
+        $args = array_merge(['id' => $id], $req->all());
+        return ApiResponse::fromStatus($this->docService->getText($args));
+    }
+
     /* @api{get} /v1/docs Get Multiple
      * @apiDescription Gets a list of docs.
      * If the project_id is specified, returns all docs in a project (not just owned by user).

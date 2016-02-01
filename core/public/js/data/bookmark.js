@@ -117,7 +117,6 @@ var BookmarkListView = Backbone.View.extend({
 		this.container = $("<div id='coverflow-container'>");
 		this.$el.append(this.container);
 		this.coverflow = this.container.coverflow();
-
 	},
 	refreshCoverflow: function() {
 		if (this.layout != 'coverflow') return;

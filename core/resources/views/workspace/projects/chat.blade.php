@@ -39,7 +39,6 @@ page-chat
 @include('helpers.dataTemplates')
 
 <script src='/js/realtime.js'></script>
-<script src='/js/vendor/moment.js'></script>
 <script src='/js/data/chat.js'></script>
 <script>
 Config.setAll({

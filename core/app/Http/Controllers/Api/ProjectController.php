@@ -95,6 +95,8 @@ class ProjectController extends Controller
      * @apiGroup Project
      * @apiName UpdateProject
      * @apiParam {String} [title]
+     * @apiParam {String} [description]
+     * @apiParam {Boolean} [private] Whether or not the project is private or publically visible.
      * @apiPermission write
      * @apiVersion 1.0.0
      */

@@ -172,21 +172,6 @@ class WorkspaceController extends Controller
             ]);
     }
 
-    public function viewBookmark(Request $req, $projectId, $bookmarkId) {
-        $projectStatus = $this->projectService->get($projectId);
-        if (!$projectStatus->isOK()) {
-            return $projectStatus->asRedirect('workspace');
-        }
-        $bookmarkStatus = $this->bookmarkService->get($bookmarkId);
-        if (!$bookmarkStatus->isOK()) {
-            return $bookmarkStatus->asRedirect('workspace');
-        }
-        return view('workspace.bookmark', [
-            'project' => $projectStatus->getResult(),
-            'bookmark' => $bookmarkStatus->getResult()
-            ]);
-    }
-
     public function createProject(Request $req) {
         $private = $req->input('visibility') == 'private';
         $args = array_merge($req->all(), ['private' => $private]);
