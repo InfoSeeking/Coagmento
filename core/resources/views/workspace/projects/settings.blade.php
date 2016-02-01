@@ -174,7 +174,7 @@
 		e.preventDefault();
 		var targetPrivateness = $(this).attr('data-target-privateness');
 		var targetWord = targetPrivateness ? 'private' : 'public';
-		var confirmation = confirm('Are you sure you wish to make this project ' + targetWord);
+		var confirmation = confirm('Are you sure you wish to make this project ' + targetWord + '?');
 		if (!confirmation) return;
 		$.ajax({
 			url: '/api/v1/projects/' + projectId,

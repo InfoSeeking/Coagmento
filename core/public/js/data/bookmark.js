@@ -73,20 +73,27 @@ var BookmarkListView = Backbone.View.extend({
 	container: $('#bookmark-list'),
 	layout: 'grid',
 	supportedLayouts: ['grid', 'list', 'coverflow'],
-	initialize: function() {
+	initialize: function(options) {
 		this.collection.on('add', this.add, this);
+		if (options.layout) {
+			this.setLayout(options.layout);
+		}
 	},
 	render: function() {
 		this.$el.empty();
 		if (this.layout == 'coverflow') {
-			this.container = $('<div id="coverflow-container"></div>');
-			this.$el.append(this.container);
+			this.initializeCoverflow();
+			this.container = $('#coverflow-container');
 		} else {
 			this.container = $('#bookmark-list');
 		}
+
 		this.collection.forEach(function(model){
 			this.add(model);
 		}, this);
+
+
+
 	},
 	// Re-render the bookmark list with the request layout.
 	// layout must be one of the values in supportedLayouts.
@@ -96,27 +103,25 @@ var BookmarkListView = Backbone.View.extend({
 		}
 		this.layout = layout;
 		this.render();
-		if (layout == 'coverflow') {
-			// Initialize the coverflow.
-			this.coverflow = $('#bookmark-list').flipster({
-				itemContainer: '#coverflow-container',
-				itemSelector: '.coverflow',
-				start: 'center'
-			})
-		}
 	},
 	add: function(model) {
 		var item = new BookmarkListItemView({model: model, layout: this.layout});
 		this.container.prepend(item.render().$el);
 		model.on('destroy', function() {
 			item.remove();
-			this.reindexCoverflow();
+			this.refreshCoverflow();
 		});
-		this.reindexCoverflow();
+		this.refreshCoverflow();
 	},
-	reindexCoverflow: function() {
+	initializeCoverflow: function() {
+		this.container = $("<div id='coverflow-container'>");
+		this.$el.append(this.container);
+		this.coverflow = this.container.coverflow();
+
+	},
+	refreshCoverflow: function() {
 		if (this.layout != 'coverflow') return;
 		if (!this.coverflow) return;
-		this.coverflow.flipster('index');
+		this.coverflow.data('vanderlee-coverflow').refresh(500);
 	}
 });

@@ -228,7 +228,7 @@ footer {
 	position: relative;
 }
 
-.data-view .grid .overlay {
+.data-view .overlay {
 	position: absolute;
 	bottom: 0px;
 	width: 100%;
@@ -236,18 +236,31 @@ footer {
 	background: rgba(200,200,200,.8);
 }
 
-.data-view .grid .overlay .link {
+.data-view .overlay .link {
 	color: #4d4d4d;
 	font-size: 10px;
 	margin-left: 5px;
 }
 
-.data-view .grid .overlay .right {
+.data-view .overlay .right {
 	position: absolute;
 	right: 5px;
 	top: 0px;
 }
 
+#coverflow-container {
+	min-height: 600px;
+}
+
+.data-view .coverflow img {
+	width: 500px;
+}
+
 .data-view .coverflow {
 	background: #FFF;
+	border: 2px #F3F3F3 solid;
+}
+
+.data-view .coverflow .overlay .link {
+	font-size: 14px;
 }

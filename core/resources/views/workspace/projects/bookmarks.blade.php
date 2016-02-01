@@ -68,7 +68,12 @@ page-bookmarks
 @include('helpers.dataTemplates')
 
 <script src='/js/realtime.js'></script>
-<script src='/js/vendor/jquery.flipster.min.js'></script>
+<script src='/js/vendor/jquery-ui.core.widget.min.js'></script>
+
+<script src='/js/vendor/reflection.js'></script>
+<script src='/js/vendor/jquery.coverflow.js'></script>
+
+<!--<script src='/js/vendor/jquery.coverflow.js'></script>-->
 <script src='/js/data/bookmark.js'></script>
 <script>
 Config.setAll({
@@ -79,6 +84,10 @@ Config.setAll({
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
 
+function getSelectedLayout() {
+	return $('#layout-selection').find('option:selected').attr('value');
+}
+
 var bookmarkList = new BookmarkCollection();
 bookmarkList.fetch({
 	data: {
@@ -86,7 +95,10 @@ bookmarkList.fetch({
 	}
 });
 
-var bookmarkListView = new BookmarkListView({collection: bookmarkList});
+var bookmarkListView = new BookmarkListView({
+	collection: bookmarkList,
+	layout: getSelectedLayout()
+});
 
 function realtimeDataHandler(param) {
 	if (param.dataType != "bookmarks") return;
@@ -152,8 +164,7 @@ $("#new-btn").on('click', function(){
 
 $('#layout-selection').on('change', function(e){
 	e.preventDefault();
-	var layout = $(this).find('option:selected').attr('value');
-	bookmarkListView.setLayout(layout);
+	bookmarkListView.setLayout(getSelectedLayout());
 });
 
 </script>
