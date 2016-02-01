@@ -168,11 +168,11 @@ footer {
 
 #chat-list {
 	list-style-type: none;
-	background: #FFF;
+	background: #f3f3f3;
 	padding: 10px 10px 50px 10px;
-	border: 1px black solid;
+	border: 1px #DDD solid;
 	overflow: auto;
-	height: 200px;
+	height: 300px;
 	position: relative;
 }
 
@@ -190,6 +190,15 @@ footer {
   }
 }
 
+#chat-list li {
+	border-bottom: 1px #DDD dashed;
+	margin-bottom: 5px;
+}
+
+#chat-list li:last-child {
+	border-bottom: none;
+}
+
 #chat-list li.new {
 	animation-duration: 1s;
   	animation-name: enterin;
@@ -197,29 +206,17 @@ footer {
 
 #chat-list li .name {
 	color: #599BB4;
-	display: inline-block;
-	width: 10%;
-}
-
-#chat-list li .content {
-	width: 70%;
-	display: inline-block;
+	font-size: 11px;
 }
 
 #chat-list li .time {
-	width: 15%;
-	display: inline-block;
-	text-align: right;
-}
-
-#chat-form .message {
-	padding: 2px 10px;
-	width: 50%;
+	font-size: 11px;
 }
 
 .data-view .list {
 	margin-left: 20px;
 }
+
 .data-view .grid {
 	width: 210px;
 	height: 210px;

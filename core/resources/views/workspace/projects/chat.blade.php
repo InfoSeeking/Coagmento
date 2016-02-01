@@ -16,13 +16,20 @@ page-chat
 
 <div class='row'>
 	@include('helpers.showAllMessages')
-    <div class='col-md-12'>
+    <div class='col-md-8'>
     	<div id='chat-container'>
     		<ul id='chat-list'>
     		</ul>
     		<div id='chat-bar'>
-    			<form id='chat-form'>
-    				<input type='text' name='message' class='message' placeholder='Chat with your group'/><button type='submit'>Send</button>
+    			<form id='chat-form' class='form-horizontal'>
+    				<div class='form-group'>
+    					<div class='col-md-11'>
+    						<input type='text' name='message' class='message form-control' placeholder='Chat with your group'/>
+    					</div>
+    					<div class='col-md-1 text-right'>
+    						<button class='btn btn-primary' type='submit'>Send</button>
+    					</div>
+    				</div>
     			</form>
     		</div>
     	</div>
@@ -32,6 +39,7 @@ page-chat
 @include('helpers.dataTemplates')
 
 <script src='/js/realtime.js'></script>
+<script src='/js/vendor/moment.js'></script>
 <script src='/js/data/chat.js'></script>
 <script>
 Config.setAll({
