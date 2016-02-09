@@ -191,6 +191,87 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/v1/chatMessages",
+    "title": "Create",
+    "description": "<p>Create a new chat message for the project.</p> ",
+    "group": "Chat",
+    "name": "Create",
+    "permission": [
+      {
+        "name": "write"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Integer</p> ",
+            "optional": false,
+            "field": "project_id",
+            "description": "<p>The id of the corresponding project.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "message",
+            "description": "<p>The chat message.</p> "
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/ChatController.php",
+    "groupTitle": "Chat"
+  },
+  {
+    "type": "get",
+    "url": "/v1/chatMessages",
+    "title": "Get Multiple",
+    "description": "<p>Gets a list of the chat messages for this project.</p> ",
+    "group": "Chat",
+    "name": "GetMultiple",
+    "permission": [
+      {
+        "name": "read"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Integer</p> ",
+            "optional": false,
+            "field": "project_id",
+            "description": "<p>The id of the corresponding project.</p> "
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "Example Usage",
+        "content": "curl \"http://localhost:8000/api/v1/chatMessages?auth_email=coagmento_demo@demo.demo&auth_password=demo&project_id=300\"",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "{\n  \"status\": \"ok\",\n  \"errors\": {\n    \"input\": [],\n    \"general\": []\n  },\n  \"result\": [\n    {\n      \"project_id\": 300,\n      \"user_id\": 298,\n      \"message\": \"Hello!\",\n      \"created_at\": \"2015-11-25 02:40:38\",\n      \"updated_at\": \"2015-11-25 02:40:38\",\n      \"user\": {\n        \"id\": 298,\n        \"name\": \"Kevin Albertson\",\n        \"email\": \"k_albertson@live.com\",\n        \"created_at\": \"2015-11-25 02:06:56\",\n        \"updated_at\": \"2015-11-25 02:06:56\"\n      }\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Http/Controllers/Api/ChatController.php",
+    "groupTitle": "Chat"
+  },
+  {
+    "type": "post",
     "url": "/v1/docs",
     "title": "Create",
     "description": "<p>Creates a new document.</p> ",
