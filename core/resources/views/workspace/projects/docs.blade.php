@@ -1,14 +1,16 @@
 @extends('workspace.layouts.single-project')
-
+@inject('memberService', 'App\Services\MembershipService')
 
 @section('page')
 page-docs
 @endsection
 
 @section('context')
+@if ($memberService->can($project->id, 'w', $user))
 <div class='context'>
 	<button class='btn btn-warning' id='new-btn'>New Doc</button>
 </div>
+@endif
 @endsection('context')
 
 @section('navigation')
@@ -54,7 +56,7 @@ page-docs
 Config.setAll({
 	permission: '{{ $permission }}',
 	projectId: {{ $project->id }},
-	userId: {{ $user->id }},
+	userId: {{ is_null($user) ? 'null' : $user->id }},
 	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });

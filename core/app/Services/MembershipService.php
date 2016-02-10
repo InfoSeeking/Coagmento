@@ -19,6 +19,12 @@ class MembershipService {
         }
     }
 
+    // Simpler function returning a boolean.
+    public function can($project_id, $level, $user=null) {
+        $memberStatus = $this->checkPermission($project_id, $level, $user);
+        return $memberStatus->isOK();
+    }
+
     // Checks if the user has a membership permission satisfiying $level.
     // own   - has all permissions
     // write - has write/read permissions
@@ -29,6 +35,11 @@ class MembershipService {
         if ($user == null) {
             return $this->checkPermissionWithoutMembership($level, $project_id);
         }
+
+        // The user is allowed to pass the full word for convenient notation.
+        if ($level == 'read') $level = 'r';
+        else if ($level == 'write') $level = 'w';
+        else if ($level == 'own') $level = 'o';
 
         $membership = Membership::where('user_id', $user->id)->where('project_id', $project_id)->first();
         if (is_null($membership)) {

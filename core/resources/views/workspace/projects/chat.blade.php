@@ -1,4 +1,5 @@
 @extends('workspace.layouts.single-project')
+@inject('memberService', 'App\Services\MembershipService')
 
 @section('page')
 page-chat
@@ -21,6 +22,7 @@ page-chat
     		<ul id='chat-list'>
     		</ul>
     		<div id='chat-bar'>
+    			@if ($memberService->can($project->id, 'w', $user))
     			<form id='chat-form' class='form-horizontal'>
     				<div class='form-group'>
     					<div class='col-md-11'>
@@ -31,6 +33,7 @@ page-chat
     					</div>
     				</div>
     			</form>
+    			@endif
     		</div>
     	</div>
 	</div>
@@ -44,7 +47,7 @@ page-chat
 Config.setAll({
 	permission: '{{ $permission }}',
 	projectId: {{ $project->id }},
-	userId: {{ $user->id }},
+	userId: {{ is_null($user) ? 'null' : $user->id }},
 	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });

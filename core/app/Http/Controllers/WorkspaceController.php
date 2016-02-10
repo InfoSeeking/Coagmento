@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
 
 use Auth;
 use Session;
@@ -61,6 +62,11 @@ class WorkspaceController extends Controller
     }
 
     public function viewProjectSettings(Request $req, $projectId) {
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'o', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
         $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
         if (!$bookmarksStatus->isOK()) {
             return $bookmarksStatus->asRedirect('workspace');
@@ -94,6 +100,11 @@ class WorkspaceController extends Controller
     }
 
     public function viewProject(Request $req, $projectId) {
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) {
             return $projectStatus->asRedirect('workspace');
@@ -109,11 +120,6 @@ class WorkspaceController extends Controller
             return $snippetStatus->asRedirect('workspace');
         }
 
-        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
-        if (!$permissionStatus->isOK()) {
-            return $permissionStatus->asRedirect('workspace');
-        }
-
         $sharedUsers = $this->projectService->getSharedUsers($projectId);
         
         return view('workspace.projects.view', [
@@ -127,6 +133,11 @@ class WorkspaceController extends Controller
     }
 
     public function viewProjectBookmarks(Request $req, $projectId) {
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) {
             return $projectStatus->asRedirect('workspace');
@@ -137,10 +148,6 @@ class WorkspaceController extends Controller
             return $bookmarksStatus->asRedirect('workspace');
         }
 
-        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
-        if (!$permissionStatus->isOK()) {
-            return $permissionStatus->asRedirect('workspace');
-        }
         return view('workspace.projects.bookmarks', [
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
@@ -150,6 +157,11 @@ class WorkspaceController extends Controller
     }
 
     public function viewProjectSnippets(Request $req, $projectId) {
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) {
+            return $permissionStatus->asRedirect('workspace');
+        }
+
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) {
             return $projectStatus->asRedirect('workspace');
@@ -160,10 +172,6 @@ class WorkspaceController extends Controller
             return $snippetsStatus->asRedirect('workspace');
         }
 
-        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
-        if (!$permissionStatus->isOK()) {
-            return $permissionStatus->asRedirect('workspace');
-        }
         return view('workspace.projects.snippets', [
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
@@ -190,14 +198,14 @@ class WorkspaceController extends Controller
     }
 
     public function viewChat(Request $req, $projectId) {
-        $projectStatus = $this->projectService->get($projectId);
-        if (!$projectStatus->isOK()) {
-            return $projectStatus->asRedirect('workspace');
-        }
-
         $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
         if (!$permissionStatus->isOK()) {
             return $permissionStatus->asRedirect('workspace');
+        }
+
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
         }
 
         return view('workspace.projects.chat', [
@@ -208,14 +216,16 @@ class WorkspaceController extends Controller
     }
 
     public function viewDoc(Request $req, $projectId, $docId) {
-        $projectStatus = $this->projectService->get($projectId);
-        if (!$projectStatus->isOK()) {
-            return $projectStatus->asRedirect('workspace');
-        }
-
+        // Viewing documents is a special case until we can figure out how to have read-only view
+        // of documents.
         $permissionStatus = $this->memberService->checkPermission($projectId, 'w', Auth::user());
         if (!$permissionStatus->isOK()) {
             return $permissionStatus->asRedirect('workspace');
+        }
+
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
         }
 
         $docStatus = $this->docService->getWithSession(['doc_id' => $docId]);
@@ -232,14 +242,14 @@ class WorkspaceController extends Controller
     }
 
     public function viewDocs(Request $req, $projectId) {
-        $projectStatus = $this->projectService->get($projectId);
-        if (!$projectStatus->isOK()) {
-            return $projectStatus->asRedirect('workspace');
-        }
-
         $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
         if (!$permissionStatus->isOK()) {
             return $permissionStatus->asRedirect('workspace');
+        }
+
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) {
+            return $projectStatus->asRedirect('workspace');
         }
 
         return view('workspace.projects.docs', [

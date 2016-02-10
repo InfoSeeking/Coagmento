@@ -32,5 +32,6 @@ class Kernel extends HttpKernel
         'api.auth' => \App\Http\Middleware\ApiAuthenticate::class,
         'sidebar.auth' => \App\Http\Middleware\SidebarAuthenticate::class,
         'api.optional.auth' => \App\Http\Middleware\ApiOptionalAuthenticate::class,
+        'authorize' => \App\Http\Middleware\Authorize::class,
     ];
 }

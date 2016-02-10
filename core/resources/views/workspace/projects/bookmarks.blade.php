@@ -1,14 +1,16 @@
 @extends('workspace.layouts.single-project')
-
+@inject('memberService', 'App\Services\MembershipService')
 
 @section('page')
 page-bookmarks
 @endsection
 
 @section('context')
+@if ($memberService->can($project->id, 'w', $user))
 <div class='context'>
 	<button class='btn btn-warning' id='new-btn'>New Bookmark</button>
 </div>
+@endif
 @endsection('context')
 
 @section('navigation')
@@ -69,8 +71,6 @@ page-bookmarks
 
 <script src='/js/realtime.js'></script>
 <script src='/js/vendor/jquery-ui.core.widget.min.js'></script>
-
-<script src='/js/vendor/reflection.js'></script>
 <script src='/js/vendor/jquery.coverflow.js'></script>
 
 <!--<script src='/js/vendor/jquery.coverflow.js'></script>-->
@@ -79,7 +79,7 @@ page-bookmarks
 Config.setAll({
 	permission: '{{ $permission }}',
 	projectId: {{ $project->id }},
-	userId: {{ $user->id }},
+	userId: {{ is_null($user) ? 'null' : $user->id }},
 	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
