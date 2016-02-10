@@ -8,7 +8,7 @@ page-bookmarks
 @section('context')
 @if ($memberService->can($project->id, 'w', $user))
 <div class='context'>
-	<button class='btn btn-warning' id='new-btn'>New Bookmark</button>
+	<button class='btn btn-warning' id='new-btn' data-toggle='modal' data-target='#create-bookmark-modal'>New Bookmark</button>
 </div>
 @endif
 @endsection('context')
@@ -25,32 +25,36 @@ page-bookmarks
 
 <div class='row'>
 	@include('helpers.showAllMessages')
-    <div class='col-md-12'>
-
-    	<div class='row' id="new">
-			<div class='col-md-6'>
-				<h3>Create Bookmark</h3>
-				<form action='/api/v1/bookmarks' method='post' id='create-bookmark'>
-					<div class='form-group'>
-						<input class='form-control' type='text' name='url' placeholder='Bookmark URL'/>
-					</div>
-					<div class='form-group'>
-						<input class='form-control' type='text' name='title' placeholder='Page title'/>
-					</div>
-					<div class='form-group'>
-						<textarea class='form-control' name='notes' placeholder='Notes'></textarea>
-					</div>
-					<div class='form-group'>
-						<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
-					</div>
-					<input type='hidden' name='project_id' value='{{ $project->id }}' />
-					<button class='cancel btn btn-danger'>Close</button>
-					<div class='pull-right'>
-						<button type='submit' class='btn btn-primary'>Create</button>
-					</div>
-				</form>
+	<div class='row modal fade' tabindex='-1' id='create-bookmark-modal'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>Create Bookmark</div>
+				<div class='modal-body'>
+					<form action='/api/v1/bookmarks' method='post' id='create-bookmark'>
+						<div class='form-group'>
+							<input class='form-control' type='text' name='url' placeholder='Bookmark URL'/>
+						</div>
+						<div class='form-group'>
+							<input class='form-control' type='text' name='title' placeholder='Page title'/>
+						</div>
+						<div class='form-group'>
+							<textarea class='form-control' name='notes' placeholder='Notes'></textarea>
+						</div>
+						<div class='form-group'>
+							<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
+						</div>
+						<input type='hidden' name='project_id' value='{{ $project->id }}' />
+						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
+						<div class='pull-right'>
+							<button type='submit' class='btn btn-primary'>Create</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
+	</div>
+
+    <div class='col-md-12'>
 		
 		<form id='layout-selection' class='form-inline'>
 			<select class='form-control'>
@@ -120,13 +124,9 @@ function realtimeDataHandler(param) {
 
 Realtime.init(realtimeDataHandler);
 
-$("#create-bookmark .cancel").on("click", function(e){
+$('#create-bookmark').on('submit', function(e){
 	e.preventDefault();
-	$("#new").fadeOut(150);
-})
-
-$("#create-bookmark").on('submit', function(e){
-	e.preventDefault();
+	$('#create-bookmark-modal').modal('hide');
 	var form = $(this),
 		urlInput = form.find('input[name=url]'),
 		titleInput = form.find('input[name=title]'),
