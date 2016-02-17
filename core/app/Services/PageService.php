@@ -53,6 +53,7 @@ class PageService {
 		}
 
 		// Return all user created pages.
+		if (!$this->user) return Status::fromError('Log in to see pages or specify a project_id');
 		$pages = Page::where('user_id', $this->user->id);
 		return Status::fromResult($pages->get());
 	}

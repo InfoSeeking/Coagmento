@@ -25,6 +25,8 @@ page-bookmarks
 
 <div class='row'>
 	@include('helpers.showAllMessages')
+
+	<!-- Create bookmark modal window -->
 	<div class='row modal fade' tabindex='-1' id='create-bookmark-modal'>
 		<div class='modal-dialog'>
 			<div class='modal-content'>
@@ -54,6 +56,52 @@ page-bookmarks
 		</div>
 	</div>
 
+	<!-- Edit bookmark modal window -->
+	<div class='row modal fade' tabindex='-1' id='edit-bookmark-modal'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>Edit Bookmark</div>
+				<div class='modal-body'>
+					<form action='/api/v1/bookmarks' method='put' id='edit-bookmark'>
+						<div class='form-group'>
+							<input class='form-control' type='text' name='title' placeholder='Page title'/>
+						</div>
+						<div class='form-group'>
+							<textarea class='form-control' name='notes' placeholder='Notes'></textarea>
+						</div>
+						<div class='form-group'>
+							<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
+						</div>
+						<input type='hidden' name='project_id' value='{{ $project->id }}' />
+						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
+						<div class='pull-right'>
+							<button type='submit' class='btn btn-primary'>Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete bookmark confirmation window -->
+	<div class='row modal fade' tabindex='-1' id='delete-bookmark-modal'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>Delete Bookmark</div>
+				<div class='modal-body'>
+					<form action='/api/v1/bookmarks' method='delete' id='delete-bookmark'>
+						<p>Are you sure you want to delete this bookmark? This cannot be undone.</p>
+						<input type='hidden' name='bookmark_id' value='' />
+						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
+						<div class='pull-right'>
+							<button type='submit' class='btn btn-primary'>Delete</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
     <div class='col-md-12'>
 		
 		<form id='layout-selection' class='form-inline'>
@@ -63,7 +111,6 @@ page-bookmarks
 				<option value="coverflow">Coverflow</option>
 			</select>
 		</form>
-
 		
 		<div id='bookmark-list' class='data-view row'>
 		</div>
@@ -156,6 +203,18 @@ $('#create-bookmark').on('submit', function(e){
 			MessageDisplay.displayIfError(json);
 		}
 	});
+});
+
+$('#delete-bookmark').on('submit', function(e) {
+	e.preventDefault();
+	$('#delete-bookmark-modal').modal('hide');
+	var bookmark_id = $(this).find('[name=bookmark_id]').val();
+	var bookmark = bookmarkList.get(bookmark_id);
+	if (!bookmark) {
+		MessageDisplay.display(['Could not delete bookmark'], 'danger');
+		return;
+	}
+	bookmark.destroy();
 });
 
 $("#new-btn").on('click', function(){

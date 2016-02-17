@@ -69,6 +69,7 @@ class BookmarkService {
 		}
 
 		// Return all user created bookmarks.
+		if (!$this->user) return Status::fromError('Log in to see bookmarks or specify a project_id');
 		$bookmarks = Bookmark::with('thumbnail')->where('user_id', $this->user->id);
 		return Status::fromResult($bookmarks->get());
 	}
@@ -242,6 +243,7 @@ class BookmarkService {
 			return $tagStatus;
 		}
 		$serializedTags = [];
+		// TODO: I think this should delete the BookmarksAndTags for this bookmark first.
 		foreach ($tagStatus->getResult() as $tag) {
 			$relation = new BookmarksAndTags();
 			$relation->bookmark_id = $bookmark->id;

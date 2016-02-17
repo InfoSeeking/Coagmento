@@ -46,6 +46,7 @@ class SnippetService {
 		}
 
 		// Return all user created snippets.
+		if (!$this->user) return Status::fromError('Log in to see snippets or specify a project_id');
 		$snippets = Snippet::with('thumbnail')->where('user_id', $this->user->id);
 		return Status::fromResult($snippets->get());
 	}

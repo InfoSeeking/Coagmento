@@ -47,8 +47,9 @@ var BookmarkListItemView = Backbone.View.extend({
 	},
 	onDelete: function(e) {
 		e.preventDefault();
-		if (!confirm('Are you sure you wish to delete?')) return;
-		this.model.destroy();
+		var modalEl = $('#delete-bookmark-modal');
+		modalEl.find('[name=bookmark_id]').val(this.model.get('id'));
+		modalEl.modal('show');
 	},
 	onEdit: function(e) {
 		e.preventDefault();
@@ -107,9 +108,10 @@ var BookmarkListView = Backbone.View.extend({
 	add: function(model) {
 		var item = new BookmarkListItemView({model: model, layout: this.layout});
 		this.container.prepend(item.render().$el);
+		var that = this;
 		model.on('destroy', function() {
 			item.remove();
-			this.refreshCoverflow();
+			that.refreshCoverflow();
 		});
 		this.refreshCoverflow();
 	},

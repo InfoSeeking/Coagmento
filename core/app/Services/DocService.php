@@ -141,6 +141,7 @@ class DocService {
 		}
 
 		// Return all user created docs.
+		if (!$this->user) return Status::fromError('Log in to see docs or specify a project_id');
 		$docs = Doc::where('user_id', $this->user->id);
 		return Status::fromResult($docs->get());
 	}

@@ -22,7 +22,7 @@ class ApiOptionalAuthenticate
     {
         // TODO: For non-browser uses of the API, implement a stateless security based on
         // http://talks.codegram.com/http-authentication-methods
-        if (!Auth::check()) {
+        if (!Auth::check() && !Auth::onceBasic()) {
             // For now, simply check for additional email and password parameters.
             if ($request->has('auth_email') && $request->has('auth_password')) {
                 $args = [
