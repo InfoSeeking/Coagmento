@@ -34,7 +34,7 @@ class BookmarkService {
 	 * @return Status The resulting bookmark.
 	 */
 	public function get($id) {
-		$bookmark = Bookmark::find($id);
+		$bookmark = Bookmark::with('thumbnail')->find($id);
 		if (is_null($bookmark)) {
 			return Status::fromError('Bookmark not found', StatusCodes::NOT_FOUND);
 		}

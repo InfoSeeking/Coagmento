@@ -1,9 +1,14 @@
 <!-- TODO: dates are assumed to be EST. Should we try to change this or just document it? -->
+
 <script src='/js/vendor/moment.js'></script>
 <script type='text/template' data-template='bookmark' data-layout='coverflow'>
-	<% if (thumbnail) { %>
-    <img src="/images/thumbnails/large/<%= _.escape(thumbnail.image_large) %>"/>
+	<img
+    <% if (thumbnail) { %>
+    src="/images/thumbnails/large/<%= _.escape(thumbnail.image_large) %>"
+    <% } else { %>
+    src="/images/thumbnails/large/generating.png"
     <% } %>
+    />
     <div class='overlay'>
 		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title) %></a>
 		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
@@ -16,9 +21,13 @@
 </script>
 
 <script type='text/template' data-template='bookmark' data-layout='grid'>
-	<% if (thumbnail) { %>
-    <img class='thumbnail' src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>" />
+    <img class='thumbnail'
+    <% if (thumbnail) { %>
+    src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>"
+    <% } else { %>
+    src="/images/thumbnails/small/generating.png"
     <% } %>
+    />
     <div class='overlay'>
 		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title).substring(0,20) %></a>
 		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
@@ -47,6 +56,13 @@
 </script>
 
 <script type='text/template' id='snippet-template'>
+    <img class='thumbnail'
+    <% if (thumbnail) { %>
+    src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>"
+    <% } else { %>
+    src="/images/thumbnails/small/generating.png"
+    <% } %>
+    />
 	<div>
 		<a target="_blank" href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
 		<p><%= _.escape(text) %>

@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Command;
+
 use App\Models\Bookmark;
 use App\Models\Page;
+use App\Models\Snippet;
 use App\Models\Thumbnail;
-use Illuminate\Console\Command;
 
 class GenerateThumbnails extends Command
 {
@@ -66,12 +68,22 @@ class GenerateThumbnails extends Command
             ->get();
         $this->comment('Fetching thumbnails for ' . $pages->count() . ' history pages');
         $this->getThumbnails($pages);
+
+        $snippets = Snippet::where('thumbnail_id', 0)
+            ->orderBy('created_at', 'asc')
+            ->select('url')
+            ->distinct()
+            ->limit(50)
+            ->get();
+        $this->comment('Fetching thumbnails for ' . $snippets->count() . ' snippets');
+        $this->getThumbnails($snippets);
     }
 
     private function attachThumbnails($thumbnails) {
         foreach($thumbnails as $thumbnail) {
             Bookmark::where('url', $thumbnail->url)->update(['thumbnail_id' => $thumbnail->id]);
             Page::where('url', $thumbnail->url)->update(['thumbnail_id' => $thumbnail->id]);
+            Snippet::where('url', $thumbnail->url)->update(['thumbnail_id' => $thumbnail->id]);
         }
     }
 
@@ -85,6 +97,7 @@ class GenerateThumbnails extends Command
         foreach($urls as $url) {
             Bookmark::where('url', $url)->update(['thumbnail_id' => $unavailable->id]);
             Page::where('url', $url)->update(['thumbnail_id' => $unavailable->id]);
+            Snippet::where('url', $url)->update(['thumbnail_id' => $unavailable->id]);
         }
     }
 

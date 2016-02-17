@@ -18,7 +18,7 @@ class SnippetService {
 	}
 
 	public function get($id) {
-		$snippet = Snippet::find($id);
+		$snippet = Snippet::with('thumbnail')->find($id);
 		if (is_null($snippet)) {
 			return Status::fromError('Snippet not found', StatusCodes::NOT_FOUND);
 		}
@@ -41,12 +41,12 @@ class SnippetService {
 				$args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
-			$snippets = Snippet::where('project_id', $args['project_id']);
+			$snippets = Snippet::with('thumbnail')->where('project_id', $args['project_id']);
 			return Status::fromResult($snippets->get());
 		}
 
 		// Return all user created snippets.
-		$snippets = Snippet::where('user_id', $this->user->id);
+		$snippets = Snippet::with('thumbnail')->where('user_id', $this->user->id);
 		return Status::fromResult($snippets->get());
 	}
 
@@ -68,6 +68,7 @@ class SnippetService {
 		$snippet->user_id = $this->user->id;
 		$snippet->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 		$snippet->project_id = $args['project_id'];
+		$snippet->load('thumbnail');
 		$snippet->save();
 
 		$this->realtimeService->withModel($snippet)
