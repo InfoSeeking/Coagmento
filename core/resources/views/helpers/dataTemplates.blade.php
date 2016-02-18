@@ -30,13 +30,20 @@
     <% } %>
     />
     <div class='overlay'>
-		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title).substring(0,20) %></a>
-		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-			<div class='right'>
-				<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
-				<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
-			</div>
-		<% } %>
+    	<div class='top'>
+			<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title).substring(0,20) %></a>
+			<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
+				<div class='right'>
+					<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
+					<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
+				</div>
+			<% } %>
+		</div>
+		<!-- Bottom is hidden until hover. -->
+		<div class='bottom'>
+			<p>Saved <%= moment(created_at).subtract(5, 'hours').format('MMM Mo h:mma') %></p>
+			<p>By <%= user_name %></p>
+		</div>
 	</div>
 </script>
 

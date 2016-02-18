@@ -41,23 +41,25 @@
 		</p>
 
 		<h4>Sharing</h4>
-		@if (count($sharedUsers) == 0)
-			<p>This project is currently not being shared with anyone</p>
+		@if (count($sharedUsers) == 1)
+			<p>This project is currently not being shared with anyone else.</p>
 		@else
 			<p>
-			This project is being shared with {{ count($sharedUsers) }}
-			@if (count($sharedUsers) > 1)
+			This project is being shared with {{ count($sharedUsers) - 1 }}
+			@if (count($sharedUsers) - 1 > 1)
 				people
 			@else
 				person
 			@endif
 			</p>
 			<ul>
-			@foreach ($sharedUsers as $user)
+			@foreach ($sharedUsers as $sharedUser)
+			@if ($sharedUser->user != $user)
 			<li>
-			{{$user->name}} ({{$user->email}}) has {{ $memberService->permissionToString($user->level) }} permission. 
-			<a href='#' data-user-id='{{$user->user_id}}' data-user-email='{{$user->email}}' class='remove-permissions'>Remove</a>.
+			{{$sharedUser->user->name}} ({{$sharedUser->user->email}}) has {{ $memberService->permissionToString($sharedUser->level) }} permission. 
+			<a href='#' data-user-id='{{$sharedUser->user->id}}' data-user-email='{{$sharedUser->user->email}}' class='remove-permissions'>Remove</a>.
 			</li>
+			@endif
 			@endforeach
 			</ul>
 		@endif

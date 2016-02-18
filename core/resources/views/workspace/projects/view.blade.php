@@ -22,7 +22,7 @@ page-activity
     	-->
 		<!-- <h3>Statistics</h3> -->
     	@if ($permission == 'o')
-    	<p>There are {{ count($sharedUsers)}} collaborators. <a href='/workspace/projects/{{ $project->id }}/settings'>Share</a> with others.</p>
+    	<p>There are {{ count($sharedUsers) - 1 }} other collaborators. <a href='/workspace/projects/{{ $project->id }}/settings'>Share</a> with others.</p>
     	@endif
 		<p>{{ count($bookmarks) }} bookmarks have been saved in total.</p>
 		<p>{{ count($snippets) }} snippets have been saved in total.</p>

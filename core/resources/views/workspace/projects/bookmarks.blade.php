@@ -8,7 +8,7 @@ page-bookmarks
 @section('context')
 @if ($memberService->can($project->id, 'w', $user))
 <div class='context'>
-	<button class='btn btn-warning' id='new-btn' data-toggle='modal' data-target='#create-bookmark-modal'>New Bookmark</button>
+	<button class='btn btn-warning' data-toggle='modal' data-target='#create-bookmark-modal'>New Bookmark</button>
 </div>
 @endif
 @endsection('context')
@@ -121,9 +121,9 @@ page-bookmarks
 <script src='/js/realtime.js'></script>
 <script src='/js/vendor/jquery-ui.core.widget.min.js'></script>
 <script src='/js/vendor/jquery.coverflow.js'></script>
-
-<!--<script src='/js/vendor/jquery.coverflow.js'></script>-->
+<script src='/js/data/user.js'></script>
 <script src='/js/data/bookmark.js'></script>
+
 <script>
 Config.setAll({
 	permission: '{{ $permission }}',
@@ -132,6 +132,15 @@ Config.setAll({
 	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
+
+var userList = new UserCollection();
+// Add all project users to user collection.
+@foreach ($sharedUsers as $sharedUser)
+userList.add(new UserModel(
+	{!! $sharedUser->user->toJson() !!}
+));
+@endforeach
+
 
 function getSelectedLayout() {
 	return $('#layout-selection').find('option:selected').attr('value');
@@ -232,10 +241,6 @@ $('#delete-bookmark').on('submit', function(e) {
 		return;
 	}
 	bookmark.destroy();
-});
-
-$("#new-btn").on('click', function(){
-	$("#new").fadeIn(150);
 });
 
 $('#layout-selection').on('change', function(e){

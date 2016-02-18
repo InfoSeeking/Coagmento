@@ -3,6 +3,9 @@
 var BookmarkModel = Backbone.Model.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
+		// Attempt to set user name if available.
+		var user = userList.get(this.get('user_id'));
+		this.set('user_name', user ? user.get('name') : "Unknown");
 	},
 	onError: function(model, response) {
 		MessageDisplay.displayIfError(response.responseJSON);

@@ -129,13 +129,14 @@ class ProjectService {
 
 
     public function getSharedUsers($project_id) {
-        return DB::table('users')
-            ->join('memberships', 'users.id', '=', 'memberships.user_id')
-            ->where('user_id', '!=', $this->user->id)
-            ->where('project_id', $project_id)
-            ->get();
+        $memberStatus = $this->memberService->checkPermission($project_id, 'r', $this->user);
+        if (!$memberStatus->isOK()) return $memberStatus;
+        $memberships = Membership::where('project_id', $project_id)->with('user')->get();
+
+        return Status::fromResult($memberships);
     }
 
+    // User must be logged in.
     public function getSharedProjects() {
         return DB::table('projects')
             ->join('memberships', 'projects.id', '=', 'memberships.project_id')
@@ -145,6 +146,7 @@ class ProjectService {
             ->get();
     }
 
+    // User must be logged in.
     public function getMyProjects() {
         return Project::where('creator_id', $this->user->id)->get();
     }
