@@ -53,13 +53,12 @@ var BookmarkListItemView = Backbone.View.extend({
 	},
 	onEdit: function(e) {
 		e.preventDefault();
-		// TODO: use a modal window.
-		var response = prompt('Enter a new title', this.model.get('title'));
-		if (response) {
-			this.model.set('title', response);
-			this.model.save();
-		}
-		this.render();
+		var modalEl = $('#edit-bookmark-modal');
+		modalEl.find('[name=bookmark_id]').val(this.model.get('id'));
+		modalEl.find('[name=title]').val(this.model.get('title'));
+		modalEl.find('[name=notes]').val(this.model.get('notes'));
+		modalEl.find('[name=url]').html(this.model.get('url'));
+		modalEl.modal('show');
 	},
 	render: function() {
 		var template = this.templates[this.layout];

@@ -63,16 +63,14 @@ page-bookmarks
 				<div class='modal-header'>Edit Bookmark</div>
 				<div class='modal-body'>
 					<form action='/api/v1/bookmarks' method='put' id='edit-bookmark'>
+						<p name='url'></p>
 						<div class='form-group'>
 							<input class='form-control' type='text' name='title' placeholder='Page title'/>
 						</div>
 						<div class='form-group'>
 							<textarea class='form-control' name='notes' placeholder='Notes'></textarea>
 						</div>
-						<div class='form-group'>
-							<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
-						</div>
-						<input type='hidden' name='project_id' value='{{ $project->id }}' />
+						<input type='hidden' name='bookmark_id' />
 						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
 						<div class='pull-right'>
 							<button type='submit' class='btn btn-primary'>Save</button>
@@ -203,6 +201,25 @@ $('#create-bookmark').on('submit', function(e){
 			MessageDisplay.displayIfError(json);
 		}
 	});
+});
+
+$('#edit-bookmark').on('submit', function(e) {
+	e.preventDefault();
+	$('#edit-bookmark-modal').modal('hide');
+	var form = $(this)
+	, bookmark_id = form.find('[name=bookmark_id]').val()
+	, title = form.find('[name=title]').val()
+	, notes = form.find('[name=notes]').val()
+	, bookmark = bookmarkList.get(bookmark_id)
+	;
+	if (!bookmark) {
+		MessageDisplay.display(['Could not save bookmark'], 'danger');
+		return;
+	}
+	bookmark.set('title', title);
+	bookmark.set('notes', notes);
+	bookmark.save();
+	MessageDisplay.display(['Bookmark saved'], 'success');
 });
 
 $('#delete-bookmark').on('submit', function(e) {
