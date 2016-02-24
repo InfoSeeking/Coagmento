@@ -285,3 +285,10 @@ footer {
 .data-view .coverflow .overlay .link {
 	font-size: 14px;
 }
+
+.slide {
+	background: rgba(255,255,255,1);
+	border: 1px black solid;
+	width: 900px;
+	height: 600px;
+}

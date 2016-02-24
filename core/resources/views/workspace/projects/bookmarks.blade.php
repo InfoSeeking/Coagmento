@@ -113,6 +113,10 @@ page-bookmarks
 		<div id='bookmark-list' class='data-view row'>
 		</div>
 		
+		<div id='impress'>
+			<div class='step slide' data-x='0' data-y='0' data-z='-100'>Slide 1</div>
+			<div class='step slide' data-x='600' data-y='0' data-z='-1000'>Slide 2</div>
+		</div>
 	</div>
 </div>
 
@@ -121,10 +125,13 @@ page-bookmarks
 <script src='/js/realtime.js'></script>
 <script src='/js/vendor/jquery-ui.core.widget.min.js'></script>
 <script src='/js/vendor/jquery.coverflow.js'></script>
+<script src='/js/vendor/impress.js'></script>
 <script src='/js/data/user.js'></script>
 <script src='/js/data/bookmark.js'></script>
 
 <script>
+impress().init();
+
 Config.setAll({
 	permission: '{{ $permission }}',
 	projectId: {{ $project->id }},
