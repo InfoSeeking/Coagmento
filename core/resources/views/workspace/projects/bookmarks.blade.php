@@ -25,83 +25,8 @@ page-bookmarks
 
 <div class='row'>
 	@include('helpers.showAllMessages')
-
-	<!-- Create bookmark modal window -->
-	<div class='row modal fade' tabindex='-1' id='create-bookmark-modal'>
-		<div class='modal-dialog'>
-			<div class='modal-content'>
-				<div class='modal-header'>Create Bookmark</div>
-				<div class='modal-body'>
-					<form action='/api/v1/bookmarks' method='post' id='create-bookmark'>
-						<div class='form-group'>
-							<input class='form-control' type='text' name='url' placeholder='Bookmark URL'/>
-						</div>
-						<div class='form-group'>
-							<input class='form-control' type='text' name='title' placeholder='Page title'/>
-						</div>
-						<div class='form-group'>
-							<textarea class='form-control' name='notes' placeholder='Notes'></textarea>
-						</div>
-						<div class='form-group'>
-							<input class='form-control' type='text' name='tags' placeholder='Comma separated tags' />
-						</div>
-						<input type='hidden' name='project_id' value='{{ $project->id }}' />
-						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
-						<div class='pull-right'>
-							<button type='submit' class='btn btn-primary'>Create</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Edit bookmark modal window -->
-	<div class='row modal fade' tabindex='-1' id='edit-bookmark-modal'>
-		<div class='modal-dialog'>
-			<div class='modal-content'>
-				<div class='modal-header'>Edit Bookmark</div>
-				<div class='modal-body'>
-					<form action='/api/v1/bookmarks' method='put' id='edit-bookmark'>
-						<p name='url'></p>
-						<div class='form-group'>
-							<input class='form-control' type='text' name='title' placeholder='Page title'/>
-						</div>
-						<div class='form-group'>
-							<textarea class='form-control' name='notes' placeholder='Notes'></textarea>
-						</div>
-						<input type='hidden' name='bookmark_id' />
-						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
-						<div class='pull-right'>
-							<button type='submit' class='btn btn-primary'>Save</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Delete bookmark confirmation window -->
-	<div class='row modal fade' tabindex='-1' id='delete-bookmark-modal'>
-		<div class='modal-dialog'>
-			<div class='modal-content'>
-				<div class='modal-header'>Delete Bookmark</div>
-				<div class='modal-body'>
-					<form action='/api/v1/bookmarks' method='delete' id='delete-bookmark'>
-						<p>Are you sure you want to delete this bookmark? This cannot be undone.</p>
-						<input type='hidden' name='bookmark_id' value='' />
-						<button class='cancel btn btn-danger' data-dismiss='modal'>Close</button>
-						<div class='pull-right'>
-							<button type='submit' class='btn btn-primary'>Delete</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
+	@include('workspace.data.bookmarks')
     <div class='col-md-12'>
-		
 		<form id='layout-selection' class='form-inline'>
 			<select class='form-control'>
 				<option value="grid">Grid</option>
@@ -113,24 +38,29 @@ page-bookmarks
 		<div id='bookmark-list' class='data-view row'>
 		</div>
 		
+		<!--
+		Concerns
+		- We MUST be able to destroy/recreate without issues for this to work.
+		- It seems like adding/removing slides dynamically would require a bit more of modification in impress code, but it may be possible.
+		- If all we're using this for is transitioning z position, it might be more worth it to write this from scratch.
 		<div id='impress'>
 			<div class='step slide' data-x='0' data-y='0' data-z='-100'>Slide 1</div>
 			<div class='step slide' data-x='600' data-y='0' data-z='-1000'>Slide 2</div>
 		</div>
+		-->
 	</div>
 </div>
-
-@include('helpers.dataTemplates')
 
 <script src='/js/realtime.js'></script>
 <script src='/js/vendor/jquery-ui.core.widget.min.js'></script>
 <script src='/js/vendor/jquery.coverflow.js'></script>
 <script src='/js/vendor/impress.js'></script>
+<script src='/js/vendor/moment.js'></script>
 <script src='/js/data/user.js'></script>
+<script src='/js/data/feed.js'></script>
 <script src='/js/data/bookmark.js'></script>
 
 <script>
-impress().init();
 
 Config.setAll({
 	permission: '{{ $permission }}',
@@ -185,75 +115,12 @@ function realtimeDataHandler(param) {
 
 Realtime.init(realtimeDataHandler);
 
-$('#create-bookmark').on('submit', function(e){
-	e.preventDefault();
-	$('#create-bookmark-modal').modal('hide');
-	var form = $(this),
-		urlInput = form.find('input[name=url]'),
-		titleInput = form.find('input[name=title]'),
-		notesInput = form.find('textarea[name=notes]')
-		tagsInput = form.find('input[name=tags]');
-
-	$.ajax({
-		url: '/api/v1/bookmarks',
-		method: 'post',
-		data: {
-			project_id : Config.get('projectId'),
-			url: urlInput.val(),
-			title: titleInput.val(),
-			tags: tagsInput.val().split(/\s*,\s*/),
-			notes: notesInput.val()
-		},
-		dataType: 'json',
-		success: function(response) {
-			bookmarkList.add(new BookmarkModel(response.result));
-			urlInput.val('');
-			titleInput.val('');
-			tagsInput.val('');
-			notes: notesInput.val('')
-		},
-		error: function(xhr) {
-			var json = JSON.parse(xhr.responseText);
-			MessageDisplay.displayIfError(json);
-		}
-	});
-});
-
-$('#edit-bookmark').on('submit', function(e) {
-	e.preventDefault();
-	$('#edit-bookmark-modal').modal('hide');
-	var form = $(this)
-	, bookmark_id = form.find('[name=bookmark_id]').val()
-	, title = form.find('[name=title]').val()
-	, notes = form.find('[name=notes]').val()
-	, bookmark = bookmarkList.get(bookmark_id)
-	;
-	if (!bookmark) {
-		MessageDisplay.display(['Could not save bookmark'], 'danger');
-		return;
-	}
-	bookmark.set('title', title);
-	bookmark.set('notes', notes);
-	bookmark.save();
-	MessageDisplay.display(['Bookmark saved'], 'success');
-});
-
-$('#delete-bookmark').on('submit', function(e) {
-	e.preventDefault();
-	$('#delete-bookmark-modal').modal('hide');
-	var bookmark_id = $(this).find('[name=bookmark_id]').val();
-	var bookmark = bookmarkList.get(bookmark_id);
-	if (!bookmark) {
-		MessageDisplay.display(['Could not delete bookmark'], 'danger');
-		return;
-	}
-	bookmark.destroy();
-});
-
 $('#layout-selection').on('change', function(e){
 	e.preventDefault();
 	bookmarkListView.setLayout(getSelectedLayout());
 });
+
+initializeBookmarkFormEventHandlers(bookmarkList);
 
 </script>
 @endsection('main-content')

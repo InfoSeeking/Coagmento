@@ -1,4 +1,7 @@
 /**
+ * Some custom changes have been made to this source code for Coagmento specifically
+ */
+/**
  * impress.js
  *
  * impress.js is a presentation tool based on the power of CSS3 transforms and transitions
@@ -609,7 +612,8 @@
             // makes transtion laggy.
             // BUG: http://code.google.com/p/chromium/issues/detail?id=62820
             root.addEventListener("impress:stepenter", function (event) {
-                window.location.hash = lastHash = "#/" + event.target.id;
+                // Removed.
+                // window.location.hash = lastHash = "#/" + event.target.id;
             }, false);
             
             window.addEventListener("hashchange", function () {

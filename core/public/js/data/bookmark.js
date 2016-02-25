@@ -1,6 +1,6 @@
 // Backbone classes for bookmark models, collections, and views.
-
-var BookmarkModel = Backbone.Model.extend({
+// Requires the data and form templates for bookmarks to be included.
+var BookmarkModel = FeedModel.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
 		// Attempt to set user name if available.
@@ -94,9 +94,6 @@ var BookmarkListView = Backbone.View.extend({
 		this.collection.forEach(function(model){
 			this.add(model);
 		}, this);
-
-
-
 	},
 	// Re-render the bookmark list with the request layout.
 	// layout must be one of the values in supportedLayouts.
@@ -128,3 +125,81 @@ var BookmarkListView = Backbone.View.extend({
 		this.coverflow.data('vanderlee-coverflow').refresh(500);
 	}
 });
+
+// This function will initialize event handlers for the bookmark forms.
+// The collection is updated when a bookmark is created/updated/deleted.
+// This way, the collection could be a BookmarkCollection or any other 
+// collection. (e.g. a feed list containing multiple types of objects).
+//
+function initializeBookmarkFormEventHandlers(collection){
+	if (!collection) throw 'Collection not passed';
+	$('#create-bookmark').on('submit', onCreateSubmit);
+	$('#edit-bookmark').on('submit', onEditSubmit);
+	$('#delete-bookmark').on('submit', onDeleteSubmit);
+
+	function onCreateSubmit(e){
+		e.preventDefault();
+		$('#create-bookmark-modal').modal('hide');
+		var form = $(this),
+			urlInput = form.find('input[name=url]'),
+			titleInput = form.find('input[name=title]'),
+			notesInput = form.find('textarea[name=notes]')
+			tagsInput = form.find('input[name=tags]');
+
+		$.ajax({
+			url: '/api/v1/bookmarks',
+			method: 'post',
+			data: {
+				project_id : Config.get('projectId'),
+				url: urlInput.val(),
+				title: titleInput.val(),
+				tags: tagsInput.val().split(/\s*,\s*/),
+				notes: notesInput.val()
+			},
+			dataType: 'json',
+			success: function(response) {
+				collection.add(new BookmarkModel(response.result));
+				urlInput.val('');
+				titleInput.val('');
+				tagsInput.val('');
+				notes: notesInput.val('')
+			},
+			error: function(xhr) {
+				var json = JSON.parse(xhr.responseText);
+				MessageDisplay.displayIfError(json);
+			}
+		});
+	}
+
+	function onEditSubmit(e){
+		e.preventDefault();
+		$('#edit-bookmark-modal').modal('hide');
+		var form = $(this)
+		, bookmark_id = form.find('[name=bookmark_id]').val()
+		, title = form.find('[name=title]').val()
+		, notes = form.find('[name=notes]').val()
+		, bookmark = collection.get(bookmark_id)
+		;
+		if (!bookmark) {
+			MessageDisplay.display(['Could not save bookmark'], 'danger');
+			return;
+		}
+		bookmark.set('title', title);
+		bookmark.set('notes', notes);
+		bookmark.save();
+		MessageDisplay.display(['Bookmark saved'], 'success');
+	}
+
+	function onDeleteSubmit(e) {
+		e.preventDefault();
+		$('#delete-bookmark-modal').modal('hide');
+		var bookmark_id = $(this).find('[name=bookmark_id]').val();
+		var bookmark = collection.get(bookmark_id);
+		if (!bookmark) {
+			MessageDisplay.display(['Could not delete bookmark'], 'danger');
+			return;
+		}
+		bookmark.destroy();
+	}
+
+}

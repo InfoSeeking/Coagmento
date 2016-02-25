@@ -286,9 +286,18 @@ footer {
 	font-size: 14px;
 }
 
+#impress {
+	perspective: 1000;
+	-webkit-perspective: 1000;
+	position: absolute;
+	top: 10px;
+	left: 100px;
+	border: 1px red solid;
+}
 .slide {
 	background: rgba(255,255,255,1);
 	border: 1px black solid;
 	width: 900px;
 	height: 600px;
+	position: absolute;
 }

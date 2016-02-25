@@ -1,68 +1,6 @@
 <!-- There are rendering templates for all data presented in the workspace -->
 <!-- TODO: dates are assumed to be EST. Should we try to change this or just document it? -->
 
-<script src='/js/vendor/moment.js'></script>
-<script type='text/template' data-template='bookmark' data-layout='coverflow'>
-	<img
-    <% if (thumbnail) { %>
-    src="/images/thumbnails/large/<%= _.escape(thumbnail.image_large) %>"
-    <% } else { %>
-    src="/images/thumbnails/large/generating.png"
-    <% } %>
-    />
-    <div class='overlay'>
-		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title) %></a>
-		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-			<div class='right'>
-				<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
-				<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
-			</div>
-		<% } %>
-	</div>
-</script>
-
-<script type='text/template' data-template='bookmark' data-layout='grid'>
-    <img class='thumbnail'
-    <% if (thumbnail) { %>
-    src="/images/thumbnails/small/<%= _.escape(thumbnail.image_small) %>"
-    <% } else { %>
-    src="/images/thumbnails/small/generating.png"
-    <% } %>
-    />
-    <div class='overlay'>
-    	<div class='top'>
-			<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title).substring(0,20) %></a>
-			<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-				<div class='right'>
-					<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
-					<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
-				</div>
-			<% } %>
-		</div>
-		<!-- Bottom is hidden until hover. -->
-		<div class='bottom'>
-			<p>Saved <%= moment(created_at).subtract(5, 'hours').format('MMM Mo h:mma') %></p>
-			<p>By <%= user_name %></p>
-		</div>
-	</div>
-</script>
-
-<script type='text/template' data-template='bookmark' data-layout='list'>
-	<div>
-		<a target="_blank" href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
-		<% if(notes) { %>
-		<p>Notes: <%= _.escape(notes) %></p>
-		<% } %>
-	</div>
-	<p>
-		Saved <%= moment(created_at).subtract(5, 'hours').format('MMM Mo h:mma') %>
-		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-		| <a data-id='<%= id %>' class='delete'>Delete</a>
-		| <a data-id='<%= id %>' class='edit'>Edit</a>
-		<% } %>
-	</p>
-</script>
-
 <script type='text/template' id='snippet-template'>
     <img class='thumbnail'
     <% if (thumbnail) { %>
