@@ -241,9 +241,12 @@ footer {
 .data-view .overlay {
 	position: absolute;
 	bottom: 0px;
-	width: 100%;
+	width: 100%;	
+	background: rgba(200,200,200,.8);	
+}
+
+.data-view .grid .overlay {
 	height: 0px;
-	background: rgba(200,200,200,.8);
 	transition: height .5s;
 }
 
@@ -251,19 +254,19 @@ footer {
 	height: 30%;
 }
 
-.data-view .overlay .top {
+.data-view .grid .overlay .top {
 	position: absolute;
 	top: -20px;
 	width: 100%;
 	background: rgba(200,200,200,.8);
 }
-.data-view .overlay .bottom {
+.data-view .grid .overlay .bottom {
 	margin-top: 0px;
 	font-size: 12px;
 	padding: 0px 5px;
 }
 
-.data-view .overlay .bottom p {
+.data-view .grid .overlay .bottom p {
 	margin: 0px;
 }
 
@@ -305,13 +308,26 @@ footer {
 	left: 200px;
 }
 
-.slide {
+.data-view[data-layout="three-d"] {
+	perspective: 1000px;
+	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+	margin-top: 50px;
+	margin-left: 50px;
+	height: 500px;
+}
+
+.data-view .three-d {
 	background: rgba(255,255,255,1);
-	border: 1px black solid;
-	width: 600px;
-	height: 400px;
+	border: 2px #2d2d2d solid;
+	width: 404px;
+	height: 404px;
 	position: absolute;
 	transition: -webkit-transform .25s ease-out;
 	transition: transform .25s ease-out;
 	transition: transform .25s ease-out, -webkit-transform .25s ease-out;
+}
+
+.data-view .three-d img {
+	height: 400px;
 }

@@ -75,7 +75,22 @@
 </div>
 
 
-<script type='text/template' data-template='bookmark' data-layout='3d'>
+<script type='text/template' data-template='bookmark' data-layout='three-d'>
+	<img
+    <% if (thumbnail) { %>
+    src="/images/thumbnails/large/<%= _.escape(thumbnail.image_large) %>"
+    <% } else { %>
+    src="/images/thumbnails/large/generating.png"
+    <% } %>
+    />
+    <div class='overlay'>
+		<a target="_blank" href='<%= _.escape(url) %>' class='link'><%= _.escape(title) %></a>
+		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
+			<div class='right'>
+				<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
+			</div>
+		<% } %>
+	</div>
 </script>
 
 <script type='text/template' data-template='bookmark' data-layout='coverflow'>

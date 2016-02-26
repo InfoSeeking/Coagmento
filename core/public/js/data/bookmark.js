@@ -33,6 +33,7 @@ var BookmarkListItemView = Backbone.View.extend({
 		'grid': _.template($('[data-template=bookmark][data-layout=grid]').html()),
 		'list': _.template($('[data-template=bookmark][data-layout=list]').html()),
 		'coverflow': _.template($('[data-template=bookmark][data-layout=coverflow]').html()),
+		'three-d': _.template($('[data-template=bookmark][data-layout="three-d"]').html()),
 	},
 	events: {
 		'click .delete': 'onDelete',
@@ -75,7 +76,7 @@ var BookmarkListView = Backbone.View.extend({
 	el: '#bookmark-list',
 	container: $('#bookmark-list'),
 	layout: 'grid',
-	supportedLayouts: ['grid', 'list', 'coverflow'],
+	supportedLayouts: ['grid', 'list', 'coverflow', 'three-d'],
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
 		if (options.layout) {
@@ -94,6 +95,10 @@ var BookmarkListView = Backbone.View.extend({
 		this.collection.forEach(function(model){
 			this.add(model);
 		}, this);
+
+		if (this.layout == 'three-d') {
+			this.container.threeD('init');
+		}
 	},
 	// Re-render the bookmark list with the request layout.
 	// layout must be one of the values in supportedLayouts.
@@ -101,7 +106,15 @@ var BookmarkListView = Backbone.View.extend({
 		if (this.supportedLayouts.indexOf(layout) == -1) {
 			throw 'Bookmarks does not support layout ' + layout;
 		}
+		if (this.layout == 'coverflow') {
+			this.initializeCoverflow();
+			this.container = $('#coverflow-container');
+		}
+		if (this.layout == 'three-d' && layout != 'three-d') {
+			this.container.threeD('destroy');
+		}
 		this.layout = layout;
+		this.$el.attr('data-layout', layout);
 		this.render();
 	},
 	add: function(model) {
