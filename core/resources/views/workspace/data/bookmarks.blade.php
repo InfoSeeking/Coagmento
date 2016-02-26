@@ -74,6 +74,10 @@
 	</div>
 </div>
 
+
+<script type='text/template' data-template='bookmark' data-layout='3d'>
+</script>
+
 <script type='text/template' data-template='bookmark' data-layout='coverflow'>
 	<img
     <% if (thumbnail) { %>

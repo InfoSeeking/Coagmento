@@ -52,6 +52,7 @@ page-docs
 
 <script src='/js/realtime.js'></script>
 <script src='/js/data/doc.js'></script>
+<script src='/js/vendor/moment.js'></script>
 <script>
 Config.setAll({
 	permission: '{{ $permission }}',

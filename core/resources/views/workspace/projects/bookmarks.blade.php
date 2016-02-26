@@ -43,11 +43,67 @@ page-bookmarks
 		- We MUST be able to destroy/recreate without issues for this to work.
 		- It seems like adding/removing slides dynamically would require a bit more of modification in impress code, but it may be possible.
 		- If all we're using this for is transitioning z position, it might be more worth it to write this from scratch.
-		<div id='impress'>
-			<div class='step slide' data-x='0' data-y='0' data-z='-100'>Slide 1</div>
-			<div class='step slide' data-x='600' data-y='0' data-z='-1000'>Slide 2</div>
-		</div>
+		
 		-->
+		<div id='impress'>
+			<div class='slide selected'>Demonstration of 3d</div>
+			<div class='slide'>Slide 2</div>
+			<div class='slide'>Slide 3</div>
+			<div class='slide'>Slide 3</div>
+			<div class='slide'>Slide 3</div>
+			<div class='slide'>Slide 3</div>
+			<div class='slide'>Slide 3</div>
+			<div class='slide'>Slide 3</div>
+			<div class='slide'>Slide 3</div>
+		</div>
+		<script>
+
+			function transition() {
+				var slides = $('#impress .slide');
+				var selected = slides.filter('.selected');
+				// If nothings selected, select the first by default.
+				if (selected.size() == 0) selected = slides.first();
+				var index = slides.index(selected);
+				var zIndex = slides.size() + 1;
+				slides.each(function(i, el){
+					var zPos = (index - i) * 1000;
+					var xPos = (index - i) * 100;
+					var yPos = (index - i) * -100;
+					$(el).css({
+						'transform': 'translateZ(' + zPos + 'px) translateX(' + xPos + 'px) translateY(' + yPos + 'px)',
+						'z-index': zIndex--
+					});
+				});
+			}
+
+			function change(delta) {
+				var slides = $('#impress .slide');
+				var selected = slides.filter('.selected');
+				if (selected.size() == 0) selected = slides.first();
+				var index = slides.index(selected);
+				var newSelectedIndex = (index + delta % slides.size());
+				// If newSelectedIndex is negative, it is between - (size - 1) and -1.
+				if (newSelectedIndex < 0) newSelectedIndex += slides.size();
+				select(slides.get(newSelectedIndex));
+			}
+
+			function select(el) {
+				$('#impress .slide').removeClass('selected');
+				$(el).addClass('selected');
+				transition();
+			}
+
+			$('#impress').on('click', '.slide', function() {
+				select(this);
+			});
+
+			$(document).on('keydown', function(e) {
+				if(e.which == 39) change(1);
+			 	else if (e.which == 37) change(-1);
+			});
+
+			transition();
+		</script>
 	</div>
 </div>
 
