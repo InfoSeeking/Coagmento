@@ -214,5 +214,4 @@ function initializeBookmarkFormEventHandlers(collection){
 		}
 		bookmark.destroy();
 	}
-
 }

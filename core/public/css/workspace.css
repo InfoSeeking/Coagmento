@@ -331,3 +331,18 @@ footer {
 .data-view .three-d img {
 	height: 400px;
 }
+
+.data-view[data-layout=list] {
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
+.data-view[data-layout=list] .list {
+	border-bottom: 1px #efefef solid;
+	margin-bottom: 10px;
+}
+
+.data-view[data-layout=list] .list:last-child {
+	border-bottom: none;
+	margin-bottom: 10px;
+}

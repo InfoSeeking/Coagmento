@@ -68,7 +68,7 @@ class SnippetController extends Controller
      * @apiVersion 1.0.0
      */
     public function update(Request $req, $snippet_id) {
-        $args = array_merge($req->all, ['id' => $snippet_id]);
+        $args = array_merge($req->all(), ['id' => $snippet_id]);
         $snippetStatus = $this->snippetService->update($args);
         return ApiResponse::fromStatus($snippetStatus);
     }

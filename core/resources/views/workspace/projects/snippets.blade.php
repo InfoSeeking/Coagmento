@@ -8,7 +8,7 @@ page-snippets
 @section('context')
 @if ($memberService->can($project->id, 'w', $user))
 <div class='context'>
-	<button class='btn btn-warning' id='new-btn'>New Snippet</button>
+	<button class='btn btn-warning' id='new-btn' data-toggle='modal' data-target='#create-snippet-modal'>New Snippet</button>
 </div>
 @endif
 @endsection('context')
@@ -27,32 +27,18 @@ page-snippets
 <div class='row'>
 	@include('helpers.showAllMessages')
     <div class='col-md-12'>
-    	<div class='row' id='new'>
-			<div class='col-md-6' >
-				<h3>Create Snippet</h3>
-				<form action='/api/v1/snippets' method='post' id='create-snippet'>
-					<div class='form-group'>
-						<input class='form-control' type='url' name='url' placeholder='Snippet URL'/>
-					</div>
-					<div class='form-group'>
-						<input class='form-control' type='text' name='title' placeholder='Page Title'/>
-					</div>
-					<div class='form-group'>
-						<textarea class='form-control' type='text' name='text' placeholder='Snippet Text'></textarea>
-					</div>
-					<input type='hidden' name='project_id' value='{{ $project->id }}' />
-					<button class='cancel btn btn-danger'>Cancel</button>
-					<div class='pull-right'>
-						<button type='submit' class='btn btn-primary'>Create</button>
-					</div>
-				</form>
-			</div>
-		</div>
-		
-		<ul id='snippet-list'>
-		</ul>
 
-		@include('helpers.dataTemplates')
+		<form id='layout-selection' class='form-inline'>
+			<select class='form-control'>
+				<option value='list'>List</option>
+				<option value='grid'>Grid</option>
+			</select>
+		</form>
+		
+		<div id='snippet-list' class='data-view row'>
+		</div>
+
+		@include('workspace.data.snippets')
 
 	</div>
 </div>
@@ -69,6 +55,15 @@ Config.setAll({
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
 
+function getSelectedLayout() {
+	return $('#layout-selection').find('option:selected').attr('value');
+}
+
+$('#layout-selection select').on('change', function(e){
+	e.preventDefault();
+	$(this).blur();
+	snippetListView.setLayout(getSelectedLayout());
+});
 
 var snippetList = new SnippetCollection();
 snippetList.fetch({
@@ -77,7 +72,10 @@ snippetList.fetch({
 	}
 });
 
-var snippetListView = new SnippetListView({collection: snippetList});
+var snippetListView = new SnippetListView({
+	collection: snippetList,
+	layout: getSelectedLayout()
+});
 
 function realtimeDataHandler(param) {
 	if (param.dataType != "snippets") return;
@@ -99,44 +97,7 @@ function realtimeDataHandler(param) {
 
 Realtime.init(realtimeDataHandler);
 
-$('#create-snippet').on('submit', function(e){
-	e.preventDefault();
-	var projectId = Config.get('projectId');
-	var textInput = $(this).find('textarea[name=text]');
-	var urlInput = $(this).find('input[name=url]');
-	var titleInput = $(this).find('input[name=title]');
-	$.ajax({
-		url: '/api/v1/snippets',
-		method: 'post',
-		data: {
-			'project_id' : projectId,
-			'text': textInput.val(),
-			'url': urlInput.val(),
-			'title': titleInput.val()
-		},
-		complete: function(xhr) {
-			var json = JSON.parse(xhr.responseText);
-			if (json) {
-				MessageDisplay.displayIfError(json);
-			}	
-		},
-		success: function(response) {
-			snippetList.add(new SnippetModel(response.result));
-			urlInput.val('');
-			textInput.val('');
-			titleInput.val('');
-		}
-	});
-});
-
-$("#create-snippet .cancel").on("click", function(e){
-	e.preventDefault();
-	$("#new").fadeOut(150);
-})
-
-$("#new-btn").on('click', function(){
-	$("#new").fadeIn(150);
-})
+initializeSnippetFormEventHandlers(snippetList);
 
 </script>
 @endsection('main-content')

@@ -98,6 +98,12 @@ function getSelectedLayout() {
 	return $('#layout-selection').find('option:selected').attr('value');
 }
 
+$('#layout-selection select').on('change', function(e){
+	e.preventDefault();
+	$(this).blur();
+	bookmarkListView.setLayout(getSelectedLayout());
+});
+
 var bookmarkList = new BookmarkCollection();
 bookmarkList.fetch({
 	data: {
@@ -129,12 +135,6 @@ function realtimeDataHandler(param) {
 }
 
 Realtime.init(realtimeDataHandler);
-
-$('#layout-selection select').on('change', function(e){
-	e.preventDefault();
-	$(this).blur();
-	bookmarkListView.setLayout(getSelectedLayout());
-});
 
 initializeBookmarkFormEventHandlers(bookmarkList);
 
