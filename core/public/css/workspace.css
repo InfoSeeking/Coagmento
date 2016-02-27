@@ -219,6 +219,7 @@ footer {
 #chat-list li .name {
 	color: #599BB4;
 	font-size: 11px;
+	margin-bottom: 2px;
 }
 
 #chat-list li .time {

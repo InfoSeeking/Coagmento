@@ -26,7 +26,7 @@ var ChatCollection = Backbone.Collection.extend({
 var ChatListItemView = Backbone.View.extend({
 	tagName: 'li',
 	className: 'chat-message',
-	template: _.template($('#chat-template').html()),
+	template: _.template($('[data-template=chat][data-layout=list]').html()),
 	attributes: function() {
 		return {
 			'data-id': this.model.id

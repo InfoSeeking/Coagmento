@@ -39,7 +39,7 @@ page-chat
 	</div>
 </div>
 
-@include('helpers.dataTemplates')
+@include('workspace.data.chat')
 
 <script src='/js/realtime.js'></script>
 <script src='/js/data/chat.js'></script>
@@ -53,6 +53,11 @@ Config.setAll({
 	realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
 	realtimeServer: '{{ env('REALTIME_SERVER') }}'
 });
+
+if (!Config.get('realtimeEnabled')) {
+	MessageDisplay.display(['Realtime updates are disabled,' +
+	' so chat messages will only load on page refresh.'], 'danger');
+}
 
 var chatList = new ChatCollection();
 chatList.fetch({
