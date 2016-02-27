@@ -8,7 +8,7 @@ page-docs
 @section('context')
 @if ($memberService->can($project->id, 'w', $user))
 <div class='context'>
-	<button class='btn btn-warning' id='new-btn'>New Doc</button>
+	<button class='btn btn-warning' id='new-btn' data-toggle='modal' data-target='#create-doc-modal'>New Document</button>
 </div>
 @endif
 @endsection('context')
@@ -25,32 +25,17 @@ page-docs
 
 <div class='row'>
 	@include('helpers.showAllMessages')
-    <div class='col-md-12'>
-
-    	<div class='row' id="new">
-			<div class='col-md-6'>
-				<h3>Create Doc</h3>
-				<form action='/api/v1/docs' method='post' id='create-doc'>
-					<div class='form-group'>
-						<input class='form-control' type='text' name='title' placeholder='Page title'/>
-					</div>
-					<input type='hidden' name='project_id' value='{{ $project->id }}' />
-					<button class='cancel btn btn-danger'>Close</button>
-					<div class='pull-right'>
-						<button type='submit' class='btn btn-primary'>Create</button>
-					</div>
-				</form>
-			</div>
+    <div class='col-md-8'>
+		<div id='doc-list' class='data-view'>
 		</div>
-
-		<ul id='doc-list'>
-		</ul>
 	</div>
 </div>
 
-@include('helpers.dataTemplates')
+@include('workspace.data.docs')
 
 <script src='/js/realtime.js'></script>
+<script src='/js/data/layouts.js'></script>
+<script src='/js/data/feed.js'></script>
 <script src='/js/data/doc.js'></script>
 <script src='/js/vendor/moment.js'></script>
 <script>
@@ -115,10 +100,6 @@ $("#create-doc").on('submit', function(e){
 			}
 		}
 	});
-});
-
-$("#new-btn").on('click', function(){
-	$("#new").fadeIn(150);
 });
 
 </script>

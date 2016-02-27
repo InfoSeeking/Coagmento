@@ -1,6 +1,6 @@
 // Backbone classes for chat models, collections, and views.
 
-var ChatModel = Backbone.Model.extend({
+var ChatModel = FeedModel.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
 	},
@@ -26,39 +26,37 @@ var ChatCollection = Backbone.Collection.extend({
 var ChatListItemView = Backbone.View.extend({
 	tagName: 'li',
 	className: 'chat-message',
-	template: _.template($('[data-template=chat][data-layout=list]').html()),
 	attributes: function() {
 		return {
 			'data-id': this.model.id
 		}
 	},
-	initialize: function () {
+	initialize: function (options) {
 		this.model.on('change', this.render, this);
+		this.layout = options.layout;
 	},
 	render: function() {
-		var html = this.template(this.model.toJSON());
+		var template = this.layout.getTemplate('chat');
+		var html = template(this.model.toJSON());
 		this.$el.html(html);
 		return this;
 	}
 });
 
-var ChatListView = Backbone.View.extend({
+var ChatListView = FeedListView.extend({
 	el: '#chat-list',
+	supportedLayouts: ['list'],
 	initialize: function() {
 		this.collection.on('add', this.add, this);
-	},
-	render: function() {
-		this.$el.empty();
-		this.collection.each(function(model){
-			this.add(model);
-		});
+		this.setLayout('list');
 	},
 	add: function(model) {
-		var item = new ChatListItemView({model: model});
+		var item = new ChatListItemView({model: model, layout: this.layout});
 		this.$el.append(item.render().$el);
 		this.$el.scrollTop(this.$el.prop('scrollHeight'));
 		model.on('destroy', function() {
 			item.remove();
+			this.layout.refresh();
 		});
 	}
 });

@@ -29,12 +29,6 @@ var BookmarkCollection = Backbone.Collection.extend({
 var BookmarkListItemView = Backbone.View.extend({
 	tagName: 'div',
 	className: 'bookmark',
-	templates: {
-		'grid': _.template($('[data-template=bookmark][data-layout=grid]').html()),
-		'list': _.template($('[data-template=bookmark][data-layout=list]').html()),
-		'coverflow': _.template($('[data-template=bookmark][data-layout=coverflow]').html()),
-		'three-d': _.template($('[data-template=bookmark][data-layout="three-d"]').html()),
-	},
 	events: {
 		'click .delete': 'onDelete',
 		'click .edit': 'onEdit',
@@ -65,77 +59,30 @@ var BookmarkListItemView = Backbone.View.extend({
 		modalEl.modal('show');
 	},
 	render: function() {
-		var template = this.templates[this.layout];
+		var template = this.layout.getTemplate('bookmark');
 		var html = template(this.model.toJSON());
-		this.$el.html(html).addClass(this.layout);
+		this.$el.html(html).addClass(this.layout.key);
 		return this;
 	},
 });
 
-var BookmarkListView = Backbone.View.extend({
+
+var BookmarkListView = FeedListView.extend({
 	el: '#bookmark-list',
-	container: $('#bookmark-list'),
-	layout: 'grid',
 	supportedLayouts: ['grid', 'list', 'coverflow', 'three-d'],
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
-		if (options.layout) {
-			this.setLayout(options.layout);
-		}
-	},
-	render: function() {
-		this.$el.empty();
-		if (this.layout == 'coverflow') {
-			this.initializeCoverflow();
-			this.container = $('#coverflow-container');
-		} else {
-			this.container = $('#bookmark-list');
-		}
-
-		this.collection.forEach(function(model){
-			this.add(model);
-		}, this);
-
-		if (this.layout == 'three-d') {
-			this.container.threeD('init');
-		}
-	},
-	// Re-render the bookmark list with the request layout.
-	// layout must be one of the values in supportedLayouts.
-	setLayout: function(layout) {
-		if (this.supportedLayouts.indexOf(layout) == -1) {
-			throw 'Bookmarks does not support layout ' + layout;
-		}
-		if (this.layout == 'coverflow') {
-			this.initializeCoverflow();
-			this.container = $('#coverflow-container');
-		}
-		if (this.layout == 'three-d' && layout != 'three-d') {
-			this.container.threeD('destroy');
-		}
-		this.layout = layout;
-		this.$el.attr('data-layout', layout);
-		this.render();
+		this.setLayout(options.layout || 'grid');
 	},
 	add: function(model) {
 		var item = new BookmarkListItemView({model: model, layout: this.layout});
-		this.container.prepend(item.render().$el);
+		item.render();
+		this.layout.add(item.$el);
 		var that = this;
 		model.on('destroy', function() {
 			item.remove();
-			that.refreshCoverflow();
+			that.layout.refresh();
 		});
-		this.refreshCoverflow();
-	},
-	initializeCoverflow: function() {
-		this.container = $("<div id='coverflow-container'>");
-		this.$el.append(this.container);
-		this.coverflow = this.container.coverflow();
-	},
-	refreshCoverflow: function() {
-		if (this.layout != 'coverflow') return;
-		if (!this.coverflow) return;
-		this.coverflow.data('vanderlee-coverflow').refresh(500);
 	}
 });
 

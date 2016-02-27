@@ -1,6 +1,6 @@
 // Backbone classes for snippet models, collections, and views.
 
-var SnippetModel = Backbone.Model.extend({
+var SnippetModel = FeedModel.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
 	},
@@ -26,10 +26,6 @@ var SnippetCollection = Backbone.Collection.extend({
 var SnippetListItemView = Backbone.View.extend({
 	tagName: 'div',
 	className: 'snippet',
-	templates: {
-		'list': _.template($('[data-template=snippet][data-layout=list]').html()),
-		'grid': _.template($('[data-template=snippet][data-layout=grid]').html())
-	},
 	events: {
 		'click .delete': 'onDelete',
 		'click .edit': 'onEdit',
@@ -60,42 +56,26 @@ var SnippetListItemView = Backbone.View.extend({
 		modalEl.modal('show');
 	},
 	render: function() {
-		var template = this.templates[this.layout];
+		var template = this.layout.getTemplate('snippet');
 		var html = template(this.model.toJSON());
-		this.$el.html(html).addClass(this.layout);
+		this.$el.html(html).addClass(this.layout.key);
 		return this;
 	}
 });
 
-var SnippetListView = Backbone.View.extend({
+var SnippetListView = FeedListView.extend({
 	el: '#snippet-list',
 	supportedLayouts: ['grid', 'list'],
-	layout: 'list',
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
-		if (options.layout) {
-			this.setLayout(options.layout);
-		}
-	},
-	setLayout: function(layout) {
-		if (this.supportedLayouts.indexOf(layout) == -1) {
-			throw 'Bookmarks does not support layout ' + layout;
-		}
-		this.layout = layout;
-		this.$el.attr('data-layout', layout);
-		this.render();
-	},
-	render: function() {
-		this.$el.empty();
-		this.collection.each(function(model){
-			this.add(model);
-		}, this);
+		this.setLayout(options.layout || 'list');
 	},
 	add: function(model) {
 		var item = new SnippetListItemView({model: model, layout: this.layout});
 		this.$el.prepend(item.render().$el);
 		model.on('destroy', function() {
 			item.remove();
+			this.layout.refresh();
 		});
 	}
 });

@@ -75,7 +75,7 @@
             function computeMinHeight() {
                 var value = $(window).height() - $('#page-footer').outerHeight(true) - $('#page-navigation').outerHeight(true);
                 $('.main-content').css({
-                    'min-height' : value + 'px'
+                    'min-height' : Math.max(value, 300) + 'px'
                 })
             }
             $(document).ready(computeMinHeight);

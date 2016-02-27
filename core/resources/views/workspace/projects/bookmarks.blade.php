@@ -72,6 +72,7 @@ page-bookmarks
 <script src='/js/vendor/impress.js'></script>
 <script src='/js/vendor/moment.js'></script>
 <script src='/js/data/user.js'></script>
+<script src='/js/data/layouts.js'></script>
 <script src='/js/data/feed.js'></script>
 <script src='/js/data/bookmark.js'></script>
 

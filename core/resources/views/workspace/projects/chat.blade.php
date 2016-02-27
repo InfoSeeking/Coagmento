@@ -42,6 +42,8 @@ page-chat
 @include('workspace.data.chat')
 
 <script src='/js/realtime.js'></script>
+<script src='/js/data/layouts.js'></script>
+<script src='/js/data/feed.js'></script>
 <script src='/js/data/chat.js'></script>
 <script src='/js/vendor/moment.js'></script>
 
