@@ -114,6 +114,12 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::get('api/v1/pages', 'Api\PageController@index');
 	Route::delete('api/v1/pages/{page_id}', 'Api\PageController@delete');
 
+	// Queries.
+	Route::post('api/v1/queries', 'Api\QueryController@create');
+	Route::get('api/v1/queries/{query_id}', 'Api\QueryController@get');
+	Route::get('api/v1/queries', 'Api\QueryController@index');
+	Route::delete('api/v1/queries/{query_id}', 'Api\QueryController@delete');	
+
 	// Chat.
 	Route::post('api/v1/chatMessages', 'Api\ChatController@create');
 	Route::get('api/v1/chatMessages', 'Api\ChatController@getMultiple');

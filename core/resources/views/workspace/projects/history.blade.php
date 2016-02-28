@@ -37,17 +37,20 @@ page-history
 	</div>
 	<div class='col-md-5'>
 		<h4>Searches</h4>
-		<div id='search-list' class='row data-view'>
+		<div id='query-list' class='row data-view'>
 		</div>
 	</div>
 </div>
 
 @include('workspace.data.pages')
+@include('workspace.data.queries')
+
 <script src='/js/realtime.js'></script>
 <script src='/js/data/layouts.js'></script>
 <script src='/js/data/feed.js'></script>
 <script src='/js/data/user.js'></script>
 <script src='/js/data/page.js'></script>
+<script src='/js/data/query.js'></script>
 <script src='/js/vendor/moment.js'></script>
 <script>
 Config.setAll({
@@ -70,6 +73,11 @@ var pageList = new PageCollection();
 pageList.add({!! $pages->toJSON() !!});
 
 var pageListView = new PageListView({collection: pageList, layout: getPageSelectedLayout()});
+
+var queryList = new QueryCollection();
+queryList.add({!! $queries->toJSON() !!});
+
+var queryListView = new QueryListView({collection: queryList});
 
 function getPageSelectedLayout() {
 	return $('#page-layout-selection').find('option:selected').attr('value');

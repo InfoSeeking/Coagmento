@@ -17,6 +17,7 @@ use App\Services\ProjectService;
 use App\Services\BookmarkService;
 use App\Services\SnippetService;
 use App\Services\PageService;
+use App\Services\QueryService;
 use App\Services\MembershipService;
 use App\Utilities\Status;
 
@@ -29,7 +30,8 @@ class WorkspaceController extends Controller
         PageService $pageService,
         MembershipService $memberService,
         DocService $docService,
-        PageService $pageService) {
+        PageService $pageService,
+        QueryService $queryService) {
         $this->projectService = $projectService;
         $this->bookmarkService = $bookmarkService;
         $this->snippetService = $snippetService;
@@ -37,6 +39,7 @@ class WorkspaceController extends Controller
         $this->memberService = $memberService;
         $this->docService = $docService;
         $this->pageService = $pageService;
+        $this->queryService = $queryService;
     }
 
     public function showProjectCreate() {
@@ -267,6 +270,9 @@ class WorkspaceController extends Controller
         $pageStatus = $this->pageService->getMultiple(['project_id' => $projectId]);
         if (!$pageStatus->isOK()) return $pageStatus->asRedirect('workspace');
 
+        $queryStatus = $this->queryService->getMultiple(['project_id' => $projectId]);
+        if (!$queryStatus->isOK()) return $queryStatus->asRedirect('workspace');
+
         $sharedUsersStatus = $this->projectService->getSharedUsers($projectId);
         if (!$sharedUsersStatus->isOK()) return $sharedUsersStatus->asRedirect('workspace');
 
@@ -275,7 +281,8 @@ class WorkspaceController extends Controller
             'permission' => $permissionStatus->getResult(),
             'user' => Auth::user(),
             'sharedUsers' => $sharedUsersStatus->getResult(),
-            'pages' => $pageStatus->getResult()
+            'pages' => $pageStatus->getResult(),
+            'queries' => $queryStatus->getResult()
             ]);
     }
 }

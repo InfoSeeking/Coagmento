@@ -3,7 +3,7 @@
 var PageModel = FeedModel.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
-		// TODO: Attempt to set user name if available.
+		// Attempt to set user name if available.
 		var user = userList.get(this.get('user_id'));
 		this.set('user_name', user ? user.get('name') : "Unknown");
 	},
