@@ -28,13 +28,15 @@ class WorkspaceController extends Controller
         SnippetService $snippetService,
         PageService $pageService,
         MembershipService $memberService,
-        DocService $docService) {
+        DocService $docService,
+        PageService $pageService) {
         $this->projectService = $projectService;
         $this->bookmarkService = $bookmarkService;
         $this->snippetService = $snippetService;
         $this->pageService = $pageService;
         $this->memberService = $memberService;
         $this->docService = $docService;
+        $this->pageService = $pageService;
     }
 
     public function showProjectCreate() {
@@ -252,6 +254,28 @@ class WorkspaceController extends Controller
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user()
+            ]);
+    }
+
+    public function viewHistory(Request $req, $projectId) {
+        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
+        if (!$permissionStatus->isOK()) return $permissionStatus->asRedirect('workspace');
+
+        $projectStatus = $this->projectService->get($projectId);
+        if (!$projectStatus->isOK()) return $projectStatus->asRedirect('workspace');
+
+        $pageStatus = $this->pageService->getMultiple(['project_id' => $projectId]);
+        if (!$pageStatus->isOK()) return $pageStatus->asRedirect('workspace');
+
+        $sharedUsersStatus = $this->projectService->getSharedUsers($projectId);
+        if (!$sharedUsersStatus->isOK()) return $sharedUsersStatus->asRedirect('workspace');
+
+        return view('workspace.projects.history', [
+            'project' => $projectStatus->getResult(),
+            'permission' => $permissionStatus->getResult(),
+            'user' => Auth::user(),
+            'sharedUsers' => $sharedUsersStatus->getResult(),
+            'pages' => $pageStatus->getResult()
             ]);
     }
 }

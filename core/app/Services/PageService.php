@@ -24,7 +24,7 @@ class PageService {
 	private $memberService;
 
 	public function get($id) {
-		$page = Page::find($id);
+		$page = Page::with('thumbnail')->find($id);
 		if (is_null($page)) {
 			return Status::fromError('Page not found', StatusCodes::NOT_FOUND);
 		}
@@ -48,13 +48,13 @@ class PageService {
 				$args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
-			$pages = Page::where('project_id', $args['project_id']);
+			$pages = Page::with('thumbnail')->where('project_id', $args['project_id']);
 			return Status::fromResult($pages->get());
 		}
 
 		// Return all user created pages.
 		if (!$this->user) return Status::fromError('Log in to see pages or specify a project_id');
-		$pages = Page::where('user_id', $this->user->id);
+		$pages = Page::with('thumbnail')->where('user_id', $this->user->id);
 		return Status::fromResult($pages->get());
 	}
 
@@ -98,6 +98,7 @@ class PageService {
 			$page = new Page($args);
 			$page->user_id = $this->user->id;
 			$page->project_id = $projectId;
+			$page->load('thumbnail');
 			$page->save();
 			$results['page'] = $page;
 		}
@@ -106,13 +107,6 @@ class PageService {
 	}
 
 	public function delete($id) {
-		$validator = Validator::make([$id], [
-			'id' => 'required|integer'
-			]);
-		if ($validator->fails()) {
-			return Status::fromValidator($validator);
-		}
-
 		$page = Page::find($id);
 		if (is_null($page)) {
 			return Status::fromError('Page not found', StatusCodes::NOT_FOUND);

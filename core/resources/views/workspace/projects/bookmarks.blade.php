@@ -38,30 +38,6 @@ page-bookmarks
 		
 		<div id='bookmark-list' class='data-view row'>
 		</div>
-		
-		<!--
-		Concerns
-		- We MUST be able to destroy/recreate without issues for this to work.
-		- It seems like adding/removing slides dynamically would require a bit more of modification in impress code, but it may be possible.
-		- If all we're using this for is transitioning z position, it might be more worth it to write this from scratch.
-		
-		
-		<div id='impress'>
-			<div class='slide selected'>Demonstration of 3d</div>
-			<div class='slide'>Slide 2</div>
-			<div class='slide'>Slide 3</div>
-			<div class='slide'>Slide 3</div>
-			<div class='slide'>Slide 3</div>
-			<div class='slide'>Slide 3</div>
-			<div class='slide'>Slide 3</div>
-			<div class='slide'>Slide 3</div>
-			<div class='slide'>Slide 3</div>
-		</div>
-		<script src='/js/three-d.js'></script>
-		<script>
-			$('#impress').threeD('init');
-		</script>
-		-->
 	</div>
 </div>
 
@@ -106,11 +82,7 @@ $('#layout-selection select').on('change', function(e){
 });
 
 var bookmarkList = new BookmarkCollection();
-bookmarkList.fetch({
-	data: {
-		project_id: Config.get('projectId')
-	}
-});
+bookmarkList.add({!! $bookmarks->toJSON() !!});
 
 var bookmarkListView = new BookmarkListView({
 	collection: bookmarkList,

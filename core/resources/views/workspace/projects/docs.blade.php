@@ -71,11 +71,6 @@ function realtimeDataHandler(param) {
 
 Realtime.init(realtimeDataHandler);
 
-$("#create-doc .cancel").on("click", function(e){
-	e.preventDefault();
-	$("#new").fadeOut(150);
-})
-
 $("#create-doc").on('submit', function(e){
 	e.preventDefault();
 	var form = $(this),

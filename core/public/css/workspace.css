@@ -347,3 +347,7 @@ footer {
 	border-bottom: none;
 	margin-bottom: 10px;
 }
+
+.page-list-container {
+	border-right: 2px #efefef solid;
+}

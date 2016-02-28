@@ -57,6 +57,7 @@ Route::get('workspace/projects/{project_id}/bookmarks',
 Route::get('workspace/projects/{project_id}/snippets', 'WorkspaceController@viewProjectSnippets');
 Route::get('workspace/projects/{project_id}/chat', 'WorkspaceController@viewChat');
 Route::get('workspace/projects/{project_id}/docs', 'WorkspaceController@viewDocs');
+Route::get('workspace/projects/{project_id}/history', 'WorkspaceController@viewHistory');
 
 // Viewing document requires write permissions until we can get read-only to work.
 Route::get('workspace/projects/{project_id}/docs/{doc_id}', 'WorkspaceController@viewDoc');

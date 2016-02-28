@@ -10,6 +10,6 @@ class Page extends Model
     protected $guarded = ['project_id', 'user_id'];
     protected $visible = ['thumbnail', 'url', 'title', 'created_at', 'updated_at', 'user_id', 'project_id', 'id', 'is_query'];
     public function thumbnail() {
-    	$this->hasOne('App\Models\Thumbnail', 'id', 'thumbnail_id');
+    	return $this->hasOne('App\Models\Thumbnail', 'id', 'thumbnail_id');
     }
 }
