@@ -49,6 +49,7 @@ class WorkspaceController extends Controller
     }
 
     public function showProjects() {
+
         $projects = $this->projectService->getMyProjects();
         return view('workspace.projects.index', [
             'projects' => $projects,
@@ -106,6 +107,7 @@ class WorkspaceController extends Controller
     }
 
     public function viewProject(Request $req, $projectId) {
+        Log::debug("view projects");
         $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
         if (!$permissionStatus->isOK()) return $permissionStatus->asRedirect('workspace');
 

@@ -40,6 +40,12 @@
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="/workspace"><img alt="Coagmento" src="/images/workspace/titled-logo.png" /></a>
+                        @if (isset($user))
+                        <!--
+                            TODO: add user avatar/profile link.
+                            <a href='#' ><img src="http://www.gravatar.com/avatar/{{ md5($user->email) }}?s=64" /></a>
+                        -->
+                        @endif
                     </div>
                     <ul class="nav navbar-nav">
                     </ul>
