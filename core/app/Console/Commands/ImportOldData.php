@@ -12,13 +12,19 @@ use Illuminate\Console\Command;
 
 use App\Models\Bookmark;
 use App\Models\Membership;
+use App\Models\Page;
 use App\Models\Project;
+use App\Models\Query;
+use App\Models\Snippet;
 use App\Models\User;
 
 use App\Models\Old\OldBookmark;
 use App\Models\Old\OldMapping;
 use App\Models\Old\OldMembership;
+use App\Models\Old\OldPage;
 use App\Models\Old\OldProject;
+use App\Models\Old\OldQuery;
+use App\Models\Old\OldSnippet;
 use App\Models\Old\OldUser;
 
 class ImportOldData extends Command
@@ -71,6 +77,10 @@ class ImportOldData extends Command
 
         $this->importUsers();
         $this->importProjects();
+        $this->importBookmarks();
+        $this->importSnippets();
+        $this->importPages();
+        $this->importQueries();
     }
 
     private function clear() {
@@ -78,6 +88,9 @@ class ImportOldData extends Command
         $this->clearNew(OldMembership::class, Membership::class);
         $this->clearNew(OldProject::class, Project::class);
         $this->clearNew(OldBookmark::class, Bookmark::class);
+        $this->clearNew(OldSnippet::class, Snippet::class);
+        $this->clearNew(OldPage::class, Page::class);
+        $this->clearNew(OldQuery::class, Query::class);
         OldMapping::query()->delete();
     }
 
@@ -173,20 +186,80 @@ class ImportOldData extends Command
         printf("Importing bookmarks\n");
         $oldBookmarks = OldBookmark::all();
         foreach ($oldBookmarks as $oldBookmark) {
-            $newBookmark = $this->getOrCreate(OldBookmark::class, Bookmark::class, $oldBookmark->bookmarkID);
             $newProject = $this->getNew(OldProject::class, Project::class, $oldBookmark->projectID);
             if (is_null($newProject)) continue;
             $newUser = $this->getNew(OldUser::class, User::class, $oldBookmark->userID);
             if (is_null($newUser)) continue;
 
+            $newBookmark = new Bookmark();
             $newBookmark->url = $oldBookmark->url;
             $newBookmark->title = $oldBookmark->title;
             $newBookmark->notes = $oldBookmark->note;
-            $newBookmark->creator_id = $newUser->id;
+            $newBookmark->user_id = $newUser->id;
             $newBookmark->project_id = $newProject->id;
             $newBookmark->save();
             $this->addMapping(OldBookmark::class, $oldBookmark->bookmarkID, $newBookmark->id);
         }
     }
 
+    // Must be called after importUsers and importProjects.
+    private function importSnippets() {
+        printf("Importing snippets\n");
+        $oldSnippets = OldSnippet::all();
+        foreach ($oldSnippets as $oldSnippet) {
+            $newProject = $this->getNew(OldProject::class, Project::class, $oldSnippet->projectID);
+            if (is_null($newProject)) continue;
+            $newUser = $this->getNew(OldUser::class, User::class, $oldSnippet->userID);
+            if (is_null($newUser)) continue;
+
+            $newSnippet = new Snippet();
+            $newSnippet->url = $oldSnippet->url;
+            $newSnippet->title = $oldSnippet->title;
+            $newSnippet->text = $oldSnippet->snippet;
+            $newSnippet->user_id = $newUser->id;
+            $newSnippet->project_id = $newProject->id;
+            $newSnippet->save();
+            $this->addMapping(OldSnippet::class, $oldSnippet->snippetID, $newSnippet->id);
+        }
+    }
+
+    // Must be called after importUsers and importProjects.
+    private function importPages() {
+        printf("Importing pages\n");
+        $oldPages = OldPage::all();
+        foreach ($oldPages as $oldPage) {
+            $newProject = $this->getNew(OldProject::class, Project::class, $oldPage->projectID);
+            if (is_null($newProject)) continue;
+            $newUser = $this->getNew(OldUser::class, User::class, $oldPage->userID);
+            if (is_null($newUser)) continue;
+
+            $newPage = new Page();
+            $newPage->url = $oldPage->url;
+            $newPage->title = $oldPage->title;
+            $newPage->user_id = $newUser->id;
+            $newPage->project_id = $newProject->id;
+            $newPage->save();
+            $this->addMapping(OldPage::class, $oldPage->pageID, $newPage->id);
+        }
+    }
+
+    // Must be called after importUsers and importProjects.
+    private function importQueries() {
+        printf("Importing queries\n");
+        $oldQueries = OldQuery::all();
+        foreach ($oldQueries as $oldQuery) {
+            $newProject = $this->getNew(OldProject::class, Project::class, $oldQuery->projectID);
+            if (is_null($newProject)) continue;
+            $newUser = $this->getNew(OldUser::class, User::class, $oldQuery->userID);
+            if (is_null($newUser)) continue;
+
+            $newQuery = new Query();
+            $newQuery->search_engine = $oldQuery->source;
+            $newQuery->text = $oldQuery->query;
+            $newQuery->user_id = $newUser->id;
+            $newQuery->project_id = $newProject->id;
+            $newQuery->save();
+            $this->addMapping(OldQuery::class, $oldQuery->queryID, $newQuery->id);
+        }
+    }
 }
