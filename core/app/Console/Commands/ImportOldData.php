@@ -10,8 +10,15 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use App\Models\Bookmark;
+use App\Models\Membership;
+use App\Models\Project;
 use App\Models\User;
+
+use App\Models\Old\OldBookmark;
 use App\Models\Old\OldMapping;
+use App\Models\Old\OldMembership;
+use App\Models\Old\OldProject;
 use App\Models\Old\OldUser;
 
 class ImportOldData extends Command
@@ -56,14 +63,21 @@ class ImportOldData extends Command
             if ($shouldClear == 'Y') {
                 printf("Clearing old data.\n");
                 $this->clear();
+            } else {
+                printf("Exiting\n");
+                return;
             }
         }
 
         $this->importUsers();
+        $this->importProjects();
     }
 
     private function clear() {
         $this->clearNew(OldUser::class, User::class);
+        $this->clearNew(OldMembership::class, Membership::class);
+        $this->clearNew(OldProject::class, Project::class);
+        $this->clearNew(OldBookmark::class, Bookmark::class);
         OldMapping::query()->delete();
     }
 
@@ -86,8 +100,7 @@ class ImportOldData extends Command
         $mapping = OldMapping::where('old_id', $oldId)
             ->where('table', $oldModelClass::getTableName())
             ->first();
-
-        if (!is_null($mapping)) return null;
+        if (is_null($mapping)) return null;
         return $newModelClass::find($mapping->new_id);
     }
 
@@ -95,9 +108,7 @@ class ImportOldData extends Command
         printf("Importing users\n");
         $oldUsers = OldUser::all();
         foreach ($oldUsers as $oldUser) {
-            printf("Old username %s\n", $oldUser->username);
             $newUser = new User();
-            // TODO: set old password in special field.
             $newUser->email = $oldUser->email;
             $newUser->password = "";
             $newUser->imported_password = $oldUser->password;
@@ -105,15 +116,77 @@ class ImportOldData extends Command
             $newUser->save();
             $this->addMapping(OldUser::class, $oldUser->userID, $newUser->id);
         }
+    }
 
-        // printf('Importing bookmarks');
-        // $oldBookmarks = OldBookmark::all();
-        // foreach ($oldBookmarks as $oldBookmark) {
-        //     $newBookmark = $this->getOrCreate(OldBookmark::class, Bookmark::class, $oldBookmark->bookmarkID);
-        //     $newBookmark->url = $oldBookmark->url;
-        //     $newUser = $this->getNew(OldUser::class, User::class, $oldBookmark->userID);
-        //     $newBookmark->creator_id = 
-        // }
+    private function ifExists($val, $default) {
+        if (!is_null($val)) return $val;
+        return $default;
+    }
+
+    private function importProjects() {
+        printf("Importing projects\n");
+        $oldProjects = OldProject::all();
+        foreach($oldProjects as $oldProject) {
+            // Imported project will have arbitrarily chosen owner.
+            $creator = null;
+
+            // Get old project creator.
+            // User with access=1 is the creator in old Coagmento.
+            $oldCreator = OldMembership::where('projectID', $oldProject->projectID)->where('access', 1)->first();
+            $newCreator = null;
+            if (!is_null($oldCreator)) {
+                $newCreator = $this->getNew(OldUser::class, User::class, $oldCreator->userID);
+            }
+            
+            if (is_null($newCreator)) {
+                printf("Cannot import project %d because no creator could be found\n", $oldProject->projectID);
+                continue;
+            }
+
+            $newProject = new Project();
+            $newProject->title = $this->ifExists($oldProject->title, "");
+            $newProject->description = $oldProject->description;
+            $newProject->private = $this->ifExists($oldProject->privacy, 1);
+            $newProject->creator_id = $newCreator->id;
+            $newProject->save();
+            $this->addMapping(OldProject::class, $oldProject->projectID, $newProject->id);
+
+            // Add memberships.
+            $oldMemberships = OldMembership::where('projectID', $oldProject->projectID)->get();
+            foreach($oldMemberships as $oldMembership) {
+                $newMemberUser = $this->getNew(OldUser::class, User::class, $oldMembership->userID);
+                if (is_null($newMemberUser)) continue;
+
+                // For now, just import all members as owners.
+                $newMembership = new Membership();
+                $newMembership->user_id = $newMemberUser->id;
+                $newMembership->project_id = $newProject->id;
+                $newMembership->level = 'o';
+                $newMembership->save();
+                $this->addMapping(OldMembership::class, $oldMembership->memberID, $newMembership->id);
+            }
+        }
+
+    }
+    // Must be called after importUsers and importProjects.
+    private function importBookmarks() {
+        printf("Importing bookmarks\n");
+        $oldBookmarks = OldBookmark::all();
+        foreach ($oldBookmarks as $oldBookmark) {
+            $newBookmark = $this->getOrCreate(OldBookmark::class, Bookmark::class, $oldBookmark->bookmarkID);
+            $newProject = $this->getNew(OldProject::class, Project::class, $oldBookmark->projectID);
+            if (is_null($newProject)) continue;
+            $newUser = $this->getNew(OldUser::class, User::class, $oldBookmark->userID);
+            if (is_null($newUser)) continue;
+
+            $newBookmark->url = $oldBookmark->url;
+            $newBookmark->title = $oldBookmark->title;
+            $newBookmark->notes = $oldBookmark->note;
+            $newBookmark->creator_id = $newUser->id;
+            $newBookmark->project_id = $newProject->id;
+            $newBookmark->save();
+            $this->addMapping(OldBookmark::class, $oldBookmark->bookmarkID, $newBookmark->id);
+        }
     }
 
 }

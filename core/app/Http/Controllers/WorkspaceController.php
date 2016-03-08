@@ -107,7 +107,6 @@ class WorkspaceController extends Controller
     }
 
     public function viewProject(Request $req, $projectId) {
-        Log::debug("view projects");
         $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
         if (!$permissionStatus->isOK()) return $permissionStatus->asRedirect('workspace');
 
