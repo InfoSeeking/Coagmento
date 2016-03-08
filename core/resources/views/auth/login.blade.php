@@ -2,6 +2,7 @@
 @section('main-content')
 
 <h1>Login</h1>
+<p> If you're logging in from an old Coagmento account using your <i>username</i> then append "@coagmento.org" for the login email. E.g. if your username was <i>exampleuser</i> log in with <i>exampleuser@coagmento.org</i>.</p>
 @include('helpers.showAllMessages')
 <div class='col-sm-5'>
     <form method="POST" action="/auth/login">

@@ -122,7 +122,7 @@ class ImportOldData extends Command
         $oldUsers = OldUser::all();
         foreach ($oldUsers as $oldUser) {
             $newUser = new User();
-            $newUser->email = $oldUser->email;
+            $newUser->email = $oldUser->username . "@coagmento.org";
             $newUser->password = "";
             $newUser->imported_password = $oldUser->password;
             $newUser->name = $oldUser->firstName . " " . $oldUser->lastName;

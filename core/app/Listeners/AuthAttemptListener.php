@@ -37,7 +37,7 @@ class AuthAttemptListener
         if (is_null($user)) return;
 
         if (!is_null($user->imported_password) 
-            && $user->imported_password == md5($credentials['password'])) {
+            && $user->imported_password == sha1($credentials['password'])) {
             $user->password = bcrypt($credentials['password']);
             $user->imported_password = null;
             $user->save();
