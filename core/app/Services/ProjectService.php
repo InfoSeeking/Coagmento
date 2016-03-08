@@ -53,6 +53,7 @@ class ProjectService {
     }
 
 	public function getMultiple() {
+        if (is_null($this->user)) throw new \DomainException("User not logged in.");
         $projects = DB::table('memberships')
             ->where('user_id', $this->user->id)
             ->leftJoin('projects', 'project_id', '=', 'projects.id')

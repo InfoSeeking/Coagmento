@@ -72,6 +72,7 @@ Route::group(['middleware' => 'api.auth'], function() {
 	Route::get('api/v1/users/logout', function(){
 		Auth::logout();
 	});
+	Route::get('api/v1/projects', 'Api\ProjectController@index');
 });
 
 Route::group(['middleware' => 'api.optional.auth'], function(){
@@ -90,7 +91,6 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::delete('api/v1/bookmarks/{bookmark_id}', 'Api\BookmarkController@delete');
 
 	// Projects.
-	Route::get('api/v1/projects', 'Api\ProjectController@index');
 	Route::get('api/v1/projects/{project_id}', 'Api\ProjectController@get');
 	Route::put('api/v1/projects/{project_id}', 'Api\ProjectController@update');
 	Route::post('api/v1/projects', 'Api\ProjectController@create');
