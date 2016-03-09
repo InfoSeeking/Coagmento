@@ -8,6 +8,7 @@
 //
 namespace App\Console\Commands;
 
+use DB;
 use Illuminate\Console\Command;
 
 use App\Models\Bookmark;
@@ -18,6 +19,7 @@ use App\Models\Query;
 use App\Models\Snippet;
 use App\Models\User;
 
+use App\Models\Old\OldAction;
 use App\Models\Old\OldBookmark;
 use App\Models\Old\OldMapping;
 use App\Models\Old\OldMembership;
@@ -29,6 +31,7 @@ use App\Models\Old\OldUser;
 
 class ImportOldData extends Command
 {
+    protected $chunkSize = 1000;
     /**
      * The name and signature of the console command.
      *
@@ -81,6 +84,7 @@ class ImportOldData extends Command
         $this->importSnippets();
         $this->importPages();
         $this->importQueries();
+        printf("Done!\n");
     }
 
     private function clear() {
@@ -119,16 +123,18 @@ class ImportOldData extends Command
 
     private function importUsers() {
         printf("Importing users\n");
-        $oldUsers = OldUser::all();
-        foreach ($oldUsers as $oldUser) {
-            $newUser = new User();
-            $newUser->email = $oldUser->username . "@coagmento.org";
-            $newUser->password = "";
-            $newUser->imported_password = $oldUser->password;
-            $newUser->name = $oldUser->firstName . " " . $oldUser->lastName;
-            $newUser->save();
-            $this->addMapping(OldUser::class, $oldUser->userID, $newUser->id);
-        }
+        OldUser::query()->chunk($this->chunkSize, function($oldUsers){
+            printf(".");
+            foreach ($oldUsers as $oldUser) {
+                $newUser = new User();
+                $newUser->email = $oldUser->username . "@coagmento.org";
+                $newUser->password = "";
+                $newUser->imported_password = $oldUser->password;
+                $newUser->name = $oldUser->firstName . " " . $oldUser->lastName;
+                $newUser->save();
+                $this->addMapping(OldUser::class, $oldUser->userID, $newUser->id);
+            }
+        });
     }
 
     private function ifExists($val, $default) {
@@ -138,128 +144,141 @@ class ImportOldData extends Command
 
     private function importProjects() {
         printf("Importing projects\n");
-        $oldProjects = OldProject::all();
-        foreach($oldProjects as $oldProject) {
-            // Imported project will have arbitrarily chosen owner.
-            $creator = null;
+        OldProject::query()->chunk($this->chunkSize, function($oldProjects){
+            printf(".");
+            foreach($oldProjects as $oldProject) {
+                // Imported project will have arbitrarily chosen owner.
+                $creator = null;
 
-            // Get old project creator.
-            // User with access=1 is the creator in old Coagmento.
-            $oldCreator = OldMembership::where('projectID', $oldProject->projectID)->where('access', 1)->first();
-            $newCreator = null;
-            if (!is_null($oldCreator)) {
-                $newCreator = $this->getNew(OldUser::class, User::class, $oldCreator->userID);
+                // Get old project creator.
+                // User with access=1 is the creator in old Coagmento.
+                $oldCreator = OldMembership::where('projectID', $oldProject->projectID)->where('access', 1)->first();
+                $newCreator = null;
+                if (!is_null($oldCreator)) {
+                    $newCreator = $this->getNew(OldUser::class, User::class, $oldCreator->userID);
+                }
+                
+                if (is_null($newCreator)) {
+                    //printf("Cannot import project %d because no creator could be found\n", $oldProject->projectID);
+                    continue;
+                }
+
+                $newProject = new Project();
+                $newProject->title = $this->ifExists($oldProject->title, "");
+                $newProject->description = $oldProject->description;
+                $newProject->private = $this->ifExists($oldProject->privacy, 1);
+                $newProject->creator_id = $newCreator->id;
+                $newProject->save();
+                $this->addMapping(OldProject::class, $oldProject->projectID, $newProject->id);
+
+                // Add memberships.
+                $oldMemberships = OldMembership::where('projectID', $oldProject->projectID)->get();
+                foreach($oldMemberships as $oldMembership) {
+                    $newMemberUser = $this->getNew(OldUser::class, User::class, $oldMembership->userID);
+                    if (is_null($newMemberUser)) continue;
+
+                    // For now, just import all members as owners.
+                    $newMembership = new Membership();
+                    $newMembership->user_id = $newMemberUser->id;
+                    $newMembership->project_id = $newProject->id;
+                    $newMembership->level = 'o';
+                    $newMembership->save();
+                    $this->addMapping(OldMembership::class, $oldMembership->memberID, $newMembership->id);
+                }
             }
-            
-            if (is_null($newCreator)) {
-                printf("Cannot import project %d because no creator could be found\n", $oldProject->projectID);
-                continue;
-            }
-
-            $newProject = new Project();
-            $newProject->title = $this->ifExists($oldProject->title, "");
-            $newProject->description = $oldProject->description;
-            $newProject->private = $this->ifExists($oldProject->privacy, 1);
-            $newProject->creator_id = $newCreator->id;
-            $newProject->save();
-            $this->addMapping(OldProject::class, $oldProject->projectID, $newProject->id);
-
-            // Add memberships.
-            $oldMemberships = OldMembership::where('projectID', $oldProject->projectID)->get();
-            foreach($oldMemberships as $oldMembership) {
-                $newMemberUser = $this->getNew(OldUser::class, User::class, $oldMembership->userID);
-                if (is_null($newMemberUser)) continue;
-
-                // For now, just import all members as owners.
-                $newMembership = new Membership();
-                $newMembership->user_id = $newMemberUser->id;
-                $newMembership->project_id = $newProject->id;
-                $newMembership->level = 'o';
-                $newMembership->save();
-                $this->addMapping(OldMembership::class, $oldMembership->memberID, $newMembership->id);
-            }
-        }
-
+        });
     }
     // Must be called after importUsers and importProjects.
     private function importBookmarks() {
         printf("Importing bookmarks\n");
-        $oldBookmarks = OldBookmark::all();
-        foreach ($oldBookmarks as $oldBookmark) {
-            $newProject = $this->getNew(OldProject::class, Project::class, $oldBookmark->projectID);
-            if (is_null($newProject)) continue;
-            $newUser = $this->getNew(OldUser::class, User::class, $oldBookmark->userID);
-            if (is_null($newUser)) continue;
+        $query = DB::connection('old')->table('pages')
+            ->join('actions', 'pages.pageID', '=', 'actions.value')
+            ->where('actions.action', 'save-page');
 
-            $newBookmark = new Bookmark();
-            $newBookmark->url = $oldBookmark->url;
-            $newBookmark->title = $oldBookmark->title;
-            $newBookmark->notes = $oldBookmark->note;
-            $newBookmark->user_id = $newUser->id;
-            $newBookmark->project_id = $newProject->id;
-            $newBookmark->save();
-            $this->addMapping(OldBookmark::class, $oldBookmark->bookmarkID, $newBookmark->id);
-        }
+        $query->chunk($this->chunkSize, function($oldBookmarks){
+            printf(".");
+            foreach ($oldBookmarks as $oldBookmark) {
+                $newProject = $this->getNew(OldProject::class, Project::class, $oldBookmark->projectID);
+                if (is_null($newProject)) continue;
+                $newUser = $this->getNew(OldUser::class, User::class, $oldBookmark->userID);
+                if (is_null($newUser)) continue;
+
+                $newBookmark = new Bookmark();
+                $newBookmark->url = $oldBookmark->url;
+                $newBookmark->title = $oldBookmark->title;
+                $newBookmark->notes = $oldBookmark->note;
+                $newBookmark->user_id = $newUser->id;
+                $newBookmark->project_id = $newProject->id;
+                $newBookmark->save();
+                $this->addMapping(OldBookmark::class, $oldBookmark->pageID, $newBookmark->id);
+            }
+        });
     }
 
     // Must be called after importUsers and importProjects.
     private function importSnippets() {
         printf("Importing snippets\n");
-        $oldSnippets = OldSnippet::all();
-        foreach ($oldSnippets as $oldSnippet) {
-            $newProject = $this->getNew(OldProject::class, Project::class, $oldSnippet->projectID);
-            if (is_null($newProject)) continue;
-            $newUser = $this->getNew(OldUser::class, User::class, $oldSnippet->userID);
-            if (is_null($newUser)) continue;
+        OldSnippet::query()->chunk($this->chunkSize, function($oldSnippets) {
+            printf(".");
+            foreach ($oldSnippets as $oldSnippet) {
+                $newProject = $this->getNew(OldProject::class, Project::class, $oldSnippet->projectID);
+                if (is_null($newProject)) continue;
+                $newUser = $this->getNew(OldUser::class, User::class, $oldSnippet->userID);
+                if (is_null($newUser)) continue;
 
-            $newSnippet = new Snippet();
-            $newSnippet->url = $oldSnippet->url;
-            $newSnippet->title = $oldSnippet->title;
-            $newSnippet->text = $oldSnippet->snippet;
-            $newSnippet->user_id = $newUser->id;
-            $newSnippet->project_id = $newProject->id;
-            $newSnippet->save();
-            $this->addMapping(OldSnippet::class, $oldSnippet->snippetID, $newSnippet->id);
-        }
+                $newSnippet = new Snippet();
+                $newSnippet->url = $oldSnippet->url;
+                $newSnippet->title = $oldSnippet->title;
+                $newSnippet->text = $oldSnippet->snippet;
+                $newSnippet->user_id = $newUser->id;
+                $newSnippet->project_id = $newProject->id;
+                $newSnippet->save();
+                $this->addMapping(OldSnippet::class, $oldSnippet->snippetID, $newSnippet->id);
+            }
+        });
     }
 
     // Must be called after importUsers and importProjects.
     private function importPages() {
         printf("Importing pages\n");
-        $oldPages = OldPage::all();
-        foreach ($oldPages as $oldPage) {
-            $newProject = $this->getNew(OldProject::class, Project::class, $oldPage->projectID);
-            if (is_null($newProject)) continue;
-            $newUser = $this->getNew(OldUser::class, User::class, $oldPage->userID);
-            if (is_null($newUser)) continue;
+        OldPage::query()->chunk($this->chunkSize, function($oldPages) {
+            printf(".");
+            foreach ($oldPages as $oldPage) {
+                $newProject = $this->getNew(OldProject::class, Project::class, $oldPage->projectID);
+                if (is_null($newProject)) continue;
+                $newUser = $this->getNew(OldUser::class, User::class, $oldPage->userID);
+                if (is_null($newUser)) continue;
 
-            $newPage = new Page();
-            $newPage->url = $oldPage->url;
-            $newPage->title = $oldPage->title;
-            $newPage->user_id = $newUser->id;
-            $newPage->project_id = $newProject->id;
-            $newPage->save();
-            $this->addMapping(OldPage::class, $oldPage->pageID, $newPage->id);
-        }
+                $newPage = new Page();
+                $newPage->url = $oldPage->url;
+                $newPage->title = $oldPage->title;
+                $newPage->user_id = $newUser->id;
+                $newPage->project_id = $newProject->id;
+                $newPage->save();
+                $this->addMapping(OldPage::class, $oldPage->pageID, $newPage->id);
+            }
+        });   
     }
 
     // Must be called after importUsers and importProjects.
     private function importQueries() {
         printf("Importing queries\n");
-        $oldQueries = OldQuery::all();
-        foreach ($oldQueries as $oldQuery) {
-            $newProject = $this->getNew(OldProject::class, Project::class, $oldQuery->projectID);
-            if (is_null($newProject)) continue;
-            $newUser = $this->getNew(OldUser::class, User::class, $oldQuery->userID);
-            if (is_null($newUser)) continue;
+        OldQuery::query()->chunk($this->chunkSize, function($oldQueries){
+            printf(".");
+            foreach ($oldQueries as $oldQuery) {
+                $newProject = $this->getNew(OldProject::class, Project::class, $oldQuery->projectID);
+                if (is_null($newProject)) continue;
+                $newUser = $this->getNew(OldUser::class, User::class, $oldQuery->userID);
+                if (is_null($newUser)) continue;
 
-            $newQuery = new Query();
-            $newQuery->search_engine = $oldQuery->source;
-            $newQuery->text = $oldQuery->query;
-            $newQuery->user_id = $newUser->id;
-            $newQuery->project_id = $newProject->id;
-            $newQuery->save();
-            $this->addMapping(OldQuery::class, $oldQuery->queryID, $newQuery->id);
-        }
+                $newQuery = new Query();
+                $newQuery->search_engine = $oldQuery->source;
+                $newQuery->text = $oldQuery->query;
+                $newQuery->user_id = $newUser->id;
+                $newQuery->project_id = $newProject->id;
+                $newQuery->save();
+                $this->addMapping(OldQuery::class, $oldQuery->queryID, $newQuery->id);
+            }
+        });
     }
 }
