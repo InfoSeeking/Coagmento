@@ -30,7 +30,7 @@ page-shared-projects
 		@if (count($projects) == 0)
 		<p>
 		@if ($type == 'mine')		
-			There are no projects here yet. You can <a href='/workspace/projects/new'>create one</a> now.
+			There are no projects here yet. You can <a href='/workspace/projects/create'>create one</a> now.
 		@elseif ($type == 'shared')
 			There are no projects here yet.
 		@endif

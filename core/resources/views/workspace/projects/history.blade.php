@@ -16,7 +16,7 @@ page-history
 <span class='fa fa-angle-right'></span>
 <a href='/workspace/projects/{{ $project->id }}'>{{ $project->title }}</a>
 <span class='fa fa-angle-right'></span>
-<a href='/workspace/projects/{{ $project->id }}/history'><span class='fa fa-search'></span> Browsing History</a>
+<a href='/workspace/projects/{{ $project->id }}/history'><span class='fa fa-line-chart'></span> Activity</a>
 @endsection('navigation')
 
 @section('main-content')

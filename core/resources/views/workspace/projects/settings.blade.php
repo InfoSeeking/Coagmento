@@ -1,5 +1,10 @@
-@extends('workspace.layouts.project')
+@extends('workspace.layouts.single-project')
 @inject('memberService', 'App\Services\MembershipService')
+
+@section('page')
+page-settings
+@endsection
+
 @section('navigation')
 <a href='/workspace/projects'><span class='fa fa-folder-open-o'></span> Projects</a>
 <span class='fa fa-angle-right'></span>
@@ -17,7 +22,6 @@
 		<h4>Manage</h4>
 		<p>
 			<p>This is a {{ $project->private ? "private" : "public"}} project.</p>
-			<a class='btn btn-primary' href='/workspace/projects/{{$project->id}}'>View this Project</a>
 			<a href='#' data-target-privateness='{{ $project->private ? "0" : "1"}}' class='btn btn-danger switch-visibility'>
 				Make this Project {{ $project->private ? "Public" : "Private"}}
 			</a>

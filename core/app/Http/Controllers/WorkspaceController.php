@@ -113,22 +113,22 @@ class WorkspaceController extends Controller
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) return $projectStatus->asRedirect('workspace');
 
-        $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
-        if (!$bookmarksStatus->isOK()) return $bookmarksStatus->asRedirect('workspace');
+        $pageStatus = $this->pageService->getMultiple(['project_id' => $projectId]);
+        if (!$pageStatus->isOK()) return $pageStatus->asRedirect('workspace');
 
-        $snippetStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
-        if (!$snippetStatus->isOK()) return $snippetStatus->asRedirect('workspace');
+        $queryStatus = $this->queryService->getMultiple(['project_id' => $projectId]);
+        if (!$queryStatus->isOK()) return $queryStatus->asRedirect('workspace');
 
         $sharedUsersStatus = $this->projectService->getSharedUsers($projectId);
         if (!$sharedUsersStatus->isOK()) return $sharedUsersStatus->asRedirect('workspace');
-        
-        return view('workspace.projects.view', [
-                'project' => $projectStatus->getResult(),
-                'permission' => $permissionStatus->getResult(),
-                'user' => Auth::user(),
-                'bookmarks' => $bookmarksStatus->getResult(),
-                'snippets' => $snippetStatus->getResult(),
-                'sharedUsers' => $sharedUsersStatus->getResult(),
+
+        return view('workspace.projects.history', [
+            'project' => $projectStatus->getResult(),
+            'permission' => $permissionStatus->getResult(),
+            'user' => Auth::user(),
+            'sharedUsers' => $sharedUsersStatus->getResult(),
+            'pages' => $pageStatus->getResult(),
+            'queries' => $queryStatus->getResult()
             ]);
     }
 
@@ -258,32 +258,6 @@ class WorkspaceController extends Controller
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user()
-            ]);
-    }
-
-    public function viewHistory(Request $req, $projectId) {
-        $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
-        if (!$permissionStatus->isOK()) return $permissionStatus->asRedirect('workspace');
-
-        $projectStatus = $this->projectService->get($projectId);
-        if (!$projectStatus->isOK()) return $projectStatus->asRedirect('workspace');
-
-        $pageStatus = $this->pageService->getMultiple(['project_id' => $projectId]);
-        if (!$pageStatus->isOK()) return $pageStatus->asRedirect('workspace');
-
-        $queryStatus = $this->queryService->getMultiple(['project_id' => $projectId]);
-        if (!$queryStatus->isOK()) return $queryStatus->asRedirect('workspace');
-
-        $sharedUsersStatus = $this->projectService->getSharedUsers($projectId);
-        if (!$sharedUsersStatus->isOK()) return $sharedUsersStatus->asRedirect('workspace');
-
-        return view('workspace.projects.history', [
-            'project' => $projectStatus->getResult(),
-            'permission' => $permissionStatus->getResult(),
-            'user' => Auth::user(),
-            'sharedUsers' => $sharedUsersStatus->getResult(),
-            'pages' => $pageStatus->getResult(),
-            'queries' => $queryStatus->getResult()
             ]);
     }
 }
