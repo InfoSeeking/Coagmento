@@ -2,14 +2,14 @@
 @section('main-content')
 
 <h1>Login</h1>
-<p> If you're logging in from an old Coagmento account using your <i>username</i> then append "@coagmento.org" for the login email. E.g. if your username was <i>exampleuser</i> log in with <i>exampleuser@coagmento.org</i>.</p>
+<p> Support for a Coagmento username is being dropped in favor of emails. If you only have a username, we recommend you add your email address to your profile after logging in.</p>
 @include('helpers.showAllMessages')
 <div class='col-sm-5'>
     <form method="POST" action="/auth/login">
         {!! csrf_field() !!}
         <div class="form-group">
             <label class="sr-only" for="email">Email</label>
-            <input class='form-control' type="email" id="email" name="email" maxlength="255" placeholder="Email" value="{{ Input::old('email') }}"/>
+            <input class='form-control' type="text" id="email" name="email" maxlength="255" placeholder="Email or Username" value="{{ strpos(Input::old('email'), 'coagmento.org') !== false ? '' : Input::old('email') }}"/>
         </div>
 
         <div class="form-group">
