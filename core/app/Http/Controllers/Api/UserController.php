@@ -31,15 +31,20 @@ class UserController extends Controller
 
     /**
      * @api{get} /v1/users Get Multiple
-     * @apiDescription Get a list of multiple users.
+     * @apiDescription Get a list of multiple users. As of now, the constraints cannot be combined.
+     * If no constraints are provided, all users are returned.
      * @apiGroup User
      * @apiName GetMultipleUsers
-     * @apiParam {Integer} [project_id] Restrict to only users which are a member of this project.
+     * @apiParam {Integer} [project_id] Restrict to only users which are a member of this project. 
+     * This returns both the users with their access level.
+     * @apiParam {String} [email] Find a user with this email.
      * @apiVersion 1.0.0
      */
     public function getMultiple(Request $req) {
         $validator = Validator::make($req->all(), [
-            'project_id' => 'sometimes|exists:projects,id'
+            'project_id' => 'sometimes|exists:projects,id',
+            'email' => 'sometimes|email',
+            'name' => 'sometimes|string'
             ]);
 
         if ($validator->fails()) return ApiResponse::fromStatus(Status::fromValidator($validator));
@@ -57,6 +62,12 @@ class UserController extends Controller
                         ];
                 });
 
+        } else if ($req->has('email')) {
+            $users = User::where('email', $req->input('email'))->first();
+            if (is_null($users)) {
+                return ApiResponse::fromStatus(
+                    Status::fromError('User not found.', StatusCodes::NOT_FOUND));
+            }
         } else {
             $users = User::all();
         }

@@ -784,6 +784,94 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/v1/queries",
+    "title": "Create",
+    "description": "<p>Creates a new query.</p> ",
+    "permission": [
+      {
+        "name": "write"
+      }
+    ],
+    "group": "Query",
+    "name": "CreateQuery",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Integer</p> ",
+            "optional": false,
+            "field": "project_id",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "text",
+            "description": "<p>The search engine query text.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "search_engine",
+            "description": "<p>The name of the search engine (e.g. google, bing).</p> "
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/QueryController.php",
+    "groupTitle": "Query"
+  },
+  {
+    "type": "delete",
+    "url": "/v1/queries/:id",
+    "title": "Delete",
+    "description": "<p>Deletes a single query.</p> ",
+    "permission": [
+      {
+        "name": "write"
+      }
+    ],
+    "group": "Query",
+    "name": "DeleteQuery",
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/QueryController.php",
+    "groupTitle": "Query"
+  },
+  {
+    "type": "get",
+    "url": "/v1/queries",
+    "title": "GetMultiple",
+    "description": "<p>Gets many queries. If the project_id is specified, returns all queries in a project (not just owned by user). If project_id is omitted, then returns all user owned queries.</p> ",
+    "permission": [
+      {
+        "name": "read"
+      }
+    ],
+    "group": "Query",
+    "name": "GetQueries",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>Integer</p> ",
+            "optional": true,
+            "field": "project_id",
+            "description": "<p>Filters by project if included.</p> "
+          }
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "filename": "app/Http/Controllers/Api/QueryController.php",
+    "groupTitle": "Query"
+  },
+  {
+    "type": "post",
     "url": "/v1/snippets",
     "title": "Create",
     "description": "<p>Creates a new snippet.</p> ",
@@ -981,7 +1069,7 @@ define({ "api": [
     "type": "get",
     "url": "/v1/users",
     "title": "Get Multiple",
-    "description": "<p>Get a list of multiple users.</p> ",
+    "description": "<p>Get a list of multiple users. As of now, the constraints cannot be combined. If no constraints are provided, all users are returned.</p> ",
     "group": "User",
     "name": "GetMultipleUsers",
     "parameter": {
@@ -992,7 +1080,14 @@ define({ "api": [
             "type": "<p>Integer</p> ",
             "optional": true,
             "field": "project_id",
-            "description": "<p>Restrict to only users which are a member of this project.</p> "
+            "description": "<p>Restrict to only users which are a member of this project. This returns both the users with their access level.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": true,
+            "field": "email",
+            "description": "<p>Find a user with this email.</p> "
           }
         ]
       }

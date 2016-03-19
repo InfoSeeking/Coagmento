@@ -76,7 +76,7 @@ Route::group(['middleware' => 'api.auth'], function() {
 });
 
 Route::group(['middleware' => 'api.optional.auth'], function(){
-	// These routes may require some permissions.
+	// These routes may require some permissions, but not necessarily.
 	// Users.
 	Route::get('api/v1/users/{user_id}', 'Api\UserController@get');
 	Route::post('api/v1/users', 'Api\UserController@create');
