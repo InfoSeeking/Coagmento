@@ -8,6 +8,7 @@ use Log;
 use Auth;
 use Session;
 use Redirect;
+use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -259,5 +260,29 @@ class WorkspaceController extends Controller
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user()
             ]);
+    }
+
+    public function showUserSettings(Request $req) {
+        return view('workspace.usersettings', [
+            'user' => Auth::user()
+            ]);
+    }
+
+    public function updateUserSettings(Request $req) {
+        Validator::make($req->all(), [
+            'email' => 'required|email',
+            'name' => 'required|string'
+            ]);
+        $user = Auth::user();
+        // Make sure the email is not taken by any other user.
+        $others = User::where('email', $req->input('email'))->where('id', '!=', $user->id)->get();
+        if (count($others) > 0) {
+            return Status::fromError('This email is taken by another user.')
+                ->asRedirect('workspace/user/settings');
+        }
+        $user->email = $req->input('email');
+        $user->name = $req->input('name');
+        $user->save();
+        return Status::OK()->asRedirect('workspace/user/settings');
     }
 }

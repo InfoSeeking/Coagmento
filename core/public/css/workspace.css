@@ -63,7 +63,8 @@ h1, h2, h3, h4, h5, h6 {
 .page-activity .link-activity,
 .page-docs .link-docs,
 .page-history .link-history,
-.page-settings .link-settings {
+.page-settings .link-settings,
+.page-user-settings .link-user-settings {
 	color: #ffa15c;
 }
 

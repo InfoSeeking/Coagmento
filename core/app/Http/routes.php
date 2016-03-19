@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('workspace/projects/create', 'WorkspaceController@showProjectCreate');
 	Route::get('workspace/projects/sharedWithMe', 'WorkspaceController@showShared');
 	Route::post('workspace/projects/create', 'WorkspaceController@createProject');
+	Route::get('workspace/user/settings', 'WorkspaceController@showUserSettings');
+	Route::post('workspace/user/settings', 'WorkspaceController@updateUserSettings');
 });
 
 Route::get('workspace/projects/{project_id}/bookmarks/{bookmark_id}',
