@@ -42,7 +42,7 @@ Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 // Workspace pages.
 Route::group(['middleware' => 'auth'], function() {
 	// These pages do not make sense without a logged in user.
-	Route::get('workspace', 'WorkspaceController@showProjects');
+	Route::get('workspace', 'WorkspaceController@viewPanel');
 	Route::get('workspace/projects', 'WorkspaceController@showProjects');
 	Route::get('workspace/projects/create', 'WorkspaceController@showProjectCreate');
 	Route::get('workspace/projects/sharedWithMe', 'WorkspaceController@showShared');

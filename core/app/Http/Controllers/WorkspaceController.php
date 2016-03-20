@@ -331,4 +331,10 @@ class WorkspaceController extends Controller
         $user->save();
         return Status::OK()->asRedirect('workspace/user/settings');
     }
+
+    public function viewPanel() {
+        return view('workspace.panel', [
+            'user' => Auth::user()
+            ]);
+    }
 }

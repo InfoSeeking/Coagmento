@@ -374,3 +374,55 @@ footer {
 	width: 100px;
 	border: 1px #333 solid;
 }
+
+.panel .column {
+	padding: 0px;
+}
+.panel .pane {
+	float: left;
+	display: block;
+	margin: 0px;
+	width: 100%;
+	background: #F00;
+	text-align: center;
+	padding: 5%;
+	color: #FFF;
+	font-size: 18px;
+}
+.panel .projects {
+	width: 100%;
+	background: #599bb4;
+}
+
+.panel .user-settings {
+	width: 50%;
+	background: #65B0CC;
+}
+
+.panel .shared-projects {
+	width: 50%;
+	background: #3458B4;
+}
+
+.panel .explore-projects {
+	width: 50%;
+	background: #65787F;
+}
+
+.panel .new-project {
+	width: 50%;
+	background: #1D397F;	
+}
+
+.panel a {
+	color: #FFF;
+	display: block;
+}
+
+.panel a:hover div{
+	text-decoration: underline;
+}
+
+.page-panel #body-container {
+	background: #FFF;
+}
