@@ -12,6 +12,7 @@ var config = require('./config')
 	, bodyParser = require('body-parser')
 	, async = require('async')
 	, lwip = require('lwip')
+	, easyimg = require('easyimage')
 	, port = config.server_port
 	// The maximum number of thumbnails it will accept per request.
 	, maxEntries = 50
@@ -86,17 +87,31 @@ function queueTask(task, callback) {
 	if (task.action == 'resize') {
 		console.log('Resizing image for ' + entry.url);
 		// Waterfall will pass the results of one function to the next.
-		async.waterfall([
-			async.apply(openImage, entry),
-			resizeImage,
-			saveImage],
-			function(err, result) {
-				if (err) {
-					console.log('Image resize error', err);
-					entry.thumbnail.status = 'error';
-				}
-				callback();		
-			});
+		// async.waterfall([
+		// 	async.apply(openImage, entry),
+		// 	resizeImage,
+		// 	saveImage],
+		// 	function(err, result) {
+		// 		if (err) {
+		// 			console.log('Image resize error', err);
+		// 			entry.thumbnail.status = 'error';
+		// 		}
+		// 		callback();		
+		// 	});
+		var outFile = getUniqueFilename(config.thumbnail_directory, 'small', 'png');
+		easyimg.resize({
+			src: config.thumbnail_directory + entry.thumbnail.image_large,
+			dst: outFile.path,
+			width: 200,
+			height: 200
+		}).then(function(file){
+			entry.thumbnail.image_small = outFile.file;
+			callback();
+		}, function(err){
+			console.log('Image resize error', err);
+			entry.thumbnail.status = 'error';
+			callback(err);
+		});
 	}
 	if (task.action == 'capture') {
 		console.log('Capturing image for ' + entry.url);
@@ -108,6 +123,7 @@ function queueTask(task, callback) {
 			outFile.path
 		];
 
+		// TODO: does leaving the timeout lead to more failures?
 		childProcess.execFile(phantomjs.path, childArgs, {timeout: 15000}, function(err) {
 			if (err) {
 				console.log('PhantomJS error', err);
@@ -149,7 +165,7 @@ function generateThumbnails(req, callback) {
 	};
 
 	if (data.length > maxEntries) {
-		callback.call(errorStatus(
+		callback.call(null, errorStatus(
 			'Please send a maximum of ' + maxEntries + ' pages.' +
 			'This request has ' + data.length + '.'));
 		return;
@@ -183,5 +199,5 @@ app.post('/generate', function(req, res) {
 http.listen(port);
 console.log('Coagmento Thumbnail Server running on port ' + port);
 
-console.log('Garbage collection scheduled for every ' + config.garbage_collection_delay + ' minutes');
-setInterval(garbageCollection.run, config.garbage_collection_delay * 60 * 1000);
+//console.log('Garbage collection scheduled for every ' + config.garbage_collection_delay + ' minutes');
+//setInterval(garbageCollection.run, config.garbage_collection_delay * 60 * 1000);
