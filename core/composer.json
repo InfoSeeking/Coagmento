@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "0x46616c6b/etherpad-lite-client": "dev-master"
+        "0x46616c6b/etherpad-lite-client": "dev-master",
+        "ext-fileinfo": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

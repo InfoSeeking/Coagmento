@@ -271,8 +271,10 @@ class WorkspaceController extends Controller
     public function updateUserSettings(Request $req) {
         Validator::make($req->all(), [
             'email' => 'required|email',
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'avatar' => 'sometimes|image'
             ]);
+
         $user = Auth::user();
         // Make sure the email is not taken by any other user.
         $others = User::where('email', $req->input('email'))->where('id', '!=', $user->id)->get();
@@ -282,6 +284,50 @@ class WorkspaceController extends Controller
         }
         $user->email = $req->input('email');
         $user->name = $req->input('name');
+
+        if ($req->hasFile('avatar')) {
+            $avatar = $req->file('avatar');
+
+            // Guess the extension, since we should not trust the user provided extension.
+            $extension = $avatar->guessExtension();
+            if (!$extension) {
+                return Status::fromError('Could not process uploaded image.')
+                    ->asRedirect('workspace/user/settings');
+            }
+
+            // Create gd image resource from uploaded image.
+            $imageIn = null;
+            switch ($extension) {
+                case 'png':
+                    $imageIn = imagecreatefrompng($avatar->getRealPath());
+                    break;
+                case 'jpg':
+                case 'jpeg':
+                    $imageIn = imagecreatefromjpeg($avatar->getRealPath());
+                    break;
+                case 'gif':
+                    $imageIn = imagecreatefromgif($avatar->getRealPath());
+                    break;
+                default:
+                    return Status::fromError('Image type unrecognized.')
+                        ->asRedirect('workspace/user/settings');
+            }
+
+            // Resize to 200x200.
+            $outSize = 200;
+            list($origWidth, $origHeight) = getimagesize($avatar->getRealPath());
+
+            $imageOut = imagecreatetruecolor($outSize, $outSize);
+            imagecopyresampled(
+                $imageOut, $imageIn, 0, 0, 0, 0, $outSize, $outSize, $origWidth, $origHeight);
+
+            // Save as a png with highest quality.
+            $pathOut = 'images/users/' . $user->id . '.png';
+            imagepng($imageOut, $pathOut, 0);
+
+            $user->avatar = true;
+        }
+
         $user->save();
         return Status::OK()->asRedirect('workspace/user/settings');
     }
