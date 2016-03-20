@@ -11,7 +11,6 @@ var config = require('./config')
 	, phantomjs = require('phantomjs')
 	, bodyParser = require('body-parser')
 	, async = require('async')
-	, lwip = require('lwip')
 	, easyimg = require('easyimage')
 	, port = config.server_port
 	// The maximum number of thumbnails it will accept per request.
@@ -58,46 +57,11 @@ function getUniqueFilename(base, prefix, extension) {
 	}
 }
 
-function openImage(entry, callback) {
-	var path = config.thumbnail_directory + entry.thumbnail.image_large;
-	lwip.open(path, 'png', function(err, img) {
-		callback(err, entry, img);
-	});
-}
-
-function resizeImage(entry, img, callback) {
-	img.resize(200, 200, 'lanczos', function(err, img) {
-		callback(err, entry, img);
-	});
-}
-
-function saveImage(entry, img, callback) {
-	var outFile = getUniqueFilename(config.thumbnail_directory, 'small', 'png');
-	img.writeFile(outFile.path, 'png', {}, function(err, img) {
-		if (!err) {
-			entry.thumbnail.image_small = outFile.file;
-		}
-		callback(err);
-	});
-}
-
 // Task for capturing and resizing images.
 function queueTask(task, callback) {
 	var entry = task.entry;
 	if (task.action == 'resize') {
 		console.log('Resizing image for ' + entry.url);
-		// Waterfall will pass the results of one function to the next.
-		// async.waterfall([
-		// 	async.apply(openImage, entry),
-		// 	resizeImage,
-		// 	saveImage],
-		// 	function(err, result) {
-		// 		if (err) {
-		// 			console.log('Image resize error', err);
-		// 			entry.thumbnail.status = 'error';
-		// 		}
-		// 		callback();		
-		// 	});
 		var outFile = getUniqueFilename(config.thumbnail_directory, 'small', 'png');
 		easyimg.resize({
 			src: config.thumbnail_directory + entry.thumbnail.image_large,
@@ -199,5 +163,5 @@ app.post('/generate', function(req, res) {
 http.listen(port);
 console.log('Coagmento Thumbnail Server running on port ' + port);
 
-//console.log('Garbage collection scheduled for every ' + config.garbage_collection_delay + ' minutes');
-//setInterval(garbageCollection.run, config.garbage_collection_delay * 60 * 1000);
+console.log('Garbage collection scheduled for every ' + config.garbage_collection_delay + ' minutes');
+setInterval(garbageCollection.run, config.garbage_collection_delay * 60 * 1000);

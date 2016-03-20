@@ -6,5 +6,7 @@ module.exports = {
 	// How old should a generated image be before deleting?
 	screenshot_ttl: 60,
 	// How frequently should we run the garbage collection (in minutes)?
+	// Note, this should be at least 5 minutes so this won't interfere with a
+	// request in process.
 	garbage_collection_delay: 30,
 };
