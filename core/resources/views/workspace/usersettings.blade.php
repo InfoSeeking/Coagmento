@@ -25,7 +25,9 @@ page-user-settings
 			<div class='form-group'>
 				<label>Profile Image</label>
 				@if ($user->avatar)
-					<img src='images/users/{{ $user->id }} ' />
+					<p>
+						<img class='profile-image' src='/images/users/{{ $user->id }}.png' />
+					</p>
 				@endif
 				<p>
 					<small>File must be of type png, jpg, or gif. Images are scaled down to 200 x 200 after upload.</small>

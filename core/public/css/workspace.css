@@ -14,6 +14,22 @@ h1, h2, h3, h4, h5, h6 {
 	height: auto;
 }
 
+.navbar-header {
+	width: 100%;
+}
+
+.navbar-header .profile {
+	float: right;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
+.navbar-header .profile img {
+	width: 60px;
+	border-radius: 30px;
+	border: 3px #599bb4 solid;
+}
+
 #subnav {
 	background: #599bb4;
 	padding-top: 5px;
@@ -352,4 +368,9 @@ footer {
 
 .page-list-container {
 	border-right: 2px #efefef solid;
+}
+
+.profile-image {
+	width: 100px;
+	border: 1px #333 solid;
 }

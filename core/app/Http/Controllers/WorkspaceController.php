@@ -289,7 +289,7 @@ class WorkspaceController extends Controller
             $avatar = $req->file('avatar');
 
             // Guess the extension, since we should not trust the user provided extension.
-            $extension = $avatar->guessExtension();
+            $extension = strtolower($avatar->guessExtension());
             if (!$extension) {
                 return Status::fromError('Could not process uploaded image.')
                     ->asRedirect('workspace/user/settings');

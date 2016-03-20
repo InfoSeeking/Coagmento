@@ -40,11 +40,8 @@
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="/workspace"><img alt="Coagmento" src="/images/workspace/titled-logo.png" /></a>
-                        @if (isset($user))
-                        <!--
-                            TODO: add user avatar/profile link.
-                            <a href='#' ><img src="http://www.gravatar.com/avatar/{{ md5($user->email) }}?s=64" /></a>
-                        -->
+                        @if (isset($user) && $user->avatar)
+                            <a href='/workspace/user/settings' class='profile' ><img src='/images/users/{{ $user->id }}.png' /></a>
                         @endif
                     </div>
                     <ul class="nav navbar-nav">
@@ -53,7 +50,9 @@
                 <div class="container-fluid" id="subnav">
                     @yield('navigation')
                     @if(isset($user))
-                    <a class='pull-right' href='/auth/logout'>Logout</a>
+                    <span class='pull-right'> Hello {{ $user->name }}.&nbsp;&nbsp;
+                        <a href='/auth/logout'>Logout</a>
+                    </span>
                     @else
                     <a class='pull-right' href='/auth/login'>Login</a>
                     @endif
