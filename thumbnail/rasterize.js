@@ -28,6 +28,10 @@ if (system.args.length != 4) {
     maxLoadTime = parseInt(system.args[3]);
     page.viewportSize = { width: 600, height: 600 };
     page.clipRect = { top: 0, left: 0, width: 600, height: 600 };
+    page.onLoadStarted = function() {
+        window.setTimeout(renderPageAndExit, maxLoadTime);
+    };
+
     page.open(address, function (status) {
         if (status !== 'success') {
             phantom.exit(1);
@@ -35,8 +39,4 @@ if (system.args.length != 4) {
             renderPageAndExit();
         }
     });
-
-    page.onLoadStarted = function() {
-        window.setTimeout(renderPageAndExit, maxLoadTime);
-    };
 }

@@ -131,7 +131,7 @@ class GenerateThumbnails extends Command
                 'header'  => "Content-type: application/json\r\n",
                 'method'  => 'POST',
                 'content' => json_encode($json),
-                'timeout' => 15000 * 50
+                'timeout' => 30000 * 50 + 2000 // 30 second max per image + 2 second grace period.
             ],
         ];
 
