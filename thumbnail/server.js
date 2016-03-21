@@ -1,6 +1,3 @@
-// TODO: For whatever reason, the thumbnail server simply stops running sometimes.
-// This is not stable enough for production.
-
 var config = require('./config')
 	, express = require('express')
 	, app = express()
@@ -19,6 +16,8 @@ var config = require('./config')
 	, concurrency = 10
 	, iid = 0
 	, garbageCollection = require('./garbage')
+	// The lock only allows one request to be served at a time.
+	, generatingLock = false
 	;
 
 function errorStatus(message, error_code) {
@@ -88,7 +87,7 @@ function queueTask(task, callback) {
 		];
 
 		// TODO: does leaving the timeout lead to more failures?
-		childProcess.execFile(phantomjs.path, childArgs, {timeout: 15000}, function(err) {
+		childProcess.execFile(phantomjs.path, childArgs, {}, function(err) {
 			if (err) {
 				console.log('PhantomJS error', err);
 				entry.thumbnail = {
@@ -155,7 +154,13 @@ app.use(express.static('public'));
 app.post('/generate', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	console.log('Generating thumbnails for', req.body);
+	if (generatingLock) {
+		res.send(errorStatus('Thumbnail server currently servicing requests.'));
+		return;
+	}
+	generatingLock = true;
 	generateThumbnails(req, function(data){
+		generatingLock = false;
 		res.send(data);	
 	});
 });
