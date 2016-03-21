@@ -35,5 +35,8 @@ if (system.args.length != 4) {
             renderPageAndExit();
         }
     });
-    window.setTimeout(renderPageAndExit, maxLoadTime);
+
+    page.onLoadStarted = function() {
+        window.setTimeout(renderPageAndExit, maxLoadTime);
+    };
 }
