@@ -13,12 +13,30 @@ var config = require('./config')
 	// The maximum number of thumbnails it will accept per request.
 	, maxEntries = 50
 	// The maximum number of concurrent screen capture processes possible.
-	, concurrency = 10
+	, concurrency = 5
+	, maxNumRequests = 1
 	, iid = 0
 	, garbageCollection = require('./garbage')
-	// The lock only allows one request to be served at a time.
-	, generatingLock = false
+	// The lock only allows maxNumRequests requests to be served at one time.
+	, currentNumRequests = 0
+	// The timeout (ms) before the phantomjs process is killed.
+	, captureTimeout = 30000
+	// Some simple log data.
+	, log = {
+		numServiced: 0,
+		numRejected: 0,
+		numScreenCaps: 0,
+		numFailures: 0
+	}
 	;
+
+function printLog() {
+	console.log('----- Log -----');
+	console.log('# Serviced = ' + log.numServiced);
+	console.log('# Rejected = ' + log.numRejected);
+	console.log('# ScreenCaps = ' + log.numScreenCaps);
+	console.log('# Failures = ' + log.numFailures);
+}
 
 function errorStatus(message, error_code) {
 	return {
@@ -86,15 +104,17 @@ function queueTask(task, callback) {
 			outFile.path
 		];
 
-		// TODO: does leaving the timeout lead to more failures?
-		childProcess.execFile(phantomjs.path, childArgs, {}, function(err) {
+		// TODO: adding the timeout lead to more failures?
+		childProcess.execFile(phantomjs.path, childArgs, {timeout: captureTimeout}, function(err) {
 			if (err) {
 				console.log('PhantomJS error', err);
+				log.numFailures++;
 				entry.thumbnail = {
 					status: 'error'
 				};
 				callback(err);
 			} else {
+				log.numScreenCaps++;
 				entry.thumbnail = {
 					image_large: outFile.file,
 					status: 'success'
@@ -153,16 +173,27 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.post('/generate', function(req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	console.log('Generating thumbnails for', req.body);
-	if (generatingLock) {
+	console.log('Recieved request');
+	
+	if (currentNumRequests == maxNumRequests) {
+		log.numRejected++;
+		console.log('Maximum number of servicable requests reached - return error.');
 		res.send(errorStatus('Thumbnail server currently servicing requests.'));
 		return;
 	}
-	generatingLock = true;
+	console.log('Generating thumbnails for', req.body);
+	currentNumRequests++;
 	generateThumbnails(req, function(data){
-		generatingLock = false;
-		res.send(data);	
+		currentNumRequests--;
+		res.send(data);
+		log.numServiced++;
 	});
+});
+
+app.get('/log', function(req, res) {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	printLog();
+	res.send(log);
 });
 
 http.listen(port);
