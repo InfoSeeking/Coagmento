@@ -388,6 +388,9 @@ footer {
 	padding: 5%;
 	color: #FFF;
 	font-size: 18px;
+	transition: -webkit-filter .25s linear;
+	transition: filter .25s linear;
+	transition: filter .25s linear, -webkit-filter .25s linear;
 }
 .panel .projects {
 	width: 100%;
@@ -419,8 +422,9 @@ footer {
 	display: block;
 }
 
-.panel a:hover div{
-	text-decoration: underline;
+.panel a:hover .pane{
+	-webkit-filter: brightness(1.1);
+	filter: brightness(1.1);
 }
 
 .page-panel #body-container {
