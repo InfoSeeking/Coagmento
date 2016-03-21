@@ -21,6 +21,10 @@ var config = require('./config')
 	, currentNumRequests = 0
 	// The timeout (ms) before the phantomjs process is killed.
 	, captureTimeout = 30000
+	// The maximum time phantomjs will load the page for before attempting to render.
+	// If this time is reached before the page is finished loading, this could result
+	// in a partially rendered thumbnail. This is still better than no thumbnail.
+	, maxPageLoadTime = 5000
 	// Some simple log data.
 	, log = {
 		numServiced: 0,
@@ -101,7 +105,8 @@ function queueTask(task, callback) {
 		var childArgs = [
 			path.join(__dirname, 'rasterize.js'),
 			entry.url,
-			outFile.path
+			outFile.path,
+			maxPageLoadTime
 		];
 
 		// TODO: adding the timeout lead to more failures?
