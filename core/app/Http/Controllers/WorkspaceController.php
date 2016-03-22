@@ -269,11 +269,15 @@ class WorkspaceController extends Controller
     }
 
     public function updateUserSettings(Request $req) {
-        Validator::make($req->all(), [
+        $validator = Validator::make($req->all(), [
             'email' => 'required|email',
             'name' => 'required|string',
             'avatar' => 'sometimes|image'
             ]);
+
+        if ($validator->fails()) {
+            return Status::fromValidator($validator)->asRedirect('workspace/user/settings');
+        }
 
         $user = Auth::user();
         // Make sure the email is not taken by any other user.
@@ -282,6 +286,7 @@ class WorkspaceController extends Controller
             return Status::fromError('This email is taken by another user.')
                 ->asRedirect('workspace/user/settings');
         }
+
         $user->email = $req->input('email');
         $user->name = $req->input('name');
 

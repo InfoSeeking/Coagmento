@@ -18,7 +18,7 @@ page-user-settings
 				<label>Name</label><input class='form-control' type='text' placeholder='Your name' value='{{ $user->name }}' name='name'/>
 			</div>
 			<div class='form-group'>
-				<label>Email</label><input class='form-control' type='email' placeholder='Please provide an email' 
+				<label>Email</label><input class='form-control' type='text' placeholder='Please provide an email' 
 					value='{{ strpos($user->email, 'coagmento.org') !== false ? '' : $user->email }}' name='email'/>
 			</div>
 
