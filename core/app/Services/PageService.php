@@ -35,9 +35,9 @@ class PageService {
 		return Status::fromResult($page);
 	}
 
-	public function getMultiple($args) {
+	public function getMultiple($args, $countOnly=false) {
 		$validator = Validator::make($args, [
-			'project_id' => 'sometimes|exists:projects,id'
+			'project_id' => 'sometimes|exists:projects,id',
 			]);
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
@@ -49,12 +49,14 @@ class PageService {
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 			$pages = Page::with('thumbnail')->where('project_id', $args['project_id']);
+			if ($countOnly) return Status::fromResult($pages->count());
 			return Status::fromResult($pages->get());
 		}
 
 		// Return all user created pages.
 		if (!$this->user) return Status::fromError('Log in to see pages or specify a project_id');
 		$pages = Page::with('thumbnail')->where('user_id', $this->user->id);
+		if ($countOnly) return Status::fromResult($pages->count());
 		return Status::fromResult($pages->get());
 	}
 

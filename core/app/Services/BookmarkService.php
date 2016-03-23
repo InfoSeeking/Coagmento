@@ -51,9 +51,10 @@ class BookmarkService {
 	 * If a project is specified, returns all bookmarks from the project.
 	 * Otherwise returns only bookmarks created by this user.
 	 * @param Array $args Can filter by project.
+	 * @param Boolean $countOnly If true, returns an integer.
 	 * @return Status Collection of bookmarks.
 	 */
-	public function getMultiple($args) {
+	public function getMultiple($args, $countOnly=false) {
 		$validator = Validator::make($args, [
 			'project_id' => 'sometimes|exists:projects,id'
 			]);
@@ -65,12 +66,14 @@ class BookmarkService {
 			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 			$bookmarks = Bookmark::with('thumbnail')->where('project_id', $args['project_id']);
+			if ($countOnly) return Status::fromResult($bookmarks->count());
 			return Status::fromResult($bookmarks->get());
 		}
 
 		// Return all user created bookmarks.
 		if (!$this->user) return Status::fromError('Log in to see bookmarks or specify a project_id');
 		$bookmarks = Bookmark::with('thumbnail')->where('user_id', $this->user->id);
+		if ($countOnly) return Status::fromResult($bookmarks->count());
 		return Status::fromResult($bookmarks->get());
 	}
 

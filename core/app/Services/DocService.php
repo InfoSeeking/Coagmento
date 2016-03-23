@@ -125,7 +125,7 @@ class DocService {
 		return Status::fromResult($doc);
 	}
 
-	public function getMultiple($args) {
+	public function getMultiple($args, $countOnly=false) {
 		$validator = Validator::make($args, [
 			'project_id' => 'sometimes|exists:projects,id'
 			]);
@@ -137,12 +137,14 @@ class DocService {
 			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 			$docs = Doc::where('project_id', $args['project_id']);
+			if ($countOnly) return Status::fromResult($docs->count());
 			return Status::fromResult($docs->get());
 		}
 
 		// Return all user created docs.
 		if (!$this->user) return Status::fromError('Log in to see docs or specify a project_id');
 		$docs = Doc::where('user_id', $this->user->id);
+		if ($countOnly) return Status::fromResult($docs->count());
 		return Status::fromResult($docs->get());
 	}
 

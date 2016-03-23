@@ -119,7 +119,7 @@ class QueryService {
 		return Status::fromResult($query);
 	}
 
-	public function getMultiple($args) {
+	public function getMultiple($args, $countOnly=false) {
 		$validator = Validator::make($args, [
 			'project_id' => 'sometimes|exists:projects,id'
 			]);
@@ -131,12 +131,14 @@ class QueryService {
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 			$querys = Query::where('project_id', $args['project_id']);
+			if ($countOnly) return Status::fromResult($querys->count());
 			return Status::fromResult($querys->get());
 		}
 
 		// Return all user created querys.
 		if (!$this->user) return Status::fromError('Log in to see queries or specify a project_id');
 		$querys = Query::where('user_id', $this->user->id);
+		if ($countOnly) return Status::fromResult($querys->count());
 		return Status::fromResult($querys->get());
 	}
 

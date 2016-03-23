@@ -1,3 +1,5 @@
+<!-- DEPRECATED -->
+
 @extends('workspace.layouts.single-project')
 @inject('memberService', 'App\Services\MembershipService')
 

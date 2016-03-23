@@ -85,6 +85,14 @@ function getPageSelectedLayout() {
 
 function realtimeDataHandler(param) {
 	var list;
+
+	// Update stats.
+	var delta = 0;
+	if (param.action == 'create') delta = 1;
+	if (param.action == 'delete') delta = 1;
+	var statEl = $('.stats .' + param.dataType);
+	if (statEl.size() > 0) statEl.html(parseInt(statEl.html()) + delta);
+
 	if (param.dataType == 'pages') list = pageList
 	else if (param.dataType == 'search') list = queryList;
 	else return;

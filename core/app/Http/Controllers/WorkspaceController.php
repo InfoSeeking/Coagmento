@@ -74,21 +74,6 @@ class WorkspaceController extends Controller
             return $permissionStatus->asRedirect('workspace');
         }
 
-        $bookmarksStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
-        if (!$bookmarksStatus->isOK()) {
-            return $bookmarksStatus->asRedirect('workspace');
-        }
-
-        $snippetStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
-        if (!$snippetStatus->isOK()) {
-            return $snippetStatus->asRedirect('workspace');
-        }
-
-        $pageStatus = $this->pageService->getMultiple(['project_id' => $projectId]);
-        if (!$pageStatus->isOK()) {
-            return $pageStatus->asRedirect('workspace');
-        }
-
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) {
             return $projectStatus->asRedirect('workspace');
@@ -98,12 +83,10 @@ class WorkspaceController extends Controller
         if (!$sharedUsersStatus->isOK()) return $sharedUsersStatus->asRedirect('workspace');
 
         return view('workspace.projects.settings', [
-            'bookmarks' => $bookmarksStatus->getResult(),
-            'snippets' => $snippetStatus->getResult(),
-            'pages' => $pageStatus->getResult(),
             'project' => $projectStatus->getResult(),
             'sharedUsers' => $sharedUsersStatus->getResult(),
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'stats' => $this->getStats($projectId, [])
             ]);
     }
 
@@ -129,7 +112,11 @@ class WorkspaceController extends Controller
             'user' => Auth::user(),
             'sharedUsers' => $sharedUsersStatus->getResult(),
             'pages' => $pageStatus->getResult(),
-            'queries' => $queryStatus->getResult()
+            'queries' => $queryStatus->getResult(),
+            'stats' => $this->getStats($projectId, [
+                'pages' => count($pageStatus->getResult()),
+                'queries' => count($queryStatus->getResult())
+                ])
             ]);
     }
 
@@ -155,7 +142,10 @@ class WorkspaceController extends Controller
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user(),
                 'sharedUsers' => $sharedUsersStatus->getResult(),
-                'bookmarks' => $bookmarksStatus->getResult()
+                'bookmarks' => $bookmarksStatus->getResult(),
+                'stats' => $this->getStats($projectId, [
+                    'bookmarks' => count($bookmarksStatus->getResult())
+                    ])
             ]);
     }
 
@@ -179,7 +169,10 @@ class WorkspaceController extends Controller
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user(),
-                'snippets' => $snippetsStatus->getResult()
+                'snippets' => $snippetsStatus->getResult(),
+                'stats' => $this->getStats($projectId, [
+                    'snippets' => count($snippetsStatus->getResult())
+                    ])
             ]);
     }
 
@@ -214,7 +207,8 @@ class WorkspaceController extends Controller
         return view('workspace.projects.chat', [
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
-                'user' => Auth::user()
+                'user' => Auth::user(),
+                'stats' => $this->getStats($projectId, [])
             ]);
     }
 
@@ -240,11 +234,13 @@ class WorkspaceController extends Controller
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
                 'user' => Auth::user(),
-                'doc' => $docStatus->getResult()
+                'doc' => $docStatus->getResult(),
+                'stats' => $this->getStats($projectId, [])
             ]);
     }
 
     public function viewDocs(Request $req, $projectId) {
+        // TODO: Prefetch docs.
         $permissionStatus = $this->memberService->checkPermission($projectId, 'r', Auth::user());
         if (!$permissionStatus->isOK()) {
             return $permissionStatus->asRedirect('workspace');
@@ -258,7 +254,8 @@ class WorkspaceController extends Controller
         return view('workspace.projects.docs', [
                 'project' => $projectStatus->getResult(),
                 'permission' => $permissionStatus->getResult(),
-                'user' => Auth::user()
+                'user' => Auth::user(),
+                'stats' => $this->getStats($projectId, [])
             ]);
     }
 
@@ -341,5 +338,38 @@ class WorkspaceController extends Controller
         return view('workspace.panel', [
             'user' => Auth::user()
             ]);
+    }
+
+    /**
+     * $output is appended with the remaining needed statistics if
+     * they are not already there.
+     */
+    private function getStats($projectId, $output) {
+        if (!array_key_exists('bookmarks', $output)) {
+            $output['bookmarks'] = $this->bookmarkService->getMultiple(
+                ['project_id' => $projectId],
+                true)->getResult();
+        }
+        if (!array_key_exists('snippets', $output)) {
+            $output['snippets'] = $this->snippetService->getMultiple(
+                ['project_id' => $projectId],
+                true)->getResult();
+        }
+        if (!array_key_exists('queries', $output)) {
+            $output['queries'] = $this->queryService->getMultiple(
+                ['project_id' => $projectId],
+                true)->getResult();
+        }
+        if (!array_key_exists('pages', $output)) {
+            $output['pages'] = $this->pageService->getMultiple(
+                ['project_id' => $projectId],
+                true)->getResult();
+        }
+        if (!array_key_exists('docs', $output)) {
+            $output['docs'] = $this->docService->getMultiple(
+                ['project_id' => $projectId],
+                true)->getResult();
+        }
+        return $output;
     }
 }

@@ -28,7 +28,7 @@ class SnippetService {
 		return Status::fromResult($snippet);
 	}
 
-	public function getMultiple($args){
+	public function getMultiple($args, $countOnly=false){
 		$validator = Validator::make($args, [
 			'project_id' => 'sometimes|exists:projects,id'
 			]);
@@ -42,12 +42,14 @@ class SnippetService {
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
 
 			$snippets = Snippet::with('thumbnail')->where('project_id', $args['project_id']);
+			if ($countOnly) return Status::fromResult($snippets->count());
 			return Status::fromResult($snippets->get());
 		}
 
 		// Return all user created snippets.
 		if (!$this->user) return Status::fromError('Log in to see snippets or specify a project_id');
 		$snippets = Snippet::with('thumbnail')->where('user_id', $this->user->id);
+		if ($countOnly) return Status::fromResult($snippets->count());
 		return Status::fromResult($snippets->get());
 	}
 

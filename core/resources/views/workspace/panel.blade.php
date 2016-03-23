@@ -13,7 +13,7 @@ page-panel
 	</div>
 	<div class='column col-md-2'>
 		<a href='/workspace/projects/sharedWithMe'><div class='pane shared-projects'>Shared Projects</div></a>
-		<div class='pane explore-projects'>Explore Projects</div>
+		<!--<div class='pane explore-projects'>Explore Projects</div>-->
 		<a href='/workspace/projects/create'><div class='pane new-project'>New Project</div></a>
 	</div>
 </div>
