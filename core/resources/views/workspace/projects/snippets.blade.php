@@ -80,6 +80,8 @@ var snippetListView = new SnippetListView({
 });
 
 function realtimeDataHandler(param) {
+	updateStats(param);
+
 	if (param.dataType != "snippets") return;
 	if (param.action == "create") {
 		_.each(param.data, function(snippet){

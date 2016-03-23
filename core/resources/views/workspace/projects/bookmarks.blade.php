@@ -90,6 +90,8 @@ var bookmarkListView = new BookmarkListView({
 });
 
 function realtimeDataHandler(param) {
+	updateStats(param);
+
 	if (param.dataType != "bookmarks") return;
 	if (param.action == "create") {
 		_.each(param.data, function(bookmark){

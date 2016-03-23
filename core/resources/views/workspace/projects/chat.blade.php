@@ -71,6 +71,7 @@ chatList.fetch({
 var chatListView = new ChatListView({collection: chatList});
 
 function realtimeDataHandler(param) {
+	updateStats(param);
 	if (param.dataType != "chat_messages") return;
 	if (param.action == "create") {
 		_.each(param.data, function(message){

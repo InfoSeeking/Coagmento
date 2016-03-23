@@ -57,6 +57,7 @@ docList.fetch({
 var docListView = new DocListView({collection: docList});
 
 function realtimeDataHandler(param) {
+	updateStats(param);
 	if (param.dataType != "docs") return;
 	if (param.action == "create") {
 		_.each(param.data, function(doc){

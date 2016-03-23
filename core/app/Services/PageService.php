@@ -8,15 +8,18 @@ use Validator;
 use App\Models\Page;
 use App\Services\MembershipService;
 use App\Services\QueryService;
+use App\Services\RealtimeService;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class PageService {
 	public function __construct(
 		MembershipService $memberService,
-		QueryService $queryService) {
+		QueryService $queryService,
+		RealtimeService $realtimeService) {
 		$this->memberService = $memberService;
 		$this->queryService = $queryService;
+		$this->realtimeService = $realtimeService;
 		$this->user = Auth::user();
 	}
 
@@ -102,6 +105,12 @@ class PageService {
 			$page->project_id = $projectId;
 			$page->load('thumbnail');
 			$page->save();
+
+			$this->realtimeService
+				->withModel($page)
+				->onProject($projectId)
+				->emit('create');
+
 			$results['page'] = $page;
 		}
 
@@ -116,8 +125,14 @@ class PageService {
 
 		$memberStatus = $this->memberService->checkPermission($page->project_id, 'w', $this->user);
 		if (!$memberStatus->isOK()) return $memberStatus;
+
+		$this->realtimeService
+			->withModel($page)
+			->onProject($page->project_id)
+			->emit('delete');
 		
 		$page->delete();
+
 		return Status::OK();
 	}
 }	

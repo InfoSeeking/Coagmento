@@ -15,8 +15,19 @@
 	<p>Queries <span class='queries'>{{ $stats['queries'] }}</span></p>
 	<p>Snippets <span class='snippets'>{{ $stats['snippets'] }}</span></p>
 	<p>Web Pages Viewed <span class='pages'>{{ $stats['pages'] }}</span></p>
-	<p>Documents <span class='documents'>{{ $stats['docs'] }}</span></p>
+	<p>Documents <span class='docs'>{{ $stats['docs'] }}</span></p>
 </div>
+
+<script>
+	function updateStats(param) {
+		// Update stats.
+		var delta = 0;
+		if (param.action == 'create') delta = 1;
+		if (param.action == 'delete') delta = -1;
+		var statEl = $('.stats .' + param.dataType);
+		if (statEl.size() > 0) statEl.html(parseInt(statEl.html()) + delta);
+	}
+</script>
 
 @yield('context')
 @endsection('sidebar')

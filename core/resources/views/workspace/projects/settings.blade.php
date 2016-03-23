@@ -83,9 +83,17 @@ page-settings
 
 	</div>
 </div>
+<script src='/js/realtime.js'></script>
+
 
 <script>
 (function(){
+	Config.setAll({
+		projectId: {{ $project->id }},
+		userId: {{ is_null($user) ? 'null' : $user->id }},
+		realtimeEnabled: {{ env('REALTIME_SERVER') == null ? 'false' : 'true'}},
+		realtimeServer: '{{ env('REALTIME_SERVER') }}'
+	});
 	var projectId = {{ $project->id}};
 
 	// Handles deleting the project. Redirects to workspace after alerting user.
@@ -198,6 +206,12 @@ page-settings
 			}
 		});
 	});
+
+	function realtimeDataHandler(param) {
+		updateStats(param);
+	}
+
+	Realtime.init(realtimeDataHandler);
 
 }());
 
