@@ -6,13 +6,15 @@ use DB;
 use Validator;
 use App\Models\Doc;
 use App\Services\MembershipService;
+use App\Services\RealtimeService;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
 
 class DocService {
 	protected $sessionTime; 
 
-	public function __construct(MembershipService $memberService) {
+	public function __construct(MembershipService $memberService,
+		RealtimeService $realtimeService) {
 		$this->sessionTime = 60*60*24*30; // Time of session in seconds (thirty days).
 		$this->memberService = $memberService;
 		$this->active = !!env('ETHERPAD_SERVER');
@@ -22,6 +24,7 @@ class DocService {
 		if ($this->active) {
 			$this->client = new \EtherpadLite\Client(env('ETHERPAD_APIKEY'), $this->url);
 		}
+		$this->realtimeService = $realtimeService;
 	}
 
 	public function create($args) {
@@ -64,6 +67,12 @@ class DocService {
 			$doc->project_id = $args['project_id'];
 			$doc->creator_id = $this->user->id;
 			$doc->save();
+
+			$this->realtimeService
+				->withModel($doc)
+				->onProject($args['project_id'])
+				->emit('create');
+
 			DB::commit();
 			return Status::fromResult($doc);
 		} catch (\Exception $e) {
@@ -143,7 +152,7 @@ class DocService {
 
 		// Return all user created docs.
 		if (!$this->user) return Status::fromError('Log in to see docs or specify a project_id');
-		$docs = Doc::where('user_id', $this->user->id);
+		$docs = Doc::where('creator_id', $this->user->id);
 		if ($countOnly) return Status::fromResult($docs->count());
 		return Status::fromResult($docs->get());
 	}
@@ -168,6 +177,11 @@ class DocService {
 	        if ($response->getCode() != \EtherpadLite\Response::CODE_OK) {
 	        	return Status::fromError('Could not delete document');
 	        }
+
+	        $this->realtimeService
+				->withModel($doc)
+				->onProject($doc->project_id)
+				->emit('delete');
 
 	        $doc->delete();
 			return Status::OK();

@@ -42,15 +42,16 @@ var DocListItemView = Backbone.View.extend({
 	},
 	onDelete: function(e) {
 		e.preventDefault();
-		var modalEl = $('#delete-doc-modal')
-		modalEl.find(['name=doc_id']).val(this.model.get('id'));
+		var modalEl = $('#delete-doc-modal');
+		alert(this.model.get('id'));
+		modalEl.find('[name=doc_id]').val(this.model.get('id'));
 		modalEl.modal('show');
 	},
 	onEdit: function(e) {
 		e.preventDefault();
 		var modalEl = $('#edit-doc-modal');
 		modalEl.find('[name=title]').val(this.model.get('title'));
-		modalEl.find(['name=doc_id']).val(this.model.get('id'));
+		modalEl.find('[name=doc_id]').val(this.model.get('id'));
 		modalEl.modal('show');
 	},
 	render: function() {

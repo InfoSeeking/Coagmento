@@ -72,31 +72,7 @@ function realtimeDataHandler(param) {
 
 Realtime.init(realtimeDataHandler);
 
-$("#create-doc").on('submit', function(e){
-	e.preventDefault();
-	var form = $(this),
-		titleInput = form.find('input[name=title]');
-
-	$.ajax({
-		url: '/api/v1/docs',
-		method: 'post',
-		data: {
-			project_id : Config.get('projectId'),
-			title: titleInput.val()
-		},
-		dataType: 'json',
-		success: function(response) {
-			docList.add(new DocModel(response.result));
-			titleInput.val('');
-		},
-		error: function(xhr) {
-			var json = JSON.parse(xhr.responseText);
-			if (json) {
-				MessageDisplay.displayIfError(json);
-			}
-		}
-	});
-});
+initializeDocFormEventHandlers(docList);
 
 </script>
 @endsection('main-content')
