@@ -11,11 +11,12 @@
 </ul>
 
 <div class='stats'>
-	<p>Bookmarks <span class='bookmarks'>{{ $stats['bookmarks'] }}</span></p>
-	<p>Queries <span class='queries'>{{ $stats['queries'] }}</span></p>
-	<p>Snippets <span class='snippets'>{{ $stats['snippets'] }}</span></p>
-	<p>Web Pages Viewed <span class='pages'>{{ $stats['pages'] }}</span></p>
-	<p>Documents <span class='docs'>{{ $stats['docs'] }}</span></p>
+	<h4>Project Statistics</h4>
+	<p><span class='tag'>Bookmarks</span> <span class='bookmarks'>{{ $stats['bookmarks'] }}</span></p>
+	<p><span class='tag'>Queries</span> <span class='queries'>{{ $stats['queries'] }}</span></p>
+	<p><span class='tag'>Snippets</span> <span class='snippets'>{{ $stats['snippets'] }}</span></p>
+	<p><span class='tag'>Web Pages</span> <span class='pages'>{{ $stats['pages'] }}</span></p>
+	<p><span class='tag'>Documents</span> <span class='docs'>{{ $stats['docs'] }}</span></p>
 </div>
 
 <script>

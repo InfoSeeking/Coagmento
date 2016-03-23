@@ -430,3 +430,13 @@ footer {
 .page-panel #body-container {
 	background: #FFF;
 }
+
+.stats {
+	padding: 10px 15px;
+	color: #808080;
+}
+
+.stats .tag {
+	display: inline-block;
+	width: 80px;
+}
