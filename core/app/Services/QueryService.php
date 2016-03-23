@@ -7,6 +7,7 @@ use Validator;
 use App\Models\Query;
 use App\Utilities\Status;
 use App\Services\MembershipService;
+use App\Services\RealtimeService;
 
 class QueryService {
 	// Modify this if you want to add custom search engines.
@@ -38,9 +39,11 @@ class QueryService {
 		]
 	];
 
-	public function __construct(MembershipService $memberService) {
+	public function __construct(MembershipService $memberService,
+		RealtimeService $realtimeService) {
 		$this->user = Auth::user();
 		$this->memberService = $memberService;
+		$this->realtimeService = $realtimeService;
 	}
 
 	/**
@@ -104,6 +107,11 @@ class QueryService {
 		$query->user_id = $this->user->id;
 		$query->save();
 
+		$this->realtimeService
+			->withModel($query)
+			->onProject($args['project_id'])
+			->emit('create');
+
 		return Status::fromResult($query);
 	}
 
@@ -149,6 +157,11 @@ class QueryService {
 		$memberStatus = $this->memberService->checkPermission($query->project_id, 'w', $this->user);
 		if (!$memberStatus->isOK()) return $memberStatus;
 		
+		$this->realtimeService
+			->withModel($query)
+			->onProject($args['project_id'])
+			->emit('delete');
+
 		$query->delete();
 		return Status::OK();
 	}
