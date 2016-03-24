@@ -440,3 +440,31 @@ footer {
 	display: inline-block;
 	width: 80px;
 }
+
+.page-panel .action-button:hover {
+	background: #9AC3FF;
+}
+
+.page-panel .action-button span {
+	margin-right: 5px;
+}
+.page-panel .action-button {
+	display: block;
+	padding: 5px 20px;
+	background: #EEE;
+	margin-bottom: 5px;
+	text-decoration: none;
+	position: relative;
+}
+
+.page-panel .action-button h5 {
+	font-size: 18px;
+}
+
+.page-panel .action-button .right-arrow {
+	font-size: 50px;
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	color: #EEE;
+}

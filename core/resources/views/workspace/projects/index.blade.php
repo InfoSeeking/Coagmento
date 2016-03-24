@@ -20,7 +20,7 @@ page-shared-projects
 	<div class='col-md-8'>
 		<p class='welcome'>
 		@if ($type == 'mine')		
-			Welcome to your new Coagmento workspace. Here you can manage, share, and analyze your projects. Coagmento is still under active development, but you can follow the development on our <a href="https://github.com/InfoSeeking/Coagmento" target="_blank">GitHub page</a>.
+			Here you can manage, update, and share your projects.
 		@elseif ($type == 'shared')
 			Projects which other users share with you appear here.
 		@endif

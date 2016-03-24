@@ -335,8 +335,12 @@ class WorkspaceController extends Controller
     }
 
     public function viewPanel() {
+        $projects = $this->projectService->getMyProjects();
+        $sharedProjects = $this->projectService->getSharedProjects();
         return view('workspace.panel', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'projectCount' => count($projects),
+            'sharedProjectCount' => count($sharedProjects)
             ]);
     }
 
