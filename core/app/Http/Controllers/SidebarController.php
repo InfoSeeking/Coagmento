@@ -11,8 +11,9 @@ use App\Models\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\BookmarkService;
-use App\Services\ProjectService;
 use App\Services\MembershipService;
+use App\Services\ProjectService;
+use App\Services\SnippetService;
 
 
 class SidebarController extends Controller
@@ -28,10 +29,12 @@ class SidebarController extends Controller
 	public function __construct(
         ProjectService $projectService,
         BookmarkService $bookmarkService,
-        MembershipService $memberService) {
+        MembershipService $memberService,
+        SnippetService $snippetService) {
 		$this->bookmarkService = $bookmarkService;
         $this->projectService = $projectService;
         $this->memberService = $memberService;
+        $this->snippetService = $snippetService;
 	}
 	public function getProjectSelection() {
         $projects = $this->projectService->getMultiple();
@@ -44,17 +47,26 @@ class SidebarController extends Controller
     	$user = Auth::user();
         $projectStatus = $this->projectService->get($projectId);
         if (!$projectStatus->isOK()) return $projectStatus->asRedirect('sidebar');
+
         $memberStatus = $this->memberService->checkPermission($projectId, 'r', $user);
         if (!$memberStatus->isOK()) return $memberStatus->asRedirect('sidebar');
-    	$bookmarks = $this->bookmarkService->getMultiple([
-    		'project_id' => $projectId,
-    		]);
+
+        $sharedUsersStatus = $this->projectService->getSharedUsers($projectId);
+        if (!$sharedUsersStatus->isOK()) return $sharedUsersStatus->asRedirect('sidebar');
+
+    	$bookmarkStatus = $this->bookmarkService->getMultiple(['project_id' => $projectId]);
+        if (!$bookmarkStatus->isOK()) return $bookmarkStatus->asRedirect('sidebar');
+
+        $snippetStatus = $this->snippetService->getMultiple(['project_id' => $projectId]);
+        if (!$snippetStatus->isOK()) return $snippetStatus->asRedirect('sidebar');
 
         return view('sidebar.feed', [
-            'bookmarks' => $bookmarks,
+            'bookmarks' => $bookmarkStatus->getResult(),
+            'snippets' => $snippetStatus->getResult(),
             'permission' => $memberStatus->getResult(),
             'project' => $projectStatus->getResult(),
-            'user' => $user
+            'user' => $user,
+            'sharedUsers' => $sharedUsersStatus->getResult()
             ]);
     }
 

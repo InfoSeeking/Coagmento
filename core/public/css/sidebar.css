@@ -44,42 +44,42 @@ body {
 	padding-right: 10px;
 }
 
-.sidebar .sidebar-nav.navbar-collapse {
+.sidebar-container .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
 }
 
-.sidebar .sidebar-search {
+.sidebar-container .sidebar-search {
     padding-bottom: 15px;
 }
 
-.sidebar ul li {
+.sidebar-container ul li {
     border-bottom: 1px solid #e7e7e7;
 
 }
 
-.sidebar ul li a.active {
+.sidebar-container ul li a.active {
     background-color: #eee;
 }
 
-.sidebar .arrow {
+.sidebar-container .arrow {
     float: right;
 }
 
-.sidebar .fa.arrow:before {
+.sidebar-container .fa.arrow:before {
     content: "\f104";
 }
 
-.sidebar .active>a>.fa.arrow:before {
+.sidebar-container .active>a>.fa.arrow:before {
     content: "\f107";
 }
 
-.sidebar .nav-second-level li,
-.sidebar .nav-third-level li {
+.sidebar-container .nav-second-level li,
+.sidebar-container .nav-third-level li {
     border-bottom: 0!important;
 }
 
-.sidebar .nav-second-level li a {
+.sidebar-container .nav-second-level li a {
     padding-left: 37px;
 }
 
@@ -88,8 +88,8 @@ body {
 }
 
 @media(min-width:768px) {
-    .sidebar {
-        z-index: 1;
+    .sidebar-container {
+/*        z-index: 1;
         position: fixed;
 		top: 0px;
 		bottom: 0px;
@@ -97,11 +97,11 @@ body {
         width: 300px;
         margin-top: 0px;
 		overflow-x: hidden;
-		overflow-y: auto;
+		overflow-y: auto;*/
     }
 }
 
-.sidebar .data-list {
+.sidebar-container .data-list {
     overflow-x: hidden;
 }
 
@@ -145,7 +145,9 @@ body {
     list-style: none;
     font-size: 12px;
 }
-
+.chat li:first-child {
+    padding-top: 5px;
+}
 .chat li {
     margin-bottom: 10px;
     padding-bottom: 5px;

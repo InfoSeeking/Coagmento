@@ -74,6 +74,23 @@
 	</div>
 </div>
 
+<script type='text/template' data-template='bookmark' data-layout='sidebar'>
+	<div class='row'>
+		<div class='col-md-12'>
+			<a href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
+			<% if(notes) { %>
+			<p><%= _.escape(notes) %></p>
+			<% } %>
+			<p>
+			Saved <%= moment(created_at).fromNow() %> by <%= user_name %>.
+			<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
+			<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
+			<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
+			<% } %>
+			</p>
+		</div>
+	</div>
+</script>
 
 <script type='text/template' data-template='bookmark' data-layout='three-d'>
 	<img

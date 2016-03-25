@@ -9,3 +9,13 @@
 		</div>
 	</div>
 </script>
+
+<script type='text/template' data-template='chat' data-layout='sidebar'>
+	<span class='chat-name pull-left'>
+		<%= _.escape(user.name) %>&nbsp;
+	</span>
+
+	<div class='chat-body clearfix'>
+		<p> <%= _.escape(message) %> </p>
+	</div>
+</script>

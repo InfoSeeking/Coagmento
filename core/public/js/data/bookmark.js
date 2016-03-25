@@ -4,7 +4,7 @@ var BookmarkModel = FeedModel.extend({
 	initialize: function() {
 		this.on('error', this.onError, this);
 		// Attempt to set user name if available.
-		var user = userList.get(this.get('user_id'));
+		var user = userList ? userList.get(this.get('user_id')) : null;
 		this.set('user_name', user ? user.get('name') : "Unknown");
 	},
 	onError: function(model, response) {
@@ -69,7 +69,7 @@ var BookmarkListItemView = Backbone.View.extend({
 
 var BookmarkListView = FeedListView.extend({
 	el: '#bookmark-list',
-	supportedLayouts: ['grid', 'list', 'coverflow', 'three-d'],
+	supportedLayouts: ['grid', 'list', 'coverflow', 'three-d', 'sidebar'],
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
 		this.setLayout(options.layout || 'grid');

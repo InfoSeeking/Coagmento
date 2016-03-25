@@ -15,7 +15,8 @@ var FeedListView = Backbone.View.extend({
 		'grid': GridLayout,
 		'list': ListLayout,
 		'coverflow': CoverflowLayout,
-		'three-d': ThreeDLayout
+		'three-d': ThreeDLayout,
+		'sidebar': SidebarLayout
 	},
 	render: function() {
 		this.$el.empty();

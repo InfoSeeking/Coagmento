@@ -32,7 +32,7 @@
 
 <div id="wrapper">
         <!-- Navigation -->
-            <div class="navbar-default sidebar">
+            <div class="navbar-default sidebar-container">
                 <div class="sidebar-nav navbar-collapse">
                     @yield('content')
                 </div>

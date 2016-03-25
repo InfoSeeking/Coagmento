@@ -45,10 +45,10 @@ var ChatListItemView = Backbone.View.extend({
 
 var ChatListView = FeedListView.extend({
 	el: '#chat-list',
-	supportedLayouts: ['list'],
-	initialize: function() {
+	supportedLayouts: ['list', 'sidebar'],
+	initialize: function(options) {
 		this.collection.on('add', this.add, this);
-		this.setLayout('list');
+		this.setLayout(options.layout || 'list');
 	},
 	add: function(model) {
 		var item = new ChatListItemView({model: model, layout: this.layout});

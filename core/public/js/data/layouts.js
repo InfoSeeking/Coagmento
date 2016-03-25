@@ -14,6 +14,7 @@ Layout.prototype.getTemplate = function(dataType) {
 	var selector = '[data-template=' + dataType + '][data-layout=' + this.key + ']';
 	if (!this.templateCache) this.templateCache = {};
 	if (!this.templateCache[selector]) {
+		console.log(selector);
 		this.templateCache[selector] = _.template($(selector).html());
 	}
 	return this.templateCache[selector];
@@ -75,3 +76,10 @@ ThreeDLayout.prototype.postInit = function(root) {
 ThreeDLayout.prototype.destroy = function() {
 	this.root.threeD('destroy');
 };
+
+var SidebarLayout = function() {
+	this.key = 'sidebar';
+};
+
+SidebarLayout.prototype = Object.create(Layout.prototype);
+SidebarLayout.constructor = Layout;

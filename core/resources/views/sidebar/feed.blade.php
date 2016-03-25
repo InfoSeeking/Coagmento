@@ -16,60 +16,6 @@
 		</ol>
 	</div>
 
-	<form id='save-snippet' style='display:none'>
-	<div class='col-md-12'>	
-		<div class='chat-panel panel panel-default'>
-			<div class='panel-heading'>
-				Save a New Snippet
-			</div>
-			<!-- /.panel-heading -->
-			<div class='panel-body'>
-				<a href='#' class='url'></a>
-				<div class='form-group'>
-					<input type='text' class='form-control' name='title' placeholder='Page title'/>
-				</div>
-				<div class='form-group'>
-					<textarea name='text' class='form-control' placeholder='Snippet Text'></textarea>
-				</div>
-				<div class='form-group'>
-					<button type='submit' class='btn btn-primary pull-right'>Save</button>
-				</div>
-			</form>
-			</div>
-		</div>
-	</div>
-	</form>
-
-
-	<form id='save-bookmark' style='display:none'>
-	<div class='col-md-12'>	
-		 <div class='chat-panel panel panel-default'>
-			<div class='panel-heading'>
-				Save a New Bookmark
-			</div>
-			<!-- /.panel-heading -->
-			<div class='panel-body'>
-				<a href='#' class='url'></a>
-				<div class='form-group'>
-					<input type='text' class='form-control' name='title' placeholder='Page title'/>
-				</div>
-				<div class='form-group'>
-					<textarea name='notes' class='form-control' placeholder='Notes'></textarea>
-				</div>
-				<div class='form-group'>
-					<input type='text' class='form-control' name='tags' placeholder='Comma separated tags' />
-				</div>
-				<div class='form-group'>
-					<button type='submit' class='btn btn-primary pull-right'>Save</button>
-				</div>
-			</form>
-			</div>
-		</div>
-		<!-- /.panel .chat-panel -->
-	</div>
-	</form>
-
-
 	<div class='col-md-12'>	
 		 <div class='chat-panel panel panel-default'>
 			<div class='panel-heading'>
@@ -115,12 +61,12 @@
 				<div class='tab-content'>
 					<div class='tab-pane in active fade' id='bookmark'>
 						<h5>Bookmarks</h5>
-						<ul id='bookmark-list' class='data-list'></ul>
+						<div id='bookmark-list' class='data-list'></div>
 					</div>
 					<div class='tab-pane fade' id='snippets'>
 						<h5>Snippets</h5>
-						<ul id='snippet-list' class='data-list'>
-						</ul>
+						<div id='snippet-list' class='data-list'>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -130,56 +76,19 @@
 	</div>
 </ul>
 
+@include('workspace.data.bookmarks')
+@include('workspace.data.snippets')
+@include('workspace.data.chat')
 
 <script src='/js/vendor/moment.js'></script>
-<script type='text/template' id='bookmark-template'>
-	<div class='row'>
-		<div class='col-md-12'>
-			<a href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
-			<% if(notes) { %>
-			<p><%= _.escape(notes) %></p>
-			<% } %>
-			<p>
-			Saved <%= moment(created_at).fromNow() %>
-			<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-			<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
-			<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
-			<% } %>
-			</p>
-		</div>
-	</div>
-</script>
-
-<script type='text/template' id='snippet-template'>
-	<div>
-		<a href='<%= _.escape(url) %>'><%= _.escape(title) %></a>
-		<p><%= _.escape(text) %>
-	</div>
-	<p>
-		Saved <%= moment(created_at).fromNow() %>
-		<% if(Config.get('permission') == 'w' || Config.get('permission') == 'o') { %>
-		<a data-id='<%= id %>' class='delete'><span class='fa fa-trash'></span></a>
-		<a data-id='<%= id %>' class='edit'><span class='fa fa-pencil'></span></a>
-		<% } %>
-	</p>
-</script>
-
-<script type='text/template' id='chat-template'>
-	<span class='chat-name pull-left'>
-		<%= _.escape(user.name) %>&nbsp;
-	</span>
-
-	<div class='chat-body clearfix'>
-		<p> <%= _.escape(message) %> </p>
-	</div>
-</script>
-
-
 <script src='/js/vendor/socket.io.js'></script>
 <script src='/js/vendor/underscore.js'></script>
 <script src='/js/vendor/backbone.js'></script>
 <script src='/js/config.js'></script>
 <script src='/js/message.js'></script>
+<script src='/js/data/layouts.js'></script>
+<script src='/js/data/feed.js'></script>
+<script src='/js/data/user.js'></script>
 <script src='/js/data/bookmark.js'></script>
 <script src='/js/data/snippet.js'></script>
 <script src='/js/data/chat.js'></script>
@@ -196,23 +105,23 @@ Config.setAll({
 });
 MessageDisplay.init();
 
-var bookmarkList = new BookmarkCollection();
-bookmarkList.fetch({
-	data: {
-		project_id: Config.get('projectId')
-	}
-});
+var userList = new UserCollection();
+// Add all project users to user collection.
+@foreach ($sharedUsers as $sharedUser)
+userList.add(new UserModel(
+	{!! $sharedUser->user->toJson() !!}
+));
+@endforeach
 
-var bookmarkListView = new BookmarkListView({collection: bookmarkList});
+var bookmarkList = new BookmarkCollection();
+bookmarkList.add({!! $bookmarks->toJSON() !!});
+
+var bookmarkListView = new BookmarkListView({collection: bookmarkList, layout: 'sidebar'});
 
 var snippetList = new SnippetCollection();
-snippetList.fetch({
-	data: {
-		project_id: Config.get('projectId')
-	}
-});
+snippetList.add({!! $snippets->toJSON() !!});
 
-var snippetListView = new SnippetListView({collection: snippetList});
+var snippetListView = new SnippetListView({collection: snippetList, layout: 'list'});
 
 var chatList = new ChatCollection();
 chatList.fetch({
@@ -221,7 +130,7 @@ chatList.fetch({
 	}
 });
 
-var chatListView = new ChatListView({collection: chatList});
+var chatListView = new ChatListView({collection: chatList, layout: 'sidebar'});
 
 
 function realtimeDataHandler(param) {
@@ -288,13 +197,13 @@ Sidebar.onParentMessage(function(data) {
 	console.log(data);
 	switch (data.action) {
 		case 'save-bookmark':
-		var form = $('#save-bookmark').fadeIn();
+		var form = $('#create-bookmark-modal').modal('show');
 		form.find('input[name=title]').val(data.title);
 		form.find('.url').html(data.url).attr('href', data.url);
 		break;
 
 		case 'save-snippet':
-		var form = $('#save-snippet').fadeIn();
+		var form = $('#create-snippet-modal').modal('show');
 		form.find('input[name=title]').val(data.title);
 		form.find('.url').html(data.url).attr('href', data.url);
 		if (data.text) {
@@ -302,67 +211,6 @@ Sidebar.onParentMessage(function(data) {
 		}
 		break;
 	}
-});
-
-
-$('#save-bookmark').on('submit', function(e){
-	e.preventDefault();
-	var form = $(this),
-		urlLink = form.find('.url'),
-		titleInput = form.find('input[name=title]'),
-		notesInput = form.find('textarea[name=notes]'),
-		tagsInput = form.find('input[name=tags]');
-
-	$.ajax({
-		url: '/api/v1/bookmarks',
-		method: 'post',
-		data: {
-			project_id : Config.get('projectId'),
-			url: urlLink.html(),
-			title: titleInput.val(),
-			tags: tagsInput.val().split(/\s*,\s*/),
-			notes: notesInput.val()
-		},
-		dataType: 'json',
-		success: function(response) {
-			bookmarkList.add(new BookmarkModel(response.result));
-			$('#save-bookmark').fadeOut();
-		},
-		error: function(xhr) {
-			var json = JSON.parse(xhr.responseText);
-			if (json) {
-				MessageDisplay.displayIfError(json);
-			}
-		}
-	});
-});
-
-$('#save-snippet').on('submit', function(e){
-	e.preventDefault();
-	var projectId = Config.get('projectId'),
-		textInput = $(this).find('textarea[name=text]'),
-		urlLink = $(this).find('.url'),
-		titleInput = $(this).find('input[name=title]');
-	$.ajax({
-		url: '/api/v1/snippets',
-		method: 'post',
-		data: {
-			'project_id' : projectId,
-			'text': textInput.val(),
-			'url': urlLink.html(),
-			'title': titleInput.val()
-		},
-		complete: function(xhr) {
-			var json = JSON.parse(xhr.responseText);
-			if (json) {
-				MessageDisplay.displayIfError(json);
-			}	
-		},
-		success: function(response) {
-			snippetList.add(new SnippetModel(response.result));
-			$('#save-snippet').fadeOut();
-		}
-	});
 });
 
 $('#chat-form').on('submit', function(e){
@@ -389,6 +237,9 @@ $('#chat-form').on('submit', function(e){
 		},
 	});
 });
+
+initializeBookmarkFormEventHandlers(bookmarkList);
+initializeSnippetFormEventHandlers(snippetList);
 
 </script>
 @endsection('content')

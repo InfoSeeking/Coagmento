@@ -22,11 +22,6 @@ page-panel
 <div class='col-md-8'>
 	<p>Welcome to your Coagmento Workspace. Coagmento is still under active development, but you can follow the development on our <a href="https://github.com/InfoSeeking/Coagmento" target="_blank">GitHub page</a>.
 	</p>
-	<a class='action-button' href='/workspace/projects/create'>
-		<h5><span class='fa fa-plus-square-o'></span> Create a New Project</h5>
-		<p>A project will hold all of your bookmarks, snippets, documents, and data you save while you research.</p>
-		<div class='right-arrow'>&raquo;</div>
-	</a>
 	<a class='action-button' href='/workspace/projects'>
 		<h5><span class='fa fa-folder-open-o'></span> View your Projects</h5>
 		<p>You currently have {{ $projectCount }} projects.</p>
@@ -35,6 +30,11 @@ page-panel
 	<a class='action-button' href='/workspace/projects/sharedWithMe'>
 		<h5><span class='fa fa-users'></span> View Projects Shared with you</h5>
 		<p>You are currently a member of {{ $sharedProjectCount }} other projects.</p>
+		<div class='right-arrow'>&raquo;</div>
+	</a>
+	<a class='action-button' href='/workspace/projects/create'>
+		<h5><span class='fa fa-plus-square-o'></span> Create a New Project</h5>
+		<p>A project will hold all of your bookmarks, snippets, documents, and data you save while you research.</p>
 		<div class='right-arrow'>&raquo;</div>
 	</a>
 	<a class='action-button' href='/workspace/user/settings'>
