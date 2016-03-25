@@ -96,7 +96,7 @@ Sidebar.sendToParent({
 		'user': {
 			'status': true,
 			'id': {{ $user->id }},
-			'name': '{{ $user->username }}'
+			'name': '{{ $user->name }}'
 		},
 		'page': 'select',
 		'project': false

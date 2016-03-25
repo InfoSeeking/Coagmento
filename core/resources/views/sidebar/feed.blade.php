@@ -199,13 +199,13 @@ Sidebar.onParentMessage(function(data) {
 		case 'save-bookmark':
 		var form = $('#create-bookmark-modal').modal('show');
 		form.find('input[name=title]').val(data.title);
-		form.find('.url').html(data.url).attr('href', data.url);
+		form.find('input[name=url]').html(data.url).attr('href', data.url);
 		break;
 
 		case 'save-snippet':
 		var form = $('#create-snippet-modal').modal('show');
 		form.find('input[name=title]').val(data.title);
-		form.find('.url').html(data.url).attr('href', data.url);
+		form.find('input[name=url]').html(data.url).attr('href', data.url);
 		if (data.text) {
 			form.find('textarea[name=text]').html(data.text);
 		}
