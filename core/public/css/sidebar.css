@@ -347,3 +347,11 @@ table.dataTable thead .sorting:after {
     animation-duration: 1s;
     animation-name: enterin;
 }
+
+.project-list li {
+    padding: 5px 0px;
+}
+
+.project-list li:last-child {
+    border-bottom: none;
+}

@@ -5,7 +5,7 @@
 @include('helpers.showAllMessages')
 
 <div class='col-lg-12'>
-	<h1 style='font-size:16px'>Project Feed</h1>
+	<!-- <h1 style='font-size:16px'>Project Feed</h1> -->
 </div>
 <ul class='nav' id='side-menu'>
 	<div class='col-md-12'>
@@ -44,16 +44,16 @@
 	
 	<div class='col-md-12'>
 		<div class='panel panel-default'>
-			<div class='panel-heading'>
+<!-- 			<div class='panel-heading'>
 				<i class='fa fa-list fa-fw'></i>Live Feed 
-			</div>
+			</div> -->
 			<!-- /.panel-heading -->
 			<div class='panel-body'>
 				<!-- Nav tabs -->
 				<ul class='nav nav-tabs'>
-					<li class='active'><a href='#bookmark' data-toggle='tab' class='top' title='' data-placement='top' data-toggle='tooltip' href='#' data-original-title='Bookmarks'><i class='fa fa-bookmark fa-fw'></i></a>
+					<li class='active'><a href='#bookmark' data-toggle='tab' class='top' title='Bookmarks' data-placement='top' data-toggle='tooltip' href='#' data-original-title='Bookmarks'><i class='fa fa-bookmark fa-fw'></i></a>
 					</li>
-					<li><a href='#snippets' data-toggle='tab' class='top' title='' data-placement='top' data-toggle='tooltip' href='#' data-original-title='Snippets'><i class='fa fa-file-text-o fa-fw'></i></a>
+					<li><a href='#snippets' data-toggle='tab' class='top' title='Snippets' data-placement='top' data-toggle='tooltip' href='#' data-original-title='Snippets'><i class='fa fa-file-text-o fa-fw'></i></a>
 					</li>
 				</ul>
 

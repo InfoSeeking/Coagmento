@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		-->											
-			<div class="panel-body">
+			<div class="panel-body project-list">
 			@foreach($projects as $project)
 			<li>
 				<a target="_self" href='/sidebar/project/{{$project->id}}'>{{$project->title}}</a><br/>

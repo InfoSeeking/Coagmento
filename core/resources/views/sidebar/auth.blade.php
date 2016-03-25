@@ -10,7 +10,7 @@
         {!! csrf_field() !!}
         <div class="form-group">
             <label class="sr-only" for="email">Email</label>
-            <input class='form-control' type="email" id="email" name="email" maxlength="255" placeholder="Email" value="{{ Input::old('email') }}"/>
+            <input class='form-control' type="text" id="email" name="email" maxlength="255" placeholder="Email or Username" value="{{ strpos(Input::old('email'), 'coagmento.org') !== false ? '' : Input::old('email') }}"/>
         </div>
 
         <div class="form-group">

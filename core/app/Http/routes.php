@@ -35,7 +35,7 @@ Route::group(['middleware' => 'sidebar.auth'], function() {
 });
 
 Route::get('sidebar/auth/login', 'SidebarController@getSidebarLogin');
-Route::post('sidebar/auth/login', 'SidebarController@postLogin');
+Route::post('sidebar/auth/login', 'SidebarController@postLoginWithOldCoagmentoSupport');
 Route::get('sidebar/auth/logout', 'SidebarController@getLogout');
 Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 

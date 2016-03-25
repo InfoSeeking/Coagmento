@@ -14,6 +14,7 @@ use App\Services\BookmarkService;
 use App\Services\MembershipService;
 use App\Services\ProjectService;
 use App\Services\SnippetService;
+use App\Traits\AuthenticateCoagmentoUsers;
 
 
 class SidebarController extends Controller
@@ -24,7 +25,7 @@ class SidebarController extends Controller
     protected $redirectTo = '/sidebar';
     protected $redirectAfterLogout = '/sidebar/auth/login';
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins, AuthenticateCoagmentoUsers;
 
 	public function __construct(
         ProjectService $projectService,
@@ -72,19 +73,5 @@ class SidebarController extends Controller
 
     public function getSidebarLogin(Request $req) {
         return view('sidebar.auth');
-    }
-
-    public function demoLogin(Request $req) {
-        $demoEmail = 'coagmento_demo@demo.demo';
-        $demoUser = User::where('email', $demoEmail)->first();
-        if (is_null($demoUser)) {
-            $demoUser = $this->create([
-                'name' => 'Coagmento Demo',
-                'email' => $demoEmail,
-                'password' => 'demo'
-                ]);
-        }
-        Auth::login($demoUser, true);
-        return redirect($this->redirectPath);
     }
 }
