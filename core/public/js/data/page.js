@@ -63,6 +63,8 @@ var PageListView = FeedListView.extend({
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
 		this.setLayout(options.layout || 'grid');
+		this.collection.on('update', this.checkEmpty, this);
+		this.checkEmpty();
 	},
 	add: function(model) {
 		var item = new PageListItemView({model: model, layout: this.layout});

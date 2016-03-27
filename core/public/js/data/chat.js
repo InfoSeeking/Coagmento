@@ -52,11 +52,13 @@ var ChatListView = FeedListView.extend({
 	},
 	add: function(model) {
 		var item = new ChatListItemView({model: model, layout: this.layout});
-		this.$el.append(item.render().$el);
+		item.render();
+		this.layout.add(item.$el, true);
 		this.$el.scrollTop(this.$el.prop('scrollHeight'));
+		var that = this;
 		model.on('destroy', function() {
 			item.remove();
-			this.layout.refresh();
+			that.layout.refresh();
 		});
 	}
 });

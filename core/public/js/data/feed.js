@@ -19,6 +19,7 @@ var FeedListView = Backbone.View.extend({
 		'sidebar': SidebarLayout
 	},
 	render: function() {
+		this.collection.on('add', this.onChange);
 		this.$el.empty();
 		this.layout.preInit(this.$el);
 		var that = this;
@@ -40,4 +41,12 @@ var FeedListView = Backbone.View.extend({
 		this.$el.attr('data-layout', key);
 		this.render();
 	},
+	checkEmpty: function() {
+		console.log('Checking for empty');
+		if (this.collection.size() == 0) {
+			this.layout.showEmptyMessage(this.emptyMessage);
+		} else {
+			this.layout.hideEmptyMessage();
+		}
+	}
 });

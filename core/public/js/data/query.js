@@ -72,6 +72,8 @@ var QueryListView = FeedListView.extend({
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
 		this.setLayout(options.layout || 'list');
+		this.collection.on('update', this.checkEmpty, this);
+		this.checkEmpty();
 	},
 	add: function(model) {
 		var item = new QueryListItemView({model: model, layout: this.layout});

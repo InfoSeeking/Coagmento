@@ -65,11 +65,11 @@ class MembershipService {
     protected function checkPermissionWithoutMembership($level, $project_id) {
         // If the user requests anything other than read permission, deny it.
         if ($level != 'r') {
-            return Status::fromError('You must be logged in to access this project');
+            return Status::fromError('You must be logged in as a project member to access');
         }
         $project = Project::find($project_id);
         if ($project->private) {
-            return Status::fromError('You must be logged in to access this project');
+            return Status::fromError('You must be logged in as a project member to access');
         } else {
             return Status::OK();
         }

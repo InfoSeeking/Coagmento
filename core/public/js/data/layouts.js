@@ -3,8 +3,16 @@ Layout.prototype.preInit = function(root) {
 	this.root = root;
 };
 Layout.prototype.postInit = function(root) {};
-Layout.prototype.add = function(html) {
-	this.root.prepend(html);
+Layout.prototype.add = function(html, append) {
+	if (append) this.root.append(html);
+	else this.root.prepend(html);
+};
+Layout.prototype.hideEmptyMessage = function() {
+	this.root.find('.empty-message').detach();
+};
+Layout.prototype.showEmptyMessage = function(message) {
+	message = message || 'Nothing to see here!';
+	this.root.append('<p class=\'empty-message\'>' + message + '</p>');
 };
 // Called when a model is removed.
 Layout.prototype.refresh = function() {};
@@ -14,7 +22,6 @@ Layout.prototype.getTemplate = function(dataType) {
 	var selector = '[data-template=' + dataType + '][data-layout=' + this.key + ']';
 	if (!this.templateCache) this.templateCache = {};
 	if (!this.templateCache[selector]) {
-		console.log(selector);
 		this.templateCache[selector] = _.template($(selector).html());
 	}
 	return this.templateCache[selector];

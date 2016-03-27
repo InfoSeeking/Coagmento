@@ -77,7 +77,52 @@ class ProjectTest extends TestCase {
 	}
 
 	public function testSharing() {
-		// TODO.
+		$userA = factory(User::class)->create();
+		$userA->name = 'A';
+		$userA->save();
+
+		$project = $this->createProject($userA);
+		$project->private = true;
+		$project->save();
+		$membershipA = $this->createMembership($userA, $project, 'o');
+
+		// Another user should not be able to read.
+		$userB = factory(User::class)->create();
+		$userB->name = 'B';
+		$userB->save();
+		$response = $this->actingAs($userB)->call('GET', 'api/v1/projects/' . $project->id, []);
+		$this->assertJSONErrors($response);
+
+		$response = $this->actingAs($userA)->call('POST', 'api/v1/projects/' . $project->id . '/share', [
+			'permission' => 'r',
+			'user_id' => $userB->id
+			]);
+		$this->assertJSONSuccess($response);
+
+		// Now that it is shared, userB should be able to read.
+		$response = $this->actingAs($userB)->call('GET', 'api/v1/projects/' . $project->id, []);
+		$this->assertJSONSuccess($response);
+
+		// Unsharing with userB should revert this access.
 	}
 
+	public function testUser() {
+		// $userA = factory(User::class)->create();
+		// $userA->name = "A";
+		// $userA->save();
+
+		// $response = $this->actingAs($userA)->call('GET', 'api/v1/users/current', []);
+		// echo $response->content();
+
+		// $userB = factory(User::class)->create();
+		// $userB->name = "B";
+		// $userB->save();
+
+		// $response = $this->actingAs($userB)->call('GET', 'api/v1/users/current', []);
+		// echo $response->content();
+
+		// $response = $this->actingAs($userA)->call('GET', 'api/v1/users/current', []);
+		// echo $response->content();
+		
+	}
 }

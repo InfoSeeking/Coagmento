@@ -61,14 +61,14 @@ if (!Config.get('realtimeEnabled')) {
 	' so chat messages will only load on page refresh.'], 'danger');
 }
 
-var chatList = new ChatCollection({layout: 'list'});
+var chatList = new ChatCollection();
 chatList.fetch({
 	data: {
 		project_id: Config.get('projectId')
 	}
 });
 
-var chatListView = new ChatListView({collection: chatList});
+var chatListView = new ChatListView({collection: chatList, layout: 'list'});
 
 function realtimeDataHandler(param) {
 	updateStats(param);

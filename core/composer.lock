@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3cfcb6f5817c62e899840dc4e469052c",
-    "content-hash": "ab6940694972736bb14fcd16479cc4f5",
+    "hash": "2e1ad6004d8dd01be9a14a6155976bba",
+    "content-hash": "251934da0a05ec3c53dfe835abc97ecd",
     "packages": [
         {
             "name": "0x46616c6b/etherpad-lite-client",
@@ -2308,16 +2308,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "5528ce1e93a1efa090c9404aba3395c329b4e6ed"
+                "reference": "385ecb015e97c13818074f1517928b24d4a26067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/5528ce1e93a1efa090c9404aba3395c329b4e6ed",
-                "reference": "5528ce1e93a1efa090c9404aba3395c329b4e6ed",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/385ecb015e97c13818074f1517928b24d4a26067",
+                "reference": "385ecb015e97c13818074f1517928b24d4a26067",
                 "shasum": ""
             },
             "require": {
@@ -2382,7 +2382,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2016-01-01 10:17:54"
+            "time": "2016-03-20 20:34:32"
         },
         {
             "name": "phpspec/prophecy",
@@ -3244,6 +3244,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.5.9",
+        "ext-fileinfo": "*",
         "ext-gd": "*"
     },
     "platform-dev": []

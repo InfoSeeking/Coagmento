@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     protected $redirectPath = '/workspace';
     protected $redirectTo = '/workspace';
-    protected $redirectAfterLogout = '/auth/login';
+    protected $redirectAfterLogout = 'http://coagmento.org';
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller

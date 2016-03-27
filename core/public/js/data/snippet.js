@@ -69,13 +69,17 @@ var SnippetListView = FeedListView.extend({
 	initialize: function(options) {
 		this.collection.on('add', this.add, this);
 		this.setLayout(options.layout || 'list');
+		this.collection.on('update', this.checkEmpty, this);
+		this.checkEmpty();
 	},
 	add: function(model) {
 		var item = new SnippetListItemView({model: model, layout: this.layout});
-		this.$el.prepend(item.render().$el);
+		item.render();
+		this.layout.add(item.$el);
+		var that = this;
 		model.on('destroy', function() {
 			item.remove();
-			this.layout.refresh();
+			that.layout.refresh();
 		});
 	}
 });

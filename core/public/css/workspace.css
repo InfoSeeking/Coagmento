@@ -248,6 +248,10 @@ footer {
 	margin-left: 20px;
 }
 
+.data-view .empty-message {
+	padding: 5px 15px;
+}
+
 .data-view .grid {
 	width: 210px;
 	height: 210px;

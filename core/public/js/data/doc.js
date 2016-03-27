@@ -68,13 +68,17 @@ var DocListView = FeedListView.extend({
 	initialize: function() {
 		this.collection.on('add', this.add, this);
 		this.setLayout('list');
+		this.on('update', this.checkEmpty);
+		this.checkEmpty();
 	},
 	add: function(model) {
 		var item = new DocListItemView({model: model, layout: this.layout});
-		this.$el.prepend(item.render().$el);
+		item.render();
+		this.layout.add(item.$el);
+		var that = this;
 		model.on('destroy', function() {
 			item.remove();
-			this.layout.refresh();
+			that.layout.refresh();
 		});
 	}
 });
