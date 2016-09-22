@@ -31,7 +31,6 @@ class WorkspaceController extends Controller
         PageService $pageService,
         MembershipService $memberService,
         DocService $docService,
-        PageService $pageService,
         QueryService $queryService) {
         $this->projectService = $projectService;
         $this->bookmarkService = $bookmarkService;
