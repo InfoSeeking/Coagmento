@@ -17,6 +17,13 @@ use Illuminate\Http\Request;
 Route::get('/', 'SplashController@index');
 Route::get('/new', 'SplashController@index');
 Route::post('/new/notify', 'SplashController@notify');
+Route::get('/confirm', function(){
+    return view('auth.confirm');
+});
+
+Route::get('/end', function(){
+    return view('end');
+});
 
 
 // Authentication.
@@ -39,8 +46,12 @@ Route::post('sidebar/auth/login', 'SidebarController@postLoginWithOldCoagmentoSu
 Route::get('sidebar/auth/logout', 'SidebarController@getLogout');
 Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 
+
+
 // Workspace pages.
 Route::group(['middleware' => 'auth'], function() {
+    Route::get('stages', 'StageProgressController@directToStage');
+    Route::get('stages/next', 'StageProgressController@moveToNextStage');
 	// These pages do not make sense without a logged in user.
 	Route::get('workspace', 'WorkspaceController@viewPanel');
 	Route::get('workspace/projects', 'WorkspaceController@showProjects');
@@ -132,3 +143,32 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::delete('api/v1/docs/{doc_id}', 'Api\DocController@delete');
 	Route::get('api/v1/docs/{doc_id}/text', 'Api\DocController@getText');
 });
+
+//Welcome page:
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
+Route::post('/welcome', 'QuestionnaireTestController@store');
+
+//First questionnaire
+Route::get('/questionnaire', function () {
+    return view('questionnaire');
+});
+
+Route::post('/questionnaire', 'QuestionnaireTestController@store');
+
+//For 2nd and 3rd questionnaires
+Route::get('/questionnaire2', function () {
+    return view('questionnaire2');
+});
+
+Route::post('/questionnaire2', 'questionnaire2_test_controller@store');
+
+
+
+Route::get('/questionnaire3', function () {
+    return view('questionnaire3');
+});
+
+Route::post('/questionnaire3', 'questionnaire3_test_controller@store');

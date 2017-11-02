@@ -34,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Services\RealtimeService', 'App\Services\RealtimeService', true);
         $this->app->singleton('App\Services\ChatService', 'App\Services\ChatService', true);
         $this->app->singleton('App\Services\HttpService', 'App\Services\HttpService', true);
+        $this->app->singleton('App\Services\StageProgressService', 'App\Services\StageProgressService', true);
     }
 }
