@@ -160,7 +160,7 @@ Route::post('/questionnaire', 'QuestionnaireTestController@store');
 
 //For 2nd and 3rd questionnaires
 Route::get('/questionnaire2', function () {
-    return view('questionnaire2');
+    return view('questionnairecopy');
 });
 
 Route::post('/questionnaire2', 'questionnaire2_test_controller@store');
