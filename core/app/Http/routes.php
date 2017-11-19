@@ -131,8 +131,4 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::get('api/v1/docs', 'Api\DocController@getMultiple');
 	Route::delete('api/v1/docs/{doc_id}', 'Api\DocController@delete');
 	Route::get('api/v1/docs/{doc_id}/text', 'Api\DocController@getText');
-	Route::get('/questionnaire2', function () {
-   		 return view('questionnaire22');
-});
-
 });
