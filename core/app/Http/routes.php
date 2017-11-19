@@ -168,7 +168,7 @@ Route::post('/questionnaire2', 'questionnaire2_test_controller@store');
 
 
 Route::get('/questionnaire3', function () {
-    return view('questionnaire3');
+    return view('questionnaire22');
 });
 
 Route::post('/questionnaire3', 'questionnaire3_test_controller@store');
