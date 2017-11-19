@@ -32,10 +32,11 @@ class FormBuilder extends \Collective\Html\FormBuilder {
 
 		}
 		public function likert(){
-				$htmlbuild = "LikeRT" . "<br>". $this->radio("likert","1") . "1" . "    " . $this->radio("likert","2") . "2" . "   ";
+				$htmlbuild = "LikeRT" . "<br>". $this->radio("likert","1") . "1" . "    " . $this->radio("likert","2") . "2" . "   ". $this->radio("likert","3") . "3" . "       " . $this->radio("likert","4") . "4" ."     ". $this->radio("likert","5") . "5";
 				return($htmlbuild);
 
 			}
+
 
 		
 		
