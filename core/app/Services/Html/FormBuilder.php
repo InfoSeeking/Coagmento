@@ -5,6 +5,32 @@ use Illuminate\Support\Facades\Request;
 
 class FormBuilder extends \Collective\Html\FormBuilder {
 
+		public function createhtml($questpromt = "please fill out the form"){
+			return "<html lang='en'>
+       <head>
+          <title>Bootstrap Example</title>
+           <meta charset='utf-8'>
+     <meta name='viewport' content='width=device-width, initial-scale=1'>
+     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+	  </head>
+        <div class='container'>
+
+            <h2>Questionnaire</h2>
+
+<body>
+
+    <div class='bs-example'>
+        <div class='container'>
+            <div class='well'>". $questpromt . "</div>
+        </div>
+    </div>
+
+			";
+
+
+		}
 		public function openFormGroup(){
 				return "<div class = 'form-group'>";
 
@@ -36,10 +62,32 @@ class FormBuilder extends \Collective\Html\FormBuilder {
 				return($htmlbuild);
 
 			}
+		public function multiplechoice($question,$choice1,$choice2,$choice3,$choice4){
+				$b = "<br>" .$question . "<br>" . $this ->radio($question,$choice1) . "    " . $choice1 . "<br>" . $this ->radio($question,$choice2) . "    " . $choice2 . "<br>" . $this ->radio($question,$choice3) . "    " . $choice3 . "<br>" . $this ->radio($question,$choice4) . "   ". $choice4; 
+				return $b;
+			
+
+		}
+		
+		public function smallanswer($question){
+				$htmlbuild = "<br>". $question . $this->text($question);
+				return $htmlbuild;
+				
+
+			}
 
 
+	public function openContainer(){
+			$b = "<div class = 'container'>";
+			return $b;
 		
-		
+
+	}		
+
+	public function closeDiv(){
+
+		return "</div>";
+	}
 		
 
 }
