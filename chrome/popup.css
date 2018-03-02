@@ -1,0 +1,18 @@
+html {
+    width: 300px;
+}
+
+body {
+    width: 300px;
+    padding: 10px;
+}
+
+.err {
+    color: red;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+
