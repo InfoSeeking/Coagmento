@@ -61,6 +61,7 @@ $(document).ready(function(){
 
     // TODO: Is AJAX call here okay? set logged in background variable
     function handleLoggedIn(msg){
+	/**
         msg = JSON.parse(msg);
         if(msg.loggedin){
             toggleLoggedIn(msg.loggedin)
@@ -82,17 +83,17 @@ $(document).ready(function(){
                 console.log(msg)
             },
             error: function(msg){
-                toggleLoggedIn(false);
-                renderLoggedIn(false);
+                toggleLoggedIn(true);
+                renderLoggedIn(true);
             },
             });
             
         }
-    }
-
+    }*/
+	}
 
     // TODO: set logged in background variable
-    $.ajax({
+   /* $.ajax({
         type: "POST",
         url: checkLoggedInUrl,
         data : {extensionID:chrome.runtime.id},
@@ -101,10 +102,10 @@ $(document).ready(function(){
         error: function(msg){
             $(signedinNoID).show();
             $(signedinYesID).hide();
-            toggleLoggedIn(false);
-            renderLoggedIn(false);
+            toggleLoggedIn(true);
+            renderLoggedIn(true);
         }
-    });
+    });  **/
 
     // TODO: set logged in background variable
     $( "#login_button" ).click(function() {
@@ -119,6 +120,9 @@ $(document).ready(function(){
 					console.log("TRUE")
 					toggleLoggedIn(true)
 					renderLoggedIn(true)
+					 chrome.browserAction.setPopup({
+       							popup:"loggedIn.html"
+   						 });
 				}
 		
 
