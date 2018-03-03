@@ -2,7 +2,7 @@ var loggedIn = false;
 var device = "chrome";
 var domain = 'http://localhost:8000/api/v1';
 var homeUrl = domain + '/index.php';
-var actionSaveUrl = domain + '/services/insertAction.php';
+var actionSaveUrl = domain + '/pages';
 var savePQUrl = domain+"/queries";
 
 var checkLoggedInUrl = domain + "/getLoggedIn.php";
@@ -119,13 +119,14 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 }
 
 function saveAction(action,value,actionJSON,now){
-  if(loggedIn){
-    var data = {
-    action:action,
-    value:value,
-    actionJSON:JSON.stringify(actionJSON)
-    }
+	console.log("AXTION JSON"+ action)
+	var data = {
+		"title":action.tab.title,
+		"project_id":1,
+		"url":action.tab.url
+		
 
+		}
     if(action.indexOf("tabs.")!==-1){
       previousTabAction = action;
       previousTabActionData = data;
@@ -142,26 +143,13 @@ function saveAction(action,value,actionJSON,now){
     data.localDate = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + now.getDate()).slice(-2);
     data.localTime =  ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
     data.localTimestamp = now.getTime();
-    $.ajax({
-     url: actionSaveUrl,
-     method : "post",
-     data : data,
-     dataType: "text",
-     success : function(resp){
-  //    	if ($.trim(resp)){   
-  //   		alert("SaveAction Success: "+resp);
-		// }
-
-     },
-     error: function(resp){
-		if ($.trim(resp)){   
-    		// alert("SaveAction Error: "+resp);
-		}else{
-			// alert("SaveAction Error!");
-		}
-     }
-   });  
-  }
+  
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("POST", actionSaveUrl, false);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.send(JSON.stringify(data));
+	var result = xhr.responseText;
       
 }
 
