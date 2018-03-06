@@ -121,9 +121,9 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 function saveAction(action,value,actionJSON,now){
 	console.log("AXTION JSON"+ action)
 	var data = {
-		"title":action.tab.title,
+		"title":actionJSON.tab.title,
 		"project_id":1,
-		"url":action.tab.url
+		"url":actionJSON.tab.url
 		
 
 		}
