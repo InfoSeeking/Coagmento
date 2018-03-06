@@ -119,7 +119,8 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 }
 
 function saveAction(action,value,actionJSON,now){
-	console.log("AXTION JSON"+ action)
+	console.log("AXTION JSON"+ JSON.stringify(actionJSON))
+	if(actionJSON.tab){	
 	var data = {
 		"title":actionJSON.tab.title,
 		"project_id":1,
@@ -127,6 +128,7 @@ function saveAction(action,value,actionJSON,now){
 		
 
 		}
+	}
     if(action.indexOf("tabs.")!==-1){
       previousTabAction = action;
       previousTabActionData = data;
@@ -546,10 +548,12 @@ function bkFunction(selection) {
 	var notes = "Test"
 	var xhr = new XMLHttpRequest();
 	
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 	var params = {
 			"url":url,
 			"notes":notes,
-			"project_id":1
+			"project_id":1,
+			"title":tabs[0].title
 
 			}
 	console.log("PARAMS are" +JSON.stringify(params))
@@ -558,24 +562,30 @@ function bkFunction(selection) {
 	xhr.send(JSON.stringify(params));
 	var result = xhr.responseText;
 	console.log(result)
-
+	});
 
  }
 	function selectionFunction(select){
 			console.log("SELECTION" + JSON.stringify(select));
-
+			var title;
 			var xhr = new XMLHttpRequest();
-	
-				var params = {
-						"url":select.pageUrl,
-						"text":select.selectionText,
-						"project_id":1
+				chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+							console.log(tabs);
+						    var title= tabs[0].title;   //title
+
+						var params = {
+							"title": title,
+							"url":select.pageUrl,
+							"text":select.selectionText,
+							"project_id":1
 
 					}
 					xhr.open("POST", "http://localhost:8000/api/v1/snippets", false);
-				xhr.setRequestHeader("Content-type", "application/json");
-				xhr.send(JSON.stringify(params));
-				var result = xhr.responseText;
+					xhr.setRequestHeader("Content-type", "application/json");
+					xhr.send(JSON.stringify(params));
+					var result = xhr.responseText;
+				});
+				
 
 			}	
 
