@@ -24,7 +24,6 @@
 
 
 
-	<div><font color="red">Please log in to start recording data</font></div>
 	<div class="form-group"><label for="username">E-mail/Username</label><input type="text" class="form-control" id="username" name="username"/></div>
 	<div class="form-group"><label for="password">Password</label><input type="password" class="form-control" id="password" name="password"/></div>
 
@@ -35,36 +34,24 @@
 	<button name="credentials_button" id="credentials_button" class="btn btn-sm">Send Credentials</button>
 	</div>
 
-	<div><small class="text-danger" id="login_error_text"></small></div>
 
-	<div><small class="text-muted"><a href="#" id="register_link">Register</a></small></div>
-	<div><small class="text-muted">Forgot your credentials?  Enter your e-mail and click "Send Credentials"!</small></div>
-	<div><small class="text-muted"><a href="#" id="contact_us_signedin_link">Contact us</a> if you face any issues</small></div>
+<div class = "container" >
+		
+		<div class = "form-group">
 
+				<label for="projectid">Enter a projectid</label>=
+				<input type = "text" class = "form-control" id ="projectid">
+		</div>
+
+		<div class = "form-group">
+				<button name = "pid" id="pid" class="btn btn-sm">Confirm</button>
+		</div>
 </div>
 
 
-
-
-<div class="container" id="signedin_yes">
-	<h6 id="greeting">Hello, <span id="first_name">Firstname</span> <span id="last_name">Lastname</span>!</h6>
-	<div><small class="text-muted">(Not you? Please log out and sign back in.)</small></div>
 
 	<!-- <div class="form-group"> -->
 	<!-- <button name="submit_id" id="submit_userid" class="btn btn-primary btn-sm">Submit</button> -->
-
-	<h2><b><i>Instructions:</i></b></h2>
-	<ul>
-		<li>If you want to annotate your logs from the day, click "Go To Annotation"</li>
-		<li>If you wish to stop recording data, click "Log Out".  You may log back in to resume recording</li>
-	</ul>
-	<div class="form-group"><button name="homepage_button" id="homepage_button" class="btn btn-primary btn-sm">Go To Annotation</button></div>
-	<div class="form-group"><button name="logout_button" id="logout_button" class="btn btn-danger btn-sm">Log Out</button></div>
-
-	<div><small class="text-danger" id="login_error_text"></small></div>
-	<div><small class="text-muted">Please <a href="#" id="contact_us_signedout_link">contact us</a> at  if you encounter any issues!</small></div>
-
-</div>
 
 
 
