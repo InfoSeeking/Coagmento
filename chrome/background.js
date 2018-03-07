@@ -83,6 +83,7 @@ chrome.tabs.query(query, function(tabs) {
 
 function savePQ(url,title,active,tabId,windowId,now,action,details){
 	console.log("DEATIALS" + JSON.stringify(details));
+	console.log("Title is" + title);
     var data = {
     url:url,
     title:title,
@@ -93,7 +94,6 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 	
 	console.log("DEATIALS TITTLE" + details.tab.title);
 	var data2 = {
-
 		"project_id":1,
 		"text":details.tab.title,
 		"search_engine":"Google"
@@ -103,14 +103,17 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     
 
     // alert(data.action);
+			console.log("DETAILS" + JSON.stringify(details));
+			if (!details.tab.url.includes("localhost") || (!details.tab.url.includes("chrome://extensions"))){
+				console.log("making request");
+				var xhr = new XMLHttpRequest();
 
-
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "http://localhost:8000/api/v1/queries", false);
-			xhr.setRequestHeader("Content-type", "application/json");
-			xhr.send(JSON.stringify(data2));
-			var result = xhr.responseText;
-			console.log("RESULt" + result);
+				xhr.open("POST", "http://localhost:8000/api/v1/queries", false);
+				xhr.setRequestHeader("Content-type", "application/json");
+				xhr.send(JSON.stringify(data2));
+				var result = xhr.responseText;
+				console.log("RESULt" + result);
+			}
     
 
   
@@ -141,11 +144,10 @@ function saveAction(action,value,actionJSON,now){
     }
     previousAction = action;
     previousActionData = data;
-    
-    data.localDate = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + now.getDate()).slice(-2);
-    data.localTime =  ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
-    data.localTimestamp = now.getTime();
-  
+	//if we have localhost or chrome extension tab break out
+ 	if(data.url.includes("localhost") || data.url.includes("chrome://extensions")){
+		return;
+	}
 	var xhr = new XMLHttpRequest();
 	
 	xhr.open("POST", actionSaveUrl, false);
