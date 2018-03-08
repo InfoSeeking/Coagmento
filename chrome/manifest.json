@@ -13,6 +13,7 @@
     "web_accessible_resources":["*.png"],
     
     
+    
     "homepage_url":"http://coagmento.org/workintent/index.php",
     "permissions" : [
         "history",
