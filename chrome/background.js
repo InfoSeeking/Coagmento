@@ -17,13 +17,9 @@ var previousWebNavActionData = null;
 var previousActionData = null;
 //var serp_storage_url = domain + '/saveserp';
 //var check_userid_url = domain + '/users/checkid';
-function loadProjectId(){
+function loadProjectId(callback){
 var projectid_ = 1;
-	chrome.storage.local.get("projectid",function(result){
-	projectid_ = parseInt(result.projectid);
-	console.log("RESULTS" + projectid_);	
-	return projectid_
-	})
+	chrome.storage.local.get("projectid",callback)
 }
 
 function toggleLoggedIn(logged){
@@ -98,8 +94,9 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     // TODO: action, and other columns
     }
 	console.log("DEATIALS TITTLE" + details.tab.title);
+	loadProjectId(function(res) {
 	var data2 = {
-		"project_id":1,
+		"project_id":res.projectid,
 		"text":details.tab.title,
 		"search_engine":"Google"
 
@@ -122,6 +119,7 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 				var result = xhr.responseText;
 				console.log("RESULt" + result);
 			}
+		});
 
   
 		console.log("URL" + url);
@@ -132,9 +130,10 @@ function saveAction(action,value,actionJSON,now){
 	console.log("AXTION JSON"+ JSON.stringify(actionJSON))
 	if(actionJSON.tab){	
 		if(actionJSON.tab.url){
+	loadProjectId(function(res){
 	var data = {
 		"title":actionJSON.tab.title,
-		"project_id":1,
+		"project_id":res.projectid,
 		"url":actionJSON.tab.url
 		
 
@@ -163,7 +162,7 @@ function saveAction(action,value,actionJSON,now){
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify(data));
 	var result = xhr.responseText;
-      
+	});
 		}
 	}
 }
@@ -559,10 +558,11 @@ function bkFunction(selection) {
 	var xhr = new XMLHttpRequest();
 	
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+	loadProjectId(function(res){
 	var params = {
 			"url":url,
 			"notes":notes,
-			"project_id":1,
+			"project_id":res.projectid,
 			"title":tabs[0].title
 
 			}
@@ -572,8 +572,9 @@ function bkFunction(selection) {
 	xhr.send(JSON.stringify(params));
 	var result1 = xhr.responseText;
 	});
-
+	})
  }
+
 	function selectionFunction(select){
 			console.log("SELECTION" + JSON.stringify(select));
 			var title;
@@ -581,11 +582,12 @@ function bkFunction(selection) {
 				chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 							console.log(tabs);
 						    var title= tabs[0].title;   //title
+						loadProjectId(function(res){
 						var params = {
 							"title": title,
 							"url":tabs[0].url,
 							"text":select.selectionText,
-							"project_id":1
+							"project_id":res.projectid
 
 					}
 					xhr.open("POST", "http://localhost:8000/api/v1/snippets", false);
@@ -594,7 +596,7 @@ function bkFunction(selection) {
 					var result = xhr.responseText;
 					console.log("AFTER SNIPPET" + result);
 				});
-				
+				});
 			}	
 
 function onClickHandler(info, tab) {
