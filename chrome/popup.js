@@ -19,22 +19,6 @@ $(document).ready(function(){
     var homeUrl = homeDir + "/instruments/getHome.php";
     var contactUrl = "mailto:mmitsui@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
 	
-    $( "#pid" ).click(function() {
-			console.log("clicked");
-			var projectid = $("#projectid").val()
-			if(projectid === ''){
-					alert("please enter a valid projectid")
-				}
-			else {
-					chrome.storage.local.set({ "projectid": projectid }, function(){
-							    //  Data's been saved boys and girls, go on home
-								alert("Project id was saved");
-								console.log("done");
-					 });
-							//
-
-			}
-    	});
     function goHome(){
         chrome.tabs.create({url:homeUrl}, function(tab){
         },

@@ -17,11 +17,14 @@ var previousWebNavActionData = null;
 var previousActionData = null;
 //var serp_storage_url = domain + '/saveserp';
 //var check_userid_url = domain + '/users/checkid';
-var projectid = 1;
-chrome.storage.local.get("projectid",function(result){
-	projectid = result.projectid;
-
-})
+function loadProjectId(){
+var projectid_ = 1;
+	chrome.storage.local.get("projectid",function(result){
+	projectid_ = parseInt(result.projectid);
+	console.log("RESULTS" + projectid_);	
+	return projectid_
+	})
+}
 
 function toggleLoggedIn(logged){
   loggedIn = logged;
@@ -94,10 +97,9 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     windowId:windowId
     // TODO: action, and other columns
     }
-	
 	console.log("DEATIALS TITTLE" + details.tab.title);
 	var data2 = {
-		"project_id":projectid,
+		"project_id":1,
 		"text":details.tab.title,
 		"search_engine":"Google"
 
@@ -120,7 +122,6 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 				var result = xhr.responseText;
 				console.log("RESULt" + result);
 			}
-    
 
   
 		console.log("URL" + url);
@@ -133,7 +134,7 @@ function saveAction(action,value,actionJSON,now){
 		if(actionJSON.tab.url){
 	var data = {
 		"title":actionJSON.tab.title,
-		"project_id":projectid,
+		"project_id":1,
 		"url":actionJSON.tab.url
 		
 
@@ -180,7 +181,7 @@ function saveAction(action,value,actionJSON,now){
 // TODO: Window switching is important, not just onActivated.  onActivated doesn't capture that.
 // TODO: get windowId for most tab actions?
 // TODO: may need an active_tab (boolean) column in pages/queries
-// TODO: "click to open Google search result in new tab": a bunch of loading occurs.  This isn't captured by onCreated.  Is this captured by something else?
+// TODO: "click to open Google search result in new tab": a bunch of foadifg occurs.  This isn't captured by onCreated.  Is this captured by something else?
 
 
 
@@ -561,7 +562,7 @@ function bkFunction(selection) {
 	var params = {
 			"url":url,
 			"notes":notes,
-			"project_id":projectid,
+			"project_id":1,
 			"title":tabs[0].title
 
 			}
@@ -569,34 +570,31 @@ function bkFunction(selection) {
 	xhr.open("POST", "http://localhost:8000/api/v1/bookmarks", false);
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify(params));
-	var result = xhr.responseText;
-	console.log(result)
+	var result1 = xhr.responseText;
 	});
 
  }
 	function selectionFunction(select){
 			console.log("SELECTION" + JSON.stringify(select));
 			var title;
-			console.log("pid" + projectid);
 			var xhr = new XMLHttpRequest();
 				chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 							console.log(tabs);
 						    var title= tabs[0].title;   //title
-
 						var params = {
 							"title": title,
-							"url":select.pageUrl,
+							"url":tabs[0].url,
 							"text":select.selectionText,
-							"project_id":projectid
+							"project_id":1
 
 					}
 					xhr.open("POST", "http://localhost:8000/api/v1/snippets", false);
 					xhr.setRequestHeader("Content-type", "application/json");
 					xhr.send(JSON.stringify(params));
 					var result = xhr.responseText;
+					console.log("AFTER SNIPPET" + result);
 				});
 				
-
 			}	
 
 function onClickHandler(info, tab) {
