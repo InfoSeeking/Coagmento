@@ -107,9 +107,15 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     // alert(data.action);
 			console.log("DETAILS" + JSON.stringify(details));
 			if (!details.tab.url.includes("localhost") || (!details.tab.url.includes("chrome://extensions"))){
+				console.log("DAT TEXT" + data2.text);
 				if(data2.text.includes("New Tab")){
+						console.log("yes");
 						return;
 					}
+					if(details.tab.url.includes("New Tab")){
+							return;
+
+						}
 				console.log("making request");
 				var xhr = new XMLHttpRequest();
 
@@ -155,6 +161,13 @@ function saveAction(action,value,actionJSON,now){
 	//if we have localhost or chrome extension tab break out
  	if(data.url.includes("localhost") || data.url.includes("chrome://extensions")){
 		return;
+	}
+	else if(data.url.includes("New Tab") || data.title.includes("New Tab")){
+
+			return;
+	}
+	else if(data.url.includes("newtab")){
+			return;
 	}
 	var xhr = new XMLHttpRequest();
 	
