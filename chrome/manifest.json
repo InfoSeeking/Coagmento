@@ -2,7 +2,7 @@
 "update_url": "https://clients2.google.com/service/update2/crx",
 
     "manifest_version" : 2,
-    "name" : "Workplace Study Extension - ar",
+    "name" : "Coagmento",
     "description" : "Companion extension for Workplace Study, 2017.",
     "version" : "1.0.6",
     "content_scripts": [],
@@ -11,6 +11,7 @@
         "scripts" : ["external/js/jquery-3.2.1.min.js","background.js"]
     },
     "web_accessible_resources":["*.png"],
+    
     
     
     "homepage_url":"http://coagmento.org/workintent/index.php",
