@@ -17,8 +17,11 @@ var previousWebNavActionData = null;
 var previousActionData = null;
 //var serp_storage_url = domain + '/saveserp';
 //var check_userid_url = domain + '/users/checkid';
+var projectid = 1;
+chrome.storage.local.get("projectid",function(result){
+	projectid = result.projectid;
 
-
+})
 
 function toggleLoggedIn(logged){
   loggedIn = logged;
@@ -94,7 +97,7 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 	
 	console.log("DEATIALS TITTLE" + details.tab.title);
 	var data2 = {
-		"project_id":1,
+		"project_id":projectid,
 		"text":details.tab.title,
 		"search_engine":"Google"
 
@@ -105,6 +108,9 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     // alert(data.action);
 			console.log("DETAILS" + JSON.stringify(details));
 			if (!details.tab.url.includes("localhost") || (!details.tab.url.includes("chrome://extensions"))){
+				if(data2.text.includes("New Tab")){
+						return;
+					}
 				console.log("making request");
 				var xhr = new XMLHttpRequest();
 
@@ -124,14 +130,16 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 function saveAction(action,value,actionJSON,now){
 	console.log("AXTION JSON"+ JSON.stringify(actionJSON))
 	if(actionJSON.tab){	
+		if(actionJSON.tab.url){
 	var data = {
 		"title":actionJSON.tab.title,
-		"project_id":1,
+		"project_id":projectid,
 		"url":actionJSON.tab.url
 		
 
 		}
-	}
+
+
     if(action.indexOf("tabs.")!==-1){
       previousTabAction = action;
       previousTabActionData = data;
@@ -155,9 +163,9 @@ function saveAction(action,value,actionJSON,now){
 	xhr.send(JSON.stringify(data));
 	var result = xhr.responseText;
       
+		}
+	}
 }
-
-
 // TODO ACTIONS
 // tab change: onactivated+onhighlighted - use onActivated
 // close current tab: onRemoved+onactivated+onHighlighted - use onActivated
@@ -546,7 +554,6 @@ var title = "Snippet ";
 var id1 = chrome.contextMenus.create({"title": title, "contexts":["selection"],"id":"snippet"});
 function bkFunction(selection) {
 	var url = selection.pageUrl
-	var projectid = '';
 	var notes = "Test"
 	var xhr = new XMLHttpRequest();
 	
@@ -554,7 +561,7 @@ function bkFunction(selection) {
 	var params = {
 			"url":url,
 			"notes":notes,
-			"project_id":1,
+			"project_id":projectid,
 			"title":tabs[0].title
 
 			}
@@ -570,6 +577,7 @@ function bkFunction(selection) {
 	function selectionFunction(select){
 			console.log("SELECTION" + JSON.stringify(select));
 			var title;
+			console.log("pid" + projectid);
 			var xhr = new XMLHttpRequest();
 				chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 							console.log(tabs);
@@ -579,7 +587,7 @@ function bkFunction(selection) {
 							"title": title,
 							"url":select.pageUrl,
 							"text":select.selectionText,
-							"project_id":1
+							"project_id":projectid
 
 					}
 					xhr.open("POST", "http://localhost:8000/api/v1/snippets", false);
