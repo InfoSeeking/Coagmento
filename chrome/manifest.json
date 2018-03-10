@@ -3,7 +3,7 @@
 
     "manifest_version" : 2,
     "name" : "Coagmento",
-    "description" : "Companion extension for Workplace Study, 2017.",
+    "description" : "Extension for Coagmento.",
     "version" : "1.0.6",
     "content_scripts": [],
     "background" : {
@@ -14,7 +14,7 @@
     
     
     
-    "homepage_url":"http://coagmento.org/workintent/index.php",
+    "homepage_url":"http://new.coagmento.org/",
     "permissions" : [
         "history",
         "storage",
