@@ -1,0 +1,40 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+    "manifest_version" : 2,
+    "name" : "Coagmento Trial",
+    "description" : "Extension for Coagmento.",
+    "version" : "1.0.6",
+    "content_scripts": [],
+    "background" : {
+        "persistent": true,
+        "scripts" : ["external/js/jquery-3.2.1.min.js","background.js"]
+    },
+    "web_accessible_resources":["*.png"],
+    
+    
+    
+    "homepage_url":"http://new.coagmento.org/",
+    "permissions" : [
+        "history",
+        "storage",
+        "tabs",
+        "<all_urls>",
+        "webNavigation",
+		"contextMenus"
+    ],
+    "omnibox": { "keyword" : "test" },
+    
+    "browser_action": {
+        "default_icon": "icons/logo-16.png",
+        "default_popup": "popup.html?popup=true",
+        "default_title": "Workplace Study Extension"
+    },
+    
+    "icons":{
+        "48": "icons/logo-48.png",
+        "16": "icons/logo-16.png"
+    },
+    
+    "minimum_chrome_version" : "35"
+}

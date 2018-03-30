@@ -1,0 +1,72 @@
+<html>
+	<head>
+    	<link rel="stylesheet" type="text/css" href="external/css/bootstrap.min.css"></link>
+    	<script src="external/js/jquery-3.2.1.min.js"></script>
+    	<script src="external/js/bootstrap.min.js"></script>
+		<script src = "loggedin.js"></script>
+
+		<script>
+			$(document).ready(function() {
+
+
+
+		    $( "#pid" ).click(function() {
+					console.log("clicked");
+					var projectid = $("#projectid").val()
+					if(projectid === ''){
+							$('#error').show();
+						}
+					else {
+						chrome.storage.local.set({ "projectid": parseInt(projectid) }, function(){
+							//  Data's been saved boys and girls, go on home
+							console.log("done");
+							$('#suc').show();
+						});
+									//
+
+					}
+		    	});
+			});
+		</script>
+	</head>
+
+
+		<body> 
+				
+
+			<div class='container'>
+				<h3>Hello, Matt!</h6>
+			
+				<h6>Project: Demo Project</h6>
+				<div class='panel panel-primary'>
+				<div class='panel-heading'>
+					Options
+				</div>	
+				<div class='panel-body'>
+					<div class = "btn-group-vertical">
+					<button id="opencspace_button" class="btn btn-default btn-sm">Open CSpace</button>
+					<button id="projects_button" class="btn btn-default btn-sm">Open Projects</button>
+					<button id="logout_button" class="btn btn-danger btn-sm">Logout</button>
+					</div>
+				</div>
+				</div>
+				
+			</div>
+			<!-- <div class = "container" >
+		
+						<div class = "form-group">
+
+							<label for="projectid">Enter a Project ID</label>
+							<input type = "text" class = "form-control" id ="projectid">
+						</div>
+
+						<div class = "form-group">
+							<button name = "pid" id="pid" class="btn btn-sm">Confirm</button>
+						</div>
+				</div> -->
+			
+
+
+
+		</body>
+</html>
