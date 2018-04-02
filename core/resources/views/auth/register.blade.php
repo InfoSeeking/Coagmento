@@ -15,12 +15,14 @@
             <input class='form-control' type="email" id="email" name="email" maxlength="255" placeholder="Email" value="{{ Input::old('email') }}"/>
             <small>This email will only be contacted for important alerts, and will not be used for advertising of any sort.</small>
         </div>
-    
+
+
+
         <div class="form-group">
             <label class="sr-only" for="password">Password</label>
             <input class='form-control' type="password" id="password" name="password" maxlength="255" placeholder="Password"/>
         </div>
-    
+
         <div class="form-group">
             <label class="sr-only" for="password_confirmation">Confirm Password</label>
             <input class='form-control' type="password" id="password_confirmation" name="password_confirmation" maxlength="255" placeholder="Confirm Password"/>

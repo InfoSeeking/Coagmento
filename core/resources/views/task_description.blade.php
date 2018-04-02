@@ -15,7 +15,7 @@
 
         <div class="container">
             
-            <h2>Questionnaire</h2>
+            <h2>Welcome</h2>
             
             <title>Example of Bootstrap 3 Readonly Inputs</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -30,28 +30,24 @@
     
     <div class="bs-example">
         <div class="container">
-            <div class="well">Please fill out this form as soon as possible</div>
+            <div class="well">Please read the instructions below:</div>
         </div>
     </div>
-{!! Form::open(['url' => 'foo/bar']) !!}
-{!! Form::gender() !!}
-{!! Form::likert() !!}
-{!! Form::close() !!}
 </body>
-            @if(count($errors))
-            <div class="alert alert-danger">
-                <ul>
+            
+            
+            <form method="POST" action="/task_description">
+                {{ csrf_field() }}
 
-                    @foreach($errors->all() as $error)
 
-                    <li>{{$error}}</li>
 
-                    @endforeach
+            <br><br>
 
-                </ul>
+            <button type = "submit" class = "btn btn-success">Next</button>
+                
+            <br><br>
 
-            </div>
-            @endif
+            </form>
 
         </div>
 

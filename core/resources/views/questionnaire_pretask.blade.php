@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,9 +11,11 @@
 
     <body>
 
+          <body>
+
         <div class="container">
             
-            <h2>Questionnaire 3</h2>
+            <h2>Questionnaire</h2>
             
             <title>Example of Bootstrap 3 Readonly Inputs</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -35,21 +35,10 @@
     </div>
 </body>
             
-            <form method="POST" action="/questionnaire3">
+            
+            <form method="POST" action="/questionnaire_pretask">
                 {{ csrf_field() }}
 
-
-<!--
-                <div class="form-group">
-                    <label for="sel3">Mutiple select list (hold shift to select more than one):</label>
-                    {!!
-                     Form::select('animal',[
-                      'Cats' => ['leopard' => 'Leopard'],
-                      'Dogs' => ['spaniel' => 'Spaniel'],
-                     ],null,array('id'=>'sel3','class'=>'form-control'))
-                     !!}
-                </div>
--->
 
                 <label for="sel1">Gender:</label>
                 <div class="radio">

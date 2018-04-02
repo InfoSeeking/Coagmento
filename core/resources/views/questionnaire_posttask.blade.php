@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,9 +11,11 @@
 
     <body>
 
+          <body>
+
         <div class="container">
             
-            <h2>Questionnaire 2</h2>
+            <h2>Questionnaire</h2>
             
             <title>Example of Bootstrap 3 Readonly Inputs</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -36,10 +36,9 @@
 </body>
             
             
-            <form method="POST" action="/questionnaire2">
+            <form method="POST" action="/questionnaire_posttask">
                 {{ csrf_field() }}
 
-                
 
                 <label for="sel1">Gender:</label>
                 <div class="radio">
