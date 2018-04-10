@@ -18,6 +18,24 @@ var previousWebNavActionData = null;
 var previousActionData = null;
 //var serp_storage_url = domain + '/saveserp';
 //var check_userid_url = domain + '/users/checkid';
+
+function makeNoticication(form_url)
+{
+	var optios = 
+	{
+		type:"basic",
+		title: "IMPORTANT",
+		message: "Please click here to answer some questions"
+
+	}
+		chrome.notifications.create(form_url,optios);
+		chrome.notifications.onClicked.addListener(function(notificationId) {
+				window.location.href("inbetwee.html")
+	});
+}
+
+
+
 function loadProjectId(callback){
 var projectid_ = 1;
 	chrome.storage.local.get("projectid",callback)
