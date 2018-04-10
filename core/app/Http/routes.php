@@ -21,9 +21,8 @@ Route::get('/confirm', function(){
     return view('auth.confirm');
 });
 
-Route::get('/end', function(){
-    return view('end');
-});
+
+
 
 
 // Authentication.
@@ -144,31 +143,42 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::get('api/v1/docs/{doc_id}/text', 'Api\DocController@getText');
 });
 
-//Welcome page:
+
+
+
+//Stages
 Route::get('/welcome', function () {
     return view('welcome');
 });
+Route::post('/welcome', 'StageProgressController@moveToNextStage');
 
-Route::post('/welcome', 'QuestionnaireTestController@store');
 
-//First questionnaire
-Route::get('/questionnaire', function () {
-    return view('questionnaire');
+Route::get('/questionnaire_pretask', function () {
+    return view('questionnaire_pretask');
 });
+Route::post('/questionnaire_pretask', 'StageProgressController@moveToNextStage');
 
-Route::post('/questionnaire', 'QuestionnaireTestController@store');
-
-//For 2nd and 3rd questionnaires
-Route::get('/questionnaire2', function () {
-    return view('questionnairecopy');
+Route::get('/questionnaire_pretask', function () {
+    return view('questionnaire_pretask');
 });
+Route::post('/questionnaire_pretask', 'StageProgressController@moveToNextStage');
 
-Route::post('/questionnaire2', 'questionnaire2_test_controller@store');
-
-
-
-Route::get('/questionnaire3', function () {
-    return view('questionnaire22');
+Route::get('/task_description', function () {
+    return view('task_description');
 });
+Route::post('/task_description', 'StageProgressController@moveToNextStage');
 
-Route::post('/questionnaire3', 'questionnaire3_test_controller@store');
+Route::get('/task', function () {
+    return view('task');
+});
+Route::post('/task', 'StageProgressController@moveToNextStage');
+
+Route::get('/questionnaire_posttask', function () {
+    return view('questionnaire_posttask');
+});
+Route::post('/questionnaire_posttask', 'StageProgressController@moveToNextStage');
+
+Route::get('/end', function(){
+    return view('end');
+});
+Route::post('/end', 'Auth\AuthController@getLogout');

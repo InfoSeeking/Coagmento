@@ -12,8 +12,10 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
-    protected $redirectPath = '/workspace';
-    protected $redirectTo = '/workspace';
+    protected $redirectPath = '/stages/next';
+    protected $redirectTo = '/stages/next';
+//    protected $redirectPath = '/workspace';
+//    protected $redirectTo = '/workspace';
     protected $redirectAfterLogout = 'http://coagmento.org';
     /*
     |--------------------------------------------------------------------------
@@ -61,9 +63,12 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        $password_raw = str_random(8);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+//            'password_raw' => $password_raw,
+//            'password' => bcrypt($password_raw),
             'password' => bcrypt($data['password']),
         ]);
     }

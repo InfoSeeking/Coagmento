@@ -1,20 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-  <meta name="viewport" content="width=device-width" />
-
-  <title>Study Conclusion</title>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<h1>Congrats for making it to the end of the study!</h1>
- </body>
+
+<body>
+
+<div class="container">
+
+    <h2>Study End</h2>
+
+    <title>Example of Bootstrap 3 Readonly Inputs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .bs-example{
+            margin: 20px;
+        }
+    </style>
+    <body>
+
+    <div class="bs-example">
+        <div class="container">
+            <div class="well">Thanks for completing the study! You may log out</div>
+        </div>
+    </div>
+    </body>
+
+
+    <form method="POST" action="/end">
+        {{ csrf_field() }}
+
+
+
+        <br><br>
+
+        <button type = "submit" class = "btn btn-success">Next</button>
+
+        <br><br>
+
+    </form>
+
+</div>
+
+</body>
+
 </html>
