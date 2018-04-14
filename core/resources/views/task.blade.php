@@ -30,7 +30,11 @@
     
     <div class="bs-example">
         <div class="container">
-            <div class="well">Please read the instructions below:</div>
+            <div class="well">Please read the instructions below:
+                <br><br>
+                {{ $task['description'] }}
+
+            </div>
         </div>
     </div>
 </body>

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Auth;
+use Illuminate\Contracts\Validation\ValidationException;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -84,8 +86,22 @@ class AuthController extends Controller
         }
     }
 
+    public function getConsent(Request $req){
+        return view('consent');
+    }
+
+    public function getConfirmation(Request $req){
+        return view('auth.confirmation');
+
+    }
+
+    public function postConsent(Request $req){
+        $consent_signed = $req->input('consent_signed');
+        return redirect('auth/register')->with('consent_signed',$consent_signed);
+    }
+
     public function postLoginWithOldCoagmentoSupport(Request $req) {
-        // Check if the email provided is an old Coagmento username.
+
         $email = $req->input('email');
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // All imported old Coagmento users are assigned to
@@ -94,7 +110,49 @@ class AuthController extends Controller
             $req->merge(['email' => $email]);
         }
         // Proceed with standard login.
+
+
+        $this->validate($req, [
+            'email' => 'required|email', 'password' => 'required',
+        ]);
+
+        $credentials = $this->getCredentials($req);
+
+        // This section is the only change
+        if (Auth::validate($credentials)) {
+            $user = Auth::getLastAttempted();
+            if ($user->active) {
+                Auth::login($user, $req->has('remember'));
+                return redirect()->intended($this->redirectPath());
+            } else {
+                return redirect($this->loginPath()) // Change this to redirect elsewhere
+                ->withInput($req->only('email', 'remember'))
+                    ->withErrors([
+                        'active' => 'You must be active to login.'
+                    ]);
+            }
+        }
+
+        return redirect($this->loginPath())
+            ->withInput($req->only('email', 'remember'))
+            ->withErrors([
+                'email' => $this->getFailedLoginMessage(),
+            ]);
+
+
         return $this->postLogin($req);
+
+
+//        // Check if the email provided is an old Coagmento username.
+//        $email = $req->input('email');
+//        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+//            // All imported old Coagmento users are assigned to
+//            // a placeholder @coagmento.org email address for consistency.
+//            $email .= '@coagmento.org';
+//            $req->merge(['email' => $email]);
+//        }
+//        // Proceed with standard login.
+//        return $this->postLogin($req);
     }
 
     public function demoLogin(Request $req) {
@@ -109,5 +167,45 @@ class AuthController extends Controller
         }
         Auth::login($demoUser, true);
         return $this->authenticated($req, $demoUser);
+    }
+
+    public function postRegister(Request $request)
+    {
+
+
+        $validator = $this->validator($request->all());
+
+        $validator->after(function($validator) {
+            if (User::all()->count() >=10) {
+                $validator->errors()->add('field', 'Number of users has reached capacity.');
+            }
+        });
+        if ($validator->fails()) {
+            $this->throwValidationException($request, $validator);
+        }
+//        else if(User::all()->count() >=10){
+//            $validator->errors()->add('messageArea','Number of users has reached capacity.');
+////            $this->throwValidationException($request, $validator);
+//            throw new ValidationException($validator);
+//        }
+
+
+
+        $this->create($request->all());
+
+//        $email = $request->input('email');
+//        $user = User::findOrFail($id);
+//        Mail::send('emails.confirmation', [], function ($m){
+//            $m->from('hello@app.com', 'Your Application');
+//
+//            $m->to('mmitsui@scarletmail.rutgers.edu', 'Test User')->subject('Your Reminder!');
+//        });
+//        Mail::send('emails.reminder', ['user' => $user], function ($m){
+//            $m->from('hello@app.com', 'Your Application');
+//
+//            $m->to('mmitsui@scarletmail.rutgers.edu', 'Test User')->subject('Your Reminder!');
+//        });
+//        Auth::login($this->create($request->all()));
+        return redirect('auth/confirmation')->with('registration_confirmed',true);
     }
 }

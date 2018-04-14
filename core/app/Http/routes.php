@@ -31,7 +31,10 @@ Route::post('auth/login', 'Auth\AuthController@postLoginWithOldCoagmentoSupport'
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::get('auth/confirmation', 'Auth\AuthController@getConfirmation');
 Route::post('auth/demoLogin', 'Auth\AuthController@demoLogin');
+Route::get('auth/consent', 'Auth\AuthController@getConsent');
+Route::post('auth/consent', 'Auth\AuthController@postConsent');
 
 
 // Sidebar pages.
@@ -48,34 +51,65 @@ Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 
 
 // Workspace pages.
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => ['auth','stage']], function() {
     Route::get('stages', 'StageProgressController@directToStage');
     Route::get('stages/next', 'StageProgressController@moveToNextStage');
 	// These pages do not make sense without a logged in user.
-	Route::get('workspace', 'WorkspaceController@viewPanel');
-	Route::get('workspace/projects', 'WorkspaceController@showProjects');
-	Route::get('workspace/projects/create', 'WorkspaceController@showProjectCreate');
-	Route::get('workspace/projects/sharedWithMe', 'WorkspaceController@showShared');
-	Route::post('workspace/projects/create', 'WorkspaceController@createProject');
-	Route::get('workspace/user/settings', 'WorkspaceController@showUserSettings');
-	Route::post('workspace/user/settings', 'WorkspaceController@updateUserSettings');
+//	Route::get('workspace', 'WorkspaceController@viewPanel');
+//	Route::get('workspace/projects', 'WorkspaceController@showProjects');
+//	Route::get('workspace/projects/create', 'WorkspaceController@showProjectCreate');
+//	Route::get('workspace/projects/sharedWithMe', 'WorkspaceController@showShared');
+//	Route::post('workspace/projects/create', 'WorkspaceController@createProject');
+//	Route::get('workspace/user/settings', 'WorkspaceController@showUserSettings');
+//	Route::post('workspace/user/settings', 'WorkspaceController@updateUserSettings');
+
+
+    //Stages
+    Route::get('/welcome', function () {
+        return view('welcome');
+    });
+    Route::post('/welcome', 'StageProgressController@moveToNextStage');
+
+
+    Route::get('/questionnaire_pretask', function () {
+        return view('questionnaire_pretask');
+    });
+    Route::post('/questionnaire_pretask', 'QuestionnaireController@postPretask');
+
+    Route::get('/task_description', 'TaskController@getTaskDescription');
+    Route::post('/task_description', 'StageProgressController@moveToNextStage');
+
+    Route::get('/task', 'TaskController@getTask');
+    Route::post('/task', 'StageProgressController@moveToNextStage');
+
+    Route::get('/questionnaire_posttask', function () {
+        return view('questionnaire_posttask');
+    });
+    Route::post('/questionnaire_posttask','QuestionnaireController@postPosttask');
+
+    Route::get('/end', function(){
+        return view('end');
+    });
+    Route::post('/end', 'Auth\AuthController@getLogout');
+
+
 });
 
-Route::get('workspace/projects/{project_id}/bookmarks/{bookmark_id}',
-	'WorkspaceController@viewBookmark');
-Route::get('workspace/projects/{project_id}', 'WorkspaceController@viewProject');
-Route::get('workspace/projects/{project_id}/bookmarks',
-	'WorkspaceController@viewProjectBookmarks');
-Route::get('workspace/projects/{project_id}/snippets', 'WorkspaceController@viewProjectSnippets');
-Route::get('workspace/projects/{project_id}/chat', 'WorkspaceController@viewChat');
-Route::get('workspace/projects/{project_id}/docs', 'WorkspaceController@viewDocs');
-Route::get('workspace/projects/{project_id}/history', 'WorkspaceController@viewHistory');
-
-// Viewing document requires write permissions until we can get read-only to work.
-Route::get('workspace/projects/{project_id}/docs/{doc_id}', 'WorkspaceController@viewDoc');
-
-Route::delete('workspace/projects/{project_id}', 'WorkspaceController@deleteProject');
-Route::get('workspace/projects/{project_id}/settings', 'WorkspaceController@viewProjectSettings');
+//Route::get('workspace/projects/{project_id}/bookmarks/{bookmark_id}',
+//	'WorkspaceController@viewBookmark');
+//Route::get('workspace/projects/{project_id}', 'WorkspaceController@viewProject');
+//Route::get('workspace/projects/{project_id}/bookmarks',
+//	'WorkspaceController@viewProjectBookmarks');
+//Route::get('workspace/projects/{project_id}/snippets', 'WorkspaceController@viewProjectSnippets');
+//Route::get('workspace/projects/{project_id}/chat', 'WorkspaceController@viewChat');
+//Route::get('workspace/projects/{project_id}/docs', 'WorkspaceController@viewDocs');
+//Route::get('workspace/projects/{project_id}/history', 'WorkspaceController@viewHistory');
+//
+//// Viewing document requires write permissions until we can get read-only to work.
+//Route::get('workspace/projects/{project_id}/docs/{doc_id}', 'WorkspaceController@viewDoc');
+//
+//Route::delete('workspace/projects/{project_id}', 'WorkspaceController@deleteProject');
+//Route::get('workspace/projects/{project_id}/settings', 'WorkspaceController@viewProjectSettings');
 
 // API.
 Route::group(['middleware' => 'api.auth'], function() {
@@ -146,39 +180,3 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 
 
 
-//Stages
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-Route::post('/welcome', 'StageProgressController@moveToNextStage');
-
-
-Route::get('/questionnaire_pretask', function () {
-    return view('questionnaire_pretask');
-});
-Route::post('/questionnaire_pretask', 'StageProgressController@moveToNextStage');
-
-Route::get('/questionnaire_pretask', function () {
-    return view('questionnaire_pretask');
-});
-Route::post('/questionnaire_pretask', 'StageProgressController@moveToNextStage');
-
-Route::get('/task_description', function () {
-    return view('task_description');
-});
-Route::post('/task_description', 'StageProgressController@moveToNextStage');
-
-Route::get('/task', function () {
-    return view('task');
-});
-Route::post('/task', 'StageProgressController@moveToNextStage');
-
-Route::get('/questionnaire_posttask', function () {
-    return view('questionnaire_posttask');
-});
-Route::post('/questionnaire_posttask', 'StageProgressController@moveToNextStage');
-
-Route::get('/end', function(){
-    return view('end');
-});
-Route::post('/end', 'Auth\AuthController@getLogout');

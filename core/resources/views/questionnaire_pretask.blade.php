@@ -34,107 +34,127 @@
         </div>
     </div>
 </body>
-            
-            
-            <form method="POST" action="/questionnaire_pretask">
-                {{ csrf_field() }}
 
+            {!! Form::open(['url' => '/questionnaire_pretask']) !!}
 
-                <label for="sel1">Gender:</label>
-                <div class="radio">
-                    <label><input type="radio" name="gender" value="male">Male</label>
-                </div>
+            {{ csrf_field() }}
 
-                <div class="radio">
-                    <label><input type="radio" name="gender" value="female">Female</label>
-                </div>
-
-                <br><br>
-
-            <label for="sel1">Search Sources:</label>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="searchSource[]" value="google">Google</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="searchSource[]" value="yahoo">Yahoo</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="searchSource[]" value="bing">Bing</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="searchSource[]" value="firefox">FireFox</label>
-                </div>
-
-                <br><br>
-
-            <label for="sel1">Language Used:</label>
-                <div class="form-group">
-                    <input type="text" name="language">
-                </div>
-
-                <br><br>
-
-            <label for="sel1">Descripe each search task you do on a daily basis:</label>
-                <div class="form-group">
-                    <textarea class="form-control" rows="5" name="searchTasks"></textarea>
-                </div>
-
-                <br><br>
-
-<!--            <p>Select Your Year in College:</p>-->
-            <div class="form-group">
-                <label for="sel1">Select Year in College:</label>
-                <select class="form-control" id="sel1" name="collegeYear">
-                    <option disabled selected value> -- select an option -- </option>
-                    <option>Freshman</option>
-                    <option>Sophomore</option>
-                    <option>Junior</option>
-                    <option>Senior</option>
-                </select>
-                <br>
+            {!! Form::label('search_difficulty','How difficult do you think it will be to search for information for this task using a search engine?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('search_difficulty',1) !!}Not at all difficult</label>
             </div>
-
-            <div class="form-group">
-                <label for="sel2">Mutiple select list (hold shift to select more than one):</label>
-                <select multiple class="form-control" name="search_sources_v2[]">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+            <div class="radio">
+                <label>{!! Form::radio('search_difficulty',2) !!}Slightly difficult</label>
             </div>
-
+            <div class="radio">
+                <label>{!! Form::radio('search_difficulty',3) !!}Somewhat difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('search_difficulty',4) !!}Moderately difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('search_difficulty',5) !!}Very difficult</label>
+            </div>
             <br><br>
 
 
-            <label for="sel1">Rate the difficulty level of the task:</label>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;">Not at all Difficult</div>
-                    <div class="col-xs-1" style="background-color:lavender;">Somewhat Difficult</div>
-                    <div class="col-xs-1" style="background-color:lavender;">Medium</div>
-                    <div class="col-xs-1" style="background-color:lavender;">Very Difficult</div>
-                    <div class="col-xs-1" style="background-color:lavender;">Extremely Difficult</div>
-                </div>
 
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficulty" value="not_difficult"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficulty" value="somewhat_difficult"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficulty" value="medium"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficulty" value="very_difficult"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficulty" value="extremely_difficult"></center>
-                    </div>
-                </div>
-                
+
+            {!! Form::label('information_understanding','How difficult do you think it will be to understand the information in the search engine fields?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('information_understanding',1) !!}Not at all difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_understanding',2) !!}Slightly difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_understanding',3) !!}Somewhat difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_understanding',4) !!}Moderately difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_understanding',5) !!}Very difficult</label>
+            </div>
             <br><br>
+
+
+
+
+            {!! Form::label('decide_usefulness','How difficult do you think it will be to decide if the information the search engine finds is useful for completing the task?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('decide_usefulness',1) !!}Not at all difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('decide_usefulness',2) !!}Slightly difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('decide_usefulness',3) !!}Somewhat difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('decide_usefulness',4) !!}Moderately difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('decide_usefulness',5) !!}Very difficult</label>
+            </div>
+            <br><br>
+
+
+
+
+            {!! Form::label('information_integration','How difficult do you think it will be to integrate the information in the search engine fields?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('information_integration',1) !!}Not at all difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_integration',2) !!}Slightly difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_integration',3) !!}Somewhat difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_integration',4) !!}Moderately difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_integration',5) !!}Very difficult</label>
+            </div>
+            <br><br>
+
+
+
+
+            {!! Form::label('information_sufficient','How difficult do you think it will be to determine when you have enough information to finish the task?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('information_sufficient',1) !!}Not at all difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_sufficient',2) !!}Slightly difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_sufficient',3) !!}Somewhat difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_sufficient',4) !!}Moderately difficult</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('information_sufficient',5) !!}Very difficult</label>
+            </div>
+            <br><br>
+
+            <input type="hidden" name="user_id" value="999">
+            <input type="hidden" name="stage_id" value="999">
 
             <button type = "submit" class = "btn btn-success">Submit</button>
-                
+
             <br><br>
+
+            {!! Form::close() !!}
+            
+            
+
+
+
+
 
             </form>
             
