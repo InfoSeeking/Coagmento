@@ -30,7 +30,7 @@
 
     <div class="bs-example">
         <div class="container">
-            <div class="well">Thanks for completing the study! You may log out</div>
+            <div class="well">Thanks for completing the study! Please click below to log out.</div>
         </div>
     </div>
     </body>
@@ -43,7 +43,7 @@
 
         <br><br>
 
-        <button type = "submit" class = "btn btn-success">Next</button>
+        <button type = "submit" class = "btn btn-success">Log Out</button>
 
         <br><br>
 
