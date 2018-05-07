@@ -7,6 +7,28 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $( document ).ready(function() {
+
+                $('form').submit(function(){
+                    var local_ms = new Date();
+                    $('<input>').attr({
+                        type: 'hidden',
+                        id: 'created_at_local_ms',
+                        name: 'created_at_local_ms',
+                        value: local_ms.getTime()
+                    }).appendTo('form');
+
+                    $('<input>').attr({
+                        type: 'hidden',
+                        id: 'created_at_local',
+                        name: 'created_at_local',
+                        value: local_ms/1000
+                    }).appendTo('form');
+                });
+
+            });
+        </script>
     </head>
 
     <body>

@@ -18,7 +18,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-	<link href="css/splash.css" rel="stylesheet" />
+	<link href="../css/splash.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -87,7 +87,7 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>
-<div class="main" style="background-image: url('images/splash/bg16.jpg')">
+<div class="main" style="background-image: url('../images/splash/bg16.jpg')">
 
 <!--    Change the image source '/images/default.jpg' with your favourite image.     -->
     
@@ -98,58 +98,56 @@
     <div class="container">
 
 		<h1 class="logo" itemprop="name">
-            <img src="images/logo.png" itemprop="image" alt="logo" WIDTH=100 HEIGHT=100>
+            <img src="../images/logo.png" itemprop="image" alt="logo" WIDTH=100 HEIGHT=100>
 			Problem Help Study
         </h1>
 		
         <div class="row">
-			<div class="col-lg-12 motto">
+			<div class="col-lg-12">
 
                 <div class="well" style="background-color: rgba(245, 245, 245, 0.4);">
-                    <h4><strong><u>WELCOME TO THE STUDY!</u></strong></h4>
-                    <p>If you have not registered please register below.  Otherwise, if you are here to participate in
-                        the study, please log in.</p>
-                    {{--<center><h4><strong><u>Research Study Registration</u></strong></h4></center>--}}
 
-                    {{--<p>Welcome! This is the sign-up form to register for the paid research study.</p>--}}
+                    <center><h4><strong><u>Research Study Registration</u></strong></h4></center>
 
-                    {{--<p>The research project, Information Fostering – Being Proactive in Information Retrieval, funded by--}}
-                        {{--the National Science Foundation, seeks participants in a study of information seeking and search.--}}
-                        {{--Participants will conduct searches for two assigned search tasks related to different topics.--}}
-                        {{--Participants will first complete a pre-search questionnaire in which they are asked for demographic--}}
-                        {{--information, information about the knowledge background related to the tasks and topics, and--}}
-                        {{--general search skills information. Then, participants will be introduced to the study’s--}}
-                        {{--software and conduct a 5-min warm up task to get familiar with the study environment. After that,--}}
-                        {{--participants will conduct two formal search tasks (20 mins each) and answer questions in the--}}
-                        {{--post-search questionnaires. The study will end with a post-search exit interview in which the--}}
-                        {{--researchers will ask questions about participants’ search experience and performance.--}}
-                        {{--The whole procedure of this study will take approximately one hour.</p>--}}
+                    <p>Welcome! This is the sign-up form to register for the paid research study.</p>
 
-                    {{--<p>All volunteers for this study will receive $20 cash for their participation. Taking part in this--}}
-                        {{--study will help to advance the understanding of search process and contribute towards development--}}
-                        {{--of search systems that can automatically provide help for user’s problems and obstacles in--}}
-                        {{--different stages of search.</p>--}}
+                    <p>The research project, Information Fostering – Being Proactive in Information Retrieval, funded by
+                        the National Science Foundation, seeks participants in a study of information seeking and search.
+                        Participants will conduct searches for two assigned search tasks related to different topics.
+                        Participants will first complete a pre-search questionnaire in which they are asked for demographic
+                        information, information about the knowledge background related to the tasks and topics, and
+                        general search skills information. Then, participants will be introduced to the study’s
+                        software and conduct a 5-min warm up task to get familiar with the study environment. After that,
+                        participants will conduct two formal search tasks (20 mins each) and answer questions in the
+                        post-search questionnaires. The study will end with a post-search exit interview in which the
+                        researchers will ask questions about participants’ search experience and performance.
+                        The whole procedure of this study will take approximately one hour.</p>
 
-                    {{--<p>Requirements:--}}
-                        {{--<ul>--}}
-                        {{--<li>You must be at least 18 years old to participate.</li>--}}
-                        {{--<li>You must be a full-time undergraduate student.</li>--}}
-                        {{--<li>Proficiency in English is required.</li>--}}
-                        {{--<li>Intermediate typing and online search skills are required.</li>--}}
-                        {{--<li>You must use Google Chrome throughout the duration of the study.</li>--}}
-                        {{--<li>The queries you submit to system during search must be in English.</li>--}}
-                        {{--</ul>--}}
-                    {{--</p>--}}
+                    <p>All volunteers for this study will receive $20 cash for their participation. Taking part in this
+                        study will help to advance the understanding of search process and contribute towards development
+                        of search systems that can automatically provide help for user’s problems and obstacles in
+                        different stages of search.</p>
+
+                    <p>Requirements:
+                        <ul>
+                        <li>You must be at least 18 years old to participate.</li>
+                        <li>You must be a full-time undergraduate student.</li>
+                        <li>Proficiency in English is required.</li>
+                        <li>Intermediate typing and online search skills are required.</li>
+                        <li>You must use Google Chrome throughout the duration of the study.</li>
+                        <li>The queries you submit to system during search must be in English.</li>
+                        </ul>
+                    </p>
 
 
-                    {{--<p>You will not be offered or receive any special consideration if you take part in this research;--}}
-                        {{--it is purely voluntary. This study has been approved by the Rutgers Institutional Review Board--}}
-                        {{--and will be supervised by Dr. Chirag Shah (chirags@rutgers.edu) at the School of Communication--}}
-                        {{--and Information.</p>--}}
+                    <p>You will not be offered or receive any special consideration if you take part in this research;
+                        it is purely voluntary. This study has been approved by the Rutgers Institutional Review Board
+                        and will be supervised by Dr. Chirag Shah (chirags@rutgers.edu) at the School of Communication
+                        and Information.</p>
 
-                    {{--<p>For more information about this study, please send e-mail to Jiqun Liu at--}}
-                        {{--jl2033@scarletmail.rutgers.edu or Shawon Sarkar at ss2577@scarletmail.rutgers.edu. You can also--}}
-                        {{--contact us to ask questions or get more information about the project.</p>--}}
+                    <p>For more information about this study, please send e-mail to Jiqun Liu at
+                        <a href="mailto:jl2033@scarletmail.rutgers.edu?subject=Study inquiry">jl2033@scarletmail.rutgers.edu</a> or Shawon Sarkar at <a href="mailto:ss2577@scarletmail.rutgers.edu?subject=Study inquiry">ss2577@scarletmail.rutgers.edu</a>. You can also
+                        contact us to ask questions or get more information about the project.</p>
 
 
                 </div>
@@ -157,13 +155,12 @@
         {{--<p><i class="fa fa-cog"> Realtime feed of user activity</i></p>--}}
         {{--<p><i class="fa fa-cog"> Up to date Firefox extension</i></p>--}}
 				{{--<p><i class="fa fa-cog"> Easy setup for your own custom studies</i></p>--}}
-                <form action='/auth/login' method='get'>
-                    <button class='btn btn-success btn-fill' type='submit'>Log in</button>
-                </form>
-                <form action='/auth/studywelcome' method='get'>
+                <div class="motto">
+                    <form action='/auth/consent' method='get'>
+                        <button class='btn btn-primary btn-fill' type='submit'>Continue to Consent Form</button>
+                    </form>
+                </div>
 
-                    <button class='btn btn-primary btn-fill' type='submit'>Register</button>
-                </form>
             </div>
 		</div>
 

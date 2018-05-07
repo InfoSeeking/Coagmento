@@ -8,13 +8,13 @@ $(document).ready(function(){
     var loginErrorTextID = '#login_error_text';
     var usernameInputID = '#username';
     var passwordInputID = '#password';
-    var homeDir = "http://localhost:8000/auth";
+    var homeDir = "http://localhost:8000";
     
     // URLs
     var registerUrl = homeDir+"/register";
     var checkLoggedInUrl = homeDir + "/getLoggedIn.php";
-    var loginUrl = homeDir + "/login";
-    var logoutUrl = homeDir + "/logout";
+    var loginUrl = homeDir + "/sidebar/auth/login";
+    var logoutUrl = homeDir + "/sidebar/auth/logout";
     var sendCredentialsUrl = homeDir + "/sendCredentials.php";
     var homeUrl = homeDir + "/instruments/getHome.php";
     var contactUrl = "mailto:mmitsui@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";

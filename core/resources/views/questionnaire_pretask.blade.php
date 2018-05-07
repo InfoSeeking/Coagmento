@@ -26,14 +26,55 @@
     	margin: 20px;
     }
 </style>
+            <script>
+                $( document ).ready(function() {
+
+                    $('form').submit(function(){
+                        var local_ms = new Date();
+                        $('<input>').attr({
+                            type: 'hidden',
+                            id: 'created_at_local_ms',
+                            name: 'created_at_local_ms',
+                            value: local_ms.getTime()
+                        }).appendTo('form');
+
+                        $('<input>').attr({
+                            type: 'hidden',
+                            id: 'created_at_local',
+                            name: 'created_at_local',
+                            value: local_ms/1000
+                        }).appendTo('form');
+                    });
+
+                });
+            </script>
 <body>
     
     <div class="bs-example">
-        <div class="container">
-            <div class="well">Please fill out this form as soon as possible</div>
+        <div class="container">Please read the task below and answer the following questions:<br><br>
+            <div class="well">
+                <br><br>
+                {{ $task['description'] }}
+            </div>
         </div>
     </div>
 </body>
+
+
+            @if(count($errors))
+                <div class="alert alert-danger">
+                    <ul>
+
+                        @foreach($errors->all() as $error)
+
+                            <li>{{$error}}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+            @endif
 
             {!! Form::open(['url' => '/questionnaire_pretask']) !!}
 
@@ -141,8 +182,6 @@
             </div>
             <br><br>
 
-            <input type="hidden" name="user_id" value="999">
-            <input type="hidden" name="stage_id" value="999">
 
             <button type = "submit" class = "btn btn-success">Submit</button>
 
@@ -158,20 +197,7 @@
 
             </form>
             
-            @if(count($errors))
-            <div class="alert alert-danger">
-                <ul>
 
-                    @foreach($errors->all() as $error)
-
-                    <li>{{$error}}</li>
-
-                    @endforeach
-
-                </ul>
-
-            </div>
-            @endif
 
         </div>
 

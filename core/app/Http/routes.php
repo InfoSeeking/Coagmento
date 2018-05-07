@@ -33,6 +33,8 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('auth/confirmation', 'Auth\AuthController@getConfirmation');
 Route::post('auth/demoLogin', 'Auth\AuthController@demoLogin');
+Route::get('auth/studywelcome', 'Auth\AuthController@getStudyWelcome');
+Route::post('auth/studywelcome', 'Auth\AuthController@postStudyWelcome');
 Route::get('auth/consent', 'Auth\AuthController@getConsent');
 Route::post('auth/consent', 'Auth\AuthController@postConsent');
 
@@ -71,9 +73,7 @@ Route::group(['middleware' => ['auth','stage']], function() {
     Route::post('/welcome', 'StageProgressController@moveToNextStage');
 
 
-    Route::get('/questionnaire_pretask', function () {
-        return view('questionnaire_pretask');
-    });
+    Route::get('/questionnaire_pretask', 'QuestionnaireController@getPretask');
     Route::post('/questionnaire_pretask', 'QuestionnaireController@postPretask');
 
     Route::get('/task_description', 'TaskController@getTaskDescription');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Demographic;
 use Auth;
 use Illuminate\Contracts\Validation\ValidationException;
 use Validator;
@@ -53,7 +54,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+//            'password' => 'required|confirmed|min:6',
         ]);
     }
 
@@ -69,9 +70,9 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-//            'password_raw' => $password_raw,
-//            'password' => bcrypt($password_raw),
-            'password' => bcrypt($data['password']),
+            'password_raw' => $password_raw,
+            'password' => bcrypt($password_raw),
+//            'password' => bcrypt($data['password']),
         ]);
     }
 
@@ -86,6 +87,15 @@ class AuthController extends Controller
         }
     }
 
+
+    public function getStudyWelcome(Request $req){
+        return view('studywelcome');
+    }
+
+    public function postStudyWelcome(Request $req){
+        return redirect('auth/consent');
+    }
+
     public function getConsent(Request $req){
         return view('consent');
     }
@@ -96,8 +106,14 @@ class AuthController extends Controller
     }
 
     public function postConsent(Request $req){
-        $consent_signed = $req->input('consent_signed');
-        return redirect('auth/register')->with('consent_signed',$consent_signed);
+        $this->validate($req, [
+            'consent_datacollection' => 'required',
+            'consent_audio' => 'required',
+        ],['required'=>'Please check the :attribute.']);
+        $consent_datacollection = $req->input('consent_datacollection');
+        $consent_audio = $req->input('consent_audio');
+        $consent_furtheruse = $req->input('consent_furtheruse');
+        return redirect('auth/register')->with('consent_datacollection',$consent_datacollection)->with('consent_audio',$consent_audio)->with('consent_furtheruse',$consent_furtheruse);
     }
 
     public function postLoginWithOldCoagmentoSupport(Request $req) {
@@ -113,7 +129,8 @@ class AuthController extends Controller
 
 
         $this->validate($req, [
-            'email' => 'required|email', 'password' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         $credentials = $this->getCredentials($req);
@@ -173,6 +190,22 @@ class AuthController extends Controller
     {
 
 
+
+
+        $this->validate($request, [
+            'age' => 'required',
+            'gender' => 'required',
+            'major' => 'required',
+            'english_first' => 'required',
+            'native_language' => 'required_if:english_first,No',
+            'search_experience' => 'required',
+            'search_frequency' => 'required',
+            'nonsearch_frequency' => 'required',
+            'name'=>'required',
+            'email'=>'required',
+//            'password'=>'required'
+        ]);
+
         $validator = $this->validator($request->all());
 
         $validator->after(function($validator) {
@@ -190,8 +223,26 @@ class AuthController extends Controller
 //        }
 
 
+        $user = $this->create($request->all());
 
-        $this->create($request->all());
+        Demographic::create([
+            'user_id'=>$user->id,
+            'age'=>$request->input('age'),
+            'gender'=>$request->input('gender'),
+            'major'=>$request->input('major'),
+            'native_language'=>$request->input('native_language'),
+            'english_first'=>$request->input('english_first'),
+            'language_first'=>$request->input('language_first'),
+            'search_experience'=>$request->input('search_experience'),
+            'search_frequency'=>$request->input('search_frequency'),
+            'nonsearch_frequency'=>$request->input('nonsearch_frequency'),
+            'consent_datacollection'=>$request->input('consent_datacollection'),
+            'consent_audio'=>$request->input('consent_audio'),
+            'consent_furtheruse'=>$request->input('consent_furtheruse'),
+        ]);
+
+
+
 
 //        $email = $request->input('email');
 //        $user = User::findOrFail($id);

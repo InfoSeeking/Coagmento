@@ -2,7 +2,8 @@
 @section('main-content')
 
 <h1>Login</h1>
-<p> Support for a Coagmento username is being dropped in favor of emails. If you only have a username, we recommend you add your email address to your profile after logging in.</p>
+<p> Please log in with the username and password provided to you by your study facilitator. </p>
+{{--<p> Support for a Coagmento username is being dropped in favor of emails. If you only have a username, we recommend you add your email address to your profile after logging in.</p>--}}
 @include('helpers.showAllMessages')
 <div class='col-sm-5'>
     <form method="POST" action="/auth/login">
@@ -17,10 +18,10 @@
             <input class='form-control' type="password" id="password" name="password" maxlength="255" placeholder="Password"/>
         </div>
 
-        <div class="form-group">
-            <input {{ (null == Input::old('remember')) ? '' : 'checked'}} type="checkbox" id="remember_me" name="remember">
-            <label for="remember_me">Remember me</label>
-        </div>
+        {{--<div class="form-group">--}}
+            {{--<input {{ (null == Input::old('remember')) ? '' : 'checked'}} type="checkbox" id="remember_me" name="remember">--}}
+            {{--<label for="remember_me">Remember me</label>--}}
+        {{--</div>--}}
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">

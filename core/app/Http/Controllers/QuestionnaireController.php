@@ -15,6 +15,7 @@ use App\Utilities\StatusCodes;
 use App\Http\Requests;
 use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class QuestionnaireController extends Controller
 {
@@ -24,8 +25,30 @@ class QuestionnaireController extends Controller
         $this->user = Auth::user();
     }
 
+    public function getPretask(Request $req){
+        $currentStage = $this->getCurrentStageId();
+        $taskID = -1;
+        if($currentStage <= 5){
+            $taskID = 1;
+        }else{
+            $taskID = 2;
+        }
+        $task = Task::all()->where('id',$taskID)->first();
+        return view('questionnaire_pretask',['task'=>$task]);
+    }
+
     public function postPretask(Request $req){
+
         $user = Auth::user();
+        $this->validate($req, [
+            'search_difficulty' => 'required',
+            'information_understanding' => 'required',
+            'decide_usefulness' => 'required',
+            'information_integration' => 'required',
+            'information_sufficient' => 'required',
+        ]);
+        $req->merge(['user_id' => $user->id]);
+        $req->merge(['stage_id' => Session::get('stage_id')]);
         $pretask = new QuestionnairePretask($req->all());
         $pretask->save();
         return app()->make('App\Http\Controllers\StageProgressController')->callAction('moveToNextStage',['request'=>$req]);
@@ -33,6 +56,21 @@ class QuestionnaireController extends Controller
 
     public function postPosttask(Request $req){
         $user = Auth::user();
+        $this->validate($req, [
+            'satisfaction' => 'required',
+            'system_helpfulness' => 'required',
+            'goal_success' => 'required',
+            'mental_demand' => 'required',
+            'physical_demand' => 'required',
+            'temporal_demand' => 'required',
+            'effort' => 'required',
+            'frustration' => 'required',
+            'difficulty' => 'required',
+            'task_success' => 'required',
+            'enough_time' => 'required',
+        ]);
+        $req->merge(['user_id' => $user->id]);
+        $req->merge(['stage_id' => Session::get('stage_id')]);
         $posttask = new QuestionnairePosttask($req->all());
         $posttask->save();
         return app()->make('App\Http\Controllers\StageProgressController')->callAction('moveToNextStage',['request'=>$req]);
@@ -45,7 +83,8 @@ class QuestionnaireController extends Controller
 //            $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
             StageProgress::create([
                 'user_id' => $this->user->id,
-                'stage_id' => $first_stage_id
+                'stage_id' => $first_stage_id,
+                'created_at_local' => Carbon::createFromTimestamp(1523835589)
             ])->save();
 
             return $first_stage_id;

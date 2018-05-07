@@ -29,7 +29,8 @@ class TaskController extends Controller
 //            $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
             StageProgress::create([
                 'user_id' => $this->user->id,
-                'stage_id' => $first_stage_id
+                'stage_id' => $first_stage_id,
+                'created_at_local' => Carbon::createFromTimestamp(1523835589)
             ])->save();
 
             return $first_stage_id;
@@ -64,7 +65,7 @@ class TaskController extends Controller
             $taskID = 2;
         }
         $task = Task::all()->where('id',$taskID)->first();
-        return view('task_description',['task'=>$task]);
+        return view('task',['task'=>$task]);
     }
 
 

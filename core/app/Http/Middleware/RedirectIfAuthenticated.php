@@ -35,8 +35,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('/workspace');
+            return redirect('/stages');
         }
+//        if ($this->auth->check()) {
+//            return redirect('/workspace');
+//        }
 
         return $next($request);
     }

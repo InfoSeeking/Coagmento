@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class StageProgressController extends Controller
 {
@@ -20,14 +21,15 @@ class StageProgressController extends Controller
     public function directToStage(){
         $stage = $this->stageProgressService->getCurrentStage();
         $stage->getResult();
+        Session::put('stage_id',$stage->getResult()->id);
 
 //        dd($stage->getResult());
 //        dd($stage->getResult()->page);
         return redirect($stage->getResult()->page);
     }
 
-    public function moveToNextStage(){
-        $this->stageProgressService->moveToNextStage();
+    public function moveToNextStage(Request $req){
+        $this->stageProgressService->moveToNextStage($req);
 
 
         return redirect('/stages');

@@ -5,10 +5,13 @@ namespace App\Services;
 use App\Models\Stage;
 use App\Models\StageProgress;
 use Auth;
+use Carbon\Carbon;
 use Validator;
 use App\Models\Snippet;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class StageProgressService {
 	public function __construct(
@@ -25,7 +28,7 @@ class StageProgressService {
             $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
             StageProgress::create([
                 'user_id' => $this->user->id,
-                'stage_id' => $first_stage_id
+                'stage_id' => $first_stage_id,
             ])->save();
 
 			return Status::fromResult(Stage::all()->first());
@@ -37,8 +40,11 @@ class StageProgressService {
 
 	}
 
-	public function moveToNextStage(){
+	public function moveToNextStage(Request $req){
         $stageProgress = StageProgress::all()->where('user_id', $this->user->id)->last();
+
+        $created_at_local = $req->input('created_at_local');
+        $created_at_local_ms = $req->input('created_at_local_ms');
 
         if (is_null($stageProgress)) {
 
@@ -46,8 +52,11 @@ class StageProgressService {
 
             StageProgress::create([
                 'user_id' => $this->user->id,
-                'stage_id' => $first_stage_id
+                'stage_id' => $first_stage_id,
             ])->save();
+
+//            abort(404,Session::put('stage_id',$this->getCurrentStage()->getResult()->id));
+            Session::put('stage_id',$this->getCurrentStage()->getResult()->id);
             return $this->getCurrentStage();
 
         }else{
@@ -59,8 +68,13 @@ class StageProgressService {
             }else{
                 StageProgress::create([
                     'user_id' => $this->user->id,
-                    'stage_id' => $next_stage_result->id
+                    'stage_id' => $next_stage_result->id,
+                    'created_at_local' => Carbon::createFromTimestamp($created_at_local)->format('Y-m-d H:i:s'),
+                    'created_at_local_ms' => $created_at_local_ms
                 ])->save();
+
+//                abort(404,Session::put('stage_id',$this->getCurrentStage()->getResult()->id));
+                Session::put('stage_id',$this->getCurrentStage()->getResult()->id);
                 return $this->getCurrentStage();
             }
 

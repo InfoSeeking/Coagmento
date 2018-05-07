@@ -26,6 +26,30 @@
             margin: 20px;
         }
     </style>
+
+    <script>
+        $( document ).ready(function() {
+
+            $('form').submit(function(){
+                var local_ms = new Date();
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'created_at_local_ms',
+                    name: 'created_at_local_ms',
+                    value: local_ms.getTime()
+                }).appendTo('form');
+
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'created_at_local',
+                    name: 'created_at_local',
+                    value: local_ms/1000
+                }).appendTo('form');
+            });
+
+        });
+    </script>
+
     <body>
 
     <div class="bs-example">

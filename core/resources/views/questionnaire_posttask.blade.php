@@ -12,6 +12,29 @@
                 outline: 2px solid #aaa;
             }
         </style>
+
+        <script>
+            $( document ).ready(function() {
+
+                $('form').submit(function(){
+                    var local_ms = new Date();
+                    $('<input>').attr({
+                        type: 'hidden',
+                        id: 'created_at_local_ms',
+                        name: 'created_at_local_ms',
+                        value: local_ms.getTime()
+                    }).appendTo('form');
+
+                    $('<input>').attr({
+                        type: 'hidden',
+                        id: 'created_at_local',
+                        name: 'created_at_local',
+                        value: local_ms/1000
+                    }).appendTo('form');
+                });
+
+            });
+        </script>
     </head>
 
 
@@ -39,8 +62,23 @@
         </div>
     </div>
 </body>
-            
-            
+
+
+            @if(count($errors))
+                <div class="alert alert-danger">
+                    <ul>
+
+                        @foreach($errors->all() as $error)
+
+                            <li>{{$error}}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+            @endif
+
             <form method="POST" action="/questionnaire_posttask">
                 {{ csrf_field() }}
 
@@ -275,19 +313,19 @@
                     <div class="col-xs-1" style="background-color:lavender;"><center>7</center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="1"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="1"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="2"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="2"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="3"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="3"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="4"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="4"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="5"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="5"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="6"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="6"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="difficulty" value="7"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty" name="difficulty" value="7"></center>
                     </div>
                 </div>
                 <br><br>
@@ -302,19 +340,19 @@
                     <div class="col-xs-1" style="background-color:lavender;"><center>7</center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="1"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="1"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="2"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="2"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="3"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="3"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="4"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="4"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="5"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="5"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="6"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="6"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_success" value="7"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='task_success' name="task_success" value="7"></center>
                     </div>
                 </div>
                 <br><br>
@@ -330,26 +368,23 @@
                     <div class="col-xs-1" style="background-color:lavender;"><center>7</center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="1"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="1"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="2"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="2"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="3"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="3"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="4"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="4"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="5"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="5"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="6"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="6"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="enough_time" value="7"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id='enough_time' name="enough_time" value="7"></center>
                     </div>
                 </div>
                 
             <br><br>
-
-                <input type="hidden" name="user_id" value="999">
-                <input type="hidden" name="stage_id" value="999">
 
             <button type = "submit" class = "btn btn-success">Submit</button>
                 
@@ -357,20 +392,7 @@
 
             </form>
             
-            @if(count($errors))
-            <div class="alert alert-danger">
-                <ul>
 
-                    @foreach($errors->all() as $error)
-
-                    <li>{{$error}}</li>
-
-                    @endforeach
-
-                </ul>
-
-            </div>
-            @endif
 
         </div>
 
