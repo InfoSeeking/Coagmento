@@ -84,23 +84,36 @@ class BookmarkService {
 	 * @return Status The newly created bookmark.
 	 */
 	public function create($args) {
-		$validator = Validator::make($args, [
-			'url' => 'required|url',
-			'project_id' => 'required|exists:projects,id',
-			'notes' => 'sometimes|string',
-			'tags' => 'sometimes|array'
-			]);
+        $validator = Validator::make($args, [
+            'url' => 'required|url',
+//            'project_id' => 'required|exists:projects,id',
+            'notes' => 'sometimes|string',
+            'tags' => 'sometimes|array'
+        ]);
+
+//	    Temp (05/04/2018): remove project_id
+//		$validator = Validator::make($args, [
+//			'url' => 'required|url',
+//			'project_id' => 'required|exists:projects,id',
+//			'notes' => 'sometimes|string',
+//			'tags' => 'sometimes|array'
+//			]);
 
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
+
 		}
-		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'w', $this->user);
-		if (!$memberStatus->isOK()) return $memberStatus;
+
+//	    Temp (05/04/2018): remove project_id
+//		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'w', $this->user);
+//		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$bookmark = new Bookmark($args);
 		$bookmark->user_id = $this->user->id;
 		$bookmark->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
-		$bookmark->project_id = $args['project_id'];
+        $bookmark->project_id = -1;
+//	    Temp (05/04/2018): remove project_id
+//		$bookmark->project_id = $args['project_id'];
 		$bookmark->load('thumbnail');
 		$bookmark->save();
 
@@ -111,10 +124,11 @@ class BookmarkService {
 			}
 		}
 
-		$this->realtimeService
-			->withModel($bookmark)
-			->onProject($bookmark->project_id)
-			->emit('create');
+//	    Temp (05/04/2018): remove project_id
+//		$this->realtimeService
+//			->withModel($bookmark)
+//			->onProject($bookmark->project_id)
+//			->emit('create');
 
 		return Status::fromResult($bookmark);
 	}
