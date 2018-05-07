@@ -80,6 +80,52 @@
 
             {{ csrf_field() }}
 
+
+
+            {!! Form::label('task_knowledge','How knowledgeable do you think you are on this topic?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('task_knowledge',1) !!}1 (No knowledge at all)</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_knowledge',2) !!}2</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_knowledge',3) !!}3</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_knowledge',4) !!}4</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_knowledge',5) !!}5 (Highly knowledgeable)</label>
+            </div>
+            <br><br>
+
+
+
+
+            {!! Form::label('task_interest','Is this task interesting to you?') !!}
+            <div class="radio">
+                <label>{!! Form::radio('task_interest',1) !!}1 (Not interesting at all)</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_interest',2) !!}2</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_interest',3) !!}3</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_interest',4) !!}4</label>
+            </div>
+            <div class="radio">
+                <label>{!! Form::radio('task_interest',5) !!}5 (Very interesting)</label>
+            </div>
+            <br><br>
+
+
+
+
+
+
             {!! Form::label('search_difficulty','How difficult do you think it will be to search for information for this task using a search engine?') !!}
             <div class="radio">
                 <label>{!! Form::radio('search_difficulty',1) !!}Not at all difficult</label>
