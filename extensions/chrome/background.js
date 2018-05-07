@@ -37,7 +37,7 @@ function makeNoticication(form_url)
 
 
 function loadProjectId(callback){
-var projectid_ = 1;
+var projectid_ = -1;
 	chrome.storage.local.get("projectid",callback)
 }
 
@@ -590,11 +590,9 @@ function bkFunction(selection) {
 	var xhr = new XMLHttpRequest();
 	
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-	loadProjectId(function(res){
 	var params = {
 			"url":url,
 			"notes":notes,
-			"project_id":res.projectid,
 			"title":tabs[0].title
 
 			}
@@ -603,7 +601,7 @@ function bkFunction(selection) {
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify(params));
 	var result1 = xhr.responseText;
-	});
+	
 	})
  }
 
