@@ -113,7 +113,6 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     // TODO: action, and other columns
     }
 	console.log("DEATIALS TITTLE" + details.tab.title);
-	loadProjectId(function(res) {
 	var data2 = {
 		"project_id":res.projectid,
 		"text":details.tab.title,
@@ -137,14 +136,13 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 						}
 				console.log("making request");
 				var xhr = new XMLHttpRequest();
-
-				xhr.open("POST", "http://localhost:8000/api/v1/queries", false);
+				var url2 = domain + "/queries"
+				xhr.open("POST", url2 , false);
 				xhr.setRequestHeader("Content-type", "application/json");
 				xhr.send(JSON.stringify(data2));
 				var result = xhr.responseText;
 				console.log("RESULt" + result);
 			}
-		});
 
   
 		console.log("URL" + url);
@@ -155,7 +153,6 @@ function saveAction(action,value,actionJSON,now){
 	console.log("AXTION JSON"+ JSON.stringify(actionJSON))
 	if(actionJSON.tab){	
 		if(actionJSON.tab.url){
-	loadProjectId(function(res){
 	var data = {
 		"title":actionJSON.tab.title,
 		"project_id":res.projectid,
@@ -195,7 +192,7 @@ function saveAction(action,value,actionJSON,now){
 	xhr.send(JSON.stringify(data));
 	var result = xhr.responseText;
 	});
-		}
+		
 	}
 }
 // TODO ACTIONS
@@ -597,7 +594,8 @@ function bkFunction(selection) {
 
 			}
 	console.log("PARAMS are" +JSON.stringify(params))
-	xhr.open("POST", "http://localhost:8000/api/v1/bookmarks", false);
+	var url2 = domain + "/bookmarks"
+	xhr.open("POST", url2, false);
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify(params));
 	var result1 = xhr.responseText;
@@ -612,7 +610,6 @@ function bkFunction(selection) {
 				chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 							console.log(tabs);
 						    var title= tabs[0].title;   //title
-						loadProjectId(function(res){
 						var params = {
 							"title": title,
 							"url":tabs[0].url,
@@ -620,12 +617,12 @@ function bkFunction(selection) {
 							"project_id":res.projectid
 
 					}
-					xhr.open("POST", "http://localhost:8000/api/v1/snippets", false);
+					var url2 = domain + "/snippets"
+					xhr.open("POST", url2, false);
 					xhr.setRequestHeader("Content-type", "application/json");
 					xhr.send(JSON.stringify(params));
 					var result = xhr.responseText;
 					console.log("AFTER SNIPPET" + result);
-				});
 				});
 			}	
 
