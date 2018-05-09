@@ -114,7 +114,7 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     }
 	console.log("DEATIALS TITTLE" + details.tab.title);
 	var data2 = {
-		"project_id":res.projectid,
+		"project_id":-1,
 		"text":details.tab.title,
 		"search_engine":"Google"
 
@@ -155,7 +155,7 @@ function saveAction(action,value,actionJSON,now){
 		if(actionJSON.tab.url){
 	var data = {
 		"title":actionJSON.tab.title,
-		"project_id":res.projectid,
+		"project_id":-1,
 		"url":actionJSON.tab.url
 		
 
@@ -191,7 +191,7 @@ function saveAction(action,value,actionJSON,now){
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.send(JSON.stringify(data));
 	var result = xhr.responseText;
-	});
+	};
 		
 	}
 }
@@ -614,7 +614,7 @@ function bkFunction(selection) {
 							"title": title,
 							"url":tabs[0].url,
 							"text":select.selectionText,
-							"project_id":res.projectid
+							"project_id":-1
 
 					}
 					var url2 = domain + "/snippets"
