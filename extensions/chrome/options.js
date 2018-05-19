@@ -1,7 +1,3 @@
-var data = {
-  username: "",
-  password: ""
-}
 var feedback_timer = null;
 var advanced_shown = false;
 var contactUrl = "mailto:mmitsui@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";

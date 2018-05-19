@@ -43,11 +43,21 @@ Route::post('auth/consent', 'Auth\AuthController@postConsent');
 Route::group(['middleware' => 'sidebar.auth'], function() {
 	Route::get('sidebar', 'SidebarController@getProjectSelection');
 	Route::get('sidebar/project/{project_id}', 'SidebarController@getFeed');
+    Route::get('sidebar/project/{project_id}', 'SidebarController@getFeed');
+
+    Route::post('sidebar/keystrokes', 'KeystrokeController@store');
+    Route::post('sidebar/clicks', 'ClickController@store');
+    Route::post('sidebar/actions', 'ActionController@store');
+    Route::post('sidebar/scrolls', 'ScrollActionController@store');
+    Route::post('sidebar/copies', 'CopyActionController@store');
+    Route::post('sidebar/pastes', 'PasteActionController@store');
+    Route::post('sidebar/mouseactions', 'MouseActionController@store');
 });
 
 Route::get('sidebar/auth/login', 'SidebarController@getSidebarLogin');
-Route::post('sidebar/auth/login', 'SidebarController@postLoginWithOldCoagmentoSupport');
-Route::get('sidebar/auth/logout', 'SidebarController@getLogout');
+Route::post('sidebar/auth/login', 'SidebarController@postLoginSidebar');
+//Route::post('sidebar/auth/login', 'SidebarController@postLoginWithOldCoagmentoSupport');
+Route::get('sidebar/auth/logout', 'SidebarController@getLogoutSidebar');
 Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 
 

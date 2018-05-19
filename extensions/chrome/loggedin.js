@@ -1,110 +1,97 @@
 $(document).ready(function() {
 
+    // TODO
+    // 1) gotoEtherpad
+    // 2) logout: Better result for sidebar
+    // 3) handle task1, task2, 2 different projects
 
-	var homeDir = "http://localhost:8000/auth";
-    
+    // Background variables
+    var background = chrome.extension.getBackgroundPage();
+    var email;
+    var password;
+    var user_id;
+    var project_id;
+    var user_name;
+
     // URLs
-    var registerUrl = homeDir+"/register";
-    var checkLoggedInUrl = homeDir + "/getLoggedIn.php";
-    var loginUrl = homeDir + "/login";
-    var logoutUrl = homeDir + "/logout";
+    var homeDir = background.domain;
+    var logoutUrl = background.logoutUrl;
+    var loggedInHomeUrl = background.loggedInHomeUrl;
 
-    var loggedInHomeUrl ='http://localhost:8000/workspace';
-    var projectsUrl = 'http://localhost:8000/workspace/projects';
-
-
+    
     function goHome(){
         chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
     }
 
-    function gotoProjects(){
-        chrome.tabs.create({url:projectsUrl}, function(tab){},);
-    }
 
-	// var projectid = $("#projectid").val();
-	var projectid = 1;
-	if(projectid === ''){
-		$('#error').show();
-	}
-	else {
-		chrome.storage.local.set({ "projectid": parseInt(projectid) }, function(){
-			//  Data's been saved boys and girls, go on home
-			console.log("done");
-			$('#suc').show();
-								
-			});
-	}
-
-
-	function toggleLoggedIn(logged){
-        chrome.extension.getBackgroundPage().loggedIn = logged;
-    }
-
-    function renderLoggedIn(loggedIn){
-    	var red = [255,0,0,255];
-    	// var green = [0,255,0,255];
-    	var green = [34,139,34,255];
-    	if(chrome.extension.getBackgroundPage().loggedIn){
-    		chrome.browserAction.setBadgeText({text:' '});
-			chrome.browserAction.setBadgeBackgroundColor({color:green});
-    	}else{
-    		chrome.browserAction.setBadgeText({text:' '});
-			chrome.browserAction.setBadgeBackgroundColor({color:red});
-    	}
+    function gotoEtherpad(){
+        chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
     }
 
 
 
+    function logout_state_popup(){
+        chrome.storage.local.remove(['user_id','name','project_id','email','password'], function() {
+            background.user_id = null;
+            background.project_id = null;
+            background.name = null;
+            background.email = null;
+            background.password = null;
+            background.logged_in = false;
+            chrome.browserAction.setPopup({
+                popup:"login.html"
+            });
+            background.hide_context_menu();
+        });
+    }
+
+    function logout_popup(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", logoutUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        var data = {}
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                var result = JSON.parse(xhr.responseText);
+                if(!result.logged_in){
+                    logout_state_popup();
+                    window.location.href='login.html';    
+                }
+            }
+        }
+        xhr.send(JSON.stringify(data));
+    }
+
+
+    function logout_click(){
+        logout_popup();
+    }
+
+    chrome.storage.local.get(['project_id','user_id','name','email','password'], function(result) {
+        user_id = result.user_id;
+        project_id = result.project_id;
+        name = result.name;
+        email = result.email;
+        password = result.password;
+        $('#name').text(name);
+    });
+
+    
 
     $( "#opencspace_button" ).click(function() {
         goHome();
     });
 
 
-    $( "#projects_button" ).click(function() {
-        gotoProjects();
+    $( "#etherpad_button" ).click(function() {
+        gotoEtherpad();
     });
 
 
 	$( "#logout_button" ).click(function() {
-        // var xhr = new XMLHttpRequest();
-        //     xhr.open("POST", logoutUrl, false);
-        //     xhr.setRequestHeader("Content-type", "application/json");
-        //     var data2 = {"email":$(usernameInputID).val(),"password":$(passwordInputID).val()};
-            // xhr.send(JSON.stringify(data2));
-            // var result = xhr.responseText;
-            // if(result){
-                    toggleLoggedIn(false);
-                    renderLoggedIn(false);
-                     chrome.browserAction.setPopup({
-                                popup:"popup.html"
-                         });
-                     window.location.href='popup.html';
-                // }
+        logout_click();
     });
-
-
-
-   //  $( "#pid" ).click(function() {
-			// console.log("clicked");
-			// var projectid = $("#projectid").val()
-			// if(projectid === ''){
-			// 		$('#error').show();
-			// 	}
-			// else {
-			// 		chrome.storage.local.set({ "projectid": parseInt(projectid) }, function(){
-			// 				    //  Data's been saved boys and girls, go on home
-			// 					console.log("done");
-			// 					$('#suc').show()
-								
-			// 		 });
-			// 				//
-
-			// }
-   //  	});
-
-
-
 
 
 });

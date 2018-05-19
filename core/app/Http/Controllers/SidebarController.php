@@ -74,4 +74,38 @@ class SidebarController extends Controller
     public function getSidebarLogin(Request $req) {
         return view('sidebar.auth');
     }
+
+
+    public function postLoginSidebar(Request $req) {
+        // Check if the email provided is an old Coagmento username.
+        $email = $req->input('email');
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // All imported old Coagmento users are assigned to
+            // a placeholder @coagmento.org email address for consistency.
+            $email .= '@coagmento.org';
+            $req->merge(['email' => $email]);
+        }
+
+        $password = $req->input('password');
+        // Proceed with standard login.
+        $logged_in = Auth::attempt(['email' => $email, 'password' => $password]);
+
+
+        if($logged_in){
+            $id = Auth::id();
+            $user = Auth::user();
+            return ['logged_in'=>true,'id'=>$id,'name'=>$user->name];
+        }else{
+            return ['logged_in'=>false];
+        }
+
+    }
+
+    public function getLogoutSidebar(Request $req){
+	    Auth::logout();
+//	    Session::flush();
+        return ['logged_in'=>Auth::check()];
+    }
+
 }

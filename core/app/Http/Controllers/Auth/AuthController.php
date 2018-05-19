@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Project;
+use App\Models\Membership;
 use App\Models\Demographic;
 use Auth;
 use Illuminate\Contracts\Validation\ValidationException;
@@ -138,6 +140,28 @@ class AuthController extends Controller
         // This section is the only change
         if (Auth::validate($credentials)) {
             $user = Auth::getLastAttempted();
+
+
+            $results = DB::table('memberships')
+                ->where('user_id', $user->id)
+                ->get();
+            if($results->isEmpty()){
+                $args = [
+                    'title'=>'Default Title',
+                    'description'=>'Default Description',
+                    'private'=>true,
+                ];
+                $project = new Project($args);
+                $project->creator_id = $this->user->id;
+                $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+                $project->save();
+
+                $owner = new Membership();
+                $owner->user_id = $this->user->id;
+                $owner->project_id = $project->id;
+                $owner->level = 'o';
+                $owner->save();
+            }
             if ($user->active) {
                 Auth::login($user, $req->has('remember'));
                 return redirect()->intended($this->redirectPath());
@@ -224,6 +248,22 @@ class AuthController extends Controller
 
 
         $user = $this->create($request->all());
+
+        $args = [
+            'title'=>'Default Title',
+            'description'=>'Default Description',
+            'private'=>true,
+        ];
+        $project = new Project($args);
+        $project->creator_id = $user->id;
+        $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+        $project->save();
+
+        $owner = new Membership();
+        $owner->user_id = $user->id;
+        $owner->project_id = $project->id;
+        $owner->level = 'o';
+        $owner->save();
 
         Demographic::create([
             'user_id'=>$user->id,

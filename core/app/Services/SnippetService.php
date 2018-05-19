@@ -58,25 +58,28 @@ class SnippetService {
 			'text' => 'required|string',
 			'url' => 'required|string|url',
 			'title' => 'sometimes|string',
-			'project_id' => 'required|integer|exists:projects,id'
+//			'project_id' => 'required|integer|exists:projects,id'
 			]);
 		if ($validator->fails()) {
 			return Status::fromValidator($validator);
 		}
 
-		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
-		if (!$memberStatus->isOK()) return $memberStatus;
+		//	    Temp (05/04/2018): remove project_id
+//		$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
+//		if (!$memberStatus->isOK()) return $memberStatus;
 
 		$snippet = new Snippet($args);
 		$snippet->user_id = $this->user->id;
 		$snippet->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
-		$snippet->project_id = $args['project_id'];
+        //	    Temp (05/04/2018): remove project_id
+//		$snippet->project_id = $args['project_id'];
 		$snippet->load('thumbnail');
 		$snippet->save();
 
-		$this->realtimeService->withModel($snippet)
-			->onProject($snippet->project_id)
-			->emit('create');
+        //	    Temp (05/04/2018): remove project_id
+//		$this->realtimeService->withModel($snippet)
+//			->onProject($snippet->project_id)
+//			->emit('create');
 
 		return Status::fromResult($snippet);
 	}
