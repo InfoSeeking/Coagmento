@@ -6,3 +6,8 @@ core/app/.DS_Store
 
 core/.env
 core/.env~
+etherpad
+etherpad/*
+
+
+extensions/chrome/config.js
