@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\MouseAction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\SnippetService;
 use App\Utilities\ApiResponse;
+use Illuminate\Support\Facades\Auth;
 
 class MouseActionController extends Controller
 {
@@ -29,5 +31,35 @@ class MouseActionController extends Controller
         $mouseaction->created_at_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
         $mouseaction->created_at_local_ms = $req->created_at_local_ms;
         $mouseaction->save();
+    }
+
+
+    public function storeMany(Request $req){
+        $mouse_actions = $req->mouse_actions;
+        $user_id = Auth::user()->id;
+        $project_id = 0;
+        $stage_id = 0;
+        foreach($mouse_actions as $time=>$o){
+//            TODO: Data corrections
+            $obj = $o[0];
+            $mouseaction = new MouseAction;
+            $mouseaction->user_id = $user_id;
+            $mouseaction->project_id = $project_id;
+            $mouseaction->stage_id = $stage_id;
+            $mouseaction->client_x = $obj['clientX'];
+            $mouseaction->client_y = $obj['clientY'];
+            $mouseaction->page_x = $obj['pageX'];
+            $mouseaction->page_y = $obj['pageY'];
+            $mouseaction->screen_x = $obj['screenX'];
+            $mouseaction->screen_y = $obj['screenY'];
+            $mouseaction->scroll_x = $obj['scrollX'];
+            $mouseaction->scroll_y = $obj['scrollY'];
+            $mouseaction->type = $obj['type'];
+            $mouseaction->created_at_local = Carbon::createFromTimestamp($time)->format('Y-m-d H:i:s');
+            $mouseaction->created_at_local_ms = $time;
+            $mouseaction->save();
+        }
+//        Keystroke::insert($data_array);
+//        $keystroke->save();
     }
 }

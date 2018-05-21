@@ -45,13 +45,13 @@ Route::group(['middleware' => 'sidebar.auth'], function() {
 	Route::get('sidebar/project/{project_id}', 'SidebarController@getFeed');
     Route::get('sidebar/project/{project_id}', 'SidebarController@getFeed');
 
-    Route::post('sidebar/keystrokes', 'KeystrokeController@store');
-    Route::post('sidebar/clicks', 'ClickController@store');
-    Route::post('sidebar/actions', 'ActionController@store');
-    Route::post('sidebar/scrolls', 'ScrollActionController@store');
-    Route::post('sidebar/copies', 'CopyActionController@store');
-    Route::post('sidebar/pastes', 'PasteActionController@store');
-    Route::post('sidebar/mouseactions', 'MouseActionController@store');
+    Route::post('sidebar/keystrokes', 'Api\KeystrokeController@storeMany');
+    Route::post('sidebar/clicks', 'Api\ClickController@storeMany');
+    Route::post('sidebar/actions', 'Api\ActionController@store');
+    Route::post('sidebar/scrolls', 'Api\ScrollActionController@storeMany');
+    Route::post('sidebar/copies', 'Api\CopyActionController@storeMany');
+    Route::post('sidebar/pastes', 'Api\PasteActionController@storeMany');
+    Route::post('sidebar/mouseactions', 'Api\MouseActionController@storeMany');
 });
 
 Route::get('sidebar/auth/login', 'SidebarController@getSidebarLogin');

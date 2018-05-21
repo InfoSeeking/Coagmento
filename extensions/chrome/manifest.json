@@ -19,7 +19,8 @@
         "tabs",
         "<all_urls>",
         "webNavigation",
-		"contextMenus"
+		"contextMenus",
+        "notifications"
     ],
     "omnibox": { "keyword" : "test" },
     

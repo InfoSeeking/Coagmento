@@ -24,6 +24,16 @@ var saveBookmarkUrl = apidomain + "/bookmarks";
 var saveSnippetUrl = apidomain + "/snippets";
 
 
+
+var saveActionUrl =  domain + "/sidebar/actions";
+var saveClickUrl =  domain + "/sidebar/clicks";
+var saveKeystrokeUrl =  domain + "/sidebar/keystrokes";
+var saveScrollUrl =  domain + "/sidebar/scrolls";
+var saveCopyUrl =  domain + "/sidebar/copies";
+var savePasteUrl =  domain + "/sidebar/pastes";
+var saveMouseUrl =  domain + "/sidebar/scrollsmouseactions";
+
+
 var contactUrl = "mailto:mmitsui@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
 
 
@@ -50,66 +60,71 @@ var snippet_menu = null;
 
 
 
+var create_notification = function(text){
+    chrome.notifications.create(null, {
+        type: 'basic',
+        title: 'Action done!',
+        iconUrl: 'icons/logo-48.png',
+        message: text
+     }, function(notificationId) {});
+}
 
 
-// var bookmark_page = function(info,tab) {
-//     var url = info.pageUrl
-//     var notes = "-"
-//     var xhr = new XMLHttpRequest();
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-//         var params = {
-//             "url":url,
-//             "notes":notes,
-//             "title":tabs[0].title,
-//             "project_id":project_id
-//         }
-//         console.log("PARAMS are" +JSON.stringify(params))
-//         xhr.open("POST", saveBookmarkUrl, false);
-//         xhr.setRequestHeader("Content-type", "application/json");
+var bookmark_page = function(info,tab) {
+    console.log("Bookmark");
+    var url = info.pageUrl
+    var notes = "-"
+    var xhr = new XMLHttpRequest();
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        var params = {
+            "url":url,
+            "notes":notes,
+            "title":tabs[0].title,
+            "project_id":project_id
+        }
+        console.log("Bookmark - params: " +JSON.stringify(params));
         
-//         xhr.onreadystatechange = function() {
-//             if (xhr.readyState == 4) {
-//                 var result = JSON.parse(xhr.responseText);
-//                 console.log("After Bookmark"+result);
-//             }else{
-//                 console.log("Bookmark ready state:"+xhr.readyState);
-//             }
-//         }
-//         xhr.send(JSON.stringify(params));
+        xhr.open("POST", saveBookmarkUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Bookmark ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                create_notification("Bookmark saved!");
+                var result = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send(JSON.stringify(params));
+    });
+};
 
-//     });
-// };
+var snip_text = function(info,tab){
+    console.log("Snip");
+    var title;
+    var xhr = new XMLHttpRequest();
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        var title= tabs[0].title;   //title
+        var params = {
+            "title": title,
+            "url":tabs[0].url,
+            "text":info.selectionText,
+            // TODO: change project ID
+            "project_id":0
 
-// var snip_text = function(info,tab){
-//     console.log("SELECTION" + JSON.stringify(info));
-//     var title;
-//     var xhr = new XMLHttpRequest();
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-//         console.log(tabs);
-//         var title= tabs[0].title;   //title
-//         var params = {
-//             "title": title,
-//             "url":tabs[0].url,
-//             "text":info.selectionText,
-//             // TODO: change project ID
-//             "project_id":0
-
-//         }
-//         console.log("PARAMS:"+JSON.stringify(params));
-//         xhr.open("POST", saveSnippetUrl, false);
-//         xhr.setRequestHeader("Content-type", "application/json");
-//         xhr.onreadystatechange = function() {
-//             if (xhr.readyState == 4) {
-//                 var result = JSON.parse(xhr.responseText);
-//                 console.log("AFTER SNIPPET"+result);
-//             }else{
-//                 console.log("Snippet ready state:"+xhr.readyState);
-//             }
-//         }
-//         xhr.send(JSON.stringify(params));
+        }
+        console.log("Snip - params: "+JSON.stringify(params));
+        xhr.open("POST", saveSnippetUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Snip ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                create_notification("Snippet saved!");
+                var result = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send(JSON.stringify(params));
         
-//     });
-// }
+    });
+}
 
 
 
@@ -239,122 +254,105 @@ function login_check() {
 }
 
 
-function makeQuestionnaireNotification(){
-    var options =
-    {
-        type: "basic",
-        title: "IMPORTANT",
-        message: "You have a new form to complete!"
-    }
-    chrome.notifications.create(null,options);
-    //      chrome.notifications.onClicked.addListener(function(notificationId) {
-    //              window.location.href("inbetween.html")
-    //      });
-}
-
 chrome.windows.onCreated.addListener(login_check);
 chrome.runtime.onStartup.addListener(login_check);
 
-// function renderLoggedIn(loggedIn){
-//         var red = [255,0,0,255];
-//         // var green = [0,255,0,255];
-//         var green = [34,139,34,255];
-//         if(loggedIn){
-//             chrome.browserAction.setBadgeText({text:' '});
-//             chrome.browserAction.setBadgeBackgroundColor({color:green});
-//         }else{
-//             chrome.browserAction.setBadgeText({text:' '});
-//             chrome.browserAction.setBadgeBackgroundColor({color:red});
-//         }
-//     }
+// TODO Correct this!  Properly save page/query data and properly parse it
+function savePQ(url,title,active,tabId,windowId,now,action,details){
+    // var data = {
+    //     url:url,
+    //     title:title,
+    //     active:active,
+    //     windowId:windowId
+    //     // TODO: action, and other columns
+    // }
+    // var data2 = {
+    //     "project_id":project_id,
+    //     "text":details.tab.title,
+    //     "search_engine":"Google"
 
+    // }
+    // // alert(data.action);
+    // // if (!details.tab.url.includes("localhost") || (!details.tab.url.includes("chrome://extensions"))){
+    //     // if(data2.text.includes("New Tab")){
+    //     //     return;
+    //     // }
+    //     // if(details.tab.url.includes("New Tab")){
+    //     //     return;
 
+    //     // }
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open("POST", savePageUrl , false);
+    //     xhr.setRequestHeader("Content-type", "application/json");
+    //     xhr.onreadystatechange = function(result) {
+    //         if (xhr.readyState == 4) {
+    //             var result = JSON.parse(xhr.responseText);
+    //             var xhr2 = new XMLHttpRequest();
+    //             xhr2.open("POST", saveQueryUrl, false);
+    //             xhr2.setRequestHeader("Content-type", "application/json");
+    //             xhr2.onreadystatechange = function(result2){
+    //                 // console.log("Page and query saved!");
+    //             }
+    //         }
+    //     }
+    //     xhr.send(JSON.stringify(data2));
+    //     var result = xhr.responseText;
+    // // }
+}
 
-// TODO: WTF is this
-// function savePQ(url,title,active,tabId,windowId,now,action,details){
-//     console.log("DETAILS" + JSON.stringify(details));
-//     console.log("Title is" + title);
-//     var data = {
-//         url:url,
-//         title:title,
-//         active:active,
-//         windowId:windowId
-//         // TODO: action, and other columns
-//     }
-//     console.log("DETAILS TITLE" + details.tab.title);
-//     var data2 = {
-//         "project_id":project_id,
-//         "text":details.tab.title,
-//         "search_engine":"Google"
+// TODO: Fix!
+function saveAction(action,value,actionJSON,now){
+    // if(actionJSON.tab){
+    //     if(actionJSON.tab.url){
 
-//     }
-//     // alert(data.action);
-//     console.log("DETAILS" + JSON.stringify(details));
-//     if (!details.tab.url.includes("localhost") || (!details.tab.url.includes("chrome://extensions"))){
-//         console.log("DAT TEXT" + data2.text);
-//         if(data2.text.includes("New Tab")){
-//             console.log("yes");
-//             return;
-//         }
-//         if(details.tab.url.includes("New Tab")){
-//             return;
+            var data = {
+                'action':action,
+                'value':""+value,
+                "project_id":project_id,
+                "user_id":user_id,
+                "json":JSON.stringify(actionJSON),
+                "created_at_local_ms":now,
+                "created_at_local":now/1000
+            }
+            if(action.indexOf("tabs.")!==-1){
+                previousTabAction = action;
+                previousTabActionData = data;
+            }else if(action.indexOf("windows.")!==-1){
+                previousWindowAction = action;
+                previousWindowActionData = data;
+            }else if(action.indexOf("webNavigation.")!==-1){
+                previousWebNavAction = action;
+                previousWebNavActionData = data;
+            }
+            previousAction = action;
+            previousActionData = data;
+            //if we have localhost or chrome extension tab break out
+            // if(data.url.includes("localhost") || data.url.includes("chrome://extensions")){
+            //     return;
+            // }
+            // else if(data.url.includes("New Tab") || data.title.includes("New Tab")){
 
-//         }
-//         console.log("making request");
-//         var xhr = new XMLHttpRequest();
-//         var url2 = domain + "/queries"
-//         xhr.open("POST", url2 , false);
-//         xhr.setRequestHeader("Content-type", "application/json");
-//         xhr.send(JSON.stringify(data2));
-//         var result = xhr.responseText;
-//         console.log("RESULt" + result);
-//     }
-//     console.log("URL" + url);
-// }
+            //     return;
+            // }
+            // else if(data.url.includes("newtab")){
+            //     return;
+            // }
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", saveActionUrl, false);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function(result) {
+                // console.log(result);
+                if (xhr.readyState == 4) {
+                    console.log("Action saved!");
+                }
+            }
+            // console.log(data);
+            xhr.send(JSON.stringify(data));
+            var result = xhr.responseText;
+    //     }
 
-// function saveAction(action,value,actionJSON,now){
-//     console.log("AXTION JSON"+ JSON.stringify(actionJSON))
-//     if(actionJSON.tab){
-//         if(actionJSON.tab.url){
-//             var data = {
-//                 "title":actionJSON.tab.title,
-//                 "project_id":project_id,
-//                 "url":actionJSON.tab.url
-//             }
-
-//             if(action.indexOf("tabs.")!==-1){
-//                 previousTabAction = action;
-//                 previousTabActionData = data;
-//             }else if(action.indexOf("windows.")!==-1){
-//                 previousWindowAction = action;
-//                 previousWindowActionData = data;
-//             }else if(action.indexOf("webNavigation.")!==-1){
-//                 previousWebNavAction = action;
-//                 previousWebNavActionData = data;
-//             }
-//             previousAction = action;
-//             previousActionData = data;
-//             //if we have localhost or chrome extension tab break out
-//             if(data.url.includes("localhost") || data.url.includes("chrome://extensions")){
-//                 return;
-//             }
-//             else if(data.url.includes("New Tab") || data.title.includes("New Tab")){
-
-//                 return;
-//             }
-//             else if(data.url.includes("newtab")){
-//                 return;
-//             }
-//             var xhr = new XMLHttpRequest();
-
-//             xhr.open("POST", actionSaveUrl, false);
-//             xhr.setRequestHeader("Content-type", "application/json");
-//             xhr.send(JSON.stringify(data));
-//             var result = xhr.responseText;
-//         };
-
-//     }
-// }
+    // }
+}
 // // TODO ACTIONS
 // // tab change: onactivated+onhighlighted - use onActivated
 // // close current tab: onRemoved+onactivated+onHighlighted - use onActivated
@@ -373,237 +371,269 @@ chrome.runtime.onStartup.addListener(login_check);
 
 
 
-// var saveTabActivated = function(activeInfo){
-//     var now = new Date();
-//     chrome.tabs.get(activeInfo.tabId, function(tab){
-//         if(tab){
-//             Url = (tab.hasOwnProperty('url')?tab.url:"");
-//             title = (tab.hasOwnProperty('title')?tab.title:"");
-//             active = tab.active;
-//             tabId = (tab.hasOwnProperty('id')?tab.id:-1);
-//             windowId = tab.windowId;
-//             activeInfo.tab = tab;
+var saveTabActivated = function(activeInfo){
+    if(logged_in){
+        var now = new Date();
+        chrome.tabs.get(activeInfo.tabId, function(tab){
 
-//             chrome.tabs.executeScript(
-//                 tabId,
-//                 { code: "document.referrer;" },
-//                 function(result) {
-//                     activeInfo.referrerInfo = result;
-//                     saveAction("tabs.onActivated",activeInfo.tabId,activeInfo,now);
-//                     savePQ(Url,title,active,tabId,windowId,now,"tabs.onActivated",activeInfo);
-//                 }
-//             );
-//         }else{
-//             // alert(chrome.runtime.lastError);
-//         }
-//     });
-// }
+            if(chrome.runtime.lastError){
+                // console.warn("Error in saveTabActivated: " + chrome.runtime.lastError.message);
+            }else{
+                if(tab){
+                    Url = (tab.hasOwnProperty('url')?tab.url:"");
+                    title = (tab.hasOwnProperty('title')?tab.title:"");
+                    active = tab.active;
+                    tabId = (tab.hasOwnProperty('id')?tab.id:-1);
+                    windowId = tab.windowId;
+                    activeInfo.tab = tab;
 
+                    chrome.tabs.executeScript(
+                        tabId,
+                        { code: "document.referrer;" },
+                        function(result) {
+                            activeInfo.referrerInfo = result;
+                            saveAction("tabs.onActivated",activeInfo.tabId,activeInfo,now);
+                            savePQ(Url,title,active,tabId,windowId,now,"tabs.onActivated",activeInfo);
+                        }
+                    );
+                }
 
-// var saveTabAttached = function(tabId, attachInfo){
-//     var now = new Date();
-//     attachInfo.tabId = tabId;
-//     saveAction("tabs.onAttached",tabId,attachInfo,now);
-// }
-
-
-// var saveTabCreated = function(tab){
-//     var now = new Date();
-//     var tabId = tab.id;
-//     var currentTab = null;
-//     chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
-//         currentTab = arrayOfTabs;
-//         chrome.tabs.executeScript(
-//             tabId,
-//             { code: "document.referrer;" },
-//             function(result) {
-//                 tab.referrerInfo = result;
-//                 saveAction("tabs.onCreated",tab.id,{currentTab:currentTab,newTab:tab},now);
-//             }
-//         );
-
-//     });
-//     chrome.tabs.getCurrent(function (result){
-//     });
-// }
-
-// var saveTabDetached = function(tabId, detachInfo){
-//     var now = new Date();
-//     detachInfo.tabId = tabId;
-//     saveAction("tabs.onDetached",tabId,detachInfo,now);
-// }
-
-// var saveTabHighlighted = function(highlightInfo){
-//     var now = new Date();
-//     saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),highlightInfo,now);
-// }
-
-// var saveTabMoved = function(tabId, moveInfo){
-//     var now = new Date();
-//     moveInfo.tabId = tabId;
-//     saveAction("tabs.onMoved",tabId,moveInfo,now);
-// }
-
-// var saveTabRemoved = function(tabId, removeInfo){
-//     var now = new Date();
-//     removeInfo.tabId = tabId;
-//     saveAction("tabs.onRemoved",tabId,removeInfo,now);
-// }
-
-// var saveTabReplaced = function(addedTabId, removedTabId){
-//     var now = new Date();
-//     var tabId = addedTabId;
-
-//     chrome.tabs.executeScript(
-//         tabId,
-//         { code: "document.referrer;" },
-//         function(result) {
-//             saveAction("tabs.onReplaced",addedTabId,{addedTabId:addedTabId,removedTabId:removedTabId,referrerInfo:result},now);
-//         }
-//     );
-
-// }
+            }
+        
+    });
+    }
+    
+}
 
 
-// var saveTabUpdated = function(tabId, changeInfo, tab){
-//     var now = new Date();
-//     var action = "tabs.onUpdated";
-//     var value = tabId;
-//     changeInfo.tabId = tabId;
-//     changeInfo.tab = tab;
-
-//     if ('status' in changeInfo && changeInfo.status === 'complete') {
-//         chrome.tabs.executeScript(tabId, 
-//             { file: "external/js/jquery-3.2.1.min.js" }
-//             , function() {
-//                 if (chrome.runtime.lastError) {
-//                     console.log("tabs.onUpdated (tabs.executeScript-jquery): "+chrome.runtime.lastError.message);
-//                 }
-//                 chrome.tabs.executeScript(tabId, { 
-//                         allFrames: true, 
-//                         file: "payload.js" 
-//                     },
-//                     function(){
-//                         if (chrome.runtime.lastError) {
-//                             console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
-//                         }
-//                     }
-//                 );
-//         });
-//     }
+var saveTabAttached = function(tabId, attachInfo){
+    if(logged_in){
+        var now = new Date();
+        attachInfo.tabId = tabId;
+        saveAction("tabs.onAttached",tabId,attachInfo,now);    
+    }
+    
+}
 
 
-//     console.log("UPDATED");
-//     if(('status' in changeInfo && changeInfo.status == 'complete')&& !('url' in changeInfo)){
-//         chrome.tabs.get(changeInfo.tabId, function(tab){
-//             Url = (tab.hasOwnProperty('url')?tab.url:"");
-//             title = (tab.hasOwnProperty('title')?tab.title:"");
-//             active = tab.active;
-//             tabId = (tab.hasOwnProperty('id')?tab.id:-1);
-//             windowId = tab.windowId;
+var saveTabCreated = function(tab){
+    if (logged_in){
+        var now = new Date();
+        var tabId = tab.id;
+        var currentTab = null;
+        chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+            currentTab = arrayOfTabs;
+            chrome.tabs.executeScript(
+                tabId,
+                { code: "document.referrer;" },
+                function(result) {
+                    tab.referrerInfo = result;
+                    saveAction("tabs.onCreated",tab.id,{currentTab:currentTab,newTab:tab},now);
+                }
+            );
 
-//             chrome.tabs.executeScript(
-//                 tabId,
-//                 { code: "document.referrer;" },
-//                 function(result) {
-//                     changeInfo.referrerInfo = result;
+        });
+        chrome.tabs.getCurrent(function (result){
+        });
+    }
+    
+}
 
-//                     saveAction("tabs.onUpdated",value,changeInfo,now);
-//                     savePQ(Url,title,active,tabId,windowId,now,"tabs.onUpdated",changeInfo);
-//                 }
-//             );
-//         });
-//     }
-// }
+var saveTabDetached = function(tabId, detachInfo){
+    if(logged_in){
+        var now = new Date();
+        detachInfo.tabId = tabId;
+        saveAction("tabs.onDetached",tabId,detachInfo,now);    
+    }
+    
+}
 
-// var saveWindowCreated = function(windowInfo){
-//     var now = new Date();
-//     saveAction("windows.onCreated",windowInfo.id,windowInfo,now);
-// }
+var saveTabHighlighted = function(highlightInfo){
+    if(logged_in){
+        var now = new Date();
+        saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),highlightInfo,now);    
+    }
+    
+}
 
-// var saveWindowRemoved = function(windowId){
-//     var now = new Date();
-//     saveAction("windows.onRemoved",windowId,{windowId:windowId},now);
-// }
+var saveTabMoved = function(tabId, moveInfo){
+    if(logged_in){
+        var now = new Date();
+        moveInfo.tabId = tabId;
+        saveAction("tabs.onMoved",tabId,moveInfo,now);
+    }
+}
 
-// var saveWindowFocusChanged = function(windowId){
-//     var now = new Date();
-//     saveAction("windows.onFocusChanged",windowId,{windowId:windowId},now);
-// }
+var saveTabRemoved = function(tabId, removeInfo){
+    if(logged_in){
+        var now = new Date();
+        removeInfo.tabId = tabId;
+        saveAction("tabs.onRemoved",tabId,removeInfo,now);
+    }
+}
 
-// var saveWebNavigationCommitted = function(details){
-//     var now = new Date();
+var saveTabReplaced = function(addedTabId, removedTabId){
+    if(logged_in){
+        var now = new Date();
+        var tabId = addedTabId;
+        chrome.tabs.executeScript(
+            tabId,
+            { code: "document.referrer;" },
+            function(result) {
+                saveAction("tabs.onReplaced",addedTabId,{addedTabId:addedTabId,removedTabId:removedTabId,referrerInfo:result},now);
+            }
+        );
+    }
+}
 
-//     if (details.transitionType != 'auto_subframe'){
-//         // if (details.transitionType.indexOf('auto') == -1){
-//         chrome.tabs.get(details.tabId, function(tab){
-//             Url = (tab.hasOwnProperty('url')?tab.url:"");
-//             title = (tab.hasOwnProperty('title')?tab.title:"");
-//             active = tab.active;
-//             tabId = (tab.hasOwnProperty('id')?tab.id:-1);
-//             windowId = tab.windowId;
-//             details.tab = tab;
 
-//             chrome.tabs.executeScript(
-//                 tabId,
-//                 { code: "document.referrer;" },
-//                 function(result) {
-//                     details.referrerInfo = result;
-//                     saveAction("webNavigation.onCommitted",details.tabId,details,now);
-//                     savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
-//                 }
-//             );
+var saveTabUpdated = function(tabId, changeInfo, tab){
+    if(logged_in){
+        var now = new Date();
+        var action = "tabs.onUpdated";
+        var value = tabId;
+        changeInfo.tabId = tabId;
+        changeInfo.tab = tab;
+        if ('status' in changeInfo && changeInfo.status === 'complete') {
+            chrome.tabs.executeScript(tabId, 
+                { file: "external/js/jquery-3.2.1.min.js" }
+                , function() {
+                    if (chrome.runtime.lastError) {
+                        console.log("tabs.onUpdated (tabs.executeScript-jquery): "+chrome.runtime.lastError.message);
+                    }
+                    chrome.tabs.executeScript(tabId, { 
+                            allFrames: true, 
+                            file: "payload.js" 
+                        },
+                        function(){
+                            if (chrome.runtime.lastError) {
+                                console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
+                            }
+                        }
+                    );
+            });
+        }
 
-//         });
-//     }
+        if(('status' in changeInfo && changeInfo.status == 'complete')&& !('url' in changeInfo)){
+            chrome.tabs.get(changeInfo.tabId, function(tab){
+                Url = (tab.hasOwnProperty('url')?tab.url:"");
+                title = (tab.hasOwnProperty('title')?tab.title:"");
+                active = tab.active;
+                tabId = (tab.hasOwnProperty('id')?tab.id:-1);
+                windowId = tab.windowId;
 
-// }
+                chrome.tabs.executeScript(
+                    tabId,
+                    { code: "document.referrer;" },
+                    function(result) {
+                        changeInfo.referrerInfo = result;
+
+                        saveAction("tabs.onUpdated",value,changeInfo,now);
+                        savePQ(Url,title,active,tabId,windowId,now,"tabs.onUpdated",changeInfo);
+                    }
+                );
+            });
+        }
+    }
+}
+
+var saveWindowCreated = function(windowInfo){
+    if(logged_in){
+        var now = new Date();
+        saveAction("windows.onCreated",windowInfo.id,windowInfo,now);
+    }
+}
+
+var saveWindowRemoved = function(windowId){
+    if(logged_in){
+        var now = new Date();
+        saveAction("windows.onRemoved",windowId,{windowId:windowId},now);
+    }
+}
+
+var saveWindowFocusChanged = function(windowId){
+    if(logged_in){
+        var now = new Date();
+        saveAction("windows.onFocusChanged",windowId,{windowId:windowId},now);
+    }
+}
+
+var saveWebNavigationCommitted = function(details){
+    if(logged_in){
+        var now = new Date();
+        if (details.transitionType != 'auto_subframe'){
+            // if (details.transitionType.indexOf('auto') == -1){
+            chrome.tabs.get(details.tabId, function(tab){
+                if(chrome.runtime.lastError){
+                    // console.warn("Error in saveWebNavigationCommitted: " + chrome.runtime.lastError.message);
+                }else{
+                    Url = (tab.hasOwnProperty('url')?tab.url:"");
+                    title = (tab.hasOwnProperty('title')?tab.title:"");
+                    active = tab.active;
+                    tabId = (tab.hasOwnProperty('id')?tab.id:-1);
+                    windowId = tab.windowId;
+                    details.tab = tab;
+                    chrome.tabs.executeScript(
+                        tabId,
+                        { code: "document.referrer;" },
+                        function(result) {
+                            details.referrerInfo = result;
+                            saveAction("webNavigation.onCommitted",details.tabId,details,now);
+                            savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
+                        }
+                    );
+                }
+                
+            });
+        }
+    }
+}
 
 // // Get URL, insert action as savePQ
-// chrome.tabs.onActivated.addListener(saveTabActivated);
-// chrome.tabs.onAttached.addListener(saveTabAttached);
-// // IMPORTANT
-// // // TODO: No PQ action here? see if another action accompanies a "open link in new tab" URL
-// chrome.tabs.onCreated.addListener(saveTabCreated);
-// // TODO: No PQ action here? see if highlight also changes.
-// chrome.tabs.onDetached.addListener(saveTabDetached);
-// chrome.tabs.onHighlighted.addListener(saveTabHighlighted);
-// // TODO: 2) When move action is executed on an inactive, is there any other action that fires? Such as onHighlighted or onActivated?
-// chrome.tabs.onMoved.addListener(saveTabMoved);
-// // TODO: Other highlighted/activated actions when an active tab is closed?
-// chrome.tabs.onRemoved.addListener(saveTabRemoved);
-// // IMPORTANT
-// chrome.tabs.onReplaced.addListener(saveTabReplaced);
-// // Status types: either "loading" or "complete"
-// // Note: only use onCommitted
-// // TODO: Use only onCommitted?  Or this too?
-// chrome.tabs.onUpdated.addListener(saveTabUpdated);
-// // TODO: Any tab IDs I should record here?
-// // TODO: Any highlighted/change actions in addition that are typically fired?
-// chrome.windows.onCreated.addListener(saveWindowCreated);
-// // TODO: Any tab IDs I should record here?
-// // TODO: Any highlighted/change actions in addition that are typically fired?
-// chrome.windows.onRemoved.addListener(saveWindowRemoved);
-// // TODO: get currently active tab ID
-// // TODO: Any highlighted/change actions in addition that are typically fired?
-// // TODO: Why is the windowID sometimes -1? Is that when focus is going away from Chrome?  Might be useful...
-// chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
-// // TODO: Multiple calls per page sometimes?
-// chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
-// // Note: can't use omnibox. Too limited for our purposes
+chrome.tabs.onActivated.addListener(saveTabActivated);
+chrome.tabs.onAttached.addListener(saveTabAttached);
+// IMPORTANT
+// // TODO: No PQ action here? see if another action accompanies a "open link in new tab" URL
+chrome.tabs.onCreated.addListener(saveTabCreated);
+// TODO: No PQ action here? see if highlight also changes.
+chrome.tabs.onDetached.addListener(saveTabDetached);
+chrome.tabs.onHighlighted.addListener(saveTabHighlighted);
+// TODO: 2) When move action is executed on an inactive, is there any other action that fires? Such as onHighlighted or onActivated?
+chrome.tabs.onMoved.addListener(saveTabMoved);
+// TODO: Other highlighted/activated actions when an active tab is closed?
+chrome.tabs.onRemoved.addListener(saveTabRemoved);
+// IMPORTANT
+chrome.tabs.onReplaced.addListener(saveTabReplaced);
+// Status types: either "loading" or "complete"
+// Note: only use onCommitted
+// TODO: Use only onCommitted?  Or this too?
+chrome.tabs.onUpdated.addListener(saveTabUpdated);
+// TODO: Any tab IDs I should record here?
+// TODO: Any highlighted/change actions in addition that are typically fired?
+chrome.windows.onCreated.addListener(saveWindowCreated);
+// TODO: Any tab IDs I should record here?
+// TODO: Any highlighted/change actions in addition that are typically fired?
+chrome.windows.onRemoved.addListener(saveWindowRemoved);
+// TODO: get currently active tab ID
+// TODO: Any highlighted/change actions in addition that are typically fired?
+// TODO: Why is the windowID sometimes -1? Is that when focus is going away from Chrome?  Might be useful...
+chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
+// TODO: Multiple calls per page sometimes?
+chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
+// Note: can't use omnibox. Too limited for our purposes
 
 
 
 
-   //  function renderLoggedIn(loggedIn){
-   //   var red = [255,0,0,255];
-   //   // var green = [0,255,0,255];
-   //   var green = [34,139,34,255];
-   //   if(chrome.extension.getBackgroundPage().loggedIn){
-   //       chrome.browserAction.setBadgeText({text:' '});
-            // chrome.browserAction.setBadgeBackgroundColor({color:green});
-   //   }else{
-   //       chrome.browserAction.setBadgeText({text:' '});
-            // chrome.browserAction.setBadgeBackgroundColor({color:red});
-   //   }
-   //  }
+    // function renderLoggedIn(loggedIn){
+    //  var red = [255,0,0,255];
+    //  // var green = [0,255,0,255];
+    //  var green = [34,139,34,255];
+    //  if(chrome.extension.getBackgroundPage().loggedIn){
+    //      chrome.browserAction.setBadgeText({text:' '});
+    //         chrome.browserAction.setBadgeBackgroundColor({color:green});
+    //  }else{
+    //      chrome.browserAction.setBadgeText({text:' '});
+    //         chrome.browserAction.setBadgeBackgroundColor({color:red});
+    //  }
+    // }
