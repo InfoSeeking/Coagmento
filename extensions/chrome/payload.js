@@ -1,5 +1,5 @@
-var domain = 'http://localhost:8000';
-var apidomain = 'http://localhost:8000/sidebar';
+var domain = config['domain'];
+var apidomain = config['apidomain'];
 
 var saveKeystrokeUrl = apidomain+'/keystrokes';
 var saveClickUrl = apidomain+'/clicks';

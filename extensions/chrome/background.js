@@ -10,8 +10,8 @@
 
 
 
-var domain = 'http://localhost:8000';
-var apidomain = 'http://localhost:8000/api/v1';
+var domain = global_config['domain'];
+var apidomain = global_config['apidomain'];
 
 var loginUrl = domain + "/sidebar/auth/login";
 var logoutUrl = domain + "/sidebar/auth/logout";
@@ -497,21 +497,39 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
         if ('status' in changeInfo && changeInfo.status === 'complete') {
             chrome.tabs.executeScript(tabId, 
                 { file: "external/js/jquery-3.2.1.min.js" }
-                , function() {
-                    if (chrome.runtime.lastError) {
-                        console.log("tabs.onUpdated (tabs.executeScript-jquery): "+chrome.runtime.lastError.message);
-                    }
-                    chrome.tabs.executeScript(tabId, { 
+                , 
+                    function() {
+                        if (chrome.runtime.lastError) {
+                            console.log("tabs.onUpdated (tabs.executeScript-jquery): "+chrome.runtime.lastError.message);
+                        }
+
+                        var config = {
+                            domain: 'http://localhost:8000',
+                            apidomain: 'http://localhost:8000/sidebar'
+                        };
+                        chrome.tabs.executeScript(tabId, { 
                             allFrames: true, 
-                            file: "payload.js" 
+                            code: "var config = "+JSON.stringify(config),
+                            // file: "payload.js" 
                         },
-                        function(){
+
+                        function() {
                             if (chrome.runtime.lastError) {
                                 console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
+                            }else{
+                                chrome.tabs.executeScript(tabId, 
+                                    {file: 'payload.js'},
+                                    function(){
+                                        if (chrome.runtime.lastError) {
+                                            console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
+                                        }
+                                    }
+                                );    
                             }
                         }
-                    );
-            });
+                        );
+                    }
+                )
         }
 
         if(('status' in changeInfo && changeInfo.status == 'complete')&& !('url' in changeInfo)){

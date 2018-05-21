@@ -8,7 +8,7 @@
     "content_scripts": [],
     "background" : {
         "persistent": false,
-        "scripts" : ["background.js"]
+        "scripts" : ["config.js","background.js"]
     },
     "web_accessible_resources":["*.png"],
     
