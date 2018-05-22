@@ -152,6 +152,17 @@ class ProjectService {
         return Project::where('creator_id', $this->user->id)->get();
     }
 
+    public function getMyFirstProject(){
+        return Project::where('creator_id', $this->user->id)->get(0);
+    }
+
+    public function getMySecondProject(){
+        return Project::where('creator_id', $this->user->id)->get(1);
+    }
+    public function getMyThirdProject(){
+        return Project::where('creator_id', $this->user->id)->get(2);
+    }
+
     // Shares the project with user with the specified level.
     // If $overwrite is false then it will return error if
     // the user is already being shared on this project.

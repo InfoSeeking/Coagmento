@@ -16,10 +16,13 @@ use Illuminate\Http\Request;
 class StageProgressService {
 	public function __construct(
 		MembershipService $memberService,
-		RealtimeService $realtimeService){
+		RealtimeService $realtimeService,
+        ProjectService $projectService
+        ){
 		$this->user = Auth::user();
 		$this->memberService = $memberService;
 		$this->realtimeService = $realtimeService;
+		$this->projectService = $projectService;
 	}
 
 	public function getCurrentStage() {
@@ -57,6 +60,13 @@ class StageProgressService {
 
 //            abort(404,Session::put('stage_id',$this->getCurrentStage()->getResult()->id));
             Session::put('stage_id',$this->getCurrentStage()->getResult()->id);
+            if($this->getCurrentStage()->getResult()->id < 15){
+                Session::put('project_id',$this->projectService->getMyFirstProject()->id);
+            }else if($this->getCurrentStage()->getResult()->id <= 19){
+                Session::put('project_id',$this->projectService->getMySecondProject()->id);
+            }else{
+                Session::put('project_id',$this->projectService->getMyThirdProject()->id);
+            }
             return $this->getCurrentStage();
 
         }else{
@@ -75,6 +85,13 @@ class StageProgressService {
 
 //                abort(404,Session::put('stage_id',$this->getCurrentStage()->getResult()->id));
                 Session::put('stage_id',$this->getCurrentStage()->getResult()->id);
+                if($this->getCurrentStage()->getResult()->id < 15){
+                    Session::put('project_id',$this->projectService->getMyFirstProject()->id);
+                }else if($this->getCurrentStage()->getResult()->id <= 19){
+                    Session::put('project_id',$this->projectService->getMySecondProject()->id);
+                }else{
+                    Session::put('project_id',$this->projectService->getMyThirdProject()->id);
+                }
                 return $this->getCurrentStage();
             }
 

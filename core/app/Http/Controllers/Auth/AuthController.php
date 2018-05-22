@@ -250,8 +250,28 @@ class AuthController extends Controller
         $user = $this->create($request->all());
 
         $args = [
-            'title'=>'Default Title',
-            'description'=>'Default Description',
+            'title'=>'Demo Task',
+            'description'=>'Demo Task Description',
+            'private'=>true,
+        ];
+        $project = new Project($args);
+        $project->creator_id = $user->id;
+        $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+        $project->save();
+
+        $args = [
+            'title'=>'Task 1',
+            'description'=>'Task 1 Description',
+            'private'=>true,
+        ];
+        $project = new Project($args);
+        $project->creator_id = $user->id;
+        $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+        $project->save();
+
+        $args = [
+            'title'=>'Task 2',
+            'description'=>'Task 2 Description',
             'private'=>true,
         ];
         $project = new Project($args);

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Auth;
+use Illuminate\Support\Facades\Session;
 use Validator;
 
 use App\Models\Bookmark;
@@ -111,7 +112,11 @@ class BookmarkService {
 		$bookmark = new Bookmark($args);
 		$bookmark->user_id = $this->user->id;
 		$bookmark->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
+
         $bookmark->project_id = -1;
+        if(Session::has('project_id')){
+            $bookmark->project_id = Session::get('project_id');
+        }
 //	    Temp (05/04/2018): remove project_id
 //		$bookmark->project_id = $args['project_id'];
 		$bookmark->load('thumbnail');

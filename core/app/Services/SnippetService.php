@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Auth;
+use Illuminate\Support\Facades\Session;
 use Validator;
 use App\Models\Snippet;
 use App\Utilities\Status;
@@ -73,6 +74,10 @@ class SnippetService {
 		$snippet->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
         //	    Temp (05/04/2018): remove project_id
 //		$snippet->project_id = $args['project_id'];
+        $snippet->project_id = -1;
+        if(Session::has('project_id')){
+            $snippet->project_id = Session::get('project_id');
+        }
 		$snippet->load('thumbnail');
 		$snippet->save();
 
