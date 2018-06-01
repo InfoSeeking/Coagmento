@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Services\SnippetService;
 use App\Utilities\ApiResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PasteActionController extends Controller
 {
@@ -32,7 +33,12 @@ class PasteActionController extends Controller
         $user_id = Auth::user()->id;
         $project_id = 0;
         $stage_id = 0;
-//        snippet,title,url
+        if(Session::has('project_id')){
+            $project_id = Session::get('project_id');
+        }
+        if(Session::has('stage_id')){
+            $stage_id = Session::get('stage_id');
+        }
         foreach($copies as $time=>$obj){
 //            TODO: Data corrections
             $mouseaction = new PasteAction();

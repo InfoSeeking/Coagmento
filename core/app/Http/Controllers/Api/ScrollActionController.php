@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Services\SnippetService;
 use App\Utilities\ApiResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ScrollActionController extends Controller
 {
@@ -33,6 +34,12 @@ class ScrollActionController extends Controller
         $user_id = Auth::user()->id;
         $project_id = 0;
         $stage_id = 0;
+        if(Session::has('project_id')){
+            $project_id = Session::get('project_id');
+        }
+        if(Session::has('stage_id')){
+            $stage_id = Session::get('stage_id');
+        }
         foreach($mouse_actions as $time=>$o){
 //            TODO: Data corrections
             foreach($o as $index=>$obj){

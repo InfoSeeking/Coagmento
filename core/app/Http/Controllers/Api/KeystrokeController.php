@@ -12,6 +12,7 @@ use App\Services\SnippetService;
 use App\Utilities\ApiResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class KeystrokeController extends Controller
 {
@@ -34,6 +35,12 @@ class KeystrokeController extends Controller
         $user_id = Auth::user()->id;
         $project_id = 0;
         $stage_id = 0;
+        if(Session::has('project_id')){
+            $project_id = Session::get('project_id');
+        }
+        if(Session::has('stage_id')){
+            $stage_id = Session::get('stage_id');
+        }
         foreach($keys as $time=>$key){
             $keystroke = new Keystroke;
             $keystroke->user_id = $user_id;

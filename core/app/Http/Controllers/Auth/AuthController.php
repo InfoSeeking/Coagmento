@@ -40,8 +40,13 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        ProjectService $projectService,
+        StageProgressService $stageProgressService
+    )
     {
+        $this->projectService = $projectService;
+        $this->stageProgressService = $stageProgressService;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 

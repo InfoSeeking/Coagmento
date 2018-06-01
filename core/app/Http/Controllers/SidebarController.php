@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\StageProgressService;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
@@ -31,11 +32,14 @@ class SidebarController extends Controller
         ProjectService $projectService,
         BookmarkService $bookmarkService,
         MembershipService $memberService,
-        SnippetService $snippetService) {
+        SnippetService $snippetService,
+        StageProgressService $stageProgressService
+        ) {
 		$this->bookmarkService = $bookmarkService;
         $this->projectService = $projectService;
         $this->memberService = $memberService;
         $this->snippetService = $snippetService;
+        $this->stageProgressService = $stageProgressService;
 	}
 	public function getProjectSelection() {
         $projects = $this->projectService->getMultiple();

@@ -1,9 +1,6 @@
 .idea
-
 core/.DS_Store
-
 core/app/.DS_Store
-
 core/.env
 core/.env~
 etherpad

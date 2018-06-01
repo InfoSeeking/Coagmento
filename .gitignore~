@@ -8,6 +8,4 @@ core/.env
 core/.env~
 etherpad
 etherpad/*
-
-
 extensions/chrome/config.js

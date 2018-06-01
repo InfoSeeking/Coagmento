@@ -14,7 +14,10 @@ class AddLocalTimestamps extends Migration
     {
 
 
-        $tables = array('bookmarks','bookmarks_and_tags','chat_messages','docs','memberships','old_mappings','pages','password_resets','projects','queries','questionnaire_help_and_barriers','questionnaire_posttasks','questionnaire_pretasks','questionnaire_tests','questionnaire2_tests','snippets','stages','tags','tasks','thumbnails','users','v2_notifications');
+        $tables = array('bookmarks','bookmarks_and_tags','chat_messages','docs','memberships','old_mappings','pages','password_resets','projects','queries','questionnaire_help_and_barriers','questionnaire_posttasks','questionnaire_pretasks',
+//            'questionnaire_tests',
+//            'questionnaire2_tests',
+            'snippets','stages','tags','tasks','thumbnails','users','v2_notifications');
         foreach($tables as $tablename){
             Schema::table($tablename, function(Blueprint $table){
                 $table->timestamp('created_at_local');
@@ -36,7 +39,10 @@ class AddLocalTimestamps extends Migration
     {
 
 
-        $tables = array('bookmarks','bookmarks_and_tags','chat_messages','docs','memberships','old_mappings','pages','password_resets','projects','queries','questionnaire_help_and_barriers','questionnaire_posttasks','questionnaire_pretasks','questionnaire_tests','questionnaire2_tests','snippets','stages','tags','tasks','thumbnails','users','v2_notifications');
+        $tables = array('bookmarks','bookmarks_and_tags','chat_messages','docs','memberships','old_mappings','pages','password_resets','projects','queries','questionnaire_help_and_barriers','questionnaire_posttasks','questionnaire_pretasks',
+//            'questionnaire_tests',
+//            'questionnaire2_tests',
+            'snippets','stages','tags','tasks','thumbnails','users','v2_notifications');
         foreach($tables as $tablename) {
             Schema::table($tablename, function (Blueprint $table) {
                 $table->dropColumn('created_at_local');
