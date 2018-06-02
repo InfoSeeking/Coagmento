@@ -95,15 +95,15 @@
                     <div class="col-xs-1" style="background-color:lavender;"><center>5 (Very satisfied)</center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="satisfaction" value="1"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="satisfaction" name="satisfaction" value="1"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="satisfaction" value="2"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="satisfaction" name="satisfaction" value="2"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="satisfaction" value="3"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="satisfaction" name="satisfaction" value="3"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="satisfaction" value="4"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="satisfaction" name="satisfaction" value="4"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="satisfaction" value="5"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="satisfaction" name="satisfaction" value="5"></center>
                     </div>
                 </div>
                 <br><br>
@@ -116,15 +116,15 @@
                     <div class="col-xs-1" style="background-color:lavender;"><center>5 (Very well)</center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="system_helpfulness" value="1"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="system_helpfulness" name="system_helpfulness" value="1"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="system_helpfulness" value="2"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="system_helpfulness" name="system_helpfulness" value="2"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="system_helpfulness" value="3"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="system_helpfulness" name="system_helpfulness" value="3"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="system_helpfulness" value="4"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="system_helpfulness" name="system_helpfulness" value="4"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="system_helpfulness" value="5"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="system_helpfulness" name="system_helpfulness" value="5"></center>
                     </div>
                 </div>
                 <br><br>

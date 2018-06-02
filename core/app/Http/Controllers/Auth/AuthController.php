@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Membership;
 use App\Models\Demographic;
+use App\Services\ProjectService;
+use App\Services\StageProgressService;
 use Auth;
 use Illuminate\Contracts\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -150,19 +153,19 @@ class AuthController extends Controller
             $results = DB::table('memberships')
                 ->where('user_id', $user->id)
                 ->get();
-            if($results->isEmpty()){
+            if(count($results)){
                 $args = [
                     'title'=>'Default Title',
                     'description'=>'Default Description',
                     'private'=>true,
                 ];
                 $project = new Project($args);
-                $project->creator_id = $this->user->id;
+                $project->creator_id = $user->id;
                 $project->private = array_key_exists('private', $args) ? $args['private'] : false;
                 $project->save();
 
                 $owner = new Membership();
-                $owner->user_id = $this->user->id;
+                $owner->user_id = $user->id;
                 $owner->project_id = $project->id;
                 $owner->level = 'o';
                 $owner->save();

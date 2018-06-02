@@ -65,9 +65,9 @@ class QuestionnaireController extends Controller
             'temporal_demand' => 'required',
             'effort' => 'required',
             'frustration' => 'required',
-            'difficulty' => 'required',
-            'task_success' => 'required',
-            'enough_time' => 'required',
+//            'difficulty' => 'required',
+//            'task_success' => 'required',
+//            'enough_time' => 'required',
         ]);
         $req->merge(['user_id' => $user->id]);
         $req->merge(['stage_id' => Session::get('stage_id')]);

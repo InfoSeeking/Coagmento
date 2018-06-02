@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 use App\Models\Membership;
@@ -153,14 +153,19 @@ class ProjectService {
     }
 
     public function getMyFirstProject(){
-        return Project::where('creator_id', $this->user->id)->get(0);
+        return Project::where('creator_id', $this->user->id)->first();
+//        return Project::where('creator_id', $this->user->id)->all()->get(0);
     }
 
     public function getMySecondProject(){
-        return Project::where('creator_id', $this->user->id)->get(1);
+        return Project::where('creator_id', $this->user->id)->get()->splice(1)->first();
+//        return Project::where('creator_id', $this->user->id)->get()->shift()->first();
+//        return Project::where('creator_id', $this->user->id)->all()->get(1);
     }
     public function getMyThirdProject(){
-        return Project::where('creator_id', $this->user->id)->get(2);
+        return Project::where('creator_id', $this->user->id)->get()->splice(2)->first();
+//        return Project::where('creator_id', $this->user->id)->get()->shift()->shift()->first();
+//        return Project::where('creator_id', $this->user->id)->all()->get(2);
     }
 
     // Shares the project with user with the specified level.
