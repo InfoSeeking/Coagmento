@@ -34,5 +34,6 @@ class Kernel extends HttpKernel
         'sidebar.auth' => \App\Http\Middleware\SidebarAuthenticate::class,
         'api.optional.auth' => \App\Http\Middleware\ApiOptionalAuthenticate::class,
         'authorize' => \App\Http\Middleware\Authorize::class,
+        'admin'=>\App\Http\Middleware\MustBeAdministrator::class,
     ];
 }

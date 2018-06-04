@@ -105,6 +105,12 @@ Route::group(['middleware' => ['auth','stage']], function() {
 
 });
 
+//Admin Page(s)
+Route::get('/admin','AdminController@index');
+
+
+
+
 //Route::get('workspace/projects/{project_id}/bookmarks/{bookmark_id}',
 //	'WorkspaceController@viewBookmark');
 //Route::get('workspace/projects/{project_id}', 'WorkspaceController@viewProject');
