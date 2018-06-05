@@ -21,7 +21,7 @@ class MustBeAdministrator
         if($user && $user->admin==1) {
             return $next($request);
         }
-        abort(404, 'You are unable to access this page');
+        abort(404, 'You are unable to access this page.');
     }
 
 }

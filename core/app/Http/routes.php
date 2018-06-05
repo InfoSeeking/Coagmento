@@ -107,6 +107,10 @@ Route::group(['middleware' => ['auth','stage']], function() {
 
 //Admin Page(s)
 Route::get('/admin','AdminController@index');
+Route::get('/admin/manage_users', 'AdminController@manageUsers');
+Route::post('/admin/manage_users', 'AdminController@addUser');
+//Route::delete('/admin/manage_users',AdminController@removeUser');
+Route::get('/admin/manage_tasks', 'AdminController@manageTasks');
 
 
 

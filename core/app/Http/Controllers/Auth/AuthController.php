@@ -88,6 +88,25 @@ class AuthController extends Controller
     }
 
     /**
+     * Creates a new user using random name and credentials
+     */
+    public function createRandom(){
+        $name='Example';
+        $email=str_random(5)+'@example.com';
+        $admin=0;
+        $password_raw = str_random(8);
+
+        return User::create([
+            'name' => $name,
+            'email' => $email,
+            'password_raw' => $password_raw,
+            'password' => bcrypt($password_raw),
+            'admin'=>0,
+        ]);
+
+    }
+
+    /**
      * Called when the user is authenticated
      */
     protected function authenticated(Request $req, User $user) {
@@ -269,6 +288,12 @@ class AuthController extends Controller
         $project->private = array_key_exists('private', $args) ? $args['private'] : false;
         $project->save();
 
+        $owner = new Membership();
+        $owner->user_id = $user->id;
+        $owner->project_id = $project->id;
+        $owner->level = 'o';
+        $owner->save();
+
         $args = [
             'title'=>'Task 1',
             'description'=>'Task 1 Description',
@@ -278,6 +303,12 @@ class AuthController extends Controller
         $project->creator_id = $user->id;
         $project->private = array_key_exists('private', $args) ? $args['private'] : false;
         $project->save();
+
+        $owner = new Membership();
+        $owner->user_id = $user->id;
+        $owner->project_id = $project->id;
+        $owner->level = 'o';
+        $owner->save();
 
         $args = [
             'title'=>'Task 2',
@@ -330,4 +361,6 @@ class AuthController extends Controller
 
         return redirect('auth/confirmation')->with('registration_confirmed',true);
     }
+
+
 }

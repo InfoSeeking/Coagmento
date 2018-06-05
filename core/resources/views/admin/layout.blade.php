@@ -66,8 +66,11 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <!--Must create a logout path. This link does not work.-->
-                                <li><a href="{{ url('/') /*url('/auth/logout')*/ }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                @if(Auth::user()->admin==1)
+                                    <li><a href="{{ url('/admin/manage_users') }}"><i class="fa fa-btn fa-user"></i>Manage Users</a></li>
+                                    <li><a href="{{ url('/admin/manage_tasks') }}"><i class="fa fa-btn fa-tasks"></i>Manage Tasks</a></li>
+                                @endif
+                                <li><a href="{{ url('/auth/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
                     @endif
