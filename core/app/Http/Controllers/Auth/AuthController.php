@@ -91,9 +91,6 @@ class AuthController extends Controller
      * Called when the user is authenticated
      */
     protected function authenticated(Request $req, User $user) {
-        if($user->admin==1){
-            return redirect('/admin');
-        }
         if ($req->has('after_login_redirect')) {
             return redirect($req->input('after_login_redirect'));
         } else {
@@ -116,7 +113,6 @@ class AuthController extends Controller
 
     public function getConfirmation(Request $req){
         return view('auth.confirmation');
-
     }
 
     public function postConsent(Request $req){
@@ -174,7 +170,10 @@ class AuthController extends Controller
                 $owner->level = 'o';
                 $owner->save();
             }
-            if ($user->active) {
+            if($user->active && $user->admin==1){
+                Auth::login($user, $req->has('remember'));
+                return redirect('/admin');
+            } else if ($user->active) {
                 Auth::login($user, $req->has('remember'));
                 return redirect()->intended($this->redirectPath());
             } else {
@@ -186,13 +185,11 @@ class AuthController extends Controller
             }
         }
 
-
         return redirect($this->loginPath())
             ->withInput($req->only('email', 'remember'))
             ->withErrors([
                 'email' => $this->getFailedLoginMessage(),
             ]);
-
 
         return $this->postLogin($req);
 
@@ -330,6 +327,7 @@ class AuthController extends Controller
 //            $m->to('mmitsui@scarletmail.rutgers.edu', 'Test User')->subject('Your Reminder!');
 //        });
 //        Auth::login($this->create($request->all()));
+
         return redirect('auth/confirmation')->with('registration_confirmed',true);
     }
 }

@@ -26,6 +26,13 @@ class QuestionnaireController extends Controller
     }
 
     public function getPretask(Request $req){
+        //Redirect admins; I think this can actually be put elsewhere.
+        $user= Auth::user();
+        if($user->active && $user->admin==1){
+            Auth::login($user, $req->has('remember'));
+            return redirect('/admin');
+        }
+
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
         if($currentStage <= 5){

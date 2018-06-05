@@ -13,8 +13,7 @@ class AdminController extends Controller
     public function __construct()
     {
         //Requires administrative rights.
-        $this->middleware('admin');
-        $this->middleware('auth');
+        $this->middleware('admin', ['except' => null]);
     }
 
     /**
