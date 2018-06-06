@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Users;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Middleware\MustBeAdministrator;
 use App\Http\Requests;
@@ -13,22 +14,18 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use App\Models\User;
 use App\Models\Project;
 use App\Models\Membership;
 use App\Models\Demographic;
-
+use App\Http\Controllers\Auth\AuthController;
 
 class AdminController extends Controller
 {
-    //Taken from AuthController?
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-
-
     public function __construct()
     {
         //Requires administrative rights.
         $this->middleware('admin', ['except' => null]);
+
     }
 
     /**
@@ -43,7 +40,8 @@ class AdminController extends Controller
      * Allow management of users under the control of specific admin
      */
     public function manageUsers(){
-        return view('admin.manage_users');
+        $users=User::all();
+        return view('admin.manage_users', compact('users'));
     }
     /**
      * Allow management of tasks under the control of specific admin
@@ -52,20 +50,28 @@ class AdminController extends Controller
         return view('admin.manage_tasks');
     }
 
-    /*public function addUser(Request $request){
-
-        //$user = Api\UserController::createRandomUser($request);
-        //$user = $this->create($request->all());
-        Auth::registerRandom($request);
-        return redirect('/admin/manage_users',compact('user'))->with('registration_confirmed',true);
-    }*/
     /**
-     * For the creation of random users by an Administrator
+     * Creates a new user using random name and credentials
      */
+   /* public function createRandom(){
+        $name='Example';
+        $email=str_random(5);
+        $email.'@example.com';
+        $password_raw = str_random(8);
+
+        return Users::create([
+            'name' => $name,
+            'email' => $email,
+            'password_raw' => $password_raw,
+            'password' => bcrypt($password_raw),
+            'admin'=>'0',
+        ]);
+
+    }*/
     public function addUser(Request $request)
     {
 
-        $this->validate($request, [
+        /*$this->validate($request, [
             'age' => 'required',
             'gender' => 'required',
             'major' => 'required',
@@ -79,7 +85,7 @@ class AdminController extends Controller
 //            'password'=>'required'
         ]);
 
-        $validator = $this->validator($request->all());
+        $validator = Auth\AuthController::validator($request->all());
 
         $validator->after(function($validator) {
             if (User::all()->count() >=10) {
@@ -88,7 +94,7 @@ class AdminController extends Controller
         });
         if ($validator->fails()) {
             $this->throwValidationException($request, $validator);
-        }
+        }*/
 //        else if(User::all()->count() >=10){
 //            $validator->errors()->add('messageArea','Number of users has reached capacity.');
 ////            $this->throwValidationException($request, $validator);
@@ -96,9 +102,11 @@ class AdminController extends Controller
 //        }
 
 
-        $user = $this->createRandom();
+//        $user = $this->createRandom()->save();
 
-        $args = [
+        $user=AuthController::createRandom();
+
+        /*$args = [
             'title'=>'Demo Task',
             'description'=>'Demo Task Description',
             'private'=>true,
@@ -160,16 +168,72 @@ class AdminController extends Controller
             'consent_datacollection'=>$request->input('consent_datacollection'),
             'consent_audio'=>$request->input('consent_audio'),
             'consent_furtheruse'=>$request->input('consent_furtheruse'),
-        ]);
-
-        return redirect('/admin/manage_users', compact('user'))->with('registration_confirmed',true);
-
-    }
-
-    public function removeUser(){
+        ]);*/
+        $user->save();
+        $users = User::all();
+        return view('/admin/manage_users', compact('users'))->with('registration_confirmed',true);
 
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function editUser(User $user)
+     {
+         return view('admin.edit_user', compact('user'));
+     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     public function update(Request $request, User $user)
+     {
+         $user->update($request->all());
+         $user->active=$request->input('active');
+         if($request->input('admin')){
+             $user->admin=1;
+         } else {
+             $user->admin=0;
+         }
+         $users=Auth::user()->all();
+         return redirect('admin.manage_users', compact('users'));
+
+     }
+
+
+
+    /**
+     * Deletes the specified user.
+     *
+     */
+
+    public function delete($id){
+        //$user=User::find($id);
+        //$user->delete();
+        $users = User::all();
+        DB::table('users')->where('id', $id)->delete();
+
+        //return redirect('admin.manage_users', compact('users'));
+        return back();
+    }
+
+    /*public function destroy($id)
+    {
+        $user=User::destroy($id);
+        $users = Auth::user()->all();
+        return view('admin.manage_users', compact('users'));
+    }*/
+
+
+
+    /*****************************************************************************************************************/
     /**
      * Show the form for creating a new resource.
      *
@@ -180,16 +244,6 @@ class AdminController extends Controller
         //
     }*/
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    /*public function store(Request $request)
-    {
-        //
-    }*/
 
     /**
      * Display the specified resource.
@@ -202,37 +256,5 @@ class AdminController extends Controller
         //
     }*/
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-   /* public function edit($id)
-    {
-        //
-    }*/
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-   /* public function update(Request $request, $id)
-    {
-        //
-    }*/
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /*public function destroy($id)
-    {
-        //
-    }*/
 }

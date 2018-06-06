@@ -90,10 +90,10 @@ class AuthController extends Controller
     /**
      * Creates a new user using random name and credentials
      */
-    public function createRandom(){
-        $name='Example';
-        $email=str_random(5)+'@example.com';
-        $admin=0;
+    public static function createRandom(){
+        $name=str_random(6);
+        $email=str_random(5);
+        $email.='@example.com';
         $password_raw = str_random(8);
 
         return User::create([
@@ -101,7 +101,7 @@ class AuthController extends Controller
             'email' => $email,
             'password_raw' => $password_raw,
             'password' => bcrypt($password_raw),
-            'admin'=>0,
+            'admin'=>'0',
         ]);
 
     }
@@ -361,6 +361,8 @@ class AuthController extends Controller
 
         return redirect('auth/confirmation')->with('registration_confirmed',true);
     }
+
+
 
 
 }

@@ -109,7 +109,9 @@ Route::group(['middleware' => ['auth','stage']], function() {
 Route::get('/admin','AdminController@index');
 Route::get('/admin/manage_users', 'AdminController@manageUsers');
 Route::post('/admin/manage_users', 'AdminController@addUser');
-//Route::delete('/admin/manage_users',AdminController@removeUser');
+Route::get('/admin/{user}/edit_user', 'AdminController@editUser');
+Route::post('admin/{user}/edit_user', 'AdminController@update');
+Route::get('/admin/{user}/delete','AdminController@delete');
 Route::get('/admin/manage_tasks', 'AdminController@manageTasks');
 
 
