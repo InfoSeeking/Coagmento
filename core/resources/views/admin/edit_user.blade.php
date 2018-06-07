@@ -12,7 +12,7 @@
             <div class="panel-body">
                 <br>
 
-                <form method="POST" action="/admin/manage_users">
+                <form method="POST" action="/admin/{{ $user->id }}">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
                     <table class="table table-condensed">
@@ -25,7 +25,7 @@
                         <tbody>
                             <tr>
                                 <th> Name </th>
-                                <th> {{  $user->name  }}</th>
+                                <th> {{ $user->name }}</th>
                             </tr>
                             <tr>
                                 <th> Email </th>
@@ -36,9 +36,9 @@
                                 <th>
                                     <div class="form-check">
                                         @if($user->active)
-                                            <input name="active" value="active" method="POST" type="checkbox" class="form-check-input" id="active" checked>
+                                            <input name="active" value="active"  method="POST" action="{{ url('admin/{user}/edit_user').$user->active }}" type="checkbox" class="form-check-input" id="active" checked>
                                         @else
-                                            <input name="active" value="active" method="POST" type="checkbox" class="form-check-input" id="active">
+                                            <input name="active" value="active"  method="POST" action="{{ url('admin/{user}/edit_user').$user->active }}" type="checkbox" class="form-check-input" id="active">
                                         @endif
                                     </div>
                                 </th>
@@ -48,9 +48,9 @@
                                 <th>
                                     <div class="form-check">
                                         @if($user->admin==1)
-                                            <input name="admin" value="admin" method="POST" type="checkbox" class="form-check-input" id="admin" checked>
+                                            <input name="admin" value="admin"  method="POST" action="{{ url('admin/{user}/edit_user').$user->admin }}" type="checkbox" class="form-check-input" id="admin" checked>
                                         @else
-                                            <input name="admin" value="admin" method="POST" type="checkbox" class="form-check-input" id="admin">
+                                            <input name="admin" value="admin"  method="POST" action="{{ url('admin/{user}/edit_user').$user->admin }}" type="checkbox" class="form-check-input" id="admin">
                                         @endif
                                     </div>
                                 </th>
@@ -60,6 +60,7 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-default">Update</button>
+                        <a class="btn btn-default" href="/admin/manage_users">Return</a>
                     </div>
                 </form>
 

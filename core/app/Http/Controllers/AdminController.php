@@ -53,21 +53,7 @@ class AdminController extends Controller
     /**
      * Creates a new user using random name and credentials
      */
-   /* public function createRandom(){
-        $name='Example';
-        $email=str_random(5);
-        $email.'@example.com';
-        $password_raw = str_random(8);
 
-        return Users::create([
-            'name' => $name,
-            'email' => $email,
-            'password_raw' => $password_raw,
-            'password' => bcrypt($password_raw),
-            'admin'=>'0',
-        ]);
-
-    }*/
     public function addUser(Request $request)
     {
 
@@ -181,8 +167,9 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function editUser(User $user)
+     public function editUser($id)
      {
+         $user=DB::table('users')->where('id', $id)->first();
          return view('admin.edit_user', compact('user'));
      }
 
@@ -193,17 +180,26 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function update(Request $request, User $user)
+     public function update(Request $request, $id)
      {
-         $user->update($request->all());
-         $user->active=$request->input('active');
+         //$user->update($request->all(), $user, $id);
+         //$user=DB::table('users')->where('id', $id)->first();
+         $user = User::where('id', $id)->first();
+
+         if($request->input('active')){
+             $user->active=true;
+         }
+         else{
+             $user->active=false;
+         }
          if($request->input('admin')){
              $user->admin=1;
          } else {
              $user->admin=0;
          }
-         $users=Auth::user()->all();
-         return redirect('admin.manage_users', compact('users'));
+         $user->save();
+
+         return view('admin.edit_user', compact('user'));
 
      }
 

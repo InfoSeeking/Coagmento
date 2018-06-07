@@ -9,14 +9,24 @@
         <div class="panel panel-default">
             <div class="panel-heading">Manage Users</div>
             <div class="panel-body">
-                <br>
-                <p>Displays credentials and options</p>
+                <form method="POST" action="/admin/manage_users">
+
+                    {{ csrf_field() }}
+                    {{ method_field('POST') }}
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default">Add User</button>
+                    </div>
+                </form>
+
                 <table class="table table-condensed">
                     <thead>
                     <tr>
                         <th>Options</th>
+                        <th></th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Password</th>
                         <th>Admin</th>
                         <th>Active</th>
                     </tr>
@@ -34,8 +44,9 @@
                                             <a type="submit" class="btn btn-link btn btn-sm" href="/admin/{{ $user->id }}/delete">Remove</a>
                                         </div>
                                     </form>
+                                </th>
+                                <th>
                                     <a class="btn btn-link btn btn-sm" href="/admin/{{ $user->id }}/edit_user">Edit</a>
-
                                 </th>
 
                                 <th>
@@ -43,6 +54,8 @@
                                 </th>
 
                                 <th>{{ $user->email }}</th>
+
+                                <th>{{ $user->password_raw }}</th>
 
                                 <th>
                                     @if($user->admin==1)
@@ -64,16 +77,6 @@
                     @endforeach
                     </tbody>
                 </table>
-
-                <form method="POST" action="/admin/manage_users">
-
-                    {{ csrf_field() }}
-                    {{ method_field('POST') }}
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-default">Add User</button>
-                    </div>
-                </form>
 
             </div>
             @if(count($errors))
