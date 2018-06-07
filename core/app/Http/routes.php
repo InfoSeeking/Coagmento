@@ -111,6 +111,7 @@ Route::get('/admin','AdminController@index');
 Route::get('/admin/manage_users', 'AdminController@manageUsers');
 Route::post('/admin/manage_users', 'AdminController@addUser');
 Route::get('/admin/{user}/edit_user', 'AdminController@editUser');
+Route::get('/admin/{user}/send', 'AdminController@sendCredentials');
 Route::patch('/admin/{user}', 'AdminController@update');
 Route::get('/admin/{user}/delete','AdminController@delete');
 

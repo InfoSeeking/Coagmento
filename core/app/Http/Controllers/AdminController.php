@@ -18,6 +18,7 @@ use App\Models\Project;
 use App\Models\Membership;
 use App\Models\Demographic;
 use App\Http\Controllers\Auth\AuthController;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -43,6 +44,7 @@ class AdminController extends Controller
         $users=User::all();
         return view('admin.manage_users', compact('users'));
     }
+
     /**
      * Allow management of tasks under the control of specific admin
      */
@@ -53,46 +55,37 @@ class AdminController extends Controller
     /**
      * Creates a new user using random name and credentials
      */
-
     public function addUser(Request $request)
     {
 
-        /*$this->validate($request, [
-            'age' => 'required',
-            'gender' => 'required',
-            'major' => 'required',
-            'english_first' => 'required',
-            'native_language' => 'required_if:english_first,No',
-            'search_experience' => 'required',
-            'search_frequency' => 'required',
-            'nonsearch_frequency' => 'required',
-            'name'=>'required',
-            'email'=>'required',
+//        $this->validate($request, [
+//            'age' => 'required',
+//            'gender' => 'required',
+//            'major' => 'required',
+//            'english_first' => 'required',
+//            'native_language' => 'required_if:english_first,No',
+//            'search_experience' => 'required',
+//            'search_frequency' => 'required',
+//            'nonsearch_frequency' => 'required',
+//            'name'=>'required',
+//            'email'=>'required',
 //            'password'=>'required'
-        ]);
+//        ]);
 
-        $validator = Auth\AuthController::validator($request->all());
+//        $validator = Auth\AuthController::validator($request->all());
 
-        $validator->after(function($validator) {
-            if (User::all()->count() >=10) {
-                $validator->errors()->add('field', 'Number of users has reached capacity.');
-            }
-        });
-        if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
-        }*/
-//        else if(User::all()->count() >=10){
-//            $validator->errors()->add('messageArea','Number of users has reached capacity.');
-////            $this->throwValidationException($request, $validator);
-//            throw new ValidationException($validator);
+//        $validator->after(function($validator) {
+//            if (User::all()->count() >=10) {
+//                $validator->errors()->add('field', 'Number of users has reached capacity.');
+//            }
+//        });
+//        if ($validator->fails()) {
+//            $this->throwValidationException($request, $validator);
 //        }
-
-
-//        $user = $this->createRandom()->save();
 
         $user=AuthController::createRandom();
 
-        /*$args = [
+        $args = [
             'title'=>'Demo Task',
             'description'=>'Demo Task Description',
             'private'=>true,
@@ -140,21 +133,35 @@ class AdminController extends Controller
         $owner->level = 'o';
         $owner->save();
 
+        //Generate random demographics
+        $age= rand(18,105);
+        $arrGender=['Male','Female'];
+        $gender= array_rand($arrGender, 1);
+        $arrMajor=['Accounting','Science','Education','Engineering','Computer Science', 'Graphic Design','History','Information Sciences and Technology', 'Architecture', 'Music', 'Pharmacy'];
+        $major=array_rand($arrMajor, 1);
+        $yearsOnWeb=rand(0,27);//www became public in 1991
+        $searchFrequencyArr=['<0.5 hour','>=0.5 hour & <1 hour','>= 1 hour & <1.5 hour','>=1.5 hour & <2 hour',
+            '>=2 hour & < 2.5 hour','>=2.5 hour & <3 hour','>=3 hour'];
+        $searchFrequency=array_rand($searchFrequencyArr,1);
+        $nonSearchArr=['no more than 1 time','2-5 times','5-10 times',
+            '11-15 times','16-20 times','21-25 times','more than 25 times'];
+        $nonSeach=array_rand($nonSearchArr,1);
+
         Demographic::create([
             'user_id'=>$user->id,
-            'age'=>$request->input('age'),
-            'gender'=>$request->input('gender'),
-            'major'=>$request->input('major'),
-            'native_language'=>$request->input('native_language'),
-            'english_first'=>$request->input('english_first'),
-            'language_first'=>$request->input('language_first'),
-            'search_experience'=>$request->input('search_experience'),
-            'search_frequency'=>$request->input('search_frequency'),
-            'nonsearch_frequency'=>$request->input('nonsearch_frequency'),
-            'consent_datacollection'=>$request->input('consent_datacollection'),
-            'consent_audio'=>$request->input('consent_audio'),
-            'consent_furtheruse'=>$request->input('consent_furtheruse'),
-        ]);*/
+            'age'=>$age,
+            'gender'=>$gender,
+            'major'=>$major,
+            'native_language'=>'Yes',
+            'english_first'=>'Yes',
+            'search_experience'=>$yearsOnWeb,
+            'search_frequency'=>$searchFrequency,
+            'nonsearch_frequency'=>$nonSeach,
+            'consent_datacollection'=>true,
+            'consent_audio'=>true,
+            'consent_furtheruse'=>true,
+        ]);
+
         $user->save();
         $users = User::all();
         return view('/admin/manage_users', compact('users'))->with('registration_confirmed',true);
@@ -203,13 +210,15 @@ class AdminController extends Controller
 
      }
 
-
+    public function sendCredentials(/*Request $request,*/){
+         //$request->session()->flash('alert-success','The credentials have been sent. Please ask the user to check their email.');
+         Session::flash('status', 'The credentials have been sent. Please ask the user to check their email.');
+         return redirect()->back();
+    }
 
     /**
-     * Deletes the specified user.
-     *
+     * Deletes the specified user with a specific id.
      */
-
     public function delete($id){
         //$user=User::find($id);
         //$user->delete();
