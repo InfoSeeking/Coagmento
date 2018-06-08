@@ -28,7 +28,7 @@ class QuestionnaireController extends Controller
     public function getPretask(Request $req){
         //Redirect admins; I think this can actually be put elsewhere.
         $user= Auth::user();
-        if($user->active && $user->admin==1){
+        if($user->active && $user->is_admin){
             Auth::login($user, $req->has('remember'));
             return redirect('/admin');
         }

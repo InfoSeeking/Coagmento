@@ -28,16 +28,16 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['username', 'email', 'password', 'name','password_raw', 'admin'];
+    protected $fillable = ['username', 'email', 'password', 'name','password_raw'/*, 'is_admin'*/];
+
+
+    protected $guarded = ['is_admin'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'password_raw', 'remember_token'];
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
 }

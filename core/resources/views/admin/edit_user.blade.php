@@ -71,10 +71,10 @@
                                 <th>Admin</th>
                                 <th>
                                     <div class="form-check">
-                                        @if($user->admin==1)
-                                            <input name="admin" value="admin"  method="POST" action="{{ url('admin/{user}/edit_user').$user->admin }}" type="checkbox" class="form-check-input" id="admin" checked>
+                                        @if($user->is_admin)
+                                            <input name="admin" value="admin"  method="POST" action="{{ url('admin/{user}/edit_user').$user->is_admin }}" type="checkbox" class="form-check-input" id="admin" checked>
                                         @else
-                                            <input name="admin" value="admin"  method="POST" action="{{ url('admin/{user}/edit_user').$user->admin }}" type="checkbox" class="form-check-input" id="admin">
+                                            <input name="admin" value="admin"  method="POST" action="{{ url('admin/{user}/edit_user').$user->is_admin }}" type="checkbox" class="form-check-input" id="admin">
                                         @endif
                                     </div>
                                 </th>

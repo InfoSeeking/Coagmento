@@ -82,7 +82,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password_raw' => $password_raw,
             'password' => bcrypt($password_raw),
-            'admin'=>0,
+            'is_admin'=>false,
 //            'password' => bcrypt($data['password']),
         ]);
     }
@@ -101,7 +101,7 @@ class AuthController extends Controller
             'email' => $email,
             'password_raw' => $password_raw,
             'password' => bcrypt($password_raw),
-            'admin'=>'0',
+            'is_admin'=>false,
         ]);
 
     }
@@ -189,7 +189,7 @@ class AuthController extends Controller
                 $owner->level = 'o';
                 $owner->save();
             }
-            if($user->active && $user->admin==1){
+            if($user->active && $user->is_admin){
                 Auth::login($user, $req->has('remember'));
                 return redirect('/admin');
             } else if ($user->active) {

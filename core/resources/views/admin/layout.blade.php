@@ -5,7 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Coagmento</title>
+        <title>Coagmento 2.0</title>
+        <link rel="icon" type="image/png" href="images/coagfavicon.png" />
         <!-- Fonts -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
@@ -66,7 +67,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                @if(Auth::user()->admin==1)
+                                @if(Auth::user()->is_admin)
                                     <li><a href="{{ url('/admin/manage_users') }}"><i class="fa fa-btn fa-user"></i>Manage Users</a></li>
                                     <li><a href="{{ url('/admin/manage_tasks') }}"><i class="fa fa-btn fa-tasks"></i>Manage Tasks</a></li>
                                 @endif

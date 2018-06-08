@@ -8,10 +8,14 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Manage Tasks
+                Add a Task
             </div>
             <div class="panel-body">
-                <a class="btn btn-link" href="add_task">Create a Task</a>
+                <form method="post" action="/admin/manage_tasks">
+                    {{ csrf_field() }}
+                    {{ method_field('POST') }}
+
+                </form>
             </div>
         </div>
     </div>

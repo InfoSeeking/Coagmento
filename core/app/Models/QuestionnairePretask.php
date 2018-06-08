@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionnairePretask extends Model
 {
     //
-    protected $fillable = ['user_id','stage_id','search_difficulty','information_understanding',
+    protected $fillable = ['search_difficulty','information_understanding',
         'decide_usefulness','information_integration','information_sufficient'];
+
+    protected $guarded = ['user_id','stage_id'];
 }

@@ -116,6 +116,7 @@ Route::patch('/admin/{user}', 'AdminController@update');
 Route::get('/admin/{user}/delete','AdminController@delete');
 
 Route::get('/admin/manage_tasks', 'AdminController@manageTasks');
+Route::get('/admin/add_task','AdminController@newTask');
 
 
 

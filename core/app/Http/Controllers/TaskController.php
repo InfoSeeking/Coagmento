@@ -20,6 +20,7 @@ class TaskController extends Controller
     public function __construct(StageProgressService $stageProgressService) {
         $this->stageProgressService = $stageProgressService;
         $this->user = Auth::user();
+        $this->middleware('admin', ['only'=>['makeTask']]);
     }
 
     public function getCurrentStageId() {
@@ -83,6 +84,26 @@ class TaskController extends Controller
 
 
         return redirect('/stages');
+    }
+
+    /**
+     *
+     * Creates a task that belongs to an admin user.
+     *
+     * @param Request $request
+     * @param $id
+     * @return Task
+     */
+    public function createTask(Request $request, $id){
+
+        $task = Task::create([
+            'description' => $request->input('description'),
+            'product' => $request->input('product'),
+            'goal' => $request->input('goal'),
+        ]);
+        $task.belongsTo($id);
+
+        return $task;
     }
 
     /**

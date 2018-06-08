@@ -49,7 +49,8 @@ class AdminController extends Controller
      * Allow management of tasks under the control of specific admin
      */
     public function manageTasks(){
-        return view('admin.manage_tasks');
+        //$tasks=Task::all()->where('user_id'...);
+        return view('admin.manage_tasks'/*, compact('tasks')*/);
     }
 
     /**
@@ -200,9 +201,9 @@ class AdminController extends Controller
              $user->active=false;
          }
          if($request->input('admin')){
-             $user->admin=1;
+             $user->is_admin=true;
          } else {
-             $user->admin=0;
+             $user->is_admin=false;
          }
          $user->save();
 
@@ -229,12 +230,14 @@ class AdminController extends Controller
         return back();
     }
 
-    /*public function destroy($id)
-    {
-        $user=User::destroy($id);
-        $users = Auth::user()->all();
-        return view('admin.manage_users', compact('users'));
-    }*/
+    public function newTask(){
+        return view('/admin/add_task');
+    }
+
+    public function addTask(Request $request, $id){
+        $task= TaskController::create($request, $id);
+        return ('/admin/manage_tasks');
+    }
 
 
 

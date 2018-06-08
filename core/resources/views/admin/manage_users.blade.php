@@ -58,7 +58,7 @@
                                 <th>{{ $user->password_raw }}</th>
 
                                 <th>
-                                    @if($user->admin==1)
+                                    @if($user->is_admin)
                                         <b>True</b>
                                     @else
                                         <b>False</b>
