@@ -2,6 +2,10 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
+    <script src="path/to/jquery.js"></script>
+    <script src="path/to/popper.js"></script>
+    <script src="path/to/bootstrap.js"></script>
+    <script src="path/to/bootstrap-confirmation.js"></script>
 @stop
 
 @section('content')
@@ -37,13 +41,18 @@
 
                             <tr>
                                 <th>
-                                    <form action="/admin/{{ $user->id }}/delete">
+                                    <form action="/admin/{{ $user->id }}/delete" id="deleteForm">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <div class="form-group">
-                                            <a type="submit" class="btn btn-link btn btn-sm" href="/admin/{{ $user->id }}/delete">Remove</a>
+                                            <a type="submit" onclick="return confirmChoice()" class="btn btn-link btn btn-sm" href="/admin/{{ $user->id }}/delete">Remove</a>
                                         </div>
                                     </form>
+                                    <script>
+                                        function confirmChoice(){
+                                            return confirm("Are you sure you want to delete this user?");
+                                        }
+                                    </script>
                                 </th>
                                 <th>
                                     <a class="btn btn-link btn btn-sm" href="/admin/{{ $user->id }}/edit_user">Edit</a>

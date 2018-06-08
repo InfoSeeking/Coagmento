@@ -11,6 +11,10 @@
             <div class="alert alert-success">
                 {{ session()->get('status') }}
             </div>
+        @elseif(session()->has('status2'))
+            <div class="alert alert-success">
+                {{session()->get('status2')}}
+            </div>
         @endif
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -32,7 +36,7 @@
 
                 <br>
 
-                <form method="POST" action="/admin/{{ $user->id }}">
+                <form method="POST" action="/admin/{{ $user->id }}/edit_user">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
                     <table class="table table-condensed table-bordered">

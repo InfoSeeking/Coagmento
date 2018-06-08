@@ -146,24 +146,29 @@ class AdminController extends Controller
         $searchFrequency=array_rand($searchFrequencyArr,1);
         $nonSearchArr=['no more than 1 time','2-5 times','5-10 times',
             '11-15 times','16-20 times','21-25 times','more than 25 times'];
-        $nonSeach=array_rand($nonSearchArr,1);
+        $nonSearch=array_rand($nonSearchArr,1);
 
-        Demographic::create([
-            'user_id'=>$user->id,
-            'age'=>$age,
-            'gender'=>$gender,
-            'major'=>$major,
-            'native_language'=>'Yes',
-            'english_first'=>'Yes',
-            'search_experience'=>$yearsOnWeb,
-            'search_frequency'=>$searchFrequency,
-            'nonsearch_frequency'=>$nonSeach,
-            'consent_datacollection'=>true,
-            'consent_audio'=>true,
-            'consent_furtheruse'=>true,
-        ]);
 
-        $user->save();
+
+        if($user->save()){
+            Demographic::create([
+                'user_id'=>$user->id,
+                'age'=>$age,
+                'gender'=>$gender,
+                'major'=>$major,
+                'native_language'=>'Yes',
+                'english_first'=>'Yes',
+                'search_experience'=>$yearsOnWeb,
+                'search_frequency'=>$searchFrequency,
+                'nonsearch_frequency'=>$nonSearch,
+                'consent_datacollection'=>true,
+                'consent_audio'=>true,
+                'consent_furtheruse'=>true,
+            ]);
+        }
+
+
+
         $users = User::all();
         return view('/admin/manage_users', compact('users'))->with('registration_confirmed',true);
 
@@ -206,6 +211,8 @@ class AdminController extends Controller
              $user->is_admin=false;
          }
          $user->save();
+
+         Session::flash('status2', 'The user has been updated.');
 
          return view('admin.edit_user', compact('user'));
 
