@@ -2,10 +2,6 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
-    <script src="path/to/jquery.js"></script>
-    <script src="path/to/popper.js"></script>
-    <script src="path/to/bootstrap.js"></script>
-    <script src="path/to/bootstrap-confirmation.js"></script>
 @stop
 
 @section('content')

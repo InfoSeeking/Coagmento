@@ -17,11 +17,14 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Models\Project;
 use App\Models\Membership;
 use App\Models\Demographic;
+use App\Models\Task;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\TaskController;
 
 class AdminController extends Controller
 {
+    //use TaskController;
     public function __construct()
     {
         //Requires administrative rights.
@@ -49,8 +52,8 @@ class AdminController extends Controller
      * Allow management of tasks under the control of specific admin
      */
     public function manageTasks(){
-        //$tasks=Task::all()->where('user_id'...);
-        return view('admin.manage_tasks'/*, compact('tasks')*/);
+        $tasks=Task::all();
+        return view('admin.manage_tasks', compact('tasks'));
     }
 
     /**
@@ -241,10 +244,16 @@ class AdminController extends Controller
         return view('/admin/add_task');
     }
 
-    public function addTask(Request $request, $id){
-        $task= TaskController::create($request, $id);
-        return ('/admin/manage_tasks');
-    }
+    /*public function addTask(Request $request){
+
+        $id = Auth::User()->id;
+
+        $temp=new TaskController();
+        $task = $temp->createTask($request, $id);
+        $task->save();
+        $tasks= Tasks::all();
+        return view('/admin/manage_tasks', compact('tasks'));
+    }*/
 
 
 

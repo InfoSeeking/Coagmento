@@ -107,16 +107,22 @@ Route::group(['middleware' => ['auth','stage']], function() {
 
 //Admin Page(s)
 Route::get('/admin','AdminController@index');
-
+    //User Management
 Route::get('/admin/manage_users', 'AdminController@manageUsers');
 Route::post('/admin/manage_users', 'AdminController@addUser');
 Route::get('/admin/{user}/edit_user', 'AdminController@editUser');
 Route::get('/admin/{user}/send', 'AdminController@sendCredentials');
 Route::patch('/admin/{user}/edit_user', 'AdminController@update');
 Route::get('/admin/{user}/delete','AdminController@delete');
-
+    //Task Management
 Route::get('/admin/manage_tasks', 'AdminController@manageTasks');
 Route::get('/admin/add_task','AdminController@newTask');
+//Route::post('/admin/manage_tasks', 'AdminController@addTask');
+//later move task controller items to correct area.
+Route::post('/admin/manage_tasks', 'TaskController@addTask');
+Route::get('/admin/{task}/edit_task', 'TaskController@editTask');
+Route::patch('admin/{task}/edit_task', 'TaskController@update');
+Route::get('/admin/{task}/delete_task','TaskController@destroy');
 
 
 

@@ -20,7 +20,7 @@ class TaskController extends Controller
     public function __construct(StageProgressService $stageProgressService) {
         $this->stageProgressService = $stageProgressService;
         $this->user = Auth::user();
-        $this->middleware('admin', ['only'=>['makeTask']]);
+        $this->middleware('admin', ['only'=>['createTask','destroy', 'addTask']]);
     }
 
     public function getCurrentStageId() {
@@ -94,16 +94,57 @@ class TaskController extends Controller
      * @param $id
      * @return Task
      */
-    public function createTask(Request $request, $id){
-
-        $task = Task::create([
+    public function createTask(Request $request){
+        $this->validate($request, [
+            'description' => 'required',
+        ]);
+        $task=Task::create([
             'description' => $request->input('description'),
             'product' => $request->input('product'),
             'goal' => $request->input('goal'),
         ]);
-        $task.belongsTo($id);
+        $task->save();
 
         return $task;
+    }
+
+    public function editTask($id){
+        $task = Task::all()->find($id);
+        return view('admin.edit_task', compact('task'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id){
+        $task = Task::all()->find($id);
+        if($task->description != $request->input('description')){
+            $task->description = $request->input('description');
+        }
+        if($task->product != $request->input('product')){
+            $task->product = $request->input('product');
+        }
+        if($task->goal != $request->input('goal')){
+            $task->goal = $request->input('goal');
+        }
+        $task->save();
+        return view('admin.edit_task', compact('task'));
+    }
+
+    public function addTask(Request $request){
+        $task = $this->createTask($request);
+        $task->save();
+        $tasks= Task::all();
+        return view('admin.manage_tasks', compact('tasks'));
+    }
+
+    public function destroy($id){
+        Task::destroy($id);
+        return back();
     }
 
     /**
@@ -159,26 +200,7 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
+
 }
