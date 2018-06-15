@@ -11,4 +11,8 @@ class Task extends Model
 //    protected $guarded = ['task_id', 'project_id'];
     protected $visible = ['id','description', 'product', 'goal', 'created_at', 'updated_at'];
 
+    public function attributes(){
+        $this->hasMany('App\Models\Attribute');
+    }
+
 }

@@ -20,7 +20,9 @@ class TaskController extends Controller
     public function __construct(StageProgressService $stageProgressService) {
         $this->stageProgressService = $stageProgressService;
         $this->user = Auth::user();
-        $this->middleware('admin', ['only'=>['createTask','destroy', 'addTask']]);
+        $this->middleware('admin',
+            ['only'=>['createTask','destroy', 'addTask', 'update', 'editTask']]
+        );
     }
 
     public function getCurrentStageId() {

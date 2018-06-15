@@ -25,7 +25,8 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            Product: {!! Form::select('product', array(
+                            Product:<br>
+                            {!! Form::select('product', array(
                                 'Factual',
                                 'Intellectual',
                                 )); !!}
@@ -33,16 +34,19 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            Goal: {!! Form::select('goal', array(
+                            Goal:<br>
+                            {!! Form::select('goal', array(
                                 'Specific',
                                 'Amorphous',
                             )); !!}
                         </div>
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <a href="/admin/manage_tasks" class="btn btn-default">Cancel</a>
+                    <span>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a href="/admin/manage_tasks" class="btn btn-default">Cancel</a>
+                    </span>
                 </form>
+
             </div>
         </div>
     </div>

@@ -21,7 +21,8 @@
                     <div class="form-group">
                         <!-- EVENTUALLY WHEN CLEANING MAKE OLD CHOICES PREVIOUSLY SELECTED -->
                         <div>
-                            Product: {!! Form::select('product', array(
+                            Product:<br>
+                            {!! Form::select('product', array(
                                 'Factual',
                                 'Intellectual',
                                 )); !!}
@@ -29,16 +30,19 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            Goal: {!! Form::select('goal', array(
+                            Goal:<br>
+                            {!! Form::select('goal', array(
                                 'Specific',
                                 'Amorphous',
                                 )); !!}
                         </div>
                     </div>
-                    <br>
                     <button type="submit" class="btn btn-primary">Update</button>
                     <a href="/admin/manage_tasks" class="btn btn-default">Cancel</a>
+                    <br>
+                    <hr>
                 </form>
+
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use Auth;
 use App\Models\Users;
 use App\Models\User;
@@ -21,6 +22,7 @@ use App\Models\Task;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\TaskController;
+//use App\Models\Attribute;
 
 class AdminController extends Controller
 {
@@ -53,7 +55,8 @@ class AdminController extends Controller
      */
     public function manageTasks(){
         $tasks=Task::all();
-        return view('admin.manage_tasks', compact('tasks'));
+        $attributes = Attribute::all();
+        return view('admin.manage_tasks', compact('tasks','attributes'));
     }
 
     /**
@@ -219,6 +222,15 @@ class AdminController extends Controller
 
          return view('admin.edit_user', compact('user'));
 
+     }
+
+     public function viewTaskSettings()
+     {
+         $attributes = Attribute::all();
+         /*foreach ($attributes as $attribute){
+             $attribute->option_name = unserialize($attribute->option_name);
+         }*/
+         return view('admin.task_settings', compact('attributes'));
      }
 
     public function sendCredentials(/*Request $request,*/){

@@ -11,7 +11,9 @@
                 Manage Tasks
             </div>
             <div class="panel-body">
-                <a class="btn btn-default" href="add_task">Create a Task</a> <br>
+                <a class="btn btn-default" href="add_task">Create a Task</a>
+                <a class="btn btn-default" href="task_settings">Edit Attributes</a> <br>
+
                 @if($tasks->isEmpty())
                     <div class="container">
                         <h3>
@@ -78,6 +80,19 @@
                     </tbody>
                 </table>
                 @endif
+                <div class="container">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Attributes</div>
+                        <div class="panel-body">
+                            @foreach($attributes as $attribute)
+                                <p>
+                                    <u>{{ $attribute->name }}</u> : {{ $attribute->value }}
+                                </p>
+                                <hr>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

@@ -114,15 +114,21 @@ Route::get('/admin/{user}/edit_user', 'AdminController@editUser');
 Route::get('/admin/{user}/send', 'AdminController@sendCredentials');
 Route::patch('/admin/{user}/edit_user', 'AdminController@update');
 Route::get('/admin/{user}/delete','AdminController@delete');
+Route::get('/admin/task_settings','AdminController@viewTaskSettings');
     //Task Management
 Route::get('/admin/manage_tasks', 'AdminController@manageTasks');
 Route::get('/admin/add_task','AdminController@newTask');
 //Route::post('/admin/manage_tasks', 'AdminController@addTask');
 //later move task controller items to correct area.
 Route::post('/admin/manage_tasks', 'TaskController@addTask');
+
 Route::get('/admin/{task}/edit_task', 'TaskController@editTask');
 Route::patch('admin/{task}/edit_task', 'TaskController@update');
 Route::get('/admin/{task}/delete_task','TaskController@destroy');
+
+Route::post('/admin/task_settings', 'AttributeController@store');
+Route::get('/admin/{task}/edit', 'AttributeController@edit');
+Route::patch('/admin/{attribute}/update_attribute', 'AttributeController@updateValue');
 
 
 
