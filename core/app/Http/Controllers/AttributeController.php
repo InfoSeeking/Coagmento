@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TaskAttributeAssignment;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Attribute;
@@ -67,7 +68,9 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $attribute = Attribute::where('id', $id)->first();
+        $assignments = TaskAttributeAssignment::where('attribute_id', $id)->first();
+        return view('admin.edit_attribute', compact('attribute', 'assignments'));
     }
 
     /**
@@ -77,10 +80,19 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateValue(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $attribute = Attribute::where('id', $id)->first();
+        /*$attribute = Attribute::where('id', $id)->first();
         $attribute->value = $request->input('value');
+        $attribute->save();*/
+        $array = $request->all();
+        $attribute = Attribute::find($id);
+        if($attribute->name !== $request->input('name')){
+            $attribute->name = $request->input('name');
+        }
+        if($attribute->type === "select") {
+            $attribute->option_name = unserialize(serialize($request->input('option_name')));
+        }
         $attribute->save();
         return back();
     }
@@ -93,6 +105,9 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Attribute::destroy($id);
+        TaskAttributeAssignment::where('attribute_id', $id)->delete();
+        return back();
+        /*return view('/admin/task_settings', compact('attributes', 'tasks') );*/
     }
 }

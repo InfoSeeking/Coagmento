@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $table = 'tasks';
-    protected $fillable = ['description', 'product', 'goal'];
+    protected $fillable = ['description'];
 //    protected $guarded = ['task_id', 'project_id'];
-    protected $visible = ['id','description', 'product', 'goal', 'created_at', 'updated_at'];
+    protected $visible = ['id','description', 'created_at', 'updated_at'];
 
     public function attributes(){
-        $this->hasMany('App\Models\Attribute');
+        return $this->belongsToMany('App\Models\Attribute', 'task_attribute_assignments', 'task_id', 'attribute_id')
+        /*->withTimestamps()*/;
     }
+
 
 }

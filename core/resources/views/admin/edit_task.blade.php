@@ -17,30 +17,41 @@
                             {!! Form::text('description') !!}-->
                             <textarea rows="4" name="description" class="form-control">{{ $task->description }}</textarea>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <!-- EVENTUALLY WHEN CLEANING MAKE OLD CHOICES PREVIOUSLY SELECTED -->
-                        <div>
-                            Product:<br>
-                            {!! Form::select('product', array(
-                                'Factual',
-                                'Intellectual',
-                                )); !!}
-                        </div>
-                    </div>
+                    </div> <hr>
+                    @foreach($attributes as $attribute) {{--$request->attribute as $key--}}
                     <div class="form-group">
                         <div>
-                            Goal:<br>
-                            {!! Form::select('goal', array(
-                                'Specific',
-                                'Amorphous',
-                                )); !!}
+                            {{ $attribute->name }}: <br>
+                            <input type="hidden" name="attribute_ids[]" value="{{$attribute->id}}">
+                            @if($attribute->type === "text")
+                                <input type="text" name="option_values[{{$attribute->id}}]" value="{{ $assignments->where('task_id', $task->id)
+                                    ->where('attribute_id', $attribute->id)->first()['value'] }}">
+                            @elseif($attribute->type === "select")
+                                <select name="option_values[{{$attribute->id}}]">
+
+                                    @foreach($attribute->option_name as $key=>$value)
+                                        @if($assignments->where('task_id', $task->id)
+                                            ->where('attribute_id', $attribute->id)->first()['value'] === $value)
+                                            <option value="{{$value}}" selected="selected">
+                                                {{$value}}
+                                            </option>
+                                        @else
+                                            <option value="{{$value}}">
+                                                {{$value}}
+                                            </option>
+                                        @endif
+                                    @endforeach
+
+                                </select><br>
+                            @endif
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="/admin/manage_tasks" class="btn btn-default">Cancel</a>
+                    </div><hr>
+                    @endforeach
+                    <span>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="/admin/manage_tasks" class="btn btn-default">Cancel</a>
+                    </span>
                     <br>
-                    <hr>
                 </form>
 
             </div>

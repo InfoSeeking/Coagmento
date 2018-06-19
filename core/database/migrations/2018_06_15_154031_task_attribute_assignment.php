@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttributesTable extends Migration
+class TaskAttributeAssignment extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateAttributesTable extends Migration
      */
     public function up()
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::create('task_attribute_assignments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('type');
-            $table->string('option_name')->nullable();
+            $table->integer('attribute_id');
+            $table->integer('task_id');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *
@@ -28,6 +28,6 @@ class CreateAttributesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('attributes');
+        //
     }
 }

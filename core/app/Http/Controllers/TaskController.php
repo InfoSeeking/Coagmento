@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\Stage;
 use App\Models\Task;
 use App\Models\StageProgress;
+use App\Models\TaskAttributeAssignment;
 use Illuminate\Http\Request;
 use Auth;
 use App\Utilities\Status;
@@ -102,17 +104,27 @@ class TaskController extends Controller
         ]);
         $task=Task::create([
             'description' => $request->input('description'),
-            'product' => $request->input('product'),
-            'goal' => $request->input('goal'),
         ]);
         $task->save();
+        //$attributes=Attribute::all();
+        $values = $request->input('option_values'); //withorwithout brackets?
+        foreach($request->input('attribute_ids') as $attribute_id) {//^^
+            $task->attributes()->attach($attribute_id, ['value'=>$values[$attribute_id]]);
+            /*$task->attributes()->create([
+                'attribute_id' => $attribute_id,
+                'task_id' => $task->id,
+                'value' => $values[$attribute_id],
+            ])->save();*/
+        }
 
         return $task;
     }
 
     public function editTask($id){
         $task = Task::all()->find($id);
-        return view('admin.edit_task', compact('task'));
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::where('task_id', $task->id);
+        return view('admin.edit_task', compact('task', 'attributes', 'assignments'));
     }
 
     /**
@@ -127,25 +139,31 @@ class TaskController extends Controller
         if($task->description != $request->input('description')){
             $task->description = $request->input('description');
         }
-        if($task->product != $request->input('product')){
-            $task->product = $request->input('product');
-        }
-        if($task->goal != $request->input('goal')){
-            $task->goal = $request->input('goal');
-        }
         $task->save();
-        return view('admin.edit_task', compact('task'));
+
+        $values = $request->input('option_values');
+        foreach($request->input('attribute_ids') as $attribute_id) {
+            $task->attributes()->attach($attribute_id, ['value'=>$values[$attribute_id]]);
+        }
+
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::where('task_id', $task->id)->get();
+
+        return view('admin.edit_task', compact('task', 'attributes', 'assignments'));
     }
 
     public function addTask(Request $request){
         $task = $this->createTask($request);
         $task->save();
         $tasks= Task::all();
-        return view('admin.manage_tasks', compact('tasks'));
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::where('task_id', $task->id)->get();
+        return view('admin.manage_tasks', compact('tasks', 'attributes', 'assignments'));
     }
 
     public function destroy($id){
         Task::destroy($id);
+        TaskAttributeAssignment::where('task_id', $id)->delete();
         return back();
     }
 

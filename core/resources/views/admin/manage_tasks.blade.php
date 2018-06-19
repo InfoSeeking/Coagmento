@@ -28,8 +28,9 @@
                         <th>Options</th>
                         <th></th>
                         <th>Description</th>
-                        <th>Product</th>
-                        <th>Goal</th>
+                        @foreach($attributes as $attribute)
+                            <th>{{ $attribute->name }}</th>
+                        @endforeach
                     </tr>
                     </thead>
                     <tbody>
@@ -59,40 +60,19 @@
                                 {{ $task->description }}
                             </th>
 
-                            <th>
-                                @if($task->product)
-                                    Intellectual
-                                @else
-                                    Factual
-                                @endif
-                            </th>
+                            @foreach($attributes as $attribute)
+                                <th>
+                                    {{ $assignments->where('task_id', $task->id)
+                                    ->where('attribute_id', $attribute->id)->first()['value'] }}
 
-                            <th>
-                                @if($task->goal)
-                                    Amorphous
-                                @else
-                                    Specific
-                                @endif
-                            </th>
-
+                                </th>
+                            @endforeach
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
                 @endif
-                <div class="container">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Attributes</div>
-                        <div class="panel-body">
-                            @foreach($attributes as $attribute)
-                                <p>
-                                    <u>{{ $attribute->name }}</u> : {{ $attribute->value }}
-                                </p>
-                                <hr>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
         </div>

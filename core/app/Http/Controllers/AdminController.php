@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attribute;
 use Auth;
 use App\Models\Users;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\TaskAttributeAssignment;
+use App\Models\Attribute;
 use App\Http\Middleware\MustBeAdministrator;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
@@ -56,7 +57,8 @@ class AdminController extends Controller
     public function manageTasks(){
         $tasks=Task::all();
         $attributes = Attribute::all();
-        return view('admin.manage_tasks', compact('tasks','attributes'));
+        $assignments = TaskAttributeAssignment::all();
+        return view('admin.manage_tasks', compact('tasks','attributes', 'assignments'));
     }
 
     /**
@@ -253,7 +255,9 @@ class AdminController extends Controller
     }
 
     public function newTask(){
-        return view('/admin/add_task');
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::all();
+        return view('/admin/add_task', compact('attributes', 'assignments'));
     }
 
     /*public function addTask(Request $request){
