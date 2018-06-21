@@ -50,7 +50,6 @@
                         <br>
                     <hr>
                 @endforeach
-                <button class="btn btn-primary">Save Settings</button>
                 <a href="manage_tasks" class="btn btn-default">Return to Tasks</a>
             </div>
 

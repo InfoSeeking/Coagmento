@@ -23,7 +23,7 @@ use App\Models\Task;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\TaskController;
-//use App\Models\Attribute;
+use Mail;
 
 class AdminController extends Controller
 {
@@ -259,6 +259,8 @@ class AdminController extends Controller
         $assignments = TaskAttributeAssignment::all();
         return view('/admin/add_task', compact('attributes', 'assignments'));
     }
+
+
 
     /*public function addTask(Request $request){
 

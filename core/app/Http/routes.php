@@ -127,6 +127,13 @@ Route::post('/admin/task_settings', 'AttributeController@store');
 Route::get('/admin/{task}/edit_attribute', 'AttributeController@edit');
 Route::patch('/admin/{attribute}/update_attribute', 'AttributeController@update');
 Route::get('/admin/{attribute}/delete_attribute', 'AttributeController@destroy');
+    //Emails
+Route::get('/admin/manage_emails', 'EmailController@listEmails');
+Route::get('/admin/create_email', 'EmailController@newEmail');
+Route::post('/admin/create_email', 'EmailController@createEmail');
+Route::get('/admin/{email}/delete_email', 'EmailController@destroy');
+Route::get('/admin/{email}/edit_email', 'EmailController@edit');
+Route::patch('/admin/{email}/edit_email', 'EmailController@update');
 
 
 

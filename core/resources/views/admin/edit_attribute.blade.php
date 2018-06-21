@@ -27,17 +27,21 @@
                     <div class="input-field col s12">
                         <label for="name">Attribute name: </label>
                         <input type="text" name="name" id="name" value="{{ $attribute->name }}"><br>
-                        <span class="btn btn-success btn-sm add-option" style="float: left;"> <i class="glyphicon glyphicon-plus"></i></span>
+                        @if($attribute->type === 'select')
+                            <span class="btn btn-success btn-sm add-option" style="float: left;"> <i class="glyphicon glyphicon-plus"></i></span>
+                        @endif
                         <br>
                     </div>
                     <span class="form-g">
                         <br>
+                        @if($attribute->type === 'select')
                         @foreach($attribute->option_name as $key=>$value)
                             <div class="option input-field">
                                 <span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>
                                 <input name="option_name[]" id="option_name[]" value="{{$value}}" type="text" class="form-control">
                             </div>
                         @endforeach
+                        @endif
                     </span>
 
                     <!-- <label for="value">Attribute value: </label>
