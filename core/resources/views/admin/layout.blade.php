@@ -21,12 +21,11 @@
             body {
                 font-family: 'Lato';
             }
-
             .fa-btn {
                 margin-right: 6px;
             }
         </style>
-
+        <script src="jquery-3.3.1.min.js"></script>
         @yield('header')
 
     </head>
@@ -73,6 +72,7 @@
                                     <li><a href="{{ url('/admin/manage_users') }}"><i class="fa fa-btn fa-user"></i>Manage Users</a></li>
                                     <li><a href="{{ url('/admin/manage_tasks') }}"><i class="fa fa-btn fa-tasks"></i>Manage Tasks</a></li>
                                     <li><a href="{{ url('/admin/manage_emails') }}"><i class="fa fa-btn fa-envelope"></i>Manage Emails</a></li>
+                                    <li><a href="{{ url('/admin/manage_questionnaires') }}"><i class="fa fa-btn fa-pencil-square-o"></i>Manage Questionnaires</a></li>
                                 @endif
                                 <li><a href="{{ url('/auth/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>

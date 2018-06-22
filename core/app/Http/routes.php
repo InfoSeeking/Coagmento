@@ -113,29 +113,35 @@ Route::post('/admin/manage_users', 'AdminController@addUser');
 Route::get('/admin/{user}/edit_user', 'AdminController@editUser');
 Route::get('/admin/{user}/send', 'AdminController@sendCredentials');
 Route::patch('/admin/{user}/edit_user', 'AdminController@update');
-Route::get('/admin/{user}/delete','AdminController@delete');
+Route::delete('/admin/{user}/delete','AdminController@delete');
     //Task Management
 Route::get('/admin/manage_tasks', 'AdminController@manageTasks');
 Route::get('/admin/add_task','AdminController@newTask');
 Route::post('/admin/manage_tasks', 'TaskController@addTask');
 Route::get('/admin/{task}/edit_task', 'TaskController@editTask');
 Route::patch('admin/{task}/edit_task', 'TaskController@update');
-Route::get('/admin/{task}/delete_task','TaskController@destroy');
+Route::delete('/admin/{task}/delete_task','TaskController@destroy');
     //Attributes
 Route::get('/admin/task_settings','AdminController@viewTaskSettings');
 Route::post('/admin/task_settings', 'AttributeController@store');
 Route::get('/admin/{task}/edit_attribute', 'AttributeController@edit');
 Route::patch('/admin/{attribute}/update_attribute', 'AttributeController@update');
-Route::get('/admin/{attribute}/delete_attribute', 'AttributeController@destroy');
+Route::delete('/admin/{attribute}/delete_attribute', 'AttributeController@destroy');
     //Emails
 Route::get('/admin/manage_emails', 'EmailController@listEmails');
 Route::get('/admin/create_email', 'EmailController@newEmail');
 Route::post('/admin/create_email', 'EmailController@createEmail');
-Route::get('/admin/{email}/delete_email', 'EmailController@destroy');
+Route::delete('/admin/{email}/delete_email', 'EmailController@destroy');
 Route::get('/admin/{email}/edit_email', 'EmailController@edit');
 Route::patch('/admin/{email}/edit_email', 'EmailController@update');
-
-
+    //Questionnaire
+Route::get('/admin/manage_questionnaires','QuestionnaireController@manageQuestionnaires');
+Route::get('/admin/create_questionnaire','QuestionnaireController@create');
+Route::post('/admin/create_questionnaire', 'QuestionnaireController@store');
+Route::get('/admin/{questionnaire}/edit_questionnaire', 'QuestionnaireController@edit');
+Route::patch('/admin/{questionnaire}/edit_questionnaire', 'QuestionnaireController@update');
+Route::get('/admin/{questionnaire}/delete_questionnaire', 'QuestionnaireController@destroy');
+Route::post('/admin/{question}/add','QuestionnaireController@addQuestion');
 
 
 

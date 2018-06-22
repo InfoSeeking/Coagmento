@@ -42,7 +42,15 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'type' => 'required',
+        ]);
+        if($request->input('type')==='select'){
+            $this->validate($request,[
+                'option_name' => 'required',
+            ]);
+        }
         $array = $request->all();
         $attribute = Attribute::create($array);
         $attribute->option_name=serialize($request->input('option_name'));
@@ -85,12 +93,18 @@ class AttributeController extends Controller
         /*$attribute = Attribute::where('id', $id)->first();
         $attribute->value = $request->input('value');
         $attribute->save();*/
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
         $array = $request->all();
         $attribute = Attribute::find($id);
         if($attribute->name !== $request->input('name')){
             $attribute->name = $request->input('name');
         }
         if($attribute->type === "select") {
+            /*$this->validate($request->Attribute, [
+                'option_name' => 'required',
+            ]);*/
             $attribute->option_name = unserialize(serialize($request->input('option_name')));
         }
         $attribute->save();

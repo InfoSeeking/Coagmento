@@ -10,7 +10,7 @@
                 Manage Emails
             </div>
             <div class="panel panel-body">
-                <table class="table table-condensed table-hover">
+                <table class="table table-condensed table-hover table-bordered">
                     <thead class="label-info">
                     <tr>
                         <th></th>
@@ -23,14 +23,11 @@
                     @foreach($emails as $email)
                         <tr>
                             <th>
-                                <form action="/admin/{{ $email->id }}/delete_email" id="delete">
+                                <form action="/admin/{{ $email->id }}/delete_email" method="post">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
-                                    <span{{--class="form-group"--}}>
-                                    <a type="submit" onclick="return confirmChoice()" class="btn btn-danger btn btn-sm" style="float: left" href="/admin/{{ $email->id }}/delete_email">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </a>
-                                    </span>
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <button type="submit" onclick="return confirmChoice()" class="btn btn-danger btn btn-sm"> <span class="fa fa-times"></span> </button>
                                 </form>
                             </th>
                             <th>{{$email->subject}}</th>

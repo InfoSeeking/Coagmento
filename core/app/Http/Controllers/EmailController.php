@@ -31,6 +31,10 @@ class EmailController extends Controller
 
     public function createEmail(Request $request){
         //$arr=$request->all();
+        $this->validate($request, [
+            'subject' => 'required',
+            'body' => 'required',
+        ]);
         $email = Email::create([
             'subject'=>$request->input('subject'),
             'body'=>$request->input('body'),
@@ -66,6 +70,10 @@ class EmailController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'subject' => 'required',
+            'body' => 'required',
+        ]);
         $email = Email::find($id);
         if($email->body != $request->input('body')){
             $email->body = $request->input('body');

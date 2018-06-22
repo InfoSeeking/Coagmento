@@ -38,34 +38,33 @@
 
                     @foreach($tasks as $task)
                         <tr>
-                            <th>
-                                <form action="/admin/{{ $task->id }}/delete_task" id="destroy">
+                            <td>
+                                <form action="/admin/{{ $task->id }}/delete_task" method="post">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
-                                    <div class="form-group">
-                                        <a type="submit" onclick="return confirmChoice()" class="btn btn-link btn btn-sm" href="/admin/{{ $task->id }}/delete_task">Remove</a>
-                                    </div>
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <button type="submit" onclick="return confirmChoice()" class="btn btn-danger btn btn-sm"> <span class="fa fa-times"></span> </button>
                                 </form>
                                 <script>
                                     function confirmChoice(){
                                         return confirm("Are you sure you want to delete this task?");
                                     }
                                 </script>
-                            </th>
-                            <th>
+                            </td>
+                            <td>
                                 <a class="btn btn-link btn btn-sm" href="/admin/{{ $task->id }}/edit_task">Edit</a>
-                            </th>
+                            </td>
 
-                            <th>
+                            <td>
                                 {{ $task->description }}
-                            </th>
+                            </td>
 
                             @foreach($attributes as $attribute)
-                                <th>
+                                <td>
                                     {{ $assignments->where('task_id', $task->id)
                                     ->where('attribute_id', $attribute->id)->first()['value'] }}
 
-                                </th>
+                                </td>
                             @endforeach
                         </tr>
                     @endforeach

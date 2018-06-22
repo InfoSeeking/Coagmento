@@ -2,7 +2,6 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
-    <script src="jquery-3.3.1.min.js"></script>
 @stop
 
 @section('content')
@@ -30,23 +29,22 @@
                             <!--<i class="fa fa-btn fa-plus-circle">Add Option</i>-->
                         @endif
                         <br>
-                        <span>
-                            <a href="/admin/{{ $attribute->id }}/edit_attribute" class="btn btn-warning btn-sm" style="float:left">Edit</a>
-                            <form action="/admin/{{ $attribute->id }}/delete_attribute" id="delete">
+
+                        <div class="btn-toolbar">
+                            <a href="/admin/{{ $attribute->id }}/edit_attribute" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="/admin/{{ $attribute->id }}/delete_attribute" method="post">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
-                                <span{{--class="form-group"--}}>
-                                    <a type="submit" onclick="return confirmChoice()" class="btn btn-danger btn btn-sm" style="float: left" href="/admin/{{ $attribute->id }}/delete_attribute">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </a>
-                                </span>
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit" onclick="return confirmChoice()" class="btn btn-danger btn btn-sm"> <span class="fa fa-times"></span> </button>
                             </form>
                             <script>
                                 function confirmChoice(){
                                     return confirm("Are you sure you want to delete this Attribute?");
                                 }
                             </script>
-                        </span>
+                        </div>
+
                         <br>
                     <hr>
                 @endforeach
@@ -54,7 +52,15 @@
             </div>
 
         </div>
-
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="panel panel-default">
         <div class="panel-heading">Add an Attribute</div>
         <div class="panel-body">
@@ -125,4 +131,5 @@
         </div>
         </div>
     </div>
+
 @stop

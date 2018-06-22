@@ -2,7 +2,6 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
-    <script src="jquery-3.3.1.min.js"></script>
 @stop
 
 @section('content')
@@ -10,6 +9,15 @@
         <div class="panel panel-default">
             <div class="panel-heading">Edit Attribute</div>
             <div class="panel-body">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form method="POST" action="/admin/{{ $attribute->id }}/update_attribute">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
@@ -28,12 +36,11 @@
                         <label for="name">Attribute name: </label>
                         <input type="text" name="name" id="name" value="{{ $attribute->name }}"><br>
                         @if($attribute->type === 'select')
-                            <span class="btn btn-success btn-sm add-option" style="float: left;"> <i class="glyphicon glyphicon-plus"></i></span>
+                            <span class="btn btn-success btn-sm add-option" style="float: left;"> <i class="glyphicon glyphicon-plus"></i></span><br>
                         @endif
                         <br>
                     </div>
                     <span class="form-g">
-                        <br>
                         @if($attribute->type === 'select')
                         @foreach($attribute->option_name as $key=>$value)
                             <div class="option input-field">

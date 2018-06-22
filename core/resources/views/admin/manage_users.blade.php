@@ -37,12 +37,11 @@
 
                             <tr>
                                 <th>
-                                    <form action="/admin/{{ $user->id }}/delete" id="deleteForm">
+                                    <form action="/admin/{{ $user->id }}/delete" method="delete">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
-                                        <div class="form-group">
-                                            <a type="submit" onclick="return confirmChoice()" class="btn btn-link btn btn-sm" href="/admin/{{ $user->id }}/delete">Remove</a>
-                                        </div>
+                                        <input type="hidden" name="_method" value="delete" />
+                                        <button type="submit" onclick="return confirmChoice()" class="btn btn-danger btn btn-sm"> <span class="fa fa-times"></span> </button>
                                     </form>
                                     <script>
                                         function confirmChoice(){

@@ -2,14 +2,23 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
-    <script src="jquery-3.3.1.min.js"></script>
 @stop
 
 @section('content')
+
     <div class="container">
         <div class="panel panel-default">
             <div class="panel panel-heading">Edit Email</div>
             <div class="panel panel-body">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form method="POST" action="/admin/{{$email->id}}/edit_email">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}

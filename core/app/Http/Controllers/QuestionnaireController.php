@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Questionnaire;
 use App\Models\Stage;
 use App\Models\Task;
 use App\Models\StageProgress;
@@ -151,9 +152,10 @@ class QuestionnaireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function manageQuestionnaires()
     {
-        //
+        $questionnaires = Questionnaire::all();
+        return view('admin.manage_questionnaires', compact('questionnaires'));
     }
 
     /**
@@ -163,7 +165,7 @@ class QuestionnaireController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.create_questionnaire');
     }
 
     /**
@@ -174,7 +176,10 @@ class QuestionnaireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $arr = $request->all();
+        Questionnaire::create($arr);
+        $questionnaires = Questionnaire::all();
+        return view('admin.manage_questionnaires', compact('questionnaires'));
     }
 
     /**
