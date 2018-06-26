@@ -34,7 +34,7 @@ var savePasteUrl =  domain + "/sidebar/pastes";
 var saveMouseUrl =  domain + "/sidebar/scrollsmouseactions";
 
 
-var contactUrl = "mailto:mmitsui@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
+var contactUrl = "mailto:jl2033@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
 
 
 var previousTabAction = '';

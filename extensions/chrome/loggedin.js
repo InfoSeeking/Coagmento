@@ -98,7 +98,7 @@ $(document).ready(function() {
         name = result.name;
         email = result.email;
         password = result.password;
-        $('#name').text(name);
+        $('#name').text(user_id);
     });
 
     
