@@ -16,7 +16,7 @@ var apidomain = global_config['apidomain'];
 var loginUrl = domain + "/sidebar/auth/login";
 var logoutUrl = domain + "/sidebar/auth/logout";
 var homeUrl = domain + "/";
-var loggedInHomeUrl = domain + "/workspace";
+var loggedInHomeUrl = domain + "/auth/login";
 
 var savePageUrl = apidomain + '/pages';
 var saveQueryUrl = apidomain+"/queries";
@@ -56,6 +56,8 @@ var logged_in = false;
 
 var bookmark_menu = null;
 var snippet_menu = null;
+
+var task_timer = null;
 
 
 

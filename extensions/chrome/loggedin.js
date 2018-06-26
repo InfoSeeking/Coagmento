@@ -17,6 +17,7 @@ $(document).ready(function() {
     var homeDir = background.domain;
     var logoutUrl = background.logoutUrl;
     var loggedInHomeUrl = background.loggedInHomeUrl;
+    
 
     
     function goHome(){
@@ -24,10 +25,33 @@ $(document).ready(function() {
     }
 
 
-    function gotoEtherpad(){
-        chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
-    }
+    // function gotoEtherpad(){
+    //     chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
+    // }
 
+    if(background.task_timer!=null){
+        clearInterval(background.task_timer);
+    }
+    var countDownDate = new Date().getTime()+1000 * 60*20;
+    background.task_timer = setInterval(function() {
+        var now = new Date().getTime();
+        
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+        
+        // Time calculations for days, hours, minutes and seconds
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Output the result in an element with id="demo"
+        document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+        
+        // If the count down is over, write some text 
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timer_text").innerHTML = "EXPIRED";
+        }
+    }, 1000);
 
 
     function logout_state_popup(){

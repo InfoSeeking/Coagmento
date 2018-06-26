@@ -18,42 +18,51 @@
 			<div class='container'>
 				<h3>Hello, <div id='name'></div></h6>
 
-
-				<div class="panel panel-primary">
-				<div class="panel-heading">Project: Task 1</div>
-				<div class="panel-body">
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item">
-							<a class="nav-link" id="bookmarks-tab" data-toggle="tab" href = "#bookmarks" role="tab" aria-controls="bookmarks" aria-selected="true">Bookmarks</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="snippets-tab" data-toggle="tab" href = "#snippets" role="tab" aria-controls="snippets" aria-selected="false">Snippets</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="pages-tab" data-toggle="tab" href = "#pages" role="tab" aria-controls="pages" aria-selected="false">Pages</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="queries-tab" data-toggle="tab" href = "#queries" role="tab" aria-controls="queries" aria-selected="false">Queries</a>
-						</li>
-					</ul>
-					<div class="tab-content" id="myTabContent">
-						<div class="tab-pane" id="bookmarks" role="tabpanel" aria-labelledby="bookmarks-tab"> You have no bookmarks! </div>
-						<div class="tab-pane" id="snippets" role="tabpanel" aria-labelledby="snippets-tab"> You have no snippets! </div>
-						<div class="tab-pane" id="pages" role="tabpanel" aria-labelledby="pages-tab"> You have no pages! </div>
-						<div class="tab-pane" id="queries" role="tabpanel" aria-labelledby="queries-tab"> You have no queries! </div>
+					<div id="default_display">
+						<h4></h4>
+						
 					</div>
+					<div id="task_display">
+						<center>
+							<h4>Time Remaining:</h4>
+							<h4 id="timer_text">MM:SS</h4>
+						</center>
 
-				</div>
-				<div class="panel-footer">
-					<!--small return link-->
+						<div class="panel panel-primary">
+							<div class="panel-heading">Project: Task 1</div>
+							<div class="panel-body">
+								<ul class="nav nav-tabs" id="myTab" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link" id="bookmarks-tab" data-toggle="tab" href = "#bookmarks" role="tab" aria-controls="bookmarks" aria-selected="true">Bookmarks</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="snippets-tab" data-toggle="tab" href = "#snippets" role="tab" aria-controls="snippets" aria-selected="false">Snippets</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pages-tab" data-toggle="tab" href = "#pages" role="tab" aria-controls="pages" aria-selected="false">Pages</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="queries-tab" data-toggle="tab" href = "#queries" role="tab" aria-controls="queries" aria-selected="false">Queries</a>
+									</li>
+								</ul>
+								<div class="tab-content" id="myTabContent">
+									<div class="tab-pane" id="bookmarks" role="tabpanel" aria-labelledby="bookmarks-tab"> You have no bookmarks! </div>
+									<div class="tab-pane" id="snippets" role="tabpanel" aria-labelledby="snippets-tab"> You have no snippets! </div>
+									<div class="tab-pane" id="pages" role="tabpanel" aria-labelledby="pages-tab"> You have no pages! </div>
+									<div class="tab-pane" id="queries" role="tabpanel" aria-labelledby="queries-tab"> You have no queries! </div>
+								</div>
+
+							</div>
+				<!-- <div class="panel-footer">
 					<button id="etherpad_button" class="btn btn-success btn-sm">Go To Etherpad</button>
-				</div>
-				</div>
-
-				<div class = "btn-group-horizontal">
-					<button id="opencspace_button" class="btn btn-default btn-sm">Go To Home</button>
-					<button id="logout_button" class="btn btn-danger btn-sm">Logout</button>
-				</div>
+				</div> -->
+						</div>
+						<div class = "btn-group-horizontal">
+							<button id="opencspace_button" class="btn btn-default btn-sm">Go To Home</button>
+							<button id="logout_button" class="btn btn-danger btn-sm">Logout</button>
+						</div>
+						
+					</div>
 			</div>
 			<!-- <div class = "container" >
 		
