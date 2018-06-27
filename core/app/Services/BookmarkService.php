@@ -113,10 +113,12 @@ class BookmarkService {
 		$bookmark->user_id = $this->user->id;
 		$bookmark->title = array_key_exists('title', $args) ? $args['title'] : 'Untitled';
 
-        $bookmark->project_id = -1;
-        if(Session::has('project_id')){
-            $bookmark->project_id = Session::get('project_id');
-        }
+//		TODO
+        $bookmark->project_id = 0;
+//        if(Session::has('project_id')){
+//            $bookmark->project_id = Session::get('project_id');
+//        }
+
 //	    Temp (05/04/2018): remove project_id
 //		$bookmark->project_id = $args['project_id'];
 		$bookmark->load('thumbnail');

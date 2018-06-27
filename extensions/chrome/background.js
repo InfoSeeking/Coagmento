@@ -21,6 +21,9 @@ var loggedInHomeUrl = domain + "/auth/login";
 var savePageUrl = apidomain + '/pages';
 var saveQueryUrl = apidomain+"/queries";
 var saveBookmarkUrl = apidomain + "/bookmarks";
+var getBookmarksUrl = apidomain + "/bookmarks";
+var getPagesUrl = apidomain + "/pages";
+var getQueriesUrl = apidomain + "/queries";
 var saveSnippetUrl = apidomain + "/snippets";
 
 
@@ -578,6 +581,77 @@ var saveWindowFocusChanged = function(windowId){
     }
 }
 
+var refreshContents = function(){
+    var xhr = new XMLHttpRequest();
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        var params = {
+            "project_id":0
+        }
+        
+        xhr.open("GET", getBookmarksUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Bookmark ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                var result = JSON.parse(xhr.responseText);
+                chrome.runtime.sendMessage({type: "bookmark_data",data:result}, function(response) {
+                    console.log(response)
+                });
+            }
+        }
+        xhr.send(JSON.stringify(params));
+    });
+
+    // var xhr = new XMLHttpRequest();
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    //     var params = {
+    //         "project_id":0
+    //     }
+    //     console.log("Page retrieve - params: " +JSON.stringify(params));
+        
+    //     xhr.open("GET", getPagesUrl, false);
+    //     xhr.setRequestHeader("Content-type", "application/json");
+    //     xhr.onreadystatechange = function() {
+    //         console.log("Page ready state:"+xhr.readyState);
+    //         if (xhr.readyState == 4) {
+    //             create_notification("Pages retrieved!");
+    //             var result = JSON.parse(xhr.responseText);
+    //             console.log("Pages retrieved!");
+    //             chrome.runtime.sendMessage({type: "page_data",data:result}, function(response) {
+    //                 console.log(response)
+    //             });
+    //         }
+    //     }
+    //     xhr.send(JSON.stringify(params));
+    // });
+
+    // var xhr = new XMLHttpRequest();
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    //     var params = {
+    //         "project_id":0
+    //     }
+    //     console.log("Query retrieve - params: " +JSON.stringify(params));
+        
+    //     xhr.open("GET", getQueriesUrl, false);
+    //     xhr.setRequestHeader("Content-type", "application/json");
+    //     xhr.onreadystatechange = function() {
+    //         console.log("Query ready state:"+xhr.readyState);
+    //         if (xhr.readyState == 4) {
+    //             create_notification("Queries retrieved!");
+    //             var result = JSON.parse(xhr.responseText);
+    //             console.log("Queries retrieved!");
+    //             chrome.runtime.sendMessage({type: "query_data",data:result}, function(response) {
+    //                 console.log(response)
+    //             });
+    //         }
+    //     }
+    //     xhr.send(JSON.stringify(params));
+    // });
+}
+
+
+
+
 var saveWebNavigationCommitted = function(details){
     if(logged_in){
         var now = new Date();
@@ -599,6 +673,8 @@ var saveWebNavigationCommitted = function(details){
                         function(result) {
                             details.referrerInfo = result;
                             saveAction("webNavigation.onCommitted",details.tabId,details,now);
+                            refreshContents();
+
                             savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
                         }
                     );

@@ -8,10 +8,10 @@ $(document).ready(function(){
     var usernameInputID = '#username';
     var passwordInputID = '#password';
     
-    
     // TODO Code.  Plus:
     // 1) Checked logged in URL
     // 2) set logged in background variable
+    // TODO: Properly update project ID
 
 
     function login_state_popup(uid,pid,username,useremail,pwd){
@@ -28,6 +28,7 @@ $(document).ready(function(){
         });
         background.show_context_menu();
     }
+    
 
     function login_popup(email,password){
         var xhr = new XMLHttpRequest();
@@ -48,6 +49,7 @@ $(document).ready(function(){
     }
 
     function login_click(){
+        event.preventDefault();
         login_popup($(usernameInputID).val(),$(passwordInputID).val());
     }
 

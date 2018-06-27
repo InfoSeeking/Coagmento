@@ -2,19 +2,13 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="loggedin.css"></link>
     	<link rel="stylesheet" type="text/css" href="external/css/bootstrap.min.css"></link>
+    	<link rel="stylesheet" type="text/css" href="external/css/bootstrap-table.css"></link>
     	<script src="external/js/jquery-3.2.1.min.js"></script>
     	<script src="external/js/bootstrap.min.js"></script>
+    	<script src="external/js/bootstrap-table.js"></script>
 		<script src = "loggedin.js"></script>
-
-		
 	</head>
-
-
 		<body> 
-				
-
-
-
 			<div class='container'>
 					<h3>Hello, <div id='name'></div></h6>
 
@@ -32,12 +26,15 @@
 							<div class="panel-heading">Project: Task 1</div>
 							<div class="panel-body">
 								<ul class="nav nav-tabs" id="myTab" role="tablist">
-									<li class="nav-item">
+									<li class="nav-item active">
 										<a class="nav-link" id="bookmarks-tab" data-toggle="tab" href = "#bookmarks" role="tab" aria-controls="bookmarks" aria-selected="true">Bookmarks</a>
 									</li>
-									<li class="nav-item">
+
+									<!-- <li class="nav-item">
 										<a class="nav-link" id="snippets-tab" data-toggle="tab" href = "#snippets" role="tab" aria-controls="snippets" aria-selected="false">Snippets</a>
-									</li>
+									</li> -->
+
+
 									<li class="nav-item">
 										<a class="nav-link" id="pages-tab" data-toggle="tab" href = "#pages" role="tab" aria-controls="pages" aria-selected="false">Pages</a>
 									</li>
@@ -46,10 +43,28 @@
 									</li>
 								</ul>
 								<div class="tab-content" id="myTabContent">
-									<div class="tab-pane" id="bookmarks" role="tabpanel" aria-labelledby="bookmarks-tab"> You have no bookmarks! </div>
-									<div class="tab-pane" id="snippets" role="tabpanel" aria-labelledby="snippets-tab"> You have no snippets! </div>
-									<div class="tab-pane" id="pages" role="tabpanel" aria-labelledby="pages-tab"> You have no pages! </div>
-									<div class="tab-pane" id="queries" role="tabpanel" aria-labelledby="queries-tab"> You have no queries! </div>
+
+									<div class="tab-pane fade in active" id="bookmarks" role="tabpanel" aria-labelledby="bookmarks-tab"> 
+										<div id="bookmarks_no" style="display:none">You have no bookmarks! 
+										</div>
+										<div id="bookmarks_yes" class='pre-scrollable' >
+											<table id="bookmarks_table"></table>
+										</div>
+									</div>
+									<!-- <div class="tab-pane fade" id="snippets" role="tabpanel" aria-labelledby="snippets-tab"> You have no snippets! </div> -->
+									<div class="tab-pane fade" id="pages" role="tabpanel" aria-labelledby="pages-tab">		<div id="pages_no">You have no pages! 
+										</div>
+										<div id="pages_yes" style="display:none">
+											<table id="pages_table"></table>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="queries" role="tabpanel" aria-labelledby="queries-tab"> 
+										<div id="queries_no">You have no queries! 
+										</div>
+										<div id="queries_yes" style="display:none">
+											<table id="queries_table"></table>
+										</div>
+									</div>
 								</div>
 
 							</div>
