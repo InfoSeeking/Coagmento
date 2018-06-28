@@ -13,17 +13,30 @@
 					<h3>Hello, <div id='name'></div></h6>
 
 					<div id="default_display">
-						<h4></h4>
-						
+						You are currently not working on the task.  Once you begin working on the task, your workspace will be displayed here
 					</div>
-					<div id="task_display">
-						<center>
-							<h4>Time Remaining:</h4>
-							<h4 id="timer_text">MM:SS</h4>
-						</center>
 
+					<div id="task_display">
+						<div class='container' id='timer_container'>
+							<center>
+								<h4>Time Remaining:</h4>
+								<h4 id="timer_text">MM:SS</h4>
+							</center>
+						</div>
+
+						<div class='task_button_display'>
+							<div class = "btn-group-horizontal">
+								<button id="opencspace_button" class="btn btn-default btn-sm">Go To Home</button>
+								<button id="etherpad_button" class="btn btn-success btn-sm">Go To Etherpad</button>
+							</div>
+						</div>
+
+						
+						
+
+						<div class='container' id='task_activity_container'>
 						<div class="panel panel-primary">
-							<div class="panel-heading">Project: Task 1</div>
+							<div class="panel-heading">Bookmarks, Pages, Queries</div>
 							<div class="panel-body">
 								<ul class="nav nav-tabs" id="myTab" role="tablist">
 									<li class="nav-item active">
@@ -68,19 +81,19 @@
 								</div>
 
 							</div>
-				<div class="panel-footer">
-					<button id="etherpad_button" class="btn btn-success btn-sm">Go To Etherpad</button>
-				</div>
 						</div>
-						<div class = "btn-group-horizontal">
-							<button id="opencspace_button" class="btn btn-default btn-sm">Go To Home</button>
-							<button id="logout_button" class="btn btn-danger btn-sm">Logout</button>
 						</div>
+
 						
 					</div>
 
 
-					<div id="questionnaire_display" class="panel panel-danger">
+					<div class='container' id='questionnaire_container'>
+
+						<form id='query_segment_form'>
+							
+						<div id="questionnaire_display" class="panel panel-danger">
+
 						<div class="panel-heading"><strong>You've just completed a query segment!  We would like to ask you the following questions:</strong></div>
 						<div class="container">
 							<div class="form-group">
@@ -130,7 +143,16 @@
 						</div>
 							
 						<div class='panel-footer'>
+							<input type='hidden' name='query_id' id='query_id' value='5' />
 							<button name = "query_submit" id="query_submit" class="btn btn-success">Submit</button>
+						</div>
+						</div>
+						</form>
+					</div>
+
+					<div class='container' id='logout_container'>
+						<div class = "btn-group-horizontal">
+							<button id="logout_button" class="btn btn-danger btn-sm">Logout</button>
 						</div>
 					</div>
 			</div>

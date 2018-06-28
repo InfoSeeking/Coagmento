@@ -66,6 +66,17 @@ class StageProgressController extends Controller
         return redirect('/stages');
     }
 
+    public function getCurrentStageUser(Request $req){
+        $currentStage = $this->stageProgressService->getCurrentStage($req)->getResult();
+        $currentStageProgress = $this->stageProgressService->getCurrentStageProgress($req)->getResult();
+        return response()->json([
+            'stage_id'=>$currentStage->id,
+            'timed'=>$currentStage->timed,
+            'time_limit'=>$currentStage->time_limit,
+            'time_start'=>$currentStageProgress->created_at,
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *

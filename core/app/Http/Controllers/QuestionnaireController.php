@@ -8,6 +8,7 @@ use App\Models\Task;
 use App\Models\StageProgress;
 use App\Models\QuestionnairePosttask;
 use App\Models\QuestionnairePretask;
+use App\QuestionnaireQuerySegment;
 use Illuminate\Http\Request;
 use Auth;
 use App\Utilities\Status;
@@ -43,6 +44,12 @@ class QuestionnaireController extends Controller
         }
         $task = Task::all()->where('id',$taskID)->first();
         return view('questionnaire_pretask',['task'=>$task]);
+    }
+
+    public function postQuerySegmentQuestionnaire(Request $req){
+        $questionnaire = new QuestionnaireQuerySegment($req->all());
+        $questionnaire->save();
+        return response()->json(['success'=>true]);
     }
 
     public function postPretask(Request $req){

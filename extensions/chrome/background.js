@@ -38,8 +38,9 @@ var saveCopyUrl =  domain + "/sidebar/copies";
 var savePasteUrl =  domain + "/sidebar/pastes";
 var saveMouseUrl =  domain + "/sidebar/scrollsmouseactions";
 
-var getCurrentStage = domain;
-var goToNextStage = domain;
+var getCurrentStage = domain + "/api/v1/stages/current";
+var gotoNextStage = domain + "/stages/next";
+var querySegmentQuestionnaireUrl = domain + "/api/v1/queryquestionnaire";
 
 
 var contactUrl = "mailto:jl2033@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
@@ -310,6 +311,27 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     // // }
 }
 
+
+
+function change_stage_state(callback){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", getCurrentStage, false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function() {
+        // console.log(result);
+        if (xhr.readyState == 4) {
+            callback(JSON.parse(xhr.responseText));
+            }
+    }
+    xhr.send();
+}
+
+
+function notify_stage(data){
+    chrome.runtime.sendMessage({type: "stage_data",data:data}, function(response) {
+            console.log(response)
+    });
+}
 // TODO: Fix!
 function saveAction(action,value,actionJSON,now){
     // if(actionJSON.tab){
@@ -690,7 +712,6 @@ var saveWebNavigationCommitted = function(details){
 
         // TODO: Change condition
         if(true){
-
             var xhr = new XMLHttpRequest();
 
             xhr.open("GET", getProjectUrl, false);
@@ -709,6 +730,8 @@ var saveWebNavigationCommitted = function(details){
                     }
             }
             xhr.send(null);
+
+            change_stage_state(notify_stage);
 
         }
     }

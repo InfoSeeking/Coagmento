@@ -12,6 +12,10 @@ $(document).ready(function() {
     var user_id;
     var project_id;
     var user_name;
+    var stage_id;
+    var timed;
+    var time_limit;
+    var start_time;
 
     // URLs
     var homeDir = background.domain;
@@ -23,6 +27,53 @@ $(document).ready(function() {
     // 1) Add timer
     
 
+    var update_timer = function(){
+        if(timed == 1){
+
+            // if(background.task_timer!=null){
+            //     clearInterval(background.task_timer);
+            // }
+
+            if(background.task_timer==null){
+                var countDownDate = new Date.parse(start_time + " UTC").getTime()+time_limit;
+
+                background.task_timer = setInterval(function() {
+                var now = new Date().getTime();
+                
+                // Find the distance between now an the count down date
+                var distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Output the result in an element with id="demo"
+                document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+
+                chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+                if(m > 0){
+                    chrome.browserAction.setBadgeText(m+"m");
+                }else if (s > 0){
+                    chrome.browserAction.setBadgeText(s+"s");
+                }
+                
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    chrome.browserAction.setBadgeText("");
+                    document.getElementById("timer_text").innerHTML = "EXPIRED";
+                    chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
+                }
+                }, 1000);
+            }
+            
+        }else{
+            if(background.task_timer!=null){
+                clearInterval(background.task_timer);
+            }
+        }
+        
+    }
     
     function goHome(){
         chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
@@ -336,13 +387,22 @@ $(document).ready(function() {
                 sendResponse("Bookmarks table saved");
             } else if (request.type == 'update_projectid'){
                 project_id = request.data.project_id;
-            }else {
+            }else if(request.type == 'stage_data'){
+                // stage_id, whether it is timed, the start time for the user, and the time limit
+                stage_id = request.data.id;
+                timed = request.data.timed;
+                time_limit = request.data.time_limit;
+                start_time = request.data.start_time;
+
+            }
+            else {
                 sendResponse("Not a valid command");
             }
             // Note: Returning true is required here!
             //  ref: http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
             return true; 
     });
+
 
 
 
@@ -372,6 +432,29 @@ $(document).ready(function() {
     });
 
     }
+
+    $('#query_submit').click(function(){
+        var xhr = new XMLHttpRequest();
+        
+        var params = $('#query_segment_form').serializeArray();
+        params['user_id']=user_id;
+
+        
+        console.log("QUERY SEGMENT PARAMS");
+        console.log(params);
+        xhr.open("POST", background.querySegmentQuestionnaireUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Bookmark ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                console.log("QUERY SEGMENT RESPONSE");
+                console.log(xhr.responseText)
+                render_bookmarks(result);
+            }
+        }
+        xhr.send(params);
+    
+    });
 
     refresh_bookmarks_popup();
     

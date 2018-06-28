@@ -45,6 +45,23 @@ class StageProgressService {
 
 	}
 
+	public function getCurrentStageProgress(){
+        $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last();
+        if (is_null($stageProgress)) {
+            $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
+            StageProgress::create([
+                'user_id' => $this->user->id,
+                'stage_id' => $first_stage_id,
+            ])->save();
+
+            return Status::fromResult(StageProgress::all()->first());
+//                StageProgress::fromError('No stage progress found.', StatusCodes::NOT_FOUND);
+        }else{
+            $stage = Stage::all()->where('user_id', Auth::user()->id)->last();
+            return Status::fromResult($stage);
+        }
+    }
+
 	public function getCurrentProject(){
         $stage = $this->getCurrentStage();
         $stage->getResult();
