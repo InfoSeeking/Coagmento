@@ -14,9 +14,18 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('question_title');
-            $table->string('question_type');
-            $table->string('option_name')->nullable();
+            $table->integer('questionnaire_id');
+            $table->integer('user_id');
+            $table->string('type');
+            $table->boolean('required')/*->nullable()*/;
+            $table->boolean('inline')/*->nullable()*/;
+            $table->string('description')->nullable();
+            $table->string('label')->nullable();
+            $table->string('name')->nullable();
+            $table->string('subType')->nullable();
+            $table->string('style')->nullable();
+            $table->string('values')->nullable();
+            $table->string('className')->nullable();
             $table->timestamps();
         });
     }

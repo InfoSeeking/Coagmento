@@ -2,137 +2,96 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
+    <style>
+        #fb-rendered-form {
+            clear: both;
+            display: none;
+        }
+        #edit-form{
+            float:right;
+        }
+    </style>
 @stop
 
 @section('content')
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel panel-heading">Create a New Questionnaire</div>
-            <div class="panel panel-body">
-                <form method="POST" action="/admin/manage_tasks">
-                    {{ csrf_field() }}
-                    {{ method_field('POST') }}
+            <div class="panel-heading">
+                Create/Edit Questionnaire
+            </div>
+            <div class="panel-body">
+            <form method="POST" action="/admin/create_questionnaire">
 
-                    <div class="form-group">
-                        <div>
-                            Title: <br>
-                            <textarea rows="1" name="title" class="form-control"></textarea>
-                        </div>
-                    </div>
+                {{ csrf_field() }}
+                {{ method_field('POST') }}
+                <label for="title">Title</label>
+                <input class="form-control form-group" type="text" id="title" name="title">
 
-                    <div class="form-group">
-                        <div>
-                            Description: <br>
-                            <textarea rows="4" name="description" class="form-control"></textarea>
-                        </div>
-                    </div>
+                <div id="fb-editor"></div>
 
-                    <div class="modal fade" id="newQuestion" tabindex="-1" role="dialog" aria-labelledby="newQuestionLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="newQuestionTitle">Question</h4>
-                                </div>
-                                <form action="/admin/{question}/add" method="post">
-                                    {{ csrf_field() }}
-                                    {{ method_field('POST') }}
-                                    <div class="modal-body input-field col s12">
-                                        <div class="form-group">
-                                            <textarea rows="1" name="question_title" class="form-control" ></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="question_type">Question Type:</label>
-                                            <select class="form-control" id="question_type">
-                                                <option>input</option>
-                                                <option>textarea</option>
-                                                <option>checkbox</option>
-                                                <option>checkbox inline</option>
-                                                <option>radio</option>
-                                                <option>radio inline</option>
-                                                <option>select</option>
-                                            </select>
-                                        </div>
-                                        <span class="form-g"></span>
-                                    </div>
-                                    <span>
-                                        <button type="submit" class="btn btn-success add-option">Add Question</button>
-                                        <a href="/admin/create_questionnaire" class="btn btn-default">Cancel</a>
-                                    </span>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" id="getJSON">Save</button>
+                </div>
+            </form>
+            <div id="fb-rendered-form">
+                <form action="#"></form>
+                <button class="btn btn-default edit-form" id="edit-form">Edit</button>
+            </div>
 
-
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newQuestion">Add Question</button>
-
-                    <span class="center-block">
-                        <button type="submit" class="btn btn-primary">Create</button>
-                        <a href="/admin/manage_tasks" class="btn btn-default">Cancel</a>
-                    </span>
-                </form>
-                <script>
-                    $(document).ready(function(){
-
-                        $(document).on('click', '.destroy', function(e){
-                            e.preventDefault();
-                            $(this).parent(".input-field").remove();
-                        });
-                        //var addButton=
-                        var material = '<div class="input-field col input-g s12">' +
-                            '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>' +
-                            '<input name="option_name[]" id="option_name[]" type="text" class="form-control">' +
-                            '</div>';
-
-
-                        $(document).on('click', '.add-option', function(){
-                            $(".form-g").append(material);
-                        });
-
-                        $(document).on('change', '#question_type', function (){
-                            var selected_option = $('#question_type :selected').val();
-                            if(selected_option === "input"){
-                                //$(".button-add").html(addButton);
-                                $(".form-g").html(material);
+            <script>
+                jQuery(function($) {
+                    var $fbEditor = $(document.getElementById('fb-editor')),
+                        $formContainer = $(document.getElementById('fb-rendered-form')),
+                        fbOptions = {
+                            onSave: function() {
+                                $fbEditor.toggle();
+                                $formContainer.toggle();
+                                $('form', $formContainer).formRender({
+                                    formData: formBuilder.formData
+                                });
                             }
-                            else if(selected_option === "textarea"){
-                                var mat =
-                                    '<div class="input-field col input-g s12">' +
-                                    '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>' +
-                                    '<textarea rows="4" name="" class="form-control"></textarea>'+
-                                    '</div>';
-                                $(".form-g").html(mat);
-                            }
-                            else if(selected_option === "checkbox"){
-                                var mat =
-                                    '<div class="input-field col input-g s12">' +
-                                    '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>' +
-                                    '<div class="checkbox"><label><input type="checkbox" value=""></label></div>'+
-                                    '</div>';
-                            }
-                            else if(selected_option === "checkbox-inline"){
+                        },
+                        formBuilder = $fbEditor.formBuilder();
 
-                            }
-                            else if(selected_option === "radio"){
-
-                            }
-                            else if(selected_option === "radio-inline"){
-
-                            }
-                            else if(selected_option === "select"){
-
-                            }
-                            else{
-                                //$(".button-add").remove();
-                                $(".input-g").remove();
-                            }
+                    document.getElementById('getJSON').addEventListener('click', function() {
+                        event.preventDefault(); //check notes
+                        var data = formBuilder.actions.getData('json');
+                        var title = document.getElementById('title').value;
+                        console.log(data);
+                        $.ajax({
+                            url: "/admin/create_questionnaire",
+                            type: "POST",
+                            data: {title: title, questions: JSON.parse(data)},
+                            dataType: "json",
+                            success: function(result) {
+                                console.log('it worked');
+                                console.log(result);
+                                alert(result);
+                            },
+                            error: function(textStatus, errorThrown) {
+                                console.log('it didnt work');
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                            },
                         });
                     });
-                </script>
+
+                    $('.edit-form', $formContainer).click(function() {
+                        $fbEditor.toggle();
+                        $formContainer.toggle();
+                    });
+                    //formBuilder.actions.getData('json');
+                });
+
+            </script>
             </div>
         </div>
     </div>
+
 @stop

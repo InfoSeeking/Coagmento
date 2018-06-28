@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\Stage;
 use App\Models\Task;
 use App\Models\StageProgress;
 use App\Models\QuestionnairePosttask;
 use App\Models\QuestionnairePretask;
+use App\Value;
 use Illuminate\Http\Request;
 use Auth;
 use App\Utilities\Status;
@@ -16,6 +18,7 @@ use App\Utilities\StatusCodes;
 use App\Http\Requests;
 use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class QuestionnaireController extends Controller
@@ -172,14 +175,43 @@ class QuestionnaireController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function store(Request $request)
-    {
-        $arr = $request->all();
-        Questionnaire::create($arr);
-        $questionnaires = Questionnaire::all();
-        return view('admin.manage_questionnaires', compact('questionnaires'));
+    public function store(Request $request){
+
+        $arr = $request->input("questions");
+        $user=Auth::User();
+        $questionnaire = $user->questionnaires()->create([
+            'title' => $request->input('title'),
+        ]);
+        $createQuestion = null;
+        foreach ($arr as $key=>$question){
+            //$tempValues = $question['values'];
+            $tempValues=null;
+            if(array_key_exists("values", $question)) {
+                $tempValues = $question['values'];
+                $question['values'] = null;
+            }
+            $createQuestion = $questionnaire->questions()->create($question);
+            if(array_key_exists("required", $question)){
+                $createQuestion->required = true;
+                $createQuestion->save();
+            }
+            if(array_key_exists("inline", $question)){
+                $createQuestion->inline = true;
+                $createQuestion->save();
+            }
+            if ($tempValues != null){
+                foreach ($tempValues as $k=>$value){
+                    $val = $createQuestion->values()->create($value);
+                    if(array_key_exists("selected", $value)){
+                        $val->selected = true;
+                        $val->save();
+                    }
+                }
+            }
+        }
+        return Question::where('questionnaire_id',$questionnaire->id)->get();
     }
 
     /**
