@@ -21,14 +21,15 @@ class StageProgressController extends Controller
     }
 
     public function directToStage(){
+
         $stage = $this->stageProgressService->getCurrentStage();
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
         Session::put('stage_id',$stage_id);
 
-        if($stage_id < 15){
+        if($stage_id <= 3){
             Session::put('project_id',$this->projectService->getMyFirstProject()->id);
-        }else if($stage_id <= 19){
+        }else if($stage_id <= 17){
             Session::put('project_id',$this->projectService->getMySecondProject()->id);
         }else{
             Session::put('project_id',$this->projectService->getMyThirdProject()->id);
@@ -37,6 +38,27 @@ class StageProgressController extends Controller
 //        dd($stage->getResult());
 //        dd($stage->getResult()->page);
         return redirect($stage->getResult()->page);
+
+    }
+    public function getCurrentProject(){
+        $stage = $this->stageProgressService->getCurrentStage();
+        $stage->getResult();
+        $stage_id = $stage->getResult()->id;
+        Session::put('stage_id',$stage_id);
+
+        $project_id = 0;
+        if($stage_id <= 3){
+            $project_id = $this->projectService->getMyFirstProject()->id;
+        }else if($stage_id <= 17){
+            $project_id = $this->projectService->getMySecondProject()->id;
+        }else{
+            $project_id = $this->projectService->getMyThirdProject()->id;
+        }
+
+        Session::put('project_id',$project_id);
+        return response()->json([
+            'project_id'=>$project_id
+        ]);
     }
 
     public function moveToNextStage(Request $req){

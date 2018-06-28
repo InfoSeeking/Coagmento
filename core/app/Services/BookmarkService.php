@@ -63,6 +63,12 @@ class BookmarkService {
 			return Status::fromValidator($validator);
 		}
 
+//        $memberStatus = $this->memberService->checkPermission(6, 'r', $this->user);
+//        if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
+//        $bookmarks = Bookmark::with('thumbnail')->where('project_id', 6);
+//        if ($countOnly) return Status::fromResult($bookmarks->count());
+//        return Status::fromResult($bookmarks->get());
+
 		if (array_key_exists('project_id', $args)) {
 			$memberStatus = $this->memberService->checkPermission($args['project_id'], 'r', $this->user);
 			if (!$memberStatus->isOK()) return Status::fromStatus($memberStatus);
@@ -115,9 +121,9 @@ class BookmarkService {
 
 //		TODO
         $bookmark->project_id = 0;
-//        if(Session::has('project_id')){
-//            $bookmark->project_id = Session::get('project_id');
-//        }
+        if(Session::has('project_id')){
+            $bookmark->project_id = Session::get('project_id');
+        }
 
 //	    Temp (05/04/2018): remove project_id
 //		$bookmark->project_id = $args['project_id'];

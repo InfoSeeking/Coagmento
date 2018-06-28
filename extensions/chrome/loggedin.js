@@ -17,6 +17,7 @@ $(document).ready(function() {
     var homeDir = background.domain;
     var logoutUrl = background.logoutUrl;
     var loggedInHomeUrl = background.loggedInHomeUrl;
+    var etherpadUrl = background.etherpadUrl;
 
     // TODO
     // 1) Add timer
@@ -30,7 +31,7 @@ $(document).ready(function() {
 
     // TODO: Insert Etherpad URL
     function gotoEtherpad(){
-        // chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
+        chrome.tabs.create({url:etherpadUrl+'/user_'+user_id+'_project'+project_id}, function(tab){},);
     }
 
     // if(background.task_timer!=null){
@@ -279,8 +280,8 @@ $(document).ready(function() {
         }
         ]
         bookmark_data.data = [];
-        console.log("DATA");
-        console.log(data);
+        // console.log("DATA");
+        // console.log(data);
 
         if(data.length==0){
             $("#bookmarks_no").show();
@@ -333,7 +334,9 @@ $(document).ready(function() {
             if (request.type == "bookmark_data") {
                 render_bookmarks(request.data);
                 sendResponse("Bookmarks table saved");
-            } else {
+            } else if (request.type == 'update_projectid'){
+                project_id = request.data.project_id;
+            }else {
                 sendResponse("Not a valid command");
             }
             // Note: Returning true is required here!
@@ -349,19 +352,23 @@ $(document).ready(function() {
         var xhr = new XMLHttpRequest();
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         var params = {
-            "project_id":0
+            "project_id":project_id
         }
         
-        xhr.open("GET", background.getBookmarksUrl, false);
+        console.log("PARAMS");
+        console.log(params);
+        xhr.open("GET", background.getBookmarksUrl+"?"+$.param(params), false);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
             console.log("Bookmark ready state:"+xhr.readyState);
             if (xhr.readyState == 4) {
                 var result = JSON.parse(xhr.responseText);
+                console.log("RESPONSE");
+                console.log(result)
                 render_bookmarks(result);
             }
         }
-        xhr.send(JSON.stringify(params));
+        xhr.send();
     });
 
     }

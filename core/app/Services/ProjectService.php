@@ -153,17 +153,20 @@ class ProjectService {
     }
 
     public function getMyFirstProject(){
-        return Project::where('creator_id', $this->user->id)->first();
+        $user = Auth::user();
+        return Project::where('creator_id', $user->id)->first();
 //        return Project::where('creator_id', $this->user->id)->all()->get(0);
     }
 
     public function getMySecondProject(){
-        return Project::where('creator_id', $this->user->id)->get()->splice(1)->first();
+        $user = Auth::user();
+        return Project::where('creator_id', $user->id)->get()->splice(1)->first();
 //        return Project::where('creator_id', $this->user->id)->get()->shift()->first();
 //        return Project::where('creator_id', $this->user->id)->all()->get(1);
     }
     public function getMyThirdProject(){
-        return Project::where('creator_id', $this->user->id)->get()->splice(2)->first();
+        $user = Auth::user();
+        return Project::where('creator_id', $user->id)->get()->splice(2)->first();
 //        return Project::where('creator_id', $this->user->id)->get()->shift()->shift()->first();
 //        return Project::where('creator_id', $this->user->id)->all()->get(2);
     }

@@ -65,6 +65,7 @@ Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 // Workspace pages.
 Route::group(['middleware' => ['auth','stage']], function() {
     Route::get('stages', 'StageProgressController@directToStage');
+
     Route::get('stages/next', 'StageProgressController@moveToNextStage');
 	// These pages do not make sense without a logged in user.
 //	Route::get('workspace', 'WorkspaceController@viewPanel');
@@ -98,6 +99,9 @@ Route::group(['middleware' => ['auth','stage']], function() {
     Route::post('/questionnaire_posttask','QuestionnaireController@postPosttask');
 
     Route::get('/end', function(){
+        $user = Auth::user();
+        $user->is_completed = true;
+        $user->save();
         return view('end');
     });
     Route::post('/end', 'Auth\AuthController@getLogout');
@@ -165,6 +169,7 @@ Route::post('/admin/{question}/add','QuestionnaireController@addQuestion');
 Route::group(['middleware' => 'api.auth'], function() {
 	// These endpoints do not make sense without a logged in user.
 	Route::get('api/v1/users/current', 'Api\UserController@getCurrent');
+    Route::get('api/v1/currentproject', 'StageProgressController@getCurrentProject');
 	Route::get('api/v1/users/logout', function(){
 		Auth::logout();
 	});

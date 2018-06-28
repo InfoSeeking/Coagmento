@@ -12,6 +12,7 @@
 
 var domain = global_config['domain'];
 var apidomain = global_config['apidomain'];
+var etherpadUrl = global_config['etherpaddomain']
 
 var loginUrl = domain + "/sidebar/auth/login";
 var logoutUrl = domain + "/sidebar/auth/logout";
@@ -25,6 +26,7 @@ var getBookmarksUrl = apidomain + "/bookmarks";
 var getPagesUrl = apidomain + "/pages";
 var getQueriesUrl = apidomain + "/queries";
 var saveSnippetUrl = apidomain + "/snippets";
+var getProjectUrl = apidomain + "/currentproject";
 
 
 
@@ -113,7 +115,7 @@ var snip_text = function(info,tab){
             "url":tabs[0].url,
             "text":info.selectionText,
             // TODO: change project ID
-            "project_id":0
+            "project_id":project_id
 
         }
         console.log("Snip - params: "+JSON.stringify(params));
@@ -585,7 +587,7 @@ var refreshContents = function(){
     var xhr = new XMLHttpRequest();
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         var params = {
-            "project_id":0
+            "project_id":project_id
         }
         
         xhr.open("GET", getBookmarksUrl, false);
@@ -681,6 +683,30 @@ var saveWebNavigationCommitted = function(details){
                 }
                 
             });
+        }
+
+        // TODO: Change condition
+        if(true){
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", getProjectUrl, false);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        var result = JSON.parse(xhr.responseText);
+                        console.log("PROJECT ID");
+                        console.log(xhr.responseText);
+                        var project_id = result.project_id;
+                        chrome.storage.local.set({project_id:project_id}, function() {});
+                        chrome.runtime.sendMessage({type: "update_projectid",data:{project_id:project_id}}, function(response) {
+                            console.log(response)
+                        });
+
+                    }
+            }
+            xhr.send(null);
+
         }
     }
 }

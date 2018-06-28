@@ -38,9 +38,11 @@ $(document).ready(function(){
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
+                console.log(xhr.responseText);
                 var result = JSON.parse(xhr.responseText);
+
                 if(result.logged_in){
-                    login_state_popup(result.id,result.id,result.name,email,password);
+                    login_state_popup(result.id,result.project_id,result.name,email,password);
                     window.location.href='loggedin.html';
                 }
             }
