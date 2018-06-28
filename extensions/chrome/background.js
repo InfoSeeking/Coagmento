@@ -38,6 +38,9 @@ var saveCopyUrl =  domain + "/sidebar/copies";
 var savePasteUrl =  domain + "/sidebar/pastes";
 var saveMouseUrl =  domain + "/sidebar/scrollsmouseactions";
 
+var getCurrentStage = domain;
+var goToNextStage = domain;
+
 
 var contactUrl = "mailto:jl2033@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
 

@@ -47,15 +47,23 @@
                         }).appendTo('form');
                     });
 
+                    $('#task_confirm_button').click(
+                        function(){
+                                return confirm("Are you sure you want to continue? If so, you will stop working on the task.");
+                        }
+                    );
+
                 });
             </script>
 <body>
     
     <div class="bs-example">
         <div class="container">
-            Here's the description.
-            <div class="well">Please read the instructions below:
-                <br><br>
+            {{--Here's the description.--}}
+            Please read the instructions below:
+            <div class="well">
+                {{--Please read the instructions below:--}}
+                {{--<br><br>--}}
                 {{ $task['description'] }}
 
             </div>
@@ -72,7 +80,7 @@
 
             <br><br>
 
-            <button type = "submit" class = "btn btn-success">Next</button>
+            <button id = "task_confirm_button" type = "submit" class = "btn btn-success">Next</button>
                 
             <br><br>
 

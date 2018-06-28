@@ -53,7 +53,21 @@ class QuestionnaireController extends Controller
             'information_understanding' => 'required',
             'decide_usefulness' => 'required',
             'information_integration' => 'required',
+            'topic_prev_knowledge' => 'required',
             'information_sufficient' => 'required',
+            'goal_specific' => 'required',
+            'task_pre_difficulty' => 'required',
+            'narrow_information' => 'required',
+            'task_newinformation' => 'required',
+            'task_unspecified' => 'required',
+            'task_detail' => 'required',
+            'task_knowspecific' => 'required',
+            'task_specificitems' => 'required',
+            'task_factors' => 'required',
+            'queries_start' => 'required',
+            'know_usefulinfo' => 'required',
+            'useful_notobtain' => 'required',
+            'task_interest' => 'required',
         ]);
         $req->merge(['user_id' => $user->id]);
         $req->merge(['stage_id' => Session::get('stage_id')]);
@@ -73,6 +87,17 @@ class QuestionnaireController extends Controller
             'temporal_demand' => 'required',
             'effort' => 'required',
             'frustration' => 'required',
+            'difficulty_search' => 'required',
+            'difficulty_understand' => 'required',
+            'difficulty_usefulinformation' => 'required',
+            'difficulty_integrate' => 'required',
+            'difficulty_enoughinformation' => 'required',
+
+
+
+
+
+
 //            'difficulty' => 'required',
 //            'task_success' => 'required',
 //            'enough_time' => 'required',

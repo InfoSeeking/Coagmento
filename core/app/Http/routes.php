@@ -191,6 +191,9 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::put('api/v1/bookmarks/{bookmark_id}/move', 'Api\BookmarkController@move');
 	Route::delete('api/v1/bookmarks/{bookmark_id}', 'Api\BookmarkController@delete');
 
+
+//    Route::post('api/v1/stages/current', 'Api\StageController@create');
+
 	// Projects.
 	Route::get('api/v1/projects/{project_id}', 'Api\ProjectController@get');
 	Route::put('api/v1/projects/{project_id}', 'Api\ProjectController@update');
