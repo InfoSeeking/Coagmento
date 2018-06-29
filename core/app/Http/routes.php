@@ -26,6 +26,9 @@ Route::get('/confirm', function(){
 
 
 // Authentication.
+Route::get('auth/loggedin',function(){
+    return Auth::user();
+});
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLoginWithOldCoagmentoSupport');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
@@ -64,9 +67,9 @@ Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 
 // Workspace pages.
 Route::group(['middleware' => ['auth','stage']], function() {
-    Route::get('stages', 'StageProgressController@directToStage');
+    Route::get('/stages', 'StageProgressController@directToStage');
 
-    Route::get('stages/next', 'StageProgressController@moveToNextStage');
+    Route::get('/stages/next', 'StageProgressController@moveToNextStage');
 	// These pages do not make sense without a logged in user.
 //	Route::get('workspace', 'WorkspaceController@viewPanel');
 //	Route::get('workspace/projects', 'WorkspaceController@showProjects');
@@ -191,11 +194,11 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::put('api/v1/bookmarks/{bookmark_id}/move', 'Api\BookmarkController@move');
 	Route::delete('api/v1/bookmarks/{bookmark_id}', 'Api\BookmarkController@delete');
 
-    Route::post('api/v1/queryquestionnaire', 'Api\QuestionnaireController@postQuerySegmentQuestionnaire');
+    Route::post('api/v1/queryquestionnaire', 'QuestionnaireController@postQuerySegmentQuestionnaire');
 
 
 
-    Route::get('api/v1/stage/current', 'Api\StageController@getCurrentStageUser');
+    Route::get('api/v1/stages/current', 'StageProgressController@getCurrentStageUser');
 
 	// Projects.
 	Route::get('api/v1/projects/{project_id}', 'Api\ProjectController@get');

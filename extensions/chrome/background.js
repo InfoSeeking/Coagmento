@@ -71,6 +71,28 @@ var task_timer = null;
 
 
 
+var check_login_bg = function(){
+        var xhr = new XMLHttpRequest();
+        
+        xhr.open("GET", "http://localhost:8000/auth/loggedin", false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                console.log("CHECK LOGGED IN RESPONSE");
+                console.log(xhr.responseText);
+                console.log(xhr.responseText=="")
+                var result = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send();
+
+    }
+
+    
+    check_login_bg();
+
+
+
 var create_notification = function(text){
     chrome.notifications.create(null, {
         type: 'basic',
@@ -315,11 +337,12 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
 
 function change_stage_state(callback){
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", getCurrentStage, false);
+    xhr.open("GET", getCurrentStage, false);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.onreadystatechange = function() {
         // console.log(result);
         if (xhr.readyState == 4) {
+            console.log(xhr.responseText);
             callback(JSON.parse(xhr.responseText));
             }
     }
