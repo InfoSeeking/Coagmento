@@ -25,7 +25,7 @@ var saveBookmarkUrl = apidomain + "/bookmarks";
 var getBookmarksUrl = apidomain + "/bookmarks";
 var getPagesUrl = apidomain + "/pages";
 var getQueriesUrl = apidomain + "/queries";
-var saveSnippetUrl = apidomain + "/snippets";
+// var saveSnippetUrl = apidomain + "/snippets";
 var getProjectUrl = apidomain + "/currentproject";
 
 
@@ -64,13 +64,13 @@ var password = null;
 var logged_in = false;
 
 var bookmark_menu = null;
-var snippet_menu = null;
+// var snippet_menu = null;
 
 var task_timer = null;
 
 
 
-
+// TODO
 var check_login_bg = function(){
         var xhr = new XMLHttpRequest();
         
@@ -85,18 +85,17 @@ var check_login_bg = function(){
             }
         }
         xhr.send();
+}
 
-    }
-
-    
-    check_login_bg();
+    // TODO
+check_login_bg();
 
 
 
 var create_notification = function(text){
     chrome.notifications.create(null, {
         type: 'basic',
-        title: 'Action done!',
+        title: 'Action Completed',
         iconUrl: 'icons/logo-48.png',
         message: text
      }, function(notificationId) {});
@@ -104,7 +103,6 @@ var create_notification = function(text){
 
 
 var bookmark_page = function(info,tab) {
-    console.log("Bookmark");
     var url = info.pageUrl
     var notes = "-"
     var xhr = new XMLHttpRequest();
@@ -115,14 +113,11 @@ var bookmark_page = function(info,tab) {
             "title":tabs[0].title,
             "project_id":project_id
         }
-        console.log("Bookmark - params: " +JSON.stringify(params));
-        
         xhr.open("POST", saveBookmarkUrl, false);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
-            console.log("Bookmark ready state:"+xhr.readyState);
             if (xhr.readyState == 4) {
-                create_notification("Bookmark saved!");
+                create_notification("Your bookmark has been saved");
                 var result = JSON.parse(xhr.responseText);
             }
         }
@@ -178,9 +173,9 @@ var snippet_options = {
 
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    if (info.menuItemId == "snippet") {
-        snip_text(info,tab)
-    }
+    // if (info.menuItemId == "snippet") {
+    //     snip_text(info,tab)
+    // }
 
     if (info.menuItemId == "bookmark") {
         bookmark_page(info,tab)
@@ -189,7 +184,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 var create_context_menu = function(){
     bookmark_menu = chrome.contextMenus.create(bookmark_options);
-    snippet_menu = chrome.contextMenus.create(snippet_options);
+    // snippet_menu = chrome.contextMenus.create(snippet_options);
 }
 
 var destroy_context_menu = function(){
@@ -198,16 +193,16 @@ var destroy_context_menu = function(){
 
 var show_context_menu = function(){
     chrome.contextMenus.update("bookmark",{visible:true});
-    chrome.contextMenus.update("snippet",{visible:true});
+    // chrome.contextMenus.update("snippet",{visible:true});
 }
 
 var hide_context_menu = function(){
     chrome.contextMenus.update("bookmark",{visible:false});
-    chrome.contextMenus.update("snippet",{visible:false});
+    // chrome.contextMenus.update("snippet",{visible:false});
 }
 
 bookmark_menu = chrome.contextMenus.create(bookmark_options);
-snippet_menu = chrome.contextMenus.create(snippet_options);
+// snippet_menu = chrome.contextMenus.create(snippet_options);
 
 
 function login_state(uid,pid,username,useremail,pwd){
