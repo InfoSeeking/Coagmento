@@ -53,7 +53,16 @@ class QuestionnaireController extends Controller
     }
 
     public function postQuerySegmentQuestionnaire(Request $req){
-        $questionnaire = new QuestionnaireQuerySegment($req->all());
+//        dd($req->all());
+        $questionnaire = new QuestionnaireQuerySegment;
+        $questionnaire->user_id = $req->input('user_id');
+        $questionnaire->query_id = $req->input('query_id');
+//        $questionnaire->query_segment_id = $req->input('query_segment_id');
+
+        $questionnaire->query_useful = $req->input('query_useful');
+        $questionnaire->query_barriers = serialize($req->input('query_barriers'));
+        $questionnaire->relevant_helps = serialize($req->input('relevant_helps'));
+
         $questionnaire->save();
         return response()->json(['success'=>true]);
     }

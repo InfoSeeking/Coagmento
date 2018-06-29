@@ -69,6 +69,9 @@ class AuthController extends Controller
         ]);
     }
 
+    public function isLoggedIn(Request $req){
+        return Auth::user();
+    }
     /**
      * Create a new user instance after a valid registration.
      *

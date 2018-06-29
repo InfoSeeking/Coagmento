@@ -16,6 +16,7 @@ $(document).ready(function() {
     var timed;
     var time_limit;
     var start_time;
+    var time_zone;
 
     // URLs
     var homeDir = background.domain;
@@ -28,14 +29,30 @@ $(document).ready(function() {
     
 
     var update_timer = function(){
+        console.log('update timer');
         if(timed == 1){
 
-            // if(background.task_timer!=null){
-            //     clearInterval(background.task_timer);
-            // }
+            if(background.task_timer!=null){
+                clearInterval(background.task_timer);
+                background.task_timer = null;
+            }
 
             if(background.task_timer==null){
-                var countDownDate = new Date.parse(start_time + " UTC").getTime()+time_limit;
+                console.log("START TIME");
+                console.log(start_time);
+                console.log("TIME LIMIT");
+                console.log(time_limit)
+                console.log("CURRENT TIME");
+                console.log(new Date().getTime());
+
+                var countDownDate = Date.parse(start_time + " " + time_zone);
+
+                console.log("COUNTDOWN TIME");
+                console.log(countDownDate);
+
+                countDownDate = Math.round( countDownDate / 1000)
+                
+                var countDownDate = countDownDate+time_limit;
 
                 background.task_timer = setInterval(function() {
                 var now = new Date().getTime();
@@ -51,16 +68,20 @@ $(document).ready(function() {
                 document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
 
                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});
-                if(m > 0){
-                    chrome.browserAction.setBadgeText(m+"m");
-                }else if (s > 0){
-                    chrome.browserAction.setBadgeText(s+"s");
-                }
+                console.log("BADGE COLOR")
+                chrome.browserAction.setBadgeText({text:minutes+"m"});
+                console.log("BADGE TEXT")
+                // if(m > 0){
+                //     chrome.browserAction.setBadgeText(minutes+"m");
+                // }else if (s > 0){
+                //     chrome.browserAction.setBadgeText(seconds+"s");
+                // }
                 
                 // If the count down is over, write some text 
-                if (distance < 0) {
-                    clearInterval(x);
-                    chrome.browserAction.setBadgeText("");
+                if (false) {
+                // if (distance < 0) {
+                    clearInterval(background.task_timer);
+                    chrome.browserAction.setBadgeText({text:""});
                     document.getElementById("timer_text").innerHTML = "EXPIRED";
                     chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
                 }
@@ -382,6 +403,9 @@ $(document).ready(function() {
 
     chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
+            console.log("MESSAGE REQUEST TYPE: "+request.type);
+            console.log("MESSAGE REQUEST DATA: "+request.data);
+            console.log(request.data);
             if (request.type == "bookmark_data") {
                 render_bookmarks(request.data);
                 sendResponse("Bookmarks table saved");
@@ -392,7 +416,10 @@ $(document).ready(function() {
                 stage_id = request.data.id;
                 timed = request.data.timed;
                 time_limit = request.data.time_limit;
-                start_time = request.data.start_time;
+                start_time = request.data.time_start.date;
+                time_zone = request.data.time_start.timezone;
+                update_timer();
+
 
             }
             else {
@@ -434,29 +461,72 @@ $(document).ready(function() {
     }
 
     $('#query_submit').click(function(){
-        var xhr = new XMLHttpRequest();
+        event.preventDefault();
+        // var xhr = new XMLHttpRequest();
         
-        var params = $('#query_segment_form').serializeArray();
-        params['user_id']=user_id;
+        // var formData = new FormData($('#query_segment_form'));
+        // formData.append('user_id',user_id);
+        // var params = $('#query_segment_form').serializeArray();
+        // params['user_id']=user_id;
+
+
+        $.ajax({
+           type: "POST",
+           url: background.querySegmentQuestionnaireUrl,
+           data: $("#query_segment_form").serialize()+"&user_id="+user_id, // serializes the form's elements.
+           success: function(data)
+           {
+               console.log(data); // show response from the php script.
+               if(data.success){
+                    $("#query_segment_form")[0].reset();
+               }
+               
+           },
+           error: function(data)
+           {
+               console.log(data.responseText); // show response from the php script.
+           }
+
+         });
 
         
-        console.log("QUERY SEGMENT PARAMS");
-        console.log(params);
-        xhr.open("POST", background.querySegmentQuestionnaireUrl, false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            console.log("Bookmark ready state:"+xhr.readyState);
-            if (xhr.readyState == 4) {
-                console.log("QUERY SEGMENT RESPONSE");
-                console.log(xhr.responseText)
-                render_bookmarks(result);
-            }
-        }
-        xhr.send(params);
+        // console.log("QUERY SEGMENT PARAMS");
+        // for (var [key, value] of formData.entries()) { 
+        // console.log(key, value);
+        // }
+        // xhr.open("POST", background.querySegmentQuestionnaireUrl, true);
+        // // xhr.setRequestHeader("Content-type", "application/json");
+        // xhr.onreadystatechange = function() {
+        //     console.log("Bookmark ready state:"+xhr.readyState);
+        //     if (xhr.readyState == 4) {
+        //         console.log("QUERY SEGMENT RESPONSE");
+        //         console.log(xhr.responseText)
+        //         render_bookmarks(result);
+        //     }
+        // }
+        // xhr.send(formData);
     
     });
 
+
+     var check_logged_in = function(){
+        var xhr = new XMLHttpRequest();
+        
+        xhr.open("GET", "http://localhost:8000/auth/loggedin", false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                console.log("CHECK LOGGED IN RESPONSE");
+                console.log(xhr.responseText)
+                var result = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send();
+
+    }
+
     refresh_bookmarks_popup();
+    check_logged_in();
     
 
 });
