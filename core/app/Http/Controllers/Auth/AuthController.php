@@ -53,6 +53,7 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -172,10 +173,42 @@ class AuthController extends Controller
             $results = DB::table('memberships')
                 ->where('user_id', $user->id)
                 ->get();
-            if(count($results)){
+            if(!count($results)){
                 $args = [
-                    'title'=>'Default Title',
-                    'description'=>'Default Description',
+                    'title'=>'Demo Task',
+                    'description'=>'Demo Task Description',
+                    'private'=>true,
+                ];
+                $project = new Project($args);
+                $project->creator_id = $user->id;
+                $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+                $project->save();
+
+                $owner = new Membership();
+                $owner->user_id = $user->id;
+                $owner->project_id = $project->id;
+                $owner->level = 'o';
+                $owner->save();
+
+                $args = [
+                    'title'=>'Task 1',
+                    'description'=>'Task 1 Description',
+                    'private'=>true,
+                ];
+                $project = new Project($args);
+                $project->creator_id = $user->id;
+                $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+                $project->save();
+
+                $owner = new Membership();
+                $owner->user_id = $user->id;
+                $owner->project_id = $project->id;
+                $owner->level = 'o';
+                $owner->save();
+
+                $args = [
+                    'title'=>'Task 2',
+                    'description'=>'Task 2 Description',
                     'private'=>true,
                 ];
                 $project = new Project($args);
@@ -192,10 +225,16 @@ class AuthController extends Controller
             if($user->active && $user->is_admin){
                 Auth::login($user, $req->has('remember'));
                 return redirect('/admin');
-            } else if ($user->active) {
+            } else if ($user->active && !$user->is_completed) {
                 Auth::login($user, $req->has('remember'));
                 return redirect()->intended($this->redirectPath());
-            } else {
+            } else if($user->is_completed){
+                return redirect($this->loginPath()) // Change this to redirect elsewhere
+                ->withInput($req->only('email', 'remember'))
+                    ->withErrors([
+                        'active' => 'You have already completed the study.'
+                    ]);
+            }else {
                 return redirect($this->loginPath()) // Change this to redirect elsewhere
                 ->withInput($req->only('email', 'remember'))
                     ->withErrors([

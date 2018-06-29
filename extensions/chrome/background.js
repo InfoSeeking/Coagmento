@@ -12,16 +12,21 @@
 
 var domain = global_config['domain'];
 var apidomain = global_config['apidomain'];
+var etherpadUrl = global_config['etherpaddomain']
 
 var loginUrl = domain + "/sidebar/auth/login";
 var logoutUrl = domain + "/sidebar/auth/logout";
 var homeUrl = domain + "/";
-var loggedInHomeUrl = domain + "/workspace";
+var loggedInHomeUrl = domain + "/auth/login";
 
 var savePageUrl = apidomain + '/pages';
 var saveQueryUrl = apidomain+"/queries";
 var saveBookmarkUrl = apidomain + "/bookmarks";
+var getBookmarksUrl = apidomain + "/bookmarks";
+var getPagesUrl = apidomain + "/pages";
+var getQueriesUrl = apidomain + "/queries";
 var saveSnippetUrl = apidomain + "/snippets";
+var getProjectUrl = apidomain + "/currentproject";
 
 
 
@@ -33,8 +38,12 @@ var saveCopyUrl =  domain + "/sidebar/copies";
 var savePasteUrl =  domain + "/sidebar/pastes";
 var saveMouseUrl =  domain + "/sidebar/scrollsmouseactions";
 
+var getCurrentStage = domain + "/api/v1/stages/current";
+var gotoNextStage = domain + "/stages/next";
+var querySegmentQuestionnaireUrl = domain + "/api/v1/queryquestionnaire";
 
-var contactUrl = "mailto:mmitsui@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
+
+var contactUrl = "mailto:jl2033@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
 
 
 var previousTabAction = '';
@@ -56,6 +65,8 @@ var logged_in = false;
 
 var bookmark_menu = null;
 var snippet_menu = null;
+
+var task_timer = null;
 
 
 
@@ -108,7 +119,7 @@ var snip_text = function(info,tab){
             "url":tabs[0].url,
             "text":info.selectionText,
             // TODO: change project ID
-            "project_id":0
+            "project_id":project_id
 
         }
         console.log("Snip - params: "+JSON.stringify(params));
@@ -300,6 +311,27 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     // // }
 }
 
+
+
+function change_stage_state(callback){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", getCurrentStage, false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function() {
+        // console.log(result);
+        if (xhr.readyState == 4) {
+            callback(JSON.parse(xhr.responseText));
+            }
+    }
+    xhr.send();
+}
+
+
+function notify_stage(data){
+    chrome.runtime.sendMessage({type: "stage_data",data:data}, function(response) {
+            console.log(response)
+    });
+}
 // TODO: Fix!
 function saveAction(action,value,actionJSON,now){
     // if(actionJSON.tab){
@@ -576,6 +608,77 @@ var saveWindowFocusChanged = function(windowId){
     }
 }
 
+var refreshContents = function(){
+    var xhr = new XMLHttpRequest();
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        var params = {
+            "project_id":project_id
+        }
+        
+        xhr.open("GET", getBookmarksUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Bookmark ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                var result = JSON.parse(xhr.responseText);
+                chrome.runtime.sendMessage({type: "bookmark_data",data:result}, function(response) {
+                    console.log(response)
+                });
+            }
+        }
+        xhr.send(JSON.stringify(params));
+    });
+
+    // var xhr = new XMLHttpRequest();
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    //     var params = {
+    //         "project_id":0
+    //     }
+    //     console.log("Page retrieve - params: " +JSON.stringify(params));
+        
+    //     xhr.open("GET", getPagesUrl, false);
+    //     xhr.setRequestHeader("Content-type", "application/json");
+    //     xhr.onreadystatechange = function() {
+    //         console.log("Page ready state:"+xhr.readyState);
+    //         if (xhr.readyState == 4) {
+    //             create_notification("Pages retrieved!");
+    //             var result = JSON.parse(xhr.responseText);
+    //             console.log("Pages retrieved!");
+    //             chrome.runtime.sendMessage({type: "page_data",data:result}, function(response) {
+    //                 console.log(response)
+    //             });
+    //         }
+    //     }
+    //     xhr.send(JSON.stringify(params));
+    // });
+
+    // var xhr = new XMLHttpRequest();
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    //     var params = {
+    //         "project_id":0
+    //     }
+    //     console.log("Query retrieve - params: " +JSON.stringify(params));
+        
+    //     xhr.open("GET", getQueriesUrl, false);
+    //     xhr.setRequestHeader("Content-type", "application/json");
+    //     xhr.onreadystatechange = function() {
+    //         console.log("Query ready state:"+xhr.readyState);
+    //         if (xhr.readyState == 4) {
+    //             create_notification("Queries retrieved!");
+    //             var result = JSON.parse(xhr.responseText);
+    //             console.log("Queries retrieved!");
+    //             chrome.runtime.sendMessage({type: "query_data",data:result}, function(response) {
+    //                 console.log(response)
+    //             });
+    //         }
+    //     }
+    //     xhr.send(JSON.stringify(params));
+    // });
+}
+
+
+
+
 var saveWebNavigationCommitted = function(details){
     if(logged_in){
         var now = new Date();
@@ -597,12 +700,39 @@ var saveWebNavigationCommitted = function(details){
                         function(result) {
                             details.referrerInfo = result;
                             saveAction("webNavigation.onCommitted",details.tabId,details,now);
+                            refreshContents();
+
                             savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
                         }
                     );
                 }
                 
             });
+        }
+
+        // TODO: Change condition
+        if(true){
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", getProjectUrl, false);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        var result = JSON.parse(xhr.responseText);
+                        console.log("PROJECT ID");
+                        console.log(xhr.responseText);
+                        var project_id = result.project_id;
+                        chrome.storage.local.set({project_id:project_id}, function() {});
+                        chrome.runtime.sendMessage({type: "update_projectid",data:{project_id:project_id}}, function(response) {
+                            console.log(response)
+                        });
+
+                    }
+            }
+            xhr.send(null);
+
+            change_stage_state(notify_stage);
+
         }
     }
 }

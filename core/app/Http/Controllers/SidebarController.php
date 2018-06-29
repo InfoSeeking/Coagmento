@@ -99,7 +99,33 @@ class SidebarController extends Controller
         if($logged_in){
             $id = Auth::id();
             $user = Auth::user();
-            return ['logged_in'=>true,'id'=>$id,'name'=>$user->name];
+
+
+//            public function getCurrentProject(){
+//                $stage = $this->stageProgressService->getCurrentStage();
+//                $stage->getResult();
+//                $stage_id = $stage->getResult()->id;
+//                Session::put('stage_id',$stage_id);
+//
+//                $project_id = 0;
+//                if($stage_id <= 3){
+//                    $project_id = $this->projectService->getMyFirstProject()->id;
+//                }else if($stage_id <= 17){
+//                    $project_id = $this->projectService->getMySecondProject()->id;
+//                }else{
+//                    $project_id = $this->projectService->getMyThirdProject()->id;
+//                }
+//
+//                Session::put('project_id',$project_id);
+//                return response()->json([
+//                    'project_id'=>$project_id
+//                ]);
+//            }
+
+            $current_project = $this->stageProgressService->getCurrentProject();
+//            dd($current_project->getData()->{'project_id'});
+            $project_id = $current_project->getData()->{'project_id'};
+            return ['logged_in'=>true,'id'=>$id,'name'=>$user->name, 'project_id'=>$project_id];
         }else{
             return ['logged_in'=>false];
         }

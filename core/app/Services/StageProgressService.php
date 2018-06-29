@@ -25,8 +25,10 @@ class StageProgressService {
 		$this->projectService = $projectService;
 	}
 
+
 	public function getCurrentStage() {
-        $stageProgress = StageProgress::all()->where('user_id', $this->user->id)->last();
+
+        $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last();
 		if (is_null($stageProgress)) {
             $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
             StageProgress::create([
@@ -43,6 +45,43 @@ class StageProgressService {
 
 	}
 
+	public function getCurrentStageProgress(){
+        $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last();
+        if (is_null($stageProgress)) {
+            $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
+            StageProgress::create([
+                'user_id' => $this->user->id,
+                'stage_id' => $first_stage_id,
+            ])->save();
+
+            return Status::fromResult(StageProgress::all()->first());
+//                StageProgress::fromError('No stage progress found.', StatusCodes::NOT_FOUND);
+        }else{
+            $stage = Stage::all()->where('user_id', Auth::user()->id)->last();
+            return Status::fromResult($stage);
+        }
+    }
+
+	public function getCurrentProject(){
+        $stage = $this->getCurrentStage();
+        $stage->getResult();
+        $stage_id = $stage->getResult()->id;
+        Session::put('stage_id',$stage_id);
+
+        $project_id = 0;
+        if($stage_id <= 3){
+            $project_id = $this->projectService->getMyFirstProject()->id;
+        }else if($stage_id <= 17){
+            $project_id = $this->projectService->getMySecondProject()->id;
+        }else{
+            $project_id = $this->projectService->getMyThirdProject()->id;
+        }
+
+        Session::put('project_id',$project_id);
+        return response()->json([
+            'project_id'=>$project_id
+        ]);
+    }
 	public function moveToNextStage(Request $req){
         $stageProgress = StageProgress::all()->where('user_id', $this->user->id)->last();
 

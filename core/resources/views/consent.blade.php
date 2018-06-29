@@ -56,7 +56,6 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      
       {{--<ul class="nav navbar-nav navbar-right">--}}
             {{--<li>--}}
                 {{--<a target="_blank" id="facebook_share" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnew.coagmento.org"> --}}

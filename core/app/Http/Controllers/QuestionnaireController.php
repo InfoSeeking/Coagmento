@@ -9,7 +9,11 @@ use App\Models\Task;
 use App\Models\StageProgress;
 use App\Models\QuestionnairePosttask;
 use App\Models\QuestionnairePretask;
+/*<<<<<<< HEAD*/
 use App\Value;
+/*=======*/
+use App\QuestionnaireQuerySegment;
+/*>>>>>>> 522fe00c574f57c9d7fd957f4db379933c7a6191*/
 use Illuminate\Http\Request;
 use Auth;
 use App\Utilities\Status;
@@ -48,6 +52,12 @@ class QuestionnaireController extends Controller
         return view('questionnaire_pretask',['task'=>$task]);
     }
 
+    public function postQuerySegmentQuestionnaire(Request $req){
+        $questionnaire = new QuestionnaireQuerySegment($req->all());
+        $questionnaire->save();
+        return response()->json(['success'=>true]);
+    }
+
     public function postPretask(Request $req){
 
         $user = Auth::user();
@@ -56,7 +66,21 @@ class QuestionnaireController extends Controller
             'information_understanding' => 'required',
             'decide_usefulness' => 'required',
             'information_integration' => 'required',
+            'topic_prev_knowledge' => 'required',
             'information_sufficient' => 'required',
+            'goal_specific' => 'required',
+            'task_pre_difficulty' => 'required',
+            'narrow_information' => 'required',
+            'task_newinformation' => 'required',
+            'task_unspecified' => 'required',
+            'task_detail' => 'required',
+            'task_knowspecific' => 'required',
+            'task_specificitems' => 'required',
+            'task_factors' => 'required',
+            'queries_start' => 'required',
+            'know_usefulinfo' => 'required',
+            'useful_notobtain' => 'required',
+            'task_interest' => 'required',
         ]);
         $req->merge(['user_id' => $user->id]);
         $req->merge(['stage_id' => Session::get('stage_id')]);
@@ -76,6 +100,17 @@ class QuestionnaireController extends Controller
             'temporal_demand' => 'required',
             'effort' => 'required',
             'frustration' => 'required',
+            'difficulty_search' => 'required',
+            'difficulty_understand' => 'required',
+            'difficulty_usefulinformation' => 'required',
+            'difficulty_integrate' => 'required',
+            'difficulty_enoughinformation' => 'required',
+
+
+
+
+
+
 //            'difficulty' => 'required',
 //            'task_success' => 'required',
 //            'enough_time' => 'required',

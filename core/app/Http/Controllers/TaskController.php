@@ -64,7 +64,11 @@ class TaskController extends Controller
     public function getTask(){
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
-        if($currentStage <= 15){
+
+        if($currentStage <= 3) {
+            $taskID = 0;
+        }
+        else if($currentStage <= 15){
             $taskID = 1;
         }else{
             $taskID = 2;

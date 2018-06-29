@@ -12,22 +12,103 @@ $(document).ready(function() {
     var user_id;
     var project_id;
     var user_name;
+    var stage_id;
+    var timed;
+    var time_limit;
+    var start_time;
 
     // URLs
     var homeDir = background.domain;
     var logoutUrl = background.logoutUrl;
     var loggedInHomeUrl = background.loggedInHomeUrl;
+    var etherpadUrl = background.etherpadUrl;
 
+    // TODO
+    // 1) Add timer
+    
+
+    var update_timer = function(){
+        if(timed == 1){
+
+            // if(background.task_timer!=null){
+            //     clearInterval(background.task_timer);
+            // }
+
+            if(background.task_timer==null){
+                var countDownDate = new Date.parse(start_time + " UTC").getTime()+time_limit;
+
+                background.task_timer = setInterval(function() {
+                var now = new Date().getTime();
+                
+                // Find the distance between now an the count down date
+                var distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Output the result in an element with id="demo"
+                document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+
+                chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+                if(m > 0){
+                    chrome.browserAction.setBadgeText(m+"m");
+                }else if (s > 0){
+                    chrome.browserAction.setBadgeText(s+"s");
+                }
+                
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    chrome.browserAction.setBadgeText("");
+                    document.getElementById("timer_text").innerHTML = "EXPIRED";
+                    chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
+                }
+                }, 1000);
+            }
+            
+        }else{
+            if(background.task_timer!=null){
+                clearInterval(background.task_timer);
+            }
+        }
+        
+    }
     
     function goHome(){
         chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
     }
 
 
+    // TODO: Insert Etherpad URL
     function gotoEtherpad(){
-        chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
+        chrome.tabs.create({url:etherpadUrl+'/user_'+user_id+'_project'+project_id}, function(tab){},);
     }
 
+    // if(background.task_timer!=null){
+    //     clearInterval(background.task_timer);
+    // }
+    // var countDownDate = new Date().getTime()+1000 * 60*20;
+
+    // background.task_timer = setInterval(function() {
+    //     var now = new Date().getTime();
+        
+    //     // Find the distance between now an the count down date
+    //     var distance = countDownDate - now;
+        
+    //     // Time calculations for days, hours, minutes and seconds
+    //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+    //     // Output the result in an element with id="demo"
+    //     document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+        
+    //     // If the count down is over, write some text 
+    //     if (distance < 0) {
+    //         clearInterval(x);
+    //         document.getElementById("timer_text").innerHTML = "EXPIRED";
+    //     }
+    // }, 1000);
 
 
     function logout_state_popup(){
@@ -68,13 +149,19 @@ $(document).ready(function() {
         logout_popup();
     }
 
-    chrome.storage.local.get(['project_id','user_id','name','email','password'], function(result) {
+    chrome.storage.local.get(['project_id','user_id','name','email','password'], function(result) { 
         user_id = result.user_id;
         project_id = result.project_id;
         name = result.name;
         email = result.email;
         password = result.password;
-        $('#name').text(name);
+        background.user_id = user_id;
+        background.project_id = project_id;
+        background.name = name;
+        background.email = email;
+        background.password = password;
+        background.logged_in = true;
+        $('#name').text(user_id);
     });
 
     
@@ -93,5 +180,283 @@ $(document).ready(function() {
         logout_click();
     });
 
+
+
+
+    // $('#bookmarks_table').bootstrapTable({
+    //     columns: [{
+    //     field: 'id',
+    //     title: 'Item ID'
+    //     }, {
+    //     field: 'name',
+    //     title: 'Item Name'
+    //     }, {
+    //     field: 'price',
+    //     title: 'Item Price'
+    //     }],
+    //     data: [{
+    //     id: 1,
+    //     name: 'Item 1',
+    //     price: '<button class="btn btn-primary">Hello</button>'
+    //     }, {
+    //     id: 2,
+    //     name: 'Item 2',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 2,
+    //     name: 'Item 2',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 3,
+    //     name: 'Item 3',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 4,
+    //     name: 'Item 4',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 5,
+    //     name: 'Item 2',
+    //     price: '$2'
+    //     },
+    //     ]
+    // });
+
+    $('#queries_table').bootstrapTable({
+        columns: [{
+        field: 'id',
+        title: 'Item ID'
+        }, {
+        field: 'name',
+        title: 'Item Name'
+        }, {
+        field: 'price',
+        title: 'Item Price'
+        }],
+        data: [{
+        id: 1,
+        name: 'Item 1',
+        price: '$1'
+        }, {
+        id: 2,
+        name: 'Item 2',
+        price: '$2'
+        },
+        {
+        id: 2,
+        name: 'Item 2',
+        price: '$2'
+        },
+        {
+        id: 3,
+        name: 'Item 3',
+        price: '$2'
+        },
+        {
+        id: 4,
+        name: 'Item 4',
+        price: '$2'
+        },
+        {
+        id: 5,
+        name: 'Item 2',
+        price: '$2'
+        },
+        ]
+    });
+
+
+    $('#pages_table').bootstrapTable({
+        columns: [{
+        field: 'title',
+        title: 'Title'
+        }, {
+        field: 'name',
+        title: 'Item Name'
+        }, {
+        field: 'price',
+        title: 'Item Price'
+        }],
+        data: [{
+        id: 1,
+        name: 'Item 1',
+        price: '<button class="btn btn-primary">Hello</button>'
+        }, {
+        id: 2,
+        name: 'Item 2',
+        price: '$2'
+        },
+        {
+        id: 2,
+        name: 'Item 2',
+        price: '$2'
+        },
+        {
+        id: 3,
+        name: 'Item 3',
+        price: '$2'
+        },
+        {
+        id: 4,
+        name: 'Item 4',
+        price: '$2'
+        },
+        {
+        id: 5,
+        name: 'Item 2',
+        price: '$2'
+        },
+        ]
+    });
+
+
+    var render_bookmarks = function(data){
+        var bookmark_data = {};
+        bookmark_data.columns = [
+        {
+        field: 'time',
+        title: 'Time'
+        },
+        {
+        field: 'title',
+        title: 'Title'
+        }, 
+        {
+        field: 'unsave',
+        title: 'Unsave?'
+        }
+        ]
+        bookmark_data.data = [];
+        // console.log("DATA");
+        // console.log(data);
+
+        if(data.length==0){
+            $("#bookmarks_no").show();
+            $("#bookmarks_yes").hide();
+
+        }else{
+            $("#bookmarks_no").hide();
+            $("#bookmarks_yes").show();
+
+            $.each(data.result, function( index, value ) {
+                bookmark_data.data.push(
+                    {
+                        time:value.created_at,
+                        title:value.title,
+                        unsave:'<button name="delete_bookmarks_button" data-bookmark-id='+value.id+'>Delete</button>'
+                    }
+                );
+            });
+        }
+        
+        console.log("bookmark_data");
+        console.log(bookmark_data)
+        $('#bookmarks_table').bootstrapTable(bookmark_data);
+        $('button[name="delete_bookmarks_button"]').click(function(){
+            var bookmark_id = $(this).data('bookmark-id');
+            deleteBookmark(bookmark_id);
+        })
+    }
+
+
+    var deleteBookmark = function(id){
+        var xhr = new XMLHttpRequest();
+        var url = background.getBookmarksUrl + "/" + id;
+        var params = {}
+        xhr.open("DELETE", url, false);
+        // xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                var result = JSON.parse(xhr.responseText);
+                refresh_bookmarks_popup();
+            }
+        }
+        xhr.send(null);
+
+
+    }
+
+    chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+            if (request.type == "bookmark_data") {
+                render_bookmarks(request.data);
+                sendResponse("Bookmarks table saved");
+            } else if (request.type == 'update_projectid'){
+                project_id = request.data.project_id;
+            }else if(request.type == 'stage_data'){
+                // stage_id, whether it is timed, the start time for the user, and the time limit
+                stage_id = request.data.id;
+                timed = request.data.timed;
+                time_limit = request.data.time_limit;
+                start_time = request.data.start_time;
+
+            }
+            else {
+                sendResponse("Not a valid command");
+            }
+            // Note: Returning true is required here!
+            //  ref: http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
+            return true; 
+    });
+
+
+
+
+
+
+    var refresh_bookmarks_popup = function(){
+        var xhr = new XMLHttpRequest();
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        var params = {
+            "project_id":project_id
+        }
+        
+        console.log("PARAMS");
+        console.log(params);
+        xhr.open("GET", background.getBookmarksUrl+"?"+$.param(params), false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Bookmark ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                var result = JSON.parse(xhr.responseText);
+                console.log("RESPONSE");
+                console.log(result)
+                render_bookmarks(result);
+            }
+        }
+        xhr.send();
+    });
+
+    }
+
+    $('#query_submit').click(function(){
+        var xhr = new XMLHttpRequest();
+        
+        var params = $('#query_segment_form').serializeArray();
+        params['user_id']=user_id;
+
+        
+        console.log("QUERY SEGMENT PARAMS");
+        console.log(params);
+        xhr.open("POST", background.querySegmentQuestionnaireUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Bookmark ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                console.log("QUERY SEGMENT RESPONSE");
+                console.log(xhr.responseText)
+                render_bookmarks(result);
+            }
+        }
+        xhr.send(params);
+    
+    });
+
+    refresh_bookmarks_popup();
+    
 
 });
