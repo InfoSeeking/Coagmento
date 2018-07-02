@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\StageProgressService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
@@ -100,6 +101,9 @@ class SidebarController extends Controller
             $id = Auth::id();
             $user = Auth::user();
 
+            $user->last_login = Carbon::now();
+            $user->save();
+
 
 //            public function getCurrentProject(){
 //                $stage = $this->stageProgressService->getCurrentStage();
@@ -133,7 +137,12 @@ class SidebarController extends Controller
     }
 
     public function getLogoutSidebar(Request $req){
+
+	    $user = Auth::user();
+        $user->last_logout = Carbon::now();
+        $user->save();
 	    Auth::logout();
+
 //	    Session::flush();
         return ['logged_in'=>Auth::check()];
     }

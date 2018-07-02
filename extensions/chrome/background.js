@@ -12,7 +12,7 @@
 
 var domain = global_config['domain'];
 var apidomain = global_config['apidomain'];
-var etherpadUrl = global_config['etherpaddomain']
+var etherpadUrl = global_config['etherpaddomain'];
 
 var loginUrl = domain + "/sidebar/auth/login";
 var logoutUrl = domain + "/sidebar/auth/logout";
@@ -21,6 +21,7 @@ var loggedInHomeUrl = domain + "/auth/login";
 
 var savePageUrl = apidomain + '/pages';
 var saveQueryUrl = apidomain+"/queries";
+var savePageQueryUrl = apidomain+"/pagesqueries";
 var saveBookmarkUrl = apidomain + "/bookmarks";
 var getBookmarksUrl = apidomain + "/bookmarks";
 var getPagesUrl = apidomain + "/pages";
@@ -42,6 +43,8 @@ var getCurrentStage = domain + "/api/v1/stages/current";
 var gotoNextStage = domain + "/stages/next";
 var querySegmentQuestionnaireUrl = domain + "/api/v1/queryquestionnaire";
 
+var checkLoggedInUrl = domain + "/auth/loggedin";
+
 
 var contactUrl = "mailto:jl2033@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
 
@@ -61,34 +64,14 @@ var user_id = null;
 var name = null;
 var email = null;
 var password = null;
-var logged_in = false;
+var logged_in_extension = false;
+var logged_in_browser = false;
 
 var bookmark_menu = null;
 // var snippet_menu = null;
 
 var task_timer = null;
-
-
-
-// TODO
-var check_login_bg = function(){
-        var xhr = new XMLHttpRequest();
-        
-        xhr.open("GET", "http://localhost:8000/auth/loggedin", false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                console.log("CHECK LOGGED IN RESPONSE");
-                console.log(xhr.responseText);
-                console.log(xhr.responseText=="")
-                var result = JSON.parse(xhr.responseText);
-            }
-        }
-        xhr.send();
-}
-
-    // TODO
-check_login_bg();
+var stage_data = null;
 
 
 
@@ -125,34 +108,34 @@ var bookmark_page = function(info,tab) {
     });
 };
 
-var snip_text = function(info,tab){
-    console.log("Snip");
-    var title;
-    var xhr = new XMLHttpRequest();
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        var title= tabs[0].title;   //title
-        var params = {
-            "title": title,
-            "url":tabs[0].url,
-            "text":info.selectionText,
-            // TODO: change project ID
-            "project_id":project_id
+// var snip_text = function(info,tab){
+//     console.log("Snip");
+//     var title;
+//     var xhr = new XMLHttpRequest();
+//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+//         var title= tabs[0].title;   //title
+//         var params = {
+//             "title": title,
+//             "url":tabs[0].url,
+//             "text":info.selectionText,
+//             // TODO: change project ID
+//             "project_id":project_id
 
-        }
-        console.log("Snip - params: "+JSON.stringify(params));
-        xhr.open("POST", saveSnippetUrl, false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            console.log("Snip ready state:"+xhr.readyState);
-            if (xhr.readyState == 4) {
-                create_notification("Snippet saved!");
-                var result = JSON.parse(xhr.responseText);
-            }
-        }
-        xhr.send(JSON.stringify(params));
+//         }
+//         console.log("Snip - params: "+JSON.stringify(params));
+//         xhr.open("POST", saveSnippetUrl, false);
+//         xhr.setRequestHeader("Content-type", "application/json");
+//         xhr.onreadystatechange = function() {
+//             console.log("Snip ready state:"+xhr.readyState);
+//             if (xhr.readyState == 4) {
+//                 create_notification("Snippet saved!");
+//                 var result = JSON.parse(xhr.responseText);
+//             }
+//         }
+//         xhr.send(JSON.stringify(params));
         
-    });
-}
+//     });
+// }
 
 
 
@@ -161,12 +144,12 @@ var bookmark_options = {"title": "Bookmark",
         // "onclick":bookmark_page,
         "id": "bookmark"}
 
-var snippet_options = {
-        "title": "Snippet",
-        "contexts":["selection"],
-        // "onclick":snip_text,
-        "id":"snippet"
-    }
+// var snippet_options = {
+//         "title": "Snippet",
+//         "contexts":["selection"],
+//         // "onclick":snip_text,
+//         "id":"snippet"
+//     }
 
 
 
@@ -201,25 +184,26 @@ var hide_context_menu = function(){
     // chrome.contextMenus.update("snippet",{visible:false});
 }
 
-bookmark_menu = chrome.contextMenus.create(bookmark_options);
+create_context_menu();
 // snippet_menu = chrome.contextMenus.create(snippet_options);
 
 
-function login_state(uid,pid,username,useremail,pwd){
+function login_state_extension(uid,pid,username,useremail,pwd){
     chrome.storage.local.set({user_id: uid, project_id:pid,name:username,email:useremail,password:pwd}, function() {});
     user_id = uid;
     project_id = pid;
     name = username;
     email = useremail;
     password = pwd;
-    logged_in = true;
+    logged_in_extension = true;
+    console.log("LOGGED IN!");
     chrome.browserAction.setPopup({
         popup:"loggedin.html"
     });
     show_context_menu();
 }
 
-function login(email,password){
+function login_extension(email,password){
     var xhr = new XMLHttpRequest();
     xhr.open("POST", loginUrl, false);
     xhr.setRequestHeader("Content-type", "application/json");
@@ -229,7 +213,8 @@ function login(email,password){
         if (xhr.readyState == 4) {
             var result = JSON.parse(xhr.responseText);
             if(result.logged_in){
-                login_state(result.id,result.id,result.name,email,password);
+                // TODO: Proper project ID
+                login_state_extension(result.id,result.id,result.name,email,password);
             }
         }
     }
@@ -237,14 +222,14 @@ function login(email,password){
 }
 
 
-function logout_state(){
+function logout_state_extension(){
     chrome.storage.local.remove(['user_id','name','project_id','email','password'], function() {
         user_id = null;
         project_id = null;
         name = null;
         email = null;
         password = null;
-        logged_in = false;
+        logged_in_extension = false;
         chrome.browserAction.setPopup({
             popup:"login.html"
         });
@@ -252,7 +237,7 @@ function logout_state(){
     });
 }
 
-function logout(){
+function logout_extension(){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", logoutUrl, false);
     xhr.setRequestHeader("Content-type", "application/json");
@@ -260,33 +245,161 @@ function logout(){
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             var result = JSON.parse(xhr.responseText);
-            if(result.logged_in){
+            if(!result.logged_in){
                 logout_state();
             }
         }
-
     }
-
     xhr.send(JSON.stringify(data));
 }
 
 
-function login_check() {
+// function startup_script(){
+//     chrome.browserAction.setBadgeText({text:""});
+//     login_check();
+// }
+
+
+
+
+
+
+
+    
+
+
+var login_check_browser = function(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", checkLoggedInUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                console.log("CHECK LOGGED IN RESPONSE");
+                console.log(xhr.responseText);
+                if(xhr.responseText==""){
+                    logged_in_browser = false;
+                }else{
+                    logged_in_browser = true;
+                }
+                // var result = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send();
+}
+
+function login_check_extension() {
     chrome.storage.local.get(['user_id','project_id','name','email','password'], function(result) {
         if (typeof result.user_id === 'undefined') {
-            logout_state();
+            logged_in_extension = false;
         } else {
-            login(result.email,result.password);
-        }  
+            logged_in_extension = true;
+        } 
+        // if (typeof result.user_id === 'undefined') {
+        //     logout_state();
+        // } else {
+        //     login(result.email,result.password);
+        // }  
     });
 }
 
 
-chrome.windows.onCreated.addListener(login_check);
-chrome.runtime.onStartup.addListener(login_check);
+// TODO: Check timestamps
+var update_login_state = function(){
+    console.log("ULS: CHECK LOGIN STATE");
+    login_check_browser();
+    login_check_extension();
+    console.log(logged_in_browser);
+    console.log(logged_in_extension);
+    if(logged_in_browser && logged_in_extension){
+        chrome.storage.local.get(['user_id','project_id','name','email','password'], function(result) {
+            login_extension(result.email,result.password);
+        });
+    }else if(!logged_in_browser && !logged_in_extension){
+        logout_extension();
+    }else{
+
+        if(logged_in_browser && !logged_in_extension){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", checkLoggedInUrl, false);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    console.log("ULS: CHECK LOGGED IN RESPONSE");
+                    console.log(xhr.responseText);
+                    var result = JSON.parse(xhr.responseText);
+                    // TODO: Proper project ID
+                    login_state_extension(result.id,result.id,result.name,email,password);
+
+                }
+            }
+            xhr.send();
+        }else if(!logged_in_browser && logged_in_extension){
+            chrome.storage.local.get(['user_id','project_id','name','email','password'], function(result) {
+                login_extension(result.email,result.password);
+            });
+        }
+    }
+}
+
+chrome.windows.onCreated.addListener(update_login_state);
+chrome.runtime.onStartup.addListener(update_login_state);
 
 // TODO Correct this!  Properly save page/query data and properly parse it
 function savePQ(url,title,active,tabId,windowId,now,action,details){
+
+
+    // $localTime = $_POST['localTime'];
+    // $localDate = $_POST['localDate'];
+    // $localTimestamp = $_POST['localTimestamp'];
+    // $details_string = mysql_escape_string($_POST['details']);
+    // $url = mysql_escape_string($_POST['url']);
+    // $title = mysql_escape_string($_POST['title']);
+    // $active_tab = intval($_POST['active']=='true');
+    // $tabID = $_POST['tabId'];
+    // $windowID= $_POST['windowId'];
+    // $is_coagmento = intval(substr($_POST['url'], 0, strlen('http://coagmento.org')) === 'http://coagmento.org');
+
+    var data = {
+        "url":url,
+        "title":title,
+        "active":active,
+        "created_at_local_ms":now,
+        "tabId":tabId,
+        "windowId":windowId,
+        "created_at_local":now/1000,
+        "details":JSON.stringify(details),
+        "user_id":user_id,
+        "project_id":project_id,
+        "stage_id":stage_data.id,
+        "action":action
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", savePageQueryUrl , true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function(result) {
+        if (xhr.readyState == 4) {
+            console.log("SAVE PAGE QUERY");
+            console.log(xhr.responseText)
+            var result = JSON.parse(xhr.responseText);
+        }
+    }
+    xhr.send(JSON.stringify(data));
+
+    // var data = {
+    //             'action':action,
+    //             'value':""+value,
+    //             "project_id":project_id,
+    //             "user_id":user_id,
+    //             "json":JSON.stringify(actionJSON),
+    //             "created_at_local_ms":now,
+    //             "created_at_local":now/1000
+    //         }
+
+    // $querySegmentID = 'NULL';
+    // $details = json_decode($_POST['details'],true);
+
+
     // var data = {
     //     url:url,
     //     title:title,
@@ -325,7 +438,7 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
     //     }
     //     xhr.send(JSON.stringify(data2));
     //     var result = xhr.responseText;
-    // // }
+    // }
 }
 
 
@@ -346,8 +459,13 @@ function change_stage_state(callback){
 
 
 function notify_stage(data){
+    console.log("STAGE CHANGE");
+    console.log(data);
+
     chrome.runtime.sendMessage({type: "stage_data",data:data}, function(response) {
+        stage_data = data;
             console.log(response)
+            update_timer_background(data.timed);
     });
 }
 // TODO: Fix!
@@ -388,10 +506,11 @@ function saveAction(action,value,actionJSON,now){
             //     return;
             // }
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", saveActionUrl, false);
+            xhr.open("POST", saveActionUrl, true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.onreadystatechange = function(result) {
-                // console.log(result);
+                console.log("ACTION");
+                console.log(result);
                 if (xhr.readyState == 4) {
                     console.log("Action saved!");
                 }
@@ -422,7 +541,7 @@ function saveAction(action,value,actionJSON,now){
 
 
 var saveTabActivated = function(activeInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         chrome.tabs.get(activeInfo.tabId, function(tab){
 
@@ -457,7 +576,7 @@ var saveTabActivated = function(activeInfo){
 
 
 var saveTabAttached = function(tabId, attachInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         attachInfo.tabId = tabId;
         saveAction("tabs.onAttached",tabId,attachInfo,now);    
@@ -467,7 +586,7 @@ var saveTabAttached = function(tabId, attachInfo){
 
 
 var saveTabCreated = function(tab){
-    if (logged_in){
+    if (logged_in_extension){
         var now = new Date();
         var tabId = tab.id;
         var currentTab = null;
@@ -490,7 +609,7 @@ var saveTabCreated = function(tab){
 }
 
 var saveTabDetached = function(tabId, detachInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         detachInfo.tabId = tabId;
         saveAction("tabs.onDetached",tabId,detachInfo,now);    
@@ -499,7 +618,7 @@ var saveTabDetached = function(tabId, detachInfo){
 }
 
 var saveTabHighlighted = function(highlightInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),highlightInfo,now);    
     }
@@ -507,7 +626,7 @@ var saveTabHighlighted = function(highlightInfo){
 }
 
 var saveTabMoved = function(tabId, moveInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         moveInfo.tabId = tabId;
         saveAction("tabs.onMoved",tabId,moveInfo,now);
@@ -515,7 +634,7 @@ var saveTabMoved = function(tabId, moveInfo){
 }
 
 var saveTabRemoved = function(tabId, removeInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         removeInfo.tabId = tabId;
         saveAction("tabs.onRemoved",tabId,removeInfo,now);
@@ -523,7 +642,7 @@ var saveTabRemoved = function(tabId, removeInfo){
 }
 
 var saveTabReplaced = function(addedTabId, removedTabId){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         var tabId = addedTabId;
         chrome.tabs.executeScript(
@@ -538,7 +657,7 @@ var saveTabReplaced = function(addedTabId, removedTabId){
 
 
 var saveTabUpdated = function(tabId, changeInfo, tab){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         var action = "tabs.onUpdated";
         var value = tabId;
@@ -606,21 +725,21 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
 }
 
 var saveWindowCreated = function(windowInfo){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         saveAction("windows.onCreated",windowInfo.id,windowInfo,now);
     }
 }
 
 var saveWindowRemoved = function(windowId){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         saveAction("windows.onRemoved",windowId,{windowId:windowId},now);
     }
 }
 
 var saveWindowFocusChanged = function(windowId){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         saveAction("windows.onFocusChanged",windowId,{windowId:windowId},now);
     }
@@ -697,8 +816,79 @@ var refreshContents = function(){
 
 
 
+var update_timer_background = function(timed){
+        console.log('update timer');
+        if(timed == 1){
+
+            if(background.task_timer!=null){
+                clearInterval(background.task_timer);
+                background.task_timer = null;
+            }
+
+            if(background.task_timer==null){
+                console.log("START TIME");
+                console.log(start_time);
+                console.log("TIME LIMIT");
+                console.log(time_limit)
+                console.log("CURRENT TIME");
+                console.log(new Date().getTime());
+
+                var countDownDate = Date.parse(start_time + " " + time_zone);
+
+                console.log("COUNTDOWN TIME");
+                console.log(countDownDate);
+
+                countDownDate = Math.round( countDownDate / 1000)
+                
+                var countDownDate = countDownDate+time_limit;
+
+                background.task_timer = setInterval(function() {
+                var now = new Date().getTime();
+                
+                // Find the distance between now an the count down date
+                var distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Output the result in an element with id="demo"
+                document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+
+                chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+                console.log("BADGE COLOR")
+                chrome.browserAction.setBadgeText({text:minutes+"m"});
+                console.log("BADGE TEXT")
+                // if(m > 0){
+                //     chrome.browserAction.setBadgeText(minutes+"m");
+                // }else if (s > 0){
+                //     chrome.browserAction.setBadgeText(seconds+"s");
+                // }
+                
+                // If the count down is over, write some text 
+                if (false) {
+                // if (distance < 0) {
+                    clearInterval(background.task_timer);
+                    chrome.browserAction.setBadgeText({text:""});
+                    document.getElementById("timer_text").innerHTML = "EXPIRED";
+                    chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
+                }
+                }, 1000);
+            }
+            
+        }else{
+            if(task_timer!=null){
+                clearInterval(background.task_timer);
+                task_timer=null
+            }
+            chrome.browserAction.setBadgeText({text:""});
+        }
+        
+    }
+
+
 var saveWebNavigationCommitted = function(details){
-    if(logged_in){
+    if(logged_in_extension){
         var now = new Date();
         if (details.transitionType != 'auto_subframe'){
             // if (details.transitionType.indexOf('auto') == -1){
