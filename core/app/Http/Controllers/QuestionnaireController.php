@@ -210,7 +210,8 @@ class QuestionnaireController extends Controller
 
     public function preview($id){
         $questionnaire=Questionnaire::findOrFail($id);
-        return view('admin.preview_questionnaire', compact('questionnaire'));
+        $questions =  $questionnaire->data;
+        return view('admin.preview_questionnaire', compact('questionnaire', 'questions'));
     }
 
     /**

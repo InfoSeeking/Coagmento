@@ -63,7 +63,6 @@
                                 <td>
                                     {{ $assignments->where('task_id', $task->id)
                                     ->where('attribute_id', $attribute->id)->first()['value'] }}
-
                                 </td>
                             @endforeach
                         </tr>

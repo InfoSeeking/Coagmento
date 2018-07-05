@@ -37,7 +37,7 @@
 
                             <tr>
                                 <th>
-                                    <form action="/admin/{{ $user->id }}/delete" method="delete">
+                                    <form action="/admin/{{ $user->id }}/delete" method="post">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <input type="hidden" name="_method" value="delete" />

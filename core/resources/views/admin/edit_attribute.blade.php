@@ -55,7 +55,7 @@
                      <input type="text" name="value" id="value"><br>
                      <span class="form-g"></span>-->
                     <div class="input-field col s12"><hr>
-                        <button class="btn btn-warning" type="submit">Update</button>
+                        <button class="btn btn-success" type="submit">Update</button>
                         <a href="/admin/task_settings" class=" btn btn-default">Return</a>
                     </div>
                 </form>

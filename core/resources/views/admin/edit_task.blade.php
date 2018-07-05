@@ -32,11 +32,11 @@
                                     @foreach($attribute->option_name as $key=>$value)
                                         @if($assignments->where('task_id', $task->id)
                                             ->where('attribute_id', $attribute->id)->first()['value'] === $value)
-                                            <option value="{{$value}}" selected="selected">
+                                            <option {{--value="{{$value}}" --}}selected="selected">
                                                 {{$value}}
                                             </option>
                                         @else
-                                            <option value="{{$value}}">
+                                            <option {{--value="{{$value}}"--}}>
                                                 {{$value}}
                                             </option>
                                         @endif

@@ -13,7 +13,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-// Spash page.
+// Splash page.
 Route::get('/', 'SplashController@index');
 Route::get('/new', 'SplashController@index');
 Route::post('/new/notify', 'SplashController@notify');
@@ -148,8 +148,7 @@ Route::post('/admin/create_questionnaire', 'QuestionnaireController@store');
 Route::get('/admin/{questionnaire}/edit_questionnaire', 'QuestionnaireController@edit');
 Route::patch('/admin/{questionnaire}/edit_questionnaire', 'QuestionnaireController@update');
 Route::delete('/admin/{questionnaire}/delete_questionnaire', 'QuestionnaireController@destroy');
-Route::get('/admin/{questionnaire}/preview', 'QuestionnaireController@preview');
-Route::post('/admin/{question}/add','QuestionnaireController@addQuestion');
+Route::get('/admin/{questionnaire}/preview_questionnaire', 'QuestionnaireController@preview');
 
 
 
