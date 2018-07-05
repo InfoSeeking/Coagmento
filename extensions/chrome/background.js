@@ -72,6 +72,8 @@ var bookmark_menu = null;
 
 var task_timer = null;
 var stage_data = null;
+var new_querysegmentid = null;
+var current_querysegmentid = null;
 
 
 
@@ -373,6 +375,8 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
         "stage_id":stage_data.id,
         "action":action
     }
+    console.log("PQ DATA");
+    console.log(data);
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", savePageQueryUrl , true);
@@ -382,6 +386,17 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
             console.log("SAVE PAGE QUERY");
             console.log(xhr.responseText)
             var result = JSON.parse(xhr.responseText);
+            // if(result.new_querysegment){
+            //     if(current_querysegmentid != null){
+            //         create_notification("You have started a new search segment.  Please open your extension to answer a questionnaire.");
+            //         chrome.runtime.sendMessage({type: "new_querysegment",data:{old_id:current_querysegmentid}}, function(response) {
+            //         console.log(response);
+            //         });
+            //         current_querysegmentid = result.new_querysegmentid;
+            //         new_querysegmentid = result.new_querysegmentid;
+
+            //     }
+            // }
         }
     }
     xhr.send(JSON.stringify(data));
@@ -746,42 +761,19 @@ var saveWindowFocusChanged = function(windowId){
 }
 
 var refreshContents = function(){
-    var xhr = new XMLHttpRequest();
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        var params = {
-            "project_id":project_id
-        }
-        
-        xhr.open("GET", getBookmarksUrl, false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            console.log("Bookmark ready state:"+xhr.readyState);
-            if (xhr.readyState == 4) {
-                var result = JSON.parse(xhr.responseText);
-                chrome.runtime.sendMessage({type: "bookmark_data",data:result}, function(response) {
-                    console.log(response)
-                });
-            }
-        }
-        xhr.send(JSON.stringify(params));
-    });
-
     // var xhr = new XMLHttpRequest();
     // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
     //     var params = {
-    //         "project_id":0
+    //         "project_id":project_id
     //     }
-    //     console.log("Page retrieve - params: " +JSON.stringify(params));
         
-    //     xhr.open("GET", getPagesUrl, false);
+    //     xhr.open("GET", getBookmarksUrl, true);
     //     xhr.setRequestHeader("Content-type", "application/json");
     //     xhr.onreadystatechange = function() {
-    //         console.log("Page ready state:"+xhr.readyState);
+    //         console.log("Bookmark ready state:"+xhr.readyState);
     //         if (xhr.readyState == 4) {
-    //             create_notification("Pages retrieved!");
     //             var result = JSON.parse(xhr.responseText);
-    //             console.log("Pages retrieved!");
-    //             chrome.runtime.sendMessage({type: "page_data",data:result}, function(response) {
+    //             chrome.runtime.sendMessage({type: "bookmark_data",data:result}, function(response) {
     //                 console.log(response)
     //             });
     //         }
@@ -789,28 +781,51 @@ var refreshContents = function(){
     //     xhr.send(JSON.stringify(params));
     // });
 
-    // var xhr = new XMLHttpRequest();
-    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-    //     var params = {
-    //         "project_id":0
-    //     }
-    //     console.log("Query retrieve - params: " +JSON.stringify(params));
+    // // var xhr = new XMLHttpRequest();
+    // // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    // //     var params = {
+    // //         "project_id":0
+    // //     }
+    // //     console.log("Page retrieve - params: " +JSON.stringify(params));
         
-    //     xhr.open("GET", getQueriesUrl, false);
-    //     xhr.setRequestHeader("Content-type", "application/json");
-    //     xhr.onreadystatechange = function() {
-    //         console.log("Query ready state:"+xhr.readyState);
-    //         if (xhr.readyState == 4) {
-    //             create_notification("Queries retrieved!");
-    //             var result = JSON.parse(xhr.responseText);
-    //             console.log("Queries retrieved!");
-    //             chrome.runtime.sendMessage({type: "query_data",data:result}, function(response) {
-    //                 console.log(response)
-    //             });
-    //         }
-    //     }
-    //     xhr.send(JSON.stringify(params));
-    // });
+    // //     xhr.open("GET", getPagesUrl, false);
+    // //     xhr.setRequestHeader("Content-type", "application/json");
+    // //     xhr.onreadystatechange = function() {
+    // //         console.log("Page ready state:"+xhr.readyState);
+    // //         if (xhr.readyState == 4) {
+    // //             create_notification("Pages retrieved!");
+    // //             var result = JSON.parse(xhr.responseText);
+    // //             console.log("Pages retrieved!");
+    // //             chrome.runtime.sendMessage({type: "page_data",data:result}, function(response) {
+    // //                 console.log(response)
+    // //             });
+    // //         }
+    // //     }
+    // //     xhr.send(JSON.stringify(params));
+    // // });
+
+    // // var xhr = new XMLHttpRequest();
+    // // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    // //     var params = {
+    // //         "project_id":0
+    // //     }
+    // //     console.log("Query retrieve - params: " +JSON.stringify(params));
+        
+    // //     xhr.open("GET", getQueriesUrl, false);
+    // //     xhr.setRequestHeader("Content-type", "application/json");
+    // //     xhr.onreadystatechange = function() {
+    // //         console.log("Query ready state:"+xhr.readyState);
+    // //         if (xhr.readyState == 4) {
+    // //             create_notification("Queries retrieved!");
+    // //             var result = JSON.parse(xhr.responseText);
+    // //             console.log("Queries retrieved!");
+    // //             chrome.runtime.sendMessage({type: "query_data",data:result}, function(response) {
+    // //                 console.log(response)
+    // //             });
+    // //         }
+    // //     }
+    // //     xhr.send(JSON.stringify(params));
+    // // });
 }
 
 

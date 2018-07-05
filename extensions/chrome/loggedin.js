@@ -458,13 +458,20 @@ $(document).ready(function() {
                 sendResponse("Bookmarks table saved");
             } else if (request.type == 'update_projectid'){
                 project_id = request.data.project_id;
+                sendResponse("Updated project ID");
             }else if(request.type == 'stage_data'){
                 // stage_id, whether it is timed, the start time for the user, and the time limit
                 update_stage_state(request.data.stage_id,request.data.timed,request.data.time_limit,request.data.time_start.date,request.data.time_start.timezone)
+                sendResponse("Updated stage ID");
                 
                 
 
 
+            }
+            else if(request.type == 'new_querysegment'){
+                $('#query_id').val(request.data.old_id);
+                $('#questionnaire_container').show();
+                    sendResponse("Updated stage ID");
             }
             else {
                 sendResponse("Not a valid command");
@@ -480,27 +487,27 @@ $(document).ready(function() {
 
 
     var refresh_bookmarks_popup = function(){
-        var xhr = new XMLHttpRequest();
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        var params = {
-            "project_id":project_id
-        }
+        // var xhr = new XMLHttpRequest();
+        // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        // var params = {
+        //     "project_id":project_id
+        // }
         
-        console.log("PARAMS");
-        console.log(params);
-        xhr.open("GET", background.getBookmarksUrl+"?"+$.param(params), false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            console.log("Bookmark ready state:"+xhr.readyState);
-            if (xhr.readyState == 4) {
-                var result = JSON.parse(xhr.responseText);
-                console.log("RESPONSE");
-                console.log(result)
-                render_bookmarks(result);
-            }
-        }
-        xhr.send();
-    });
+        // console.log("PARAMS");
+        // console.log(params);
+        // xhr.open("GET", background.getBookmarksUrl+"?"+$.param(params), false);
+        // xhr.setRequestHeader("Content-type", "application/json");
+        // xhr.onreadystatechange = function() {
+        //     console.log("Bookmark ready state:"+xhr.readyState);
+        //     if (xhr.readyState == 4) {
+        //         var result = JSON.parse(xhr.responseText);
+        //         console.log("RESPONSE");
+        //         console.log(result)
+        //         render_bookmarks(result);
+        //     }
+        // }
+        // xhr.send();
+        // });
 
     }
 
@@ -523,6 +530,7 @@ $(document).ready(function() {
                console.log(data); // show response from the php script.
                if(data.success){
                     $("#query_segment_form")[0].reset();
+                    $("#questionnaire_container").hide();
                }
                
            },

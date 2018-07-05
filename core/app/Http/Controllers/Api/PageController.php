@@ -94,7 +94,7 @@ class PageController extends Controller
         // Check action history for user.  If most recent webNavigation.onCommitted or tab.onActivated (besides the most recent one) is
         $date = date('Y-m-d', $startTimestamp);
         $date = Carbon::parse($date)->toDateTimeString();
-        $query = "SELECT * FROM actions WHERE user_id=$userID AND `action` IN ('tabs.onActivated','webNavigation.onCommitted') AND `date_local`='$date' ORDER BY actionID DESC";
+        $query = "SELECT * FROM actions WHERE user_id=$userID AND `action` IN ('tabs.onActivated','webNavigation.onCommitted') AND `date_local`='$date' ORDER BY id DESC";
         //        TODO: query language; fetch result
         $results = DB::select($query);
         if(count($results)<=1){
@@ -233,6 +233,10 @@ class PageController extends Controller
         $is_coagmento = intval(substr($req->input('url'), 0, strlen('http://coagmento.org')) === 'http://coagmento.org');
 
         $querySegmentID = 'NULL';
+
+        $new_querySegmentID = null;
+        $new_querySegment = false;
+
         $details_string = $req->input('details');
 //        $details_string = mysql_escape_string($req->input('details'));
         $details = json_decode($req->input('details'),true);
@@ -372,12 +376,15 @@ class PageController extends Controller
                 else if($is_query){
 //                    echo "FIFTH1.1.2";
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
+                    $new_querySegmentID = $querySegmentID;
+                    $new_querySegment = true;
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
 //                    echo "FIFTH1.1.3";
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
                     $result = DB::select($query);
+                    dd($req);
                     $line = json_decode(json_encode($result[0]),true);
 //                    $line = DB::select($query)->first();
                     $querySegmentID = $line['querySegmentID'];
@@ -412,6 +419,7 @@ class PageController extends Controller
 //			Not webNavigation, not tabUpdated, must be tabActivated action
             $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
             $result = DB::select($query);
+            dd($req);
             $line = json_decode(json_encode($result[0]),true);
 //            $line = DB::select($query)->first();
             if(isset($line['querySegmentID'])){
@@ -433,12 +441,14 @@ class PageController extends Controller
                 }
                 else if($is_query){
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
+                    $new_querySegmentID = $querySegmentID;
+                    $new_querySegment = true;
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
 //					Get the creator tab
 //					Get that creator
-                    $query = "SELECT action_json FROM actions WHERE user_id='$userID' AND `action`='tabs.onCreated' AND value='$tabID' ORDER BY `actionID` DESC LIMIT 1";
+                    $query = "SELECT action_json FROM actions WHERE user_id='$userID' AND `action`='tabs.onCreated' AND value='$tabID' ORDER BY `id` DESC LIMIT 1";
                     $results = DB::select($query);
 
                     $prevTabID=null;
@@ -730,7 +740,7 @@ class PageController extends Controller
 
 
 
-        return response()->json(['pqsuccess'=>true]);
+        return response()->json(['pqsuccess'=>true,'new_querysegment'=>$new_querySegment,'new_querysegmentid'=>$new_querySegmentID]);
 
     }
 

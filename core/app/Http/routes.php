@@ -196,8 +196,6 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 
     Route::post('api/v1/queryquestionnaire', 'QuestionnaireController@postQuerySegmentQuestionnaire');
 
-
-
     Route::get('api/v1/stages/current', 'StageProgressController@getCurrentStageUser');
 
 	// Projects.
