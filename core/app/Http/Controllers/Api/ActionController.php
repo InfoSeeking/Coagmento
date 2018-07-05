@@ -35,6 +35,7 @@ class ActionController extends Controller
         $action->value = $req->value;
         $action->json = $req->json;
         $action->created_at_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
+        $action->date_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d');
         $action->created_at_local_ms = $req->created_at_local_ms;
         $action->save();
         return ['success'=>true];

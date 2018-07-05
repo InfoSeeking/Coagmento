@@ -197,8 +197,6 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 
     Route::post('api/v1/queryquestionnaire', 'QuestionnaireController@postQuerySegmentQuestionnaire');
 
-
-
     Route::get('api/v1/stages/current', 'StageProgressController@getCurrentStageUser');
 
 	// Projects.
@@ -229,7 +227,9 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::post('api/v1/queries', 'Api\QueryController@create');
 	Route::get('api/v1/queries/{query_id}', 'Api\QueryController@get');
 	Route::get('api/v1/queries', 'Api\QueryController@index');
-	Route::delete('api/v1/queries/{query_id}', 'Api\QueryController@delete');	
+	Route::delete('api/v1/queries/{query_id}', 'Api\QueryController@delete');
+
+    Route::post('api/v1/pagesqueries', 'Api\PageController@createPageOrQuery');
 
 	// Chat.
 	Route::post('api/v1/chatMessages', 'Api\ChatController@create');

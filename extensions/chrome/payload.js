@@ -26,19 +26,19 @@ function clearTimers(){
 
 clearTimers();
 
-// function getLocalDate(timestamp){
-//     var currentTime = new Date(timestamp);
-//     var month = currentTime.getMonth() + 1;
-//     var day = currentTime.getDate();
-//     var year = currentTime.getFullYear();
-//     var localDate = year + "%2F" + month + "%2F" + day;
-//     var hours = currentTime.getHours();
-//     var minutes = currentTime.getMinutes();
-//     var seconds = currentTime.getSeconds();
-//     var localTime = hours + "%3A" + minutes + "%3A" + seconds;
-//     var localTimestamp = currentTime.getTime();
-//     return {'localDate':localDate,'localTime':localTime,'':localTimestamp}
-// }
+function getLocalDate(timestamp){
+    var currentTime = new Date(timestamp);
+    var month = currentTime.getMonth() + 1;
+    var day = currentTime.getDate();
+    var year = currentTime.getFullYear();
+    var localDate = year + "%2F" + month + "%2F" + day;
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+    var localTime = hours + "%3A" + minutes + "%3A" + seconds;
+    var localTimestamp = currentTime.getTime();
+    return {'localDate':localDate,'localTime':localTime,'':localTimestamp}
+}
 
 function defaultCallback(responseText){
     console.log(responseText);

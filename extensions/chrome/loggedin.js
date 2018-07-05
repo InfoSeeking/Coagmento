@@ -6,6 +6,8 @@ $(document).ready(function() {
     // 3) handle task1, task2, 2 different projects
 
     // Background variables
+
+
     var background = chrome.extension.getBackgroundPage();
     var email;
     var password;
@@ -28,72 +30,11 @@ $(document).ready(function() {
     // 1) Add timer
     
 
-    var update_timer = function(){
-        console.log('update timer');
-        if(timed == 1){
-
-            if(background.task_timer!=null){
-                clearInterval(background.task_timer);
-                background.task_timer = null;
-            }
-
-            if(background.task_timer==null){
-                console.log("START TIME");
-                console.log(start_time);
-                console.log("TIME LIMIT");
-                console.log(time_limit)
-                console.log("CURRENT TIME");
-                console.log(new Date().getTime());
-
-                var countDownDate = Date.parse(start_time + " " + time_zone);
-
-                console.log("COUNTDOWN TIME");
-                console.log(countDownDate);
-
-                countDownDate = Math.round( countDownDate / 1000)
-                
-                var countDownDate = countDownDate+time_limit;
-
-                background.task_timer = setInterval(function() {
-                var now = new Date().getTime();
-                
-                // Find the distance between now an the count down date
-                var distance = countDownDate - now;
-                
-                // Time calculations for days, hours, minutes and seconds
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                // Output the result in an element with id="demo"
-                document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
-
-                chrome.browserAction.setBadgeBackgroundColor({color: "red"});
-                console.log("BADGE COLOR")
-                chrome.browserAction.setBadgeText({text:minutes+"m"});
-                console.log("BADGE TEXT")
-                // if(m > 0){
-                //     chrome.browserAction.setBadgeText(minutes+"m");
-                // }else if (s > 0){
-                //     chrome.browserAction.setBadgeText(seconds+"s");
-                // }
-                
-                // If the count down is over, write some text 
-                if (false) {
-                // if (distance < 0) {
-                    clearInterval(background.task_timer);
-                    chrome.browserAction.setBadgeText({text:""});
-                    document.getElementById("timer_text").innerHTML = "EXPIRED";
-                    chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
-                }
-                }, 1000);
-            }
-            
-        }else{
-            if(background.task_timer!=null){
-                clearInterval(background.task_timer);
-            }
-        }
-        
+    if(background.logged_in_extension != background.logged_in_browser){
+        background.update_login_state();
+    }else{
+        console.log(background.logged_in_extension);
+        console.log(background.logged_in_browser);
     }
     
     function goHome(){
@@ -401,6 +342,112 @@ $(document).ready(function() {
 
     }
 
+
+    var update_timer_popup = function(timed){
+        console.log('update timer popup');
+        if(timed == 1){
+
+            if(background.task_timer!=null){
+                clearInterval(background.task_timer);
+                background.task_timer = null;
+            }
+
+            if(background.task_timer==null){
+                console.log("START TIME");
+                console.log(start_time);
+                console.log("TIME LIMIT");
+                console.log(time_limit)
+                console.log("CURRENT TIME");
+                console.log(new Date().getTime());
+
+                var countDownDate = Date.parse(start_time + " " + time_zone);
+
+                console.log("COUNTDOWN TIME");
+                console.log(countDownDate);
+
+                countDownDate = Math.round( countDownDate / 1000)
+                
+                var countDownDate = countDownDate+time_limit;
+
+                background.task_timer = setInterval(function() {
+                var now = new Date().getTime();
+                
+                // Find the distance between now an the count down date
+                var distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Output the result in an element with id="demo"
+                document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+
+                chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+                console.log("BADGE COLOR")
+                chrome.browserAction.setBadgeText({text:minutes+"m"});
+                console.log("BADGE TEXT")
+                // if(m > 0){
+                //     chrome.browserAction.setBadgeText(minutes+"m");
+                // }else if (s > 0){
+                //     chrome.browserAction.setBadgeText(seconds+"s");
+                // }
+                
+                // If the count down is over, write some text 
+                if (false) {
+                // if (distance < 0) {
+                    clearInterval(background.task_timer);
+                    chrome.browserAction.setBadgeText({text:""});
+                    document.getElementById("timer_text").innerHTML = "EXPIRED";
+                    chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
+                }
+                }, 1000);
+            }
+            
+        }else{
+            if(background.task_timer!=null){
+                clearInterval(background.task_timer);
+                background.task_timer=null
+            }
+            chrome.browserAction.setBadgeText({text:""});
+        }
+        
+    }
+
+
+    var update_stage_state = function(new_stage_id,new_timed,new_time_limit,new_start_time,new_time_zone){
+        console.log("UPDATE STAGE STATE");
+        console.log(new_timed);
+
+        if(new_stage_id == null){
+            $('#task_display').hide();
+            $('#default_display').show();
+            return;
+        }
+        stage_id = new_stage_id
+        timed = new_timed
+        time_limit = new_time_limit
+        start_time = new_start_time
+        time_zone = new_time_zone
+        if(new_timed){
+            console.log("SHOW TASK DISPLAY");
+            $('#task_display').show();
+            $('#default_display').hide();
+        }else{
+            console.log("SHOW DEFAULT DISPLAY");
+            $('#task_display').hide();
+            $('#default_display').show();
+        }
+        // background.updsate_timer_background(timed);
+        update_timer_popup(timed);
+        // stage_id = request.data.id;
+        //         timed = request.data.timed;
+        //         time_limit = request.data.time_limit;
+        //         start_time = request.data.time_start.date;
+        //         time_zone = request.data.time_start.timezone;
+        
+
+    }
+
     chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
             console.log("MESSAGE REQUEST TYPE: "+request.type);
@@ -411,16 +458,20 @@ $(document).ready(function() {
                 sendResponse("Bookmarks table saved");
             } else if (request.type == 'update_projectid'){
                 project_id = request.data.project_id;
+                sendResponse("Updated project ID");
             }else if(request.type == 'stage_data'){
                 // stage_id, whether it is timed, the start time for the user, and the time limit
-                stage_id = request.data.id;
-                timed = request.data.timed;
-                time_limit = request.data.time_limit;
-                start_time = request.data.time_start.date;
-                time_zone = request.data.time_start.timezone;
-                update_timer();
+                update_stage_state(request.data.stage_id,request.data.timed,request.data.time_limit,request.data.time_start.date,request.data.time_start.timezone)
+                sendResponse("Updated stage ID");
+                
+                
 
 
+            }
+            else if(request.type == 'new_querysegment'){
+                $('#query_id').val(request.data.old_id);
+                $('#questionnaire_container').show();
+                    sendResponse("Updated stage ID");
             }
             else {
                 sendResponse("Not a valid command");
@@ -436,27 +487,27 @@ $(document).ready(function() {
 
 
     var refresh_bookmarks_popup = function(){
-        var xhr = new XMLHttpRequest();
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        var params = {
-            "project_id":project_id
-        }
+        // var xhr = new XMLHttpRequest();
+        // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        // var params = {
+        //     "project_id":project_id
+        // }
         
-        console.log("PARAMS");
-        console.log(params);
-        xhr.open("GET", background.getBookmarksUrl+"?"+$.param(params), false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            console.log("Bookmark ready state:"+xhr.readyState);
-            if (xhr.readyState == 4) {
-                var result = JSON.parse(xhr.responseText);
-                console.log("RESPONSE");
-                console.log(result)
-                render_bookmarks(result);
-            }
-        }
-        xhr.send();
-    });
+        // console.log("PARAMS");
+        // console.log(params);
+        // xhr.open("GET", background.getBookmarksUrl+"?"+$.param(params), false);
+        // xhr.setRequestHeader("Content-type", "application/json");
+        // xhr.onreadystatechange = function() {
+        //     console.log("Bookmark ready state:"+xhr.readyState);
+        //     if (xhr.readyState == 4) {
+        //         var result = JSON.parse(xhr.responseText);
+        //         console.log("RESPONSE");
+        //         console.log(result)
+        //         render_bookmarks(result);
+        //     }
+        // }
+        // xhr.send();
+        // });
 
     }
 
@@ -479,6 +530,7 @@ $(document).ready(function() {
                console.log(data); // show response from the php script.
                if(data.success){
                     $("#query_segment_form")[0].reset();
+                    $("#questionnaire_container").hide();
                }
                
            },
@@ -509,24 +561,20 @@ $(document).ready(function() {
     });
 
 
-     var check_logged_in = function(){
-        var xhr = new XMLHttpRequest();
-        
-        xhr.open("GET", "http://localhost:8000/auth/loggedin", false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                console.log("CHECK LOGGED IN RESPONSE");
-                console.log(xhr.responseText)
-                var result = JSON.parse(xhr.responseText);
-            }
-        }
-        xhr.send();
-
-    }
 
     refresh_bookmarks_popup();
-    check_logged_in();
+    background.update_login_state();
+
+    if(background.stage_data != null){
+        stage_id = background.stage_data.id;
+        timed = background.stage_data.timed;
+        time_limit = background.stage_data.time_limit;
+        start_time = background.stage_data.time_start.date;
+        time_zone = background.stage_data.time_start.timezone;    
+    }
+    
+
+    update_stage_state(stage_id,timed,time_limit,start_time,time_zone);
     
 
 });

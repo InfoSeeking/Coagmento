@@ -13,6 +13,12 @@ $(document).ready(function(){
     // 2) set logged in background variable
     // TODO: Properly update project ID
 
+    if(background.logged_in_extension != background.logged_in_browser){
+        background.update_login_state();
+    }else{
+        console.log(background.logged_in_extension);
+        console.log(background.logged_in_browser);
+    }
 
     function login_state_popup(uid,pid,username,useremail,pwd){
         chrome.storage.local.set({user_id: uid, project_id:pid,name:username,email:useremail,password:pwd}, function() {});
@@ -35,6 +41,8 @@ $(document).ready(function(){
         xhr.open("POST", loginUrl, false);
         xhr.setRequestHeader("Content-type", "application/json");
         var data = {"email":email,"password":password}
+        console.log("LOGIN POPUP");
+        console.log(data);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {

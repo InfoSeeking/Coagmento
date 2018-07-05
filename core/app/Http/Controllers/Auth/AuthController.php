@@ -9,6 +9,7 @@ use App\Models\Demographic;
 use App\Services\ProjectService;
 use App\Services\StageProgressService;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -72,6 +73,8 @@ class AuthController extends Controller
     public function isLoggedIn(Request $req){
         return Auth::user();
     }
+
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -147,6 +150,18 @@ class AuthController extends Controller
         $consent_audio = $req->input('consent_audio');
         $consent_furtheruse = $req->input('consent_furtheruse');
         return redirect('auth/register')->with('consent_datacollection',$consent_datacollection)->with('consent_audio',$consent_audio)->with('consent_furtheruse',$consent_furtheruse);
+    }
+
+    /*
+     * Overriding standard getLogout method
+     */
+    public function getLogout()
+    {
+        $user = Auth::user();
+        $user->last_logout = Carbon::now();
+        $user->save();
+        Auth::logout();
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 
     public function postLoginWithOldCoagmentoSupport(Request $req) {
@@ -227,9 +242,13 @@ class AuthController extends Controller
             }
             if($user->active && $user->is_admin){
                 Auth::login($user, $req->has('remember'));
+                $user->last_login = Carbon::now();
+                $user->save();
                 return redirect('/admin');
             } else if ($user->active && !$user->is_completed) {
                 Auth::login($user, $req->has('remember'));
+                $user->last_login = Carbon::now();
+                $user->save();
                 return redirect()->intended($this->redirectPath());
             } else if($user->is_completed){
                 return redirect($this->loginPath()) // Change this to redirect elsewhere
