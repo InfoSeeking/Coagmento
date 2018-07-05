@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Questionnaire extends Model
 {
-    protected $fillable = ['title', 'questions'];
+    protected $fillable = ['title', 'data', 'questions'];
+    protected $casts = [
+        'data' => 'array',
+    ];
 
     public function questions(){
         return $this->hasMany('App\Models\Question');

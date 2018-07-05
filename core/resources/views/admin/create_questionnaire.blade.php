@@ -37,6 +37,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-success" id="getJSON">Save</button>
+                    <a href="manage_questionnaires" class="btn btn-default">Return</a>
                 </div>
             </form>
             <div id="fb-rendered-form">

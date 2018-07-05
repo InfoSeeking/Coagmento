@@ -141,13 +141,14 @@ Route::post('/admin/create_email', 'EmailController@createEmail');
 Route::delete('/admin/{email}/delete_email', 'EmailController@destroy');
 Route::get('/admin/{email}/edit_email', 'EmailController@edit');
 Route::patch('/admin/{email}/edit_email', 'EmailController@update');
-    //Questionnaire
+    //Questionnaires
 Route::get('/admin/manage_questionnaires','QuestionnaireController@manageQuestionnaires');
 Route::get('/admin/create_questionnaire','QuestionnaireController@create');
 Route::post('/admin/create_questionnaire', 'QuestionnaireController@store');
 Route::get('/admin/{questionnaire}/edit_questionnaire', 'QuestionnaireController@edit');
 Route::patch('/admin/{questionnaire}/edit_questionnaire', 'QuestionnaireController@update');
-Route::get('/admin/{questionnaire}/delete_questionnaire', 'QuestionnaireController@destroy');
+Route::delete('/admin/{questionnaire}/delete_questionnaire', 'QuestionnaireController@destroy');
+Route::get('/admin/{questionnaire}/preview', 'QuestionnaireController@preview');
 Route::post('/admin/{question}/add','QuestionnaireController@addQuestion');
 
 

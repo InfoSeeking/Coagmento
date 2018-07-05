@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use App\Models\Questionnaire;
+use App\Models\Value;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Requests;
@@ -76,6 +78,10 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Value::where('question_id', $id)->delete();
+        Question::destroy($id);
+
+        return back();
+
     }
 }

@@ -15,6 +15,7 @@ class CreateQuestionnairesTable extends Migration
         Schema::create('questionnaires', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
+            $table->json('data');
             $table->string('title');
             $table->timestamps();
         });

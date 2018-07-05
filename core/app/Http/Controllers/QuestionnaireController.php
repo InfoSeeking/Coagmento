@@ -10,7 +10,7 @@ use App\Models\StageProgress;
 use App\Models\QuestionnairePosttask;
 use App\Models\QuestionnairePretask;
 /*<<<<<<< HEAD*/
-use App\Value;
+use App\Models\Value;
 /*=======*/
 use App\QuestionnaireQuerySegment;
 /*>>>>>>> 522fe00c574f57c9d7fd957f4db379933c7a6191*/
@@ -31,6 +31,9 @@ class QuestionnaireController extends Controller
     public function __construct(StageProgressService $stageProgressService) {
         $this->stageProgressService = $stageProgressService;
         $this->user = Auth::user();
+        $this->middleware('admin',
+            ['only'=>['create','preview','store','destroy', 'addTask', 'update', 'manageQuestionnaires']]
+        );
     }
 
     public function getPretask(Request $req){
@@ -205,14 +208,20 @@ class QuestionnaireController extends Controller
         return view('admin.manage_questionnaires', compact('questionnaires'));
     }
 
+    public function preview($id){
+        $questionnaire=Questionnaire::findOrFail($id);
+        return view('admin.preview_questionnaire', compact('questionnaire'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.create_questionnaire');
+        $questionnaire = $request;
+        return view('admin.create_questionnaire', compact('questionnaire'));
     }
 
     /**
@@ -227,13 +236,14 @@ class QuestionnaireController extends Controller
         $user=Auth::User();
         $questionnaire = $user->questionnaires()->create([
             'title' => $request->input('title'),
+            'data' => json_encode($arr),
         ]);
         $createQuestion = null;
         foreach ($arr as $key=>$question){
-            //$tempValues = $question['values'];
-            $tempValues=null;
+            //$questionValues = $question['values'];
+            $questionValues=null;
             if(array_key_exists("values", $question)) {
-                $tempValues = $question['values'];
+                $questionValues = $question['values'];
                 $question['values'] = null;
             }
             $createQuestion = $questionnaire->questions()->create($question);
@@ -245,12 +255,12 @@ class QuestionnaireController extends Controller
                 $createQuestion->inline = true;
                 $createQuestion->save();
             }
-            if ($tempValues != null){
-                foreach ($tempValues as $k=>$value){
-                    $val = $createQuestion->values()->create($value);
+            if ($questionValues != null){
+                foreach ($questionValues as $k=>$value){
+                    $answerValue= $createQuestion->values()->create($value);
                     if(array_key_exists("selected", $value)){
-                        $val->selected = true;
-                        $val->save();
+                        $answerValue->selected = true;
+                        $answerValue->save();
                     }
                 }
             }
@@ -277,7 +287,11 @@ class QuestionnaireController extends Controller
      */
     public function edit($id)
     {
-        //
+        $questionnaire = Questionnaire::findOrFail($id);
+
+        $questions =  $questionnaire->data;
+
+        return view('admin.edit_questionnaire', compact('questionnaire', 'questions'));
     }
 
     /**
@@ -289,7 +303,48 @@ class QuestionnaireController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $arr = $request->input("questions");
+        $user=Auth::User();
+        $questionnaire = $user->questionnaires()->find($id);
+        $questionnaire->title = $request->input('title');
+        $questionnaire->data=json_encode($arr);
+
+        $oldQuestions = Question::where('questionnaire_id', $id)->get();
+        foreach($oldQuestions as $question){
+            if(Value::where('question_id', $question->id)->count()>0) {
+                Value::where('question_id', $question->id)->delete();
+            }
+        }
+        Question::where('questionnaire_id', $id)->delete();
+
+        $createQuestion = null;
+        foreach ($arr as $key=>$question){
+            //$questionValues = $question['values'];
+            $questionValues=null;
+            if(array_key_exists("values", $question)) {
+                $questionValues = $question['values'];
+                $question['values'] = null;
+            }
+            $createQuestion = $questionnaire->questions()->create($question);
+            if(array_key_exists("required", $question)){
+                $createQuestion->required = true;
+                $createQuestion->save();
+            }
+            if(array_key_exists("inline", $question)){
+                $createQuestion->inline = true;
+                $createQuestion->save();
+            }
+            if ($questionValues != null){
+                foreach ($questionValues as $k=>$value){
+                    $answerValue= $createQuestion->values()->create($value);
+                    if(array_key_exists("selected", $value)){
+                        $answerValue->selected = true;
+                        $answerValue->save();
+                    }
+                }
+            }
+        }
+        return Question::where('questionnaire_id',$questionnaire->id)->get();
     }
 
     /**
@@ -300,6 +355,18 @@ class QuestionnaireController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $arr = Question::where('questionnaire_id', $id)->get();
+        foreach($arr as $question){
+            if(Value::where('question_id', $question->id)->count()>0) {
+                Value::where('question_id', $question->id)->delete();
+            }
+        }
+        Question::where('questionnaire_id', $id)->delete();
+        Questionnaire::destroy($id);
+
+
+        $questionnaires = Questionnaire::all();
+        return back();
+
     }
 }
