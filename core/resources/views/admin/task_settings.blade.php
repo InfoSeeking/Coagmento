@@ -15,7 +15,7 @@
                 @foreach($attributes as $attribute)
                         <h4>{{ $attribute->name }}</h4>
                         @if($attribute->type === "text")
-                            <input type="text" id="value" name="value" style="float: top;">
+                            <input type="text" id="value" name="value" style="float: top;"><br>
                         @elseif($attribute->type === "select")
                                 <select name="value" id="value">
 
@@ -45,7 +45,7 @@
                             </script>
                         </div>
 
-                        <br>
+
                     <hr>
                 @endforeach
                 <a href="manage_tasks" class="btn btn-default">Return to Tasks</a>

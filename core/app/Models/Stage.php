@@ -9,5 +9,5 @@ class Stage extends Model
     protected $table = 'stages';
     protected $visible = ['title', 'page'];
     protected $guarded = ['stage_id'];
-    protected $fillable = [];
+    protected $fillable = ['title', 'page'];
 }
