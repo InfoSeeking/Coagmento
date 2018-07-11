@@ -61,6 +61,7 @@
                 </ul>
             </div>
         @endif
+        <!---------------------------------------------------------------------------------------------------------->
         <div class="panel panel-default">
         <div class="panel-heading">Add an Attribute</div>
         <div class="panel-body">

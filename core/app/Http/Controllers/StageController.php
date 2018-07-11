@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Questionnaire;
+use App\Models\Widget;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
+use Auth;
 
 class StageController extends Controller
 {
+    public function __construct()
+    {
+        $this->user = Auth::user();
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,6 +29,14 @@ class StageController extends Controller
         return view('admin.manage_stages')->with('stages', $stages);
     }
 
+    public function stageOrder(Request $request){
+        $array = Input::get('data');
+        foreach($array as $order_id=>$stage_id){
+            $stage = Stage::find($stage_id);
+            $stage->weight = ($order_id);$stage->save();
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -28,7 +44,8 @@ class StageController extends Controller
      */
     public function create()
     {
-        //
+        $questionnaires = Questionnaire::all();
+        return view('admin.create_stage', compact('questionnaires'));
     }
 
     /**
@@ -39,7 +56,24 @@ class StageController extends Controller
      */
     public function store(Request $request)
     {
+        $stage=Stage::create([
+            'title' => $request->input('title'),
+            'page' => 'temp',
+        ]);
+        $widgets = $request->input('widget');
+        $values = $request->input('value');
+        $counter = 0;
+        foreach($widgets as $widget){
+            $new = $stage->widgets()->create([
+                'type' => $widget,
+            ]);
+            if($new->type === 'questionnaire' || $new->type === 'text'){//THIS WILL CHANGE LATER!
+                $new->value = $values[$counter];
+                $counter++;
+            }
+        }
         //
+        return back();
     }
 
     /**
@@ -84,6 +118,15 @@ class StageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Widget::where('stage_id', $id)->delete();
+        Stage::destroy($id);
+        return back();
+    }
+
+    public function createWidget(Request $request){
+        Widget::create([
+            'type' => $request->input('type'),
+        ]);
+        return back();
     }
 }

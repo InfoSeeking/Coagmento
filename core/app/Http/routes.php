@@ -151,12 +151,14 @@ Route::delete('/admin/{questionnaire}/delete_questionnaire', 'QuestionnaireContr
 Route::get('/admin/{questionnaire}/preview_questionnaire', 'QuestionnaireController@preview');
     //Stages
 Route::get('/admin/manage_stages', 'StageController@index');
+Route::post('/admin/manage_stages', 'StageController@stageOrder');
 Route::get('/admin/create_stage', 'StageController@create');
 Route::post('/admin/create_stage', 'StageController@store');
 Route::delete('/admin/{stage}/delete_stage', 'StageController@destroy');
 Route::get('/admin/{stage}/edit_stage', 'StageController@edit');
 Route::patch('/admin/{stage}/edit_stage', 'StageController@update');
 Route::get('/admin/{stage}/preview_stage', 'StageController@preview');
+Route::post('/admin/create_widget', 'StageController@createWidget');
 
 
 

@@ -1,10 +1,9 @@
-
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MakeStagesTable extends Migration
+class CreateWidgetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +12,13 @@ class MakeStagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('stages', function (Blueprint $table) {
+        Schema::create('widgets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('page');
+            $table->integer('stage_id');
+            $table->string('type');
+            $table->text('value')->nullable();
+            $table->text('file')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +29,6 @@ class MakeStagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('stages');
+        Schema::drop('widgets');
     }
 }

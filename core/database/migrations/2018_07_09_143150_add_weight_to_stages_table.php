@@ -1,10 +1,9 @@
-
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MakeStagesTable extends Migration
+class AddWeightToStagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +12,8 @@ class MakeStagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('stages', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('page');
+        Schema::table('stages', function (Blueprint $table) {
+            $table->integer('weight');
         });
     }
 
@@ -27,6 +24,8 @@ class MakeStagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('stages');
+        Schema::table('stages', function (Blueprint $table) {
+            $table->dropColumn('weight');
+        });
     }
 }
