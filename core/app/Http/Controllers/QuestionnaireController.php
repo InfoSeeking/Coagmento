@@ -12,7 +12,7 @@ use App\Models\QuestionnairePretask;
 /*<<<<<<< HEAD*/
 use App\Models\Value;
 /*=======*/
-use App\QuestionnaireQuerySegment;
+use App\Models\QuestionnaireQuerySegment;
 /*>>>>>>> 522fe00c574f57c9d7fd957f4db379933c7a6191*/
 use Illuminate\Http\Request;
 use Auth;

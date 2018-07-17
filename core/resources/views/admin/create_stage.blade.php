@@ -28,7 +28,7 @@
             <label for="title">Stage Title</label>
             <input class="form-control form-group" type="text" id="title" name="title">
         </div>
-        <div class="container form-g"></div>
+        <div class="container form-g" id="sortable"></div>
         <br>
         <div class="container">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-widget">Add a Widget</button>
@@ -78,7 +78,8 @@
     </div>
     <script>
         jQuery(function($) {
-            var divs='<div class="card" name="card[]" id="card[]"><div class="card-body"><div class="container contain"><br>';
+            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="container contain"><br>' +
+                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>';
             var material = divs;
             document.getElementById('getData').addEventListener('click', function() {
                 event.preventDefault(); //check notes
@@ -88,7 +89,14 @@
                     material+='<textarea class="form-group form-control" rows="5" name="value[]" id="value"></textarea>';
                 } else if(type==="template"){
                     material+= '<input type="hidden" id="widget[]" name="widget[]" value="template">';
-                    material+='<p name="value[]">Placeholder</p>';
+                    material+='<div class="form-group">'+
+                        '<label for="Tasks">Select Task:</label>'+
+                        '<select class="form-control" id="Tasks" name="value[]">'+
+                        '@foreach($tasks as $task)'+
+                        '<option id="{{$task->id}}">{{$task->description}}</option>'+
+                        '@endforeach' +
+                        '</select>' +
+                        '</div>';
                 } else if(type==="questionnaire"){
                     material+= '<input type="hidden" id="widget[]" name="widget[]" value="questionnaire">';
                     material+='<div class="form-group">'+
@@ -100,22 +108,38 @@
                         '</select>' +
                         '</div>';
                 } else if(type==="resource"){
-                    material+= '<input type="hidden" id="widget[]" name="widget[]" value="resource">';
-                    material+='<p name="value[]">placeholder</p>';
+                    material+= '<input type="hidden" id="widget[]" name="widget[]" value="text">';
+                    material+='<label for="resource">Resource Link</label>'+
+                        '<textarea class="form-group form-control" id="resource" rows="1" name="value[]" id="value"></textarea>';
                 } else {
                     material+= '<input type="hidden" id="widget[]" name="widget[]" value="confirm">';
                     material+='<div class="checkbox">'+
                     '<label><input type="checkbox" name="value[]">Confirm</label>';
                 }
-                material+='</div></div></div><br>';
+                material+='</div></div></div>';
                 $(".form-g").append(material);
                 material =divs;
+
             });
-            /*$(document).on('click', '.add-widget', function(){
-                $(".form-g").append(material);
-            });*/
+            $(document).on('click', '.destroy', function(e){
+                e.preventDefault();
+                $(this).closest(".card").remove();
+            });
         });
-
     </script>
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        //Handle Drag and Drop
+        $(document).ready(function () {
+            $('div').sortable({
+                axis:'y',
+                update:function(event, ui){
+                    var data= $(this).sortable('toArray');
+                    console.log(data);
+                }
+            });
+        });
+    </script>
 @stop

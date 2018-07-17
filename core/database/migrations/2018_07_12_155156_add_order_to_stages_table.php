@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUrlToQueries extends Migration
+class AddOrderToStagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddUrlToQueries extends Migration
      */
     public function up()
     {
-        Schema::table('queries', function(Blueprint $table){
-            $table->text('url')->nullable();
+        Schema::table('stages', function(Blueprint $table){
+            $table->string('order')->nullable();
         });
     }
 
@@ -24,8 +24,8 @@ class AddUrlToQueries extends Migration
      */
     public function down()
     {
-        Schema::table('queries', function(Blueprint $table){
-            $table->dropColumn('url');
+        Schema::table('stages', function(Blueprint $table){
+            $table->dropColumn('order');
         });
     }
 }

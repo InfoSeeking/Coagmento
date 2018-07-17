@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Questionnaire;
+use App\Models\Task;
 use App\Models\Widget;
 use Illuminate\Http\Request;
 
@@ -25,16 +26,23 @@ class StageController extends Controller
      */
     public function index()
     {
-        $stages = Stage::all();
+        $stages = Stage::orderBy('weight')->get();
         return view('admin.manage_stages')->with('stages', $stages);
     }
 
     public function stageOrder(Request $request){
-        $array = Input::get('data');
-        foreach($array as $order_id=>$stage_id){
+        //dd();
+
+        $array = $request->weights;
+
+        //$weight = 1;
+        foreach($array as $weight=>$stage_id){
             $stage = Stage::find($stage_id);
-            $stage->weight = ($order_id);$stage->save();
+            $stage->weight = ($weight);
+            $weight++;
+            $stage->save();
         }
+        return response()->json($array);
     }
 
     /**
@@ -45,7 +53,8 @@ class StageController extends Controller
     public function create()
     {
         $questionnaires = Questionnaire::all();
-        return view('admin.create_stage', compact('questionnaires'));
+        $tasks = Task::all();
+        return view('admin.create_stage', compact('questionnaires', 'tasks'));
     }
 
     /**
@@ -63,15 +72,23 @@ class StageController extends Controller
         $widgets = $request->input('widget');
         $values = $request->input('value');
         $counter = 0;
+        $order = array();
         foreach($widgets as $widget){
+            if($widget === 'confirm'){
             $new = $stage->widgets()->create([
                 'type' => $widget,
+                'value' => $values[$counter],
             ]);
-            if($new->type === 'questionnaire' || $new->type === 'text'){//THIS WILL CHANGE LATER!
-                $new->value = $values[$counter];
-                $counter++;
+            $counter++;}
+            else{
+                $new = $stage->widgets()->create([
+                    'type' => $widget,
+                ]);
             }
+            $order[] = $new->id;
         }
+        $stage->order = serialize($order);
+        $stage->save();
         //
         return back();
     }
@@ -95,7 +112,9 @@ class StageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $stage = Stage::findOrFail($id);
+        $widgets = Widget::where('stage_id', $id)->get();
+        return view('admin.edit_stage', compact('stage', 'widgets'));
     }
 
     /**
@@ -128,5 +147,14 @@ class StageController extends Controller
             'type' => $request->input('type'),
         ]);
         return back();
+    }
+
+    public function preview($id){
+        $stage = Stage::findOrFail($id);
+        $widgets = Widget::where('stage_id', $id)->get();
+        $questionnaires = Questionnaire::all();
+        $tasks = Task::all();
+
+        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires'));
     }
 }

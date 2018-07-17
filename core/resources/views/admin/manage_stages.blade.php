@@ -31,7 +31,7 @@
                         </li>
                     @endforeach
                 </ul>
-                Query String: <span></span><br>
+
                 <a href="/admin/create_stage" class="btn btn-success">Create a Stage</a>
             </div>
         </div>
@@ -46,10 +46,8 @@
             $(document).ready(function () {
                 $('ul').sortable({
                     axis:'y',
-                    stop:function(event, ui){
-                        var data= $(this).sortable('toArray');
-                        console.log(data);
-                        $('span').text(data);
+                    update:function(event, ui){
+                        var data= {weights: $(this).sortable('toArray')};
                         $.ajax({
                             data: data,
                             type: "POST",
