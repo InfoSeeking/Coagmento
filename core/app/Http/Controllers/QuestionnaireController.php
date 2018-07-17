@@ -9,16 +9,12 @@ use App\Models\Task;
 use App\Models\StageProgress;
 use App\Models\QuestionnairePosttask;
 use App\Models\QuestionnairePretask;
-/*<<<<<<< HEAD*/
 use App\Models\Value;
-/*=======*/
 use App\Models\QuestionnaireQuerySegment;
-/*>>>>>>> 522fe00c574f57c9d7fd957f4db379933c7a6191*/
 use Illuminate\Http\Request;
 use Auth;
 use App\Utilities\Status;
 use App\Utilities\StatusCodes;
-
 use App\Http\Requests;
 use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;

@@ -13,4 +13,6 @@ class Widget extends Model
     public function stage(){
         return $this->belongsTo('App\Models\Stage');
     }
+
+
 }

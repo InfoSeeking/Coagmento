@@ -15,6 +15,7 @@ class CreateWidgetsTable extends Migration
         Schema::create('widgets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('stage_id')->unsigned()->index()->nullable();
+            $table->integer('other_id')->nullable();
             $table->integer('weight');
             $table->string('type');
             $table->text('value')->nullable();

@@ -78,8 +78,8 @@
     </div>
     <script>
         jQuery(function($) {
-            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="container contain"><br>' +
-                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>';
+            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="contain"><br>' +
+                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span><br><br>';
             var material = divs;
             document.getElementById('getData').addEventListener('click', function() {
                 event.preventDefault(); //check notes
@@ -108,13 +108,15 @@
                         '</select>' +
                         '</div>';
                 } else if(type==="resource"){
-                    material+= '<input type="hidden" id="widget[]" name="widget[]" value="text">';
+                    material+= '<input type="hidden" id="widget[]" name="widget[]" value="resource">';
                     material+='<label for="resource">Resource Link</label>'+
                         '<textarea class="form-group form-control" id="resource" rows="1" name="value[]" id="value"></textarea>';
                 } else {
                     material+= '<input type="hidden" id="widget[]" name="widget[]" value="confirm">';
-                    material+='<div class="checkbox">'+
-                    '<label><input type="checkbox" name="value[]">Confirm</label>';
+                    material+='<div class="form-group">'+
+                    '<input type="checkbox" name="checkbox">' +
+                        '<label for="confirmDescription"> Enter a confirmation message: </label>' +
+                        '<textarea class="form-group form-control" rows="2" name="value[]" id="confirmDescription"></textarea></div>';
                 }
                 material+='</div></div></div>';
                 $(".form-g").append(material);

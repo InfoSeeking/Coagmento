@@ -11,6 +11,7 @@ class Task extends Model
 //    protected $guarded = ['task_id', 'project_id'];
     protected $visible = ['id','description', 'created_at', 'updated_at'];
 
+
     public function attributes(){
         return $this->belongsToMany('App\Models\Attribute', 'task_attribute_assignments', 'task_id', 'attribute_id')
         /*->withTimestamps()*/;

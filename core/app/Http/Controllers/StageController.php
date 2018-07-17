@@ -6,7 +6,8 @@ use App\Models\Questionnaire;
 use App\Models\Task;
 use App\Models\Widget;
 use Illuminate\Http\Request;
-
+use App\Models\Attribute;
+use App\Models\TaskAttributeAssignment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
@@ -74,17 +75,23 @@ class StageController extends Controller
         $counter = 0;
         $order = array();
         foreach($widgets as $widget){
-            if($widget === 'confirm'){
+            $id = null;
+            if($widget === 'questionnaire' || $widget === 'template') {
+
+                if ($widget === 'questionnaire'){
+                    $id = Questionnaire::where('title', $values[$counter]);
+                }
+                else{
+                    $id = Task::where('description', $values[$counter]);
+                }
+
+            }
             $new = $stage->widgets()->create([
                 'type' => $widget,
                 'value' => $values[$counter],
+                'other_id' => $id,
             ]);
-            $counter++;}
-            else{
-                $new = $stage->widgets()->create([
-                    'type' => $widget,
-                ]);
-            }
+            $counter++;
             $order[] = $new->id;
         }
         $stage->order = serialize($order);
@@ -154,7 +161,8 @@ class StageController extends Controller
         $widgets = Widget::where('stage_id', $id)->get();
         $questionnaires = Questionnaire::all();
         $tasks = Task::all();
-
-        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires'));
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::all();
+        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments'));
     }
 }
