@@ -54,7 +54,7 @@
                             <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    test
+                                    {{ $questionnaires->where('title', $widget->value)->first()->title }}
                                 </div>
                                 <div class="panel-body">
                                     <div id="fb-render"></div>

@@ -90,6 +90,7 @@ class StageController extends Controller
                 'type' => $widget,
                 'value' => $values[$counter],
                 'other_id' => $id,
+                'weight' => $counter,
             ]);
             $counter++;
             $order[] = $new->id;
@@ -121,7 +122,11 @@ class StageController extends Controller
     {
         $stage = Stage::findOrFail($id);
         $widgets = Widget::where('stage_id', $id)->get();
-        return view('admin.edit_stage', compact('stage', 'widgets'));
+        $questionnaires = Questionnaire::all();
+        $tasks = Task::all();
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::all();
+        return view('admin.edit_stage', compact('stage', 'widgets','tasks', 'questionnaires', 'attributes', 'assignments'));
     }
 
     /**
@@ -133,7 +138,41 @@ class StageController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $stage=Stage::findOrFail($id);
+        $stage->title = $request->input('title');
+        $widgets = $request->input('widget');
+        //dd($request->all());
+        $values = $request->input('value');
+        $widgetIDs = $request->input('id');
+        $counter = 0;
+        $order = array();
+        $stage->widgets()->delete();
+        foreach($widgets as $widget){
+            $id = null;
+            if($widget === 'questionnaire' || $widget === 'template') {
+
+                if ($widget === 'questionnaire'){
+                    $id = Questionnaire::where('title', $values[$counter])->first()->id;
+                }
+                else{
+                    $id = Task::where('description', $values[$counter])->first()->id;
+                }
+            }
+
+            $current = $stage->widgets()->create([
+                'type' => $widget,
+                'value' => $values[$counter],
+                'other_id' => $id,
+                'weight' => $counter,
+            ])->id;
+
+            $counter++;
+            $order[] = $current;
+        }
+        $stage->order = serialize($order);
+        $stage->save();
         //
+        return back();
     }
 
     /**
@@ -146,13 +185,6 @@ class StageController extends Controller
     {
         Widget::where('stage_id', $id)->delete();
         Stage::destroy($id);
-        return back();
-    }
-
-    public function createWidget(Request $request){
-        Widget::create([
-            'type' => $request->input('type'),
-        ]);
         return back();
     }
 
