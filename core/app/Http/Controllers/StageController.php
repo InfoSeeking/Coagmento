@@ -66,6 +66,12 @@ class StageController extends Controller
      */
     public function store(Request $request)
     {
+        //Validation: Confirm Validation Here
+        $this->validate($request, [
+            'subject' => 'required',
+            'body' => 'required',
+        ]);
+
         $stage=Stage::create([
             'title' => $request->input('title'),
             'page' => 'temp',
@@ -138,6 +144,7 @@ class StageController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //add validation here
         $stage=Stage::findOrFail($id);
         $stage->title = $request->input('title');
         $widgets = $request->input('widget');

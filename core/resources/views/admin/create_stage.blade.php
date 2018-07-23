@@ -15,6 +15,7 @@
         /* Add some padding inside the card container */
         .contain {
             padding: 2px 16px;
+            margin-bottom: 1em;
         }
     </style>
 @stop
@@ -135,13 +136,14 @@
     <script>
         //Handle Drag and Drop
         $(document).ready(function () {
-            $('div').sortable({
+            $('#sortable').sortable({
                 axis:'y',
                 update:function(event, ui){
                     var data= $(this).sortable('toArray');
                     console.log(data);
                 }
             });
+            $("#sortable").disableSelection();
         });
     </script>
 @stop

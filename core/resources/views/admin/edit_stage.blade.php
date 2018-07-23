@@ -15,6 +15,7 @@
         /* Add some padding inside the card container */
         .contain {
             padding: 16px 16px;
+            margin-bottom: 1em;
         }
     </style>
 @stop
@@ -93,7 +94,6 @@
                             </div>
                         </div>
                     </div>
-                    <br>
                 @endforeach
             @endif
 

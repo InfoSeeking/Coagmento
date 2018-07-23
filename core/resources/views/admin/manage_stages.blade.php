@@ -44,7 +44,7 @@
             }
             //Handle Drag and Drop
             $(document).ready(function () {
-                $('ul').sortable({
+                $('#sortable').sortable({
                     axis:'y',
                     update:function(event, ui){
                         var data= {weights: $(this).sortable('toArray')};
@@ -65,6 +65,7 @@
 
                     }
                 });
+                $("#sortable").disableSelection();
             });
         </script>
     </div>

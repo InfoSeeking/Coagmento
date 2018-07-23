@@ -45,9 +45,12 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/admin/') }}">
-                    Home
-                </a>
+                <a class="navbar-brand" href="{{ url('/admin/') }}">Home</a>
+                <a class="navbar-text" href="{{ url('/admin/manage_users') }}">Manage Users</a>
+                <a class="navbar-text" href="{{ url('/admin/manage_tasks') }}">Manage Tasks</a>
+                <a class="navbar-text" href="{{ url('/admin/manage_emails') }}">Manage Emails</a>
+                <a class="navbar-text" href="{{ url('/admin/manage_questionnaires') }}">Manage Questionnaires</a>
+                <a class="navbar-text" href="{{ url('/admin/manage_stages') }}">Manage Stages</a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
