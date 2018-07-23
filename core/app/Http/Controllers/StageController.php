@@ -202,6 +202,10 @@ class StageController extends Controller
         $tasks = Task::all();
         $attributes = Attribute::all();
         $assignments = TaskAttributeAssignment::all();
-        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments'));
+        $nextStage = null;
+        if($stage->weight + 1 != count(Stage::all())){
+            $nextStage = Stage::where('weight', $stage->weight+1)->first();
+        }
+        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage'));
     }
 }

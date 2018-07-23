@@ -9,15 +9,6 @@
         <div class="panel panel-default">
             <div class="panel-heading">Manage Users</div>
             <div class="panel-body">
-                <form method="POST" action="/admin/manage_users">
-
-                    {{ csrf_field() }}
-                    {{ method_field('POST') }}
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-default">Add User</button>
-                    </div>
-                </form>
 
                 <table class="table table-condensed">
                     <thead>
@@ -81,7 +72,15 @@
                     @endforeach
                     </tbody>
                 </table>
+                <form method="POST" action="/admin/manage_users">
 
+                    {{ csrf_field() }}
+                    {{ method_field('POST') }}
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Add User</button>
+                    </div>
+                </form>
             </div>
             @if(count($errors))
                 <ul>

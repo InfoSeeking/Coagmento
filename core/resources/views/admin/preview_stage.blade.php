@@ -88,8 +88,12 @@
             </div>
         @endforeach
         @endif
-            {{--The link should eventually look something like href="userstudy/{stage}/stage" --}}
-            <a class="btn btn-success btn-large" style="float: right; " href="#">Continue</a>
+            @if($nextStage===null)
+                <a class="btn btn-success btn-large" style="float: right; " href="/end">Continue to the End</a>
+            @else
+                <a class="btn btn-success btn-large" style="float: right; " href="/admin/{{$nextStage->id}}/preview_stage">Continue</a>
+            @endif
+            <br>
             <hr>
             <a class="btn btn-default" href="/admin/manage_stages">Return</a>
     </div>

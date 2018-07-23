@@ -140,6 +140,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id){
         $task = Task::all()->find($id);
+        //dd($request->all());
         if($task->description != $request->input('description')){
             $task->description = $request->input('description');
         }
@@ -147,7 +148,7 @@ class TaskController extends Controller
 
         $values = ($request->input('option_values'));
         foreach($request->input('attribute_ids') as $attribute_id) {
-            $task->attributes()->save(Attribute::findOrFail($attribute_id), ['value' => $values[$attribute_id]]);//sync([$attribute_id => ['value'=>$values[$attribute_id]]]);
+            $task->attributes()->/*save(Attribute::findOrFail($attribute_id), ['value' => $values[$attribute_id]]);*/sync([$attribute_id => ['value'=>$values[$attribute_id]]], false);
         }
 
         $attributes = Attribute::all();
