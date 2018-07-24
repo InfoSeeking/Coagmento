@@ -27,6 +27,32 @@ class TaskController extends Controller
         );
     }
 
+
+    /**
+     * Allow management of tasks under the control of specific admin
+     */
+    public function manageTasks(){
+        $tasks=Task::all();
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::all();
+        return view('admin.manage_tasks', compact('tasks','attributes', 'assignments'));
+    }
+
+    public function newTask(){
+        $attributes = Attribute::all();
+        $assignments = TaskAttributeAssignment::all();
+        return view('/admin/add_task', compact('attributes', 'assignments'));
+    }
+
+    public function viewTaskSettings()
+    {
+        $attributes = Attribute::all();
+        /*foreach ($attributes as $attribute){
+            $attribute->option_name = unserialize($attribute->option_name);
+        }*/
+        return view('admin.task_settings', compact('attributes'));
+    }
+
     public function getCurrentStageId() {
         $stageProgress = StageProgress::all()->where('user_id', $this->user->id)->last();
         if (is_null($stageProgress)) {

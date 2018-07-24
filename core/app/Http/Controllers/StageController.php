@@ -68,10 +68,9 @@ class StageController extends Controller
     {
         //Validation: Confirm Validation Here
         $this->validate($request, [
-            'subject' => 'required',
-            'body' => 'required',
+            'title' => 'required',
+            '*.value' => 'required',
         ]);
-
         $stage=Stage::create([
             'title' => $request->input('title'),
             'page' => 'temp',
@@ -80,26 +79,28 @@ class StageController extends Controller
         $values = $request->input('value');
         $counter = 0;
         $order = array();
-        foreach($widgets as $widget){
-            $id = null;
-            if($widget === 'questionnaire' || $widget === 'template') {
+        if($widgets !== null){
+            foreach($widgets as $widget){
+                $id = null;
+                if($widget === 'questionnaire' || $widget === 'template') {
 
-                if ($widget === 'questionnaire'){
-                    $id = Questionnaire::where('title', $values[$counter]);
-                }
-                else{
-                    $id = Task::where('description', $values[$counter]);
-                }
+                    if ($widget === 'questionnaire'){
+                        $id = Questionnaire::where('title', $values[$counter]);
+                    }
+                    else{
+                        $id = Task::where('description', $values[$counter]);
+                    }
 
+                }
+                $new = $stage->widgets()->create([
+                    'type' => $widget,
+                    'value' => $values[$counter],
+                    'other_id' => $id,
+                    'weight' => $counter,
+                ]);
+                $counter++;
+                $order[] = $new->id;
             }
-            $new = $stage->widgets()->create([
-                'type' => $widget,
-                'value' => $values[$counter],
-                'other_id' => $id,
-                'weight' => $counter,
-            ]);
-            $counter++;
-            $order[] = $new->id;
         }
         $stage->order = serialize($order);
         $stage->save();
@@ -144,6 +145,10 @@ class StageController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            '*.value' => 'required',
+        ]);
         //add validation here
         $stage=Stage::findOrFail($id);
         $stage->title = $request->input('title');

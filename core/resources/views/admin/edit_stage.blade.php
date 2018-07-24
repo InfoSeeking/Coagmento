@@ -27,6 +27,11 @@
         {{ method_field('PATCH') }}
 
         <div class="container">
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    All fields must be filled in.
+                </div>
+            @endif
             <label for="title">Stage Title</label>
             <input class="form-control form-group" type="text" id="title" name="title" value="{{ $stage->title }}">
         </div>

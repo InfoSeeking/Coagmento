@@ -52,16 +52,6 @@ class AdminController extends Controller
     }
 
     /**
-     * Allow management of tasks under the control of specific admin
-     */
-    public function manageTasks(){
-        $tasks=Task::all();
-        $attributes = Attribute::all();
-        $assignments = TaskAttributeAssignment::all();
-        return view('admin.manage_tasks', compact('tasks','attributes', 'assignments'));
-    }
-
-    /**
      * Creates a new user using random name and credentials
      */
     public function addUser(Request $request)
@@ -226,15 +216,6 @@ class AdminController extends Controller
 
      }
 
-     public function viewTaskSettings()
-     {
-         $attributes = Attribute::all();
-         /*foreach ($attributes as $attribute){
-             $attribute->option_name = unserialize($attribute->option_name);
-         }*/
-         return view('admin.task_settings', compact('attributes'));
-     }
-
     public function sendCredentials(/*Request $request,*/){
          //$request->session()->flash('alert-success','The credentials have been sent. Please ask the user to check their email.');
          Session::flash('status', 'The credentials have been sent. Please ask the user to check their email.');
@@ -254,11 +235,6 @@ class AdminController extends Controller
         return back();
     }
 
-    public function newTask(){
-        $attributes = Attribute::all();
-        $assignments = TaskAttributeAssignment::all();
-        return view('/admin/add_task', compact('attributes', 'assignments'));
-    }
 
 
 
