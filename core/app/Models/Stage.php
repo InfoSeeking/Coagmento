@@ -9,9 +9,9 @@ class Stage extends Model
 
 
     protected $table = 'stages';
-    protected $visible = ['title', 'page','id'];
+    protected $visible = ['title', 'page','id','toggle_extension'];
     protected $guarded = ['stage_id'];
-    protected $fillable = ['title', 'page','id', 'weight'];
+    protected $fillable = ['title', 'page','id', 'weight', 'toggle_extension'];
 
     public $timestamps = false;
 

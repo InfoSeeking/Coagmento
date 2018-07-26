@@ -1,47 +1,35 @@
 @extends('admin.layout')
 
 @section('header')
-    <meta name="csrf_token" content="{{csrf_token()}}">
-    <style>
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
-            border-radius: 5px; /* 5px rounded corners */
-        }
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        }
 
-        /* Add some padding inside the card container */
-        .contain {
-            padding: 2px 16px;
-            margin-bottom: 1em;
-        }
-    </style>
 @stop
 
 @section('content')
     <form method="POST" action="/admin/create_stage">
         {{ csrf_field() }}
         {{ method_field('POST') }}
-
         <div class="container">
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
-                    {{--<ul>
+                    <ul>
                         @foreach ($errors->all() as $error)
-                            @if($error === '*.value')
+                            {{--@if($error === 'The *.value field is required.')
                                 <li>All values must be filled in.</li>
-                            @else
+                            @else--}}
                                 <li>{{ $error }}</li>
-                            @endif
+                            {{--@endif--}}
                         @endforeach
-                    </ul>--}}
-                    All fields must be filled in.
+                    </ul>
                 </div>
             @endif
             <label for="title">Stage Title</label>
             <input class="form-control form-group" type="text" id="title" name="title">
+            <label for="toggleextension">Toggle Extension</label><br>
+            <label class="switch" id="toggleextension">
+                <input type="checkbox" id="toggle" name="toggle_extension" checked>
+                <span  class="slider round"></span>
+            </label>
+
         </div>
         <div class="container form-g" id="sortable"></div>
         <br>

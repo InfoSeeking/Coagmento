@@ -8,7 +8,8 @@ use App\Models\Widget;
 use Illuminate\Http\Request;
 use App\Models\Attribute;
 use App\Models\TaskAttributeAssignment;
-use App\Http\Requests;
+use App\Http\Response;
+
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use Auth;
@@ -67,13 +68,18 @@ class StageController extends Controller
     public function store(Request $request)
     {
         //Validation: Confirm Validation Here
+        $toggle = $request->input('toggle_extension') === 'on';
         $this->validate($request, [
             'title' => 'required',
-            '*.value' => 'required',
+            'value' => 'required',
+            'widget' => 'required',
         ]);
+        $toggle = $request->input('toggle_extension') === 'on';
+
         $stage=Stage::create([
             'title' => $request->input('title'),
             'page' => 'temp',
+            'toggle_extension' => $toggle,
         ]);
         $widgets = $request->input('widget');
         $values = $request->input('value');
@@ -147,11 +153,13 @@ class StageController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            '*.value' => 'required',
+            'widget' => 'required',
         ]);
         //add validation here
         $stage=Stage::findOrFail($id);
         $stage->title = $request->input('title');
+        $toggle = $request->input('toggle_extension') === 'on';
+        $stage->toggle_extension = $toggle;
         $widgets = $request->input('widget');
         //dd($request->all());
         $values = $request->input('value');

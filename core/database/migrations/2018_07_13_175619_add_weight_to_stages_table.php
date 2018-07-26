@@ -14,6 +14,8 @@ class AddWeightToStagesTable extends Migration
     {
         Schema::table('stages', function (Blueprint $table) {
             $table->integer('weight');
+            //Also added
+            $table->boolean('toggle_extension')->default(true);
         });
     }
 
@@ -26,6 +28,7 @@ class AddWeightToStagesTable extends Migration
     {
         Schema::table('stages', function (Blueprint $table) {
             $table->dropColumn('weight');
+            $table->dropColumn('toggle_extension');
         });
     }
 }

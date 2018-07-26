@@ -27,11 +27,78 @@
         </style>
         {{--<script src="jquery-3.3.1.min.js"></script>--}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <meta name="csrf_token" content="{{csrf_token()}}">
+        <style>
+            .card {
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                border-radius: 5px;
+            }
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+            /* Add some padding inside the card container */
+            .contain {
+                padding: 16px 16px;
+                margin-bottom: 1em;
+            }
+            /*Toggle extension switch styling refer w3schools.com/howto/howto_css_switch.asp*/
+            .switch{
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+            .switch input{display:none;}
+            .slider{
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+            .slider:before{
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: #84af84;
+
+            }
+            input:checked + .slider{
+                background-color: #c3ffb8;
+            }
+            input:focus + .slider{
+                box-shadow: 0 0 1px #05f305;
+            }
+            input:checked + .slider:before{
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+            .slider.round{
+                border-radius: 34px;
+            }
+            .slider.round:before{
+                border-radius: 50%;
+            }
+
+
+        </style>
         @yield('header')
 
     </head>
 
     <body id="app-layout">
+
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
