@@ -2,8 +2,11 @@
 
 @section('header')
     <meta name="csrf_token" content="{{csrf_token()}}">
-
-
+    <style>
+        i:hover{
+            cursor: pointer;
+        }
+    </style>
 @stop
 
 @section('content')
@@ -27,7 +30,8 @@
 
                             <a class="btn btn-link btn-sm" href="/admin/{{ $stage->id }}/edit_stage"  style="display: inline-block;">Edit</a>
                             <a class="btn btn-link btn-sm" href="/admin/{{ $stage->id }}/preview_stage"  style="display: inline-block;">Preview</a>
-                            <p style="display: inline-block">{{ $stage->title }}</p>
+                            <p style="display: inline-block">{{ $stage->title }} </p>
+                            <i class="glyphicon glyphicon-th" style="float: right; opacity: .5;"></i>
                         </li>
                     @endforeach
                 </ul>
@@ -46,6 +50,7 @@
             $(document).ready(function () {
                 $('#sortable').sortable({
                     axis:'y',
+                    cursor: 'move',
                     update:function(event, ui){
                         var data= {weights: $(this).sortable('toArray')};
                         $.ajax({
@@ -65,7 +70,6 @@
 
                     }
                 });
-                $("#sortable").disableSelection();
             });
         </script>
     </div>

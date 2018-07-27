@@ -42,13 +42,14 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, [
             'name' => 'required|max:255',
             'type' => 'required',
         ]);
         if($request->input('type')==='select'){
             $this->validate($request,[
-                'option_name' => 'required',
+                'option_name' => 'required|array|min:2',
             ]);
         }
         $array = $request->all();

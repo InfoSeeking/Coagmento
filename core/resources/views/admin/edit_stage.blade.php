@@ -1,9 +1,5 @@
 @extends('admin.layout')
 
-@section('header')
-
-@stop
-
 @section('content')
 
     <form method="POST" action="/admin/{{$stage->id}}/edit_stage">
