@@ -16,9 +16,10 @@
                     </ul>
                 </div>
             @endif
-            <label for="title">Stage Title</label>
+            <label for="title" style="color: #c5ffc5">Stage Title</label>
             <input class="form-control form-group" type="text" id="title" name="title" value="{{ $stage->title }}">
 
+            <label for="toggleextension" style="color: #c5ffc5">Toggle Extension</label><br>
             <label class="switch" id="toggleextension">
 
                 <input type="checkbox" id="toggle" name="toggle_extension" @if($stage->toggle_extension == true) checked @endif>

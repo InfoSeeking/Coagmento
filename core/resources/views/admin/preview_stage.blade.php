@@ -88,6 +88,10 @@
             </div>
         @endforeach
         @endif
+            @if($prevStage!==null)
+                <a class="btn btn-success btn-large" style="float: left; " href="/admin/{{$prevStage->id}}/preview_stage">Previous</a>
+            @endif
+
             @if($nextStage===null)
                 <a class="btn btn-success btn-large" style="float: right; " href="/end">Continue to the End</a>
             @else

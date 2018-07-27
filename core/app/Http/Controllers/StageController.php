@@ -219,6 +219,11 @@ class StageController extends Controller
         if($stage->weight + 1 != count(Stage::all())){
             $nextStage = Stage::where('weight', $stage->weight+1)->first();
         }
-        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage'));
+        $prevStage = null;
+        if($stage->weight - 1 != -1) {
+            $prevStage = Stage::where('weight', $stage->weight - 1)->first();
+        }
+
+        return view('admin.preview_stage', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
     }
 }
