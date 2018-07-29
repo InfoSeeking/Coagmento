@@ -1,5 +1,5 @@
 var global_config = {
-    domain:'http://localhost:8000',
-    apidomain:'http://localhost:8000/api/v1',
-    etherpaddomain:'http://localhost:9001/p',
+    domain:'http://problemhelp.comminfo.rutgers.edu',
+    apidomain:'http://problemhelp.comminfo.rutgers.edu/api/v1',
+    etherpaddomain:'http://problemhelp.comminfo.rutgers.edu:9001/p',
 }

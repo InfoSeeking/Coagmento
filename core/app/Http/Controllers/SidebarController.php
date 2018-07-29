@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Membership;
+use App\Models\Project;
 use App\Services\StageProgressService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -17,6 +19,7 @@ use App\Services\MembershipService;
 use App\Services\ProjectService;
 use App\Services\SnippetService;
 use App\Traits\AuthenticateCoagmentoUsers;
+use Illuminate\Support\Facades\DB;
 
 
 class SidebarController extends Controller
@@ -97,12 +100,95 @@ class SidebarController extends Controller
         $logged_in = Auth::attempt(['email' => $email, 'password' => $password]);
 
 
+
         if($logged_in){
             $id = Auth::id();
             $user = Auth::user();
 
             $user->last_login = Carbon::now();
             $user->save();
+
+
+
+            $results = DB::table('memberships')
+                ->where('user_id', $user->id)
+                ->get();
+            if(!count($results)){
+                $args = [
+                    'title'=>'Demo Task',
+                    'description'=>'Demo Task Description',
+                    'private'=>true,
+                ];
+                $project = new Project($args);
+                $project->creator_id = $user->id;
+                $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+                $project->save();
+
+                $owner = new Membership();
+                $owner->user_id = $user->id;
+                $owner->project_id = $project->id;
+                $owner->level = 'o';
+                $owner->save();
+
+                $args = [
+                    'title'=>'Task 1',
+                    'description'=>'Task 1 Description',
+                    'private'=>true,
+                ];
+                $project = new Project($args);
+                $project->creator_id = $user->id;
+                $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+                $project->save();
+
+                $owner = new Membership();
+                $owner->user_id = $user->id;
+                $owner->project_id = $project->id;
+                $owner->level = 'o';
+                $owner->save();
+
+                $args = [
+                    'title'=>'Task 2',
+                    'description'=>'Task 2 Description',
+                    'private'=>true,
+                ];
+                $project = new Project($args);
+                $project->creator_id = $user->id;
+                $project->private = array_key_exists('private', $args) ? $args['private'] : false;
+                $project->save();
+
+                $owner = new Membership();
+                $owner->user_id = $user->id;
+                $owner->project_id = $project->id;
+                $owner->level = 'o';
+                $owner->save();
+            }
+            if($user->active && $user->is_admin){
+                dd("Hello1");
+                Auth::login($user, $req->has('remember'));
+                $user->last_login = Carbon::now();
+                $user->save();
+                return redirect('/admin');
+            } else if ($user->active && !$user->is_completed) {
+//                dd($this->redirectPath());
+                Auth::login($user, $req->has('remember'));
+                $user->last_login = Carbon::now();
+                $user->save();
+//                return redirect()->intended($this->redirectPath());
+            } else if($user->is_completed){
+                dd("Hello3");
+                return redirect($this->loginPath()) // Change this to redirect elsewhere
+                ->withInput($req->only('email', 'remember'))
+                    ->withErrors([
+                        'active' => 'You have already completed the study.'
+                    ]);
+            }else {
+                dd("Hello4");
+                return redirect($this->loginPath()) // Change this to redirect elsewhere
+                ->withInput($req->only('email', 'remember'))
+                    ->withErrors([
+                        'active' => 'You must be active to login.'
+                    ]);
+            }
 
 
 //            public function getCurrentProject(){
@@ -129,7 +215,19 @@ class SidebarController extends Controller
             $current_project = $this->stageProgressService->getCurrentProject();
 //            dd($current_project->getData()->{'project_id'});
             $project_id = $current_project->getData()->{'project_id'};
-            return ['logged_in'=>true,'id'=>$id,'name'=>$user->name, 'project_id'=>$project_id];
+
+            $current_stage = $this->stageProgressService->getCurrentStage();
+
+            $currentStage = $this->stageProgressService->getCurrentStage($req)->getResult();
+            $currentStageProgress = $this->stageProgressService->getCurrentStageProgress($req)->getResult();
+            $stage_data = [
+                'stage_id'=>$currentStage->id,
+                'timed'=>$currentStage->timed,
+                'time_limit'=>$currentStage->time_limit,
+                'time_start'=>$currentStageProgress->created_at,
+            ];
+
+            return ['logged_in'=>true,'id'=>$id,'name'=>$user->name, 'project_id'=>$project_id,'stage_data'=>$stage_data];
         }else{
             return ['logged_in'=>false];
         }

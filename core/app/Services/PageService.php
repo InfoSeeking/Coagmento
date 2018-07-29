@@ -38,7 +38,7 @@ class PageService {
 		return Status::fromResult($page);
 	}
 
-	public function getMultiple($args, $countOnly=false) {
+	public function getmultiple($args, $countOnly=false) {
 		$validator = Validator::make($args, [
 			'project_id' => 'sometimes|exists:projects,id',
 			]);

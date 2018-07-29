@@ -10,11 +10,17 @@
 	</head>
 		<body> 
 			<div class='container'>
-					<h3>Hello, <div id='name'></div></h6>
+					<h3>Hello, <span id='name'></span></h6>
 
 					<div id="default_display">
 						<p>You are currently not working on the task.  Once you begin working on the task, your workspace will be displayed here.</p>
 					</div>
+
+					<div class='home_button_display'>
+							<div class = "btn-group-horizontal">
+								<button id="opencspace_button" class="btn btn-default btn-sm">Go To Home</button>
+							</div>
+						</div>
 
 					<div id="task_display">
 
@@ -27,7 +33,6 @@
 
 						<div class='task_button_display'>
 							<div class = "btn-group-horizontal">
-								<button id="opencspace_button" class="btn btn-default btn-sm">Go To Home</button>
 								<button id="etherpad_button" class="btn btn-success btn-sm">Go To Etherpad</button>
 							</div>
 						</div>
@@ -85,14 +90,25 @@
 						</div>
 						</div>
 
-						<div class='container' id='questionnaire_container'>
+						<div id='query_questionnaire_success' class='alert alert-success' style='display:none'>
+							You have successfully submitted the questionnaire!
+						</div>
+
+						<div id='query_questionnaire_error' class='alert alert-danger' style='display:none'>
+							Your input contained some errors.  Please check your input and try again.
+						</div>
+
+						<div class='container' id='questionnaire_container' style='display:none'>
 
 						<form id='query_segment_form'>
 							
 						<div id="questionnaire_display" class="panel panel-danger">
 
-						<div class="panel-heading"><strong>You've just completed a query segment!  We would like to ask you the following questions:</strong></div>
+						<div class="panel-heading">
+							Query: <strong id='query'></strong><br/>
+							<strong>You've just completed a query segment!  We would like to ask you the following questions:</strong></div>
 						<div class="container">
+
 							<div class="form-group">
                             <label>Please indicate the level of usefulness of the previous query and the associated results with respect to helping you accomplish the task</label>
                             <div class="container">
@@ -108,7 +124,7 @@
 
 
                         <div class="form-group">
-                            <label>What are the barrier(s) that you encountered in the previous query segment?</label>
+                            <label>In this moment, what are the barrier(s)/problems/gaps that you encountered?</label>
                             <div class="container">
                             <!-- <div id="query_barriers[]" class="container"> -->
                                 <div class="row">

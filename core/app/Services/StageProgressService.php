@@ -31,8 +31,9 @@ class StageProgressService {
         $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last();
 		if (is_null($stageProgress)) {
             $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
+
             StageProgress::create([
-                'user_id' => $this->user->id,
+                'user_id' => Auth::user()->id,
                 'stage_id' => $first_stage_id,
             ])->save();
 
@@ -90,9 +91,7 @@ class StageProgressService {
         $created_at_local_ms = $req->input('created_at_local_ms');
 
         if (is_null($stageProgress)) {
-
             $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
-
             StageProgress::create([
                 'user_id' => $this->user->id,
                 'stage_id' => $first_stage_id,
@@ -100,9 +99,9 @@ class StageProgressService {
 
 //            abort(404,Session::put('stage_id',$this->getCurrentStage()->getResult()->id));
             Session::put('stage_id',$this->getCurrentStage()->getResult()->id);
-            if($this->getCurrentStage()->getResult()->id < 15){
+            if($this->getCurrentStage()->getResult()->id < 5){
                 Session::put('project_id',$this->projectService->getMyFirstProject()->id);
-            }else if($this->getCurrentStage()->getResult()->id <= 19){
+            }else if($this->getCurrentStage()->getResult()->id <= 17){
                 Session::put('project_id',$this->projectService->getMySecondProject()->id);
             }else{
                 Session::put('project_id',$this->projectService->getMyThirdProject()->id);

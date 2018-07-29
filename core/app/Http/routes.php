@@ -26,9 +26,7 @@ Route::get('/confirm', function(){
 
 
 // Authentication.
-Route::get('auth/loggedin',function(){
-    return Auth::user();
-});
+Route::get('auth/loggedin','Auth\AuthController@checkLoggedIn');
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLoginWithOldCoagmentoSupport');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
@@ -199,6 +197,7 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	// Bookmarks.
 	Route::get('api/v1/bookmarks', 'Api\BookmarkController@index');
 	Route::get('api/v1/bookmarks/{bookmark_id}', 'Api\BookmarkController@get');
+
 	Route::post('api/v1/bookmarks', 'Api\BookmarkController@create');
 	Route::put('api/v1/bookmarks/{bookmark_id}', 'Api\BookmarkController@update');
 	Route::put('api/v1/bookmarks/{bookmark_id}/move', 'Api\BookmarkController@move');
@@ -215,6 +214,7 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::delete('api/v1/projects/{project_id}', 'Api\ProjectController@delete');
 	Route::delete('api/v1/projects', 'Api\ProjectController@deleteMultiple');
 	Route::get('api/v1/projects/{project_id}/tags', 'Api\ProjectController@getTags');
+    Route::get('api/v1/projects/{project_id}/bookmarks', 'Api\ProjectController@getBookmarks');
 	Route::post('api/v1/projects/{project_id}/share', 'Api\ProjectController@share');
 	Route::put('api/v1/projects/{project_id}/share', 'Api\ProjectController@updateShare');
 	Route::delete('api/v1/projects/{project_id}/share', 'Api\ProjectController@unshare');

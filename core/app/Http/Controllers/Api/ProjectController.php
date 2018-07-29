@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\BookmarkService;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -15,9 +16,12 @@ class ProjectController extends Controller
 {
     function __construct(
         ProjectService $projectService,
-        TagService $tagService) {
+        TagService $tagService,
+        BookmarkService $bookmarkService
+        ) {
         $this->projectService = $projectService;
         $this->tagService = $tagService;
+        $this->bookmarkService = $bookmarkService;
     }
 	/**
 	 * @api{get} /v1/projects Get Multiple
@@ -116,6 +120,13 @@ class ProjectController extends Controller
      */
     function getTags(Request $req, $id) {
         $status = $this->tagService->getMultiple(['project_id' => $id]);
+        return ApiResponse::fromStatus($status);
+    }
+
+
+
+    function getBookmarks(Request $req, $id) {
+        $status = $this->bookmarkService->getMultiple(['project_id' => $id]);
         return ApiResponse::fromStatus($status);
     }
 

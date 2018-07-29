@@ -236,6 +236,7 @@ class PageController extends Controller
 
         $new_querySegmentID = null;
         $new_querySegment = false;
+        $new_query = null;
 
         $details_string = $req->input('details');
 //        $details_string = mysql_escape_string($req->input('details'));
@@ -315,21 +316,24 @@ class PageController extends Controller
 //			If the page updated but the URL is the same, do nothing.
 //			If a normal tabUpdated action, just exit.  Only want to handle tabUpdated on clickthrough
 //			Other reasons for tabUpdated: 1) same as onCommitted (same URL) 2) frequent reloading (also same URL)
-            echo "FIRST";
+//            echo "FIRST";
 
-            exit();
+            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'']);
+//            exit();
         }else if($action=='webNavigation.onCommitted' and $details['tab']['active']==false){
 //        	If web commit on an inactive tab, no need to record
-            echo "SECOND";
-            exit();
+//            echo "SECOND";
+            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'']);
+//            exit();
         }else if(($action=='tabs.onActivated') and $this->sameMostRecentURLByTab($url,$tabID,$userID,$localTimestamp) and $this->sameMostRecentActiveTab($userID,$tabID,$localTimestamp)){
 //			If tab activated on a tab that 1) has the same URL and 2) was the same active tab as before anyway, then no need to record. (Happens on Ctrl+T)
 //
-            echo "THIRD";
+//            echo "THIRD";
 
+            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'']);
 //		}else if(($action=='tabs.onActivated') and sameMostRecentURL($url,$tabID,$userID) and $details['tab']['active']==true){
 
-            exit();
+//            exit();
         }else if($action=='tabs.onUpdated'){
             echo "FOURTH";
             if($details['tab']['active']==false){
@@ -378,17 +382,23 @@ class PageController extends Controller
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
                     $new_querySegmentID = $querySegmentID;
                     $new_querySegment = true;
+                    $new_query = $queryString;
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
 //                    echo "FIFTH1.1.3";
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
                     $result = DB::select($query);
-                    dd($req);
-                    $line = json_decode(json_encode($result[0]),true);
+//                    dd("FIFTH1.1.3".$query);
+//                    dd($result);
+//                    TODO: Why 0 results sometimes?  Improper recording?
+                    if(count($result)>0){
+                        $line = json_decode(json_encode($result[0]),true);
 //                    $line = DB::select($query)->first();
-                    $querySegmentID = $line['querySegmentID'];
-                    $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
+                        $querySegmentID = $line['querySegmentID'];
+                        $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
+                    }
+
 
                 }
             }else{
@@ -419,10 +429,16 @@ class PageController extends Controller
 //			Not webNavigation, not tabUpdated, must be tabActivated action
             $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
             $result = DB::select($query);
-            dd($req);
-            $line = json_decode(json_encode($result[0]),true);
+//            dd("tabs.onActivated".$query);
+//            dd($result);
+//            TODO: Why is result length 0 sometimes?  Bad input from previous request?
+            $line = null;
+            if(count($line)>0){
+                $line = json_decode(json_encode($result[0]),true);
+            }
+
 //            $line = DB::select($query)->first();
-            if(isset($line['querySegmentID'])){
+            if(!is_null($line) and isset($line['querySegmentID'])){
 //				Get previous querySegmentID assignment of tab
                 $querySegmentID = $line['querySegmentID'];
                 $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
@@ -443,6 +459,7 @@ class PageController extends Controller
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
                     $new_querySegmentID = $querySegmentID;
                     $new_querySegment = true;
+                    $new_query = $queryString;
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
@@ -740,7 +757,7 @@ class PageController extends Controller
 
 
 
-        return response()->json(['pqsuccess'=>true,'new_querysegment'=>$new_querySegment,'new_querysegmentid'=>$new_querySegmentID]);
+        return response()->json(['pqsuccess'=>true,'new_querysegment'=>$new_querySegment,'new_querysegmentid'=>$new_querySegmentID,'new_query'=>$new_query]);
 
     }
 

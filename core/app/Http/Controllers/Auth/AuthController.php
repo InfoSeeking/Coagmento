@@ -51,7 +51,8 @@ class AuthController extends Controller
     {
         $this->projectService = $projectService;
         $this->stageProgressService = $stageProgressService;
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => ['getLogout','checkLoggedIn']]);
+//        $this->middleware('guest', ['except' => 'getLogout']);
     }
 
 
@@ -150,6 +151,29 @@ class AuthController extends Controller
         $consent_audio = $req->input('consent_audio');
         $consent_furtheruse = $req->input('consent_furtheruse');
         return redirect('auth/register')->with('consent_datacollection',$consent_datacollection)->with('consent_audio',$consent_audio)->with('consent_furtheruse',$consent_furtheruse);
+    }
+
+    public function checkLoggedIn(Request $req){
+        $user = Auth::user();
+        if(is_null($user)){
+            return ['logged_in'=>false];
+        }
+        $current_project = $this->stageProgressService->getCurrentProject();
+//            dd($current_project->getData()->{'project_id'});
+        $project_id = $current_project->getData()->{'project_id'};
+
+        $current_stage = $this->stageProgressService->getCurrentStage();
+
+        $currentStage = $this->stageProgressService->getCurrentStage($req)->getResult();
+        $currentStageProgress = $this->stageProgressService->getCurrentStageProgress($req)->getResult();
+        $stage_data = [
+            'stage_id'=>$currentStage->id,
+            'timed'=>$currentStage->timed,
+            'time_limit'=>$currentStage->time_limit,
+            'time_start'=>$currentStageProgress->created_at,
+        ];
+
+        return ['logged_in'=>true,'id'=>$user->id,'name'=>$user->name, 'project_id'=>$project_id,'stage_data'=>$stage_data];
     }
 
     /*
@@ -306,6 +330,10 @@ class AuthController extends Controller
 
 
 
+
+
+
+
         $this->validate($request, [
             'age' => 'required',
             'gender' => 'required',
@@ -317,13 +345,14 @@ class AuthController extends Controller
             'nonsearch_frequency' => 'required',
             'name'=>'required',
             'email'=>'required',
+            'study_date'=>'required'
 //            'password'=>'required'
         ]);
 
         $validator = $this->validator($request->all());
 
         $validator->after(function($validator) {
-            if (User::all()->count() >=10) {
+            if (User::all()->count() >=33) {
                 $validator->errors()->add('field', 'Number of users has reached capacity.');
             }
         });
@@ -401,6 +430,7 @@ class AuthController extends Controller
             'consent_datacollection'=>$request->input('consent_datacollection'),
             'consent_audio'=>$request->input('consent_audio'),
             'consent_furtheruse'=>$request->input('consent_furtheruse'),
+            'study_date'=>$request->input('study_date'),
         ]);
 
 
