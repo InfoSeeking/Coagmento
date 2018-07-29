@@ -9,7 +9,7 @@
         @if(session('registration_confirmed'))
 
             <div>
-                <p>Thank you for registering for our study!  A confirmation e-mail has been sent to the address you provided.  <strong>Please keep track of your scheduled study date, and save the e-mail for your records.</strong></p>
+                <p>Thank you for registering for our study!  A confirmation e-mail will be sent to the address you provided.  <strong>Please keep track of your scheduled study date, and save the e-mail for your records.</strong></p>
                 <p>If you have any questions, please send e-mail to Jiqun Liu at
                     <a href="mailto:jl2033@scarletmail.rutgers.edu?subject=Study inquiry">jl2033@scarletmail.rutgers.edu</a> or Shawon Sarkar at <a href="mailto:ss2577@scarletmail.rutgers.edu?subject=Study inquiry">ss2577@scarletmail.rutgers.edu</a>.</p>
 

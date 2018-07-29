@@ -203,7 +203,7 @@
                 foreach($results as $key=>$val){
                     $taken_dates[] = $val->study_date;
                 }
-                
+
 
 
                 $available_dates = array_diff($all_dates,$taken_dates);

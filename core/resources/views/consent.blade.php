@@ -137,8 +137,8 @@
                         or the results are presented at a professional conference, only group results will be stated.</p>
 
 
-                    <p>This study aims to recruit 40 participants. The total amount of time needed for participating is
-                        about one hour. There are no foreseeable risks to participation in this study. Although you may
+                    <p>This study aims to recruit 30 participants. The total amount of time needed for participating is
+                        about 1.5 hours. There are no foreseeable risks to participation in this study. Although you may
                         receive no direct benefit from taking part in this study, other than payment for participation,
                         your participation will help in assisting the researchers to understand people’s information
                         seeking behavior, and therefore to improve information retrieval systems. If you are interested
@@ -146,7 +146,7 @@
 
                     <p>Participation in this study is voluntary. You may choose not to participate, and you may withdraw
                         at any time during the study procedures without any penalty to you. For participating in the
-                        study, you will receive $95.00 in cash. If you decide to end participation before completing
+                        study, you will receive $20.00 in cash. If you decide to end participation before completing
                         he study, you will receive payment pro-rated for the amount of time that you have devoted to
                         the study. In addition, you may choose not to answer any questions with which you are not
                         comfortable. You should be aware that the researchers may continue to use and disclose data,
