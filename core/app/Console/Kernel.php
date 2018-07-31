@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\GenerateThumbnails::class,
         \App\Console\Commands\GenerateApiDocumentation::class,
-        \App\Console\Commands\ImportOldData::class
+        \App\Console\Commands\ImportOldData::class,
+        \App\Console\Commands\Initialize::class
     ];
 
     /**

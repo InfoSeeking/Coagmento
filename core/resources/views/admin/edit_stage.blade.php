@@ -42,7 +42,7 @@
                     <div class="card sortable-element" name="card[]" id="card[]">
                         <div class="card-body">
                             <div class="contain">
-                                <span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span><br><br>
+                                <span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span> <b style="float: right;">{{ strtoupper($widget->type) }}</b> <br><br>
                                 <input type="hidden" id="id[]" name="id[]" value="{{$widget->id}}">
                                 @if($widget->type === "text")
                                     <input type="hidden" id="widget[]={{$widget->id}}" name="widget[]={{$widget->id}}" value="text">
@@ -143,13 +143,14 @@
     </div>
     <script>
         jQuery(function($) {
-            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="contain"><br>' +
-                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span><br><br>' +
+            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="contain">' +
+                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>' +
                 '<input type="hidden" id="id[]" name="id[]" value="-1">';
             var material = divs;
             document.getElementById('getData').addEventListener('click', function() {
                 event.preventDefault(); //check notes
                 var type = document.getElementById('type').value;
+                material+='<b style="float: right;">'+type.toUpperCase()+'</b><br><br>';
                 if(type==="text"){
                     material+= '<input type="hidden" id="widget[]" name="widget[]" value="text">';
                     material+='<textarea class="form-group form-control" rows="5" name="value[]" id="value"></textarea>';

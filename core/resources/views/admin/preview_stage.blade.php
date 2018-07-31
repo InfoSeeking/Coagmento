@@ -89,16 +89,16 @@
         @endforeach
         @endif
             @if($prevStage!==null)
-                <a class="btn btn-success btn-large" style="float: left; " href="/admin/{{$prevStage->id}}/preview_stage">Previous</a>
+                <a class="btn btn-success btn-large" style="float: left; background-color: rgba(13,240,56,0.15)" href="/admin/{{$prevStage->id}}/preview_stage">Previous</a>
             @endif
 
             @if($nextStage===null)
-                <a class="btn btn-success btn-large" style="float: right; " href="/end">Continue to the End</a>
+                <a class="btn btn-success btn-large" style="float: right; background-color: rgba(13,240,56,0.15)" href="/end">Continue to the End</a>
             @else
-                <a class="btn btn-success btn-large" style="float: right; " href="/admin/{{$nextStage->id}}/preview_stage">Continue</a>
+                <a class="btn btn-success btn-large" style="float: right; background-color: rgba(13,240,56,0.15)" href="/admin/{{$nextStage->id}}/preview_stage">Continue</a>
             @endif
             <br>
             <hr>
-            <a class="btn btn-default" href="/admin/manage_stages">Return</a>
+            <a class="btn btn-default" style="background-color: rgba(255,255,255,0.51); color: #1a1a1a" href="/admin/manage_stages">Return</a>
     </div>
 @stop

@@ -22,9 +22,9 @@
                     </ul>
                 </div>
             @endif
-            <label for="title">Stage Title</label>
+            <label for="title" style="color: #c5ffc5">Stage Title</label>
             <input class="form-control form-group" type="text" id="title" name="title">
-            <label for="toggleextension">Toggle Extension</label><br>
+            <label for="toggleextension" style="color: #c5ffc5">Toggle Extension</label><br>
             <label class="switch" id="toggleextension">
                 <input type="checkbox" id="toggle" name="toggle_extension" checked>
                 <span  class="slider round"></span>
@@ -82,12 +82,13 @@
 
     <script>
         jQuery(function($) {
-            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="contain"><br>' +
-                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span><br><br>';
+            var divs='<div class="card sortable-element" name="card[]" id="card[]"><div class="card-body"><div class="contain">' +
+                '<span style="float:left; cursor:pointer;" class="destroy btn btn-sm btn-danger">Delete</span>';
             var material = divs;
             document.getElementById('getData').addEventListener('click', function() {
                 event.preventDefault(); //check notes
                 var type = document.getElementById('type').value;
+                material+='<b style="float: right;">'+ type.toUpperCase() +'</b><br><br>';
                 if(type==="text"){
                     material+= '<input type="hidden" id="widget[]" name="widget[]" value="text">';
                     material+='<textarea class="form-group form-control" rows="5" name="value[]" id="value"></textarea>';

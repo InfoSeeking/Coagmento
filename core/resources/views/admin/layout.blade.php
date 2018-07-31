@@ -36,6 +36,7 @@
                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                 transition: 0.3s;
                 border-radius: 5px;
+                background-color: #fcffff;
             }
             .card:hover {
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -120,9 +121,9 @@
                 <a class="navbar-brand" href="{{ url('/admin/') }}">Home</a>
                 <a class="navbar-text" href="{{ url('/admin/manage_users') }}">Manage Users</a>
                 <a class="navbar-text" href="{{ url('/admin/manage_tasks') }}">Manage Tasks</a>
-                <a class="navbar-text" href="{{ url('/admin/manage_emails') }}">Manage Emails</a>
                 <a class="navbar-text" href="{{ url('/admin/manage_questionnaires') }}">Manage Questionnaires</a>
                 <a class="navbar-text" href="{{ url('/admin/manage_stages') }}">Manage Stages</a>
+                <a class="navbar-text" href="{{ url('/admin/manage_emails') }}">Manage Emails</a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
