@@ -204,24 +204,6 @@
 
 
 
-            {!! Form::label('information_integration','How difficult do you think it will be to integrate the information in the search engine fields?') !!}
-            <div class="radio">
-                <label>{!! Form::radio('information_integration',1) !!}Not at all difficult</label>
-            </div>
-            <div class="radio">
-                <label>{!! Form::radio('information_integration',2) !!}Slightly difficult</label>
-            </div>
-            <div class="radio">
-                <label>{!! Form::radio('information_integration',3) !!}Somewhat difficult</label>
-            </div>
-            <div class="radio">
-                <label>{!! Form::radio('information_integration',4) !!}Moderately difficult</label>
-            </div>
-            <div class="radio">
-                <label>{!! Form::radio('information_integration',5) !!}Very difficult</label>
-            </div>
-            <br><br>
-
 
 
 

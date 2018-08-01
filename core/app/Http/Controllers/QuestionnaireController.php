@@ -11,6 +11,7 @@ use App\Models\QuestionnairePosttask;
 use App\Models\QuestionnairePretask;
 use App\Models\Value;
 use App\Models\QuestionnaireQuerySegment;
+use App\Models\QuestionnaireHelpAndBarrier;
 use Illuminate\Http\Request;
 use Auth;
 use App\Utilities\Status;
@@ -53,14 +54,20 @@ class QuestionnaireController extends Controller
 
     public function postQuerySegmentQuestionnaire(Request $req){
 //        dd($req->all());
-        $questionnaire = new QuestionnaireQuerySegment;
+        $questionnaire = new QuestionnaireHelpAndBarrier;
+        $stage = $this->stageProgressService->getCurrentStage();
+        $stage->getResult();
+        $stage_id = $stage->getResult()->id;
         $questionnaire->user_id = $req->input('user_id');
-        $questionnaire->query_id = $req->input('query_id');
+        $questionnaire->segment_id = $req->input('query_id');
+        $questionnaire->stage_id = $stage_id;
 //        $questionnaire->query_segment_id = $req->input('query_segment_id');
 
-        $questionnaire->query_useful = $req->input('query_useful');
-        $questionnaire->query_barriers = serialize($req->input('query_barriers'));
-        $questionnaire->relevant_helps = serialize($req->input('relevant_helps'));
+        $questionnaire->useful = $req->input('useful');
+        $questionnaire->barriers = serialize($req->input('barriers'));
+        $questionnaire->barriers_order = serialize($req->input('barriers_order'));
+        $questionnaire->help = serialize($req->input('help'));
+        $questionnaire->help_order = serialize($req->input('help_order'));
 
         $questionnaire->save();
         return response()->json(['success'=>true]);

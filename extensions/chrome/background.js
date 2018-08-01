@@ -838,76 +838,76 @@ var refreshContents = function(){
 
 // Done
 var update_timer_background = function(timed){
-        console.log('update timer');
-        if(timed == 1){
+        // console.log('update timer');
+        // if(timed == 1){
 
-            if(task_timer!=null){
-                clearInterval(task_timer);
-                task_timer = null;
-            }
+        //     if(task_timer!=null){
+        //         clearInterval(task_timer);
+        //         task_timer = null;
+        //     }
 
-            if(task_timer==null){
+        //     if(task_timer==null){
                 
-                var countDownDate = Date.parse(stage_data.time_start.date + " " + stage_data.time_start.timezone);
-                countDownDate = Math.round( countDownDate / 1000);
-                countDownDate = countDownDate+stage_data.time_limit;
+        //         var countDownDate = Date.parse(stage_data.time_start.date + " " + stage_data.time_start.timezone);
+        //         countDownDate = Math.round( countDownDate / 1000);
+        //         countDownDate = countDownDate+stage_data.time_limit;
 
-                task_timer = setInterval(function() {
-                    var now = new Date().getTime();
-                    now = Math.round( now / 1000);
+        //         task_timer = setInterval(function() {
+        //             var now = new Date().getTime();
+        //             now = Math.round( now / 1000);
                     
-                    // Find the distance between now an the count down date
-                    var distance = countDownDate - now;
-                    distance = distance * 1000;
+        //             // Find the distance between now an the count down date
+        //             var distance = countDownDate - now;
+        //             distance = distance * 1000;
                     
-                    // Time calculations for days, hours, minutes and seconds
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        //             // Time calculations for days, hours, minutes and seconds
+        //             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
                     
-                    // Output the result in an element with id="demo"
+        //             // Output the result in an element with id="demo"
 
 
-                    if(minutes < 5){
-                        chrome.browserAction.setBadgeBackgroundColor({color: "red"});    
-                    }else{
-                        chrome.browserAction.setBadgeBackgroundColor({color: "green"});    
-                    }
+        //             if(minutes < 5){
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});    
+        //             }else{
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "green"});    
+        //             }
 
 
 
 
-                    // document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+        //             // document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
 
-                    if(minutes <= 0){
-                        chrome.browserAction.setBadgeText({text:seconds+"s"});
-                    }else{
-                        chrome.browserAction.setBadgeText({text:minutes+"m"});
-                    }
-                    // if(m > 0){
-                    //     chrome.browserAction.setBadgeText(minutes+"m");
-                    // }else if (s > 0){
-                    //     chrome.browserAction.setBadgeText(seconds+"s");
-                    // }
+        //             if(minutes <= 0){
+        //                 chrome.browserAction.setBadgeText({text:seconds+"s"});
+        //             }else{
+        //                 chrome.browserAction.setBadgeText({text:minutes+"m"});
+        //             }
+        //             // if(m > 0){
+        //             //     chrome.browserAction.setBadgeText(minutes+"m");
+        //             // }else if (s > 0){
+        //             //     chrome.browserAction.setBadgeText(seconds+"s");
+        //             // }
                     
-                    // TODO: Uncomment
-                    // If the count down is over, write some text 
-                    if (distance < 0) {
-                        clearInterval(task_timer);
-                        chrome.browserAction.setBadgeText({text:""});
-                        // document.getElementById("timer_text").innerHTML = "EXPIRED";
-                        chrome.tabs.create({url:gotoNextStage}, function(tab){},);
-                        return;
-                    }
-                }, 1000);
-            }
+        //             // TODO: Uncomment
+        //             // If the count down is over, write some text 
+        //             if (distance < 0) {
+        //                 clearInterval(task_timer);
+        //                 chrome.browserAction.setBadgeText({text:""});
+        //                 // document.getElementById("timer_text").innerHTML = "EXPIRED";
+        //                 chrome.tabs.create({url:gotoNextStage}, function(tab){},);
+        //                 return;
+        //             }
+        //         }, 1000);
+        //     }
             
-        }else{
-            if(task_timer!=null){
-                clearInterval(task_timer);
-                task_timer=null
-            }
-            chrome.browserAction.setBadgeText({text:""});
-        }
+        // }else{
+        //     if(task_timer!=null){
+        //         clearInterval(task_timer);
+        //         task_timer=null
+        //     }
+        //     chrome.browserAction.setBadgeText({text:""});
+        // }
         
     }
 

@@ -40,7 +40,132 @@
 						
 						
 
-						<div class='container' id='task_activity_container'>
+						
+
+						<div id='query_questionnaire_success' class='alert alert-success' style='display:none'>
+							You have successfully submitted the questionnaire!
+						</div>
+
+						<div id='query_questionnaire_error' class='alert alert-danger' style='display:none'>
+							Your input contained some errors.  Please check your input and try again.
+						</div>
+
+						<div class='container' id='questionnaire_container' style='display:none'>
+
+						<form id='query_segment_form'>
+							
+						<div id="questionnaire_display" class="panel panel-danger">
+
+						<div class="panel-heading">
+							Query: <strong id='query'></strong><br/>
+							<strong>You've just completed a query segment!  We would like to ask you the following questions:</strong></div>
+						<div class="container">
+
+							<div class="form-group">
+                            <label>Please indicate the level of usefulness of the previous query and the associated results with respect to helping you accomplish the task</label>
+                            <div class="container">
+                            <!-- <div id="useful" class="container"> -->
+                                <div class="row">
+                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="useful_1" ><input id="useful_1" type="radio" name="useful" value="1">1 (Not useful at all)</label></div>
+                                    <div  class="col-md-1"><label for="useful_2" ><input id="useful_2" type="radio" name="useful" value="2">2 (Somewhat useful)</label></div>
+                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="useful_3" ><input id="useful_3" type="radio" name="useful" value="3">3 (Fairly useful)</label></div>
+                                    <div  class="col-md-1"><label for="useful_4" ><input id="useful_4" type="radio" name="useful" value="4">4 (Very useful)</label></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>What problems are you facing at this moment? Select all that apply.</label>
+                            <div class="container">
+                            <!-- <div id="barriers[]" class="container"> -->
+                                <div class="row">
+                                	<div id='barriers_placeholder'></div>
+                                    <div id='barriers_col_1' style="background-color:#F2F2F2" class="col-md-1">
+                                    	<label for="barriers_1" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='1' value='difficult_articulate'>
+                                    		<input id="barriers_1" type="checkbox" name="barriers[]" value="difficult_articulate">I don't know how to express my need in search queries
+                                    	</label>
+                                    </div>
+                                    <div id='barriers_col_2'  class="col-md-1">
+                                    	<label for="barriers_2" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='2' value='irrelevant_results'>
+                                    		<input id="barriers_2" type="checkbox" name="barriers[]" value="irrelevant_results">I see a lot of not good or useless results
+                                    	</label>
+                                    </div>
+                                    <div id='barriers_col_3' style="background-color:#F2F2F2" class="col-md-1">
+                                    	<label for="barriers_3" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='3' value='topknowledge_lack'>
+                                    		<input id="barriers_3" type="checkbox" name="barriers[]" value="topknowledge_lack">I don't know enough about the topic
+                                    	</label>
+                                    </div>
+                                    <div id='barriers_col_4'  class="col-md-1">
+                                    	<label for="barriers_4" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='4' value='patience_lack'>
+                                    		<input id="barriers_4" type="checkbox" name="barriers[]" value="patience_lack">I am feeling impatient
+                                    	</label>
+                                    </div>
+                                    <div id='barriers_col_5' style="background-color:#F2F2F2" class="col-md-1">
+                                    	<label for="barriers_5" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='5' value='credibility_uncertain'>
+                                    		<input id="barriers_5" type="checkbox" name="barriers[]" value="credibility_uncertain">I don't know if I can trust the information that I'm seeing
+                                    	</label>
+                                    </div>
+                                    <div id='barriers_col_6'  class="col-md-1">
+                                    	<label for="barriers_6" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='6' value='sources_unaware'>
+                                    		<input id="barriers_6" type="checkbox" name="barriers[]" value="sources_unaware">I may not know all the good or useful sources of information</label>
+                                    </div>
+                                    <div id='barriers_col_7' style="background-color:#F2F2F2" class="col-md-1"><label for="barriers_7" >
+                                    	<input type='hidden' name="barriers_order[]"  data-default-order='7' value='toomuch_information'>
+                                    	<input id="barriers_7" type="checkbox" name="barriers[]" value="toomuch_information">There is just too much information</label>
+                                    </div>
+                                    <div id='barriers_col_8' style="background-color:#F2F2F2" class="col-md-1">
+                                    	<label for="barriers_8" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='8' value='source_unavailable'>
+                                    		<input id="barriers_8" type="checkbox" name="barriers[]" value="source_unavailable">What I'm looking for doesn't seem to be available</label>
+                                    	</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What kind of things would help you at this moment? Select all that apply.</label>
+                            <div class="container">
+                            <!-- <div id="help[]" class="container"> -->
+                                <div class="row">
+                                	<div id='help_placeholder'></div>
+                                    <div id='help_col_1' style="background-color:#F2F2F2" class="col-md-1"><label for="help_1" >
+                                    	<input type='hidden' name="help_order[]" data-default-order='1'  value='query_recommendation'>
+                                    	<input id="help_1" type="checkbox" name="help[]" value="query_recommendation">Recommendations by the system about useful search queries</label></div>
+                                    <div  id='help_col_2' class="col-md-1"><label for="help_2" >
+                                    	<input type='hidden' name="help_order[]" data-default-order='2'  value='page_recommendation'>
+                                    	<input id="help_2" type="checkbox" name="help[]" value="page_recommendation">Recommendations by the system about potentially useful webpages</label></div>
+                                    <div id='help_col_3' style="background-color:#F2F2F2" class="col-md-1"><label for="help_3" >
+                                    	<input type='hidden' name="help_order[]" data-default-order='3'  value='strategy_recommendation'>
+                                    	<input id="help_3" type="checkbox" name="help[]" value="strategy_recommendation">Recommendations about useful search steps and strategies</label></div>
+                                    <div  id='help_col_4' class="col-md-1"><label for="help_4" >
+                                    	<input type='hidden' name="help_order[]" data-default-order='4' value='people_recommendation'>
+                                    	<input id="help_4" type="checkbox" name="help[]" value="people_recommendation">Recommend people (e.g., expert on a specific topic) who may be able to help</label></div>
+                                    <div id='help_col_5' style="background-color:#F2F2F2" class="col-md-1"><label for="help_5" >
+                                    	<input type='hidden' name="help_order[]" data-default-order='5'  value='system_unsatisfactory'>
+                                    	<input id="help_5" type="checkbox" name="help[]" value="system_unsatisfactory">I am not satisfied with any help from system, therefore, would like to talk to someone whom I know (e.g., family, friends, colleagues)</label></div>
+                                </div>
+                            </div>
+                        </div>
+						</div>
+							
+						<div class='panel-footer'>
+							<input type='hidden' name='query_id' id='query_id' value='' />
+							<button name = "query_submit" id="query_submit" class="btn btn-success">Submit</button>
+						</div>
+						</div>
+						</form>
+						</div>
+
+					</div>
+
+					<div class='container' id='task_activity_container'>
 						<div class="panel panel-primary">
 							<div class="panel-heading">Bookmarks, Pages, Queries</div>
 							<div class="panel-body">
@@ -89,81 +214,6 @@
 							</div>
 						</div>
 						</div>
-
-						<div id='query_questionnaire_success' class='alert alert-success' style='display:none'>
-							You have successfully submitted the questionnaire!
-						</div>
-
-						<div id='query_questionnaire_error' class='alert alert-danger' style='display:none'>
-							Your input contained some errors.  Please check your input and try again.
-						</div>
-
-						<div class='container' id='questionnaire_container' style='display:none'>
-
-						<form id='query_segment_form'>
-							
-						<div id="questionnaire_display" class="panel panel-danger">
-
-						<div class="panel-heading">
-							Query: <strong id='query'></strong><br/>
-							<strong>You've just completed a query segment!  We would like to ask you the following questions:</strong></div>
-						<div class="container">
-
-							<div class="form-group">
-                            <label>Please indicate the level of usefulness of the previous query and the associated results with respect to helping you accomplish the task</label>
-                            <div class="container">
-                            <!-- <div id="query_useful" class="container"> -->
-                                <div class="row">
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_useful_1" ><input id="query_useful_1" type="radio" name="query_useful" value="1">1 (Not useful at all)</label></div>
-                                    <div  class="col-md-1"><label for="query_useful_2" ><input id="query_useful_2" type="radio" name="query_useful" value="2">2 (Somewhat useful)</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_useful_3" ><input id="query_useful_3" type="radio" name="query_useful" value="3">3 (Fairly useful)</label></div>
-                                    <div  class="col-md-1"><label for="query_useful_4" ><input id="query_useful_4" type="radio" name="query_useful" value="4">4 (Very useful)</label></div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>In this moment, what are the barrier(s)/problems/gaps that you encountered?</label>
-                            <div class="container">
-                            <!-- <div id="query_barriers[]" class="container"> -->
-                                <div class="row">
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_barriers_1" ><input id="query_barriers_1" type="checkbox" name="query_barriers[]" value="difficult_articulate">Difficult to articulate information need(s) with search queries</label></div>
-                                    <div  class="col-md-1"><label for="query_barriers_2" ><input id="query_barriers_2" type="checkbox" name="query_barriers[]" value="irrelevant_results">Too many irrelevant results</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_barriers_3" ><input id="query_barriers_3" type="checkbox" name="query_barriers[]" value="topknowledge_lack">Lack of topical knowledge</label></div>
-                                    <div  class="col-md-1"><label for="query_barriers_4" ><input id="query_barriers_4" type="checkbox" name="query_barriers[]" value="patience_lack">Lack of patience</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_barriers_5" ><input id="query_barriers_5" type="checkbox" name="query_barriers[]" value="credibility_uncertain">Uncertain about information credibility</label></div>
-                                    <div  class="col-md-1"><label for="query_barriers_6" ><input id="query_barriers_6" type="checkbox" name="query_barriers[]" value="sources_unaware">Unaware of information sources</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_barriers_7" ><input id="query_barriers_7" type="checkbox" name="query_barriers[]" value="toomuch_information">Too much information</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="query_barriers_8" ><input id="query_barriers_8" type="checkbox" name="query_barriers[]" value="source_unavailable">The source is not available</label></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>What are the most relevant helps you would love to have for resolving the barriers/problems you just encountered?</label>
-                            <div class="container">
-                            <!-- <div id="relevant_helps[]" class="container"> -->
-                                <div class="row">
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="relevant_helps_1" ><input id="relevant_helps_1" type="checkbox" name="relevant_helps[]" value="query_recommendation">Recommend potentially useful query</label></div>
-                                    <div  class="col-md-1"><label for="relevant_helps_2" ><input id="relevant_helps_2" type="checkbox" name="relevant_helps[]" value="page_recommendation">Recommend potentially useful webpages and/or documents</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="relevant_helps_3" ><input id="relevant_helps_3" type="checkbox" name="relevant_helps[]" value="sm_recommendation">Recommend potentially useful information (e.g., recommendations, comments) provided by real people on social media (e.g., Facebook, Twitter, Yelp)</label></div>
-                                    <div  class="col-md-1"><label for="relevant_helps_4" ><input id="relevant_helps_4" type="checkbox" name="relevant_helps[]" value="strategy_recommendation">Recommend potentially useful search steps and strategies</label></div>
-                                    <div style="background-color:#F2F2F2" class="col-md-1"><label for="relevant_helps_5" ><input id="relevant_helps_5" type="checkbox" name="relevant_helps[]" value="people_recommendation">Provide information about people who may be able to answer your question</label></div>
-                                </div>
-                            </div>
-                        </div>
-						</div>
-							
-						<div class='panel-footer'>
-							<input type='hidden' name='query_id' id='query_id' value='' />
-							<button name = "query_submit" id="query_submit" class="btn btn-success">Submit</button>
-						</div>
-						</div>
-						</form>
-						</div>
-
-					</div>
 
 
 					

@@ -84,6 +84,11 @@ Route::group(['middleware' => ['auth','stage']], function() {
     });
     Route::post('/welcome', 'StageProgressController@moveToNextStage');
 
+    Route::get('/break', function () {
+        return view('break');
+    });
+    Route::post('/break', 'StageProgressController@moveToNextStage');
+
 
     Route::get('/questionnaire_pretask', 'QuestionnaireController@getPretask');
     Route::post('/questionnaire_pretask', 'QuestionnaireController@postPretask');

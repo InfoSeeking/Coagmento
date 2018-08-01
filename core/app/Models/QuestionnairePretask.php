@@ -22,7 +22,7 @@ class QuestionnairePretask extends Model
         'task_factors',
         'queries_start',
         'know_usefulinfo',
-        'useful_notobtain'];
+        'useful_notobtain','user_id','stage_id'];
 
-    protected $guarded = ['user_id','stage_id'];
+//    protected $guarded = ['user_id','stage_id'];
 }

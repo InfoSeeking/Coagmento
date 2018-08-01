@@ -4,7 +4,7 @@
     "manifest_version" : 2,
     "name" : "Coagmento Problem Help Study",
     "description" : "Extension for Problem Help study for Coagmento.",
-    "version" : "1.0.9",
+    "version" : "1.0.10",
     "content_scripts": [],
     "background" : {
         "persistent": false,

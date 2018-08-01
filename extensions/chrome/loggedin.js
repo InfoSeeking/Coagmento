@@ -393,91 +393,91 @@ $(document).ready(function() {
 
     // Done
     var update_timer_popup = function(timed){
-        if(timed == 1){
-            if(background.task_timer!=null){
-                clearInterval(background.task_timer);
-                background.task_timer = null;
-            }
+        // if(timed == 1){
+        //     if(background.task_timer!=null){
+        //         clearInterval(background.task_timer);
+        //         background.task_timer = null;
+        //     }
 
-            if(background.task_timer==null){
-                // console.log("START TIME");
-                // console.log(background.stage_data);
-                // console.log(background.stage_data.time_start.date);
-                // console.log("TIME LIMIT");
-                // console.log(background.stage_data.time_limit)
-                // console.log("CURRENT TIME");
-                // console.log(new Date().getTime());
+        //     if(background.task_timer==null){
+        //         // console.log("START TIME");
+        //         // console.log(background.stage_data);
+        //         // console.log(background.stage_data.time_start.date);
+        //         // console.log("TIME LIMIT");
+        //         // console.log(background.stage_data.time_limit)
+        //         // console.log("CURRENT TIME");
+        //         // console.log(new Date().getTime());
 
-                // console.log(background.stage_data.time_start.date + " " + background.stage_data.time_start.timezone);
-                var countDownDate = Date.parse(background.stage_data.time_start.date + " " + background.stage_data.time_start.timezone);
-                countDownDate = Math.round( countDownDate / 1000);
-                countDownDate = countDownDate+background.stage_data.time_limit;
-                // console.log("COUNTDOWN TIME");
-                // console.log(countDownDate);
+        //         // console.log(background.stage_data.time_start.date + " " + background.stage_data.time_start.timezone);
+        //         var countDownDate = Date.parse(background.stage_data.time_start.date + " " + background.stage_data.time_start.timezone);
+        //         countDownDate = Math.round( countDownDate / 1000);
+        //         countDownDate = countDownDate+background.stage_data.time_limit;
+        //         // console.log("COUNTDOWN TIME");
+        //         // console.log(countDownDate);
 
                 
 
-                background.task_timer = setInterval(function() {
-                    var now = new Date().getTime();
-                    now = Math.round( now / 1000);
-                    // console.log("NOW");
-                    // console.log(now);
-                    // console.log("COUNTDOWNDATE");
-                    // console.log(countDownDate);
+        //         background.task_timer = setInterval(function() {
+        //             var now = new Date().getTime();
+        //             now = Math.round( now / 1000);
+        //             // console.log("NOW");
+        //             // console.log(now);
+        //             // console.log("COUNTDOWNDATE");
+        //             // console.log(countDownDate);
                     
-                    // Find the distance between now an the count down date
-                    var distance = countDownDate - now;
-                    distance = distance * 1000;
+        //             // Find the distance between now an the count down date
+        //             var distance = countDownDate - now;
+        //             distance = distance * 1000;
                     
-                    // Time calculations for days, hours, minutes and seconds
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        //             // Time calculations for days, hours, minutes and seconds
+        //             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
                     
-                    // Output the result in an element with id="demo"
-                    
-
-                    // console.log("BADGE COLOR")
-                    if(minutes < 5){
-                        chrome.browserAction.setBadgeBackgroundColor({color: "red"});    
-                    }else{
-                        chrome.browserAction.setBadgeBackgroundColor({color: "green"});    
-                    }
-
-
-                    // TODO: Uncomment
-                    // If the count down is over, write some text 
-                    if (distance < 0) {
-                        clearInterval(background.task_timer);
-                        chrome.browserAction.setBadgeText({text:""});
-                        document.getElementById("timer_text").innerHTML = "EXPIRED";
-                        chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
-                        return;
-                    }
-
-                    document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
-
-                    
-                    // console.log("BADGE TEXT")
-                    if(minutes <= 0){
-                        chrome.browserAction.setBadgeText({text:seconds+"s"});
-                    }else{
-                        chrome.browserAction.setBadgeText({text:minutes+"m"});
-                    }
+        //             // Output the result in an element with id="demo"
                     
 
+        //             // console.log("BADGE COLOR")
+        //             if(minutes < 5){
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});    
+        //             }else{
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "green"});    
+        //             }
+
+
+        //             // TODO: Uncomment
+        //             // If the count down is over, write some text 
+        //             if (distance < 0) {
+        //                 clearInterval(background.task_timer);
+        //                 chrome.browserAction.setBadgeText({text:""});
+        //                 document.getElementById("timer_text").innerHTML = "EXPIRED";
+        //                 chrome.tabs.create({url:background.gotoNextStage}, function(tab){},);
+        //                 return;
+        //             }
+
+        //             document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
+
+                    
+        //             // console.log("BADGE TEXT")
+        //             if(minutes <= 0){
+        //                 chrome.browserAction.setBadgeText({text:seconds+"s"});
+        //             }else{
+        //                 chrome.browserAction.setBadgeText({text:minutes+"m"});
+        //             }
+                    
+
                     
                     
                     
-                }, 1000);
-            }
+        //         }, 1000);
+        //     }
             
-        }else{
-            if(background.task_timer!=null){
-                clearInterval(background.task_timer);
-                background.task_timer=null;
-            }
-            chrome.browserAction.setBadgeText({text:""});
-        }
+        // }else{
+        //     if(background.task_timer!=null){
+        //         clearInterval(background.task_timer);
+        //         background.task_timer=null;
+        //     }
+        //     chrome.browserAction.setBadgeText({text:""});
+        // }
         
     }
 
@@ -588,7 +588,50 @@ $(document).ready(function() {
     }
 
 
+    function shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
 
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+
+    var shuffle_questionnaire_container = function(){
+        // 'help_col_1'
+        // 'barriers_col_1'
+
+        var barrier_options = [1,2,3,4,5,6,7,8];
+        var barrier_options_shuffle = shuffle(barrier_options);
+
+        for (var i = 0; i < barrier_options_shuffle.length; i++) {
+            var order = barrier_options_shuffle[i];
+            $('#barriers_col_'+order).insertBefore($('#barriers_placeholder'));
+            $('input[name="barriers_order\\[\\]"][data-default-order="'+(i+1)+'"]').val(order);
+            console.log('input[name="barriers_order[]"][data-default-order="'+(i+1)+'"]');
+        }
+
+
+        var help_options = [1,2,3,4,5];
+        var help_options_shuffle = shuffle(help_options);
+
+        for (var i = 0; i < help_options_shuffle.length; i++) {
+            var order = help_options_shuffle[i];
+            $('#help_col_'+order).insertBefore($('#help_placeholder'));
+            $('input[name="help_order[]"][data-default-order="'+(i+1)+'"]').val(order);
+        }
+    }
 
 
     // Done
@@ -671,7 +714,9 @@ $(document).ready(function() {
                 // $('#query_id').val(request.data.old_id);
                 $('#query_id').val(background.current_querysegmentid);
                 $('#query').html(request.data.query);
+                shuffle_questionnaire_container();
                 $('#questionnaire_container').show();
+                
                 sendResponse("Updated Query Segment");
             }
             else if(request.type == 'new_page'){
@@ -708,7 +753,9 @@ $(document).ready(function() {
     }
 
     if(background.current_querysegmentid!=null && !background.current_querysegmentid_submitted){
+        shuffle_questionnaire_container();
         $('#questionnaire_container').show();
+
         $('#query_id').val(background.current_querysegmentid);
         $('#query').html(background.current_query);
     }else{
@@ -768,6 +815,25 @@ $(document).ready(function() {
     $( "#logout_button" ).click(function() {
         logout_click();
     });
+
+    $('#help_5').click(function()
+        {
+
+            if ($('#help_5').is(':checked')){
+                $('#help_1').attr("disabled", true);
+                $('#help_2').attr("disabled", true);
+                $('#help_3').attr("disabled", true);
+                $('#help_4').attr("disabled", true);
+            }else{
+                $('#help_1').removeAttr("disabled");
+                $('#help_2').removeAttr("disabled");
+                $('#help_3').removeAttr("disabled");
+                $('#help_4').removeAttr("disabled");
+            }
+
+        }
+    );
+
 
 
     if(background.stage_data != null){
