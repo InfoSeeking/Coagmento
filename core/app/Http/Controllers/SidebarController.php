@@ -110,7 +110,7 @@ class SidebarController extends Controller
 
 
 
-            $results = DB::table('memberships')
+            $results = DB::tapostPretaskble('memberships')
                 ->where('user_id', $user->id)
                 ->get();
             if(!count($results)){
@@ -163,7 +163,6 @@ class SidebarController extends Controller
                 $owner->save();
             }
             if($user->active && $user->is_admin){
-                dd("Hello1");
                 Auth::login($user, $req->has('remember'));
                 $user->last_login = Carbon::now();
                 $user->save();
@@ -175,14 +174,12 @@ class SidebarController extends Controller
                 $user->save();
 //                return redirect()->intended($this->redirectPath());
             } else if($user->is_completed){
-                dd("Hello3");
                 return redirect($this->loginPath()) // Change this to redirect elsewhere
                 ->withInput($req->only('email', 'remember'))
                     ->withErrors([
                         'active' => 'You have already completed the study.'
                     ]);
             }else {
-                dd("Hello4");
                 return redirect($this->loginPath()) // Change this to redirect elsewhere
                 ->withInput($req->only('email', 'remember'))
                     ->withErrors([

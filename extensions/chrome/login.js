@@ -36,13 +36,20 @@ $(document).ready(function(){
     
     // 1) Verify login 2) Set login state
     function login_popup(email,password){
+        console.log(email);
+        console.log(password);
         var xhr = new XMLHttpRequest();
         xhr.open("POST", loginUrl, false);
         xhr.setRequestHeader("Content-type", "application/json");
         var data = {"email":email,"password":password}
 
+        console.log("LOGINURL");
+        console.log(loginUrl);
+
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
+                console.log("LOGGEDIN");
+                console.log(xhr.responseText);
                 var result = JSON.parse(xhr.responseText);
                 if(result.logged_in){
                     login_state_popup(result.id,result.project_id,result.name,email,password,result.stage_data);

@@ -15,7 +15,7 @@
 
         <div class="container">
             
-            <h2>Welcome</h2>
+            <h2>{{$header}}</h2>
             
             <title>Example of Bootstrap 3 Readonly Inputs</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -60,13 +60,14 @@
     <div class="bs-example">
         <div class="container">
             {{--Here's the description.--}}
-            Please read the instructions below:
+            <p>{{ $instructions }}</p>
             <div class="well">
                 {{--Please read the instructions below:--}}
                 {{--<br><br>--}}
                 {{ $task['description'] }}
 
             </div>
+            <p>{!! $supplemental_instructions !!}</p>
         </div>
     </div>
 </body>
@@ -78,11 +79,9 @@
 
 
 
-            <br><br>
 
             <button id = "task_confirm_button" type = "submit" class = "btn btn-success">Next</button>
                 
-            <br><br>
 
             </form>
 

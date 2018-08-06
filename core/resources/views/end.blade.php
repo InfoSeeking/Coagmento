@@ -54,7 +54,17 @@
 
     <div class="bs-example">
         <div class="container">
-            <div class="well">Thanks for completing the study! Please click below to log out.</div>
+            <div class="well">
+
+                <p><strong>Congratulations for completing the study!</strong></p>
+                <p><strong>Thank you for your participation!</strong></p>
+                <p><strong>Click below to log out.</strong></p>
+
+
+
+
+
+            </div>
         </div>
     </div>
     </body>

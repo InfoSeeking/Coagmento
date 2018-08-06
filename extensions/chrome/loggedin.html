@@ -24,12 +24,12 @@
 
 					<div id="task_display">
 
-						<div class='container' id='timer_container'>
+						<!-- <div class='container' id='timer_container'>
 							<center>
 								<h4>Time Remaining:</h4>
 								<h4 id="timer_text">MM:SS</h4>
 							</center>
-						</div>
+						</div> -->
 
 						<div class='task_button_display'>
 							<div class = "btn-group-horizontal">
@@ -42,11 +42,11 @@
 
 						
 
-						<div id='query_questionnaire_success' class='alert alert-success' style='display:none'>
+						<div name='query_questionnaire_success' class='alert alert-success' style='display:none'>
 							You have successfully submitted the questionnaire!
 						</div>
 
-						<div id='query_questionnaire_error' class='alert alert-danger' style='display:none'>
+						<div name='query_questionnaire_error' class='alert alert-danger' style='display:none'>
 							Your input contained some errors.  Please check your input and try again.
 						</div>
 
@@ -57,14 +57,14 @@
 						<div id="questionnaire_display" class="panel panel-danger">
 
 						<div class="panel-heading">
-							Query: <strong id='query'></strong><br/>
-							<strong>You've just completed a query segment!  We would like to ask you the following questions:</strong></div>
+							<!-- Query: --> <strong id='query'></strong><br/>
+							<strong><!-- You've just completed a query segment!   -->We would like to ask you the following questions:</strong></div>
 						<div class="container">
 
-							<div class="form-group">
+							<!-- <div class="form-group">
                             <label>Please indicate the level of usefulness of the previous query and the associated results with respect to helping you accomplish the task</label>
                             <div class="container">
-                            <!-- <div id="useful" class="container"> -->
+
                                 <div class="row">
                                     <div style="background-color:#F2F2F2" class="col-md-1"><label for="useful_1" ><input id="useful_1" type="radio" name="useful" value="1">1 (Not useful at all)</label></div>
                                     <div  class="col-md-1"><label for="useful_2" ><input id="useful_2" type="radio" name="useful" value="2">2 (Somewhat useful)</label></div>
@@ -72,11 +72,11 @@
                                     <div  class="col-md-1"><label for="useful_4" ><input id="useful_4" type="radio" name="useful" value="4">4 (Very useful)</label></div>
                                 </div>
                             </div>
-                        </div>
+                        	</div> -->
 
 
                         <div class="form-group">
-                            <label>What problems are you facing at this moment? Select all that apply.</label>
+                            <label><span style='font-weight:normal'>What <strong>problems</strong> are you facing at this moment? Select all that apply.</span></label>
                             <div class="container">
                             <!-- <div id="barriers[]" class="container"> -->
                                 <div class="row">
@@ -84,75 +84,93 @@
                                     <div id='barriers_col_1' style="background-color:#F2F2F2" class="col-md-1">
                                     	<label for="barriers_1" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='1' value='difficult_articulate'>
-                                    		<input id="barriers_1" type="checkbox" name="barriers[]" value="difficult_articulate">I don't know how to express my need in search queries
+                                    		<input id="barriers_1" type="checkbox" name="barriers[]" value="difficult_articulate">&nbsp;<span style='font-weight:normal'>I don't know how to express my need in search queries</span>
                                     	</label>
                                     </div>
                                     <div id='barriers_col_2'  class="col-md-1">
                                     	<label for="barriers_2" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='2' value='irrelevant_results'>
-                                    		<input id="barriers_2" type="checkbox" name="barriers[]" value="irrelevant_results">I see a lot of not good or useless results
+                                    		<input id="barriers_2" type="checkbox" name="barriers[]" value="irrelevant_results">&nbsp;<span style='font-weight:normal'>I see a lot of not good or useless results</span>
                                     	</label>
                                     </div>
                                     <div id='barriers_col_3' style="background-color:#F2F2F2" class="col-md-1">
                                     	<label for="barriers_3" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='3' value='topknowledge_lack'>
-                                    		<input id="barriers_3" type="checkbox" name="barriers[]" value="topknowledge_lack">I don't know enough about the topic
+                                    		<input id="barriers_3" type="checkbox" name="barriers[]" value="topknowledge_lack">&nbsp;<span style='font-weight:normal'>I don't know enough about the topic</span>
                                     	</label>
                                     </div>
                                     <div id='barriers_col_4'  class="col-md-1">
                                     	<label for="barriers_4" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='4' value='patience_lack'>
-                                    		<input id="barriers_4" type="checkbox" name="barriers[]" value="patience_lack">I am feeling impatient
+                                    		<input id="barriers_4" type="checkbox" name="barriers[]" value="patience_lack">&nbsp;<span style='font-weight:normal'>I am feeling impatient</span>
                                     	</label>
                                     </div>
                                     <div id='barriers_col_5' style="background-color:#F2F2F2" class="col-md-1">
                                     	<label for="barriers_5" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='5' value='credibility_uncertain'>
-                                    		<input id="barriers_5" type="checkbox" name="barriers[]" value="credibility_uncertain">I don't know if I can trust the information that I'm seeing
+                                    		<input id="barriers_5" type="checkbox" name="barriers[]" value="credibility_uncertain">&nbsp;<span style='font-weight:normal'>I don't know if I can trust the information that I'm seeing</span>
                                     	</label>
                                     </div>
                                     <div id='barriers_col_6'  class="col-md-1">
                                     	<label for="barriers_6" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='6' value='sources_unaware'>
-                                    		<input id="barriers_6" type="checkbox" name="barriers[]" value="sources_unaware">I may not know all the good or useful sources of information</label>
+                                    		<input id="barriers_6" type="checkbox" name="barriers[]" value="sources_unaware">&nbsp;<span style='font-weight:normal'>I may not know all the good or useful sources of information</span></label>
                                     </div>
                                     <div id='barriers_col_7' style="background-color:#F2F2F2" class="col-md-1"><label for="barriers_7" >
                                     	<input type='hidden' name="barriers_order[]"  data-default-order='7' value='toomuch_information'>
-                                    	<input id="barriers_7" type="checkbox" name="barriers[]" value="toomuch_information">There is just too much information</label>
+                                    	<input id="barriers_7" type="checkbox" name="barriers[]" value="toomuch_information">&nbsp;<span style='font-weight:normal'>There is just too much information</span></label>
                                     </div>
                                     <div id='barriers_col_8' style="background-color:#F2F2F2" class="col-md-1">
                                     	<label for="barriers_8" >
                                     		<input type='hidden' name="barriers_order[]"  data-default-order='8' value='source_unavailable'>
-                                    		<input id="barriers_8" type="checkbox" name="barriers[]" value="source_unavailable">What I'm looking for doesn't seem to be available</label>
+                                    		<input id="barriers_8" type="checkbox" name="barriers[]" value="source_unavailable">&nbsp;<span style='font-weight:normal'>What I'm looking for doesn't seem to be available</span></label>
+                                    	</div>
+
+                                    <div id='barriers_col_9' style="background-color:#F2F2F2" class="col-md-1">
+                                    	<label for="barriers_9" >
+                                    		<input type='hidden' name="barriers_order[]"  data-default-order='9' value='source_unavailable'>
+                                    		<input id="barriers_9" type="checkbox" name="barriers[]" value="no_problem">&nbsp;<span style='font-weight:normal'>No problem encountered at this moment</span></label>
                                     	</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>What kind of things would help you at this moment? Select all that apply.</label>
+                            <label><span style='font-weight:normal'>What kind of things would <strong>help</strong> you at this moment? Select all that apply.</span></label>
                             <div class="container">
                             <!-- <div id="help[]" class="container"> -->
                                 <div class="row">
                                 	<div id='help_placeholder'></div>
                                     <div id='help_col_1' style="background-color:#F2F2F2" class="col-md-1"><label for="help_1" >
                                     	<input type='hidden' name="help_order[]" data-default-order='1'  value='query_recommendation'>
-                                    	<input id="help_1" type="checkbox" name="help[]" value="query_recommendation">Recommendations by the system about useful search queries</label></div>
+                                    	<input id="help_1" type="checkbox" name="help[]" value="query_recommendation">&nbsp;<span style='font-weight:normal'>Recommendations by the system about useful search queries</span></label></div>
                                     <div  id='help_col_2' class="col-md-1"><label for="help_2" >
                                     	<input type='hidden' name="help_order[]" data-default-order='2'  value='page_recommendation'>
-                                    	<input id="help_2" type="checkbox" name="help[]" value="page_recommendation">Recommendations by the system about potentially useful webpages</label></div>
+                                    	<input id="help_2" type="checkbox" name="help[]" value="page_recommendation">&nbsp;<span style='font-weight:normal'>Recommendations by the system about potentially useful webpages</span></label></div>
                                     <div id='help_col_3' style="background-color:#F2F2F2" class="col-md-1"><label for="help_3" >
                                     	<input type='hidden' name="help_order[]" data-default-order='3'  value='strategy_recommendation'>
-                                    	<input id="help_3" type="checkbox" name="help[]" value="strategy_recommendation">Recommendations about useful search steps and strategies</label></div>
+                                    	<input id="help_3" type="checkbox" name="help[]" value="strategy_recommendation">&nbsp;<span style='font-weight:normal'>Recommendations about useful search steps and strategies</span></label></div>
                                     <div  id='help_col_4' class="col-md-1"><label for="help_4" >
                                     	<input type='hidden' name="help_order[]" data-default-order='4' value='people_recommendation'>
-                                    	<input id="help_4" type="checkbox" name="help[]" value="people_recommendation">Recommend people (e.g., expert on a specific topic) who may be able to help</label></div>
+                                    	<input id="help_4" type="checkbox" name="help[]" value="people_recommendation">&nbsp;<span style='font-weight:normal'>Recommend people (e.g., expert on a specific topic) who may be able to help</span></label></div>
                                     <div id='help_col_5' style="background-color:#F2F2F2" class="col-md-1"><label for="help_5" >
                                     	<input type='hidden' name="help_order[]" data-default-order='5'  value='system_unsatisfactory'>
-                                    	<input id="help_5" type="checkbox" name="help[]" value="system_unsatisfactory">I am not satisfied with any help from system, therefore, would like to talk to someone whom I know (e.g., family, friends, colleagues)</label></div>
+                                    	<input id="help_5" type="checkbox" name="help[]" value="system_unsatisfactory">&nbsp;<span style='font-weight:normal'>I am not satisfied with any help from system, therefore, would like to talk to someone whom I know (e.g., family, friends, colleagues)</span></label></div>
+                                    <div id='help_col_6' style="background-color:#F2F2F2" class="col-md-1"><label for="help_6" >
+                                    	<input type='hidden' name="help_order[]" data-default-order='6'  value='system_unsatisfactory'>
+                                    	<input id="help_6" type="checkbox" name="help[]" value="no_help_needed">&nbsp;<span style='font-weight:normal'>No help needed at this moment</span></label></div>
                                 </div>
                             </div>
                         </div>
+
+                        <div name='query_questionnaire_success' class='alert alert-success' style='display:none'>
+							You have successfully submitted the questionnaire!
+						</div>
+						
+                        <div name='query_questionnaire_error' class='alert alert-danger' style='display:none'>
+							Your input contained some errors.  Please check your input and try again.
+						</div>
+
 						</div>
 							
 						<div class='panel-footer'>

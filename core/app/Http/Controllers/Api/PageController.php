@@ -37,6 +37,19 @@ class PageController extends Controller
     }
 
 
+    private function findNextPromptNumber($userID,$startTimestamp){
+        $date = date('Y-m-d', $startTimestamp);
+        $date = Carbon::parse($date)->toDateTimeString();
+        $query = "SELECT IFNULL(MAX(prompt_number),0) as maxPromptNumber FROM pages WHERE user_id='$userID' AND `date_local`='$date'";
+//        $line = DB::select($query)->first();
+        $result = DB::select($query);
+        if(count($result)==0){
+            return 1;
+        }
+        $line = json_decode(json_encode($result[0]),true);
+        $promptNumber = $line['maxPromptNumber']+1;
+        return $promptNumber;
+    }
     private function findNextQuerySegmentLabel($userID,$startTimestamp){
         $date = date('Y-m-d', $startTimestamp);
         $date = Carbon::parse($date)->toDateTimeString();
@@ -305,6 +318,12 @@ class PageController extends Controller
         $queryString = $this->extractQuery($url);
 //        $queryString = mysql_escape_string($queryString);
         $is_query = intval(!(is_null($queryString)) and $queryString and $queryString != '');
+        $is_prompt = $url == 'https://www.google.com/';
+        $prompt_number = 0;
+        if($is_prompt){
+            $prompt_number = $this->findNextPromptNumber($userID,$localTimestamp);
+        }
+        $is_prompt = false;
 
 
 
@@ -318,24 +337,28 @@ class PageController extends Controller
 //			Other reasons for tabUpdated: 1) same as onCommitted (same URL) 2) frequent reloading (also same URL)
 //            echo "FIRST";
 
-            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'']);
+            $is_prompt = $url == 'https://www.google.com/';
+            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'','new_prompt'=>$is_prompt,'prompt_number'=>$prompt_number]);
 //            exit();
         }else if($action=='webNavigation.onCommitted' and $details['tab']['active']==false){
 //        	If web commit on an inactive tab, no need to record
 //            echo "SECOND";
-            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'']);
+            $is_prompt = false;
+            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'','new_prompt'=>$is_prompt,'prompt_number'=>$prompt_number]);
 //            exit();
         }else if(($action=='tabs.onActivated') and $this->sameMostRecentURLByTab($url,$tabID,$userID,$localTimestamp) and $this->sameMostRecentActiveTab($userID,$tabID,$localTimestamp)){
 //			If tab activated on a tab that 1) has the same URL and 2) was the same active tab as before anyway, then no need to record. (Happens on Ctrl+T)
 //
 //            echo "THIRD";
 
-            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'']);
+            $is_prompt = false;
+            return response()->json(['pqsuccess'=>true,'new_querysegment'=>false,'new_querysegmentid'=>null,'new_query'=>'','new_prompt'=>$is_prompt,'prompt_number'=>$prompt_number]);
 //		}else if(($action=='tabs.onActivated') and sameMostRecentURL($url,$tabID,$userID) and $details['tab']['active']==true){
 
 //            exit();
         }else if($action=='tabs.onUpdated'){
-            echo "FOURTH";
+            $is_prompt = false;
+//            echo "FOURTH";
             if($details['tab']['active']==false){
                 echo "not active!";
                 exit();
@@ -361,17 +384,18 @@ class PageController extends Controller
         }
         else if($action=='webNavigation.onCommitted' and $details['tab']['active']==true){
 //            echo "FIFTH";
+            $is_prompt = $url == 'https://www.google.com/';
             if(in_array($details['transitionType'],array('generated','form_submit','link','typed','keyword','keyword_generated'))){
 //				echo "FIFTH1.1";
 
                 if(in_array('forward_back',$details['transitionQualifiers'])){
 
                     $line = $this->getPageByTabIdURL($userID,$tabID,$url,$localTimestamp);
-                    if(is_null($line) or is_null($line['querySegmentID'])){
+                    if(is_null($line) or is_null($line['query_segment_id'])){
                         $querySegmentID = 'NULL';
                         $querySegmentID_automatic = 0;
                     }else{
-                        $querySegmentID = $line['querySegmentID'];
+                        $querySegmentID = $line['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID)&& $querySegmentID!=0;
                     }
 //                    echo "FIFTH1.1.1...$querySegmentID...";
@@ -395,7 +419,7 @@ class PageController extends Controller
                     if(count($result)>0){
                         $line = json_decode(json_encode($result[0]),true);
 //                    $line = DB::select($query)->first();
-                        $querySegmentID = $line['querySegmentID'];
+                        $querySegmentID = $line['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
                     }
 
@@ -426,6 +450,7 @@ class PageController extends Controller
 //			}
         }else if($action=='tabs.onActivated'){
 
+            $is_prompt = false;
 //			Not webNavigation, not tabUpdated, must be tabActivated action
             $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
             $result = DB::select($query);
@@ -438,9 +463,9 @@ class PageController extends Controller
             }
 
 //            $line = DB::select($query)->first();
-            if(!is_null($line) and isset($line['querySegmentID'])){
+            if(!is_null($line) and isset($line['query_segment_id'])){
 //				Get previous querySegmentID assignment of tab
-                $querySegmentID = $line['querySegmentID'];
+                $querySegmentID = $line['query_segment_id'];
                 $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
             }else{
 
@@ -494,8 +519,8 @@ class PageController extends Controller
 
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$prevTabID ORDER BY id DESC LIMIT 1";
                     $line = DB::select($query);
-                    if(count($line)>0 and isset(json_decode(json_encode($line[0]),true)['querySegmentID'])){
-                        $querySegmentID = json_decode(json_encode($line[0]),true)['querySegmentID'];
+                    if(count($line)>0 and isset(json_decode(json_encode($line[0]),true)['query_segment_id'])){
+                        $querySegmentID = json_decode(json_encode($line[0]),true)['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
                     }
 
@@ -534,6 +559,10 @@ class PageController extends Controller
         $page->details = $details_string;
         $page->query_segment_id = $querySegmentID;
         $page->query_segment_id_automatic = $querySegmentID_automatic;
+        if($prompt_number!=0){
+            $page->prompt_number = $prompt_number;
+        }
+
         $page->save();
 
         $action = new Action();
@@ -757,7 +786,7 @@ class PageController extends Controller
 
 
 
-        return response()->json(['pqsuccess'=>true,'new_querysegment'=>$new_querySegment,'new_querysegmentid'=>$new_querySegmentID,'new_query'=>$new_query]);
+        return response()->json(['pqsuccess'=>true,'new_querysegment'=>$new_querySegment,'new_querysegmentid'=>$new_querySegmentID,'new_query'=>$new_query,'new_prompt'=>$is_prompt,'prompt_number'=>$prompt_number]);
 
     }
 

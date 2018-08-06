@@ -21,6 +21,8 @@ use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+//use Illuminate\Validation\Validator;
+use Validator;
 
 class QuestionnaireController extends Controller
 {
@@ -43,9 +45,13 @@ class QuestionnaireController extends Controller
 
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
-        if($currentStage <= 5){
+        if($currentStage < 5){
+            $taskID = 0;
+        }else if($currentStage < 17){
             $taskID = 1;
-        }else{
+        }
+        
+        else{
             $taskID = 2;
         }
         $task = Task::all()->where('id',$taskID)->first();
@@ -59,15 +65,40 @@ class QuestionnaireController extends Controller
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
         $questionnaire->user_id = $req->input('user_id');
-        $questionnaire->segment_id = $req->input('query_id');
+        $questionnaire->prompt_number = $req->input('query_id');
         $questionnaire->stage_id = $stage_id;
 //        $questionnaire->query_segment_id = $req->input('query_segment_id');
 
-        $questionnaire->useful = $req->input('useful');
+        $rules = array(
+            'user_id'=>'required',
+            'prompt_number'=>'required',
+            'barriers'=>'required',
+            'barriers_order'=>'required',
+            'help'=>'required',
+            'help_order'=>'required',
+        );
+
+
+//        $questionnaire->useful = $req->input('useful');
         $questionnaire->barriers = serialize($req->input('barriers'));
         $questionnaire->barriers_order = serialize($req->input('barriers_order'));
         $questionnaire->help = serialize($req->input('help'));
         $questionnaire->help_order = serialize($req->input('help_order'));
+
+        $inputs = array(
+            'user_id'=>$questionnaire->user_id,
+            'prompt_number'=>$questionnaire->prompt_number,
+            'barriers'=>$questionnaire->barriers,
+            'barriers_order'=>$questionnaire->barriers_order,
+            'help'=>$questionnaire->help,
+            'help_order'=>$questionnaire->help_order,
+        );
+        $validator = Validator::make($inputs,$rules);
+        if($validator->fails()){
+            return response()->json(['success'=>false]);
+        }else if($questionnaire->help=='N;' or $questionnaire->barriers=='N;'){
+            return response()->json(['success'=>false]);
+        }
 
         $questionnaire->save();
         return response()->json(['success'=>true]);
@@ -77,12 +108,9 @@ class QuestionnaireController extends Controller
 
         $user = Auth::user();
         $this->validate($req, [
-            'search_difficulty' => 'required',
-            'information_understanding' => 'required',
-            'decide_usefulness' => 'required',
-            'information_integration' => 'required',
-            'topic_prev_knowledge' => 'required',
-            'information_sufficient' => 'required',
+            'help' => 'required',
+            'task_familiarity' => 'required',
+            'task_effort' => 'required',
             'goal_specific' => 'required',
             'task_pre_difficulty' => 'required',
             'narrow_information' => 'required',
@@ -90,16 +118,29 @@ class QuestionnaireController extends Controller
             'task_unspecified' => 'required',
             'task_detail' => 'required',
             'task_knowspecific' => 'required',
-            'task_specificitems' => 'required',
-            'task_factors' => 'required',
             'queries_start' => 'required',
             'know_usefulinfo' => 'required',
             'useful_notobtain' => 'required',
-            'task_interest' => 'required',
         ]);
-        $req->merge(['user_id' => $user->id]);
-        $req->merge(['stage_id' => Session::get('stage_id')]);
-        $pretask = new QuestionnairePretask($req->all());
+
+
+        $pretask = new QuestionnairePretask;
+        $pretask->user_id = $user->id;
+        $pretask->stage_id = Session::get('stage_id');
+        $pretask->help = serialize($req->input("help"));
+        $pretask->task_familiarity = $req->input("task_familiarity");
+        $pretask->task_effort = $req->input("task_effort");
+        $pretask->goal_specific = $req->input("goal_specific");
+        $pretask->task_pre_difficulty = $req->input("task_pre_difficulty");
+        $pretask->narrow_information = $req->input("narrow_information");
+        $pretask->task_newinformation = $req->input("task_newinformation");
+        $pretask->task_unspecified = $req->input("task_unspecified");
+        $pretask->task_detail = $req->input("task_detail");
+        $pretask->task_knowspecific = $req->input("task_knowspecific");
+        $pretask->queries_start = $req->input("queries_start");
+        $pretask->know_usefulinfo = $req->input("know_usefulinfo");
+        $pretask->useful_notobtain = $req->input("useful_notobtain");
+
         $pretask->save();
         return app()->make('App\Http\Controllers\StageProgressController')->callAction('moveToNextStage',['request'=>$req]);
     }
@@ -107,6 +148,8 @@ class QuestionnaireController extends Controller
     public function postPosttask(Request $req){
         $user = Auth::user();
         $this->validate($req, [
+            'future_help'=>'required',
+            'task_difficult'=>'required',
             'satisfaction' => 'required',
             'system_helpfulness' => 'required',
             'goal_success' => 'required',
@@ -115,24 +158,26 @@ class QuestionnaireController extends Controller
             'temporal_demand' => 'required',
             'effort' => 'required',
             'frustration' => 'required',
-            'difficulty_search' => 'required',
-            'difficulty_understand' => 'required',
-            'difficulty_usefulinformation' => 'required',
-            'difficulty_integrate' => 'required',
-            'difficulty_enoughinformation' => 'required',
-
-
-
-
-
-
 //            'difficulty' => 'required',
 //            'task_success' => 'required',
 //            'enough_time' => 'required',
         ]);
-        $req->merge(['user_id' => $user->id]);
-        $req->merge(['stage_id' => Session::get('stage_id')]);
-        $posttask = new QuestionnairePosttask($req->all());
+        $posttask = new QuestionnairePosttask;
+        $posttask->user_id = $user->id;
+        $posttask->stage_id = Session::get('stage_id');
+        $posttask->future_help = serialize($req->input("future_help"));
+        $posttask->task_difficult = $req->input("task_difficult");
+        $posttask->satisfaction = $req->input("satisfaction");
+        $posttask->system_helpfulness = $req->input("system_helpfulness");
+        $posttask->goal_success = $req->input("goal_success");
+        $posttask->mental_demand = $req->input("mental_demand");
+        $posttask->physical_demand = $req->input("physical_demand");
+        $posttask->temporal_demand = $req->input("temporal_demand");
+        $posttask->effort = $req->input("effort");
+        $posttask->frustration = $req->input("frustration");
+//        $req->merge(['user_id' => $user->id]);
+//        $req->merge(['stage_id' => Session::get('stage_id')]);
+
         $posttask->save();
         return app()->make('App\Http\Controllers\StageProgressController')->callAction('moveToNextStage',['request'=>$req]);
     }
@@ -161,9 +206,12 @@ class QuestionnaireController extends Controller
     public function getTaskDescription(){
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
-        if($currentStage <= 15){
+        if($currentStage < 5){
+            $taskID = 0;
+        }else if($currentStage < 17){
             $taskID = 1;
-        }else{
+        }
+        else{
             $taskID = 2;
         }
         $task = Task::all()->where('id',$taskID)->first();
@@ -174,9 +222,12 @@ class QuestionnaireController extends Controller
     public function getTask(){
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
-        if($currentStage <= 15){
+        if($currentStage < 5){
+            $taskID = 0;
+        }else if($currentStage < 17){
             $taskID = 1;
-        }else{
+        }
+        else{
             $taskID = 2;
         }
         $task = Task::all()->where('id',$taskID)->first();

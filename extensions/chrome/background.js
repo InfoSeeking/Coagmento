@@ -80,6 +80,8 @@ var timed = null;
 var time_limit = null;
 var start_time = null;
 var time_zone = null;
+var current_promptnumber = null;
+var new_prompt = null;
 
 
 // function startup_script(){
@@ -388,14 +390,22 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
             chrome.runtime.sendMessage({type: "new_page",data:result}, function(response) {
                 console.log(response)
             });
-            if(result.new_querysegment){
+
+            if(result.new_prompt){
+            // if(result.new_querysegment){
                 // if(current_querysegmentid != null){
                     current_querysegmentid_submitted = false;
                     var query = result.new_query
-                    create_notification("You have started a new search segment.  Please open your extension to answer a questionnaire.","Complete Questionnaire");
+                    create_notification("You are starting a new search segment.  Please open your extension to answer a questionnaire.","Complete Questionnaire");
+
                     chrome.runtime.sendMessage({type: "new_querysegment",data:{old_id:current_querysegmentid,query:query}}, function(response) {
                     console.log(response);
                     });
+                    // chrome.runtime.sendMessage({type: "new_querysegment",data:{old_id:current_querysegmentid,query:query}}, function(response) {
+                    // console.log(response);
+                    // });
+                    current_promptnumber = result.prompt_number;
+                    new_prompt = true;
                     current_querysegmentid = result.new_querysegmentid;
                     current_query = result.new_query;
                     new_querysegmentid = result.new_querysegmentid;

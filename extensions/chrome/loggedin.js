@@ -242,13 +242,17 @@ $(document).ready(function() {
         title: 'Time'
         },
         {
-        field: 'title',
-        title: 'Title'
+        field: 'url',
+        title: 'URL'
         }, 
-        {
-        field: 'unsave',
-        title: 'Unsave?'
-        }
+        // {
+        // field: 'title',
+        // title: 'Title'
+        // }, 
+        // {
+        // field: 'unsave',
+        // title: 'Unsave?'
+        // }
         ]
         bookmark_data.data = [];
         // console.log("DATA");
@@ -266,8 +270,9 @@ $(document).ready(function() {
                 bookmark_data.data.push(
                     {
                         time:value.created_at,
-                        title:value.title,
-                        unsave:'<button name="delete_bookmarks_button" data-bookmark-id='+value.id+'>Delete</button>'
+                        url:value.url,
+                        // title:value.title,
+                        // unsave:'<button name="delete_bookmarks_button" data-bookmark-id='+value.id+'>Delete</button>'
                     }
                 );
             });
@@ -612,7 +617,7 @@ $(document).ready(function() {
         // 'help_col_1'
         // 'barriers_col_1'
 
-        var barrier_options = [1,2,3,4,5,6,7,8];
+        var barrier_options = [1,2,3,4,5,6,7,8,9];
         var barrier_options_shuffle = shuffle(barrier_options);
 
         for (var i = 0; i < barrier_options_shuffle.length; i++) {
@@ -623,7 +628,7 @@ $(document).ready(function() {
         }
 
 
-        var help_options = [1,2,3,4,5];
+        var help_options = [1,2,3,4,5,6];
         var help_options_shuffle = shuffle(help_options);
 
         for (var i = 0; i < help_options_shuffle.length; i++) {
@@ -644,6 +649,7 @@ $(document).ready(function() {
         // var params = $('#query_segment_form').serializeArray();
         // params['user_id']=user_id;
 
+        console.log($("#query_segment_form").serialize()+"&user_id="+background.user_id);
 
         $.ajax({
            type: "POST",
@@ -655,14 +661,17 @@ $(document).ready(function() {
                if(data.success){
                     $("#query_segment_form")[0].reset();
                     $("#questionnaire_container").hide();
-                    $("#query_questionnaire_success").show().fadeOut(2000);
+                    $("div[name='query_questionnaire_success']").show().fadeOut(3000);
                     background.current_querysegmentid_submitted=true;
+                    background.new_prompt = false;
+               }else{
+               		$("div[name='query_questionnaire_error']").show().fadeOut(3000);
                }
                
            },
            error: function(data)
            {
-                $("#query_questionnaire_error").show().fadeOut(2000);
+                $("div[name='query_questionnaire_error']").show().fadeOut(3000);
                console.log(data.responseText); // show response from the php script.
            }
 
@@ -712,7 +721,7 @@ $(document).ready(function() {
             }
             else if(request.type == 'new_querysegment'){
                 // $('#query_id').val(request.data.old_id);
-                $('#query_id').val(background.current_querysegmentid);
+                $('#query_id').val(background.current_promptnumber);
                 $('#query').html(request.data.query);
                 shuffle_questionnaire_container();
                 $('#questionnaire_container').show();
@@ -752,12 +761,15 @@ $(document).ready(function() {
         background.update_login_state();
     }
 
-    if(background.current_querysegmentid!=null && !background.current_querysegmentid_submitted){
+    console.log(background.new_prompt);
+    if(background.new_prompt){
+        console.log("NEW PROMPT");
+    // if(background.current_querysegmentid!=null && !background.current_querysegmentid_submitted){
         shuffle_questionnaire_container();
         $('#questionnaire_container').show();
 
-        $('#query_id').val(background.current_querysegmentid);
-        $('#query').html(background.current_query);
+        $('#query_id').val(background.current_promptnumber);
+        // $('#query').html(background.current_query);
     }else{
         $('#questionnaire_container').hide();
         $('#query_id').val(null);
@@ -829,6 +841,56 @@ $(document).ready(function() {
                 $('#help_2').removeAttr("disabled");
                 $('#help_3').removeAttr("disabled");
                 $('#help_4').removeAttr("disabled");
+            }
+
+        }
+    );
+
+
+
+    $('#help_6').click(function()
+        {
+
+            if ($('#help_5').is(':checked')){
+                $('#help_1').attr("disabled", true);
+                $('#help_2').attr("disabled", true);
+                $('#help_3').attr("disabled", true);
+                $('#help_4').attr("disabled", true);
+                $('#help_5').attr("disabled", true);
+            }else{
+                $('#help_1').removeAttr("disabled");
+                $('#help_2').removeAttr("disabled");
+                $('#help_3').removeAttr("disabled");
+                $('#help_4').removeAttr("disabled");
+                $('#help_6').removeAttr("disabled");
+            }
+
+        }
+    );
+
+
+
+    $('#barriers_9').click(function()
+        {
+
+            if ($('#barriers_9').is(':checked')){
+                $('#barriers_1').attr("disabled", true);
+                $('#barriers_2').attr("disabled", true);
+                $('#barriers_3').attr("disabled", true);
+                $('#barriers_4').attr("disabled", true);
+                $('#barriers_5').attr("disabled", true);
+                $('#barriers_6').attr("disabled", true);
+                $('#barriers_7').attr("disabled", true);
+                $('#barriers_8').attr("disabled", true);
+            }else{
+                $('#barriers_1').removeAttr("disabled");
+                $('#barriers_2').removeAttr("disabled");
+                $('#barriers_3').removeAttr("disabled");
+                $('#barriers_4').removeAttr("disabled");
+                $('#barriers_5').removeAttr("disabled");
+                $('#barriers_6').removeAttr("disabled");
+                $('#barriers_7').removeAttr("disabled");
+                $('#barriers_8').removeAttr("disabled");
             }
 
         }

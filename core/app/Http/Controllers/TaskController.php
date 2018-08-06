@@ -77,9 +77,12 @@ class TaskController extends Controller
     public function getTaskDescription(){
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
-        if($currentStage <= 15){
+        if($currentStage < 5){
+            $taskID = 0;
+        }else if($currentStage < 17){
             $taskID = 1;
-        }else{
+        }
+        else{
             $taskID = 2;
         }
         $task = Task::all()->where('id',$taskID)->first();
@@ -90,17 +93,46 @@ class TaskController extends Controller
     public function getTask(){
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
+        $instructions='';
+        $header='';
+        $supplemental_instructions = '';
 
-        if($currentStage <= 3) {
+        if($currentStage < 5) {
             $taskID = 0;
+            $instructions='Please complete the practice task.';
+            $header='Practice Task';
+            $supplemental_instructions = 'To find useful information regarding your task, you can search for information on the Web. You can open a new tab or window, and search as you like, and find the relevant information. You need to bookmark relevant pages by clicking on the Coagmento Bookmark option (right click on the page to see it), and write the report on the Etherpad (click on Coagmento Workspace on the top-right corner of the browser and go to Etherpad). <br/><br/>
+
+You have 5 minutes to complete the task including searching for information and writing the report.<br/><br/>
+
+At any time, if you want to see this task description, you can click on “Coagmento” button in the top-right corner of the browser.
+';
         }
-        else if($currentStage <= 15){
+        else if($currentStage < 17){
             $taskID = 1;
+            $instructions='Welcome to formal task 1.';
+            $header='Task';
+            $supplemental_instructions = 'To find useful information regarding your task, you can search for information on the Web. You can open a new tab or window, and search as you like, and find the relevant information. You need to bookmark relevant pages by clicking on the Coagmento Bookmark option (right click on the page to see it) and provide your answer on the Etherpad (click on Coagmento Workspace on the top-right corner of the browser and go to Etherpad).<br/><br/> 
+
+You have 20 minutes to complete the task including searching for information and writing the report.<br/><br/>
+
+At any time, if you want to see this task description, you can click on “Coagmento” button in the top-right corner of the browser.
+
+            ';
         }else{
             $taskID = 2;
+            $instructions='Welcome to formal task 2.';
+            $header='Task';
+            $supplemental_instructions = 'To find useful information regarding your task, you can search for information on the Web. You can open a new tab or window, and search as you like, and find the relevant information. You need to bookmark relevant pages by clicking on the Coagmento Bookmark option (right click on the page to see it) and provide your answer on the Etherpad (click on Coagmento Workspace on the top-right corner of the browser and go to Etherpad).<br/><br/> 
+
+You have 20 minutes to complete the task including searching for information and writing the report.<br/><br/>
+
+At any time, if you want to see this task description, you can click on “Coagmento” button in the top-right corner of the browser.
+
+            ';
         }
         $task = Task::all()->where('id',$taskID)->first();
-        return view('task',['task'=>$task]);
+        return view('task',['task'=>$task,'instructions'=>$instructions,'header'=>$header,'supplemental_instructions'=>$supplemental_instructions]);
     }
 
 

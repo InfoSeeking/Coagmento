@@ -16,6 +16,33 @@
         <script>
             $( document ).ready(function() {
 
+
+
+                function toggle_cb() {
+                    if (this.checked) {
+                        $("input[name='future_help[]'][value='1']").attr("disabled", true);
+                        $("input[name='future_help[]'][value='2']").attr("disabled", true);
+                        $("input[name='future_help[]'][value='3']").attr("disabled", true);
+                        $("input[name='future_help[]'][value='4']").attr("disabled", true);
+                        $("input[name='future_help[]'][value='5']").attr("disabled", true);
+                        $("input[name='future_help[]'][value='6']").attr("disabled", true);
+                        $(this).removeAttr("disabled");
+                    } else {
+                        $("input[name='future_help[]'][value='1']").removeAttr("disabled");
+                        $("input[name='future_help[]'][value='2']").removeAttr("disabled");
+                        $("input[name='future_help[]'][value='3']").removeAttr("disabled");
+                        $("input[name='future_help[]'][value='4']").removeAttr("disabled");
+                        $("input[name='future_help[]'][value='5']").removeAttr("disabled");
+                        $("input[name='future_help[]'][value='6']").removeAttr("disabled");
+                    }
+                }
+
+
+
+                $("input[name='future_help[]'][value='5']").click(toggle_cb);
+                $("input[name='future_help[]'][value='6']").click(toggle_cb);
+
+
                 $('form').submit(function(){
                     var local_ms = new Date();
                     $('<input>').attr({
@@ -58,7 +85,10 @@
     
     <div class="bs-example">
         <div class="container">
-            <div class="well">Please fill out this form as soon as possible</div>
+            <div class="well">
+                <p>Please answer the questions below.</p>
+                <p>Each question is a multiple-choice question with seven answer choices. Read each question and answer choice carefully and choose the ONE best answer. Please answer all questions.</p>
+            </div>
         </div>
     </div>
 </body>
@@ -261,15 +291,15 @@
                 <br><br>
 
 
-                <label for="effort">How hard did you have to work to accomplish your level of performance?</label>
+                <label for="effort">How much effort did this task take?</label>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;"><center>1 (Not hard at all)</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>1 (No effort at all)</center></div>
                     <div class="col-xs-1" style="background-color:lavender;"><center>2</center></div>
                     <div class="col-xs-1" style="background-color:lavender;"><center>3</center></div>
                     <div class="col-xs-1" style="background-color:lavender;"><center>4</center></div>
                     <div class="col-xs-1" style="background-color:lavender;"><center>5</center></div>
                     <div class="col-xs-1" style="background-color:lavender;"><center>6</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>7 (Very hard)</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>7 (Plenty)</center></div>
                 </div>
                 <div class="row">
                     <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="effort" value="1"></center>
@@ -320,120 +350,240 @@
 
 
 
-                <label for="difficulty_search">How difficult it was to search for information for this task using a search engine?</label>
+                {!! Form::label('future_help[]','Based on your search experience, please indicate the type(s) of help that you think are absolutely necessary for you to complete this type of task in the future.') !!}
+                <div class="radio">
+                    <label>{!! Form::checkbox('future_help[]',1) !!}&nbsp;Option 1: Recommendations by the system about useful search queries</label>
+                </div>
+                <div class="radio">
+                    <label>{!! Form::checkbox('future_help[]',2) !!}&nbsp;Option 2: Recommendations by the system about potentially useful webpages</label>
+                </div>
+                <div class="radio">
+                    <label>{!! Form::checkbox('future_help[]',3) !!}&nbsp;Option 3: Recommendations about useful search steps and strategies</label>
+                </div>
+                <div class="radio">
+                    <label>{!! Form::checkbox('future_help[]',4) !!}&nbsp;Option 4: Find me people (e.g., domain experts, peer advisors) who may be able to help</label>
+                </div>
+                <div class="radio">
+                    <label>{!! Form::checkbox('future_help[]',5) !!}&nbsp;Option 5: I am not satisfied with any help from system, therefore, I would like to talk to someone whom I know (e.g., family, friends, colleagues).</label>
+                </div>
+                <div class="radio">
+                    <label>{!! Form::checkbox('future_help[]',6) !!}&nbsp;Option 6: No help is necessary.</label>
+                </div>
+                <br><br>
+
+
+                <label for="task_difficult">I think this task was difficult.</label>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>1 (Strongly Disagree)</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>2</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>3</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>4</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>5</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>6</center></div>
+                    <div class="col-xs-1" style="background-color:lavender;"><center>7 (Strongly Agree)</center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="1"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="1"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="2"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="2"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="3"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="3"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="4"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="4"></center>
                     </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="5"></center>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="5"></center>
+                    </div>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="6"></center>
+                    </div>
+                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="task_difficult" value="7"></center>
                     </div>
                 </div>
                 <br><br>
 
 
-                <label for="difficulty_understand">How difficult it was to understand the information the search engine finds?</label>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="1"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="2"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="3"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="4"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="5"></center>
-                    </div>
-                </div>
-                <br><br>
+
+                {{--<label for="difficulty_search">How difficult it was to search for information for this task using a search engine?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_search" name="difficulty_search" value="5"></center>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<br><br>--}}
 
 
-                <label for="difficulty_usefulinformation">How difficult it was to decide if the information the search engine finds is useful for completing the task?</label>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="1"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="2"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="3"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="4"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="5"></center>
-                    </div>
-                </div>
-                <br><br>
+                {{--<label for="difficulty_understand">How difficult it was to understand the information the search engine finds?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_understand" name="difficulty_understand" value="5"></center>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<br><br>--}}
 
 
-                <label for="difficulty_integrate">How difficult it was to integrate the information the search engine finds?</label>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="1"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="2"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="3"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="4"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="5"></center>
-                    </div>
+                {{--<label for="difficulty_usefulinformation">How difficult it was to decide if the information the search engine finds is useful for completing the task?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_usefulinformation" name="difficulty_usefulinformation" value="5"></center>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<br><br>--}}
 
-                </div>
-                <br><br>
+
+                {{--<label for="difficulty_integrate">How difficult it was to integrate the information the search engine finds?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_integrate" name="difficulty_integrate" value="5"></center>--}}
+                    {{--</div>--}}
+
+                {{--</div>--}}
+                {{--<br><br>--}}
 
 
-                <label for="difficulty_enoughinformation">How difficult it was to determine when you have enough information to finish the task?</label>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>
-                    <div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="1"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="2"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="3"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="4"></center>
-                    </div>
-                    <div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="5"></center>
-                    </div>
-                </div>
-                <br><br>
+                {{--<label for="difficulty_enoughinformation">How difficult it was to determine when you have enough information to finish the task?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Not at all difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Slightly difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Somewhat difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Moderately difficult</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>Very difficult</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" id="difficulty_enoughinformation" name="difficulty_enoughinformation" value="5"></center>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<br><br>--}}
+
+
+
+                {{--<label for="topic_familiarity">How familiar are you with the topic of the task at this moment?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>1 (Not at all)</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>2</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>3</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>4</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>5</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>6</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>7 (Very familiar)</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="5"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="6"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="topic_familiarity" value="7"></center>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<br><br>--}}
+
+
+                {{--<label for="useful_information">How much useful information about the task have you found during search?</label>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>1 (Not at all)</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>2</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>3</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>4</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>5</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>6</center></div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lavender;"><center>7 (Plenty)</center></div>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="1"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="2"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="3"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="4"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="5"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="6"></center>--}}
+                    {{--</div>--}}
+                    {{--<div class="col-xs-1" style="background-color:lightgray;"><center><input class="radio-inline" type="radio" name="useful_information" value="7"></center>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<br><br>--}}
+
+
+
+
+
+
+
+
+
 
                 {{----}}
 

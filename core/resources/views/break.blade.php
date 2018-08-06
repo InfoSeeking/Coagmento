@@ -52,7 +52,13 @@
     
     <div class="bs-example">
         <div class="container">
-            <div class="well">Please take a 2-min break and ask any question(s) you have.  Also, please note that at present, you are asked to carry out two tasks using online searching. However, we are interested in your thinking of problems that you face while looking for information in general. We will ask you at various times what would be your ideal method(s) (which means you can imagine and choose support(s) or help(s) which is not available in the current system) to achieve your goal and help/support you expect.</div>
+            <div class="well">
+
+                <p><strong>Please take a 2-min break and ask any question(s) you have.</strong></p>
+
+                <p>Please note that at present, you are asked to carry out two tasks using online searching. However, we are interested in your thinking of problems that you face while looking for information in general. We will ask you at various times what would be your ideal method(s) (which means you can imagine and choose support(s) or help(s) which may not be available in the current system) to achieve your goal and help/support you expect.</p>
+
+            </div>
         </div>
     </div>
 </body>
