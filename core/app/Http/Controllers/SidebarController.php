@@ -110,7 +110,7 @@ class SidebarController extends Controller
 
 
 
-            $results = DB::tapostPretaskble('memberships')
+            $results = DB::table('memberships')
                 ->where('user_id', $user->id)
                 ->get();
             if(!count($results)){

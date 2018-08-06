@@ -34,6 +34,7 @@ class QuestionnaireController extends Controller
             ['only'=>['create','preview','store','destroy', 'addTask', 'update', 'manageQuestionnaires']]
         );
     }
+    
 
     public function getPretask(Request $req){
         //Redirect admins; I think this can actually be put elsewhere.
