@@ -360,12 +360,11 @@ class QuestionnaireController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $arr = $request->input("questions");
-        $user=Auth::User();
-        $questionnaire = $user->questionnaires()->find($id);
+        $questionnaire = Questionnaire::findOrFail($id);
         $questionnaire->title = $request->input('title');
         $questionnaire->data=json_encode($arr);
+        $questionnaire->save();
 
         $oldQuestions = Question::where('questionnaire_id', $id)->get();
         foreach($oldQuestions as $question){
