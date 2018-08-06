@@ -42,8 +42,9 @@ class Initialize extends Command
         User::create([
             'name' => 'Administrator',
             'email' => 'e@e.com',
-            'password' => bcrypt(' '),
+            'password' => bcrypt('admin'),
             'is_admin' => true,
+            'active' => true,
         ]);
 
         $this->comment('Temporary admin user created!');

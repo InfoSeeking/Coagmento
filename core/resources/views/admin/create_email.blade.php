@@ -7,8 +7,8 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel panel-heading">Create a New Email</div>
-            <div class="panel panel-body">
+            <div class="panel-heading">Create a New Email</div>
+            <div class="panel-body">
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>

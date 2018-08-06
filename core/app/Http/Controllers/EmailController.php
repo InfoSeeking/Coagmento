@@ -53,7 +53,8 @@ class EmailController extends Controller
      */
     public function destroy($id){
         Email::destroy($id);
-        return back();
+        $emails = Email::all();
+        return view('admin.emails', compact('emails'));
     }
 
     public function edit($id){

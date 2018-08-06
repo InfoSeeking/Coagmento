@@ -18,24 +18,15 @@
         @endif
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="pull-left">
-                    <h4>Change this user's settings:</h4>
-                </div>
-                <div class="pull-right">
-                    <form method="get" action="/admin/{{ $user->id }}/send">
-                        {{ csrf_field() }}
-                        {{ method_field('GET') }}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">Send Credentials</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="clearfix"></div>
+                    Change this user's settings:
             </div>
             <div class="panel-body">
-
+                <form method="get" action="/admin/{{ $user->id }}/send">
+                    {{ csrf_field() }}
+                    {{ method_field('GET') }}
+                    <button type="submit" class="btn btn-info">Send Credentials</button>
+                </form>
                 <br>
-
                 <form method="POST" action="/admin/{{ $user->id }}/edit_user">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
@@ -87,11 +78,12 @@
                     </table>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default">Update</button>
+                        <button type="submit" class="btn btn-success">Update</button>
                         <a class="btn btn-default" href="/admin/manage_users">Return</a>
+
                     </div>
                 </form>
-                </>
+            </div>
             </div>
             @if(count($errors))
                 <ul>

@@ -88,7 +88,7 @@
                         <li>{{error}}</li>
                     @endforeach
                 </ul>
-                @endif
+            @endif
             <!--{{ var_dump($errors) }}-->
     </div>
 @stop

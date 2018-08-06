@@ -6,10 +6,10 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel panel-heading">
+            <div class="panel-heading">
                 Manage Emails
             </div>
-            <div class="panel panel-body">
+            <div class="panel-body">
                 <table class="table table-condensed table-hover table-bordered">
                     <thead class="label-info">
                     <tr>
@@ -44,7 +44,7 @@
                     </script>
                     </tbody>
                 </table><br>
-                <a href="create_email" class="btn btn-success">Create a New Option</a>
+                <a href="create_email" class="btn btn-success">Create Email</a>
 
             </div>
         </div>
