@@ -7,38 +7,38 @@ Coagmento Core is the main web application and API. Look at the source for the p
 ###### What's New
 In v3.0, the study creation mechanism has been blanketed in an easy-to-use interface; jump to [Interface](#Interface) to read more. 
 
-####Table of Contents ####
+#### Table of Contents 
 * [Description](#Description)
 * [Installation](#Installation)
 * [Interface](#Interface)
 * [Programming](#Programming)
 * [InfoSeeking](#InfoSeeking)
 
-####Installation
+#### Installation
 See the [wiki](https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Core-Installation) for installation instructions and more information.
 
-####Interface
+#### Interface
 Using [Laravel](https://laravel.com), Coagmento's web application allows users to build their own studies.
 
-#####Users
+##### Users
 The manage users tab allows the generation of random users. Edit each individual user to provide them with:
 * Adminstrative Access
 * Active status
 
-#####Emails
+##### Emails
 Create emails by providing a title accompanied by text.
 
-#####Tasks
+##### Tasks
 Tasks are comprised of descriptions along with attributes if you created any.  By visiting the task settings page, you can manage your attributes. Current types of attributes are select and text attributes.
 
-#####Questionnaires
+##### Questionnaires
 Questionnaires are built and rendered by using [formbuilder](https://formbuilder.readthedocs.io/en/latest/) (read the documents here).
  
-#####Stages
+##### Stages
 Draggable list of stages allows the user to easily change the stage order for a user study.
 
 #### Programming
 If you need to program specific parts of the code, refer to the [API reference](http://new.coagmento.org/apidoc/) for a list of available endpoints.
 
-####InfoSeeking
+#### InfoSeeking
 To see more from the creators, visit our [website](http://www.infoseeking.org/) or look at our [github](https://github.com/InfoSeeking) for more resources and content.
