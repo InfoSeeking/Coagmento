@@ -173,6 +173,7 @@ class AuthController extends Controller
             'time_start'=>$currentStageProgress->created_at,
         ];
 
+
         return ['logged_in'=>true,'id'=>$user->id,'name'=>$user->name, 'project_id'=>$project_id,'stage_data'=>$stage_data];
     }
 
