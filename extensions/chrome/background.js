@@ -711,8 +711,10 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
                             code: "var config = "+JSON.stringify(config),
                             // file: "payload.js" 
                         },
+                        
 
                         function() {
+                            console.log("BACKGROUND: payload.js 1");
                             if (chrome.runtime.lastError) {
                                 console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
                             }else{
@@ -720,8 +722,10 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
                                     {file: 'payload.js'},
                                     function(){
                                         if (chrome.runtime.lastError) {
+                                            console.log("BACKGROUND: payload.js 2");
                                             console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
                                         }
+
                                     }
                                 );    
                             }

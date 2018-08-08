@@ -188,6 +188,7 @@ class SidebarController extends Controller
             }
 
 
+
 //            public function getCurrentProject(){
 //                $stage = $this->stageProgressService->getCurrentStage();
 //                $stage->getResult();

@@ -63,6 +63,7 @@ Route::post('sidebar/auth/demoLogin', 'SidebarController@demoLogin');
 
 
 
+
 // Workspace pages.
 Route::group(['middleware' => ['auth','stage']], function() {
     Route::get('/stages', 'StageProgressController@directToStage');
