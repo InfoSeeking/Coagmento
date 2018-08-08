@@ -8,16 +8,16 @@ Coagmento Core is the main web application and API. Look at the source for the p
 In v3.0, the study creation mechanism has been blanketed in an easy-to-use interface; jump to [Interface](#Interface) to read more. 
 
 ### Table of Contents 
-* [Description](#Description)
-* [Installation](#Installation)
-* [Interface](#Interface)
-	* [Users](#Users)
-	* [Emails](#Emails)
-	* [Tasks](#Tasks)
-	* [Questionnaires](#Questionnaires)
-	* [Stages](#Stages)
-* [Programming](#Programming)
-* [InfoSeeking](#InfoSeeking)
+* [Description](#description)
+* [Installation](#installation)
+* [Interface](#interface)
+	* [Users](#users)
+	* [Emails](#emails)
+	* [Tasks](#tasks)
+	* [Questionnaires](#questionnaires)
+	* [Stages](#stages)
+* [Programming](#programming)
+* [InfoSeeking](#infoSeeking)
 
 ### Installation
 See the [wiki](https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Core-Installation) for installation instructions and more information.
