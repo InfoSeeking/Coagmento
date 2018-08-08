@@ -30,6 +30,7 @@ The manage users tab allows the researcher to quickly create user accounts for p
 Edit each individual user to provide them with:
 * Administrative Access
 * Active status
+
 If both the administrative and active status are selected, those credentials will be permitted access to alter and create study components at the same level as the creator. Be careful, since they do have access to remove administrative access from the main account. 
 If only the active status is set to true, then this user will be able to access the study at a participant level (the user will be able to take the study).
 Leaving the user in default settings, where both attributes are set to false, will keep the user from accessing any part of the study.
