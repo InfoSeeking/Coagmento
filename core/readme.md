@@ -5,7 +5,7 @@
 Coagmento Core is the main web application and API. Look at the source for the public version [here](https://coagmento.org).
 
 ###### What's New
-In v3.0, the study creation mechanism has been blanketed in an easy-to-use interface; jump to [Interface](#Interface) to read more. 
+In v3.0, the study creation mechanism has been blanketed in an easy-to-use interface; jump to [Interface](#interface) to read more. 
 
 ### Table of Contents 
 * [Description](#description)
