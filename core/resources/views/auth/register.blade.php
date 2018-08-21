@@ -102,97 +102,145 @@
 
             <?php
 
-                $all_dates = ["Tuesday, July 31 9:00 AM - 11:00 AM",
-                    "Tuesday, July 31 11:00 AM - 1:00 PM",
-                    "Tuesday, July 31 1:00 PM - 3:00 PM",
-                    "Tuesday, July 31 3:00 PM - 5:00 PM",
+                $all_dates = [
 
-                    "Wednesday, August 1 9:00 AM - 11:00 AM",
-                    "Wednesday, August 1 11:00 AM - 1:00 PM",
-                    "Wednesday, August 1 1:00 PM - 3:00 PM",
-                    "Wednesday, August 1 3:00 PM - 5:00 PM",
+//                    "Tuesday, July 31 9:00 AM - 11:00 AM",
+//                    "Tuesday, July 31 11:00 AM - 1:00 PM",
+//                    "Tuesday, July 31 1:00 PM - 3:00 PM",
+//                    "Tuesday, July 31 3:00 PM - 5:00 PM",
+//
+//                    "Wednesday, August 1 9:00 AM - 11:00 AM",
+//                    "Wednesday, August 1 11:00 AM - 1:00 PM",
+//                    "Wednesday, August 1 1:00 PM - 3:00 PM",
+//                    "Wednesday, August 1 3:00 PM - 5:00 PM",
+//
+//                    "Thursday, August 2 9:00 AM - 11:00 AM",
+//                    "Thursday, August 2 11:00 AM - 1:00 PM",
+//                    "Thursday, August 2 1:00 PM - 3:00 PM",
+//                    "Thursday, August 2 3:00 PM - 5:00 PM",
+//
+//                    "Friday, August 3 9:00 AM - 11:00 AM",
+//                    "Friday, August 3 11:00 AM - 1:00 PM",
+//                    "Friday, August 3 1:00 PM - 3:00 PM",
+//                    "Friday, August 3 3:00 PM - 5:00 PM",
+//
+//                    "Saturday, August 4 9:00 AM - 11:00 AM",
+//                    "Saturday, August 4 11:00 AM - 1:00 PM",
+//                    "Saturday, August 4 1:00 PM - 3:00 PM",
+//                    "Saturday, August 4 3:00 PM - 5:00 PM",
+//
+//                    "Monday, August 6 9:00 AM - 11:00 AM",
+//                    "Monday, August 6 11:00 AM - 1:00 PM",
+//                    "Monday, August 6 1:00 PM - 3:00 PM",
+//                    "Monday, August 6 3:00 PM - 5:00 PM",
+//
+//                    "Tuesday, August 7 9:00 AM - 11:00 AM",
+//                    "Tuesday, August 7 11:00 AM - 1:00 PM",
+//                    "Tuesday, August 7 1:00 PM - 3:00 PM",
+//                    "Tuesday, August 7 3:00 PM - 5:00 PM",
+//
+//
+//                    "Wednesday, August 8 9:00 AM - 11:00 AM",
+//                    "Wednesday, August 8 11:00 AM - 1:00 PM",
+//                    "Wednesday, August 8 1:00 PM - 3:00 PM",
+//                    "Wednesday, August 8 3:00 PM - 5:00 PM",
+//
+//                    "Thursday, August 9 9:00 AM - 11:00 AM",
+//                    "Thursday, August 9 11:00 AM - 1:00 PM",
+//                    "Thursday, August 9 1:00 PM - 3:00 PM",
+//                    "Thursday, August 9 3:00 PM - 5:00 PM",
+//
+//                    "Friday, August 10 9:00 AM - 11:00 AM",
+//                    "Friday, August 10 11:00 AM - 1:00 PM",
+//                    "Friday, August 10 1:00 PM - 3:00 PM",
+//                    "Friday, August 10 3:00 PM - 5:00 PM",
+//
+//                    "Saturday, August 11 9:00 AM - 11:00 AM",
+//                    "Saturday, August 11 11:00 AM - 1:00 PM",
+//                    "Saturday, August 11 1:00 PM - 3:00 PM",
+//                    "Saturday, August 11 3:00 PM - 5:00 PM",
+//
+//                    "Monday, August 13 9:00 AM - 11:00 AM",
+//                    "Monday, August 13 11:00 AM - 1:00 PM",
+//                    "Monday, August 13 1:00 PM - 3:00 PM",
+//                    "Monday, August 13 3:00 PM - 5:00 PM",
+//
+//                    "Tuesday, August 14 9:00 AM - 11:00 AM",
+//                    "Tuesday, August 14 11:00 AM - 1:00 PM",
+//                    "Tuesday, August 14 1:00 PM - 3:00 PM",
+//                    "Tuesday, August 14 3:00 PM - 5:00 PM",
+//
+//
+//                    "Wednesday, August 15 9:00 AM - 11:00 AM",
+//                    "Wednesday, August 15 11:00 AM - 1:00 PM",
+//                    "Wednesday, August 15 1:00 PM - 3:00 PM",
+//                    "Wednesday, August 15 3:00 PM - 5:00 PM",
+//
+//                    "Thursday, August 16 9:00 AM - 11:00 AM",
+//                    "Thursday, August 16 11:00 AM - 1:00 PM",
+//                    "Thursday, August 16 1:00 PM - 3:00 PM",
+//                    "Thursday, August 16 3:00 PM - 5:00 PM",
 
-                    "Thursday, August 2 9:00 AM - 11:00 AM",
-                    "Thursday, August 2 11:00 AM - 1:00 PM",
-                    "Thursday, August 2 1:00 PM - 3:00 PM",
-                    "Thursday, August 2 3:00 PM - 5:00 PM",
-
-                    "Friday, August 3 9:00 AM - 11:00 AM",
-                    "Friday, August 3 11:00 AM - 1:00 PM",
-                    "Friday, August 3 1:00 PM - 3:00 PM",
-                    "Friday, August 3 3:00 PM - 5:00 PM",
-
-                    "Saturday, August 4 9:00 AM - 11:00 AM",
-                    "Saturday, August 4 11:00 AM - 1:00 PM",
-                    "Saturday, August 4 1:00 PM - 3:00 PM",
-                    "Saturday, August 4 3:00 PM - 5:00 PM",
-
-                    "Monday, August 6 9:00 AM - 11:00 AM",
-                    "Monday, August 6 11:00 AM - 1:00 PM",
-                    "Monday, August 6 1:00 PM - 3:00 PM",
-                    "Monday, August 6 3:00 PM - 5:00 PM",
-
-                    "Tuesday, August 7 9:00 AM - 11:00 AM",
-                    "Tuesday, August 7 11:00 AM - 1:00 PM",
-                    "Tuesday, August 7 1:00 PM - 3:00 PM",
-                    "Tuesday, August 7 3:00 PM - 5:00 PM",
-
-
-                    "Wednesday, August 8 9:00 AM - 11:00 AM",
-                    "Wednesday, August 8 11:00 AM - 1:00 PM",
-                    "Wednesday, August 8 1:00 PM - 3:00 PM",
-                    "Wednesday, August 8 3:00 PM - 5:00 PM",
-
-                    "Thursday, August 9 9:00 AM - 11:00 AM",
-                    "Thursday, August 9 11:00 AM - 1:00 PM",
-                    "Thursday, August 9 1:00 PM - 3:00 PM",
-                    "Thursday, August 9 3:00 PM - 5:00 PM",
-
-                    "Friday, August 10 9:00 AM - 11:00 AM",
-                    "Friday, August 10 11:00 AM - 1:00 PM",
-                    "Friday, August 10 1:00 PM - 3:00 PM",
-                    "Friday, August 10 3:00 PM - 5:00 PM",
-
-                    "Saturday, August 11 9:00 AM - 11:00 AM",
-                    "Saturday, August 11 11:00 AM - 1:00 PM",
-                    "Saturday, August 11 1:00 PM - 3:00 PM",
-                    "Saturday, August 11 3:00 PM - 5:00 PM",
-
-                    "Monday, August 13 9:00 AM - 11:00 AM",
-                    "Monday, August 13 11:00 AM - 1:00 PM",
-                    "Monday, August 13 1:00 PM - 3:00 PM",
-                    "Monday, August 13 3:00 PM - 5:00 PM",
-
-                    "Tuesday, August 14 9:00 AM - 11:00 AM",
-                    "Tuesday, August 14 11:00 AM - 1:00 PM",
-                    "Tuesday, August 14 1:00 PM - 3:00 PM",
-                    "Tuesday, August 14 3:00 PM - 5:00 PM",
-
-
-                    "Wednesday, August 15 9:00 AM - 11:00 AM",
-                    "Wednesday, August 15 11:00 AM - 1:00 PM",
-                    "Wednesday, August 15 1:00 PM - 3:00 PM",
-                    "Wednesday, August 15 3:00 PM - 5:00 PM",
-
-                    "Thursday, August 16 9:00 AM - 11:00 AM",
-                    "Thursday, August 16 11:00 AM - 1:00 PM",
-                    "Thursday, August 16 1:00 PM - 3:00 PM",
-                    "Thursday, August 16 3:00 PM - 5:00 PM",
-
-                    "Friday, August 17 9:00 AM - 11:00 AM",
                     "Friday, August 17 11:00 AM - 1:00 PM",
                     "Friday, August 17 1:00 PM - 3:00 PM",
                     "Friday, August 17 3:00 PM - 5:00 PM",
 
-                    "Saturday, August 18 9:00 AM - 11:00 AM",
                     "Saturday, August 18 11:00 AM - 1:00 PM",
                     "Saturday, August 18 1:00 PM - 3:00 PM",
                     "Saturday, August 18 3:00 PM - 5:00 PM",
 
-                    "Monday, August 20 9:00 AM - 11:00 AM",
                     "Monday, August 20 11:00 AM - 1:00 PM",
                     "Monday, August 20 1:00 PM - 3:00 PM",
-                    "Monday, August 20 3:00 PM - 5:00 PM"
+                    "Monday, August 20 3:00 PM - 5:00 PM",
+
+
+                    "Tuesday, August 21 11:00 AM - 1:00 PM",
+                    "Tuesday, August 21 1:00 PM - 3:00 PM",
+                    "Tuesday, August 21 3:00 PM - 5:00 PM",
+
+
+                    "Wednesday, August 22 11:00 AM - 1:00 PM",
+                    "Wednesday, August 22 1:00 PM - 3:00 PM",
+                    "Wednesday, August 22 3:00 PM - 5:00 PM",
+
+                    "Thursday, August 23 11:00 AM - 1:00 PM",
+                    "Thursday, August 23 1:00 PM - 3:00 PM",
+                    "Thursday, August 23 3:00 PM - 5:00 PM",
+
+                    "Friday, August 24 11:00 AM - 1:00 PM",
+                    "Friday, August 24 1:00 PM - 3:00 PM",
+                    "Friday, August 24 3:00 PM - 5:00 PM",
+
+                    "Saturday, August 25 11:00 AM - 1:00 PM",
+                    "Saturday, August 25 1:00 PM - 3:00 PM",
+                    "Saturday, August 25 3:00 PM - 5:00 PM",
+
+
+                    "Monday, August 27 11:00 AM - 1:00 PM",
+                    "Monday, August 27 1:00 PM - 3:00 PM",
+                    "Monday, August 27 3:00 PM - 5:00 PM",
+
+                    "Tuesday, August 28 11:00 AM - 1:00 PM",
+                    "Tuesday, August 28 1:00 PM - 3:00 PM",
+                    "Tuesday, August 28 3:00 PM - 5:00 PM",
+
+
+                    "Wednesday, August 29 11:00 AM - 1:00 PM",
+                    "Wednesday, August 29 1:00 PM - 3:00 PM",
+                    "Wednesday, August 29 3:00 PM - 5:00 PM",
+
+                    "Thursday, August 30 11:00 AM - 1:00 PM",
+                    "Thursday, August 30 1:00 PM - 3:00 PM",
+                    "Thursday, August 30 3:00 PM - 5:00 PM",
+
+                    "Friday, August 31 11:00 AM - 1:00 PM",
+                    "Friday, August 31 1:00 PM - 3:00 PM",
+                    "Friday, August 31 3:00 PM - 5:00 PM",
+
+                    "Saturday, September 1 11:00 AM - 1:00 PM",
+                    "Saturday, September 1 1:00 PM - 3:00 PM",
+                    "Saturday, September 1 3:00 PM - 5:00 PM"
+
                 ];
                 $query = "SELECT study_date FROM demographics WHERE study_date !='' AND study_date IS NOT NULL";
 //                dd(\Illuminate\Support\Facades\DB::select($query));
