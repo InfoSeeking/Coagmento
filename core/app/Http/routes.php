@@ -165,6 +165,7 @@ Route::get('/admin/{stage}/preview_stage', 'StageController@preview');
 Route::post('/admin/create_widget', 'StageController@createWidget');
     //Study Design and Configuration Components
 Route::get('/admin/study_design', 'AdminController@study');
+    //Latin Square Design and Setup
 
 
 
