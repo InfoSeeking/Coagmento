@@ -334,26 +334,35 @@ class AuthController extends Controller
 
 
 
-
-        $this->validate($request, [
-            'age' => 'required',
-            'gender' => 'required',
-            'major' => 'required',
-            'english_first' => 'required',
-            'native_language' => 'required_if:english_first,No',
-            'search_experience' => 'required',
-            'search_frequency' => 'required',
-            'nonsearch_frequency' => 'required',
-            'name'=>'required',
-            'email'=>'required',
-            'study_date'=>'required'
+      $rules = [
+          'age' => 'required',
+          'gender' => 'required',
+          'major' => 'required',
+          'english_first' => 'required',
+          'native_language' => 'required_if:english_first,No',
+          'search_experience' => 'required',
+          'search_frequency' => 'required',
+          'nonsearch_frequency' => 'required',
+          'name'=>'required',
+          'email'=>'required',
+          'study_date'=>'required',
+//          'g-recaptcha-response' => 'required|captcha',
 //            'password'=>'required'
-        ]);
+      ];
+
+      $email = $request->input('email');
+
+      if(strrpos($email, '.ru') === strlen($email)-strlen('.ru')){
+          $rules['valid_email'] = 'required';
+      }
+
+
+        $this->validate($request, $rules);
 
         $validator = $this->validator($request->all());
 
         $validator->after(function($validator) {
-            if (User::all()->count() >=33) {
+            if (User::all()->count() >=66) {
                 $validator->errors()->add('field', 'Number of users has reached capacity.');
             }
         });

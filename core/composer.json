@@ -10,7 +10,9 @@
         "0x46616c6b/etherpad-lite-client": "dev-master",
         "ext-fileinfo": "*",
 		 "laravelcollective/html": "5.1.*",
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "mews/captcha": "^2.2",
+        "anhskohbo/no-captcha": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
