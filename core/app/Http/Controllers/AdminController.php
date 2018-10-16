@@ -235,44 +235,14 @@ class AdminController extends Controller
         return back();
     }
 
+    //Study Design
+    public function study(){
+        $users= User::where('participant_number', !null)->get();
+        $tasks = Task::all();
+        $numberOfTasks = $tasks->count();
+        return view('admin.study_design', compact('users', 'tasks', 'numberOfTasks'));
+    }
 
-
-
-    /*public function addTask(Request $request){
-
-        $id = Auth::User()->id;
-
-        $temp=new TaskController();
-        $task = $temp->createTask($request, $id);
-        $task->save();
-        $tasks= Tasks::all();
-        return view('/admin/manage_tasks', compact('tasks'));
-    }*/
-
-
-
-    /*****************************************************************************************************************/
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-   /* public function create()
-    {
-        //
-    }*/
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /*public function show($id)
-    {
-        //
-    }*/
 
 
 }
