@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="/css/workspace.css" />
         <link rel="stylesheet" href="/css/vendor/jquery.flipster.min.css" />
         <link rel="stylesheet" href="/fonts/myriad-pro/style.css" />
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -67,12 +67,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <footer id='page-footer' class="container-fluid">
             Development of Coagmento is supported by Institute of Museum and Library Services (IMLS). Coagmento 2007-2016
             </footer>
         </div>
-        
+
         <script>
             // Initialize the message display.
 

@@ -164,7 +164,11 @@ Route::patch('/admin/{stage}/edit_stage', 'StageController@update');
 Route::get('/admin/{stage}/preview_stage', 'StageController@preview');
 Route::post('/admin/create_widget', 'StageController@createWidget');
     //Study Design and Configuration Components
+<<<<<<< HEAD
+//Route::get('/admin/study_design', 'AdminController@study');
+=======
 Route::get('/admin/study_design', 'AdminController@study');
+>>>>>>> af193845634770eef761a9274b43606d674468f5
     //Latin Square Design and Setup
     //Study Participant Interface Side
 Route::get('/inactive', 'ParticipantController@inactive');
@@ -179,13 +183,13 @@ Route::get('/study_start/{stage}', 'ParticipantController@start');
 //	'WorkspaceController@viewProjectBookmarks');
 //Route::get('workspace/projects/{project_id}/snippets', 'WorkspaceController@viewProjectSnippets');
 //Route::get('workspace/projects/{project_id}/chat', 'WorkspaceController@viewChat');
-//Route::get('workspace/projects/{project_id}/docs', 'WorkspaceController@viewDocs');
+//Route::get('workspaceprojects/{project_id}/docs', 'WorkspaceController@viewDocs');
 //Route::get('workspace/projects/{project_id}/history', 'WorkspaceController@viewHistory');
+//Route::delete('workspace/projects/{project_id}', 'WorkspaceController@deleteProject');
 //
 //// Viewing document requires write permissions until we can get read-only to work.
 //Route::get('workspace/projects/{project_id}/docs/{doc_id}', 'WorkspaceController@viewDoc');
-//
-//Route::delete('workspace/projects/{project_id}', 'WorkspaceController@deleteProject');
+///
 //Route::get('workspace/projects/{project_id}/settings', 'WorkspaceController@viewProjectSettings');
 
 // API.
