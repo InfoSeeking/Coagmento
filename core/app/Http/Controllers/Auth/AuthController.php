@@ -282,11 +282,12 @@ class AuthController extends Controller
                         'active' => 'You have already completed the study.'
                     ]);
             }else {
-                return redirect($this->loginPath()) // Change this to redirect elsewhere
+                return view('participant.inactive');
+                /*return redirect($this->loginPath()) // Change this to redirect elsewhere
                 ->withInput($req->only('email', 'remember'))
                     ->withErrors([
                         'active' => 'You must be active to login.'
-                    ]);
+                    ]);*/
             }
         }
 

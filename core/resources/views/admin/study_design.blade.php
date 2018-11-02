@@ -29,6 +29,18 @@
                         @endforeach
                     </tr>
                     </thead>
+                    <tbody>
+                    @foreach($users as $user)
+
+                        <tr>
+
+                            <th> {{ $user->email }} : {{ $user->participant_number }}</th>
+                            @foreach($tasks as $task)
+                                <th>{{ $task->description }}</th>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                    </tbody>
                 </table>
             @endif
         </div>
