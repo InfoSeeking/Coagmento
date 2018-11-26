@@ -237,8 +237,8 @@ class AdminController extends Controller
 
     //Study Design
     public function study(){
-        $users= User::where('participant_number', !null)->get();
-        dd($users);
+        $users= User::where('participant_number')->get();
+        //dd($users);
         $tasks = Task::all();
         $numberOfTasks = $tasks->count();
         return view('admin.study_design', compact('users', 'tasks', 'numberOfTasks'));

@@ -21,12 +21,12 @@ class StageProgressController extends Controller
     }
 
     public function directToStage(){
-
+    dd("halp");
         $stage = $this->stageProgressService->getCurrentStage();
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
         Session::put('stage_id',$stage_id);
-
+    //fix this?
         if($stage_id <= 3){
             Session::put('project_id',$this->projectService->getMyFirstProject()->id);
         }else if($stage_id <= 17){
@@ -36,9 +36,8 @@ class StageProgressController extends Controller
         }
 
 //        dd($stage->getResult());
-//        dd($stage->getResult()->page);
+//       dd($stage->getResult()->page);
         return redirect($stage->getResult()->page);
-
     }
     public function getCurrentProject(){
         $stage = $this->stageProgressService->getCurrentStage();

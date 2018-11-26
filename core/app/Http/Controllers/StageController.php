@@ -68,6 +68,7 @@ class StageController extends Controller
     public function store(Request $request)
     {
         //Validation: Confirm Validation Here
+        //TODO: two toggle inputs
         $toggle = $request->input('toggle_extension') === 'on';
         $this->validate($request, [
             'title' => 'required',

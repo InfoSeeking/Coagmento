@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Stage;
+use App\Models\Widget;
+use App\Models\Questionnaire;
+use App\Models\Task;
+use App\Models\Attribute;
+use App\Models\TaskAttributeAssignment;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +21,7 @@ class ParticipantController extends Controller
         return view('participant.inactive');
     }
 
-    public function start($id){
+    public static function start($id){
         $stage = Stage::findOrFail($id);
         $widgets = Widget::where('stage_id', $id)->get();
         $questionnaires = Questionnaire::all();
@@ -27,9 +34,9 @@ class ParticipantController extends Controller
         }
         $prevStage = null;
         if($stage->weight - 1 != -1) {
-            $prevStage = Stage::where('weight', $stage->weight - 1)->first();
+            $prevStage = Stage::where('weight', 0)->first();
         }
-
+        //dd("hi world");
         return view('participant.study', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
     }
 

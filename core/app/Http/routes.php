@@ -164,15 +164,12 @@ Route::patch('/admin/{stage}/edit_stage', 'StageController@update');
 Route::get('/admin/{stage}/preview_stage', 'StageController@preview');
 Route::post('/admin/create_widget', 'StageController@createWidget');
     //Study Design and Configuration Components
-<<<<<<< HEAD
-//Route::get('/admin/study_design', 'AdminController@study');
-=======
 Route::get('/admin/study_design', 'AdminController@study');
->>>>>>> af193845634770eef761a9274b43606d674468f5
+
     //Latin Square Design and Setup
     //Study Participant Interface Side
 Route::get('/inactive', 'ParticipantController@inactive');
-Route::get('/study_start/{stage}', 'ParticipantController@start');
+Route::get('/study_start/{weight}', 'ParticipantController@start');
 
 
 

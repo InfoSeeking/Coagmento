@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\ParticipantController;
 use Closure;
 use Illuminate\Support\Facades\Session;
 use App\Models\Stage;
@@ -17,24 +18,17 @@ class CheckStage
      */
     public function handle($request, Closure $next)
     {
+    //dd($request);
 
         $stage_page = $request->path();
         $stage_id = Session::get('stage_id');
-//        echo $stage_page;
-//        echo "BLAH".$stage_id."BLEH";
-        $stage = Stage::where('page', $stage_page)->where('id', $stage_id)->get();
-        if (count($stage) > 0 or $stage_page=='/stages' or $stage_page=='/stages/next' or $stage_page=='stages' or $stage_page=='stages/next') {
-            return $next($request);
-        }else{
-            return redirect('stages');
-        }
-
-
-//        $value = Session::get('key');
-//        if ($request->stage <= 200) {
-//            return redirect('stages');
-//        }
-
-//        return $next($request);
+        //dd($request->path());
+        //$stage = Stage::where('page', $stage_page)->where('id', $stage_id)->get();
+        //if (count($stage) > 0 or $stage_page=='/stages' or $stage_page=='/stages/next' or $stage_page=='stages' or $stage_page=='stages/next') {
+            //return $next($request);
+        //}else{
+            //return redirect('stages');
+        //}
+        return ParticipantController::start($stage_id);
     }
 }

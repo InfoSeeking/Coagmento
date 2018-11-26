@@ -30,16 +30,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
 
-                        <tr>
-
-                            <th> {{ $user->email }} : {{ $user->participant_number }}</th>
+                        @foreach($users as $user)
+                            <tr>
+                            <th> {{ $user->participant_number }} : {{ $user->email }}</th>
                             @foreach($tasks as $task)
                                 <th>{{ $task->description }}</th>
                             @endforeach
-                        </tr>
-                    @endforeach
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             @endif

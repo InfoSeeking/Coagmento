@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\ParticipantController;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Membership;
 use App\Models\Demographic;
+use App\Models\Stage;
 use App\Services\ProjectService;
 use App\Services\StageProgressService;
 use Auth;
@@ -19,13 +21,14 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Mail;
 
+
 class AuthController extends Controller
 {
     protected $redirectPath = '/stages/next';
     protected $redirectTo = '/stages/next';
 //    protected $redirectPath = '/workspace';
 //    protected $redirectTo = '/workspace';
-    protected $redirectAfterLogout = 'http://coagmento.org';
+    protected $redirectAfterLogout = '/auth/login?'; //changed from https//coagmento.org to localhost:8000/auth/login? for quick debugging
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -271,10 +274,14 @@ class AuthController extends Controller
                 $user->save();
                 return redirect('/admin');
             } else if ($user->active && !$user->is_completed) {
+
+                $stageID = Stage::where('weight', 0)->first()->id;
+
                 Auth::login($user, $req->has('remember'));
                 $user->last_login = Carbon::now();
                 $user->save();
-                return redirect()->intended($this->redirectPath());
+                ParticipantController::start($stageID);
+
             } else if($user->is_completed){
                 return redirect($this->loginPath()) // Change this to redirect elsewhere
                 ->withInput($req->only('email', 'remember'))

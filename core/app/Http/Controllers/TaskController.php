@@ -91,6 +91,7 @@ class TaskController extends Controller
 
 
     public function getTask(){
+
         $currentStage = $this->getCurrentStageId();
         $taskID = -1;
         $instructions='';
