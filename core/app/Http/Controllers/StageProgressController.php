@@ -21,7 +21,7 @@ class StageProgressController extends Controller
     }
 
     public function directToStage(){
-    dd("halp");
+    dd("directtostage function hit in stageprogresscontroller");
         $stage = $this->stageProgressService->getCurrentStage();
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
@@ -40,6 +40,7 @@ class StageProgressController extends Controller
         return redirect($stage->getResult()->page);
     }
     public function getCurrentProject(){
+        dd("get current project funcion in stageprogresscontroller.php");
         $stage = $this->stageProgressService->getCurrentStage();
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
@@ -61,6 +62,7 @@ class StageProgressController extends Controller
     }
 
     public function moveToNextStage(Request $req){
+        dd("movetonextstage function in stageprogresscontroller.php");
         $this->stageProgressService->moveToNextStage($req);
         return redirect('/stages');
     }

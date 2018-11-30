@@ -90,13 +90,13 @@
         @endif
         {{--Disabled Buttons for Preview--}}
         @if($prevStage!==null)
-            <a class="btn btn-success btn-large" style="float: left; background-color: rgba(13,240,56,0.15)" {{--href="/admin/{{$prevStage->id}}/preview_stage"--}} disabled>Previous</a>
+            <a class="btn btn-success btn-large" style="float: left; background-color: rgba(13,240,56,0.15)" href="/study_start/{{$prevStage->id}}">Previous</a>
         @endif
 
         @if($nextStage===null)
-            <a class="btn btn-success btn-large" style="float: right; background-color: rgba(13,240,56,0.15)" {{--href="/admin/manage_stages"--}} disabled>Continue to the End</a>
+            <a class="btn btn-success btn-large" style="float: right; background-color: rgba(13,240,56,0.15)" href="/auth/logout">Log Out</a>
         @else
-            <a class="btn btn-success btn-large" style="float: right; background-color: rgba(13,240,56,0.15)" {{--href="/admin/{{$nextStage->id}}/preview_stage"--}} disabled>Continue</a>
+            <a class="btn btn-success btn-large" style="float: right; background-color: rgba(13,240,56,0.15)" href="/study_start/{{$nextStage->id}}">Continue</a>
         @endif
         <br>
         <hr>

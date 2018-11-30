@@ -22,6 +22,7 @@ class ParticipantController extends Controller
     }
 
     public static function start($id){
+
         $stage = Stage::findOrFail($id);
         $widgets = Widget::where('stage_id', $id)->get();
         $questionnaires = Questionnaire::all();
