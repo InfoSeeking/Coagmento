@@ -18,9 +18,11 @@ class MustBeAdministrator
 
         $user = $request->user();
 
-        if($user && $user->is_admin) {
+        if($user && $user->is_admin || $user->active) {
             return $next($request);
         }
+        //What about study participiant (active users)
+
         abort(404, 'You are unable to access this page.');
     }
 

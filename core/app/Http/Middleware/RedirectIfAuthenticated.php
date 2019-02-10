@@ -35,7 +35,8 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('/stages');
+            //return redirect('/stages');
+            return redirect()->action('ParticipantController@start');
         }
 //        if ($this->auth->check()) {
 //            return redirect('/workspace');

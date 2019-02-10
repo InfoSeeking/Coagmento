@@ -16,10 +16,12 @@ use Auth;
 
 class StageController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(StageProgressService $stageProgressService) {
+        $this->stageProgressService = $stageProgressService;
         $this->user = Auth::user();
-        $this->middleware('admin');
+        $this->middleware('admin',
+            ['only'=>['index','preview','store','destroy', 'create', 'update', 'edit', 'stageOrder']]
+        );
     }
     /**
      * Display a listing of the resource.

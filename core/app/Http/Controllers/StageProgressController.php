@@ -8,7 +8,8 @@ use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Services\StageProgressService;
+use App\Http\StageProgressService;
+//use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
@@ -68,6 +69,7 @@ class StageProgressController extends Controller
     }
 
     public function getCurrentStageUser(Request $req){
+        dd("HELP in getCurrentStageUser");
         $currentStage = $this->stageProgressService->getCurrentStage($req)->getResult();
         $currentStageProgress = $this->stageProgressService->getCurrentStageProgress($req)->getResult();
         return response()->json([

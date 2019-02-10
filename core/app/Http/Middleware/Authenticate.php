@@ -38,12 +38,12 @@ class Authenticate
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
+                dd("hihihihihi");
                 return redirect()
                     ->guest('auth/login')
                     ->with('after_login_redirect', $request->path());
             }
         }
-
         return $next($request);
     }
 }

@@ -10,12 +10,21 @@ use App\Models\Questionnaire;
 use App\Models\Task;
 use App\Models\Attribute;
 use App\Models\TaskAttributeAssignment;
-
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\StageProgressService;
 
 class ParticipantController extends Controller
 {
+
+    public function __construct(StageProgressService $stageProgressService) {
+        $this->stageProgressService = $stageProgressService;
+        $this->user = Auth::user();
+        $this->middleware('admin',
+            ['only'=> null ]
+        );
+    }
 
     public function inactive(){
         return view('participant.inactive');
@@ -24,6 +33,7 @@ class ParticipantController extends Controller
     public static function start($id){
 
         $stage = Stage::findOrFail($id);
+
         $widgets = Widget::where('stage_id', $id)->get();
         $questionnaires = Questionnaire::all();
         $tasks = Task::all();
@@ -37,8 +47,8 @@ class ParticipantController extends Controller
         if($stage->weight - 1 != -1) {
             $prevStage = Stage::where('weight', 0)->first();
         }
-        //dd("hi world");
-        return view('participant.study', compact('stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
+
+        return view('study_start', compact('id', 'stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
     }
 
     /**

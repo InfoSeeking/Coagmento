@@ -29,6 +29,7 @@ class StageProgressService {
 	public function getCurrentStage() {
 
         $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last();
+
 		if (is_null($stageProgress)) {
             $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
 
