@@ -1,4 +1,4 @@
-# ![Coagmento Logo](https://raw.githubusercontent.com/InfoSeeking/Coagmento/master/core/public/images/logo-small.png) Coagmento 2.0 #
+# ![Coagmento Logo](https://raw.githubusercontent.com/InfoSeeking/Coagmento/master/core/public/images/logo-small.png) Coagmento 3.0 #
 
 This is the next version of [Coagmento](http://www.coagmento.org/), which is under active development. Coagmento is a service for users to share information and collaborate when browsing the web. Coagmento features:
 
