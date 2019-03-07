@@ -28,7 +28,7 @@ class StageProgressService {
 
 	public function getCurrentStage() {
 
-        $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last();
+        $stageProgress = StageProgress::all()->where('user_id', Auth::user()->id)->last(); //TODO: incorporate weight here.
 
 		if (is_null($stageProgress)) {
             $first_stage_id = Status::fromResult(Stage::all()->first())->getResult()->id;
@@ -70,16 +70,6 @@ class StageProgressService {
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
         Session::put('stage_id',$stage_id);
-
-        $project_id = 0;
-        if($stage_id <= 3){
-            $project_id = $this->projectService->getMyFirstProject()->id;
-        }else if($stage_id <= 17){
-            $project_id = $this->projectService->getMySecondProject()->id;
-        }else{
-            $project_id = $this->projectService->getMyThirdProject()->id;
-        }
-
         Session::put('project_id',$project_id);
         return response()->json([
             'project_id'=>$project_id

@@ -122,6 +122,7 @@ class AuthController extends Controller
      */
     protected function authenticated(Request $req, User $user) {
         if ($req->has('after_login_redirect')) {
+            dd('dd');
             return redirect($req->input('after_login_redirect'));
         } else {
             return redirect($this->redirectPath());
@@ -280,7 +281,7 @@ class AuthController extends Controller
                 Auth::login($user, $req->has('remember'));
                 $user->last_login = Carbon::now();
                 $user->save();
-                ParticipantController::start($stageID);
+                ParticipantController::start(4);//hardcoded for demo
 
             } else if($user->is_completed){
                 return redirect($this->loginPath()) // Change this to redirect elsewhere

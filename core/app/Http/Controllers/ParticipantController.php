@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Models\Attribute;
 use App\Models\TaskAttributeAssignment;
 use Auth;
+use App\Utilities\Status;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\StageProgressService;
@@ -32,7 +33,7 @@ class ParticipantController extends Controller
 
     public static function start($id){
 
-        $stage = Stage::findOrFail($id);
+        $stage = Stage::where('id', $id)->first();
 
         $widgets = Widget::where('stage_id', $id)->get();
         $questionnaires = Questionnaire::all();
@@ -41,14 +42,15 @@ class ParticipantController extends Controller
         $assignments = TaskAttributeAssignment::all();
         $nextStage = null;
         if($stage->weight + 1 != count(Stage::all())){
-            $nextStage = Stage::where('weight', $stage->weight+1)->first();
+           // $nextStage = Stage::where('weight', $stage->weight+1)->first();
         }
+
         $prevStage = null;
         if($stage->weight - 1 != -1) {
             $prevStage = Stage::where('weight', 0)->first();
         }
 
-        return view('study_start', compact('id', 'stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
+        return view('participant.study', compact('id', 'stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
     }
 
     /**

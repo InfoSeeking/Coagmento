@@ -16,7 +16,7 @@
 @section('content')
 
     @if (count($errors) > 0)
-        <div class="alert alert-danger">
+        <div class="alert alert-success">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -83,7 +83,7 @@
                             success: function(result) {
                                 console.log('it worked');
                                 console.log(result);
-                                alert(result);
+                                alert('Successfully saved the questionnaire!');
                             },
                             error: function(textStatus, errorThrown) {
                                 console.log('it didnt work');

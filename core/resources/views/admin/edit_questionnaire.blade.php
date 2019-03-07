@@ -79,7 +79,7 @@
                     success: function(result) {
                         console.log('it worked');
                         console.log(result);
-                        alert(result);
+                        alert('Successfully saved the questionnaire!');
                     },
                     error: function(textStatus, errorThrown) {
                         console.log('it didnt work');

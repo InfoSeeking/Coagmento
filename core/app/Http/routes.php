@@ -169,7 +169,7 @@ Route::get('/admin/study_design', 'AdminController@study');
     //Latin Square Design and Setup
     //Study Participant Interface Side
 Route::get('/inactive', 'ParticipantController@inactive');
-Route::get('/study_start/{weight}', 'ParticipantController@start');
+Route::get('/study_start/{stage}', 'ParticipantController@start');
 
 
 

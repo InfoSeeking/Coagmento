@@ -9,18 +9,18 @@ use Illuminate\Http\Request;
 use App\Models\Attribute;
 use App\Models\TaskAttributeAssignment;
 use App\Http\Response;
-
+use App\Http\Controllers\StageProgressService;
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use Auth;
 
 class StageController extends Controller
 {
-    public function __construct(StageProgressService $stageProgressService) {
-        $this->stageProgressService = $stageProgressService;
+    public function __construct() {
+
         $this->user = Auth::user();
         $this->middleware('admin',
-            ['only'=>['index','preview','store','destroy', 'create', 'update', 'edit', 'stageOrder']]
+            ['except'=>[]]
         );
     }
     /**

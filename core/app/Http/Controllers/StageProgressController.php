@@ -8,8 +8,8 @@ use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\StageProgressService;
-//use App\Services\StageProgressService;
+//use App\Http\StageProgressService;
+use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
@@ -27,17 +27,7 @@ class StageProgressController extends Controller
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
         Session::put('stage_id',$stage_id);
-    //fix this?
-        if($stage_id <= 3){
-            Session::put('project_id',$this->projectService->getMyFirstProject()->id);
-        }else if($stage_id <= 17){
-            Session::put('project_id',$this->projectService->getMySecondProject()->id);
-        }else{
-            Session::put('project_id',$this->projectService->getMyThirdProject()->id);
-        }
 
-//        dd($stage->getResult());
-//       dd($stage->getResult()->page);
         return redirect($stage->getResult()->page);
     }
     public function getCurrentProject(){
@@ -45,18 +35,10 @@ class StageProgressController extends Controller
         $stage = $this->stageProgressService->getCurrentStage();
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
+
         Session::put('stage_id',$stage_id);
-
-        $project_id = 0;
-        if($stage_id <= 3){
-            $project_id = $this->projectService->getMyFirstProject()->id;
-        }else if($stage_id <= 17){
-            $project_id = $this->projectService->getMySecondProject()->id;
-        }else{
-            $project_id = $this->projectService->getMyThirdProject()->id;
-        }
-
         Session::put('project_id',$project_id);
+
         return response()->json([
             'project_id'=>$project_id
         ]);
