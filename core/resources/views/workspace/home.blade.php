@@ -13,7 +13,7 @@
     <div class='col-md-10 col-sm-8 main-content'>
         <div class="col-md-6">
             @include('helpers.showAllMessages')
-            <h2>Welcome to Coagmento 2.0</h2>
+            <h2>Welcome to Coagmento 3.0</h2>
              <p>
                  This is your new Coagmento workspace. You can manage your projects, share and collaborate with others, view and edit saved project data, and view analytics on your projects.
              </p>

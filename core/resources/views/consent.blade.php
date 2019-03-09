@@ -7,7 +7,7 @@
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta name="viewport" content="width=device-width" />
   
-  <title>Coagmento 2.0 Announcement</title>
+  <title>Coagmento 3.0 Announcement</title>
   
 	<link rel="icon" type="image/png" href="../images/coagfavicon.png" />
   <!-- Bootstrap + FontAwesome -->
@@ -98,7 +98,7 @@
 
 		<h1 class="logo" itemprop="name">
             <img src="../images/logo.png" itemprop="image" alt="logo" WIDTH=100 HEIGHT=100>
-			COAGMENTO 2.0
+			COAGMENTO 3.0
         </h1>
 		
         <div class="row">
