@@ -17,7 +17,7 @@
                         <th></th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Password</th>
+                        <!-- <th>Password</th> -->
                         <th>Admin</th>
                         <th>Active</th>
                     </tr>
@@ -50,7 +50,7 @@
 
                                 <th>{{ $user->email }}</th>
 
-                                <th>{{ $user->password_raw }}</th>
+                                <!-- <th> $user->password_raw }}</th> -->
 
                                 <th>
                                     @if($user->is_admin)

@@ -235,14 +235,14 @@ class AdminController extends Controller
         return back();
     }
 
-    //Study Design
-    public function study(){
+    //Study Design -- IN DEVELOPMENT
+    /*public function study(){
         $users= User::where('participant_number')->get();
         //dd($users);
         $tasks = Task::all();
         $numberOfTasks = $tasks->count();
         return view('admin.study_design', compact('users', 'tasks', 'numberOfTasks'));
-    }
+    }*/
 
 
 

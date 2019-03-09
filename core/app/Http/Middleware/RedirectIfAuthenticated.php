@@ -36,7 +36,10 @@ class RedirectIfAuthenticated
     {
         if ($this->auth->check()) {
             //return redirect('/stages');
-            return redirect()->action('ParticipantController@start');
+            //dd("this:", $this->user);
+            return redirect()->action(
+                'ParticipantController@start', ['id' => 4]
+            ); //hardcoded value for demo
         }
 //        if ($this->auth->check()) {
 //            return redirect('/workspace');

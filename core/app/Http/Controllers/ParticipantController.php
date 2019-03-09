@@ -22,9 +22,9 @@ class ParticipantController extends Controller
     public function __construct(StageProgressService $stageProgressService) {
         $this->stageProgressService = $stageProgressService;
         $this->user = Auth::user();
-        $this->middleware('admin',
+        /*$this->middleware('admin',
             ['only'=> null ]
-        );
+        );*/
     }
 
     public function inactive(){
@@ -32,7 +32,7 @@ class ParticipantController extends Controller
     }
 
     public static function start($id){
-
+//dd($id);
         $stage = Stage::where('id', $id)->first();
 
         $widgets = Widget::where('stage_id', $id)->get();
@@ -42,7 +42,7 @@ class ParticipantController extends Controller
         $assignments = TaskAttributeAssignment::all();
         $nextStage = null;
         if($stage->weight + 1 != count(Stage::all())){
-           // $nextStage = Stage::where('weight', $stage->weight+1)->first();
+            $nextStage = Stage::where('weight', $stage->weight+1)->first();
         }
 
         $prevStage = null;

@@ -41,6 +41,8 @@ class CheckStage
         //}else{
             //return redirect('stages');
         //}
+
+
         return ParticipantController::start($stage_id);
     }
 }

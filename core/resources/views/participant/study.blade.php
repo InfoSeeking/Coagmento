@@ -90,7 +90,7 @@
         @endif
 
         <!--i@f($prevStage!==null)
-            <a class="btn btn-success btn-large" style="float: left; background-color: rgba(13,240,56,0.15)" href="/study_start/{{$prevStage->id}}">Previous</a>
+            <a class="btn btn-success btn-large" style="float: left; background-color: rgba(13,240,56,0.15)" href="/study_start/$prevStage->id}}">Previous</a>
         e@ndif-->
 
         @if($nextStage===null)

@@ -278,10 +278,11 @@ class AuthController extends Controller
 
                 $stageID = Stage::where('weight', 0)->first()->id;
 
+                //dd($stageID);
                 Auth::login($user, $req->has('remember'));
                 $user->last_login = Carbon::now();
                 $user->save();
-                ParticipantController::start(4);//hardcoded for demo
+                ParticipantController::start($stageID);
 
             } else if($user->is_completed){
                 return redirect($this->loginPath()) // Change this to redirect elsewhere

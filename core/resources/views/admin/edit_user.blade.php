@@ -46,10 +46,10 @@
                                 <th> Email </th>
                                 <th> {{ $user->email }}</th>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th> Password </th>
-                                <th> {{ $user->password_raw }} </th>
-                            </tr>
+                                <th>  $user->password_raw }} </th>
+                            </tr> -->
                             <tr>
                                 <th> Active </th>
                                 <th>
