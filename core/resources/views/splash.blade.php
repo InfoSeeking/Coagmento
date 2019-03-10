@@ -99,7 +99,7 @@
 
 		<h1 class="logo" itemprop="name">
             <img src="images/logo.png" itemprop="image" alt="logo" WIDTH=100 HEIGHT=100>
-			Problem Help Study
+			Coagmento Study
         </h1>
 		
         <div class="row">
