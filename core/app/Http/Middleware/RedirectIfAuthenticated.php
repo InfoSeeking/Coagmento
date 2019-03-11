@@ -37,6 +37,9 @@ class RedirectIfAuthenticated
         if ($this->auth->check()) {
             //return redirect('/stages');
             //dd("this:", $this->user);
+            if($this->auth->user()->is_admin == 1){
+                return redirect()->action('AdminController@index');
+            }
             return redirect()->action(
                 'ParticipantController@start', ['id' => 4]
             ); //hardcoded value for demo

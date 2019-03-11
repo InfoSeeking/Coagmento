@@ -152,7 +152,7 @@
                                     <li><a href="{{ url('/admin/manage_emails') }}"><i class="fa fa-btn fa-envelope"></i>Manage Emails</a></li>
                                     <li><a href="{{ url('/admin/manage_questionnaires') }}"><i class="fa fa-btn fa-pencil-square-o"></i>Manage Questionnaires</a></li>
                                     <li><a href="{{ url('/admin/manage_stages') }}"><i class="fa fa-btn fa-th-list"></i>Manage Stages</a></li>
-                                    <!-- <li><a href="{{ url('/admin/study_design') }}"><i class="fa fa-btn fa-cogs"></i>Study Design</a></li> -->
+                                    <!-- <li><a href="{ url('/admin/study_design') }}"><i class="fa fa-btn fa-cogs"></i>Study Design</a></li> -->
                                 @endif
                                 <li><a href="{{ url('/auth/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>

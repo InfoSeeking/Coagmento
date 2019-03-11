@@ -40,11 +40,22 @@
                         <tbody>
                             <tr>
                                 <th> Name </th>
-                                <th> {{ $user->name }}</th>
+                                <th> {{$user->name}}</th>
+                                <!--<th>
+                                    <div class="form-check">
+                                        <input type="name" value="name" method="POST" action="{ url('admin/{user}/edit_user').$user->name }}" class="form-control" id="name" placeholder="{{ $user->name }}">
+                                    </div>
+                                </th>-->
+
                             </tr>
                             <tr>
                                 <th> Email </th>
-                                <th> {{ $user->email }}</th>
+                                <th>
+                                    {{$user->email}}
+                                    <!--<div class="form-check">
+                                        <input type="email" value="email" method="POST" action="{ url('admin/{user}/edit_user').$user->email }}" class="form-control" id="email" placeholder="{{ $user->email }}">
+                                    </div>-->
+                                </th>
                             </tr>
                             <!-- <tr>
                                 <th> Password </th>

@@ -197,6 +197,16 @@ class AdminController extends Controller
          //$user=DB::table('users')->where('id', $id)->first();
          $user = User::where('id', $id)->first();
 
+
+         //TODO: fix user name and email edits
+         //if($request->input('name')){
+         //    $user->name = $request->input('name');
+         //}
+
+         //if($request->input('email')){
+         //    $user->email = $request->input('email');
+         //}
+
          if($request->input('active')){
              $user->active=true;
          }
