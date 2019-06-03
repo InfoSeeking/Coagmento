@@ -151,7 +151,7 @@ function bookmark_page(info,tab) {
 //             }
 //         }
 //         xhr.send(JSON.stringify(params));
-        
+
 //     });
 // }
 
@@ -290,14 +290,14 @@ function login_check_extension(callback) {
             logged_in_extension = false;
         } else {
             logged_in_extension = true;
-        } 
+        }
 
         callback();
         // if (typeof result.user_id === 'undefined') {
         //     logout_state();
         // } else {
         //     login(result.email,result.password);
-        // }  
+        // }
     });
 }
 
@@ -325,8 +325,8 @@ function resolve_login(){
                         logged_in_extension = false;
                     }else{
                         login_state_extension(result.id,result.project_id,result.name,email,password);
-                        logged_in_extension = true;    
-                    }  
+                        logged_in_extension = true;
+                    }
                 }
             }
             xhr.send();
@@ -592,16 +592,16 @@ var saveTabActivated = function(activeInfo){
                             activeInfo.referrerInfo = result;
                             saveAction("tabs.onActivated",activeInfo.tabId,activeInfo,now);
                             savePQ(Url,title,active,tabId,windowId,now,"tabs.onActivated",activeInfo);
-                            
+
                         }
                     );
                 }
 
             }
-        
+
     });
     }
-    
+
 }
 
 
@@ -609,9 +609,9 @@ var saveTabAttached = function(tabId, attachInfo){
     if(logged_in_extension){
         var now = new Date();
         attachInfo.tabId = tabId;
-        saveAction("tabs.onAttached",tabId,attachInfo,now);    
+        saveAction("tabs.onAttached",tabId,attachInfo,now);
     }
-    
+
 }
 
 
@@ -635,24 +635,24 @@ var saveTabCreated = function(tab){
         chrome.tabs.getCurrent(function (result){
         });
     }
-    
+
 }
 
 var saveTabDetached = function(tabId, detachInfo){
     if(logged_in_extension){
         var now = new Date();
         detachInfo.tabId = tabId;
-        saveAction("tabs.onDetached",tabId,detachInfo,now);    
+        saveAction("tabs.onDetached",tabId,detachInfo,now);
     }
-    
+
 }
 
 var saveTabHighlighted = function(highlightInfo){
     if(logged_in_extension){
         var now = new Date();
-        saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),highlightInfo,now);    
+        saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),highlightInfo,now);
     }
-    
+
 }
 
 var saveTabMoved = function(tabId, moveInfo){
@@ -694,9 +694,9 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
         changeInfo.tabId = tabId;
         changeInfo.tab = tab;
         if ('status' in changeInfo && changeInfo.status === 'complete') {
-            chrome.tabs.executeScript(tabId, 
+            chrome.tabs.executeScript(tabId,
                 { file: "external/js/jquery-3.2.1.min.js" }
-                , 
+                ,
                     function() {
                         if (chrome.runtime.lastError) {
                             console.log("tabs.onUpdated (tabs.executeScript-jquery): "+chrome.runtime.lastError.message);
@@ -706,19 +706,19 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
                             domain: domain,
                             apidomain: apidomain
                         };
-                        chrome.tabs.executeScript(tabId, { 
-                            allFrames: true, 
+                        chrome.tabs.executeScript(tabId, {
+                            allFrames: true,
                             code: "var config = "+JSON.stringify(config),
-                            // file: "payload.js" 
+                            // file: "payload.js"
                         },
-                        
+
 
                         function() {
                             console.log("BACKGROUND: payload.js 1");
                             if (chrome.runtime.lastError) {
                                 console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
                             }else{
-                                chrome.tabs.executeScript(tabId, 
+                                chrome.tabs.executeScript(tabId,
                                     {file: 'payload.js'},
                                     function(){
                                         if (chrome.runtime.lastError) {
@@ -727,7 +727,7 @@ var saveTabUpdated = function(tabId, changeInfo, tab){
                                         }
 
                                     }
-                                );    
+                                );
                             }
                         }
                         );
@@ -786,7 +786,7 @@ var refreshContents = function(){
         var params = {
             "project_id":project_id
         }
-        
+
         xhr.open("GET", getBookmarksUrl, true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
@@ -807,7 +807,7 @@ var refreshContents = function(){
             "project_id":project_id
         }
         console.log("Page retrieve - params: " +JSON.stringify(params));
-        
+
         xhr.open("GET", apidomain+"/pages?"+project_id, false);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
@@ -830,7 +830,7 @@ var refreshContents = function(){
             "project_id":project_id
         }
         console.log("Query retrieve - params: " +JSON.stringify(params));
-        
+
         xhr.open("GET", apidomain+"/queries?"+project_id, false);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
@@ -861,7 +861,7 @@ var update_timer_background = function(timed){
         //     }
 
         //     if(task_timer==null){
-                
+
         //         var countDownDate = Date.parse(stage_data.time_start.date + " " + stage_data.time_start.timezone);
         //         countDownDate = Math.round( countDownDate / 1000);
         //         countDownDate = countDownDate+stage_data.time_limit;
@@ -869,22 +869,22 @@ var update_timer_background = function(timed){
         //         task_timer = setInterval(function() {
         //             var now = new Date().getTime();
         //             now = Math.round( now / 1000);
-                    
+
         //             // Find the distance between now an the count down date
         //             var distance = countDownDate - now;
         //             distance = distance * 1000;
-                    
+
         //             // Time calculations for days, hours, minutes and seconds
         //             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         //             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    
+
         //             // Output the result in an element with id="demo"
 
 
         //             if(minutes < 5){
-        //                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});    
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});
         //             }else{
-        //                 chrome.browserAction.setBadgeBackgroundColor({color: "green"});    
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "green"});
         //             }
 
 
@@ -902,9 +902,9 @@ var update_timer_background = function(timed){
         //             // }else if (s > 0){
         //             //     chrome.browserAction.setBadgeText(seconds+"s");
         //             // }
-                    
+
         //             // TODO: Uncomment
-        //             // If the count down is over, write some text 
+        //             // If the count down is over, write some text
         //             if (distance < 0) {
         //                 clearInterval(task_timer);
         //                 chrome.browserAction.setBadgeText({text:""});
@@ -914,7 +914,7 @@ var update_timer_background = function(timed){
         //             }
         //         }, 1000);
         //     }
-            
+
         // }else{
         //     if(task_timer!=null){
         //         clearInterval(task_timer);
@@ -922,7 +922,7 @@ var update_timer_background = function(timed){
         //     }
         //     chrome.browserAction.setBadgeText({text:""});
         // }
-        
+
     }
 
 
@@ -953,7 +953,7 @@ var saveWebNavigationCommitted = function(details){
                         }
                     );
                 }
-                
+
             });
         }
 
