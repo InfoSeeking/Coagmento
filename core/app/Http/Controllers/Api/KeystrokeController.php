@@ -21,8 +21,12 @@ class KeystrokeController extends Controller
         $keystroke->user_id = $req->user_id;
         $keystroke->project_id = $req->project_id;
         $keystroke->stage_id = $req->stage_id;
-        $keystroke->key_code = $req->key_code;
-        $keystroke->modifiers = $req->modifiers;
+        $keystroke->code = $req->code;
+        $keystroke->which = $req->which;
+        $keystroke->modifier = $req->modifier;
+        $keystroke->repeat = $req->repeat;
+        $keystroke->key = $req->key;
+        $keystroke->type = $req->type;
         $keystroke->created_at_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
         $keystroke->created_at_local_ms = $req->created_at_local_ms;
         $keystroke->save();
@@ -31,7 +35,6 @@ class KeystrokeController extends Controller
 
     public function storeMany(Request $req){
         $keys = $req->keys;
-        $modifiers = $req->modifiers;
         $user_id = Auth::user()->id;
         $project_id = 0;
         $stage_id = 0;
@@ -41,7 +44,8 @@ class KeystrokeController extends Controller
         if(Session::has('stage_id')){
             $stage_id = Session::get('stage_id');
         }
-        foreach($keys as $time=>$key){
+        foreach($keys as $time=>$o){
+          $obj = $o[0];
             $keystroke = new Keystroke;
             $keystroke->user_id = $user_id;
             $keystroke->project_id = $project_id;
@@ -49,8 +53,14 @@ class KeystrokeController extends Controller
 //            TODO: Accommodate for multiple
             //            TODO: Properly save modifiers
 //            TODO: stage_id
-            $keystroke->key_code = $key[0];
-            $keystroke->modifiers = $modifiers[$time][0];
+
+            $keystroke->code =   $obj['code'];
+            $keystroke->which =  $obj['which'];
+            $keystroke->modifier =  $obj['modifier'];
+            $keystroke->repeat =  $obj['repeat'];
+            $keystroke->key = $obj['key'];
+            $keystroke->type = $obj['type'];
+
             $keystroke->created_at_local = Carbon::createFromTimestamp($time)->format('Y-m-d H:i:s');
             $keystroke->created_at_local_ms = $time;
             $keystroke->save();
@@ -59,6 +69,5 @@ class KeystrokeController extends Controller
 //        Keystroke::insert($data_array);
 //        $keystroke->save();
     }
-
 
 }

@@ -31,7 +31,13 @@ class ClickController extends Controller
         $click->screen_y = $req->screenY;
         $click->scroll_x = $req->scrollX;
         $click->scroll_y = $req->scrollY;
-        $click->type = $req->type;
+        $click->layer_x = $req->layerX;
+        $click->layer_y = $req->layerY;
+        $click->offset_x = $req->offsetX;
+        $click->offset_y = $req->offsetY;
+        $click->altKey = $req->altKey;
+        $click->metaKey = $req->metaKey;
+        $click->ctrlKey = $req->ctrlKey;
         $click->created_at_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
         $click->created_at_local_ms = $req->created_at_local_ms;
         $click->save();
@@ -55,6 +61,7 @@ class ClickController extends Controller
             $mouseaction->user_id = $user_id;
             $mouseaction->project_id = $project_id;
             $mouseaction->stage_id = $stage_id;
+            $mouseaction->type = $obj['type'];
             $mouseaction->client_x = $obj['clientX'];
             $mouseaction->client_y = $obj['clientY'];
             $mouseaction->page_x = $obj['pageX'];
@@ -63,7 +70,13 @@ class ClickController extends Controller
             $mouseaction->screen_y = $obj['screenY'];
             $mouseaction->scroll_x = $obj['scrollX'];
             $mouseaction->scroll_y = $obj['scrollY'];
-            $mouseaction->type = $obj['type'];
+            $mouseaction->layer_x = $obj['layerX'];
+            $mouseaction->layer_y = $obj['layerY'];
+            $mouseaction->offset_x = $obj['offsetX'];
+            $mouseaction->offset_y = $obj['offsetY'];
+            $mouseaction->altKey = $obj['altKey'];
+            $mouseaction->metaKey = $obj['metaKey'];
+            $mouseaction->ctrlKey = $obj['ctrlKey'];
             $mouseaction->created_at_local = Carbon::createFromTimestamp($time)->format('Y-m-d H:i:s');
             $mouseaction->created_at_local_ms = $time;
             $mouseaction->save();

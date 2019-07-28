@@ -5,7 +5,12 @@
     "name" : "Coagmento Problem Help Study",
     "description" : "Extension for Problem Help study for Coagmento.",
     "version" : "1.0.14",
-    "content_scripts": ["contentscript.js"],
+    "content_scripts": [
+      {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["contentScript.js"]
+      }
+    ],
     "background" : {
         "persistent": false,
         "scripts" : ["config.js","background.js"]
@@ -20,7 +25,7 @@
         "activeTab",
         "<all_urls>",
         "webNavigation",
-		"contextMenus",
+	    	"contextMenus",
         "notifications",
         "*://*/*"
     ],
@@ -28,7 +33,7 @@
 
     "browser_action": {
         "default_icon": "icons/logo-16.png",
-        "default_popup": "login.html",
+        "default_popup": "loggedin.html",
         "default_title": "Problem Help Study Extension"
     },
 

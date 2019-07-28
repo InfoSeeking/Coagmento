@@ -29,6 +29,12 @@ class MouseActionController extends Controller
         $mouseaction->scroll_x = $req->scrollX;
         $mouseaction->scroll_y = $req->scrollY;
         $mouseaction->type = $req->type;
+        $mouseaction->layer_x = $req->layerX;
+        $mouseaction->layer_y = $req->layerY;
+        $mouseaction->movement_x = $req->movementX;
+        $mouseaction->movement_y = $req->movementY;
+        $mouseaction->offset_x = $req->offsetX;
+        $mouseaction->offset_y = $req->offsetY;
         $mouseaction->created_at_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
         $mouseaction->created_at_local_ms = $req->created_at_local_ms;
         $mouseaction->save();
@@ -61,6 +67,12 @@ class MouseActionController extends Controller
             $mouseaction->screen_y = $obj['screenY'];
             $mouseaction->scroll_x = $obj['scrollX'];
             $mouseaction->scroll_y = $obj['scrollY'];
+            $mouseaction->layer_x = $obj['layerX'];
+            $mouseaction->layer_y = $obj['layerY'];
+            $mouseaction->movement_x = $obj['movementX'];
+            $mouseaction->movement_y = $obj['movementY'];
+            $mouseaction->offset_x = $obj['offsetX'];
+            $mouseaction->offset_y = $obj['offsetY'];
             $mouseaction->type = $obj['type'];
             $mouseaction->created_at_local = Carbon::createFromTimestamp($time)->format('Y-m-d H:i:s');
             $mouseaction->created_at_local_ms = $time;

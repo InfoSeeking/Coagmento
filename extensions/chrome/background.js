@@ -8,11 +8,9 @@
 // TODO: savePQ
 // TODO: save click, scroll, type
 
-
-
-var domain = global_config['domain'];
-var apidomain = global_config['apidomain'];
-var etherpadUrl = global_config['etherpaddomain'];
+var domain = "http://localhost:8000";//global_config['domain'];
+var apidomain = "http://localhost:8000/api/v1"//global_config['apidomain'];
+var etherpadUrl = "http://localhost:8000";//global_config['etherpaddomain'];
 
 var loginUrl = domain + "/sidebar/auth/login";
 var logoutUrl = domain + "/sidebar/auth/logout";
@@ -28,12 +26,11 @@ var getPagesUrl = apidomain + "/pages";
 var getQueriesUrl = apidomain + "/queries";
 var getProjectUrl = apidomain + "/currentproject";
 
-
-
 var saveActionUrl =  domain + "/sidebar/actions";
 var saveClickUrl =  domain + "/sidebar/clicks";
 var saveKeystrokeUrl =  domain + "/sidebar/keystrokes";
 var saveScrollUrl =  domain + "/sidebar/scrolls";
+var saveScrollUrl =  domain + "/sidebar/wheels";
 var saveCopyUrl =  domain + "/sidebar/copies";
 var savePasteUrl =  domain + "/sidebar/pastes";
 var saveMouseUrl =  domain + "/sidebar/scrollsmouseactions";
@@ -44,9 +41,7 @@ var querySegmentQuestionnaireUrl = domain + "/api/v1/queryquestionnaire";
 
 var checkLoggedInUrl = domain + "/auth/loggedin";
 
-
 var contactUrl = "mailto:jl2033@scarletmail.rutgers.edu?Subject=Intent%20Study%20Inquiry";
-
 
 var previousTabAction = '';
 var previousWindowAction = '';
@@ -56,7 +51,6 @@ var previousTabActionData = null;
 var previousWindowActionData = null;
 var previousWebNavActionData = null;
 var previousActionData = null;
-
 
 var project_id = null;
 var user_id = null;
@@ -126,54 +120,54 @@ function bookmark_page(info,tab) {
     });
 };
 
-// var snip_text = function(info,tab){
-//     console.log("Snip");
-//     var title;
-//     var xhr = new XMLHttpRequest();
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-//         var title= tabs[0].title;   //title
-//         var params = {
-//             "title": title,
-//             "url":tabs[0].url,
-//             "text":info.selectionText,
-//             // TODO: change project ID
-//             "project_id":project_id
+var snip_text = function(info,tab){
+    console.log("Snip");
+   var title;
+   var xhr = new XMLHttpRequest();
+   chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+       var title= tabs[0].title;   //title
+       var params = {
+           "title": title,
+           "url":tabs[0].url,
+           "text":info.selectionText,
+           // TODO: change project ID
+           "project_id":project_id
 
-//         }
-//         console.log("Snip - params: "+JSON.stringify(params));
-//         xhr.open("POST", saveSnippetUrl, false);
-//         xhr.setRequestHeader("Content-type", "application/json");
-//         xhr.onreadystatechange = function() {
-//             console.log("Snip ready state:"+xhr.readyState);
-//             if (xhr.readyState == 4) {
-//                 create_notification("Snippet saved!");
-//                 var result = JSON.parse(xhr.responseText);
-//             }
-//         }
-//         xhr.send(JSON.stringify(params));
+        }
+        console.log("Snip - params: "+JSON.stringify(params));
+        xhr.open("POST", saveSnippetUrl, false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            console.log("Snip ready state:"+xhr.readyState);
+            if (xhr.readyState == 4) {
+                create_notification("Snippet saved!");
+                var result = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send(JSON.stringify(params));
 
-//     });
-// }
+    });
+}
 
 
 // Done
 var bookmark_options = {"title": "Bookmark",
         "contexts":["page","selection","link","editable"],
-        // "onclick":bookmark_page,
+        "onclick":bookmark_page,
         "id": "bookmark"}
 
-// var snippet_options = {
-//         "title": "Snippet",
-//         "contexts":["selection"],
-//         // "onclick":snip_text,
-//         "id":"snippet"
-//     }
+var snippet_options = {
+        "title": "Snippet",
+        "contexts":["selection"],
+        "onclick":snip_text,
+        "id":"snippet"
+    }
 
 
 // Done
 var create_context_menu = function(){
     bookmark_menu = chrome.contextMenus.create(bookmark_options);
-    // snippet_menu = chrome.contextMenus.create(snippet_options);
+    snippet_menu = chrome.contextMenus.create(snippet_options);
 }
 
 // Done
@@ -184,13 +178,13 @@ var destroy_context_menu = function(){
 // Done
 var show_context_menu = function(){
     chrome.contextMenus.update("bookmark",{visible:true});
-    // chrome.contextMenus.update("snippet",{visible:true});
+    chrome.contextMenus.update("snippet",{visible:true});
 }
 
 // Done
 var hide_context_menu = function(){
     chrome.contextMenus.update("bookmark",{visible:false});
-    // chrome.contextMenus.update("snippet",{visible:false});
+    chrome.contextMenus.update("snippet",{visible:false});
 }
 
 // Done
@@ -265,23 +259,23 @@ function logout_extension(){
 
 
 var login_check_browser = function(callback1,callback2){
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", checkLoggedInUrl, false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                console.log("CHECK LOGGED IN RESPONSE");
-                console.log(xhr.responseText);
-                if(xhr.responseText==""){
-                    logged_in_browser = false;
-                }else{
-                    logged_in_browser = true;
-                }
-                // var result = JSON.parse(xhr.responseText);
-            }
-            callback1(callback2);
-        }
-        xhr.send();
+         var xhr = new XMLHttpRequest();
+         xhr.open("GET", checkLoggedInUrl, false);
+         xhr.setRequestHeader("Content-type", "application/json");
+         xhr.onreadystatechange = function() {
+             if (xhr.readyState == 4) {
+                //console.log("CHECK LOGGED IN RESPONSE");
+                 //console.log(xhr.responseText);
+                 if(xhr.responseText==""){
+                     logged_in_browser = false;
+                 }else{
+                     logged_in_browser = true;
+                 }
+                 // var result = JSON.parse(xhr.responseText);
+             }
+             callback1(callback2);
+         }
+         xhr.send();
 }
 
 function login_check_extension(callback) {
@@ -348,9 +342,7 @@ function update_login_state(){
 
 
 // TODO Correct this!  Properly save page/query data and properly parse it
-function savePQ(url,title,active,tabId,windowId,now,action,details){
-
-
+function savePQ (url,title,active,tabId,windowId,now,action,details){
     // $localTime = $_POST['localTime'];
     // $localDate = $_POST['localDate'];
     // $localTimestamp = $_POST['localTimestamp'];
@@ -371,9 +363,9 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
         "windowId":windowId,
         "created_at_local":now/1000,
         "details":JSON.stringify(details),
-        "user_id":user_id,
-        "project_id":project_id,
-        "stage_id":stage_data.id,
+        "user_id":"0",//user_id,
+        "project_id":"0",//project_id,
+        "stage_id":"0", //stage_data.id,
         "action":action
     }
     console.log("PQ DATA");
@@ -388,7 +380,7 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
             console.log(xhr.responseText)
             var result = JSON.parse(xhr.responseText);
             chrome.runtime.sendMessage({type: "new_page",data:result}, function(response) {
-                console.log(response)
+               console.log(response);
             });
 
             if(result.new_prompt){
@@ -398,7 +390,7 @@ function savePQ(url,title,active,tabId,windowId,now,action,details){
                     var query = result.new_query
                     create_notification("You are starting a new search segment.  Please open your extension to answer a questionnaire.","Complete Questionnaire");
 
-                    chrome.runtime.sendMessage({type: "new_querysegment",data:{old_id:current_querysegmentid,query:query}}, function(response) {
+                    chrome.runtime.Message({type: "new_querysegment",data:{old_id:current_querysegmentid,query:query}}, function(response) {
                     console.log(response);
                     });
                     // chrome.runtime.sendMessage({type: "new_querysegment",data:{old_id:current_querysegmentid,query:query}}, function(response) {
@@ -480,7 +472,7 @@ function change_stage_state(callback){
     xhr.onreadystatechange = function() {
         // console.log(result);
         if (xhr.readyState == 4) {
-            console.log(xhr.responseText);
+            //console.log(xhr.responseText);
             callback(JSON.parse(xhr.responseText));
             }
     }
@@ -498,19 +490,21 @@ function notify_stage(data){
     });
 }
 // TODO: Fix!
-function saveAction(action,value,actionJSON,now){
+function saveAction(action,value,json,actionJSON,now){
     // if(actionJSON.tab){
     //     if(actionJSON.tab.url){
-
+        console.log("SAVING ACTION");
             var data = {
                 'action':action,
                 'value':""+value,
                 "project_id":project_id,
                 "user_id":user_id,
-                "json":JSON.stringify(actionJSON),
+                "json":JSON.stringify(json),
+                "action_json":JSON.stringify(actionJSON),
                 "created_at_local_ms":now,
                 "created_at_local":now/1000
             }
+            console.log(data.action_json);
             if(action.indexOf("tabs.")!==-1){
                 previousTabAction = action;
                 previousTabActionData = data;
@@ -537,14 +531,14 @@ function saveAction(action,value,actionJSON,now){
             var xhr = new XMLHttpRequest();
             xhr.open("POST", saveActionUrl, true);
             xhr.setRequestHeader("Content-type", "application/json");
-            xhr.onreadystatechange = function(result) {
-                console.log("ACTION");
-                console.log(result);
+            xhr.onreadystatechange = function() {
+                //console.log("ACTION");
+                //console.log(result);
                 if (xhr.readyState == 4) {
                     console.log("Action saved!");
                 }
             }
-            // console.log(data);
+            console.log(data);
             xhr.send(JSON.stringify(data));
             var result = xhr.responseText;
     //     }
@@ -567,217 +561,154 @@ function saveAction(action,value,actionJSON,now){
 // // TODO: may need an active_tab (boolean) column in pages/queries
 // // TODO: "click to open Google search result in new tab": a bunch of foadifg occurs.  This isn't captured by onCreated.  Is this captured by something else?
 
+function saveMoreTabInfo(tab) {
+   if (!tab) { return; }
+   else {
+     chrome.tabs.getZoom(tab.tabId, function(zoomFactor){
+       tab.zoomFactor = zoomFactor;
+     });
 
+     chrome.windows.get(tab.windowId, function (window){
+       tab.windowInfo = window;
+     });
+     return tab;
+   }
+}
 
-var saveTabActivated = function(activeInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        chrome.tabs.get(activeInfo.tabId, function(tab){
-
-            if(chrome.runtime.lastError){
-                // console.warn("Error in saveTabActivated: " + chrome.runtime.lastError.message);
-            }else{
-                if(tab){
-                    Url = (tab.hasOwnProperty('url')?tab.url:"");
-                    title = (tab.hasOwnProperty('title')?tab.title:"");
-                    active = tab.active;
-                    tabId = (tab.hasOwnProperty('id')?tab.id:-1);
-                    windowId = tab.windowId;
-                    activeInfo.tab = tab;
-
-                    chrome.tabs.executeScript(
-                        tabId,
-                        { code: "document.referrer;" },
-                        function(result) {
-                            activeInfo.referrerInfo = result;
-                            saveAction("tabs.onActivated",activeInfo.tabId,activeInfo,now);
-                            savePQ(Url,title,active,tabId,windowId,now,"tabs.onActivated",activeInfo);
-
-                        }
-                    );
-                }
-
-            }
-
+function saveTabActivated(activeInfo) {
+  var now = new Date();
+  if(true)
+  {
+    chrome.tabs.get(activeInfo.tabId,function(tab) {
+      tab = saveMoreTabInfo(tab);
+      saveAction("tabs.onActivated",activeInfo.tabId,tab,activeInfo,now);
+      console.log("saveAction");
+      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
     });
-    }
+  }
+}
 
+function saveTabAttached(tabId, attachInfo) {
+    if(true)
+  {
+    var now = new Date();
+    chrome.tabs.get(tabId,function(tab){
+      tab = saveMoreTabInfo(tab);
+      saveAction("tabs.onAttached",tabId,tab,attachInfo,now);
+       });
+  }
+}
+
+function saveTabCreated(tab) {
+  if(true)
+  {
+    var now = new Date();
+    tab = saveMoreTabInfo(tab);
+    saveAction("tabs.onCreated",tab.id,null,tab,now);
+  }
+}
+
+function saveTabDetached(tabId, detachInfo) {
+  if(true)
+  {
+    var now = new Date();
+    chrome.tabs.get(tabId,function(tab){
+      tab = saveMoreTabInfo(tab);
+      saveAction("tabs.onDetached",tabId,tab,detachInfo,now);
+    });
+  }
+}
+
+function saveTabHighlighted(highlightInfo){
+  if(true){
+    var now = new Date();
+    var tabs = [];
+    for (i = 0; i < highlightInfo.tabIds.length; i++) {
+      var id = highlightInfo.tabIds[i];
+      chrome.tabs.get(id,function(tab){
+        tab = saveMoreTabInfo(tab);
+        tabs.push(tab);
+      });
+    }
+    console.log(tabs);
+    console.log(highlightInfo.tabIds.join());
+    saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),tabs.join(),highlightInfo,now);
+  }
+}
+
+function saveTabMoved(tabId, moveInfo) {
+  if(true){
+      var now = new Date();
+      chrome.tabs.get(tabId,function(tab){
+        tab = saveMoreTabInfo(tab);
+        ("tabs.onMoved",tabId,tab,moveInfo,now);
+    });
+  }
+}
+
+function saveTabRemoved(tabId, removeInfo) {
+  if(true){
+    var now = new Date();
+    saveAction("tabs.onRemoved",tabId,null,removeInfo,now);
+  }
+}
+
+function saveTabReplaced(addedTabId, removedTabId) {
+  if(true) {
+    var now = new Date();
+    chrome.tabs.get(addedTabId,function(tab){
+      tab = saveMoreTabInfo(tab);
+    });
+    saveAction("tabs.onReplaced",addedTabId,tab,{addedTabId:addedTabId,removedTabId:removedTabId,referrerInfo:result},now);
+  }
+}
+
+function saveTabUpdated(tabId, changeInfo, tab) {
+    if(true){
+      var now = new Date();
+      tab = saveMoreTabInfo(tab);
+      saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
+      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
+    }
+  }
+
+
+function saveTabZoomed(zoomChangeInfo) {
+  if(true){
+    var now = new Date();
+    chrome.tabs.get(zoomChangeInfo.tabId,function(tab){
+      tab = saveMoreTabInfo(tab);
+      saveAction("tabs.onUpdated",tabId,tab,zoomChangeInfo,now);
+    });
+  }
 }
 
 
-var saveTabAttached = function(tabId, attachInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        attachInfo.tabId = tabId;
-        saveAction("tabs.onAttached",tabId,attachInfo,now);
-    }
+function saveWindowCreated(window){
+  if(true){
+    var now = new Date();
+    saveAction("windows.onCreated",window.id,window,null,now);
+  }
+}
 
+function saveWindowRemoved(windowId){
+    if(true){
+      var now = new Date();
+      saveAction("windows.onRemoved",windowId,null,null,now);
+  }
+}
+
+function saveWindowFocusChanged(windowId){
+    if(true){
+      var now = new Date();
+      chrome.windows.get(windowId, function(window){
+        saveAction("windows.onFocusChanged",windowId,window,null,now);
+    });
+  }
 }
 
 
-var saveTabCreated = function(tab){
-    if (logged_in_extension){
-        var now = new Date();
-        var tabId = tab.id;
-        var currentTab = null;
-        chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
-            currentTab = arrayOfTabs;
-            chrome.tabs.executeScript(
-                tabId,
-                { code: "document.referrer;" },
-                function(result) {
-                    tab.referrerInfo = result;
-                    saveAction("tabs.onCreated",tab.id,{currentTab:currentTab,newTab:tab},now);
-                }
-            );
 
-        });
-        chrome.tabs.getCurrent(function (result){
-        });
-    }
-
-}
-
-var saveTabDetached = function(tabId, detachInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        detachInfo.tabId = tabId;
-        saveAction("tabs.onDetached",tabId,detachInfo,now);
-    }
-
-}
-
-var saveTabHighlighted = function(highlightInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),highlightInfo,now);
-    }
-
-}
-
-var saveTabMoved = function(tabId, moveInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        moveInfo.tabId = tabId;
-        saveAction("tabs.onMoved",tabId,moveInfo,now);
-    }
-}
-
-var saveTabRemoved = function(tabId, removeInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        removeInfo.tabId = tabId;
-        saveAction("tabs.onRemoved",tabId,removeInfo,now);
-    }
-}
-
-var saveTabReplaced = function(addedTabId, removedTabId){
-    if(logged_in_extension){
-        var now = new Date();
-        var tabId = addedTabId;
-        chrome.tabs.executeScript(
-            tabId,
-            { code: "document.referrer;" },
-            function(result) {
-                saveAction("tabs.onReplaced",addedTabId,{addedTabId:addedTabId,removedTabId:removedTabId,referrerInfo:result},now);
-            }
-        );
-    }
-}
-
-
-var saveTabUpdated = function(tabId, changeInfo, tab){
-    if(logged_in_extension){
-        var now = new Date();
-        var action = "tabs.onUpdated";
-        var value = tabId;
-        changeInfo.tabId = tabId;
-        changeInfo.tab = tab;
-        if ('status' in changeInfo && changeInfo.status === 'complete') {
-            chrome.tabs.executeScript(tabId,
-                { file: "external/js/jquery-3.2.1.min.js" }
-                ,
-                    function() {
-                        if (chrome.runtime.lastError) {
-                            console.log("tabs.onUpdated (tabs.executeScript-jquery): "+chrome.runtime.lastError.message);
-                        }
-
-                        var config = {
-                            domain: domain,
-                            apidomain: apidomain
-                        };
-                        chrome.tabs.executeScript(tabId, {
-                            allFrames: true,
-                            code: "var config = "+JSON.stringify(config),
-                            // file: "payload.js"
-                        },
-
-
-                        function() {
-                            console.log("BACKGROUND: payload.js 1");
-                            if (chrome.runtime.lastError) {
-                                console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
-                            }else{
-                                chrome.tabs.executeScript(tabId,
-                                    {file: 'payload.js'},
-                                    function(){
-                                        if (chrome.runtime.lastError) {
-                                            console.log("BACKGROUND: payload.js 2");
-                                            console.log("tabs.onUpdated (tabs.executeScript-payload): "+chrome.runtime.lastError.message);
-                                        }
-
-                                    }
-                                );
-                            }
-                        }
-                        );
-                    }
-                )
-        }
-
-        if(('status' in changeInfo && changeInfo.status == 'complete')&& !('url' in changeInfo)){
-            chrome.tabs.get(changeInfo.tabId, function(tab){
-                Url = (tab.hasOwnProperty('url')?tab.url:"");
-                title = (tab.hasOwnProperty('title')?tab.title:"");
-                active = tab.active;
-                tabId = (tab.hasOwnProperty('id')?tab.id:-1);
-                windowId = tab.windowId;
-
-                chrome.tabs.executeScript(
-                    tabId,
-                    { code: "document.referrer;" },
-                    function(result) {
-                        changeInfo.referrerInfo = result;
-
-                        saveAction("tabs.onUpdated",value,changeInfo,now);
-                        savePQ(Url,title,active,tabId,windowId,now,"tabs.onUpdated",changeInfo);
-                    }
-                );
-            });
-        }
-    }
-}
-
-var saveWindowCreated = function(windowInfo){
-    if(logged_in_extension){
-        var now = new Date();
-        saveAction("windows.onCreated",windowInfo.id,windowInfo,now);
-    }
-}
-
-var saveWindowRemoved = function(windowId){
-    if(logged_in_extension){
-        var now = new Date();
-        saveAction("windows.onRemoved",windowId,{windowId:windowId},now);
-    }
-}
-
-var saveWindowFocusChanged = function(windowId){
-    if(logged_in_extension){
-        var now = new Date();
-        saveAction("windows.onFocusChanged",windowId,{windowId:windowId},now);
-    }
-}
 
 // TODO: retrieving pages and queries
 var refreshContents = function(){
@@ -927,7 +858,7 @@ var update_timer_background = function(timed){
 
 
 var saveWebNavigationCommitted = function(details){
-    if(logged_in_extension){
+    if(true){
         var now = new Date();
         if (details.transitionType != 'auto_subframe'){
             // if (details.transitionType.indexOf('auto') == -1){
@@ -941,17 +872,9 @@ var saveWebNavigationCommitted = function(details){
                     tabId = (tab.hasOwnProperty('id')?tab.id:-1);
                     windowId = tab.windowId;
                     details.tab = tab;
-                    chrome.tabs.executeScript(
-                        tabId,
-                        { code: "document.referrer;" },
-                        function(result) {
-                            details.referrerInfo = result;
-                            saveAction("webNavigation.onCommitted",details.tabId,details,now);
-                            refreshContents();
+                    saveAction("webNavigation.onCommitted",details.tabId,tab,details,now);
+                    savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
 
-                            savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
-                        }
-                    );
                 }
 
             });
@@ -988,9 +911,9 @@ var saveWebNavigationCommitted = function(details){
 
 // Done
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    // if (info.menuItemId == "snippet") {
-    //     snip_text(info,tab)
-    // }
+    if (info.menuItemId == "snippet") {
+        snip_text(info,tab)
+    }
 
     if (info.menuItemId == "bookmark") {
         bookmark_page(info,tab)

@@ -6719,7 +6719,7 @@ jQuery.extend({
 			url: url,
 			type: "GET",
 			dataType: "script",
-			async: false,
+			async: true,
 			global: false,
 			"throws": true
 		});

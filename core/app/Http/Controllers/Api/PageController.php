@@ -238,6 +238,7 @@ class PageController extends Controller
         $localTimestamp_ms = $req->input('created_at_local_ms');
         $timestamp = Carbon::now();
         $date = Carbon::today();
+                  $date_local = $req->input('created_at_local');
         $url = $req->input('url');
         $title = $req->input('title');
 //        $url = mysql_escape_string($req->input('url'));
@@ -359,11 +360,12 @@ class PageController extends Controller
         }else if($action=='tabs.onUpdated'){
             $is_prompt = false;
 //            echo "FOURTH";
-            if($details['tab']['active']==false){
-                echo "not active!";
-                exit();
-            }
-            else if($this->sameMostRecentURLByTab($url,$tabID,$userID,$localTimestamp) and $this->sameMostRecentActiveTab($userID,$tabID,$localTimestamp)){
+            // if($details['tab']['active']==false){
+            //     echo "not active!";
+            //     exit();
+            // }
+            // else
+             if($this->sameMostRecentURLByTab($url,$tabID,$userID,$localTimestamp) and $this->sameMostRecentActiveTab($userID,$tabID,$localTimestamp)){
                 exit();
             }else{
 //        		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
@@ -496,7 +498,7 @@ class PageController extends Controller
                     $prevTabID=null;
                     if(count($results)==0){
                         $prevTabID = $tabID;
-                        echo "No creator tab!";
+                        //echo "No creator tab!";
 
                     }else{
                         $line = json_decode(json_encode($results[0]),true);
@@ -562,15 +564,20 @@ class PageController extends Controller
         if($prompt_number!=0){
             $page->prompt_number = $prompt_number;
         }
-
         $page->save();
 
         $action = new Action();
+        $action->user_id = 1; //$req->user_id;
+        $action->project_id = 1;//$req->project_id;
+        $action->stage_id = 0;
         $action->action = "page";
         $action->value = $page->id;
+        $action->json = null;
+        $action->action_json = null;
+        $action->created_at_local = 0;//Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
+        $action->created_at_local_ms = 0;
         $action->date_local = Carbon::now()->format('Y-m-d');
         $action->save();
-
 
         $pageID = $page->id;
 
@@ -834,4 +841,3 @@ class PageController extends Controller
 
     private $pageService;
 }
-

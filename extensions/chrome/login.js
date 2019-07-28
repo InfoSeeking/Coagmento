@@ -1,4 +1,4 @@
-$(document).ready(function(){    
+$(document).ready(function(){
     // URLs
     var background = chrome.extension.getBackgroundPage();
     var homeDir = background.domain;
@@ -11,10 +11,6 @@ $(document).ready(function(){
     // TODO Code.  Plus:
     // 1) Checked logged in URL
     // 2) set logged in background variable
-
-
-
-    
 
     // Login: 1) set background variables. 2) set popup 3) prepare context menu
     function login_state_popup(uid,pid,username,useremail,pwd,stage_data){
@@ -31,9 +27,9 @@ $(document).ready(function(){
             });
             background.show_context_menu();
         });
-        
+
     }
-    
+
     // 1) Verify login 2) Set login state
     function login_popup(email,password){
         console.log(email);
@@ -74,7 +70,7 @@ $(document).ready(function(){
         login_popup($(usernameInputID).val(),$(passwordInputID).val());
     }
 
-    
+
     $( "#login_button" ).click(login_click);
 
     // TODO: set logged in background variable.  Is this correct?

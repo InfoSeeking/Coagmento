@@ -20,6 +20,7 @@ class CreateActionsTable extends Migration
             $table->text('action')->nullable();
             $table->text('value')->nullable();
             $table->text('json')->nullable();
+            $table->text('action_json')->nullable();
             $table->timestamp('created_at_local');
             $table->bigInteger('created_at_local_ms');
             $table->timestamps();

@@ -16,8 +16,6 @@ var saveCopyUrl = domain+'/sidebar/copies';
 var savePasteUrl = domain+'/sidebar/pastes';
 var saveMouseUrl = domain+'/sidebar/mouseactions';
 
-
-
 var keystroke_buffer = {};
 var modifier_buffer = {};
 var click_buffer = {};
@@ -28,7 +26,7 @@ var mouse_buffer = {};
 var timers = [];
 
 function clearTimers(){
-    for(var i=0; i < timers.length; i+=1) { 
+    for(var i=0; i < timers.length; i+=1) {
         clearTimeout(timers[i]);
     }
     timers = [];
@@ -79,7 +77,7 @@ function sendXMLHTTP(from,params,url){
 function saveKeys(keystroke_buffer,modifier_buffer){
 	var data = {'keys':keystroke_buffer,'modifiers':modifier_buffer}
     sendXMLHTTP("saveKeys",data,saveKeystrokeUrl);
-    // , defaultCallback);     
+    // , defaultCallback);
 }
 
 
@@ -169,9 +167,9 @@ document.addEventListener('keypress', function (e) {
     setBufferClear();
 
     e = e || window.event;
-    var key = e.which;   
+    var key = e.which;
     var modifier = "";
-        
+
     if(event.altKey){
         if(modifier.length > 0){
             modifier = modifier + "-"
@@ -201,13 +199,13 @@ document.addEventListener('keypress', function (e) {
         keystroke_buffer[time].push(key);
     }else{
         keystroke_buffer[time] = [key];
-    } 
+    }
 
     if(time in modifier_buffer){
         modifier_buffer[time].push(modifier);
     }else{
         modifier_buffer[time] = [modifier];
-    }  
+    }
 });
 
 
@@ -217,14 +215,14 @@ document.addEventListener('copy', function (e) {
         var time = new Date().getTime();
         setBufferClear();
         var snippet = window.getSelection().toString();
-        lastsnippet = {'snippet':snippet,'title':document.title,'url':window.location.href};    
+        lastsnippet = {'snippet':snippet,'title':document.title,'url':window.location.href};
         copy_buffer[time] = lastsnippet;
 
 });
 
 
 
-document.addEventListener('paste', function (e) {  
+document.addEventListener('paste', function (e) {
         var time = new Date().getTime();
         setBufferClear();
         paste_buffer[time] = lastsnippet;
@@ -264,7 +262,7 @@ function scrollStart(event){
         }else{
             scroll_buffer[time] = [datum];
         }
- 
+
 }
 
 
@@ -292,8 +290,6 @@ function mouseEventStart(eventName,event){
         }
 
 }
-
-
 
 
 

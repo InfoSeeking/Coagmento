@@ -21,10 +21,6 @@ Route::get('/confirm', function(){
     return view('auth.confirm');
 });
 
-
-
-
-
 // Authentication.
 Route::get('auth/loggedin','Auth\AuthController@checkLoggedIn');
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -46,13 +42,16 @@ Route::group(['middleware' => 'sidebar.auth'], function() {
 	Route::get('sidebar/project/{project_id}', 'SidebarController@getFeed');
     Route::get('sidebar/project/{project_id}', 'SidebarController@getFeed');
 
-    Route::post('sidebar/keystrokes', 'Api\KeystrokeController@storeMany');
     Route::post('sidebar/clicks', 'Api\ClickController@storeMany');
-    Route::post('sidebar/actions', 'Api\ActionController@store');
+    Route::post('sidebar/mouseactions', 'Api\MouseActionController@storeMany');
+    Route::post('sidebar/keystrokes', 'Api\KeystrokeController@storeMany');
     Route::post('sidebar/scrolls', 'Api\ScrollActionController@storeMany');
+    Route::post('sidebar/wheels', 'Api\WheelActionController@storeMany');
+
+    Route::post('sidebar/actions', 'Api\ActionController@store');
     Route::post('sidebar/copies', 'Api\CopyActionController@storeMany');
     Route::post('sidebar/pastes', 'Api\PasteActionController@storeMany');
-    Route::post('sidebar/mouseactions', 'Api\MouseActionController@storeMany');
+
 });
 
 Route::get('sidebar/auth/login', 'SidebarController@getSidebarLogin');
@@ -199,6 +198,9 @@ Route::group(['middleware' => 'api.auth'], function() {
 	Route::get('api/v1/projects', 'Api\ProjectController@index');
 });
 
+
+
+
 Route::group(['middleware' => 'api.optional.auth'], function(){
 	// These routes may require some permissions, but not necessarily.
 	// Users.
@@ -238,11 +240,13 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::put('api/v1/snippets/{snippet_id}', 'Api\SnippetController@update');
 	Route::delete('api/v1/snippets/{snippet_id}', 'Api\SnippetController@delete');
 
-	// Pages.
-	Route::post('api/v1/pages', 'Api\PageController@create');
-	Route::get('api/v1/pages/{page_id}', 'Api\PageController@get');
-	Route::get('api/v1/pages', 'Api\PageController@index');
-	Route::delete('api/v1/pages/{page_id}', 'Api\PageController@delete');
+  // Pages.
+  Route::post('api/v1/pages', 'Api\PageController@create');
+  Route::get('api/v1/pages/{page_id}', 'Api\PageController@get');
+  Route::get('api/v1/pages', 'Api\PageController@index');
+  Route::delete('api/v1/pages/{page_id}', 'Api\PageController@delete');
+
+  Route::post('api/v1/pagesqueries', 'Api\PageController@createPageOrQuery');
 
 	// Queries.
 	Route::post('api/v1/queries', 'Api\QueryController@create');
@@ -250,7 +254,7 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::get('api/v1/queries', 'Api\QueryController@index');
 	Route::delete('api/v1/queries/{query_id}', 'Api\QueryController@delete');
 
-    Route::post('api/v1/pagesqueries', 'Api\PageController@createPageOrQuery');
+
 
 	// Chat.
 	Route::post('api/v1/chatMessages', 'Api\ChatController@create');
@@ -262,7 +266,3 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::delete('api/v1/docs/{doc_id}', 'Api\DocController@delete');
 	Route::get('api/v1/docs/{doc_id}/text', 'Api\DocController@getText');
 });
-
-
-
-
