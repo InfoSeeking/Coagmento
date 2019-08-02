@@ -33,7 +33,7 @@ Coagmento is split into four main services.
 	<tr>
     		<th align="left"> Coagmento Feature Extraction</th>
     		<td> A one-stop Python script for extracting browsing features from your recorded browsing logs. </td>
-    		<td> <a href='https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Docs-Installation'>See Script Instructions</a></td>
+    		<td> <a href='https://github.com/InfoSeeking/Coagmento/blob/study/docs/featureextraction.md'>See Script Instructions</a></td>
     	</tr>
 </table>
 
