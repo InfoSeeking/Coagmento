@@ -30,6 +30,11 @@ Coagmento is split into four main services.
 		<td> Allows collaborative document editing (using Etherpad). </td>
 		<td> <a href='https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Docs-Installation'>See Installation Instructions</a></td>
 	</tr>
+	<tr>
+    		<th align="left"> Coagmento Feature Extraction</th>
+    		<td> A one-stop Python script for extracting browsing features from your recorded browsing logs. </td>
+    		<td> <a href='https://github.com/InfoSeeking/Coagmento/blob/study/docs/featureextraction.md'>See Script Instructions</a></td>
+    	</tr>
 </table>
 
 More information about developing for Coagmento can be found on the wiki.
