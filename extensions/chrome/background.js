@@ -21,6 +21,7 @@ var savePageUrl = apidomain + '/pages';
 var saveQueryUrl = apidomain+"/queries";
 var savePageQueryUrl = apidomain+"/pagesqueries";
 var saveBookmarkUrl = apidomain + "/bookmarks";
+var saveSnippetUrl = apidomain + "/snippets";
 var getBookmarksUrl = apidomain + "/bookmarks";
 var getPagesUrl = apidomain + "/pages";
 var getQueriesUrl = apidomain + "/queries";
@@ -104,7 +105,7 @@ function bookmark_page(info,tab) {
             "url":url,
             "notes":notes,
             "title":tabs[0].title,
-            "project_id":project_id
+            "project_id": project_id
         }
         xhr.open("POST", saveBookmarkUrl, false);
         xhr.setRequestHeader("Content-type", "application/json");
@@ -131,7 +132,7 @@ var snip_text = function(info,tab){
            "url":tabs[0].url,
            "text":info.selectionText,
            // TODO: change project ID
-           "project_id":project_id
+           "project_id": project_id
 
         }
         console.log("Snip - params: "+JSON.stringify(params));
@@ -140,7 +141,7 @@ var snip_text = function(info,tab){
         xhr.onreadystatechange = function() {
             console.log("Snip ready state:"+xhr.readyState);
             if (xhr.readyState == 4) {
-                create_notification("Snippet saved!");
+                create_notification("Snippet saved!","Snippets");
                 var result = JSON.parse(xhr.responseText);
             }
         }
@@ -151,15 +152,17 @@ var snip_text = function(info,tab){
 
 
 // Done
-var bookmark_options = {"title": "Bookmark",
+var bookmark_options = {
+        "title": "Bookmark",
         "contexts":["page","selection","link","editable"],
-        "onclick":bookmark_page,
-        "id": "bookmark"}
+        //"onclick":bookmark_page,
+        "id": "bookmark"
+      }
 
 var snippet_options = {
         "title": "Snippet",
         "contexts":["selection"],
-        "onclick":snip_text,
+        //"onclick":snip_text,
         "id":"snippet"
     }
 
@@ -168,6 +171,7 @@ var snippet_options = {
 var create_context_menu = function(){
     bookmark_menu = chrome.contextMenus.create(bookmark_options);
     snippet_menu = chrome.contextMenus.create(snippet_options);
+
 }
 
 // Done
@@ -312,7 +316,7 @@ function resolve_login(){
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     console.log("ULS: CHECK LOGGED IN RESPONSE");
-                    console.log(xhr.responseText);
+                    //console.log(xhr.responseText);
                     var result = JSON.parse(xhr.responseText);
                     if(!result.logged_in){
                         logged_in_browser = false;
@@ -363,9 +367,9 @@ function savePQ (url,title,active,tabId,windowId,now,action,details){
         "windowId":windowId,
         "created_at_local":now/1000,
         "details":JSON.stringify(details),
-        "user_id":"0",//user_id,
-        "project_id":"0",//project_id,
-        "stage_id":"0", //stage_data.id,
+        "user_id":user_id,
+        "project_id":project_id,
+        "stage_id":stage_data.id,
         "action":action
     }
     console.log("PQ DATA");
@@ -379,6 +383,7 @@ function savePQ (url,title,active,tabId,windowId,now,action,details){
             console.log("SAVE PAGE QUERY");
             console.log(xhr.responseText)
             var result = JSON.parse(xhr.responseText);
+            console.log(result);
             chrome.runtime.sendMessage({type: "new_page",data:result}, function(response) {
                console.log(response);
             });
@@ -546,7 +551,7 @@ function saveAction(action,value,json,actionJSON,now){
     // }
 }
 // // TODO ACTIONS
-// // tab change: onactivated+onhighlighted - use onActivated
+// // tab change: onactivated+oned - use onActivated
 // // close current tab: onRemoved+onactivated+onHighlighted - use onActivated
 // // close different tab: onRemoved
 // // Remove tab from window: onactivated+ondetached+onhighlighted - use onActivated (assumes most recent onActivated is the currently viewed tab.  If activated tab is detached, there's 2 onactivated events.  If an inactive tab is dragged, only one onActivated event)
@@ -583,7 +588,7 @@ function saveTabActivated(activeInfo) {
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onActivated",activeInfo.tabId,tab,activeInfo,now);
       console.log("saveAction");
-      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
+      //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
     });
   }
 }
@@ -630,8 +635,6 @@ function saveTabHighlighted(highlightInfo){
         tabs.push(tab);
       });
     }
-    console.log(tabs);
-    console.log(highlightInfo.tabIds.join());
     saveAction("tabs.onHighlighted",highlightInfo.tabIds.join(),tabs.join(),highlightInfo,now);
   }
 }
@@ -668,7 +671,7 @@ function saveTabUpdated(tabId, changeInfo, tab) {
       var now = new Date();
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
-      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
+      // //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
     }
   }
 
@@ -873,7 +876,7 @@ var saveWebNavigationCommitted = function(details){
                     windowId = tab.windowId;
                     details.tab = tab;
                     saveAction("webNavigation.onCommitted",details.tabId,tab,details,now);
-                    savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
+                    //savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
 
                 }
 
@@ -924,38 +927,38 @@ create_context_menu();
 update_login_state();
 chrome.windows.onCreated.addListener(update_login_state);
 chrome.runtime.onStartup.addListener(update_login_state);
-// // Get URL, insert action as savePQ
+// // // Get URL, insert action as savePQ
 chrome.tabs.onActivated.addListener(saveTabActivated);
 chrome.tabs.onAttached.addListener(saveTabAttached);
-// IMPORTANT
-// // TODO: No PQ action here? see if another action accompanies a "open link in new tab" URL
+// // IMPORTANT
+// // // TODO: No PQ action here? see if another action accompanies a "open link in new tab" URL
 chrome.tabs.onCreated.addListener(saveTabCreated);
-// TODO: No PQ action here? see if highlight also changes.
+// // TODO: No PQ action here? see if highlight also changes.
 chrome.tabs.onDetached.addListener(saveTabDetached);
 chrome.tabs.onHighlighted.addListener(saveTabHighlighted);
-// TODO: 2) When move action is executed on an inactive, is there any other action that fires? Such as onHighlighted or onActivated?
+// // TODO: 2) When move action is executed on an inactive, is there any other action that fires? Such as onHighlighted or onActivated?
 chrome.tabs.onMoved.addListener(saveTabMoved);
-// TODO: Other highlighted/activated actions when an active tab is closed?
+// // TODO: Other highlighted/activated actions when an active tab is closed?
 chrome.tabs.onRemoved.addListener(saveTabRemoved);
-// IMPORTANT
+// // IMPORTANT
 chrome.tabs.onReplaced.addListener(saveTabReplaced);
-// Status types: either "loading" or "complete"
-// Note: only use onCommitted
-// TODO: Use only onCommitted?  Or this too?
+// // Status types: either "loading" or "complete"
+// // Note: only use onCommitted
+// // TODO: Use only onCommitted?  Or this too?
 chrome.tabs.onUpdated.addListener(saveTabUpdated);
-// TODO: Any tab IDs I should record here?
-// TODO: Any highlighted/change actions in addition that are typically fired?
+// // TODO: Any tab IDs I should record here?
+// // TODO: Any highlighted/change actions in addition that are typically fired?
 chrome.windows.onCreated.addListener(saveWindowCreated);
-// TODO: Any tab IDs I should record here?
-// TODO: Any highlighted/change actions in addition that are typically fired?
+// // TODO: Any tab IDs I should record here?
+// // TODO: Any highlighted/change actions in addition that are typically fired?
 chrome.windows.onRemoved.addListener(saveWindowRemoved);
-// TODO: get currently active tab ID
-// TODO: Any highlighted/change actions in addition that are typically fired?
-// TODO: Why is the windowID sometimes -1? Is that when focus is going away from Chrome?  Might be useful...
-chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
-// TODO: Multiple calls per page sometimes?
-chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
-// Note: can't use omnibox. Too limited for our purposes
+// // TODO: get currently active tab ID
+// // TODO: Any highlighted/change actions in addition that are typically fired?
+// // TODO: Why is the windowID sometimes -1? Is that when focus is going away from Chrome?  Might be useful...
+//chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
+// // TODO: Multiple calls per page sometimes?
+//chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
+// // Note: can't use omnibox. Too limited for our purposes
 
 
 

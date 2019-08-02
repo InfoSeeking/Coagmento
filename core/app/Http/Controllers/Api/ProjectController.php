@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Services\BookmarkService;
+use App\Services\SnippetService;
+use App\Services\PageService;
+use App\Services\QueryService;
+
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -17,11 +21,17 @@ class ProjectController extends Controller
     function __construct(
         ProjectService $projectService,
         TagService $tagService,
-        BookmarkService $bookmarkService
+        BookmarkService $bookmarkService,
+        SnippetService $snippetService,
+        PageService $pageService,
+        QueryService $queryService
         ) {
         $this->projectService = $projectService;
         $this->tagService = $tagService;
         $this->bookmarkService = $bookmarkService;
+        $this->snippetService = $snippetService;
+        $this->pageService = $pageService;
+        $this->queryService = $queryService;
     }
 	/**
 	 * @api{get} /v1/projects Get Multiple
@@ -130,9 +140,24 @@ class ProjectController extends Controller
         return ApiResponse::fromStatus($status);
     }
 
+    function getSnippets(Request $req, $id) {
+        $status = $this->snippetService->getMultiple(['project_id' => $id]);
+        return ApiResponse::fromStatus($status);
+    }
+
+    function getPages(Request $req, $id) {
+        $status = $this->pageService->getMultiple(['project_id' => $id]);
+        return ApiResponse::fromStatus($status);
+    }
+
+    function getQueries(Request $req, $id) {
+        $status = $this->queryService->getMultiple(['project_id' => $id]);
+        return ApiResponse::fromStatus($status);
+    }
+
     /**
      * @api{post} /v1/projects/:id/share Share Project
-     * @apiDescription Share a project with another user. If the user is already a member, 
+     * @apiDescription Share a project with another user. If the user is already a member,
      * it will not overwrite their existing membership (to do so, use the Update Project Sharing endpoint).
      * @apiPermission own
      * @apiParam {String} [user_id] The id of the user (required if user_email is not present)

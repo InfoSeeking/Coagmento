@@ -227,8 +227,13 @@ Route::group(['middleware' => 'api.optional.auth'], function(){
 	Route::post('api/v1/projects', 'Api\ProjectController@create');
 	Route::delete('api/v1/projects/{project_id}', 'Api\ProjectController@delete');
 	Route::delete('api/v1/projects', 'Api\ProjectController@deleteMultiple');
-	Route::get('api/v1/projects/{project_id}/tags', 'Api\ProjectController@getTags');
-    Route::get('api/v1/projects/{project_id}/bookmarks', 'Api\ProjectController@getBookmarks');
+  Route::get('api/v1/projects/{project_id}/tags', 'Api\ProjectController@getTags');
+  Route::get('api/v1/projects/{project_id}/bookmarks', 'Api\ProjectController@getBookmarks');
+
+    Route::get('api/v1/projects/{project_id}/snippets', 'Api\ProjectController@getSnippets');
+    Route::get('api/v1/projects/{project_id}/pages', 'Api\ProjectController@getPages');
+    Route::get('api/v1/projects/{project_id}/queries', 'Api\ProjectController@getQueries');
+
 	Route::post('api/v1/projects/{project_id}/share', 'Api\ProjectController@share');
 	Route::put('api/v1/projects/{project_id}/share', 'Api\ProjectController@updateShare');
 	Route::delete('api/v1/projects/{project_id}/share', 'Api\ProjectController@unshare');

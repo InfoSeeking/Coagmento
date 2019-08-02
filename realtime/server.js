@@ -19,7 +19,6 @@ app.post('/publish', function(req, res){
     res.setHeader('Access-Control-Allow-Origin', origin);
   } else {
     console.log('Disallowing request for origin', origin);
-    res.setHeader('Access-Control-Allow-Origin', origin);
   }
   feed.publish(req.body);
   res.send('{"status" : "ok"}');

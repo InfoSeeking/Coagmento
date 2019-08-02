@@ -375,16 +375,15 @@ document.addEventListener('wheel', function (e){saveWheelEvent(e);}, false);
 document.addEventListener('scroll', function (e){scrollStart(e);}, false);
 
 document.addEventListener('mouseenter', function (e){mouseEventStart(e);}, false);
-document.addEventListener('mouseleave', function (e){mouseEventStart(e);}, false);
-document.addEventListener('mousedown', function (e){mouseEventStart(e);}, false);
-document.addEventListener('mouseup', function (e){mouseEventStart(e);}, false);
-document.addEventListener('mousemove', function (e){mouseEventStart(e);}, false);
-document.addEventListener('mouseout', function (e){mouseEventStart(e);}, false);
+// document.addEventListener('mouseleave', function (e){mouseEventStart(e);}, false);
+// document.addEventListener('mousedown', function (e){mouseEventStart(e);}, false);
+// document.addEventListener('mouseup', function (e){mouseEventStart(e);}, false);
+// document.addEventListener('mousemove', function (e){mouseEventStart(e);}, false);
+// document.addEventListener('mouseout', function (e){mouseEventStart(e);}, false);
 
 document.addEventListener('keydown', function (e){keyboardEventStart(e);}, false);
 document.addEventListener('keypress', function (e){keyboardEventStart(e);}, false);
 document.addEventListener('keyup', function (e){keyboardEventStart(e);}, false);
-
 
 
 /*var lastsnippet = '';

@@ -115,7 +115,7 @@ class PageController extends Controller
         }else{
             $line = json_decode(json_encode($results[1]),true);
             $tabdetail = json_decode($line['action_json'],true);
-            return $tabdetail['tab']['id']==$tabID;
+            return $tabdetail['tabId']==$tabID;
         }
     }
 
@@ -360,11 +360,11 @@ class PageController extends Controller
         }else if($action=='tabs.onUpdated'){
             $is_prompt = false;
 //            echo "FOURTH";
-            // if($details['tab']['active']==false){
-            //     echo "not active!";
-            //     exit();
-            // }
-            // else
+            if($details['tab']['active']==false){
+                echo "not active!";
+               exit();
+            }
+            else
              if($this->sameMostRecentURLByTab($url,$tabID,$userID,$localTimestamp) and $this->sameMostRecentActiveTab($userID,$tabID,$localTimestamp)){
                 exit();
             }else{
@@ -567,16 +567,16 @@ class PageController extends Controller
         $page->save();
 
         $action = new Action();
-        $action->user_id = 1; //$req->user_id;
-        $action->project_id = 1;//$req->project_id;
-        $action->stage_id = 0;
+        $action->user_id = $req->user_id;
+        $action->project_id = $req->project_id;
+        $action->stage_id =  $req->stage_id;
         $action->action = "page";
         $action->value = $page->id;
         $action->json = null;
         $action->action_json = null;
-        $action->created_at_local = 0;//Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
-        $action->created_at_local_ms = 0;
-        $action->date_local = Carbon::now()->format('Y-m-d');
+        $action->created_at_local = 0; //Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
+        $action->created_at_local_ms = 0; //$req->created_at_local_ms;
+        $action->date_local = 0;//Carbon::now()->format('Y-m-d');
         $action->save();
 
         $pageID = $page->id;

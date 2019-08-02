@@ -14,7 +14,7 @@ $(document).ready(function() {
     var loggedInHomeUrl = background.loggedInHomeUrl;
     var etherpadUrl = background.etherpadUrl;
 
-    
+
     // Done
     function goHome(){
         chrome.tabs.create({url:loggedInHomeUrl}, function(tab){},);
@@ -34,18 +34,18 @@ $(document).ready(function() {
 
     // background.task_timer = setInterval(function() {
     //     var now = new Date().getTime();
-        
+
     //     // Find the distance between now an the count down date
     //     var distance = countDownDate - now;
-        
+
     //     // Time calculations for days, hours, minutes and seconds
     //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
+
     //     // Output the result in an element with id="demo"
     //     document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
-        
-    //     // If the count down is over, write some text 
+
+    //     // If the count down is over, write some text
     //     if (distance < 0) {
     //         clearInterval(x);
     //         document.getElementById("timer_text").innerHTML = "EXPIRED";
@@ -84,7 +84,7 @@ $(document).ready(function() {
                 var result = JSON.parse(xhr.responseText);
                 if(!result.logged_in){
                     logout_state_popup();
-                    window.location.href='login.html';    
+                    window.location.href='login.html';
                 }
             }
         }
@@ -96,8 +96,8 @@ $(document).ready(function() {
     function logout_click(){
         logout_popup();
     }
-    
-    
+
+
 
 
 
@@ -232,6 +232,49 @@ $(document).ready(function() {
     //     ]
     // });
 
+    // $('#snippets_table').bootstrapTable({
+    //     columns: [{
+    //     field: 'title',
+    //     title: 'Title'
+    //     }, {
+    //     field: 'name',
+    //     title: 'Item Name'
+    //     }, {
+    //     field: 'price',
+    //     title: 'Item Price'
+    //     }],
+    //     data: [{
+    //     id: 1,
+    //     name: 'Item 1',
+    //     price: '<button class="btn btn-primary">Hello</button>'
+    //     }, {
+    //     id: 2,
+    //     name: 'Item 2',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 2,
+    //     name: 'Item 2',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 3,
+    //     name: 'Item 3',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 4,
+    //     name: 'Item 4',
+    //     price: '$2'
+    //     },
+    //     {
+    //     id: 5,
+    //     name: 'Item 2',
+    //     price: '$2'
+    //     },
+    //     ]
+    // });
+
 
     // Done
     var render_bookmarks = function(data){
@@ -244,19 +287,19 @@ $(document).ready(function() {
         {
         field: 'url',
         title: 'URL'
-        }, 
+        },
         // {
         // field: 'title',
         // title: 'Title'
-        // }, 
+        // },
         // {
         // field: 'unsave',
         // title: 'Unsave?'
         // }
         ]
         bookmark_data.data = [];
-        // console.log("DATA");
-        // console.log(data);
+        console.log("BOOKMARK DATA");
+        console.log(data);
 
         if(data.length==0){
             $("#bookmarks_no").show();
@@ -277,9 +320,9 @@ $(document).ready(function() {
                 );
             });
         }
-        
-        // console.log("bookmark_data");
-        // console.log(bookmark_data)
+
+        console.log("bookmark_data");
+        console.log(bookmark_data)
         $('#bookmarks_table').bootstrapTable(bookmark_data);
         $('button[name="delete_bookmarks_button"]').click(function(){
             var bookmark_id = $(this).data('bookmark-id');
@@ -287,6 +330,58 @@ $(document).ready(function() {
         })
     }
 
+    var render_snippets = function(data){
+        var snippet_data = {};
+        snippet_data.columns = [
+        {
+        field: 'time',
+        title: 'Time'
+        },
+        {
+        field: 'text',
+        title: 'Text'
+        },
+        // {
+        // field: 'title',
+        // title: 'Title'
+        // },
+        // {
+        // field: 'unsave',
+        // title: 'Unsave?'
+        // }
+        ]
+        snippet_data.data = [];
+        console.log("SNIPPET DATA");
+        console.log(data);
+
+
+        if(data.length==0){
+          $("#snippets_no").hide();
+          $("#snippets_yes").show();
+
+        }else{
+            $("#snippets_no").hide();
+            $("#snippets_yes").show();
+
+            $.each(data.result, function( index, value ) {
+                snippet_data.data.push(
+                    {
+                        time:value.created_at,
+                        text:value.text,
+
+                    }
+                );
+            });
+        }
+
+        console.log("snippet_data");
+        console.log(snippet_data)
+        $('#snippets_table').bootstrapTable(snippet_data);
+        // $('button[name="delete_snippets_button"]').click(function(){
+        //     var snippet_id = $(this).data('snippet-id');
+        //     deleteSnippet(snippet_id);
+        // })
+    }
 
 
     var render_pages = function(data){
@@ -302,8 +397,8 @@ $(document).ready(function() {
         }
         ]
         page_data.data = [];
-        // console.log("DATA");
-        // console.log(data);
+        console.log("PAGE DATA");
+        console.log(data);
 
         if(data.length==0){
             $("#pages_no").show();
@@ -322,8 +417,8 @@ $(document).ready(function() {
                 );
             });
         }
-        
-        
+
+
         $('#pages_table').bootstrapTable(page_data);
     }
 
@@ -340,16 +435,16 @@ $(document).ready(function() {
         {
         field: 'query',
         title: 'Query'
-        }, 
+        },
         {
         field: 'source',
         title: 'Source'
-        }, 
-        
+        },
+
         ]
         query_data.data = [];
-        // console.log("DATA");
-        // console.log(data);
+        console.log("QUERY DATA");
+        console.log(data);
 
         if(data.length==0){
             $("#queries_no").show();
@@ -369,7 +464,7 @@ $(document).ready(function() {
                 );
             });
         }
-        
+
         // console.log("bookmark_data");
         // console.log(bookmark_data)
         $('#queries_table').bootstrapTable(query_data);
@@ -390,6 +485,23 @@ $(document).ready(function() {
                 console.log(xhr.responseText);
                 var result = JSON.parse(xhr.responseText);
                 refresh_bookmarks_popup();
+            }
+        }
+        xhr.send(null);
+    }
+
+    var deleteSnippet = function(id){
+        var xhr = new XMLHttpRequest();
+        var url = background.getSnippetsUrl + "/" + id;
+        var params = {}
+        xhr.open("DELETE", url, true);
+        // xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                console.log("Delete Snippet");
+                console.log(xhr.responseText);
+                var result = JSON.parse(xhr.responseText);
+                refresh_snippets_popup();
             }
         }
         xhr.send(null);
@@ -420,7 +532,7 @@ $(document).ready(function() {
         //         // console.log("COUNTDOWN TIME");
         //         // console.log(countDownDate);
 
-                
+
 
         //         background.task_timer = setInterval(function() {
         //             var now = new Date().getTime();
@@ -429,28 +541,28 @@ $(document).ready(function() {
         //             // console.log(now);
         //             // console.log("COUNTDOWNDATE");
         //             // console.log(countDownDate);
-                    
+
         //             // Find the distance between now an the count down date
         //             var distance = countDownDate - now;
         //             distance = distance * 1000;
-                    
+
         //             // Time calculations for days, hours, minutes and seconds
         //             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         //             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    
+
         //             // Output the result in an element with id="demo"
-                    
+
 
         //             // console.log("BADGE COLOR")
         //             if(minutes < 5){
-        //                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});    
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});
         //             }else{
-        //                 chrome.browserAction.setBadgeBackgroundColor({color: "green"});    
+        //                 chrome.browserAction.setBadgeBackgroundColor({color: "green"});
         //             }
 
 
         //             // TODO: Uncomment
-        //             // If the count down is over, write some text 
+        //             // If the count down is over, write some text
         //             if (distance < 0) {
         //                 clearInterval(background.task_timer);
         //                 chrome.browserAction.setBadgeText({text:""});
@@ -461,21 +573,21 @@ $(document).ready(function() {
 
         //             document.getElementById("timer_text").innerHTML = minutes + "m " + seconds + "s ";
 
-                    
+
         //             // console.log("BADGE TEXT")
         //             if(minutes <= 0){
         //                 chrome.browserAction.setBadgeText({text:seconds+"s"});
         //             }else{
         //                 chrome.browserAction.setBadgeText({text:minutes+"m"});
         //             }
-                    
 
-                    
-                    
-                    
+
+
+
+
         //         }, 1000);
         //     }
-            
+
         // }else{
         //     if(background.task_timer!=null){
         //         clearInterval(background.task_timer);
@@ -483,7 +595,7 @@ $(document).ready(function() {
         //     }
         //     chrome.browserAction.setBadgeText({text:""});
         // }
-        
+
     }
 
 
@@ -515,11 +627,11 @@ $(document).ready(function() {
             $('#task_display').hide();
             $('#default_display').show();
         }
-        
+
         update_timer_popup(background.stage_data.timed);
     }
 
-    
+
 
 
 
@@ -529,10 +641,11 @@ $(document).ready(function() {
     var refresh_bookmarks_popup = function(){
         var xhr = new XMLHttpRequest();
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        
+
         // console.log("refresh_bookmarks_popup URL");
         console.log(background.apidomain+"/projects/"+background.project_id+"/bookmarks");
-        xhr.open("GET", background.apidomain+"/projects/"+background.project_id+"/bookmarks", true);
+        //xhr.open("GET", background.apidomain+"/projects/"+background.project_id+"/bookmarks", true);
+        xhr.open("GET", background.apidomain+"/projects/"+"1"+"/bookmarks", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
@@ -547,15 +660,38 @@ $(document).ready(function() {
 
     }
 
+    var refresh_snippets_popup = function(){
+        var xhr = new XMLHttpRequest();
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+
+        // console.log("refresh_snippets_popup URL");
+        console.log(background.apidomain+"/projects/"+background.project_id+"/snippets");
+        //xhr.open("GET", background.apidomain+"/projects/"+background.project_id+"/snippets", true);
+        xhr.open("GET", background.apidomain+"/projects/"+"1"+"/snippets", true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                console.log("refresh_snippets_popup response");
+                console.log(xhr.responseText);
+                var result = JSON.parse(xhr.responseText);
+                render_snippets(result);
+            }
+        }
+        xhr.send();
+        });
+
+    }
+
 
 
     var refresh_pages_popup = function(){
         var xhr = new XMLHttpRequest();
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        
+
         // console.log("refresh_bookmarks_popup URL");
         console.log(background.apidomain+"/pages?"+background.project_id);
-        xhr.open("GET", background.apidomain+"/pages?"+background.project_id, true);
+        xhr.open("GET", background.apidomain+"/projects/"+"1"+"/pages", true);
+        //xhr.open("GET", background.apidomain+"/pages?"+background.project_id, true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
@@ -574,10 +710,12 @@ $(document).ready(function() {
     var refresh_queries_popup = function(){
         var xhr = new XMLHttpRequest();
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        
+
         // console.log("refresh_bookmarks_popup URL");
         console.log(background.apidomain+"/queries?"+background.project_id);
-        xhr.open("GET", background.apidomain+"/queries?"+background.project_id, true);
+        //xhr.open("GET", background.apidomain+"/queries?"+background.project_id, true);
+        //xhr.open("GET", background.apidomain+"/queries?"+"1", true);
+        xhr.open("GET", background.apidomain+"/projects/"+"1"+"/queries", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
@@ -643,7 +781,7 @@ $(document).ready(function() {
     $('#query_submit').click(function(){
         event.preventDefault();
         // var xhr = new XMLHttpRequest();
-        
+
         // var formData = new FormData($('#query_segment_form'));
         // formData.append('user_id',user_id);
         // var params = $('#query_segment_form').serializeArray();
@@ -667,7 +805,7 @@ $(document).ready(function() {
                }else{
                		$("div[name='query_questionnaire_error']").show().fadeOut(3000);
                }
-               
+
            },
            error: function(data)
            {
@@ -677,9 +815,9 @@ $(document).ready(function() {
 
          });
 
-        
+
         // console.log("QUERY SEGMENT PARAMS");
-        // for (var [key, value] of formData.entries()) { 
+        // for (var [key, value] of formData.entries()) {
         // console.log(key, value);
         // }
         // xhr.open("POST", background.querySegmentQuestionnaireUrl, true);
@@ -693,7 +831,7 @@ $(document).ready(function() {
         //     }
         // }
         // xhr.send(formData);
-    
+
     });
 
 
@@ -706,7 +844,11 @@ $(document).ready(function() {
             if (request.type == "bookmark_data") {
                 render_bookmarks(request.data);
                 sendResponse("Bookmarks table saved");
-            } 
+            }
+            else if (request.type == "snippet_data") {
+                render_snippets(request.data);
+                sendResponse("Snippets table saved");
+            }
             // else if (request.type == 'update_projectid'){
             //     project_id = request.data.project_id;
             //     sendResponse("Updated project ID");
@@ -725,7 +867,7 @@ $(document).ready(function() {
                 $('#query').html(request.data.query);
                 shuffle_questionnaire_container();
                 $('#questionnaire_container').show();
-                
+
                 sendResponse("Updated Query Segment");
             }
             else if(request.type == 'new_page'){
@@ -739,11 +881,11 @@ $(document).ready(function() {
             }
             // Note: Returning true is required here!
             //  ref: http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
-            return true; 
+            return true;
     });
 
     // TODO
-    chrome.storage.local.get(['project_id','user_id','name','email','password'], function(result) { 
+    chrome.storage.local.get(['project_id','user_id','name','email','password'], function(result) {
         console.log("RESULT");
         console.log(result);
         background.user_id = result.user_id;
@@ -776,10 +918,11 @@ $(document).ready(function() {
         $('#query').html('');
     }
     refresh_bookmarks_popup();
+    refresh_snippets_popup();
     refresh_pages_popup();
     refresh_queries_popup();
     background.update_login_state();
-    
+
 
     // function change_stage_state(callback){
     //     var xhr = new XMLHttpRequest();
@@ -913,7 +1056,7 @@ $(document).ready(function() {
 
 
                 console.log("GOT CURRENT STAGE");
-                console.log(xhr.responseText);
+                //console.log(xhr.responseText);
                 background.stage_data = JSON.parse(xhr.responseText);
                 update_stage_state(background.stage_data.stage_id,background.stage_data.timed,background.stage_data.time_limit,
                     background.stage_data.time_start.date,background.stage_data.time_start.timezone);
@@ -923,7 +1066,7 @@ $(document).ready(function() {
         xhr.send();
         // update_stage_state(null,null,null,null,null);
     }
-    
-    
+
+
 
 });
