@@ -6,3 +6,4 @@ core/.env~
 etherpad
 etherpad/*
 extensions/chrome/config.js
+features/data.csv
