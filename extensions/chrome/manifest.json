@@ -13,7 +13,7 @@
     ],
     "background" : {
         "persistent": false,
-        "scripts" : ["config.js","background.js"]
+        "page": "background.html"
     },
     "web_accessible_resources":["*.png"],
 

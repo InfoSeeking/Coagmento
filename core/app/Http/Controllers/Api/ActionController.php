@@ -29,17 +29,23 @@ class ActionController extends Controller
         //     return Status::fromValidator($validator);
         // }
         $action = new Action;
-        $action->user_id = $req->user_id;
-        $action->project_id = $req->project_id;
-        $action->stage_id = $req->stage_id;
+        $user_id = Auth::user()->id;
+        $project_id = 1;
+        $stage_id = 1;
+        if(Session::has('project_id')){
+            $project_id = Session::get('project_id');
+        }
+        if(Session::has('stage_id')){
+            $stage_id = Session::get('stage_id');
+        }
        // $action->stage_id =
         $action->action = $req->action;
         $action->value = $req->value;
         $action->json = $req->json;
         $action->action_json = $req->action_json;
-        $action->created_at_local = 0;//Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
-        $action->date_local = 0;//Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d');
-        $action->created_at_local_ms = 0;//$req->created_at_local_ms;
+        $action->created_at_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s'); //good
+        $action->date_local = Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d');
+        $action->created_at_local_ms = $req->created_at_local_ms;
         $action->save();
     }
 }

@@ -367,9 +367,9 @@ function savePQ (url,title,active,tabId,windowId,now,action,details){
         "windowId":windowId,
         "created_at_local":now/1000,
         "details":JSON.stringify(details),
-        "user_id":user_id,
-        "project_id":project_id,
-        "stage_id":stage_data.id,
+        "user_id":1,//user_id,
+        "project_id":1,//project_id,
+        "stage_id":1,//stage_data.id,
         "action":action
     }
     console.log("PQ DATA");
@@ -581,14 +581,13 @@ function saveMoreTabInfo(tab) {
 }
 
 function saveTabActivated(activeInfo) {
-  var now = new Date();
+  var now = new Date().getTime();
   if(true)
   {
     chrome.tabs.get(activeInfo.tabId,function(tab) {
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onActivated",activeInfo.tabId,tab,activeInfo,now);
-      console.log("saveAction");
-      //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
+      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
     });
   }
 }
@@ -596,7 +595,7 @@ function saveTabActivated(activeInfo) {
 function saveTabAttached(tabId, attachInfo) {
     if(true)
   {
-    var now = new Date();
+    var now = new Date().getTime();;
     chrome.tabs.get(tabId,function(tab){
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onAttached",tabId,tab,attachInfo,now);
@@ -607,7 +606,7 @@ function saveTabAttached(tabId, attachInfo) {
 function saveTabCreated(tab) {
   if(true)
   {
-    var now = new Date();
+    var now = new Date().getTime();;
     tab = saveMoreTabInfo(tab);
     saveAction("tabs.onCreated",tab.id,null,tab,now);
   }
@@ -616,7 +615,7 @@ function saveTabCreated(tab) {
 function saveTabDetached(tabId, detachInfo) {
   if(true)
   {
-    var now = new Date();
+    var now = new Date().getTime();;
     chrome.tabs.get(tabId,function(tab){
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onDetached",tabId,tab,detachInfo,now);
@@ -626,7 +625,7 @@ function saveTabDetached(tabId, detachInfo) {
 
 function saveTabHighlighted(highlightInfo){
   if(true){
-    var now = new Date();
+    var now = new Date().getTime();;
     var tabs = [];
     for (i = 0; i < highlightInfo.tabIds.length; i++) {
       var id = highlightInfo.tabIds[i];
@@ -641,7 +640,7 @@ function saveTabHighlighted(highlightInfo){
 
 function saveTabMoved(tabId, moveInfo) {
   if(true){
-      var now = new Date();
+      var now = new Date().getTime();;
       chrome.tabs.get(tabId,function(tab){
         tab = saveMoreTabInfo(tab);
         ("tabs.onMoved",tabId,tab,moveInfo,now);
@@ -651,14 +650,14 @@ function saveTabMoved(tabId, moveInfo) {
 
 function saveTabRemoved(tabId, removeInfo) {
   if(true){
-    var now = new Date();
+    var now = new Date().getTime();;
     saveAction("tabs.onRemoved",tabId,null,removeInfo,now);
   }
 }
 
 function saveTabReplaced(addedTabId, removedTabId) {
   if(true) {
-    var now = new Date();
+    var now = new Date().getTime();;
     chrome.tabs.get(addedTabId,function(tab){
       tab = saveMoreTabInfo(tab);
     });
@@ -668,17 +667,17 @@ function saveTabReplaced(addedTabId, removedTabId) {
 
 function saveTabUpdated(tabId, changeInfo, tab) {
     if(true){
-      var now = new Date();
+      var now = new Date().getTime();;
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
-      // //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
+      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
     }
   }
 
 
 function saveTabZoomed(zoomChangeInfo) {
   if(true){
-    var now = new Date();
+    var now = new Date().getTime();;
     chrome.tabs.get(zoomChangeInfo.tabId,function(tab){
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,zoomChangeInfo,now);
@@ -689,21 +688,21 @@ function saveTabZoomed(zoomChangeInfo) {
 
 function saveWindowCreated(window){
   if(true){
-    var now = new Date();
+    var now = new Date().getTime();;
     saveAction("windows.onCreated",window.id,window,null,now);
   }
 }
 
 function saveWindowRemoved(windowId){
     if(true){
-      var now = new Date();
+      var now = new Date().getTime();;
       saveAction("windows.onRemoved",windowId,null,null,now);
   }
 }
 
 function saveWindowFocusChanged(windowId){
     if(true){
-      var now = new Date();
+      var now = new Date().getTime();;
       chrome.windows.get(windowId, function(window){
         saveAction("windows.onFocusChanged",windowId,window,null,now);
     });
@@ -801,7 +800,7 @@ var update_timer_background = function(timed){
         //         countDownDate = countDownDate+stage_data.time_limit;
 
         //         task_timer = setInterval(function() {
-        //             var now = new Date().getTime();
+        //             var now = new Date().getTime();.getTime();
         //             now = Math.round( now / 1000);
 
         //             // Find the distance between now an the count down date
@@ -862,7 +861,7 @@ var update_timer_background = function(timed){
 
 var saveWebNavigationCommitted = function(details){
     if(true){
-        var now = new Date();
+        var now = new Date().getTime();;
         if (details.transitionType != 'auto_subframe'){
             // if (details.transitionType.indexOf('auto') == -1){
             chrome.tabs.get(details.tabId, function(tab){
@@ -876,7 +875,7 @@ var saveWebNavigationCommitted = function(details){
                     windowId = tab.windowId;
                     details.tab = tab;
                     saveAction("webNavigation.onCommitted",details.tabId,tab,details,now);
-                    //savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
+                    savePQ(Url,title,active,tabId,windowId,now,"webNavigation.onCommitted",details);
 
                 }
 
@@ -955,7 +954,7 @@ chrome.windows.onRemoved.addListener(saveWindowRemoved);
 // // TODO: get currently active tab ID
 // // TODO: Any highlighted/change actions in addition that are typically fired?
 // // TODO: Why is the windowID sometimes -1? Is that when focus is going away from Chrome?  Might be useful...
-//chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
+chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
 // // TODO: Multiple calls per page sometimes?
 //chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
 // // Note: can't use omnibox. Too limited for our purposes

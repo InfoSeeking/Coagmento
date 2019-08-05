@@ -47,8 +47,8 @@ class ClickController extends Controller
     public function storeMany(Request $req){
         $copies = $req['clicks'];
         $user_id = Auth::user()->id;
-        $project_id = 0;
-        $stage_id = 0;
+        $project_id = 1;
+        $stage_id = 1;
         if(Session::has('project_id')){
             $project_id = Session::get('project_id');
         }
@@ -77,7 +77,7 @@ class ClickController extends Controller
             $mouseaction->altKey = $obj['altKey'];
             $mouseaction->metaKey = $obj['metaKey'];
             $mouseaction->ctrlKey = $obj['ctrlKey'];
-            $mouseaction->created_at_local = Carbon::createFromTimestamp($time)->format('Y-m-d H:i:s');
+            $mouseaction->created_at_local = Carbon::createFromTimestamp($req->time)->format('Y-m-d H:i:s');
             $mouseaction->created_at_local_ms = $time;
             $mouseaction->save();
         }
