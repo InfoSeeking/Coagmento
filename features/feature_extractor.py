@@ -55,6 +55,7 @@ def extract_features(user_id,start_stage_id,end_stage_id,cxn):
 			# 'segment_time_percent_dwell_serp':0,
 			'segment_num_content_unique':len(page_subframe.index),
 			'session_num_queries':1,
+			'query':q,
 			# 'session_time_total':0,
 			# 'session_time_dwell_serp':0,
 			# 'session_time_dwell_content':0,
