@@ -2,7 +2,7 @@
 
 Coagmento offers a one-stop Python script to help you extract browsing features for participants conducting your assigned search tasks. The script extracts browsing features for each query segment and exports them to a data frame that you can use for various statistical and machine learning tasks, for instance predicting the type of task from behavioral patterns.
 
-The following document describes the patterns of interaction assumed your users in order for thsi script to be accurate and effective. It also describes how to run the script and enumerates the extracted features and structure of the provided data frame.
+The following document describes the patterns of interaction assumed by your users in order for this script to be accurate and effective. It also describes how to run the script and enumerates the extracted features and structure of the provided data frame.
 
 ## Interaction Patterns ##
 
@@ -38,24 +38,21 @@ The script outputs results into a data frame, where each row is a query segment.
 
 Query
 
-* **feature_name** - Query length
-* **feature_name** - Segment dwell time on SERPs
-* **feature_name** - Segment dwell time on content pages
-* **feature_name** - % time on SERPs
-* **feature_name** - \# content pages visited
-* **feature_name** - \# unique content pages visited
+* **segment_query_length** - Query length
+* **segment_time_dwell_serp** - Segment dwell time on SERPs
+* **segment_time_dwell_content** - Segment dwell time on content pages
+* **segment_time_percent_dwell_serp** - % time on SERPs
+* **segment_num_content_unique** - \# unique content pages visited
 
 
 Whole session
 
-* **feature_name** - \# pages
-* **feature_name** - \# queries
-* **feature_name** - completion time
-* **feature_name** - Total dwell time on content pages
-* **feature_name** - Total dwell time on SERPs
-* **feature_name** - Total time on content pages per SERP
-* **feature_name** - % time on SERPs
-* **feature_name** - dwell time on SERP per query
+* **session_num_content_unique** - \# unique content pages visited
+* **session_num_queries** - \# queries
+* **session_time_total** - completion time
+* **session_time_dwell_serp** - Total dwell time on content pages
+* **session_time_dwell_content** - Total dwell time on SERPs
+* **session_percent_time_SERPs** - % time on SERPs
 
 
 
