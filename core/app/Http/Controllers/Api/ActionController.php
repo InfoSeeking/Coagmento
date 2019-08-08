@@ -38,7 +38,9 @@ class ActionController extends Controller
         if(Session::has('stage_id')){
             $stage_id = Session::get('stage_id');
         }
-       // $action->stage_id =
+        $action->user_id = $user_id;
+        $action->project_id = $project_id;
+        $action->stage_id = $stage_id;
         $action->action = $req->action;
         $action->value = $req->value;
         $action->json = $req->json;

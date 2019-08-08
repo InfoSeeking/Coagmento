@@ -666,7 +666,7 @@ function saveTabReplaced(addedTabId, removedTabId) {
 }
 
 function saveTabUpdated(tabId, changeInfo, tab) {
-    if(true){
+    if(true && changeInfo.status === "complete"){
       var now = new Date().getTime();;
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
@@ -901,9 +901,9 @@ var saveWebNavigationCommitted = function(details){
 
                     }
             }
-            xhr.send(null);
-
-            change_stage_state(notify_stage);
+            // TODO: fix
+            //xhr.send(null);
+            //change_stage_state(notify_stage);
 
         }
     }
@@ -956,7 +956,7 @@ chrome.windows.onRemoved.addListener(saveWindowRemoved);
 // // TODO: Why is the windowID sometimes -1? Is that when focus is going away from Chrome?  Might be useful...
 chrome.windows.onFocusChanged.addListener(saveWindowFocusChanged);
 // // TODO: Multiple calls per page sometimes?
-//chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
+chrome.webNavigation.onCommitted.addListener(saveWebNavigationCommitted);
 // // Note: can't use omnibox. Too limited for our purposes
 
 

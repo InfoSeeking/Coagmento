@@ -47,8 +47,8 @@ class WheelActionController extends Controller
   public function storeMany(Request $req){
       $wheel_actions = $req['wheels'];
       $user_id = Auth::user()->id;
-      $project_id = 0;
-      $stage_id = 0;
+      $project_id = 1;
+      $stage_id = 1;
       if(Session::has('project_id')){
           $project_id = Session::get('project_id');
       }
