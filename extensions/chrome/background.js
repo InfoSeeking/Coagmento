@@ -666,11 +666,11 @@ function saveTabReplaced(addedTabId, removedTabId) {
 }
 
 function saveTabUpdated(tabId, changeInfo, tab) {
-    if(true && changeInfo.status === "complete"){
+    if(true && changeInfo.status === 'complete'){
       var now = new Date().getTime();;
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
-      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
+      //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
     }
   }
 

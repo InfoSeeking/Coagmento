@@ -70,7 +70,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     outpath = os.path.join(os.getcwd(),'data.csv')
-   
+
     parser.add_argument('-u', '--users',
                           type=str, action='store',
                           dest='users',
@@ -93,13 +93,13 @@ if __name__ == '__main__':
                           dest='db',
                           help='Database name',
                           required=True)
-    
+
 
     parser.add_argument('-p', '--password',
                           type=str, action='store',
                           dest='password',
                           help='Database password',
-                          required=True)
+                          required=False)
 
     parser.add_argument('-n', '--username',
                           type=str, action='store',
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     endstages = [int(i) for i in args.endstages.split(" ") if i.isdigit()]
 
     assert len(tasks) == len(endstages)
-    
+
 
     cxn = mysql.connector.connect(host=args.hostname, user=args.username, password=args.password, database=args.db)
 

@@ -11,6 +11,8 @@ use App\Utilities\ApiResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
 {
@@ -536,15 +538,24 @@ class PageController extends Controller
 
 
         $page = new Page();
-        $page->user_id = $userID;
-        $page->project_id = $projectID;
-        $page->stage_id = $stageID;
+        $user_id = Auth::user()->id;
+        $project_id = 1;
+        $stage_id = 1;
+        if(Session::has('project_id')){
+            $project_id = Session::get('project_id');
+        }
+        if(Session::has('stage_id')){
+            $stage_id = Session::get('stage_id');
+        }
+        $page->user_id = $user_id;
+        $page->project_id = $project_id;
+        $page->stage_id = $stage_id;
         $page->source = $site;
         $page->host = $host;
         $page->url = $url;
         $page->title = $title;
         $page->query = $queryString;
-        $page->created_at_local = $localTimestamp;
+        $page->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
         $page->created_at_local_ms = $localTimestamp_ms;
         $page->trash = 0;
         $page->date_local = $date;
@@ -563,15 +574,15 @@ class PageController extends Controller
         $page->save();
 
         $action = new Action();
-        $action->user_id = $req->user_id;
-        $action->project_id = $req->project_id;
-        $action->stage_id =  $req->stage_id;
+        $action->user_id = $user_id;
+        $action->project_id = $project_id;
+        $action->stage_id =  $stage_id;
         $action->action = "page";
         $action->value = $page->id;
         $action->json = null;
         $action->action_json = null;
-        $action->created_at_local = $localTimestamp; //Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
-        $action->created_at_local_ms = $localTimestamp_ms; //$req->created_at_local_ms;
+        $action->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
+        $action->created_at_local_ms = $localTimestamp_ms;
         $action->date_local = $date;//Carbon::now()->format('Y-m-d');
         $action->save();
 
@@ -620,9 +631,9 @@ class PageController extends Controller
             // }
 
             $q = new Query();
-            $q->user_id = $userID;
-            $q->project_id = $projectID;
-            $q->stage_id = $stageID;
+            $q->user_id = $user_id;
+            $q->project_id = $project_id;
+            $q->stage_id =  $stage_id;
             $q->search_engine = $searchEngine;
             $q->query = $queryString;
             $q->source = $site;
@@ -630,7 +641,7 @@ class PageController extends Controller
             $q->url = $url;
             $q->title = $title;
             $q->date_local = $date;
-            $q->created_at_local = $localTimestamp;
+            $q->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
             $q->created_at_local_ms = $localTimestamp_ms;
             $q->status = 1;
             $q->trash = 0;
@@ -645,11 +656,14 @@ class PageController extends Controller
             $q->save();
 
             $action = new Action();
+            $action->user_id = $user_id;
+            $action->project_id = $project_id;
+            $action->stage_id =  $stage_id;
             $action->action = "query";
             $action->value = $q->id;
             $action->date_local = Carbon::now()->format('Y-m-d');
-            $action->created_at_local = $localTimestamp; //Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
-            $action->created_at_local_ms = $localTimestamp_ms; //$req->created_at_local_ms;
+            $action->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
+            $action->created_at_local_ms = $localTimestamp_ms;
             $action->date_local = $date;//Carbon::now()->format('Y-m-d');
             $action->save();
 
