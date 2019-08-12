@@ -41,7 +41,7 @@ class RedirectIfAuthenticated
                 return redirect()->action('AdminController@index');
             }
             return redirect()->action(
-                'ParticipantController@start', ['id' => 4]
+                'ParticipantController@start', ['id' => 1]
             ); //hardcoded value for demo
         }
 //        if ($this->auth->check()) {
