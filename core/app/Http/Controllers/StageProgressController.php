@@ -8,7 +8,7 @@ use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-//use App\Http\StageProgressService;
+use App\Http\StageProgressService;
 use App\Services\StageProgressService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;

@@ -10,11 +10,15 @@ use App\Models\Questionnaire;
 use App\Models\Task;
 use App\Models\Attribute;
 use App\Models\TaskAttributeAssignment;
-use Auth;
+//use Auth;
 use App\Utilities\Status;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\StageProgress;
 use App\Services\StageProgressService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class ParticipantController extends Controller
 {
@@ -32,7 +36,7 @@ class ParticipantController extends Controller
     }
 
     public static function start($id){
-//dd($id);
+        //dd($id);
         $stage = Stage::where('id', $id)->first();
 
         $widgets = Widget::where('stage_id', $id)->get();
@@ -41,14 +45,22 @@ class ParticipantController extends Controller
         $attributes = Attribute::all();
         $assignments = TaskAttributeAssignment::all();
         $nextStage = null;
-        if($stage->weight + 1 != count(Stage::all())){
-            $nextStage = Stage::where('weight', $stage->weight+1)->first();
-        }
+         if($stage->weight + 1 != count(Stage::all())){
+             $nextStage = Stage::where('weight', $stage->weight+1)->first();
+         }
 
         $prevStage = null;
-        if($stage->weight - 1 != -1) {
-            $prevStage = Stage::where('weight', 0)->first();
-        }
+         if($stage->weight - 1 != -1) {
+             $prevStage = Stage::where('weight', 0)->first();
+         }
+
+         $stageProgress = new StageProgress;
+         $stageProgress->user_id = Auth::user()->id;
+         $stageProgress->project_id = 1;
+         $stageProgress->stage_id = $id;
+         $stageProgress->created_at_local = 0;
+         $stageProgress->created_at_local_ms = 0;
+         $stageProgress->save();
 
         return view('participant.study', compact('id', 'stage', 'widgets', 'tasks', 'questionnaires', 'attributes', 'assignments', 'nextStage', 'prevStage'));
     }
