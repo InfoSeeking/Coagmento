@@ -34,7 +34,7 @@ def extract_features(user_id,start_stage_id,end_stage_id,cxn):
 	if(len(query_frame.index) == 0):
 		return pd.DataFrame([])
 
-	query = "SELECT * FROM pages WHERE user_id=%d"%(user_id)
+	query = "SELECT * FROM pages WHERE user_id=%d AND is_query=%d"%(user_id,0)
 	page_frame = pd.read_sql(query,con=cxn)
 	page_frame = page_frame[(page_frame['created_at'] >= start_time) & (page_frame['created_at'] <= end_time)]
 	page_frame['start_time'] = page_frame['created_at']
@@ -48,6 +48,15 @@ def extract_features(user_id,start_stage_id,end_stage_id,cxn):
 		q = query_row['query']
 		page_subframe = page_frame[(page_frame['created_at'] >= query_start_time) & (page_frame['created_at'] <= query_end_time)]
 
+		# print(query_row)
+		# print(query_frame)
+		# print(page_subframe)
+
+		#get unique urls
+		unique_urls = set()
+		for (n,page) in page_subframe.iterrows():
+			unique_urls.add(page['url'])
+
 		result += [{
 			'segment_query_length':len(q.split(" ")),
 			# 'segment_time_dwell_serp':0,
@@ -56,6 +65,7 @@ def extract_features(user_id,start_stage_id,end_stage_id,cxn):
 			'segment_num_content_unique':len(page_subframe.index),
 			'session_num_queries':1,
 			'query':q,
+			'unique_urls':len(unique_urls)
 			# 'session_time_total':0,
 			# 'session_time_dwell_serp':0,
 			# 'session_time_dwell_content':0,

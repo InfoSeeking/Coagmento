@@ -368,17 +368,17 @@ class PageController extends Controller
               else{
       //        		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
       //            			tabs.onUpdated, but a different URL from the last one. fetch the most recent querySegmentID
-                      if($is_query){
-                          $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-                          $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-
-                      }else{
-                          $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
-                          $connection = Connection::getInstance();
-                          $results = $connection->commit($query);
-                          $line = mysql_fetch_array($results,MYSQL_ASSOC);
-                          $querySegmentID = $line['querySegmentID'];
-                      }
+                      // if($is_query){
+                      //     $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+                      //     $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+                      //
+                      // }else{
+                      //     $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
+                      //     $connection = Connection::getInstance();
+                      //     $results = $connection->commit($query);
+                      //     $line = mysql_fetch_array($results,MYSQL_ASSOC);
+                      //     $querySegmentID = $line['querySegmentID'];
+                      // }
               }
             }
           }
@@ -621,14 +621,14 @@ class PageController extends Controller
             }
 
             // // Is there an existing SERP from today?
-            // $query = "SELECT * FROM queries WHERE user_id='$userID' AND query='$queryString' AND source='$site' AND `date_local`='$date'";
-            // $results = DB::select($query);
-            // $exists_serp = 0;
-            // if (count($results) > 0){
-            //     $exists_serp = 1;
-            // }else{
-            //     $exists_serp = 0;
-            // }
+            $query = "SELECT * FROM queries WHERE user_id='$userID' AND query='$queryString' AND source='$site' AND `date_local`='$date'";
+            $results = DB::select($query);
+            $exists_serp = 0;
+            if (count($results) > 0){
+                $exists_serp = 1;
+            }else{
+                $exists_serp = 0;
+            }
 
             $q = new Query();
             $q->user_id = $user_id;
@@ -1097,21 +1097,24 @@ class PageController extends Controller
 
 
         $page = new Page();
-        $page->user_id = Auth::user()->id;
-        $page->project_id = 1;
-        $page->$stage_id = 1;
+        $user_id = Auth::user()->id;
+        $project_id = 1;
+        $stage_id = 1;
         if(Session::has('project_id')){
-            $page->$project_id = Session::get('project_id');
+            $project_id = Session::get('project_id');
         }
         if(Session::has('stage_id')){
-            $page->$stage_id = Session::get('stage_id');
+            $stage_id = Session::get('stage_id');
         }
+        $page->user_id = $user_id;
+        $page->project_id = $project_id;
+        $page->stage_id = $stage_id;
         $page->source = $site;
         $page->host = $host;
         $page->url = $url;
         $page->title = $title;
         $page->query = $queryString;
-        $page->created_at_local = $localTimestamp;
+        $page->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
         $page->created_at_local_ms = $localTimestamp_ms;
         $page->trash = 0;
         $page->date_local = $date;
@@ -1130,22 +1133,16 @@ class PageController extends Controller
         $page->save();
 
         $action = new Action();
-        $action->user_id = Auth::user()->id;
-        $action->project_id = 1;
-        $action->$stage_id = 1;
-        if(Session::has('project_id')){
-            $action->$project_id = Session::get('project_id');
-        }
-        if(Session::has('stage_id')){
-            $action->$stage_id = Session::get('stage_id');
-        }
+        $action->user_id = $user_id;
+        $action->project_id = $project_id;
+        $action->stage_id =  $stage_id;
         $action->action = "page";
         $action->value = $page->id;
         $action->json = null;
         $action->action_json = null;
-        $action->created_at_local = 0; //Carbon::createFromTimestamp($req->created_at_local)->format('Y-m-d H:i:s');
-        $action->created_at_local_ms = 0; //$req->created_at_local_ms;
-        $action->date_local = 0;//Carbon::now()->format('Y-m-d');
+        $action->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
+        $action->created_at_local_ms = $localTimestamp_ms;
+        $action->date_local = $date;//Carbon::now()->format('Y-m-d');
         $action->save();
 
         $pageID = $page->id;
@@ -1195,22 +1192,17 @@ class PageController extends Controller
             }
 
             $q = new Query();
-            $q->user_id = Auth::user()->id;
-            $q->project_id = 1;
-            $q->$stage_id = 1;
-            if(Session::has('project_id')){
-                $q->$project_id = Session::get('project_id');
-            }
-            if(Session::has('stage_id')){
-                $q->$stage_id = Session::get('stage_id');
-            }
+            $q->user_id = $user_id;
+            $q->project_id = $project_id;
+            $q->stage_id =  $stage_id;
+            $q->search_engine = $searchEngine;
             $q->query = $queryString;
             $q->source = $site;
             $q->host = $host;
             $q->url = $url;
             $q->title = $title;
             $q->date_local = $date;
-            $q->created_at_local = $localTimestamp;
+            $q->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
             $q->created_at_local_ms = $localTimestamp_ms;
             $q->status = 1;
             $q->trash = 0;
@@ -1225,18 +1217,15 @@ class PageController extends Controller
             $q->save();
 
             $action = new Action();
-            $action->user_id = Auth::user()->id;
-            $action->project_id = 1;
-            $action->$stage_id = 1;
-            if(Session::has('project_id')){
-                $action->$project_id = Session::get('project_id');
-            }
-            if(Session::has('stage_id')){
-                $action->$stage_id = Session::get('stage_id');
-            }
+            $action->user_id = $user_id;
+            $action->project_id = $project_id;
+            $action->stage_id =  $stage_id;
             $action->action = "query";
             $action->value = $q->id;
             $action->date_local = Carbon::now()->format('Y-m-d');
+            $action->created_at_local = Carbon::createFromTimestamp($localTimestamp)->format('Y-m-d H:i:s');;
+            $action->created_at_local_ms = $localTimestamp_ms;
+            $action->date_local = $date;//Carbon::now()->format('Y-m-d');
             $action->save();
 
             /*-----Code to save Google SERP page results as json files-----*/

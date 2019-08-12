@@ -587,7 +587,7 @@ function saveTabActivated(activeInfo) {
     chrome.tabs.get(activeInfo.tabId,function(tab) {
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onActivated",activeInfo.tabId,tab,activeInfo,now);
-      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
+      //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
     });
   }
 }
