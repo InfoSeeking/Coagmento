@@ -41,7 +41,7 @@ class Initialize extends Command
     {
         User::create([
             'name' => 'Administrator',
-            'email' => 'e@e.com',
+            'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
             'is_admin' => true,
             'active' => true,
