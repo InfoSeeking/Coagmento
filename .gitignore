@@ -7,3 +7,4 @@ etherpad
 etherpad/*
 extensions/chrome/config.js
 features/data.csv
+.DS_Store

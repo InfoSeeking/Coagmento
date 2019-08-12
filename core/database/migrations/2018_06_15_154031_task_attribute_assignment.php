@@ -29,5 +29,6 @@ class TaskAttributeAssignment extends Migration
     public function down()
     {
         //
+        Schema::drop('task_attribute_assignments');
     }
 }

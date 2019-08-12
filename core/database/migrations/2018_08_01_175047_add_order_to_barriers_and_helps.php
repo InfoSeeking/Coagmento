@@ -26,7 +26,8 @@ class AddOrderToBarriersAndHelps extends Migration
     public function down()
     {
         Schema::table('questionnaire_help_and_barriers', function (Blueprint $table) {
-            $table->dropColumn('useful');
+            $table->dropColumn('barriers_order');
+            $table->dropColumn('help_order');
         });
     }
 }
