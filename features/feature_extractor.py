@@ -71,6 +71,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     outpath = os.path.join(os.getcwd(),'data.csv')
 
+    parser.add_argument('-v','--debug',
+                            type=bool, action='store',
+                            dest='debug',
+                            help='debug printing',
+                            default=False
+                           )
+
     parser.add_argument('-u', '--users',
                           type=str, action='store',
                           dest='users',
@@ -130,4 +137,10 @@ if __name__ == '__main__':
     	for (t,e) in zip(tasks,endstages):
     		frames += [extract_features(u,t,e,cxn)]
     frames = pd.concat(frames)
+
+    if args.debug:
+        pd.set_option('display.max_columns', None)  # or 1000
+        pd.set_option('display.max_rows', None)  # or 1000
+        pd.set_option('display.max_colwidth', -1)  # or 199
+        print(frame)
     frames.to_csv(outpath)
