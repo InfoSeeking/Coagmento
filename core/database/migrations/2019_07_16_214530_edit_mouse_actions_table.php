@@ -12,9 +12,13 @@ class EditMouseActionsTable extends Migration
      */
     public function up()
     {
-      $table->dropColumn('altKey');
-      $table->dropColumn('metaKey');
-      $table->dropColumn('ctrlKey');
+
+        Schema::table('mouse_actions', function (Blueprint $table) {
+            $table->dropColumn('altKey');
+            $table->dropColumn('metaKey');
+            $table->dropColumn('ctrlKey');
+        });
+
     }
 
     /**
@@ -24,8 +28,11 @@ class EditMouseActionsTable extends Migration
      */
     public function down()
     {
-      $table->boolean('altKey')->nullable();
-      $table->boolean('metaKey')->nullable();
-      $table->boolean('ctrlKey')->nullable();
+        Schema::table('mouse_actions', function (Blueprint $table) {
+            $table->boolean('altKey')->nullable();
+            $table->boolean('metaKey')->nullable();
+            $table->boolean('ctrlKey')->nullable();
+        });
+
     }
 }

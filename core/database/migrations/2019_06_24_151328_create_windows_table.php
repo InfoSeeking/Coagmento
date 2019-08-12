@@ -16,12 +16,11 @@ class CreateWindowsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('id');
             $table->integer('top')->nullable();
             $table->integer('left')->nullable();
             $table->integer('width')->nullable();
             $table->integer('height')->nullable();
-            $table->$tabs[]('tabs')->nullable();
+            $table->string('tabs')->nullable();
             $table->boolean('incognito')->nullable();
             $table->boolean('focused')->nullable();
             $table->boolean('alwaysOnTop')->nullable();
