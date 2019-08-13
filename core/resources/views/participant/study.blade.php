@@ -43,9 +43,9 @@
                                 <p><b> {{ $task->description }} </b></p>
                                 @foreach($attributes as $attribute)
                                     <p>
-                                        <b>{{ $attribute->name }}:</b>
+                                        <!-- <b>{{ $attribute->name }}:</b>
                                         {{ $assignments->where('task_id', $task->id)
-                                        ->where('attribute_id', $attribute->id)->first()['value'] }}
+                                        ->where('attribute_id', $attribute->id)->first()['value'] }} -->
                                     </p>
                                 @endforeach
                             @elseif($widget->type === "questionnaire")

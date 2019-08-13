@@ -366,19 +366,19 @@ class PageController extends Controller
                  exit();
               }
               else{
-      //        		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
-      //            			tabs.onUpdated, but a different URL from the last one. fetch the most recent querySegmentID
-                      // if($is_query){
-                      //     $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-                      //     $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-                      //
-                      // }else{
-                      //     $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
-                      //     $connection = Connection::getInstance();
-                      //     $results = $connection->commit($query);
-                      //     $line = mysql_fetch_array($results,MYSQL_ASSOC);
-                      //     $querySegmentID = $line['querySegmentID'];
-                      // }
+      // //        		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
+      // //            			tabs.onUpdated, but a different URL from the last one. fetch the most recent querySegmentID
+      //                  if($is_query){
+      //                      $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+      //                      $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+      //
+      //                  }else{
+      //                      $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
+      //                      $connection = Connection::getInstance();
+      //                      $results = $connection->commit($query);
+      //                      $line = mysql_fetch_array($results,MYSQL_ASSOC);
+      //                      $querySegmentID = $line['querySegmentID'];
+      //                  }
               }
             }
           }
@@ -782,6 +782,9 @@ class PageController extends Controller
 
     }
 
+    // Original createPageOrQuery() suddenly started causing connection failure.
+    // The createPageOrQuery() in use currently has chunks commented out.
+
     public function createPageOrQueryOriginal(Request $req){
 
         $api_key = env('GOOGLE_APIKEY');
@@ -927,17 +930,17 @@ class PageController extends Controller
             }else{
 //        		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
                 //			tabs.onUpdated, but a different URL from the last one. fetch the most recent querySegmentID
-//                if($is_query){
-//                    $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-//                    $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-//
-//                }else{
-//                    $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
-//                    $connection = Connection::getInstance();
-//                    $results = $connection->commit($query);
-//                    $line = mysql_fetch_array($results,MYSQL_ASSOC);
-//                    $querySegmentID = $line['querySegmentID'];
-//                }
+                if($is_query){
+                    $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+                    $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+
+                }else{
+                    $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
+                    $connection = Connection::getInstance();
+                    $results = $connection->commit($query);
+                    $line = mysql_fetch_array($results,MYSQL_ASSOC);
+                    $querySegmentID = $line['querySegmentID'];
+                }
             }
 
         }
