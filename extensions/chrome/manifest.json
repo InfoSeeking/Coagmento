@@ -33,7 +33,7 @@
 
     "browser_action": {
         "default_icon": "icons/logo-16.png",
-        "default_popup": "loggedin.html",
+        "default_popup": "login.html",
         "default_title": "Problem Help Study Extension"
     },
 
