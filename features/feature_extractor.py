@@ -35,6 +35,8 @@ def extract_features(user_id,start_stage_id,end_stage_id,cxn):
 		return pd.DataFrame([])
 
 	query = "SELECT * FROM pages WHERE user_id=%d AND is_query=%d"%(user_id,0)
+	#fix syntax above to include no_local_host below
+	no_local_host = "SELECT * FROM pages WHERE host LIKE '%localhost%'"
 	page_frame = pd.read_sql(query,con=cxn)
 	page_frame = page_frame[(page_frame['created_at'] >= start_time) & (page_frame['created_at'] <= end_time)]
 	page_frame['start_time'] = page_frame['created_at']
@@ -48,9 +50,6 @@ def extract_features(user_id,start_stage_id,end_stage_id,cxn):
 		q = query_row['query']
 		page_subframe = page_frame[(page_frame['created_at'] >= query_start_time) & (page_frame['created_at'] <= query_end_time)]
 
-		# print(query_row)
-		# print(query_frame)
-		# print(page_subframe)
 
 		#get unique urls
 		unique_urls = set()

@@ -226,6 +226,10 @@ class PageController extends Controller
         return $queryString;
     } // end extractQuery
 
+
+    // createPageOrQueryOriginal() suddenly started causing connection failure.
+    // The createPageOrQuery() below currently has chunks commented out.
+
     public function createPageOrQuery(Request $req){
 
         $api_key = env('GOOGLE_APIKEY');

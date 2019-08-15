@@ -54,6 +54,8 @@ class ParticipantController extends Controller
              $prevStage = Stage::where('weight', 0)->first();
          }
 
+         # saving stage progress (quick fix)
+         # the intended way to save progress was through the StageProgressController, but that is unfinished
          $stageProgress = new StageProgress;
          $stageProgress->user_id = Auth::user()->id;
          $stageProgress->project_id = 1;

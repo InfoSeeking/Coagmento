@@ -582,18 +582,18 @@ function saveMoreTabInfo(tab) {
 
 function saveTabActivated(activeInfo) {
   var now = new Date().getTime();
-  if(true)
+  if(logged_in_extension)
   {
     chrome.tabs.get(activeInfo.tabId,function(tab) {
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onActivated",activeInfo.tabId,tab,activeInfo,now);
-      //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
+      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onActivated",activeInfo);
     });
   }
 }
 
 function saveTabAttached(tabId, attachInfo) {
-    if(true)
+    if(logged_in_extension)
   {
     var now = new Date().getTime();;
     chrome.tabs.get(tabId,function(tab){
@@ -604,7 +604,7 @@ function saveTabAttached(tabId, attachInfo) {
 }
 
 function saveTabCreated(tab) {
-  if(true)
+  if(logged_in_extension)
   {
     var now = new Date().getTime();;
     tab = saveMoreTabInfo(tab);
@@ -613,7 +613,7 @@ function saveTabCreated(tab) {
 }
 
 function saveTabDetached(tabId, detachInfo) {
-  if(true)
+  if(logged_in_extension)
   {
     var now = new Date().getTime();;
     chrome.tabs.get(tabId,function(tab){
@@ -624,7 +624,7 @@ function saveTabDetached(tabId, detachInfo) {
 }
 
 function saveTabHighlighted(highlightInfo){
-  if(true){
+  if(logged_in_extension){
     var now = new Date().getTime();;
     var tabs = [];
     for (i = 0; i < highlightInfo.tabIds.length; i++) {
@@ -639,7 +639,7 @@ function saveTabHighlighted(highlightInfo){
 }
 
 function saveTabMoved(tabId, moveInfo) {
-  if(true){
+  if(logged_in_extension){
       var now = new Date().getTime();;
       chrome.tabs.get(tabId,function(tab){
         tab = saveMoreTabInfo(tab);
@@ -649,14 +649,14 @@ function saveTabMoved(tabId, moveInfo) {
 }
 
 function saveTabRemoved(tabId, removeInfo) {
-  if(true){
+  if(logged_in_extension){
     var now = new Date().getTime();;
     saveAction("tabs.onRemoved",tabId,null,removeInfo,now);
   }
 }
 
 function saveTabReplaced(addedTabId, removedTabId) {
-  if(true) {
+  if(logged_in_extension) {
     var now = new Date().getTime();;
     chrome.tabs.get(addedTabId,function(tab){
       tab = saveMoreTabInfo(tab);
@@ -666,7 +666,7 @@ function saveTabReplaced(addedTabId, removedTabId) {
 }
 
 function saveTabUpdated(tabId, changeInfo, tab) {
-    if(true && changeInfo.status === 'complete'){
+    if(logged_in_extension && changeInfo.status === 'complete'){
       var now = new Date().getTime();;
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
@@ -676,7 +676,7 @@ function saveTabUpdated(tabId, changeInfo, tab) {
 
 
 function saveTabZoomed(zoomChangeInfo) {
-  if(true){
+  if(logged_in_extension){
     var now = new Date().getTime();;
     chrome.tabs.get(zoomChangeInfo.tabId,function(tab){
       tab = saveMoreTabInfo(tab);
@@ -687,21 +687,21 @@ function saveTabZoomed(zoomChangeInfo) {
 
 
 function saveWindowCreated(window){
-  if(true){
+  if(logged_in_extension){
     var now = new Date().getTime();;
     saveAction("windows.onCreated",window.id,window,null,now);
   }
 }
 
 function saveWindowRemoved(windowId){
-    if(true){
+    if(logged_in_extension){
       var now = new Date().getTime();;
       saveAction("windows.onRemoved",windowId,null,null,now);
   }
 }
 
 function saveWindowFocusChanged(windowId){
-    if(true){
+    if(logged_in_extension){
       var now = new Date().getTime();;
       chrome.windows.get(windowId, function(window){
         saveAction("windows.onFocusChanged",windowId,window,null,now);
@@ -860,7 +860,7 @@ var update_timer_background = function(timed){
 
 
 var saveWebNavigationCommitted = function(details){
-    if(true){
+    if(logged_in_extension){
         var now = new Date().getTime();;
         if (details.transitionType != 'auto_subframe'){
             // if (details.transitionType.indexOf('auto') == -1){
@@ -883,7 +883,7 @@ var saveWebNavigationCommitted = function(details){
         }
 
         // TODO: Change condition
-        if(true){
+        if(logged_in_extension){
             var xhr = new XMLHttpRequest();
 
             xhr.open("GET", getProjectUrl, false);
