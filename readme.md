@@ -4,7 +4,7 @@ This is the next version of [Coagmento](http://www.coagmento.org/), which is und
 
 - An open API and robust back-end built with [Laravel](http://laravel.com/)
 - A realtime feed of user activity
-- An up to date Firefox extension using the Firefox Add-on SDK
+- An up to date Chrome extension using the [Chrome Extension API](https://developer.chrome.com/extensions/api_index)
 - An easy and documented setup for running your own custom studies
 
 Coagmento is split into four main services.
@@ -16,9 +16,14 @@ Coagmento is split into four main services.
 		<td> <a href='https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Core-Installation'>See Installation Instructions</a></td>
 	</tr>
 	<tr>
+    		<th align="left"> Coagmento Extension </th>
+    		<td> Consists of the browser extension for Coagmento. </td>
+    		<td> <a href='https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Core-Installation'>See Installation Instructions</a></td>
+    	</tr>
+	<tr>
 		<th align="left"> Coagmento Realtime</th>
 		<td> Enables realtime data updates and chat.</td>
-		<td> <a href='https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Realtime-Installation'>See Installation Instructions</a> </td>
+		<td> <a href='https://github.com/InfoSeeking/Coagmento/tree/study/extensions/getting-started-extensions.md'>See Installation Instructions</a> </td>
 	</tr>
 	<tr>
 		<th align="left"> Coagmento Thumbnails </th>
