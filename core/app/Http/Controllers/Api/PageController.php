@@ -403,17 +403,17 @@ class PageController extends Controller
                     print_r("line") ;
                     print_r($line) ;
                     if(is_null($line) or is_null($line['query_segment_id'])){
-                      echo("is_null");
+                      //echo("is_null");
                     }else{
-                        echo("not");
+                        //echo("not");
                         $querySegmentID = $line['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID)&& $querySegmentID!=0;
                     }
-                        echo "FIFTH1.1.1...$querySegmentID...";
+                        //echo "FIFTH1.1.1...$querySegmentID...";
 
                 }
                 else if($is_query){
-                        echo "FIFTH1.1.2";
+                        //echo "FIFTH1.1.2";
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
                     $new_querySegmentID = $querySegmentID;
                     $new_querySegment = true;
@@ -421,14 +421,14 @@ class PageController extends Controller
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
-                        echo "FIFTH1.1.3";
+                        //echo "FIFTH1.1.3";
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
-                    echo $query;
+                    //echo $query;
                     $result = DB::select($query);
     //                    dd("FIFTH1.1.3".$query);
     //                    dd($result);
     //                    TODO: Why 0 results sometimes?  Improper recording?
-                    echo $result;
+                    //echo $result;
                     if(count($result)>0){
                         $line = json_decode(json_encode($result[0]),true);
     //                    $line = DB::select($query)->first();
@@ -473,7 +473,7 @@ class PageController extends Controller
     //            dd($result);
     //            TODO: Why is result length 0 sometimes?  Bad input from previous request?
             $line = null;
-            if(count($result)>0){
+            if(count($line)>0){
                 $line = json_decode(json_encode($result[0]),true);
             }
 
