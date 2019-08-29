@@ -467,11 +467,13 @@ class PageController extends Controller
     //			Not webNavigation, not tabUpdated, must be tabActivated action
             $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
             $result = DB::select($query);
+
+            print_r($result);
     //            dd("tabs.onActivated".$query);
     //            dd($result);
     //            TODO: Why is result length 0 sometimes?  Bad input from previous request?
             $line = null;
-            if(count($line)>0){
+            if(count($result)>0){
                 $line = json_decode(json_encode($result[0]),true);
             }
 
