@@ -164,7 +164,9 @@ class AuthController extends Controller
         }
         $current_project = $this->stageProgressService->getCurrentProject();
 //            dd($current_project->getData()->{'project_id'});
-        $project_id = $current_project->getData()->{'project_id'};
+
+        //FIX: project ids
+        //$project_id = $current_project->getData()->{'project_id'};
 
         $current_stage = $this->stageProgressService->getCurrentStage();
 
@@ -178,7 +180,8 @@ class AuthController extends Controller
         ];
 
 
-        return ['logged_in'=>true,'id'=>$user->id,'name'=>$user->name, 'project_id'=>$project_id,'stage_data'=>$stage_data];
+        //return ['logged_in'=>true,'id'=>$user->id,'name'=>$user->name, 'project_id'=>$project_id,'stage_data'=>$stage_data];
+        return ['logged_in'=>true,'id'=>$user->id,'name'=>$user->name,'stage_data'=>$stage_data];
     }
 
     /*

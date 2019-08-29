@@ -70,9 +70,10 @@ class StageProgressService {
         $stage->getResult();
         $stage_id = $stage->getResult()->id;
         Session::put('stage_id',$stage_id);
-        Session::put('project_id',$project_id);
+				//FIX: project ids 
+        //Session::put('project_id',$project_id);
         return response()->json([
-            'project_id'=>$project_id
+            //'project_id'=>$project_id
         ]);
     }
 	public function moveToNextStage(Request $req){

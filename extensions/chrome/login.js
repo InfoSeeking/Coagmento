@@ -46,17 +46,28 @@ $(document).ready(function(){
             if (xhr.readyState == 4) {
                 console.log("LOGGEDIN");
                 console.log(xhr.responseText);
-                var result = JSON.parse(xhr.responseText);
-                if(result.logged_in){
-                    login_state_popup(result.id,result.project_id,result.name,email,password,result.stage_data);
-                    window.location.href='loggedin.html';
+                //responseText is the Coagmento home page, why doesn't it return JSON?
+                //var result = JSON.parse(xhr.responseText);
+                //if(result.logged_in){
+                if(xhr.responseText.includes("Coagmento 3.0")){
+                    //FIX: problem with result
+                    //login_state_popup(result.id,result.project_id,result.name,email,password,result.stage_data);
+                    chrome.browserAction.setPopup({
+                        popup:"loggedin.html"
+                    });
                     $('#login_error_text').html("");
                     $('#login_error_text').hide();
+
+                    $('#login_success_text').html("Success. Please exit and reopen extension popup.");
+                    $('#login_success_text').show();
+
                 }else{
-                    $('#login_error_text').html("Something was wrong with your credentials.  Please check them and try again.");
+                    $('#login_error_text').html("Something was wrong with your credentials. Please check them and try again.");
                     $('#login_error_text').show();
+
                 }
             }else{
+               console.log("last else");
                 $('#login_error_text').html("Something was wrong with the server.  Please contact the study facilitators or try again later.");
                 $('#login_error_text').hide();
             }
@@ -77,4 +88,8 @@ $(document).ready(function(){
     if(background.logged_in_extension != background.logged_in_browser){
         background.update_login_state();
     }
+
+    console.log(background.domain);
+    console.log(background.loginUrl);
+
 });

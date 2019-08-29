@@ -123,8 +123,11 @@ class PageController extends Controller
 
     private function getPageByTabIdURL($userID,$tabID,$url,$startTimestamp){
         $date = date('Y-m-d', $startTimestamp);
+        echo $date;
         $query = "SELECT * FROM pages WHERE user_id='$userID' AND `url`='$url' AND `date_local`='$date' AND `tab_id`=$tabID ORDER BY id DESC";
         $results = DB::select($query);
+        echo "results";
+        print_r($results);
         if(count($results)<=0) {
             return null;
         }else{
@@ -242,8 +245,10 @@ class PageController extends Controller
         $localTimestamp = $req->input('created_at_local');
         $localTimestamp_ms = $req->input('created_at_local_ms');
         $timestamp = Carbon::now();
-        $date = Carbon::today();
-                  $date_local = $req->input('created_at_local');
+        $date = Carbon::today()->toDateString();
+        echo "DATE";
+        echo $date;
+                //  $date_local = $req->input('created_at_local');
         $url = $req->input('url');
         $title = $req->input('title');
     //        $url = mysql_escape_string($req->input('url'));
@@ -395,18 +400,20 @@ class PageController extends Controller
                 if(in_array('forward_back',$details['transitionQualifiers'])){
 
                     $line = $this->getPageByTabIdURL($userID,$tabID,$url,$localTimestamp);
+                    print_r("line") ;
+                    print_r($line) ;
                     if(is_null($line) or is_null($line['query_segment_id'])){
-                        $querySegmentID = 'NULL';
-                        $querySegmentID_automatic = 0;
+                      echo("is_null");
                     }else{
+                        echo("not");
                         $querySegmentID = $line['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID)&& $querySegmentID!=0;
                     }
-    //                    echo "FIFTH1.1.1...$querySegmentID...";
+                        echo "FIFTH1.1.1...$querySegmentID...";
 
                 }
                 else if($is_query){
-    //                    echo "FIFTH1.1.2";
+                        echo "FIFTH1.1.2";
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
                     $new_querySegmentID = $querySegmentID;
                     $new_querySegment = true;
@@ -414,12 +421,14 @@ class PageController extends Controller
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
-    //                    echo "FIFTH1.1.3";
+                        echo "FIFTH1.1.3";
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
+                    echo $query;
                     $result = DB::select($query);
     //                    dd("FIFTH1.1.3".$query);
     //                    dd($result);
     //                    TODO: Why 0 results sometimes?  Improper recording?
+                    echo $result;
                     if(count($result)>0){
                         $line = json_decode(json_encode($result[0]),true);
     //                    $line = DB::select($query)->first();
@@ -591,6 +600,7 @@ class PageController extends Controller
         $action->save();
 
         $pageID = $page->id;
+        echo $page->date_local;
 
         // Finding the search engine used for each query
         $searchEngine=0;

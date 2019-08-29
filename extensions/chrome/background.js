@@ -201,7 +201,6 @@ function login_state_extension(uid,pid,username,useremail,pwd,stg_data){
     password = pwd;
     logged_in_extension = true;
     stage_data = stg_data;
-    // console.log("LOGGED IN!");
     chrome.browserAction.setPopup({
         popup:"loggedin.html"
     });
@@ -211,19 +210,22 @@ function login_state_extension(uid,pid,username,useremail,pwd,stg_data){
 // Done
 function login_extension(email,password){
     var xhr = new XMLHttpRequest();
+    console.log("cool");
     xhr.open("POST", loginUrl, false);
     xhr.setRequestHeader("Content-type", "application/json");
     var data = {"email":email,"password":password}
-
+    console.log(data);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             var result = JSON.parse(xhr.responseText);
+            console.log(result);
             if(result.logged_in){
                 // TODO: Proper project ID
                 login_state_extension(result.id,result.project_id,result.name,email,password,result.stage_data);
             }
         }
     }
+    console.log(data);
     xhr.send(JSON.stringify(data));
 }
 
@@ -258,7 +260,8 @@ function logout_extension(){
             }
         }
     }
-    xhr.send(JSON.stringify(data));
+
+    //xhr.send(JSON.stringify(data));
 }
 
 
@@ -269,8 +272,8 @@ var login_check_browser = function(callback1,callback2){
          xhr.onreadystatechange = function() {
              if (xhr.readyState == 4) {
                 //console.log("CHECK LOGGED IN RESPONSE");
-                 //console.log(xhr.responseText);
-                 if(xhr.responseText==""){
+                 var result = JSON.parse(xhr.responseText);
+                 if(!result.logged_in){
                      logged_in_browser = false;
                  }else{
                      logged_in_browser = true;
@@ -287,7 +290,8 @@ function login_check_extension(callback) {
         if (typeof result.user_id === 'undefined') {
             logged_in_extension = false;
         } else {
-            logged_in_extension = true;
+            //COMMENTED OUT because it affects other methods involving storage (notably resolve_login())
+            //logged_in_extension = true;
         }
 
         callback();
@@ -305,6 +309,7 @@ function resolve_login(){
     if(logged_in_browser && logged_in_extension){
         chrome.storage.local.get(['user_id','project_id','name','email','password'], function(result) {
             login_extension(result.email,result.password);
+            console.log(result.email,result.password);
         });
     }else if(!logged_in_browser && !logged_in_extension){
         logout_extension();
@@ -316,14 +321,15 @@ function resolve_login(){
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     console.log("ULS: CHECK LOGGED IN RESPONSE");
-                    //console.log(xhr.responseText);
+                    console.log(xhr.responseText);
                     var result = JSON.parse(xhr.responseText);
-                    if(!result.logged_in){
-                        logged_in_browser = false;
-                        logged_in_extension = false;
-                    }else{
-                        login_state_extension(result.id,result.project_id,result.name,email,password);
+                    console.log(result);
+                    if(result.logged_in){
+                        login_state_extension(result.id, result.project_id, result.name,email,password);
                         logged_in_extension = true;
+                    }else{
+                      logged_in_browser = false;
+                      logged_in_extension = false;
                     }
                 }
             }
@@ -331,6 +337,8 @@ function resolve_login(){
         }else if(!logged_in_browser && logged_in_extension){
             chrome.storage.local.get(['user_id','project_id','name','email','password'], function(result) {
                 login_extension(result.email,result.password);
+                console.log(result.email,result.password);
+                console.log("!logged_in_browser && logged_in_extension");
                 logged_in_browser = true;
             });
         }
@@ -670,6 +678,7 @@ function saveTabUpdated(tabId, changeInfo, tab) {
       var now = new Date().getTime();;
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
+      //savePQ commented out because tab updates cause overcollection
       //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
     }
   }
@@ -894,7 +903,7 @@ var saveWebNavigationCommitted = function(details){
                         console.log("PROJECT ID");
                         console.log(xhr.responseText);
                         var project_id = result.project_id;
-                        chrome.storage.local.set({project_id:project_id}, function() {});
+                        ({project_id:project_id}, function() {});
                         // chrome.runtime.sendMessage({type: "update_projectid",data:{project_id:project_id}}, function(response) {
                         //     console.log(response)
                         // });
