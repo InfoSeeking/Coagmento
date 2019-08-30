@@ -395,7 +395,7 @@ class PageController extends Controller
     //            echo "FIFTH";
             $is_prompt = $url == 'https://www.google.com/';
             if(in_array($details['transitionType'],array('generated','form_submit','link','typed','keyword','keyword_generated'))){
-    //				echo "FIFTH1.1";
+    			//	echo "FIFTH1.1";
 
                 if(in_array('forward_back',$details['transitionQualifiers'])){
 
@@ -428,7 +428,7 @@ class PageController extends Controller
     //                    dd("FIFTH1.1.3".$query);
     //                    dd($result);
     //                    TODO: Why 0 results sometimes?  Improper recording?
-                    //echo $result;
+                    //print_r($result) ;
                     if(count($result)>0){
                         $line = json_decode(json_encode($result[0]),true);
     //                    $line = DB::select($query)->first();
@@ -473,7 +473,7 @@ class PageController extends Controller
     //            dd($result);
     //            TODO: Why is result length 0 sometimes?  Bad input from previous request?
             $line = null;
-            if(count($line)>0){
+            if(count($result)>0){
                 $line = json_decode(json_encode($result[0]),true);
             }
 
@@ -961,26 +961,28 @@ class PageController extends Controller
 
         }
         else if($action=='webNavigation.onCommitted' and $details['tab']['active']==true){
-//            echo "FIFTH";
+    //            echo "FIFTH";
             $is_prompt = $url == 'https://www.google.com/';
             if(in_array($details['transitionType'],array('generated','form_submit','link','typed','keyword','keyword_generated'))){
-//				echo "FIFTH1.1";
+    			//	echo "FIFTH1.1";
 
                 if(in_array('forward_back',$details['transitionQualifiers'])){
 
                     $line = $this->getPageByTabIdURL($userID,$tabID,$url,$localTimestamp);
+                    print_r("line") ;
+                    print_r($line) ;
                     if(is_null($line) or is_null($line['query_segment_id'])){
-                        $querySegmentID = 'NULL';
-                        $querySegmentID_automatic = 0;
+                      //echo("is_null");
                     }else{
+                        //echo("not");
                         $querySegmentID = $line['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID)&& $querySegmentID!=0;
                     }
-//                    echo "FIFTH1.1.1...$querySegmentID...";
+                        //echo "FIFTH1.1.1...$querySegmentID...";
 
                 }
                 else if($is_query){
-//                    echo "FIFTH1.1.2";
+                        //echo "FIFTH1.1.2";
                     $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
                     $new_querySegmentID = $querySegmentID;
                     $new_querySegment = true;
@@ -988,15 +990,17 @@ class PageController extends Controller
                     $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
                     $querySegmentID_automatic = 1;
                 }else{
-//                    echo "FIFTH1.1.3";
+                        //echo "FIFTH1.1.3";
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
+                    //echo $query;
                     $result = DB::select($query);
-//                    dd("FIFTH1.1.3".$query);
-//                    dd($result);
-//                    TODO: Why 0 results sometimes?  Improper recording?
+    //                    dd("FIFTH1.1.3".$query);
+    //                    dd($result);
+    //                    TODO: Why 0 results sometimes?  Improper recording?
+                    //print_r($result) ;
                     if(count($result)>0){
                         $line = json_decode(json_encode($result[0]),true);
-//                    $line = DB::select($query)->first();
+    //                    $line = DB::select($query)->first();
                         $querySegmentID = $line['query_segment_id'];
                         $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
                     }
@@ -1004,45 +1008,47 @@ class PageController extends Controller
 
                 }
             }else{
-//				Some auto or form submit
+    //				Some auto or form submit
                 exit();
             }
-//		else if($action=='webNavigation.onCommitted' and $details['tab']['active']==true and $is_query and $details['transitionType']=='generated' and in_array('from_address_bar',$details['transitionQualifiers'])){
-////			Omnibox entry. New query
-//			$querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-//            $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-//		}else if($action=='webNavigation.onCommitted' and $is_query and $details['transitionType']=='link' and count($details['transitionQualifiers'])==0 and $details['tab']['active']==true){
-////			SERP box entry. New query
-//            $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-//            $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-//		}else if($action=='webNavigation.onCommitted' and $details['transitionType']=='link' and count($details['transitionQualifiers'])==0 and $details['tab']['active']==true){
-//			if($is_query){
-//                $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-//                $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-//			}else{
-//				$query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
-//				$connection = Connection::getInstance();
-//				$results = $connection->commit($query);
-//				$line = mysql_fetch_array($results,MYSQL_ASSOC);
-//				$querySegmentID = $line['querySegmentID'];
-//			}
+    //		else if($action=='webNavigation.onCommitted' and $details['tab']['active']==true and $is_query and $details['transitionType']=='generated' and in_array('from_address_bar',$details['transitionQualifiers'])){
+    ////			Omnibox entry. New query
+    //			$querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+    //            $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+    //		}else if($action=='webNavigation.onCommitted' and $is_query and $details['transitionType']=='link' and count($details['transitionQualifiers'])==0 and $details['tab']['active']==true){
+    ////			SERP box entry. New query
+    //            $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+    //            $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+    //		}else if($action=='webNavigation.onCommitted' and $details['transitionType']=='link' and count($details['transitionQualifiers'])==0 and $details['tab']['active']==true){
+    //			if($is_query){
+    //                $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+    //                $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+    //			}else{
+    //				$query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
+    //				$connection = Connection::getInstance();
+    //				$results = $connection->commit($query);
+    //				$line = mysql_fetch_array($results,MYSQL_ASSOC);
+    //				$querySegmentID = $line['querySegmentID'];
+    //			}
         }else if($action=='tabs.onActivated'){
 
             $is_prompt = false;
-//			Not webNavigation, not tabUpdated, must be tabActivated action
+    //			Not webNavigation, not tabUpdated, must be tabActivated action
             $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
             $result = DB::select($query);
-//            dd("tabs.onActivated".$query);
-//            dd($result);
-//            TODO: Why is result length 0 sometimes?  Bad input from previous request?
+
+            print_r($result);
+    //            dd("tabs.onActivated".$query);
+    //            dd($result);
+    //            TODO: Why is result length 0 sometimes?  Bad input from previous request?
             $line = null;
-            if(count($line)>0){
+            if(count($result)>0){
                 $line = json_decode(json_encode($result[0]),true);
             }
 
-//            $line = DB::select($query)->first();
+    //            $line = DB::select($query)->first();
             if(!is_null($line) and isset($line['query_segment_id'])){
-//				Get previous querySegmentID assignment of tab
+    //				Get previous querySegmentID assignment of tab
                 $querySegmentID = $line['query_segment_id'];
                 $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
             }else{
