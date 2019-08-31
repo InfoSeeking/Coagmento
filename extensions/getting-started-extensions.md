@@ -5,17 +5,19 @@
 
 Documentation on the Coagmento Extension.
 
+
+
 ### Table of Contents
 * [Description](#description)
 * [Installation](#installation)
-* [Data](#data)
+* [Data Collected](#data_collected)
 * [Bugs](#bugs)
 
 
 ### Installation
 The installation of the extension comes with the installation of the core. See the [wiki](https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Core-Installation) for instructions and more information.
 
-### Data
+### Data_Collected
 
 See [this spreadsheet](https://github.com/InfoSeeking/Coagmento/extensions/chrome/docs/Passive_Inputs_and_Actions.xlsx) for details on the data collected (passive inputs and actions). It describes the specific properties the extension collects. Note that properties in gray boxes are not currently included in Coagmento, but have the capability to be. Also, the general event properties may or may not be included when the extension reads a particular event, as it depends on the particular event itself.
 
