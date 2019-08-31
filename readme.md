@@ -18,7 +18,7 @@ Coagmento is split into four main services.
 	<tr>
     		<th align="left"> Coagmento Extension </th>
     		<td> Consists of the browser extension for Coagmento. </td>
-    		<td> <a href='https://github.com/InfoSeeking/Coagmento/wiki/Coagmento-Core-Installation'>See Installation Instructions</a></td>
+    		<td> <a href='https://github.com/InfoSeeking/Coagmento/tree/study/extensions/getting-started-extensions.md'>See Installation Instructions</a></td>
     	</tr>
 	<tr>
 		<th align="left"> Coagmento Realtime</th>
