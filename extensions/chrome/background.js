@@ -679,7 +679,7 @@ function saveTabUpdated(tabId, changeInfo, tab) {
       tab = saveMoreTabInfo(tab);
       saveAction("tabs.onUpdated",tabId,tab,changeInfo,now);
       //savePQ commented out because tab updates cause overcollection
-      //savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
+      savePQ(tab.url,tab.title,tab.active,tab.id,tab.windowId,now,"tabs.onUpdated",changeInfo);
     }
   }
 

@@ -368,6 +368,7 @@ class PageController extends Controller
 
     //            exit();
         }else if($action=='tabs.onUpdated'){
+
             $is_prompt = false;
     //            echo "FOURTH";
             if(array_key_exists ('active' , $details ) && $details['active'] == true){
@@ -375,19 +376,21 @@ class PageController extends Controller
                  exit();
               }
               else{
-      // //        		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
-      // //            			tabs.onUpdated, but a different URL from the last one. fetch the most recent querySegmentID
-      //                  if($is_query){
-      //                      $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
-      //                      $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
-      //
-      //                  }else{
-      //                      $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
-      //                      $connection = Connection::getInstance();
-      //                      $results = $connection->commit($query);
-      //                      $line = mysql_fetch_array($results,MYSQL_ASSOC);
-      //                      $querySegmentID = $line['querySegmentID'];
-      //                  }
+        //      		TODO: commented out.  Assumed that this will always be coupled with webNavigation.onCommitted
+        //          			tabs.onUpdated, but a different URL from the last one. fetch the most recent querySegmentID
+        //   needs fixing, doesn't register when navigating through different SERPs of same query segment
+        // temporary fix below
+                        if($is_query){
+                            $querySegmentID = findNextQuerySegmentLabel($userID,$localTimestamp/1000);
+                           $querySegmentID = markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp/1000);
+
+                        }else{
+                            $query = "SELECT * FROM pages WHERE userID='$userID' AND tabID=$tabID ORDER BY pageID DESC LIMIT 1";
+                            $connection = Connection::getInstance();
+                            $results = $connection->commit($query);
+                            $line = mysql_fetch_array($results,MYSQL_ASSOC);
+                           $querySegmentID = $line['querySegmentID'];
+                        }
               }
             }
           }
@@ -414,13 +417,44 @@ class PageController extends Controller
                 }
                 else if($is_query){
                         //echo "FIFTH1.1.2";
-                    $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
-                    $new_querySegmentID = $querySegmentID;
-                    $new_querySegment = true;
-                    $new_query = $queryString;
-                    $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
-                    $querySegmentID_automatic = 1;
-                }else{
+
+                    //TEMPORARY FIX to problem in else if($action=='tabs.onUpdated')
+                    $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
+                    $result = DB::select($query);
+                    print_r($result);
+                    if(count($result)>0){
+                        $line = json_decode(json_encode($result[0]),true);
+                        $prevQuery = $line['query'];
+                        echo $prevQuery;
+                        echo $queryString;
+                        if($prevQuery === $queryString)
+                        {
+                          echo "yes";
+                          $querySegmentID = $line['query_segment_id'];
+                          $querySegmentID_automatic = !is_null($querySegmentID) && $querySegmentID!=0;
+                          echo $querySegmentID;
+                        }
+                        else {
+                          $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
+                          $new_querySegmentID = $querySegmentID;
+                          $new_querySegment = true;
+                          $new_query = $queryString;
+                          $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
+                          $querySegmentID_automatic = 1;
+                        }
+                      }
+                      else {
+                        $querySegmentID = $this->findNextQuerySegmentLabel($userID,$localTimestamp);
+                        $new_querySegmentID = $querySegmentID;
+                        $new_querySegment = true;
+                        $new_query = $queryString;
+                        $querySegmentID = $this->markQuerySegmentLabel($userID,$projectID,$querySegmentID,$localTimestamp);
+                        $querySegmentID_automatic = 1;
+                      }
+
+
+                }
+                else{
                         //echo "FIFTH1.1.3";
                     $query = "SELECT * FROM pages WHERE user_id='$userID' AND tab_id=$tabID ORDER BY id DESC LIMIT 1";
                     //echo $query;
