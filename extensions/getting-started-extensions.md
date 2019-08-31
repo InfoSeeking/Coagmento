@@ -17,11 +17,11 @@ The installation of the extension comes with the installation of the core. See t
 
 ### Data
 
-See this [spreadsheet](https://github.com/InfoSeeking/Coagmento/extensions/chrome/docs/Coagmento Extension Documentation_ Passive Inputs and Actions.xlsx) for details on the data collected (passive inputs and actions). It describes the specific properties the extension collects. Note that properties in gray boxes are not currently included in Coagmento, but have the capability to be. Also, the general event properties may or may not be included when the extension reads a particular event, as it depends on the particular event itself.
+See [this spreadsheet](https://github.com/InfoSeeking/Coagmento/extensions/chrome/docs/Passive_Inputs_and_Actions.xlsx) for details on the data collected (passive inputs and actions). It describes the specific properties the extension collects. Note that properties in gray boxes are not currently included in Coagmento, but have the capability to be. Also, the general event properties may or may not be included when the extension reads a particular event, as it depends on the particular event itself.
 
 ### Bugs
 
-See this [spreadsheet](https://github.com/InfoSeeking/Coagmento/extensions/chrome/docs/Coagmento Extension Documentation_ Known Bugs.xlsx) for descriptions of known bugs.
+See [this spreadsheet](https://github.com/InfoSeeking/Coagmento/extensions/chrome/docs/Known_Bugs.xlsx) for descriptions of known bugs.
 
 ### Extra Notes ###
 In v3.0, the Firefox extension. It is assumed that users/searchers participating in your studies will use the Chrome extension.
